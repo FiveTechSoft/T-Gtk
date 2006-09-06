@@ -1,0 +1,413 @@
+/*  $Id: tgtk.txt,v 1.1 2006-09-06 12:59:30 xthefull Exp $ */
+ *************************************************************************+
+     T-Gtk. Implementacion Multiplataforma bajo GTK+
+     (c)2004 Rafa Carmona
+ *************************************************************************+
+
+ -------------------------------------------------------------------------
+ +  Que es T-Gtk y como nacio ?
+ -------------------------------------------------------------------------
+ T-Gtk es un GUI de GTK+ para usarlo desde [x]Harbour.
+
+ Nacio ante la imposibilidad de poder implementar en Fivelinux widgets
+ que faltan, porque la conexion a las seales eran imposibles si Antonio
+ no abria el sistema de eventos , cosa que es lo unico que no a liberado.
+ Eso, unido a mis inquietudes sobre el funciomiento del compilador, y gracias
+ a amigos como Jose F.Gimenez, que me ilustraron sobre la VM de Harbour,
+ pude empezar a desarrollar T-Gtk.
+ ( T[hefull]-Gtk, jaja, lo mio no son los  nombres, que le vamos hacer...)
+
+ En principio, yo solamente queria programar en GNU/Linux, no estaba
+ interesado en NADA MAS. No queria saber mas del API Win32, la verdad es que
+ no me atraia lo mas minimo, ( bueno, solamente en el curro )
+ Estoy enamorado de los sistemas GNU/Linux, sinceramente los consideros muy
+ superiores a los sistemas Windows, si bien mis conocimientos actuales
+ sobre GNU/Linux son mas bien escasos comparandolo con los de DOS/Windows.
+
+ Como surgio el tema de Windows si yo estaba intentando huir, como fuese ?
+ Pues todo surgio porque a Joaquim le dio por instalarse el RunTime de GTK+ para
+ Windows, y probar de compilarlo.
+ Al ver que aquello se lo trago, fue cuando nacio la Multiplataforma, mas por
+ casualidad que por haberlo buscado.
+
+
+ -------------------------------------------------------------------------
+ + Sobre que sistema operativo funciona ?
+ -------------------------------------------------------------------------
+ T-Gtk correra donde haya un Harbour , gcc y gtk+ disponible, es decir,
+ actualmente compagino en probar tanto en GNU/Linux y Windows, pero
+ tambien podra correr sobre MAC, FreeBsd, etc..
+
+ Estamos hablando a nivel de COMPATIBILIDAD de codigo a nivel de GUI,
+ no de codigo a nivel de sistema, como por ejemplo, la gestion de INIs,
+ el acceso a nivel de hardware, etc... donde los sistemas son completamente
+ distintos.
+
+ -------------------------------------------------------------------------
+ + Compilando para generar librerias y aplicaciones
+ -------------------------------------------------------------------------
+ *( Ver apartado de GNU Make )
+
+ -------------------------------------------------------------------------
+ + Implementacion y uso.
+ -------------------------------------------------------------------------
+ El camino escogido ha sido, desde mi punto de vista aclaro esto, ser lo mas
+ parecido a GTK+ a nivel de C,  Que quiero decir con esto ?
+ Quiero decir, que para programar , se programara practicamente como se hacer
+ en C, a nivel de funciones, despues ya se encapsulara todo eso , y si,
+ haremos el mismo preprocesador DEFINE WINDOW....
+
+  Tengo que saber C ?
+ No. Que las funciones del API de GTK+ , sera el mismo nombre de funcion a
+ nivel de harbour, no signifique que se vaya a programar en C, si no
+ que se usara EL MISMO NOMBRE de la funcion, por ejemplo:
+
+ Si para crear un boton en C es :
+  GtkWidget * button = gtk_button_new_with_label( "Hola" );
+
+ transformando a T-Gtk+Harbour sera:
+  button = gtk_button_new_with_label( "Hola" )
+
+ Ustedes se preguntaran el porque asi, y no haber creado una funcion
+ que se llame, createbutton( cLabel ).
+
+ EL motivo principal, es que si buscan ayuda sobre una funcion en GTK+,
+ la misma ayuda de C le servira, porque se comportara EXACTAMENTE IGUAL.
+
+ Asi , la trasformacion de codigo C a PRG es trivial, en cosas bastantes
+ sencillas.
+
+ Ahora bien, para ahorrar velocidad y facilitar un poco la historia, hay
+ dos excepciones de momento:
+
+ + Conversion a traves de Macros, esto lo hace ya automaticamente desde C,
+   no hace falta hacerlo, por ejemplo, esta funcion en C :
+
+   GtkWidget * button= gtk_button_new() ;
+   GtkWidget * checkbox = gtk_check_button_new_with_label( "Check" );
+   gtk_container_add( GTK_CONTAINER( button ), checkbox );
+
+   en harbour quedaria:
+
+   button= gtk_button_new()
+   checkbox = gtk_check_button_new_with_label( "Check" )
+   gtk_container_add(  button , checkbox )
+
+   fijese , que la macro GTK_CONTAINER a desaparecido.
+
+ + Por comodidad de transportar el codigo de C, se ha echo el soporte
+   de dichas funciones, que lo unico que hace es retorna el valor pasado.
+
+ + La function Gtk_Connect_signal permite saltar a una funcion estatica en
+   Harbour, porque Harbour mete en la tabla dinamica de simbolos las
+   funciones estaticas, y Xharbour NO!
+   En xHarbour solamente se puede saltar, por el momento, a funciones
+   publicas.
+
+ Ahora bien, como pueden ver en los ejemplos, el usar funciones, impone
+ el escribir mucho codigo, para ello, tambien se esta portando a la
+ programacion de POO, de esta manera, sera mucho mas rapido y ademas
+ realizar el preprocesado es trivial y aprovecharemos mejor el tiempo.
+
+ -------------------------------------------------------------------------
+ +  Como funciona GTK+ y que es eso de los widgets ?
+ -------------------------------------------------------------------------
+ Los widgets son sinonimos de controles en sistema Win32 API.
+ GTK+ es una libreria que crea y pone a disposicion una serie de controles,
+ para ello se basa en otra libreria de nivel inferior, GDK, que es la
+ encargada de dibujarlos.
+ A nivel mas bajo , se conecta con XLib o Win32, nada mas.
+
+ En GTK+ existe el concepto de 'contenedor' de widgets, y solamente puede
+ contener un solo widget, es decir , un hijo.
+ Usted se pregunta ,  entonces en una ventana como coloco mis botones ?
+ Como dice el dicho popular, HECHA LA LEY HECHA LA TRAMPA,
+ pues bien sencillo, un contenedor a su vez puede contener a su vez a
+ otros contenedores.
+
+ Para entendernos, seria equivalente a usar la clase TPanel de Fivewin,
+ y esta a su vez fuera mas paneles, que contienen los botones.
+
+ Hay varios tipo de contenedores, hBox, vBox, paned, table, etc...
+
+ A su vez , un boton es un contenedor que contiene una etiqueta, por ejemplo.
+
+ A principio, este concepto es muy extrao si lo comparamos con el api win32,
+ pero es mucho mas potente a efectos practicos, son AUTODIMENSIONABLES, no
+ tenemos que gestionar su ancho / alto, es solo lo hara y se adaptara segun
+ le hayamos especificado su comportamiento.
+
+ -------------------------------------------------------------------------
+ + Introduccion a la programacion con T-Gtk
+ -------------------------------------------------------------------------
+ La programacion en T-Gtk se puede basar en programacion estructurada, POO y
+ con el diseador Glade, sin ningun tipo de problemas.
+
+ Cada programador es libre de realizar la implementacion lo mejor que le
+ parezca, pues puede realizar lo que se proponga sin mayor dificultad.
+
+ Asi, tiene muchas funciones del API GTK+ disponible, y simplemente leyendo
+ la ayuda de GTK+, espero que lo entienda, en linea del lenguaje C, usted
+ entendera perfectamente que realiza dicha funcion, es por ello que no vamos
+ a extendernos en explicar cada una de dichas funciones, excepto cuando su
+ paso de parametros haya sido ligeramente modificado para trabajar bajo
+ Harbour.
+
+ Una de las cosas en comun entre los distintos widgets es su colocacion
+ en su contenedor, y que afecta a todos por igual.
+
+ Basicamente, cuando queremos introducir un widget en un contenedor, podemos
+ hacerlo de dos maneras, hay mas pero esta fuera de esta explicacion, y
+ veremos solamente a traves de POO, para funciones vea la ayuda propia
+ de GTK+ sobre las funciones gtk_box_pack_start() y gtk_container_add(), o,
+ si se tratara de un contenedor fixed, el hijo se debe de añadir haciendo
+ gtk_fixed_put( child, x,y ).
+
+ Bien, como comentabamos, en POO, tenemos a nivel del preprocesador estas
+ opciones:
+
+       //TODO: Explicacion de cada opcion...
+       [ <lExpand: EXPAND> ]
+       [ <lFill: FILL> ]
+       [ PADDING <nPadding> ]
+       [ <lContainer: CONTAINER> ]
+       [ OF <oParent> ]
+       [ ID <cId> ]
+       [ RESOURCE <uResource> ]
+       [ LABELNOTEBOOK <uLabel> ] ;
+       [ POS <x>, <y> ];
+
+Todo esto es comun a cualquier widget que puede ser contenido en un
+contenedor. La explicacion es muy simple.
+
+Para crear un widget del tipo button, por ejemplo, no tenemos que decirle
+el contenedor, lo podemos hacer mas tarde, aun asi, a sido creado.
+
+Si le pasamos el 'padre',<oParent>, a quien debe de pertenecer el button,
+mirara si le pasamos la clausula CONTAINER, y si es asi, EXPANP ,FILL y PADDING
+es ignorado o si es <oParent> de la clase Fixed, ignorara el resto de
+comandos, en ese caso, si el padre es un oFixed, usara los paramentros x,y
+de la clausula POS.
+
+La explicacion es simple si consulta la ayuda de GTK+, funcion
+gtk_container_add(), es una simple manera de hacer la funcion
+gtk_box_pack_start(), pero en lugar de pasar parametros, tiene unos valores de
+expand, etc.., por defecto.
+
+Asi no es mucho mas simple crear un boton:
+   DEFINE BUTTON oBtn CONTAINER OF oWindow
+
+que usar:
+   DEFINE BUTTON oBtn EXPAND FILL  OF oWindow
+
+y en caso que sea el padre un widget del tipo Fixed:
+  DEFINE BUTTON oBtn OF oFixed POS 10,10
+
+Se puede obtener el mismo comportamiento con el uso de EXPAND, etc.., en el
+widget, que pasando CONTAINER, pero por comodidad y velocidad se ha creado
+la clausula CONTAINER.
+
+Ahora solamente tu decides si usar CONTAINER o no ;-)
+
+La clausula LABELNOTEBOOK <uLabel> , sirve para indicar el texto para todo
+widget que vaya a formar parte del widget Notebook, indicando asi que label
+veremos, donde dicha <uLabel>, puede ser una cadena de texto, o un objeto
+label.
+
+Propiedades generales de los Widgets :
+    Caracteristica del widget:
+    [ MNEMONIC ]
+    [ FONT <oFont> ]
+    [ SIZE <nWidth>, <nHeight> ]
+    [ BAR <oBar> [ MSG <cMsgBar>] ]
+    [ CURSOR <nCursor> ]
+
+    Comportamiento en su contenedor:
+    [ EXPAND ]
+    [ FILL   ]
+    [ PADDING ]
+    [ CONTAINER ]
+    [ INSERT_END> ]
+
+       Posicion cuando su padre sea un Fixed:
+       [ POS <x>,<y>  ]
+
+       Comportamiento cuando vaya ser parte de un gPaned:
+       [ SECOND_PANED ]
+       [ RESIZE ]
+       [ SHRINK ]
+
+    Padre:
+    [ OF <oParent> ]
+
+    Su uso en Glade:
+    [ ID <cId> ]
+    [ RESOURCE <uGlade> ]
+
+    Dentro de una pestaña de un Widget gNoteBook:
+    [ LABELNOTEBOOK <uLabelBook> ]
+      uLabelBook es un texto o un objeto gLabel
+
+
+ -------------------------------------------------------------------------
+/* Implementaciones que estan bajo desarrollo.                          */
+ -------------------------------------------------------------------------
+En este momento, pasamos a buscar mas la estabilizacion del sistema que
+de aporta nuevas funcionalidades.
+
+ -------------------------------------------------------------------------
+*GDK. El API grafico de GTK+
+ -------------------------------------------------------------------------
+Actualmente, hemos portado el evento 'expose_event'.
+Dicho evento se dispara cada vez que debe de repintar el widget.
+
+Esto es util para el gtk_drawing_area_new() para poder dibujar primitivas,
+y para ello se usan mayoritariamente funciones de GDK, que son las encargadas
+de pintar.
+
+Se a portado el espectacular ejemplo de C, para que podais ver una idea 
+aproximada de dicha potencia.
+
+ -------------------------------------------------------------------------
+* Browses.
+ -------------------------------------------------------------------------
+Tenemos a nivel nativo de GTK, la forma de mostrar Browses en memoria,
+pues es tal y como hace GTK+, a traves de Listores, TreeView y compañia.
+
+Tambien, se a desarrollado a nivel nativo un nuevo widget , gtkbrowse, 
+que nos proporciona un widget preparado para trabajar siguiente la filosofia
+de Harbour, navegando sobre tablas DBF y arrays, permitiendo su modificacion
+a traves de codeblocks de navegacion.
+
+ -------------------------------------------------------------------------
+* Impresion.
+ -------------------------------------------------------------------------
+El sistema de impresion es lo siguiente que se a empezado bajo GNU/Linux.
+
+Estoy buscando la manera de usar/buscar alguna libreria de impresion multipla-
+forma, pero creo que no exite ;-(
+
+Asi que, tenemos para GNU/Linux el uso de impresion a traves de Gnome-Print
+y de Windows a traves del API.
+   GNU/Linux: Se hara uso de gnomeprint sobre codigo LGPL, que yo he mismo
+              he realizado y liberado.
+   Windows:   Usar el API que existe en xHarbour, y realizar una clase de
+              impresion.
+
+Todo ello sera lo mas parecido al estilo de Fivewin.
+
+* API del sistema operativo en concreto.
+Windows: Podemos usar What32 para Windows y las clases de terceras personas
+como la clase TSysInfo, por ejemplo.
+
+GNU/Linux: Aqui si que habria que estudiar la implementacion, porque poquita
+cosa creo yo que existe para GNU/Linux
+
+ -------------------------------------------------------------------------
+ /*  Futuro cercano.   ( para plataformas GNU/Linux )                   */
+ -------------------------------------------------------------------------
++ Implementacion de GNOME en T-Gtk.
++ Bonobo
+
+
+
+ -------------------------------------------------------------------------
+ /*  Soporte para impresion  ( para plataformas GNU/Linux )             */
+ -------------------------------------------------------------------------
+He dedicado una semana en tener listo la primera implementacion sobre
+Gnomeprint para T-Gtk.
+
+Dicha libreria nos brinda la posibilidad de imprimir ficheros .ps y .pdf,
+hay mas opciones pero no en mi version actual ;-).
+
+Actualmente, he liberado dicha codigo como LGPL, y este codigo es el que
+usa y usara T-Gtk.
+
+El motivo principal de liberarlo es que todos aquellos que quieran
+tener soporte para imprimir bajo GNU/Linux, y mas concretamente a traves
+de gnome, puedan incorporarlo a su trabajo sin ningun problema, ya
+sean sus soluciones de pago como libres.
+
+En esta fase de desarrollo de T-Gtk solamente dispone de las funciones
+nativas, si bien son suficientes para desarrollar, no es lo mas practico
+en terminos productivos.
+
+En la siguiente revision, intentare tener listo el tema del objeto y
+su preprocesado a la fivewin.
+
+
+
+ -------------------------------------------------------------------------
+/* Programacion T-Gtk usando GLADE con editor de nuestra aplicacion*/
+ -------------------------------------------------------------------------
+
+Ahora veremos una de las caracteristicas mas potentes que posee T-Gtk, y es
+hacer uso de Glade como diseÃ±ador de nuestras pantallas, quitandonos mucho
+trabajo.
+
+Para hacer uso del Glade dentro de T-Gtk, haremos simplemente :
+
+  SET RESOURCES cResource FROM FILE "example.glade"
+
+Este comando carga el fichero glade "example.glade" y se lo asigna a la
+variable cResource, que nos servira previamente para informar donde tiene
+que buscar los widgets.
+
+Ahora imaginemos que queremos hacer uso de una ventana que previamente hemos
+creado desde Glade, lo unico que nos falta es decir que identificativo, ID,
+es el que le corresponde a la ventana:
+
+  DEFINE WINDOW oWnd ID "window1" RESOURCE cResource
+
+Esto , traducido en lenguaje hablado seria:
+
+Dentro del fichero de glade que esta en , cResource, busca un identificativo
+que se llama "window1", y al ser una ventana, me creas el objeto oWnd.
+
+Ahora, imaginemos que queremos usar un boton que lo hemos colocado en la
+ventana de glade, y vamos a decirle que cada vez que lo pulse muestre alguna
+cosa:
+
+      DEFINE BUTTON oBtn ID "button1" RESOURCE cResource ;
+                    ACTION MsgInfo( "Dispara..." )
+
+Asi de simple, no hay ni que decir a quien pertenece, ni nada, solamente,
+al igual que la ventana, que fichero glade es, cResource, su ID, y la accion a
+ejecutar se lo definimos nosotros desde codigo.
+
+Todo el comportamiento del boton con respecto a su contenedor, el texto,
+etc..., es tal y como lo definistes desde glade.
+
+Y por ultimo, MUY IMPORTANTE, es el uso de las mayusculas/minusculas, que si
+son tenidas en cuenta, y no es lo mismo , Window1 que window1.
+
+Dentro de la jerarquia de gClass, el intento de usar un widget desde glade
+no definido , se comunicara y se parara el programa, pues es imposible su
+continuacion.
+
+Recuerda que estas clausulas son comunes a todos los widgets que las posean,
+que sera casi la totalidad de los widgets.
+
+*Ultimo apunte, muy importante...
+Cuando necesitemos saltar a una funcion cualquiera que vaya a hacer uso
+de un dialogo o una ventana, DEBEMOS cargar el fichero de recursos de nuevo
+para esa funcion.
+El motivo de ello, es que si MATAMOS el dialogo, SE DESTRUYE realmente,
+y no podemos despues ACCEDER a el, puesto que lo habiamos matado previamente.
+
+Consejos de como se debe programar con Glade bajo T-Gtk
+
+1.- TODAS LAS VENTANAS Y DIALOGOS tienen que tener el atributo como OCULTO.
+    No te preocupes de ello, puesto que T-Gtk te enseñara en el momento
+    adecuado la ventana o dialogo.
+    De lo contrario GLADE, por defecto, ENSEÑA TODO.
+
+2.- Cada llamada a una funcion que necesite de una ventana o dialogo de glade,
+    SET RESOURCES cResource FROM FILE "example.glade" y usar esa variable
+    para trabajar sobre ese fichero en particular.
+
+3.- Y repito....
+    Y por ultimo, MUY IMPORTANTE, es el uso de las mayusculas/minusculas, que
+    si son tenidas en cuenta, y no es lo mismo , Window1 que window1.
+
+Con esto, programar con Glade y T-Gtk es un juego de niños.
