@@ -1,0 +1,135 @@
+/*  $Id: jerarquia_gclass.txt,v 1.1 2006-09-07 16:22:19 xthefull Exp $ */
+ 
+Jerarquia de clases para gClass
+(c)2003 Rafa Carmona
+
+   gObject
+      |
+      +- gWidget
+      |     |
+      |     +- gContainer
+      |     |    |
+      |     |    +- gBin
+      |     |    |    |
+      |     |    |    +- gWindow 
+      |     |    |    |      +-gDialog 
+      |     |    |    |           +-gDlgFile
+      |     |    |    |           +-gDlgFont
+      |     |    |    |
+      |     |    |    +- gAlignment
+      |     |    |    |
+      |     |    |    +- gFrame
+      |     |    |    |
+      |     |    |    +- gButton
+      |     |    |    |    +- gToggleButton
+      |     |    |    |           +- gCheckBox
+      |     |    |    |                +- gRadioButton
+      |     |    |    |
+      |     |    |    +- gEventBox
+      |     |    |    |
+      |     |    |    +- gCombobox 
+      |     |    |    |     +- gComboboxEntry
+      |     |    |    |     +- gCombobox_Clip
+      |     |    |    |
+      |     |    |    +- gMenuItem 
+      |     |    |    |      +- gMenuItemCheck 
+      |     |    |    |      +- gMenuItemImage 
+      |     |    |    |      +- gMenuItemSeparator 
+      |     |    |    |      +- gMenuTearoff 
+      |     |    |    |
+      |     |    |    +- gExpander
+      |     |    |    |
+      |     |    |    +- gToolItem
+      |     |    |    |    +- gToolButton
+      |     |    |    |    |     +- gToolMenu
+      |     |    |    |    |     +- gToolToggle
+      |     |    |    |    |             +- gToolRadio
+      |     |    |    |    +- gToolSeparator
+      |     |    |    |
+      |     |    |    +- gScrolledWindow
+      |     |    |    |
+      |     |    |    +- gViewport
+      |     |    |
+      |     |    +- gBox
+      |     |    |    +- gBoxVH
+      |     |    |          + gFileChooserButton
+      |     |    |          + gStatusBar
+      |     |    |
+      |     |    +- gFixed
+      |     |    |
+      |     |    +- gPaned 
+      |     |    |
+      |     |    +- gIconView 
+      |     |    |
+      |     |    +- gList          
+      |     |    |
+      |     |    +- gLayout ( TODO )
+      |     |    |
+      |     |    +- gMenuShell
+      |     |    |     +- gMenuBar 
+      |     |    |     +- gMenu    
+      |     |    |
+      |     |    +- gNotebook
+      |     |    |
+      |     |    +- gTable
+      |     |    |
+      |     |    +- gTextView
+      |     |    |
+      |     |    +- gToolBar
+      |     |    |
+      |     |    +- gTreeView
+      |     |
+      |     +- gMisc
+      |     |   +- gArrow
+      |     |   +- gImage
+      |     |   +- gLabel
+      |     |         +- gAccelLabel ( TODO )
+      |     |
+      |     +- gCellView ( TODO )
+      |     |
+      |     +- gDrawingArea 
+      |     |
+      |     +- gRuler ( TODO )
+      |     |
+      |     +- gRange
+      |     |    +- gScaleVH
+      |     |    +- gSscrollbarVH ( TODO )
+      |     |
+      |     +- gSeparator
+      |     |
+      |     +- gProgressBar
+      |     |
+      |     +- gCalendar
+      |     |
+      |     +- gEntry
+      |     
+      |
+      +- gListStore  
+      |
+      +- gTreeStore  
+      |
+      +- gViewTreeColumn
+      |
+      +- gCellRenderer
+      |     |
+      |     +- gCellRendererToggle
+      |     +- gCellRendererText
+      |     +- gCellRendererPixbuf
+      |     +- gCellRendererProgress
+      |     +- gCellRendererCombo
+      |
+      +- gAdjusment
+      |
+      +- gToolTip
+      |
+      +- gEntrycompletion
+      |
+      +- gAccelGroup
+      |
+      +- gTextBuffer
+      
+
+
+No es un widget :
+   + gTimer
+   + gTextFile

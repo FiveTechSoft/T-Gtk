@@ -1,0 +1,188 @@
+/* $Id: gwindow.prg,v 1.1 2006-09-07 16:22:18 xthefull Exp $*/
+/*
+    LGPL Licence.
+    
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this software; see the file COPYING.  If not, write to
+    the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+    Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
+
+    LGPL Licence.
+    (c)2003 Rafael Carmona <thefull@wanadoo.es>
+*/
+#include "gtkapi.ch"
+#include "hbclass.ch"
+
+CLASS GWINDOW FROM GCONTAINER
+      CLASSDATA lInitiate INIT .F.
+      CLASSDATA aWindows INIT {}
+
+      DATA ldestroy_gtk_Main INIT .F.
+      DATA bInit
+      DATA oAccelGroup
+      DATA oMenuPopup
+      DATA lUseEsc INIT .F.
+
+      METHOD NEW( cTitle, nType, nWidth, nHeight, cId, cGlade )
+      METHOD SetTitle( cText ) INLINE gtk_window_set_title ( ::pWidget, cText )
+      METHOD cTitle( cText )   INLINE gtk_window_set_title ( ::pWidget, cText )
+      METHOD GetTitle( cText ) INLINE gtk_window_get_title ( ::pWidget )
+      METHOD Activate( bEnd )
+      METHOD SetResizable( lResizable ) INLINE gtk_window_set_resizable( ::pWidget, lResizable )
+      METHOD Modal( lModal ) INLINE gtk_window_set_modal( ::pWidget, lModal )
+      METHOD Maximize()      INLINE gtk_window_maximize( ::pWidget )
+      METHOD Center()        
+      METHOD End()
+      METHOD Register()
+      METHOD SetDecorated( lDecorated ) INLINE gtk_window_set_decorated( ::pWidget , lDecorated )
+      METHOD SetSkipTaskBar( lHide )    INLINE gtk_window_set_skip_taskbar_hint( ::pWidget , lHide )
+      METHOD SetTypeHint( nType )       INLINE gtk_window_set_type_hint( ::pWidget , nType )
+      METHOD SetFocus()                 INLINE gtk_window_present( ::pWidget )
+      METHOD SetMenuPopup( oMenu )
+      
+      //Signals of gWindow
+      METHOD OnActivateDefault( oSender ) VIRTUAL
+      METHOD OnActivateFocus( oSender )   VIRTUAL
+      METHOD OnFrameEvent( oSender, pGdkEvent ) INLINE .F.
+      METHOD OnKeysChanged( oSender ) VIRTUAL
+      METHOD OnMoveFocus( oSender , nGtkDirectionType ) VIRTUAL
+      METHOD OnSetFocus( oSender, pGtkWidget ) VIRTUAL
+      
+      // Signals Hierarchy re-write
+      METHOD OnKey_Press_event( oSender, pGdkEventKey  ) 
+      METHOD OnEvent( oSender, pGdkEvent )
+
+ENDCLASS
+
+METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint ) CLASS GWINDOW
+       DEFAULT nType   := GTK_WINDOW_TOPLEVEL
+               
+
+       if cId == NIL
+          ::pWidget := gtk_window_new( nType )
+       else
+          ::pWidget := glade_xml_get_widget( uGlade, cId )
+          ::CheckGlade( cId )
+       endif
+
+       if cTitle != NIL
+          ::cTitle( cTitle )
+       endif
+
+       if nWidth != NIL
+          ::Size( nWidth, nHeight )
+       endif
+
+       if nType_Hint != NIL
+          ::SetTypeHint( nType_Hint )
+       endif
+        
+       ::Connect( "delete-event" )
+       ::Connect( "destroy" )
+
+RETURN Self
+
+METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
+
+       DEFAULT ::bEnd := bEnd,;
+               lInitiate := .F.
+
+       if ::bInit != NIL
+          Eval( ::bInit , Self )
+       endif
+
+       if lCenter
+          ::Center()
+       endif
+
+       if lMaximize
+          ::Maximize()
+       endif
+
+       ::Show()
+
+       if lModal
+          ::Modal( TRUE )
+       endif
+
+       ::lInitiate := lInitiate
+       
+       ::Connect( "key-press-event" )
+
+       // Solamente se entra una vez en el bucle de GTK.
+       IF !::lInitiate
+          ::lInitiate := .T.
+          ::ldestroy_gtk_Main := .T.
+          //connect_destroy_widget( ::pWidget ) // Conectarmos seal de destroy automaticamente
+          Gtk_Main()
+       ENDIF
+      
+
+RETURN NIL
+
+METHOD End() CLASS GWINDOW
+RETURN ::OnDelete_Event( Self )
+
+METHOD Register() CLASS GWINDOW
+    Super:Register()
+    AADD( ::aWindows, Self )
+    // Debugger
+    //g_print("Ventana:" + cValtoChar( ::pWidget ) + ":Array:"+ cValtoChar( Len( ::aWindows ) ) )
+RETURN NIL
+
+METHOD Center( nPosition ) CLASS GWINDOW
+   DEFAULT nPosition := GTK_WIN_POS_CENTER 
+   Gtk_Window_Set_Position( ::pWidget, nPosition )
+RETURN NIL
+
+METHOD SetMenuPopup( oMenu ) CLASS GWINDOW
+  
+  ::oMenuPopup := oMenu
+  ::Connect( "event" )
+  ::SetEvents( GDK_BUTTON_PRESS_MASK  )
+
+RETURN NIL
+
+METHOD OnEvent( oSender, pGdkEvent ) CLASS gWindow
+   Local nEvent_Type, nEvent_Button_Button, nEvent_Button_Time
+   
+   if ::oMenuPopup != NIL // Si habiamos definido un MenuPopup
+      nEvent_Type := HB_GET_GDKEVENT_TYPE( pGdkevent ) 
+      if ( nEvent_Type == GDK_BUTTON_PRESS )        // Event_Type
+          nEvent_Button_Button := HB_GET_GDKEVENT_BUTTON_BUTTON( pGdkevent )
+          if ( nEvent_Button_Button == 3)                    // Event->Button.Button
+             nEvent_Button_Time := HB_GET_GDKEVENT_BUTTON_TIME( pGdkevent )
+             gtk_menu_popup( ::oMenuPopup:pWidget, NIL, NIL, NIL, NIL,;
+                             nEvent_Button_Button, nEvent_Button_Time ) // event->button.time
+          RETURN .T.
+       endif
+    endif
+   endif
+
+RETURN .F.
+
+METHOD OnKey_Press_event( oSender, pGdkEventKey ) CLASS gWindow
+   local  nKey, nType
+
+   nKey := HB_GET_GDKEVENTKEY_KEYVAL( pGdkEventKey )// aGdkEventKey[ 6 ]
+   nType:= HB_GET_GDKEVENTKEY_TYPE( pGdkEventKey )  // aGdkEventKey[ 1 ]
+
+   do case
+      case nKey == GDK_Escape
+           if ::lUseEsc
+              oSender:End()
+              return .T.
+           endif
+   end case
+
+RETURN .F.
