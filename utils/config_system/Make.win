@@ -1,0 +1,19 @@
+##################################
+#  T-Gtk makefile principal
+##################################
+all:
+	mingw32-make -C src/gclass
+	mingw32-make -C hbgtk
+
+clean:
+	mingw32-make -C src/gclass clean
+	mingw32-make -C hbgtk clean
+	mingw32-make -C tests clean
+
+
+install: all
+	mingw32-make -C src/gclass install
+	mingw32-make -C hbgtk install
+
+.PHONY: clean install
+

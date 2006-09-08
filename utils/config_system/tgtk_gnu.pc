@@ -1,0 +1,15 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+target=x11
+
+gtk_binary_version=2.6.0
+gtk_host=i386-pc
+
+Name: T-GTK
+Description: Library Gtk+ for [x]Harbour (${target} target)
+Version: 1.6.0 Beta
+Requires: gtk+-2.0 libglade-2.0
+Libs: -lgclass -lhbgtk -L${libdir} -lgtk-${target}-2.0 -lglade-2.0
+Cflags: -I${includedir}/gtk-2.0 -I${includedir}/libglade-2.0
