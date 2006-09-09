@@ -1,0 +1,497 @@
+############################################################################
+#  ATENCION:                                                               #
+#  Tanto Linux como Windows, el Makefile dentro de \tests\ es el mismo!!   #
+#                                                                          #
+#  !!Asi lo unico es : \tests\Make o \tests\mingw32-make !!                #
+#                                                                          #
+#  Lo unico que hay que tener en cuenta ahora es las rutas de Harbour,     #
+#  simplemente definiendolas en Rules.Make                                 #
+############################################################################
+
+/*
+  Generacion de librerias y programas desde una misma linea de comandos
+  Usando GNU Make  y otras cosas.
+  1) Parte
+  (c) 2004 Rafa Carmona
+*/
+
+Una de las cosas que he estado buscando largamente a sido la generacion
+de librerias tanto de codigo PRG como de Codigo C o una mezcla de ambos,
+y generar una libreria o un .exe indistintamente.
+
+Despues de buscar, hace tiempo que vi que dentro del proyecto xHarbour,
+contrib, tenemos el XWT, en el cual hay implementado , bajo mi humilde punto
+de vista, un sistema al que estaba buscando , y que esconde una potencia
+inusual, para tan pocas lineas de codigo.
+
+Intentare explicar como funciona, despues que tuve que abordar el estudio de 
+la herramienta Make, pues es imprecindible el conocimiento, al menos al nivel 
+basico de toda esa jerga incomprensible.
+
+Aqui se hablara de GNU Make, por servirme tanto como GNU/Linux y Windows,
+no perdiendo mas tiempo en descubrir como funcionan otros make, ya sea de 
+borland o de Microsoft, asi, aprendiendo uno, tengo mas que suficiente.
+
+No voy a explicar aqui 'COMO' funciona exactamente GNU Make, si no una forma
+de planificar nuestro codigo y que un solo comando realice solamente lo que 
+queramos, teneis manuales por internet, molestate en buscarlos ;-)
+
+Asi, por basarme en el estudio de las reglas del make usadas en el proyecto 
+XWT, sera necesario que tengais las contrib de xHarbour para ir siguiendo el 
+hilo del texto.
+
+1.- Objectivo y estructuracion.
+2.- Definicion de las reglas
+3.- Como compilar/linkar
+4.- Cambiando el comportamiento interno.
+    + Añadir mas librerias y directorios 
+
+
+1.- Objectivo y estructuracion.
+La primera cuestion es definir como trabajar y hara un pequeño esbozo
+de directorios para que lo comprendais, su estructura.
+
+C:\Mi Proyecto\
+     |--- SRC   // Directorio que contiene codigo PRG que formara una libreria
+     |--- C_LIB // Directorio que contiene codigo C   que formara una libreria
+     |--- TESTS   // Nuestros PRG que forman la fuente del programa. 
+     |--- INCLUDE // Nuestros includes que haremos usos.
+     |--- LIB     // Aqui se copiaran las librerias de SRC y C_LIB
+
+En principio, esto es suficiente para la mayor parte de los usuarios.
+
+Lo interesante, es que en NINGUN SITIO de SRC o C_LIB le vamos a definir los
+fuentes a usar, ¿ Como es posible ? Si , señores, solamente añadiendo el
+fichero en cuestion, a la hora de generar la libreria , solamente compilara
+ese fichero que hemos añadido al directorio, sin modificar para nada el 
+fichero Makefile.
+
+Logicamente, este funcionamiento no nos interesa que lo haga en TESTS, porque
+al igual nos es necesario tener dos ejecutables de dos fuentes distintas.
+
+Esto, nos permite olvidarnos por fin de herramientas generadoras de 
+ficheros Makefiles, como pueden ser Front-End, Verce, Ajmake, etc..., para 
+gente que quiera pensar como se realizan las cosas.
+
+
+2.- Definicion de las reglas
+Para que todo el proceso funcione como un engranaje perfectamente engrasado,
+y de eso se bastante , creeme, antes era especilista en roscas de precision,
+tenemos que partir de un fichero que va a contener toda la maquinaria de 
+trabajo para el GNU Make.
+
+Si os fijais, debereis de tener en el directorio /contrib/xwt/ un fichero 
+llamado Rules.make.
+
+Dicho fichero es de gran importancia , pues es el que tiene las reglas de 
+funcionamiento, y que sera usado por el resto de makefiles que debes de 
+contener en los distintos directorios que quieras procesar.
+
+Echemos un vistazo a dicho fichero, para entender como funciona para poder 
+adaptarlo a nuestras necesidades , ya sea para Windows o para GNU/Linux.
+...............................................................
+* Hasta aqui la 1 parte
+...............................................................
+2)Parte  2.- Definicion de las reglas (...continuacion...)
+
+Ahora haremos un alto, para que todavia sea mas preciso.
+Como bien sabeis, teneis una variables de entorno disponibles para harbour y 
+que son de gran utilidad a la hora de generar las librerias y ejecutables de 
+harbour, y que son necesarias para saber que make debe de ejecutar dependiendo 
+del sistema que tengamos montado, como el compilador de C, etc...
+
+Bien, dicho sistema tambien hara uso de dichas variables de entorno, o en su 
+defecto, podemos redefinirlas para que contengan el valor que queramos.
+
+Como yo, supongo que muchos de vosotros tambien, tengo varios harbour para 
+distintos compiladores, entonces el usar el PATH, a veces es un engorro.
+La solucion es tan sencilla como definir simplemente estas variables de 
+entorno:
+
+Rules.make--------------------------------
+#Para con Windows , añadido
+HB_COMPILER = mingw32
+HB_BIN_INSTALL = c:/hargw/harbour/bin
+HB_INC_INSTALL = c:/hargw/harbour/include
+HB_LIB_INSTALL = c:/hargw/harbour/lib
+
+Al principio de la linea le informo , en este caso especial, que reescriba las
+variables de entorno a estos valores, asi no tengo que modificar nada de .bat,
+etc... del sistema en cuestion.
+
+[ Umm.. un apunte que se me olvidaba...aqui solamente se van a usar 
+herramientas GNU, un dia de estos escribire porque. ]
+
+Pasaremos por algo lo 'obvio' y que por deduccion es muy simple, y nos
+pararemos en lo mas interesante.
+
+<i>
+#Opciones genericas del Make ( Generic make options )
+</i>
+<b>
+ifeq ($(HB_COMPILER),mingw32)
+   CFLAGS += -Wall `pkg-config --cflags gtk+-2.0` -mms-bitfields -mwindows -I.
+else
+   CFLAGS += -Wall -I.
+endif
+GT_LIBS=-lgtcgi
+</b>
+
+Aqui teneis una caracteristica ifeq(), significa que si en la variable 
+HB_COMPILER esta la cadena mingw32 , CFLAGS sera igual a un valor o a otro.
+
+<b>
+[ Nota: Dentro de las herramientas GNU que ha sido portadas a otras 
+plataformas como Windows, donde dice pkg-config, solamente funcionara si 
+habeis instalado y haceis correr el CygWin y estais en ese entorno.
+Ahora bien, si haceis uso simplemente del compilador gcc, mingw32, desde
+una consola comun de Windows, dicha cadena debe ser montada como:
+$(shell pkg-config --cflags gtk+-2.0)  ] </b>
+
+Bien, despues podemos definir el driver GT a usar de harbour, simplemente
+donde pone la linea GT_LIBS, podeis definir el driver que querais.
+
+<b><i>
+[Nota: Aqui explicare haciendo uso de dos sistemas a la vez ya sea a traves
+de Windows o de GNU/Linux]
+</i></b>
+
+Las macros que nos interesan, por ser programadores de Harbour, las explicare,
+aunque generalmente <b>ESO NO LO TOCAREIS!!</b>
+
+<b>LIBFILES_ +=</b> Aqui definiremos las librerias propia de Harbour.
+Esto no deberias de tocarlo, excepto si le dan por añadir alguna libreria
+que no la tengas definida, definela aqui.
+
+<b>LIBFILES_+=</b>Libreria del sistema que nos hagan falta, por ejemplo
+para GNU/Linux debemos de linkar la -lgpm, para soporte del mouse en consola.
+
+Si os fijais muy bien, vereis que hay un += y no un = a secas, eso es muy
+importante para no machacar lo que previamente habia definido, asi que 
+tenerlo en cuenta.
+
+Ahora veremos unas macros que las usaremos en otros makefiles y que finalmente
+seran vistas desde aqui, para que veas que son y de donde vienen.
+
+<b>
+LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
+LIBS_=  $(LIBS) $(LIBFILES_) 
+</b>
+
+&(LIBDIR) es una macro declarada en el makefile de los directorios, y que nos
+permite usarla EXCLUSIVAMENTE en ese makefile para permitir buscar librerias
+en otra ruta distinta a la que tenemos originalmente a partir de 
+HB_LIB_INSTALL.
+
+&(LIBS) es una macro que se compartara exactamente IGUAL a LIBDIR, pero en 
+este caso sera para librerias en concreto.
+
+No busqueis en Rules.make, que no estan aqui ;-), si no que vienen impuestas
+a traves de otros makefiles si estuvisen declaradas.
+
+Despues viene el determinar el tipo de codigo que queremos procesar, y se
+lo indicaremos a traves de la macro <b>SOURCE_TYPE</b> en nuestro makefile,
+y por defecto cogera <b>prg</> si no la hemos definido.
+
+<i>
+NOTA:
+Donde pone <b>strip</b>, es una tool de GNU, por lo tanto, debes de tener las 
+GNU tools instaladas, sino no te funcionara, sirve para quitar simbolos
+de debugger a los ficheros objetos
+Te lo explico para que no pierdas el tiempo buscando... que parecemos ya a 
+google con tanto buscar ;-) </i>
+
+Despues vienen por lo que se conoce como reglas implicitas , como por ejemplo,
+esta, que la comentare por ser un tanto especial.
+
+<b>
+%$(EXETYPE):%.o
+     $(CC) -o$@ $< $(LIBDIR_) $(LIBS_)
+</b>
+
+Para los que no saben o saben un poco, como yo, del uso del Make, una regla 
+implicita, es aquella por la cual utiliza los sufijos 
+(extensiones de los archivos) para determinar que comandos debe ejecutar.
+
+<b>
+[ Nota: Antes unas nociones basicas sobre variables automaticas.
+    $<. El nombre del primer prerequisito.
+    $@. El nombre del archivo del objetivo de la regla. ]
+</b>
+
+Como nuestro ejecutable va ser posible crearlo tanto en Windows como en 
+GNU/Linux, el EXETYPE puede ser o .EXE o simplemente nada, pues ya debeis 
+saber que en GNU/Linux no existe el concepto de extension de archivo, si no
+si se puede o no se puede ejecutar.
+
+Como veis , es una mera introduccion al fichero Rules.make, cuyo objetivo
+no es explicar cada uno de los comandos, si no un poco su funciomaniento,
+para mas adelante ver la importancia de este fichero en las siguientes
+definiciones de los Makefiles que nos quedan por ver.
+...............................................................
+* Hasta aqui la 2 parte
+...............................................................
+
+3.- Como compilar/linkar 
+
+Despues de revisar como esta montado basicamente el fichero Rules.make, 
+pasaremos a saber exactamente que es lo que hay que hacer para que la cosa 
+vaya tomando forma.
+
+Generalmente, y siguiente la estructura de archivos antes propuestas, vamos
+a saber como podemos nosotros adaptar este sistema para nuestro uso 
+particular.
+
+Hemos dicho , que el fichero Rules.make es el alma de nuestro esfuerzo por 
+hacer mas simple el hecho de compilar/linkar lo que sea.
+
+En ese caso, vamos a ubicar dicho fichero en el directorio principal de 
+nuestro proyecto, en XWT es el propio directorio, ahi es donde tambien lo 
+dejaremos.
+
+Entonces tenemos la siguiente estructura de directorios:
+
+C:\Mi Proyecto\ --> En este directorio dejaremos Rules.make, mas otro fichero 
+Makefile que es el que invocara al resto, y lo veremos mas tarde.
+
+Veamos ahora el resto de ficheros Makefiles que nos faltan y que estaran
+cada uno ubicados en sus respectivos directorios, y que nos serviran para 
+notificar al Rules.make como tiene que actuar.
+
+4.- Cambiando el comportamiento interno.
+    + Añadir mas librerias y directorios 
+
+Empecemos pues por el primero:
+ <b>\SRC\</b>
+ En este directorio vamos a poner TODOS los .prg que formaran parte de nuestra
+ propia libreria, es decir, que TODO lo que haya aqui , se transformara
+ en una libreria, y ademas, puede contener tambien, si es necesario, partes
+ de codigo fuente en archivos .c
+ Esto nos es de gran utilidad para contener codigo de clases o/y funciones que
+ nos sera comun a TODOS nuestras aplicaciones que vayamos a realizar.
+
+ Dicho fichero, Makefile, lo analizamos entero pues este si que tienes que
+ entenderlo para afinar TU sistema :
+<i>[Nota:Partimos de la base del XWT por que asi podeis verlo vosotros mismos] 
+</i>
+<b>
+############################################
+# 
+# Makefile para librerias en codigo .PRG 
+# 
+############################################ 
+TARGET=libxwt.a 
+PRGFLAGS=-I../include 
+CFLAGS+=-I../include 
+XWT_INSTALL=../lib 
+CSOURCES=xwt_api.c
+include ../Rules.make
+</b>
+
+<b>TARGET</b> Nombre de la libreria que queramos que se genere.
+<b>PRGFLAGS</b> Flags que queremos pasarle a Harbour.
+<b>CFLAGS</b> Flags que queremos pasarle a compilador de C.
+<b>XWT_INSTALL</b> Donde esta ubicado el directorio de las librerias para
+copiar la libreria aqui generada.
+<b><CSOURCES></b> en este apartado podemos definir si tenemos algun que otro 
+fichero de C y queremos que forme parte de la libreria. Usualmente no sera 
+necesario que lo indiques, pues lo borrais y y hasta ;-)
+<i>
+¿ Que tienes mas de un .C ? pues tan simple como:
+</i>
+CSOURCES= uno.c dos.c tres.c \
+          cuatro.c cinco.c  ....etc...
+
+y por ultimo y muy importante es la siguiente linea:
+<b>include ../Rules.make</b> que lo unico que hace es coger TODO lo del 
+fichero Rules.make
+
+Lógicamente, el nombre de los flags los podemos cambiar, por ejemplo, donde
+pone XWT_INSTALL, pues nos quedaria mejor poner LIB_INSTALL, y redefinirlo en 
+todos los Makefiles que hagan uso de dicha macro, y sobretodo en Rules.make
+
+Ya esta , con esto, lograreis montar una libreria , sin especificar 
+absolutamente nada.
+Si quereis que otro archivo fuente .prg o .c , forme parte de vuestra libreria
+pues lo copiais aqui y punto, despues se llama a Make para que compruebe si
+hace falta o no generar la libreria de nuevo.
+
+Ahora nos toca hacer los mismo, pero para nuestro codigo en C.
+
+<b>
+[ Nota: No tengais en cuenta al pie de la letra todo. Si no tuvierais
+codigo en C para generar una libreria aparte, lo descartais sin mas, y 
+simplemente luego en el Make principal modificais para que no vaya a ejecutar
+un Makefile que no va a existir ]
+</b>
+
+Si os fijais , tenemos en el XWT, una directorio SRC, y dentro un par mas,
+nos quedaremos con el primero, el xwt_gtk, ya que este es el que se usa
+con las herramientas GNU, el otro se usara a partir de los Make usando el 
+Borland o el de Microsoft, y ya dije que no perderia el tiempo con ello.
+
+Como veis, mi propuesta es separar y quitar de SRC el codigo de C, sera
+tan simple como que el Make principal llame a otro sitio en vez de donde esta
+ahora ubicado.
+Viendo el Makefile en cuestion, /xwt/src/xwt_gtk, tenemos una serie de macros
+que veremos a continuacion:
+
+<b>
+TARGET=libxwt_gtk.a
+CFLAGS+=-I. -I../../include `pkg-config --cflags gtk+-2.0`
+SOURCE_TYPE=c
+XWT_INSTALL=../../lib
+include ../../Rules.make
+</b>
+
+<b>TARGET </b> ya sabemos para que nos servira.
+<b>CFLAGS</b> le pasa opciones de compilador de C
+<b>XWT_INSTALL</b> ya lo vimos.
+<b>include</b> Idem.
+<b>SORCE_TYPE</b> ESTE ES MUY IMPORTANTE, ya que informa que los ficheros
+que va a tratar aqui seran para el compilador de C, si no, entraria el 
+compilador de Harbour y se pegaria de ostias. ;-)
+
+<b><i>
+[Nota:pero si os fijais , vereis ../../, y esto
+es porque desciende un nivel mas, pero como nosotros lo vamos a poner
+al mismo nivel que el directorio SRC, lo cambiamos a ../, igual que el Makefile
+del SRC ]
+</i></b>
+
+Ya tenemos listo dos librerias que se generaran automaticamente a traves
+del Make.
+
+...............................................................
+* Hasta aqui la 3 parte
+...............................................................
+
+Ahora viene la parte donde va a colgar nuestra aplicacion, y aqui veremos
+como tenemos que definir que ficheros van a formar parte de nuestra 
+aplicacion. Este sera otro fichero Makefile, como no ;-)
+
+Pero este Makefile simplemente selecciona a otro , ya dije que veremos
+tanto Windows como GNU/Linux, dependiendo de la variable de entorno o la macro
+HB_COMPILER.
+
+Entonces, el fichero principal de GNU Make para test ejecuta esto:
+
+ifeq ($(HB_COMPILER),mingw32)
+	include Makefile.mingw32
+else
+	include Makefile.linux
+endif
+
+Obviamente, se podria haber mejorado solamente en la creacion de un unico
+fichero, pero aqui como puedes ver, selecciona uno u otro.
+
+Miraremos el Makefile.mingw32 para que veais como debeis de montarlo.
+
+<b>
+TARGET = demo                # NOMBRE DEL PROGRAMA
+SOURCES = demo.prg demo2.prg # LISTA DE PRGS QUE FORMAN EL PROGRAMA 
+PRGFLAGS=-I../include        # FLAGS PARA HARBOUR
+LIBS= -L../LIB -lMisLib `pkg-config --libs gtk+-2.0` #LIBRERIAS PARA LINKAR
+include ../Rules.make 
+</b>
+
+Ya tenemos disponible el sistema para empezar a jugar con el.
+
+Ahora solamente nos falta mirar como llamar a todos ellos.
+En nuestro directorio raiz, tendremos un fichero llamado Makefile, que
+contiene las ordenes que debe de ejecutar:
+
+<b>
+##################################
+#  Makefile principal
+##################################
+
+all:
+	make -C src
+	make -C c_lib
+
+clean:
+	make -C src clean
+	make -C c_lib clean
+	make -C tests clean
+
+install: all
+	make -C src install
+	make -C c_lib install
+
+.PHONY: clean install
+
+[Nota: Para los que usan Mingw32 desde linea de comandos de Windos, el make
+como tal no existe, se llama mingw32-make, solamente teneis que cambiarle
+el nombre ]
+</b>
+
+
+Dicho fichero lo unico que hace es ejcutar el make segun le pasamos 
+parametros. Por ejemplo:
+<i> c:\mi proyecto\>Make all </i>
+Creara las librerias de SRC y C_LIB
+
+<i> c:\mi proyecto\>Make install </i>
+Esta es muy buena, para instalar las librerias, tendra que ejecutar all y 
+despues se ira a copiar al directorio LIB las librerias generadas.
+
+<i> c:\mi proyecto\>Make clean </i>
+Lo que hace es borrar todos los ficheros necesarios para permitir volver a 
+generar el ejecutable, dicho sea de paso, tambien se cargara a dicho 
+ejecutable.
+
+Ya esta ? Casi.... como debeis recordar, en TESTS funciona distinto, porque
+podemos tener varios Makefiles para distintos proyectos.
+
+En ese caso, simplemente nos vamos al directorio y ejecutamos Make,
+y te generara el ejecutable en cuestion.
+
+Podemos crear distintos nombres por aplicacion que queramos generar, y llamar
+al Make como : Make -f MiAplicacion1
+
+Una vez que tengamos configurado este sistema o similar, mirar que sencillo,
+es tener todo el control en un par de lineas:
+
+<b>
+C:\Mi Proyecto\>Make clean
+C:\Mi Proyecto\>Make install
+C:\Mi Proyecto\>cd TESTS
+C:\Mi Proyecto\>Make 
+<i>o otro make</i>
+C:\Mi Proyecto\>Make -f SegundoMake
+</b>
+
+Ya esta! Se termino.....
+
+Creo que esto terminara con muchos de los problemas actuales a la hora
+de tener que estar generando librerias, compilar codigo, etc...
+
+Solamente tendremos que tener especial cuidado en meter los prgs que formen
+parte de nuestra aplicacion, el resto, ya se encargara Make de mantenerlo.
+
+Saludos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+
+
+
+

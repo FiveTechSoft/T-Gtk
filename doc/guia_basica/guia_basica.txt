@@ -1,0 +1,947 @@
+                                   GUIA BASICA
+                                 DE PROGRAMACION
+                          MULTIPLATAFORMA PARA [X]HARBOUR
+                               (c)2005 Rafa Carmona
+
+
+1.- Introducción
+2.- Guia de Instalacion de T-Gtk. ( Primeros Auxilios )
+3.- Empezando, una ventana al mundo.
+4.- Dialogos.
+5.- Desde dentro, contenedores. Que son y como me afecta.
+6.- Widgets.
+7.- Glade.
+
+1.- Introducción
+Hoy en dia podemos afirmar positivamente que ya es una realidad el realizar
+aplicaciones multiplataformas con [x]Harbour y lo que es más importante
+bajo unos de los GUIS mas famosos y potentes que existen, GTK+.
+
+Esto es posible y gracias a la libreria T-Gtk, un wrapper de GTK+ para
+[x]Harbour, bueno, es mucho mas que eso , pues nos brinda la posibilidad de
+programar de distintas maneras, como nativamente , a base de funciones,
+en programacion orientada al objeto , con glade, y todo mezclado a la vez,
+sin ningun tipo de problema.
+
+T-Gtk esta en continuo desarrollo, liberada como Freeware para todo aquel
+que quiera programar con la única limitación de tu imaginación, con más ya
+del 98% del código liberado, con contribuciones al mundo del Free Source,
+como el soporte de impresión para GNU/Linux a traves de gnomeprint,
+donandolo a todo aquel que quiera usarla , dejandola como LGPL.
+
+Podemos
+Encontrará más información en el grupo de T-Gtk y que es T-Gtk mas extenso
+en el fichero Tgtk.txt
+
+
+******************************************************************************
+2.- Guia de Instalacion de T-Gtk. ( Primeros Auxilios )
+******************************************************************************
+Viendo que mucha gente, todavia, no logra como poder usar T-Gtk o no logra
+entender el esquema de funcionamiento vamos a determinar la instalacion y
+puesta en marcha del sistema actual ( revision 0.43 )
+
+Vamos a dividirlo en :
+   - Sistemas M$ Windows.
+   - Sistemas GNU/Linux.
+   - Instalando Tgtk y ambiente de trabajo.
+   - Adivinar versiones de los distintos modulos.
+
+# Bajo sistemas Windows. #
+
+¡¡¡ATENCION!!! No sirve el Harbour que tengais de Borland o MSC, teneis que
+bajaros desde http://www.xharbour.org el correspondiente para usar con el
+compilador MINGW ( gcc under Windows ), asi , si no lo tienes, instalarlo.
+
+A continuacion, nos iremos a buscar el C , gcc, que en windows es el mingw:
+http://prdownloads.sourceforge.net/mingw/MinGW-3.1.0-1.exe?download
+
+Nueva version:
+http://prdownloads.sourceforge.net/mingw/MinGW-4.1.1.exe?download
+http://prdownloads.sourceforge.net/mingw/MinGW-4.1.0.exe?download
+
+La instalación es muy simple, siguiente, siguiente, etc...
+
+A veces, segun le de, no pone la ruta al minw32 en el path, asi, que es
+necesario especificar el path:
+Set path=%path%;c:\mingw\bin
+
+La instalación de GTK para sistemas Windows es tan sencilla como ir a la
+direccion : http://gladewin32.sourceforge.net/index.
+
+Bajar , actualmente, el paquete de instalacion de la version 2.6 de GTK,
+el paquete qe contiene los archivos de desarrollo, por ejemplo, tendria
+un aspecto similar a este nombre: gtk-win32-devel-2.6-rc3.exe
+
+Este paquete contiene tanto Glade como Gtk para el desarrollo en los sistemas
+Windows, instalarlo sin mayor problema , con el siguiente, siguiente ;-)
+
+A veces, segun le de, no pone la ruta de gtk en el path, asi, que es
+necesario especificar el path:
+Set path=%path%;c:\gtk\bin
+
+Hasta aqui la instalación de los requisitos minimos para sistemas windows,
+veremos mas tarde la configuracion de las rutas para compilar nuestros PRGS.
+
+
+# Sistemas GNU/Linux #
+
+Aqui, vais a tener que buscar una distribucion que contenga las GTK 2.6.
+Yo he instala la Mandriva, Mandrake 10.2, que para colmo de males no tenia
+nada de desarrollo de gtk y glade, asi que me toco ir a http://www.gtk.org
+bajarme los paquetes y compilarlos, por suerte no se me rompio nada ;-), cosa
+que con Fedora Core 1 si me ocurrio, y se me fue al carajo el servidor X al
+iniciar.
+
+En fin, en cualquier distro de hoy en dia, en GNU/Linux viene todo lo
+necesario, si no, buscar en los paquetes de tu distro para instalarlos.
+
+Los paquetes necesarios son los de gtk-devel y libglade, y la herramienta
+glade 2.0, para el diseño de nuestros formularios si asi lo queremos.
+
+Y ahora nos queda:
+
+# Instalando Tgtk y ambiente de trabajo. #
+Por último, nos queda instalar nuestra T-Gtk propiamente dicha.
+Actualmente, se suministra un simple fichero comprimido, tgtk.zip, que lo
+descomprimireis donde mas os plazca, aunque yo lo tengo como C:\TGTK o
+/home/rafa/TGTK , a gustos.
+
+Una vez descomprimido, solamente tenemos que tocar un archivo , Rules.make,
+que es el corazón del sistema, y segun el sistema operativo , indicaremos
+un valor u otro.
+
+OJO, este fichero , ahora es generado AUTOMATICAMENTE por la utilidad 
+configure , realizada integramente en T-Gtk, el cual teneis disponible el
+codigo fuente para que podais ver como se a realizado, donde antes habia
+que retocar manualmente, ahora no es necesario.
+
+De todas formas, se explica TODO lo importante de dicha configuracion, a 
+efectos de que seais capaces de comprender el funcionamiento, aunque sea 
+simplemente como curiosidad.
+
+Asi , las variables que debemos TOCAR, son:
+
+#Especifica aqui, si lo necesitas por no tenerlo en el entorno, SET,
+#las rutas del compilador de Harbour.
+#Bajo Windows especificar mingw32, bajo linux , poner , gcc .
+HB_COMPILER = mingw32
+
+Este flag, solamente sirve si estamos en GNU/Linux, no tiene efecto si
+estamos en un sistema Windows.
+
+# Para tener soporte de impresion en GNU/Linux a traves de gnome.
+# tenemos que tener instalado el paquete libgnomeprintui22-devel,
+# si queremos realizar la aplicacion con soporte de impresion.
+# Aqui , especificaremos los cFlags de compilacion necesarios para C
+SUPPORT_PRINT_LINUX=yes
+
+Despues es muy importante especificar las rutas de nuestro Harbour o xHarbour
+# Version para Windows XHARBOUR
+HB_BIN_INSTALL = c:/hargw/xharbour/bin
+HB_INC_INSTALL = c:/hargw/xharbour/include
+HB_LIB_INSTALL = c:/hargw/xharbour/lib
+
+Especificamos compilador xBase a usar, si harbour o xHarbour, en la 
+variable XBASE_COMPILER.
+
+XBASE_COMPILER = Opciones [ XHARBOUR ] o [ HARBOUR ]
+
+Ademas, debemos especificar DONDE estan nuestras rutas de librerias y includes
+propios de T-GTK
+
+#Rutas de librerias y de includes de TGTK.
+LIBDIR_TGTK=C:\TGTK\LIB
+INCLUDE_TGTK_PRG=C:\TGTK\INCLUDE
+
+Copiar las librerias adecuadas a tu compilar xBase al directorio /LIB y
+renombrar dichas librerias a libgclass.a y copiar la libreria C, libhbgtk.a,
+segun sistema operativo, tambien a /LIB.
+
+
+Ahora, despues de especificar que ambiente, qe compilar de xBase usaremos,
+solamente nos queda, si estamos en GNU/Linux, abrir el fichero Makefile,
+y donde pone mingw32-make, cambiarlo y poner make. ( ojo no quiteis el TAB )
+
+Asi, y SI habeis sobrevivido a esta charla, la prueba del algodon, vete a
+cualquier ejemplo, /test/gclass/demo, y ejecuta:
+make , o si estais en Windows, se llama, mingw32-make, si despues de eso
+os a generado el ejecutable, ejecutalo!!! y si funciona...
+
+ ¡¡¡ BIENVENIDO AL MARAVILLOSO MUNDO MULTIPLATAFORMA CON T-GTK !!!
+ ....y ya puedes seguir con esta guia basica, te será útil......
+
+******************************************************************************
+3.- Empezando, una ventana al mundo.
+******************************************************************************
+    Si, lo adivinastes , el hola mundo de los principiantes ;-)
+
+    #include "gclass.ch"
+     Function Main()
+        Local oWnd
+
+        DEFINE WINDOW oWnd TITLE "Hola Mundo"
+        ACTIVATE WINDOW oWnd
+
+     Return NIL
+     *Ejemplo1.prg
+
+Podeis apreciar la sencillez y lo maravilloso que pueden ser los objetos y
+su potencia aplicados al preprocesador de Harbour.
+
+Pero podemos tambien darle un poco mas de control, asi , a nuestra ventana
+recien creada , vamos a centrarla en la pantalla, ademas, vamos a
+proceder a dotarle de una salida controlada, no queremos que los usuarios
+se nos vayan por las ramas...
+
+  #include "gclass.ch"
+
+  Function Main()
+     Local oWnd
+
+     DEFINE WINDOW oWnd TITLE "Hola Mundo"
+
+     ACTIVATE WINDOW oWnd  CENTER ;
+         VALID( MsgBox( "Quieres salir",;
+         GTK_MSGBOX_OK+GTK_MSGBOX_CANCEL,GTK_MSGBOX_INFO ) == GTK_MSGBOX_OK )
+
+     Return NIL
+     *Ejemplo2.prg
+
+Ahora, cada vez que ejecutes la aplicacion, dicha aplicacion estara perfectamente
+centrada en la pantalla y ademas, cuando intentas salir te preguntara si quieres
+realmente abandonar.
+
+Ya veremos mas adelante el uso de la funcion MsgBox(), que fue mostrada aqui
+para que podamos comprobar como controlamos la salida de la aplicacion sin
+mayores problemas.
+
+Es perfectamente posible y realizable desde T-Gtk hacer lo mismo pero con
+funciones, pero te aseguro que es mucho mas tedioso de programar y no es
+tan sencillo como lo que estas viendo.
+
+Ahora, tambien podemos hacer que la ventana inicial tenga un tama?o.
+
+    #include "gclass.ch"
+
+    Function Main()
+        Local oWnd
+
+         DEFINE WINDOW oWnd TITLE "Hola Mundo" SIZE 500,100
+         ACTIVATE WINDOW oWnd CENTER
+
+     Return NIL
+     *Ejemplo3.prg
+
+Las ventanas, generalmente son nomodales, es decir, nos permiten saltar de una
+a otra sin problemas e interartuar con ellas.
+Podemos forzar a que solamente , hasta que la destruyamos, sea la unica la que
+tenga el poder de interactuar.
+
+#include "gclass.ch"
+
+Function Main()
+   Local oWnd, oBtn
+
+    DEFINE WINDOW oWnd TITLE "Hola Mundo"
+           DEFINE BOX oBox VERTICAL OF oWnd
+              DEFINE BUTTON oBtn TEXT "MODAL" ;
+                     ACTION Modal_yes() OF oBox
+              DEFINE BUTTON oBtn TEXT "NO MODAL" ;
+                     ACTION Modal_no() OF oBox
+    ACTIVATE WINDOW oWnd
+
+Return NIL
+
+Static Function Modal_Yes()
+   Local oWndModal
+      DEFINE WINDOW oWndModal TITLE "Soy Modal"
+      ACTIVATE WINDOW oWndModal MODAL
+Return nil
+
+Static Function Modal_NO()
+   Local oWndModal
+      DEFINE WINDOW oWndModal TITLE "SOY NOMODAL"
+      ACTIVATE WINDOW oWndModal
+Return nil
+*Ejemplo4.prg
+
+Bien hasta aqui, el uso de las ventanas, se da por finalizado.
+
+******************************************************************************
+4.- Dialogos.
+******************************************************************************
+En T-Gtk, un dialogo, tiene una diferencia bastante distinta a las ventanas
+que hemos visto.
+
+Para no marear , de momento, diremos que un dialogo contiene 2 areas diferen-
+ciadas, una, donde pondremos nuestros widgets y la otra, donde estaran los
+tipicos botones de acciones, tales como el boton de "Aceptar", etc...
+
+Los dialogos, son en aparencia, muy similares a las ventanas, y como tales
+vamos a disponer básicamente de los mismos comandos.
+
+Veremos, como el ejemplo1 de las ventanas, lo convertimos facilmente en
+un dialogo:
+
+    #include "gclass.ch"
+     Function Main()
+        Local oDlg
+
+        DEFINE DIALOG oDlg TITLE "Hola Mundo" SIZE 300,200
+        ACTIVATE DIALOG oDlg CENTER
+
+     Return NIL
+     *dialog1.prg
+
+Si observamos detenidamente entre el dialogo y la ventana, lo unico que
+veremos diferente es una linea al final de separación, y es tal y como habia-
+mos comentado, la separacion de entre las dos areas.
+
+Ahora bien, he dotado la posibilidad de 'quitar' también el separador,
+siendo casi "100%" similar a una ventana:
+
+    #include "gclass.ch"
+     Function Main()
+        Local oDlg
+
+        DEFINE DIALOG oDlg TITLE "Hola Mundo" SIZE 300,200
+        ACTIVATE DIALOG oDlg CENTER;
+                 NOSEPARATOR
+
+     Return NIL
+     *dialog2.prg
+
+La única diferencia con respecto a una ventana, la encontramos ahora que no
+nos permite redimensionar el dialogo, pero ¿ quien dijo que no es posible ?
+
+    #include "gclass.ch"
+     Function Main()
+        Local oDlg
+
+        DEFINE DIALOG oDlg TITLE "Hola Mundo" SIZE 300,200
+        ACTIVATE DIALOG oDlg CENTER;
+                 NOSEPARATOR ;
+                 RESIZABLE    /* Permitimos redimensionar dialogo */
+
+     Return NIL
+     *dialog3.prg
+
+Ahora, ya tenemos el dialogo similar a una ventana.
+Aparte , tenemos tambien a nuestra disposición las clausulas VALID, CENTER,
+exactamente igual que el de las ventanas
+
+    #include "gclass.ch"
+     Function Main()
+        Local oDlg
+
+        DEFINE DIALOG oDlg TITLE "Hola Mundo, salida condicionada" SIZE 300,200
+        ACTIVATE DIALOG oDlg CENTER;
+                 VALID( MsgBox( "Quieres salir", GTK_MSGBOX_OK+GTK_MSGBOX_CANCEL,GTK_MSGBOX_INFO ) == GTK_MSGBOX_OK )
+
+     Return NIL
+     *dialog4.prg
+
+Al contrario que las ventanas , que se crean como NO MODALES, y tenemos la
+opcion de hacerlas MODALES, los dialogos actuan exactamente al contrario,
+la simple creacion del dialogo es MODAL, y no dejaran hacer otra cosa fuera
+del dialogo, al menos que le digamos que queramos que sea NOMODAL.
+
+Muy rara vez es necesario un dialogo NOMODAL, y se recomienda no usarse a no
+ser que sea absolutamente imprescindible.
+Al igual que la ventana, en su activacion le indicaremos si lo queremos o no:
+
+     ACTIVATE DIALOG oDlg NOMODAL
+     *Ver dialog5.prg ( Similar al ejempo4.prg )
+
+Lo que hemos visto hasta ahora a sido la primera parte, pasaremos ahora
+a ver el tema del area de las acciones, donde se ubicaran los tipicos botones
+de acciones de un dialogo común y corriente.
+
+En los dialogos, podemos poner todos los botones que queramos, pero, según
+en Gtk, y por lo tanto en T-Gtk, vamos a tener por defecto unos cuantos y que
+son los siguientes:
+
+ON_YES    Pone un botón con un "SI"
+ON_NO     Pone un botón con un "NO"
+ON_OK     Pone un botón con un "OK"
+ON_CANCEL Pone un botón con un "Cancelar"
+ON_CLOSE  Pone un botón con un "Cerrar"
+ON_APPLY  Pone un botón con un "Aplicar"
+ON_HELP   Pone un botón con un "Ayuda"
+
+A cada opcion, le asignamos simplemente un accion a ejecutar:
+
+     #include "gclass.ch"
+
+     Function Main()
+        Local oDlg
+
+        DEFINE DIALOG oDlg TITLE "Botones por defecto"
+        ACTIVATE DIALOG oDlg CENTER;
+                 ON_YES    MsgInfo("ON_YES");
+                 ON_NO     MsgInfo("ON_NO") ;
+                 ON_OK     MsgInfo("ON_OK") ;
+                 ON_CANCEL MsgInfo("ON_CANCEL");
+                 ON_CLOSE  MsgInfo("ON_CLOSE");
+                 ON_APPLY  MsgInfo("ON_APPLY");
+                 ON_HELP   MsgInfo("ON_HELP")
+      Return NIL
+      *Dialog6.prg
+
+Pero, esto esta muy bien, pero a veces, siempre nos hace falta introducir
+un nuevo botón. Pues eso es tan simple como usar el comando siguiente:
+
+    ADD DIALOG <oDlg>   ;  /* Dialogo a donde va el boton */
+        BUTTON <cText>  ;  /* Texto del botón */
+        ACTION <uAction>   /* Accion a ejecutar */
+
+    * Ver dialog7.prg
+
+Por último, es más rapido y más estandar, usar los botones predefinidos para
+cosas comunes, usarlos, que para eso estan ;-)
+
+Hasta aqui, el tema de los dialogos, espero que con esta seria de ejemplos
+y explicaciones seais ya unos expertos en dialogos.
+
+******************************************************************************
+5.- Desde dentro, contenedores. Que son y como me afecta.
+******************************************************************************
+Como observastes en el ejemplo4.prg, vimos una de las multiples formas de
+trabajar en GTK+, aunque quizas, si vienes del mundo de Windows, donde
+la posicion de los controles es absoluta, mayoritariamente, en GTK+, y por
+tanto en T-Gtk, es radicalmente distinto, pues su funcionamiento se basa
+en el uso de contenedores.
+
+También, indirectamente, viendo como trabajan los dialogos, podeis haber
+apreciado ya el uso de los contenedores.
+
+Y explicaremos las distintas formas que poseemos a traves de T-Gtk y los
+distintos widgets que nos sirven como contenedores.
+
+Los distintos widgets contenedores que tenemos en T-Gtk, y varios ejemplos
+simples de ello.
+
+Tenemos disponibles, al momento de hacer esta guia básica, al nivel de POO :
+
++ BOX
++ NOTEBOOK
++ PANED
++ FRAME
++ FIXED
++ TABLES
+
+
+Un contenedor no es mas que un widget que puede 'contener' a su vez un unico
+widget. Un botón, por ejemplo, es un contenedor que contiene un widget label
+en su interior.
+
+A parte, en T-Gtk tenemos lo que se conoce como widgets de empaquetado.
+A diferencia de otros widgets, este tipo de widget no son visibles y,
+como su nombre indica, permite introducir mas de un widget.
+
+Empezaremos a estudiar la caja de empaquetamiento.
+
+Veremos todas y cada una de las posibles opciones que T-Gtk pone
+a nuestra disposicion.
+
+#include "gclass.ch"
+
+Function Main()
+  Local oWnd, oBox
+
+  DEFINE WINDOW oWnd TITLE "Cajas de Empaquetamiento"
+
+         DEFINE BOX oBox OF oWnd
+                DEFINE BUTTON PROMPT "Boton" OF oBox
+                DEFINE BUTTON PROMPT "Veremos un Boton" OF oBox
+                DEFINE LABEL PROMPT "Label como otro cualquiera" OF oBox
+
+  ACTIVATE WINDOW oWnd
+
+Return NIL
+
+Por defecto, la creacion de una caja de empaquetamiento dispone los
+distintos widgets en horizontal.
+
+
+Ahora, cambiemos simplemente una clausula en la creacion de la caja:
+
+       DEFINE BOX oBox OF oWnd VERTICAL
+
+Si comparamos los dos ejemplos, vemos como una simple instruccion,
+nos cambia radicalmente la disposicion de los botones y la etiqueta.
+Nosotros, no hemos tenido que ir a cambiar los widgets uno por uno,
+si no, por arte de magia, es la caja empaquetadora la que se encargará
+de ponerlos como nosotros le hallamos indicado.
+
+Pero, caray, si observamos detenidamente, nos gustaria que todos nuestros
+widgets sean igual de grandes.
+
+Otra vez, la caja es la encargada de ello.
+Si ahora le añadimos la declaracion:
+
+       DEFINE BOX oBox OF oWnd ;
+              VERTICAL HOMOGENEOUS /* HOMO esta tambien aceptado*/
+
+Podemos apreciar, que ahora , cada widget ocupa lo mismo que el mas
+grande del grupo.
+
+Pero, ademas, si queremos que entre ellos halla un espacio, tan simple
+como decirle a la caja dicha opcion, por ejemplo 10 pixels :
+
+       DEFINE BOX oBox OF oWnd ;
+              VERTICAL HOMOGENEOUS ;
+              SPACING 10
+
+Ya por último, comentaremos la última clausula que dispone la caja,
+que es LABELNOTEBOOK <uLabel>, muy por encima que y lo veremos
+cuando veamos el widget NoteBook.
+
+Cuando creamos un widget de NoteBook, debemos introducir un widget
+en su interior, pero ademas, tambien debemos indicar la etiqueta
+de la pestaña del notebook. ¿ Ya lo adivinastes ? :-)
+
+Pues, en T-Gtk, se a realizado que en un simple paso se realice
+todo de golpe. De todas formas, lo veremos ahora mismo, para
+sacaros de la duda.
+
+Asi , cuando queremos colocar un contenedor dentro de un notebook, la
+etiqueta del notebook se la vamos a especificar al widget hijo.
+
+       DEFINE BOX oBox OF oNotebook ;
+              LABELNOTEBOOK "Etiqueta del notebook"
+
+Pero terminemos de explicar el widget notebook ( o Libros de notas )
+Dicho widget, es conocido en el mundo windows como Folder. Como aqui le
+llaman notebook, no voy a cambiarle el nombre, asi que esto se llama notebook.
+
+El widget Notebook es una colección de `páginas' que se solapan las unas a
+las otras, cada unas con un contenido diferente.
+
+Para usar el notebook en T-Gtk tan simple como:
+
+   DEFINE WINDOW oWnd TITLE "Ejemplo de Notebook" SIZE 300,300
+
+      DEFINE NOTEBOOK oNote OF oWnd CONTAINER
+             DEFINE BOX oBox OF oNote ;
+                    LABELNOTEBOOK "Etiqueta del notebook"
+
+   ACTIVATE WINDOW oWnd CENTER
+   note1.prg
+
+Tan y como dijemos anteriormente, el notebook es un widget que podemos
+usarlo para meter mas contenedores y el widget hijo que vayamos a meter
+le indicamos la etiqueta que queremos que muestre.
+
+Si os fijais , hemos usado intencionadamente otra propiedad no usada
+hasta hora, y es la clausula CONTAINER.
+
+A veces, hay contenedores que no podemos ponerlos libremente con solo
+especificar el padre.
+
+Cuando diseñe el sistema de clases de T-Gtk me encontré con el dilema:
+¿ Y si mi aplicacion solamente es un boton en una ventana ?
+
+Una forma de resolver eso, es , según el ejemplo note1.prg, esta solucion,
+lo cual el comportamiento ES EXACTAMENTE IGUAL, pero más largo:
+
+   DEFINE WINDOW oWnd TITLE "Ejemplo de Notebook" SIZE 300,300
+
+     DEFINE BOX oBox OF oWnd
+        DEFINE NOTEBOOK oNote OF oBox EXPAND FILL
+   	    DEFINE BOX oBoxNote OF oNote ;
+                   LABELNOTEBOOK "Etiqueta del notebook"
+
+   ACTIVATE WINDOW oWnd CENTER
+   note2.prg
+
+Fijaos bien en las diferencias. A nivel de usuario, es identico, a nivel
+de programación , nos es mas comodo determinar que lo queremos incrustar
+como un contenedor usando CONTAINER.
+
+Generalmente, usaremos la 2 opcion porque nos brindará muchas mas
+posibilidades de empaquetamient, puesto que en el segundo ejemplo, si
+podemos añadir mas hijos a la ventana a traves de la caja, cosa que
+en el primero ejemplo, es imposible.
+
+Bueno, explicado el concepto de CONTAINER, seguimos centrados en el notebook.
+Tambien podemos indicar la posicion que queremos del notebook, y tenemos
+cuatro posiciones , representadas por las macros:
+
+ GTK_POS_LEFT
+ GTK_POS_RIGHT
+ GTK_POS_TOP, por defecto.
+ GTK_POS_BOTTOM
+
+ Creo que sobran comentarios , asi si queremos por ejemplo el ejemplo
+ anterior que se muestre a la derecha:
+
+   DEFINE WINDOW oWnd TITLE "Ejemplo de Notebook a la derecha" SIZE 300,300
+
+      DEFINE NOTEBOOK oNote OF oWnd CONTAINER
+             POSITION GTK_POS_RIGHT
+
+	DEFINE BOX oBox OF oNote ;
+               LABELNOTEBOOK "Etiqueta del notebook"
+
+   ACTIVATE WINDOW oWnd CENTER
+   note3.prg
+
+Una cosa, y algo no estaba de acuerdo, era que para que poner GTK_POS_LEFT,
+si era mas sencillo poner LEFT.
+Y tenia razon!! Pero yo quiero usar TAL Y COMO dice GTK como se pone a la
+derecha un notebook, asi, cuando profundiceis en las clases y funciones,
+vereis que es practicamente como en Lenguaje C y siguiendo tal y como esta
+en GTK+. Asi, de esta forma tan simple, NO TIENES PORQUE APRENDER NADA NUEVO!
+
+En fin, alguien se preguntará, como puedo poner mas pestañas a mi notebook,
+pues tan simple como, añadiendo mas pestañas!!!, y podemos controlar,
+cuando cambiamos de pestaña, ejecutar un accion:
+
+   DEFINE WINDOW oWnd TITLE "Mas pestañas" SIZE 300,300
+      DEFINE NOTEBOOK oNote OF oWnd CONTAINER ;
+             POSITION GTK_POS_RIGHT ;
+             ON CHANGE MsgInfo( "Pag. actual: " +;
+                                cValToChar( oNote:nPageCurrent ),"")
+
+          DEFINE BUTTON oBtn PROMPT "UN BOTON DENTRO" OF oNote ;
+	         CONTAINER ;
+                  ACTION MsgInfo( "Esto es tremendo!!","¿ Sencillo ?" ) ;
+	          LABELNOTEBOOK "Un boton"
+
+          DEFINE LABEL oLabel PROMPT "ALA!!!" ;
+	         OF oNote CONTAINER ;
+                 LABELNOTEBOOK "Label "
+
+          DEFINE BOX oBox OF oNote VERTICAL ;
+                  LABELNOTEBOOK "AQUI.Cosas"
+
+          DEFINE BUTTON oBtn PROMPT "UN BOTON Box" OF oBox
+          DEFINE BUTTON oBtn PROMPT "2 BOTON Box " OF oBox ;
+                        EXPAND FILL
+
+   ACTIVATE WINDOW oWnd CENTER
+   note4.prg
+
+Lo único que podemos decir , para acabar de usar este widget, es intentar
+poner un poco mas vistosa la etiqueta:
+
+   DEFINE WINDOW oWnd TITLE "Bonita etiqueta.Notebook" SIZE 300,300
+       DEFINE LABEL oLabel PROMPT cText MARKUP
+       DEFINE NOTEBOOK oNote OF oWnd CONTAINER
+
+              DEFINE BOX oBox OF oNote ;
+                    LABELNOTEBOOK oLabel /* Le pasamos el objeto directamente*/
+
+              DEFINE BOX oBox OF oNote ;
+                    LABELNOTEBOOK "Sin duda"
+
+   ACTIVATE WINDOW oWnd CENTER
+   note5.prg
+
+Estamos viendo widgets que de momento no hemos visto, digamos que es un
+aperitivo de lo que vendrá más adelante, pero para resaltar cosas de otros
+widgets no me queda mas remedio que ir adelante novedades.
+No os preocupeis, ya seguiremos viendo mas adelante.
+
+Ahora , podemos ver otro tipo de widget: PANED
+Este tipo de widget es conocido en el mundo win api como splitters.
+
+   DEFINE WINDOW oWindow TITLE "Test de Paneles " SIZE 200,200
+
+     DEFINE PANED oPaned OF oWindow
+            DEFINE LABEL PROMPT "HOLA"   OF oPaned
+            DEFINE LABEL PROMPT "HOLA 2" OF oPaned SECOND_PANED
+
+   ACTIVATE WINDOW oWindow
+   Paned1.prg
+
+Podeis apreciar la sencillez del codigo, y lo que se llega a conseguir en
+tan pocas lineas de codigo.
+
+Asi, T-gtk determina el primer elemento del panel en la declaracion del
+widget OF oPaned, se a realizado asi por comodidad
+
+A continuacion, solamente nos queda determinar que widget estara en la
+otra parte del panel, y esto se consigue poniendo la clausula SECOND_PANED,
+asi de simple, no es necesario nada mas.
+
+Podemos indicar con la clausula VERTICAL , la otra forma que tenemos de
+crear un paned.
+
+   DEFINE WINDOW oWindow TITLE "Test de Paneles " SIZE 200,200
+
+     DEFINE PANED oPaned OF oWindow VERTICAL
+            DEFINE LABEL PROMPT "HOLA"   OF oPaned
+            DEFINE LABEL PROMPT "HOLA 2" OF oPaned SECOND_PANED
+
+   ACTIVATE WINDOW oWindow
+   Paned2.prg
+
+Pero, como siempre debemos de tener muy presentes en que no podemos incrustar
+a la ligera widgets al panel. Si ya se que estais emociados, pero, no es
+posible hacer:
+     DEFINE PANED oPaned OF oWindow VERTICAL
+            DEFINE LABEL PROMPT "HOLA"           OF oPaned
+            DEFINE LABEL PROMPT "HOLA tambien"   OF oPaned
+
+Esto , a parte de que esta mal, porque , como hemos dicho, un panel no puede
+contener mas que un hijo, y estamos intentado 'aloajar' dos hijos.
+
+¿ Como se soluciona ?
+Muy sencillo, pues con otro contenedor, como una caja de empaquetamiento:
+
+   DEFINE WINDOW oWindow TITLE "Test de Paneles " SIZE 200,200
+
+     DEFINE PANED oPaned OF oWindow VERTICAL
+            DEFINE BOX oBox OF oPaned HOMO
+            DEFINE LABEL PROMPT "HOLA"           OF oBox
+            DEFINE LABEL PROMPT "HOLA tambien"   OF oBox
+
+            DEFINE LABEL PROMPT "HOLA 2" OF oPaned SECOND_PANED
+
+   ACTIVATE WINDOW oWindow
+   Paned3.prg
+
+Aunque parece absurdo estos ejemplos, son importantes para darnos cuenta
+de las cosas sencillas y el comportamiento entre los distintos widgets,
+sobre todo el tema del empaquetamiento.
+
+Es muy fácil intentar meterlo todo, como una maleta llena de ropa, rebosando
+la ropa por todos lados, y nosotros empedernidos en intentarla cerrar,pues
+con GTK es lo mismo, hay que hacer la maleta bien echa ;-)
+
+Y para ver mas cosas curiosas con los paneles, vamos a meter un panel dentro
+de otro.
+
+   DEFINE WINDOW oWindow TITLE "Test de Paneles " SIZE 200,200
+     DEFINE PANED oPaned OF oWindow VERTICAL
+       DEFINE PANED oPaned2 OF oPaned
+           DEFINE BUTTON PROMPT "Boton 1" OF oPaned2
+           DEFINE BUTTON PROMPT "Boton 2" OF oPaned2 SECOND_PANED
+       DEFINE LABEL PROMPT "HOLA 2" OF oPaned SECOND_PANED
+   ACTIVATE WINDOW oWindow
+   Paned4.prg
+
+La verdad, que una forma muy sencilla de ver toda esta teoria es verlo
+en directo y usando Glade os aseguro que os ayudara y mucho a entender el
+concepto del empaquetamiento de widgets.
+
+Visto los paneles, otro tipo de widget contenedor es el FRAME (Marco)
+Los marcos son contenedores que normalmente tienen un borde a su alrededor,
+asi como un titulo, que es utilizado para agrupar widgets.
+
+En T-GTK, la creacion de un marco es tan simple como:
+
+
+   DEFINE WINDOW oWnd TITLE "Test de Frame" SIZE 200,200
+     DEFINE FRAME oFrame OF oWnd CONTAINER;
+            TEXT "Frame"
+   ACTIVATE WINDOW oWnd
+   frame1.prg
+
+¿ Que a pasado ? Simplemente estamos viendo un texto, pero,
+¿ Esto no es un marco ? Si, lo que pasa es que por defecto esta el marco nulo.
+Para determinar que tipo de marco, usaremos la clausula SHADOW, que determina
+el tipo de borde y de las cual tenemos disponibles:
+
+ GTK_SHADOW_NONE
+ GTK_SHADOW_IN
+ GTK_SHADOW_OUT
+ GTK_SHADOW_ETCHED_IN
+ GTK_SHADOW_ETCHED_OUT
+
+   DEFINE WINDOW oWnd TITLE "Test de Frame " SIZE 400,400
+      DEFINE BOX oBox OF oWnd VERTICAL HOMO
+
+          DEFINE FRAME oFrame OF oBox EXPAND FILL ;
+                  TEXT "Frame Shadow In" ;
+                  SHADOW GTK_SHADOW_IN
+
+          DEFINE FRAME oFrame OF oBox EXPAND FILL ;
+                  TEXT "Frame Shadow Out";
+                  SHADOW GTK_SHADOW_OUT
+
+          DEFINE FRAME oFrame OF oBox EXPAND FILL ;
+                  TEXT "Frame Shadow Etched in" ;
+                  SHADOW GTK_SHADOW_ETCHED_IN
+
+          DEFINE FRAME oFrame OF oBox EXPAND FILL ;
+                  TEXT "Frame Shadow Etched out" ;
+                  SHADOW GTK_SHADOW_ETCHED_OUT
+
+   ACTIVATE WINDOW oWnd CENTER
+   frame2.prg
+
+Quizas a alguien le interese alinear el texto, se a creado una clausula para
+establecer las alinaciones, [ ALIGN nHor, nVer ]
+Por defecto, esta establecido a los valores 0, y 0.5 por eso sale situado
+la etiqueta a la izquierda.
+
+Asi tenemos que un 0 para la izquierda , 0.5 Centrado y 1 a la derecha para
+el valor nHor, y un 0 para abajo del frame, 0.5 para en medio del frame y
+un 1 para mostrar el texto por encima del frame.
+
+
+   DEFINE WINDOW oWnd TITLE "Test de Frame" SIZE 200,200
+     DEFINE FRAME oFrame OF oWnd CONTAINER ;
+            TEXT "Frame centrado" ;
+            SHADOW GTK_SHADOW_ETCHED_OUT ;
+            ALIGN 0.5,0.5
+   ACTIVATE WINDOW oWnd
+   frame3.prg
+
+Y por último, al igual que los notebooks, podemos poner la etiqueta un
+pelin mas maja ;-)
+
+   DEFINE WINDOW oWnd TITLE "Test de Frame Label " SIZE 300,300
+     DEFINE LABEL oLabel PROMPT cText MARKUP
+     DEFINE FRAME oFrame OF oWnd CONTAINER ;
+            LABEL oLabel ;
+            SHADOW GTK_SHADOW_ETCHED_OUT ;
+            ALIGN 1, 0.5
+   ACTIVATE WINDOW oWnd
+   frame4.prg
+
+En este ejemplo, si el texto que le pasamos al frame, es un objeto label,
+usará esa etiqueta como el texto del marco.
+Pues , de momento, con los FRAME ( marcos ) hemos terminado.
+
+El siguiente ejemplo que veremos, sera el widget FIXED, el cual nos
+proporciona una superfice para usar coordenadas absolutas y veremos tambien
+las clausulas de los widget POS que se usa solamente cuando el widget hijo
+se va a colocar precisamente en un widget FIXED.
+
+Podemos programar como el API de Win32 al que muchos estamos acostumbrados,
+en relacion a coordenadas absolutas, tan simple como:
+
+   DEFINE WINDOW oWnd TITLE "Coordenadas Absolutas " SIZE 300,300
+       DEFINE FIXED oFixed OF oWnd
+          DEFINE LABEL TEXT "MI LABEL EN 10,10" POS 10,10 OF oFixed
+          DEFINE LABEL TEXT "MI LABEL EN 10,30" POS 10,30 OF oFixed
+          DEFINE BUTTON PROMPT "BOTON 50,100" POS 50,100 OF oFixed
+          DEFINE IMAGE FILE "anieyes.gif" POS 10,130 OF oFixed
+   ACTIVATE WINDOW oWnd
+   fixed.prg
+
+Y no hay ningun misterio mas que explicar.
+
+Ahora nos queda, como contenedor, las tablas de empaquetado.
+El widget tables nos permite poner widgets al estilo de una tabla de HTML,
+proporcionandonos un control bidimensional en la colocacion de los widgets.
+
+La creacion de una tabla podemos especificar las columnas y filas que
+determinaran la tabla.
+Aunque el manual y la ayuda de GTK dice que si creamos una tabla 2x2, lo
+cierto, es que si colocamos un widget MAS ALLA, como si fuese una tabla de
+3x2, por ejemplo, GTK redimensionará la tabla a la nueva posicion.
+
+Pero esto no esta definido en ningun sitio, y lo mejor es determinar como sera
+el resultado final de la tabla.
+
+Vamos a crear una tabla de 2x2 y vamos a poner 2 botones arriba y uno
+que ocupe toda la parte de abajo
+
+    DEFINE WINDOW oWnd TITLE "Table"
+        DEFINE TABLE oTable ;
+                 ROWS 2 COLS 2 ;
+                 OF oWnd
+         // Arriba a la izquierda
+         DEFINE BUTTON PROMPT "Boton 1" OF oTable ;
+                 TABLEATTACH 0,1,0,1
+         // Arriba a la derecha
+         DEFINE BUTTON TEXT "Boton 2, como 2" OF oTable ;
+                 TABLEATTACH 1,2,0,1
+         // La parte de abajo , entera
+         DEFINE BUTTON TEXT "BOTON ENTERO" OF oTable ;
+                TABLEATTACH 0,2,1,2
+
+    ACTIVATE WINDOW oWnd
+    table1.prg
+
+Aqui estamos viendo una nueva clausula que incorporan la mayoria de widgets,
+TABLEATTACH < left,right,top,bottom  >
+
+Es un pelin complicado de entender, pero vamos a intentar explicar y la
+manera de colocar los widgets de una manera sumamente sencilla.
+Las columnas desde 0 a n Columnas y las filas desde 0 a n Filas.
+
+Cuando se añaden widgets, es necesario proporcionar, para cada widget,
+una columna inicial, C_X, una columna final, C_Y, una fila inicial, F_X, y
+una fila final F_Y.
+Asi, para colocar un widget en la parte superior izquierda el rango de
+columnas seria de 0 a 1 y el rango de filas seria tambien de 0,1.
+
+Asi, traduciendo esto , podemos proceder a cantar, :-)
+
+"Voy a meter un widget desde la Columna C_X hasta la columna C_Y, y ocupa
+desde la fila F_X a la fila F_Y."
+El recordad esta 'cancioncilla' te ayudará incrustar los widgets en el
+lugar apropiado ;-)
+
+De todas formas, con esta tabla se ve con mayor claridad.
+
+        C O L U M N A S
+   0,0        1          2
+ F    +--------+----------+
+ I    |        |          |
+ L  1 +--------+----------+
+ A    |        |          |
+ S  2 +--------+----------+
+      * Representacion de una tabla 2x2
+
+Asi, cogiendo un simple lapiz podeis trazar donde colocar el widget, y
+las columnas / filas que ocupan solamente las teneis que trasladarlas a traves
+de la clausula TABLEATTACH.
+
+Y por último, si en la creacion de la table, indicamos la clausula HOMO,
+todos los widgets seran iguales, al mas alto y al mas ancho, siendo homogeneo.
+
+
+    DEFINE WINDOW oWnd TITLE "Table"
+        DEFINE TABLE oTable ;
+                 ROWS 2 COLS 2 ;
+                 HOMO ;
+                 OF oWnd
+
+         // Arriba a la izquierda
+         DEFINE BUTTON PROMPT "Boton 1" OF oTable ;
+                 TABLEATTACH 0,1,0,1
+
+         // Abajo a la derecha
+         DEFINE BUTTON TEXT "Boton Ocupan lo mismo" OF oTable ;
+                 TABLEATTACH 1,2,1,2
+
+    ACTIVATE WINDOW oWnd CENTER
+    table2.prg
+
+TODO:// NUEVA CLAUSULA en la revision 0.5
+     [ TABLEOPTIONS <xOptions_ta>, <yOptions_ta> ] ];
+
+
+Pues con esto, de momento hemos terminado con los widgets contenedores que
+nos permitiran alojar a otros widgets.
+
+El siguiente paso será profundizar mas en el resto de widgets que tenemos
+actualmente en T-Gtk.
+
+******************************************************************************
+6.- Widgets
+******************************************************************************
+
+Empezaremos por el widget mas simple , la etiqueta o LABEL.
+Un label es como un SAY , es el widget quizas mas simple, pues , en principio,
+una etiqueta no controla ningun tipo de evento y simplemente sirve, para
+poner 'texto' en un widget.
+
+Asi, que para poner un texto , procederemos a explicar las clausulas que
+contiene y un breve ejemplo, pues no requiera mas de 10 lineas que es una
+etiqueta.
+
+ DEFINE LABEL [<oLabel>]  ;
+        [ <label: TEXT,LABEL,PROMPT> <cText> ];
+        [ <lMarkup: MARKUP> ] ;
+        [ FONT <oFont> ]
+
+
