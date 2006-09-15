@@ -23,9 +23,9 @@ programar de distintas maneras, como nativamente , a base de funciones,
 en programacion orientada al objeto , con glade, y todo mezclado a la vez,
 sin ningun tipo de problema.
 
-T-Gtk esta en continuo desarrollo, liberada como Freeware para todo aquel
-que quiera programar con la única limitación de tu imaginación, con más ya
-del 98% del código liberado, con contribuciones al mundo del Free Source,
+T-Gtk esta en continuo desarrollo, liberada como LGPL para todo aquel
+que quiera programar con la única limitación de tu imaginación, con ya
+el 100% del código liberado, con contribuciones al mundo del Free Source,
 como el soporte de impresión para GNU/Linux a traves de gnomeprint,
 donandolo a todo aquel que quiera usarla , dejandola como LGPL.
 
