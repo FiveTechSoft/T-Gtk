@@ -1,0 +1,5 @@
+Ejemplo de conexion con Postgres.
+
+Hasta los momentos ha sido probado por mi persona solo en GNU/Linux Fedora Core 5.
+
+Riztan Gutierrez.
