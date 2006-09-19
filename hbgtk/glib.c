@@ -1,4 +1,4 @@
-/* $Id: glib.c,v 1.2 2006-09-14 14:22:23 rosenwla Exp $*/
+/* $Id: glib.c,v 1.3 2006-09-19 14:42:42 rosenwla Exp $*/
 /*
     LGPL Licence.
 
@@ -33,6 +33,7 @@
 
 #include "hbapi.h"
 #include "hbvm.h"
+#include "hbstack.h"
 
 // Atencion esto esta para mantener compatibilidad con xHarbour anteriores
 // Deberá desaparecer , pero lo necesito ahora
@@ -73,6 +74,7 @@ HB_FUNC( G_SOURCE_REMOVE )
 }
 
 #ifdef __BETA__
+
 HB_FUNC( G_KEY_FILE_NEW )
 {
    GKeyFile * GKeyFile* g_key_file_new();
@@ -98,7 +100,9 @@ HB_FUNC( G_KEY_FILE_LOAD_FROM_FILE )
                                          (const gchar *) hb_parc( 2 ),
                                          (GKeyFileFlags) hb_parni( 3 ),
                                          &error) )
-      g_print( "Error de apertura : %s", error->message );
+      g_print ("Unexpected error: (%s, %d) %s\n",
+          g_quark_to_string ((*error)->domain),
+          (*error)->code, (*error)->message);
 
    g_error_free (error);
    hb_retl( ret );
@@ -114,7 +118,9 @@ HB_FUNC( G_KEY_FILE_LOAD_FROM_DATA )
                                          (gsize) hb_parclen( 2 ),
                                          (GKeyFileFlags) hb_parni( 3 ),
                                          &error) )
-      g_print( "Error de apertura : %s", error->message );
+      g_print ("Unexpected error: (%s, %d) %s\n",
+          g_quark_to_string ((*error)->domain),
+          (*error)->code, (*error)->message);
 
    g_error_free (error);
    hb_retl( ret );
@@ -130,7 +136,9 @@ HB_FUNC( G_KEY_FILE_LOAD_FROM_DATA_DIRS )
                                               (gchar **) hb_parc( 3 ),
                                               (GKeyFileFlags) hb_parni( 4 ),
                                               &error) )
-      g_print( "Error de apertura : %s", error->message );
+      g_print ("Unexpected error: (%s, %d) %s\n",
+          g_quark_to_string ((*error)->domain),
+          (*error)->code, (*error)->message);
 
    g_error_free (error);
    hb_retl( ret );
@@ -146,7 +154,9 @@ HB_FUNC( G_KEY_FILE_TO_DATA )
                                    &ilen,
                                    &error);
    if ( !error ){
-      g_print( "Error de apertura : %s", error->message );
+      g_print ("Unexpected error: (%s, %d) %s\n",
+          g_quark_to_string ((*error)->domain),
+          (*error)->code, (*error)->message);
       g_error_free (error);
       return NULL;
       }
@@ -177,12 +187,10 @@ HB_FUNC( G_KEY_FILE_GET_GROUPS )
       uiMemberSize = sizeof( gchar * );
 
       for( ulIndex = 0; ulIndex < ulLen; ulIndex++ ){
-         if !( *( (gchar **) ( ret + uiOffset ) ) == NULL ){
+         if ( *( (gchar **) ( ret + uiOffset ) ) != NULL ){
             hb_itemPutC( element, *( (gchar **) ( ret + uiOffset ) ) );
             hb_itemArrayPut( pRet, ulIndex, element )
             }
-         else
-            break;
          uiOffset += uiMemberSize;
       }
       g_strfreev((gchar**) ret);
@@ -212,12 +220,10 @@ HB_FUNC( G_KEY_FILE_GET_KEYS )
       uiMemberSize = sizeof( gchar * );
 
       for( ulIndex = 0; ulIndex < ulLen; ulIndex++ ){
-         if !( *( (gchar **) ( ret + uiOffset ) ) == NULL ){
+         if ( *( (gchar **) ( ret + uiOffset ) ) != NULL ){
             hb_itemPutC( element, *( (gchar **) ( ret + uiOffset ) ) );
             hb_itemArrayPut( pRet, ulIndex, element )
             }
-         else
-            break;
          uiOffset += uiMemberSize;
       }
       g_strfreev((gchar**) ret);
@@ -284,6 +290,7 @@ HB_FUNC( G_KEY_FILE_GET_STRING )
       g_print( _("Error de apertura : %s"), error->message );
       g_error_free (error);
       }
+   g_free( ret );
 }
 
 HB_FUNC( G_KEY_FILE_GET_LOCALE_STRING )
@@ -302,6 +309,7 @@ HB_FUNC( G_KEY_FILE_GET_LOCALE_STRING )
       g_print( "Error de apertura : %s", error->message );
       g_error_free (error);
       }
+   g_free( ret );
 }
 
 HB_FUNC( G_KEY_FILE_GET_BOOLEAN )
@@ -365,7 +373,7 @@ HB_FUNC( G_KEY_FILE_GET_STRING_LIST )
                                     &length,
                                     &error);
    if ( length != NULL ){
-      gulong ulLen = * length;
+      gulong ulLen = length;
       gulong ulIndex;
       guint uiOffset, uiMemberSize;
       PHB_ITEM pRet = hb_itemArrayNew( ulLen );
@@ -375,12 +383,10 @@ HB_FUNC( G_KEY_FILE_GET_STRING_LIST )
       uiMemberSize = sizeof( gchar * );
 
       for( ulIndex = 0; ulIndex < ulLen; ulIndex++ ){
-         if !( *( (gchar **) ( ret + uiOffset ) ) == NULL ){
+         if ( *( (gchar **) ( ret + uiOffset ) ) != NULL ){
             hb_itemPutC( element, *( (gchar **) ( ret + uiOffset ) ) );
             hb_itemArrayPut( pRet, ulIndex, element );
             }
-         else
-            break;
          uiOffset += uiMemberSize;
       }
       g_strfreev((gchar**) ret);
@@ -405,7 +411,7 @@ HB_FUNC( G_KEY_FILE_GET_LOCALE_STRING_LIST )
                                            &length,
                                            &error);
    if ( length != NULL ){
-      gulong ulLen = * length;
+      gulong ulLen = length;
       gulong ulIndex;
       guint uiOffset, uiMemberSize;
       PHB_ITEM pRet = hb_itemArrayNew( ulLen );;
@@ -415,12 +421,10 @@ HB_FUNC( G_KEY_FILE_GET_LOCALE_STRING_LIST )
       uiMemberSize = sizeof( gchar * );
 
       for( ulIndex = 0; ulIndex < ulLen; ulIndex++ ){
-         if !( *( (gchar **) ( ret + uiOffset ) ) == NULL ){
+         if ( *( (gchar **) ( ret + uiOffset ) ) != NULL ){
             hb_itemPutC( element, *( (gchar **) ( ret + uiOffset ) ) );
             hb_itemArrayPut( pRet, ulIndex, element );
             }
-         else
-            break;
          uiOffset += uiMemberSize;
       }
       g_strfreev((gchar**) ret);
@@ -444,7 +448,7 @@ HB_FUNC( G_KEY_FILE_GET_BOOLEAN_LIST )
                                      &length,
                                      &error);
    if ( length != NULL ){
-      gulong ulLen = * length;
+      gulong ulLen = length;
       gulong ulIndex;
       guint uiOffset, uiMemberSize;
       PHB_ITEM pRet = hb_itemArrayNew( ulLen );
@@ -456,9 +460,6 @@ HB_FUNC( G_KEY_FILE_GET_BOOLEAN_LIST )
       for( ulIndex = 0; ulIndex < ulLen; ulIndex++ ){
             hb_itemPutL( element, *( (gboolean *) ( ret + uiOffset ) ) );
             hb_itemArrayPut( pRet, ulIndex, element );
-
-         else
-            break;
          uiOffset += uiMemberSize;
       }
       g_strfreev((gchar**) ret);
@@ -482,7 +483,7 @@ HB_FUNC( G_KEY_FILE_GET_INTEGER_LIST )
                                      &length,
                                      &error);
    if ( length != NULL ){
-      gulong ulLen = * length;
+      gulong ulLen = length;
       gulong ulIndex;
       guint uiOffset, uiMemberSize;
       PHB_ITEM pRet = hb_itemArrayNew( ulLen );
@@ -495,8 +496,6 @@ HB_FUNC( G_KEY_FILE_GET_INTEGER_LIST )
             hb_itemPutL( element, *( (gint *) ( ret + uiOffset ) ) );
             hb_itemArrayPut( pRet, ulIndex, element );
 
-         else
-            break;
          uiOffset += uiMemberSize;
       }
       g_strfreev((gchar**) ret);
@@ -520,8 +519,8 @@ HB_FUNC( G_KEY_FILE_GET_DOUBLE_LIST )
                                      (const gchar *) hb_parc( 3 ),
                                      &length,
                                      &error);
-   if ( length != NULL ){
-      gulong ulLen = * length;
+   if ( length != 0 ){
+      gulong ulLen = length;
       gulong ulIndex;
       guint uiOffset, uiMemberSize;
       PHB_ITEM pRet = hb_itemArrayNew( ulLen );
@@ -615,7 +614,7 @@ HB_FUNC( G_KEY_FILE_SET_DOUBLE )
                          (const gchar *) hb_parc( 3 ),
                          (gdouble) hb_parnl( 4 ));
 }
-
+/*
 HB_FUNC( G_KEY_FILE_SET_STRING_LIST )
 {
    PHB_ITEM pList = hb_param( 4, HB_IT_ARRAY );
@@ -679,8 +678,8 @@ HB_FUNC( G_KEY_FILE_SET_LOCALE_STRING_LIST )
          }
    }
    if ( length != 0 ){
-//      list = g_renew( gchar *, list, uiOffset+1 );
-//      *( (const gchar *) ( list + 1 ) ) = NULL;
+      list = g_renew( gchar, list, uiOffset+1 );
+      g_stpcpy( (gchar *) ( list + uiOffset+1 ), NULL );
       g_key_file_set_locale_string_list((GKeyFile *) hb_parnl( 1 ),
                                         (const gchar *) hb_parc( 2 ),
                                         (const gchar *) hb_parc( 3 ),
@@ -722,7 +721,7 @@ HB_FUNC( G_KEY_FILE_SET_BOOLEAN_LIST )
                                list,
                                (gsize) length);
 }
-
+*/
 HB_FUNC( G_KEY_FILE_SET_INTEGER_LIST )
 {
    PHB_ITEM pList = hb_param( 4, HB_IT_ARRAY );
@@ -754,7 +753,7 @@ HB_FUNC( G_KEY_FILE_SET_INTEGER_LIST )
                                list,
                                (gsize) length);
 }
-
+/*
 HB_FUNC( G_KEY_FILE_SET_DOUBLE_LIST )
 {
    PHB_ITEM pList = hb_param( 5, HB_IT_ARRAY );
@@ -786,7 +785,7 @@ HB_FUNC( G_KEY_FILE_SET_DOUBLE_LIST )
                                  list,
                                  (gsize) length);
 }
-
+*/
 HB_FUNC( G_KEY_FILE_SET_COMMENT )
 {
    GError * error = NULL;
