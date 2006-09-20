@@ -1,4 +1,4 @@
-/* $Id: gtkfileselec.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkfileselec.c,v 1.2 2006-09-20 09:45:10 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -30,8 +30,6 @@
 #include "hbapi.h"
 #include "hbvm.h"
 
-gint ClickEvent( GtkWidget * widget, gpointer data );
-
 HB_FUNC( GTK_FILE_SELECTION_NEW )
 {
   GtkWidget * filesel;
@@ -44,19 +42,6 @@ HB_FUNC( GTK_FILE_SELECTION_NEW )
                             (gpointer) filesel);
 
   hb_retnl( (glong) filesel );
-}
-
-HB_FUNC( HB_GTK_FILE_SELECTION_CONNECT_OK_BUTTON )
-{
-  GtkWidget * filesel = ( GtkWidget * ) hb_parnl( 1 );
-  gchar     * cFunc   = ( gchar * ) hb_parc( 2 );
-
-  g_signal_connect (GTK_FILE_SELECTION (filesel)->ok_button,
-                    "clicked", G_CALLBACK( ClickEvent ), cFunc );
-
-  g_signal_connect_swapped (GTK_FILE_SELECTION (filesel)->ok_button,
-                            "clicked", G_CALLBACK (gtk_widget_destroy),
-                            (gpointer) filesel);
 }
 
 HB_FUNC( GTK_FILE_SELECTION_HIDE_FILEOP_BUTTONS )
