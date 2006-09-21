@@ -1,218 +1,113 @@
-/* $Id: events.h,v 1.1 2006-09-11 16:43:38 xthefull Exp $*/
+/* $Id: events.h,v 1.2 2006-09-21 12:51:11 rosenwla Exp $*/
 // Statics vars , for events.c
-#include <gtk/gtk.h>
-gchar *array[] = { "clicked",                   /* 0 -- GtkButton -- */
-                   "pressed",                   /* 1 -- GtkButton -- */
-                   "released",                  /* 2 -- GtkButton -- */
-                   "enter",                     /* 3 -- GtkButton -- */
-                   "leave",                     /* 4 -- GtkButton -- */
-                   "toggled",                   /* 5 -- GtkToggleButton*/
-                   "delete-event",              /* 6 -- GtkWidget -- */
-                   "day-selected",              /* 7 -- GtkCalendar  -- */
-                   "day-selected-double-click", /* 8 -- GtkCalendar  -- */
-                   "month-changed",             /* 9 -- GtkCalendar  -- */
-                   "next-month",                /*10 -- GtkCalendar  -- */
-                   "next-year",                 /*11 -- GtkCalendar  -- */
-                   "prev-month",                /*12 -- GtkCalendar  -- */
-                   "prev-year",                 /*13 -- GtkCalendar  -- */
-                   "activate",                  /*14*/
-                   "focus-out-event",           /*15 -- GtkWidget -- */
-                   "key-press-event",           /*16 -- GtkWidget -- */
-                   "response",                  /*17 -- GtkDialog -- */
-                   "destroy",                   /*18 -- GtkWidget -- */
-                   "focus-in-event",            /*19 -- GtkWidget -- */
-                   "changed",                   /*20*/
-                   "value-changed",             /*21 -- GtkRange  -- */
-                   "move-slider",               /*22 -- GtkRange  -- */
-                   "expose-event",              /*23 -- GtkWidget -- */
-                   "select-child",              /*24*/
-                   "selection-changed",         /*25*/
-                   "switch-page",               /*26*/
-                   "key-release-event",         /*27 -- GtkWidget    -- */
-                   "group-changed",             /*28 Pendiente, no logro que funcione! */
-                   "row-activated",             /*29*/
-                   "cell_toggled",              /*30 OJO! realmente la señal es toggled, para las cell.*/
-                   "insert-at-cursor",          /*31*/
-                   "show-menu",                 /*32*/
-                   "item-activated",            /*33*/
-                   "configure-event",           /*34 -- GtkWidget -- */
-                   "realize" ,                  /*35 -- GtkWidget -- */
-                   "unrealize" ,                /*36 -- GtkWidget -- */
-                   "cursor-changed",            /*37*/
-                   "edited",                    /*38*/
-                   "event",                     /*39 -- GtkWidget -- */
-                   "enter-notify-event" ,       /*40 -- GtkWidget -- */
-                   "leave-notify-event" ,       /*41 -- GtkWidget -- */
-                   "accel-closures-changed",    /*42 -- GtkWidget -- */
-                   "button-press-event",        /*43 -- GtkWidget -- */
-                   "button-release-event",      /*44 -- GtkWidget -- */
-                   "can-activate-accel",        /*45 -- GtkWidget -- */ 
-                   "child-notify",              /*46 -- GtkWidget -- */   
-                   "client-event",              /*47 -- GtkWidget -- */
-                   "destroy-event",             /*48 -- GtkWidget -- */
-                   "direction-changed",         /*49 -- GtkWidget -- */
-                   "event-after",               /*50 -- GtkWidget -- */
-                   "focus",                     /*51 -- GtkWidget -- */
-                   "add",                       /*52 -- GtkContainer -- */
-                   "remove",                    /*53 -- GtkContainer -- */
-                   "set-focus-child",           /*54 -- GtkContainer -- */
-                   "check-resize",              /*55 -- GtkContainer -- */
-                   "grab-broken-event",         /*56 -- GtkWidget -- */
-                   "grab-focus",                /*57 -- GtkWidget -- */
-                   "grab-notify",               /*58 -- GtkWidget -- */
-                   "hide",                      /*59 -- GtkWidget -- */
-                   "hierarchy-changed",         /*60 -- GtkWidget -- */
-                   "map",                       /*61 -- GtkWidget -- */
-                   "map-event",                 /*62 -- GtkWidget -- */
-                   "mnemonic-activate",         /*63 -- GtkWidget -- */
-                   "motion-notify-event",       /*64 -- GtkWidget -- */
-                   "no-expose-event",           /*65 -- GtkWidget -- */
-                   "parent-set",                /*66 -- GtkWidget -- */
-                   "popup-menu",                /*67 -- GtkWidget -- */
-                   "property-notify-event",     /*68 -- GtkWidget -- */
-                   "proximity-in-event",        /*69 -- GtkWidget -- */
-                   "proximity-out-event",       /*70 -- GtkWidget -- */
-                   "screen-changed",            /*71 -- GtkWidget -- */
-                   "scroll-event",              /*72 -- GtkWidget -- */
-                   "selection-clear-event",     /*73 -- GtkWidget -- */
-                   "selection-get",             /*74 -- GtkWidget -- */
-                   "selection-notify-event",    /*75 -- GtkWidget -- */
-                   "selection-received",        /*76 -- GtkWidget -- */
-                   "selection-request-event",   /*77 -- GtkWidget -- */
-                   "show",                      /*78 -- GtkWidget -- */
-                   "show-help",                 /*79 -- GtkWidget -- */
-                   "size-allocate",             /*80 -- GtkWidget -- */
-                   "size-request",              /*81 -- GtkWidget -- */
-                   "state-changed",             /*82 -- GtkWidget -- */
-                   "style-set",                 /*83 -- GtkWidget -- */ 
-                   "unmap",                     /*84 -- GtkWidget -- */
-                   "unmap-event",               /*85 -- GtkWidget -- */ 
-                   "visibility-notify-event",   /*86 -- GtkWidget -- */
-                   "window-state-event",        /*87 -- GtkWidget -- */
-                   "activate-default",          /*88 -- GtkWindow -- */
-                   "activate-focus",            /*89 -- GtkWindow -- */
-                   "frame-event",               /*90 -- GtkWindow -- */
-                   "keys-changed",              /*91 -- GtkWindow -- */
-                   "move-focus",                /*92 -- GtkWindow -- */
-                   "set-focus",                 /*93 -- GtkWindow -- */
-                   "close",                     /*94 -- GtkDialog -- */
-                   "accept-position",           /*95 -- GtkPaned  -- */
-                   "cancel-position",           /*96 -- GtkPaned  -- */
-                   "cycle-child-focus",         /*97 -- GtkPaned  -- */
-                   "cycle-handle-focus",        /*98 -- GtkPaned  -- */
-                   "move-handle",               /*99 -- GtkPaned  -- */
-                   "toggle-handle-focus",      /*100 -- GtkPaned  -- */
-                   "adjust-bounds",            /*101 -- GtkRange  -- */
-                   /* change-value, OJO SpinButton tiene mismo nombre, pero recibe != pararametros-- */
-                   "change-value",             /*102 -- GtkRange  -- */
-                   "move-focus-out",           /*103 -- GtkScrolledWindow  -- */
-                   "scroll-child",             /*104 -- GtkScrolledWindow  -- */
-                    };  /**/
 
+static TGtkActionParce array[] = {
+               {"clicked",                   "OnClicked",                   G_CALLBACK( OnEventos )},                /* 0 -- GtkButton -- */
+               {"pressed",                   "OnPressed",                   G_CALLBACK( OnEventos )},                /* 1 -- GtkButton -- */
+               {"released",                  "OnReleased",                  G_CALLBACK( OnEventos )},                /* 2 -- GtkButton -- */
+               {"enter",                     "OnEnter",                     G_CALLBACK( OnEventos )},                /* 3 -- GtkButton -- */
+               {"leave",                     "OnLeave",                     G_CALLBACK( OnEventos )},                /* 4 -- GtkButton -- */
+               {"toggled",                   "OnToggled",                   G_CALLBACK( OnEventos )},                /* 5 -- GtkToggleButton*/
+               {"delete-event",              "OnDelete_event",              G_CALLBACK( OnDelete_Event )},           /* 6 -- GtkWidget -- */
+               {"day-selected",              "OnDay_selected",              G_CALLBACK( OnEventos )},                /* 7 -- GtkCalendar  -- */
+               {"day-selected-double-click", "OnDay_selected_double_click", G_CALLBACK( OnEventos )},                /* 8 -- GtkCalendar  -- */
+               {"month-changed",             "OnMonth_changed",             G_CALLBACK( OnEventos )},                /* 9 -- GtkCalendar  -- */
+               {"next-month",                "OnNext_month",                G_CALLBACK( OnEventos )},                /*10 -- GtkCalendar  -- */
+               {"next-year",                 "OnNext_year",                 G_CALLBACK( OnEventos )},                /*11 -- GtkCalendar  -- */
+               {"prev-month",                "OnPrev_month",                G_CALLBACK( OnEventos )},                /*12 -- GtkCalendar  -- */
+               {"prev-year",                 "OnPrev_year",                 G_CALLBACK( OnEventos )},                /*13 -- GtkCalendar  -- */
+               {"activate",                  "OnActivate",                  G_CALLBACK( OnEventos )},                /*14*/
+               {"focus-out-event",           "OnFocus_out_event",           G_CALLBACK( OnFocusEvent )},             /*15 -- GtkWidget -- */
+               {"key-press-event",           "OnKey_press_event",           G_CALLBACK( OnKeyPressEvent )},          /*16 -- GtkWidget -- */
+               {"response",                  "OnResponse",                  G_CALLBACK( OnResponse )},               /*17 -- GtkDialog -- */
+               {"destroy",                   "OnDestroy",                   G_CALLBACK( OnEventos )},                /*18 -- GtkWidget -- */
+               {"focus-in-event",            "OnFocus_in_event",            G_CALLBACK( OnFocusEvent )},             /*19 -- GtkWidget -- */
+               {"changed",                   "OnChanged",                   G_CALLBACK( OnEventos )},                /*20*/
+               {"value-changed",             "OnValue_changed",             G_CALLBACK( OnEventos )},                /*21 -- GtkRange  -- */
+               {"move-slider",               "OnMove_slider",               G_CALLBACK( OnMove_slider )},            /*22 -- GtkRange  -- */
+               {"expose-event",              "OnExpose_Event",              G_CALLBACK( OnExpose_Event )},           /*23 -- GtkWidget -- */
+               {"select-child",              "OnSelect_child",              G_CALLBACK( OnSelect_child )},           /*24*/
+               {"selection-changed",         "OnSelection_changed",         G_CALLBACK( OnSelection_changed )},      /*25*/
+               {"switch-page",               "OnSwitch_page",               G_CALLBACK( OnSwitch_page )},            /*26*/
+               {"key-release-event",         "OnKey_release_event",         G_CALLBACK( OnKeyPressEvent )},          /*27 -- GtkWidget    -- */
+               {"group-changed",             "OnGroup_changed",             G_CALLBACK( OnGroup_changed )},          /*28 Pendiente, no logro que funcione! */
+               {"row-activated",             "OnRow_Activated",             G_CALLBACK( OnRow_activated )},          /*29*/
+               {"toggled",                   "OnCell_toggled",              G_CALLBACK( OnCell_toggled )},           /*30 OJO! realmente la señal es toggled, para las cell.*/
+               {"insert-at-cursor",          "OnInsert_At_Cursor",          G_CALLBACK( OnInsert_at_cursor )},       /*31*/
+               {"show-menu",                 "OnShow_Menu",                 G_CALLBACK( OnEventos )},                /*32*/
+               {"item-activated",            "OnItem_Activated",            G_CALLBACK( OnItem_Activated )},         /*33*/
+               {"configure-event",           "OnConfigure_Event",           G_CALLBACK( OnConfigure_Event )},        /*34 -- GtkWidget -- */
+               {"realize",                   "OnRealize",                   G_CALLBACK( OnEventos_void )},           /*35 -- GtkWidget -- */
+               {"unrealize",                 "OnUnrealize",                 G_CALLBACK( OnEventos_void )},           /*36 -- GtkWidget -- */
+               {"cursor-changed",            "OnCursorChanged",             G_CALLBACK( OnCursor_Changed )},         /*37*/
+               {"edited",                    "OnEdited",                    G_CALLBACK( OnEdited )},                 /*38*/
+               {"event",                     "OnEvent",                     G_CALLBACK( OnDelete_Event )},           /*39 -- GtkWidget -- */
+               {"enter-notify-event",        "OnEnterNotifyEvent",          G_CALLBACK( OnEnter_Leave_NotifyEvent )},/*40 -- GtkWidget -- */
+               {"leave-notify-event",        "OnLeaveNotifyEvent",          G_CALLBACK( OnEnter_Leave_NotifyEvent )},/*41 -- GtkWidget -- */
+               {"accel-closures-changed",    "OnAccelClosuresChanged",      G_CALLBACK( OnEventos_void )},           /*42 -- GtkWidget -- */
+               {"button-press-event",        "OnButtonPressEvent",          G_CALLBACK( OnButton_Press_Event )},     /*43 -- GtkWidget -- */
+               {"button-release-event",      "OnButtonReleaseEvent",        G_CALLBACK( OnButton_Press_Event )},     /*44 -- GtkWidget -- */
+               {"can-activate-accel",        "OnCanActivateAccel",          G_CALLBACK( OnCan_Activate_Accel )},     /*45 -- GtkWidget -- */
+               {"child-notify",              "OnChildNotify",               G_CALLBACK( OnChild_Notify )},           /*46 -- GtkWidget -- */
+               {"client-event",              "OnClientEvent",               G_CALLBACK( OnClient_Event )},           /*47 -- GtkWidget -- */
+               {"destroy-event",             "OnDestroyEvent",              G_CALLBACK( OnDelete_Event )},           /*48 -- GtkWidget -- */
+               {"direction-changed",         "OnDirectionChanged",          G_CALLBACK( OnDirection_Changed )},      /*49 -- GtkWidget -- */
+               {"event-after",               "OnEventAfter",                G_CALLBACK( OnEvent_After )},            /*50 -- GtkWidget -- */
+               {"focus",                     "OnFocus",                     G_CALLBACK( OnFocus )},                  /*51 -- GtkWidget -- */
+               {"add",                       "OnAdd",                       G_CALLBACK( OnSignals_Container )},      /*52 -- GtkContainer -- */
+               {"remove",                    "OnRemove",                    G_CALLBACK( OnSignals_Container )},      /*53 -- GtkContainer -- */
+               {"set-focus-child",           "OnSetFocusChild",             G_CALLBACK( OnSignals_Container )},      /*54 -- GtkContainer -- */
+               {"check-resize",              "OnCheckResize",               G_CALLBACK( OnCheck_Resize )},           /*55 -- GtkContainer -- */
+               {"grab-broken-event",         "OnGrabBrokenEvent",           G_CALLBACK( OnGrab_Broken_Event )},      /*56 -- GtkWidget -- */
+               {"grab-focus",                "OnGrabFocus",                 G_CALLBACK( OnEventos_void )},           /*57 -- GtkWidget -- */
+               {"grab-notify",               "OnGrabNotify",                G_CALLBACK( OnGrab_Notify )},            /*58 -- GtkWidget -- */
+               {"hide",                      "OnHide",                      G_CALLBACK( OnEventos_void )},           /*59 -- GtkWidget -- */
+               {"hierarchy-changed",         "OnHierarchyChanged",          G_CALLBACK( OnHierarchy_Changed )},      /*60 -- GtkWidget -- */
+               {"map",                       "OnMap",                       G_CALLBACK( OnEventos_void )},           /*61 -- GtkWidget -- */
+               {"map-event",                 "OnMapEvent",                  G_CALLBACK( OnDelete_Event )},           /*62 -- GtkWidget -- */
+               {"mnemonic-activate",         "OnMnemonicActivate",          G_CALLBACK( OnMnemonic_Activate )},      /*63 -- GtkWidget -- */
+               {"motion-notify-event",       "OnMotionNotifyEvent",         G_CALLBACK( OnMotion_Notify_Event )},    /*64 -- GtkWidget -- */
+               {"no-expose-event",           "OnNoExposeEvent",             G_CALLBACK( OnNo_Expose_Event )},        /*65 -- GtkWidget -- */
+               {"parent-set",                "OnParentSet",                 G_CALLBACK( OnParent_Set )},             /*66 -- GtkWidget -- */
+               {"popup-menu",                "OnPopupMenu",                 G_CALLBACK( OnEventos )},                /*67 -- GtkWidget -- */
+               {"property-notify-event",     "OnPropertyNotifyEvent",       G_CALLBACK( OnProperty_Notify_Event )},  /*68 -- GtkWidget -- */
+               {"proximity-in-event",        "OnProximityInEvent",          G_CALLBACK( OnProximity_Event )},        /*69 -- GtkWidget -- */
+               {"proximity-out-event",       "OnProximityOutEvent",         G_CALLBACK( OnProximity_Event )},        /*70 -- GtkWidget -- */
+               {"screen-changed",            "OnScreenChanged",             G_CALLBACK( OnScreen_Changed )},         /*71 -- GtkWidget -- */
+               {"scroll-event",              "OnScrollEvent",               G_CALLBACK( OnScroll_Event )},           /*72 -- GtkWidget -- */
+               {"selection-clear-event",     "OnSelectionClearEvent",       G_CALLBACK( OnSelection_Event )},        /*73 -- GtkWidget -- */
+               {"selection-get",             "OnSelectionGet",              G_CALLBACK( OnSelection_Get )},          /*74 -- GtkWidget -- */
+               {"selection-notify-event",    "OnSelectionNotifyEvent",      G_CALLBACK( OnSelection_Event )},        /*75 -- GtkWidget -- */
+               {"selection-received",        "OnSelectionReceived",         G_CALLBACK( OnSelection_Received )},     /*76 -- GtkWidget -- */
+               {"selection-request-event",   "OnSelectionRequestEvent",     G_CALLBACK( OnSelection_Event )},        /*77 -- GtkWidget -- */
+               {"show",                      "OnShow",                      G_CALLBACK( OnEventos_void )},           /*78 -- GtkWidget -- */
+               {"show-help",                 "OnShowHelp",                  G_CALLBACK( OnShow_Help )},              /*79 -- GtkWidget -- */
+               {"size-allocate",             "OnSizeAllocate",              G_CALLBACK( OnSize_Allocate )},          /*80 -- GtkWidget -- */
+               {"size-request",              "OnSizeRequest",               G_CALLBACK( OnSize_Request )},           /*81 -- GtkWidget -- */
+               {"state-changed",             "OnStateChanged",              G_CALLBACK( OnState_Changed )},          /*82 -- GtkWidget -- */
+               {"style-set",                 "OnStyleSet",                  G_CALLBACK( OnStyle_Set )},              /*83 -- GtkWidget -- */
+               {"unmap",                     "OnUnMap",                     G_CALLBACK( OnEventos_void )},           /*84 -- GtkWidget -- */
+               {"unmap-event",               "OnUnMapEvent",                G_CALLBACK( OnDelete_Event )},           /*85 -- GtkWidget -- */
+               {"visibility-notify-event",   "OnVisibilityNotifyEvent",     G_CALLBACK( OnVisibility_Notify_Event )},/*86 -- GtkWidget -- */
+               {"window-state-event",        "OnWindowStateEvent",          G_CALLBACK( OnWindow_State_Event )},     /*87 -- GtkWidget -- */
+               {"activate-default",          "OnActivateDefault",           G_CALLBACK( OnEventos_void )},           /*88 -- GtkWindow -- */
+               {"activate-focus",            "OnActivateFocus",             G_CALLBACK( OnEventos_void )},           /*89 -- GtkWindow -- */
+               {"frame-event",               "OnFrameEvent",                G_CALLBACK( OnDelete_Event )},           /*90 -- GtkWindow -- */
+               {"keys-changed",              "OnKeysChanged",               G_CALLBACK( OnEventos_void )},           /*91 -- GtkWindow -- */
+               {"move-focus",                "OnMoveFocus",                 G_CALLBACK( OnMove_Focus )},             /*92 -- GtkWindow -- */
+               {"set-focus",                 "OnSetFocus",                  G_CALLBACK( OnHierarchy_Changed )},      /*93 -- GtkWindow -- */
+               {"close",                     "OnClose",                     G_CALLBACK( OnEventos_void )},           /*94 -- GtkDialog -- */
+               {"accept-position",           "OnAcceptPosition",            G_CALLBACK( OnEventos )},                /*95 -- GtkPaned  -- */
+               {"cancel-position",           "OnCancelPosition",            G_CALLBACK( OnEventos )},                /*96 -- GtkPaned  -- */
+               {"cycle-child-focus",         "OnCycleChildFocus",           G_CALLBACK( OnCycle_Child_Focus )},      /*97 -- GtkPaned  -- */
+               {"cycle-handle-focus",        "OnCycleHandleFocus",          G_CALLBACK( OnCycle_Child_Focus )},      /*98 -- GtkPaned  -- */
+               {"move-handle",               "OnMoveHandle",                G_CALLBACK( OnMove_Handle )},            /*99 -- GtkPaned  -- */
+               {"toggle-handle-focus",       "OnToggleHandleFocus",         G_CALLBACK( OnEventos )},                /*100 -- GtkPaned  -- */
+               {"adjust-bounds",             "OnAdjustBounds",              G_CALLBACK( OnAdjust_Bounds )},          /*101 -- GtkRange  -- */
+               /* change-value, OJO SpinButton tiene mismo nombre, pero recibe != pararametros-- */
+               {"change-value", "OnChangeValue",                            G_CALLBACK( OnChange_Value )},           /*102 -- GtkRange  -- */
+               {"move-focus-out", "OnMoveFocusOut",                         G_CALLBACK( OnMove_Focus )},             /*103 -- GtkScrolledWindow  -- */
+               {"scroll-child", "OnScrollChild",                            G_CALLBACK( OnScroll_Child )}            /*104 -- GtkScrolledWindow  -- */
+};  /**/
 
-gchar *aMethods[] = { 
-                   "OnClicked",
-                   "OnPressed",
-                   "OnReleased",
-                   "OnEnter",
-                   "OnLeave", 
-                   "OnToggled",
-                   "OnDelete_event",
-                   "OnDay_selected",
-                   "OnDay_selected_double_click",
-                   "OnMonth_changed",
-                   "OnNext_month",
-                   "OnNext_year",
-                   "OnPrev_month",
-                   "OnPrev_year",
-                   "OnActivate", 
-                   "OnFocus_out_event",
-                   "OnKey_press_event",
-                   "OnResponse",
-                   "OnDestroy",
-                   "OnFocus_in_event",
-                   "OnChanged",
-                   "OnValue_changed",
-                   "OnMove_slider", 
-                   "OnExpose_Event", 
-                   "OnSelect_child", 
-                   "OnSelection_changed",
-                   "OnSwitch_page",
-                   "OnKey_release_event", 
-                   "OnGroup_changed",
-                   "OnRow_Activated",
-                   "OnCell_toggled", 
-                   "OnInsert_At_Cursor", 
-                   "OnShow_Menu", 
-                   "OnItem_Activated",
-                   "OnConfigure_Event", 
-                   "OnRealize", 
-                   "OnUnrealize", 
-                   "OnCursorChanged",
-                   "OnEdited", 
-                   "OnEvent", 
-                   "OnEnterNotifyEvent", 
-                   "OnLeaveNotifyEvent",
-                   "OnAccelClosuresChanged", 
-                   "OnButtonPressEvent", 
-                   "OnButtonReleaseEvent",
-                   "OnCanActivateAccel",
-                   "OnChildNotify", 
-                   "OnClientEvent", 
-                   "OnDestroyEvent",
-                   "OnDirectionChanged", 
-                   "OnEventAfter", 
-                   "OnFocus",
-                   "OnAdd", 
-                   "OnRemove", 
-                   "OnSetFocusChild",
-                   "OnCheckResize",
-                   "OnGrabBrokenEvent", 
-                   "OnGrabFocus", 
-                   "OnGrabNotify", 
-                   "OnHide",
-                   "OnHierarchyChanged", 
-                   "OnMap", 
-                   "OnMapEvent", 
-                   "OnMnemonicActivate",
-                   "OnMotionNotifyEvent", 
-                   "OnNoExposeEvent", 
-                   "OnParentSet", 
-                   "OnPopupMenu",
-                   "OnPropertyNotifyEvent", 
-                   "OnProximityInEvent", 
-                   "OnProximityOutEvent",
-                   "OnScreenChanged", 
-                   "OnScrollEvent", 
-                   "OnSelectionClearEvent",
-                   "OnSelectionGet",
-                   "OnSelectionNotifyEvent",
-                   "OnSelectionReceived", 
-                   "OnSelectionRequestEvent",
-                   "OnShow", 
-                   "OnShowHelp", 
-                   "OnSizeAllocate", 
-                   "OnSizeRequest", 
-                   "OnStateChanged",
-                   "OnStyleSet", 
-                   "OnUnMap", 
-                   "OnUnMapEvent", 
-                   "OnVisibilityNotifyEvent",
-                   "OnWindowStateEvent", 
-                   "OnActivateDefault", 
-                   "OnActivateFocus", 
-                   "OnFrameEvent",
-                   "OnKeysChanged", 
-                   "OnMoveFocus", 
-                   "OnSetFocus", 
-                   "OnClose",
-                   "OnAcceptPosition", 
-                   "OnCancelPosition", 
-                   "OnCycleChildFocus", 
-                   "OnCycleHandleFocus",
-                   "OnMoveHandle", 
-                   "OnToggleHandleFocus" , 
-                   "OnAdjustBounds", 
-                   "OnChangeValue",
-                   "OnMoveFocusOut", 
-                   "OnScrollChild" };
+#define COUNT_ARRAY     104
