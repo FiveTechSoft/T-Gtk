@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.5 2006-09-21 22:55:51 xthefull Exp $
+ * $Id: ChangeLog,v 1.6 2006-09-21 23:11:18 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,9 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2006-09-22 01:10 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   + Support and implementation Terminal for T-Gtk ( Only for GNU/linux )
 
 2006-09-22 00:50 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
   * events.c
