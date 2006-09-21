@@ -1,0 +1,149 @@
+/*  $Id: jerarquia_gclass.txt,v 1.1 2006-09-21 10:09:46 xthefull Exp $ */
+/*
+ Jerarquia de clases para gClass
+ (c)2004 Rafa Carmona
+*/
+ El nivel de jerarquia a nivel de gClass es el siguente:
+ Como puede observar , aparte de que pueda faltar bastantes cosas, no se
+ sigue el mismo nivel jerarquico que el de GTK+, no tenemos porque ;-)
+ Usted mismo puede realizar su propia jerarquia de clases.
+ 
+ * COMANDO Documentado 
+   gObject
+      |
+      +- gWidget
+      |     |
+      |     +- gContainer
+      |     |    |
+      |     |    +- gBin
+      |     |    |    |
+      |     |    |    +- gWindow *
+      |     |    |    |      +-gDialog *
+      |     |    |    |           +-gDlgFile
+      |     |    |    |           +-gDlgFont
+      |     |    |    |
+      |     |    |    +- gAlignment
+      |     |    |    |
+      |     |    |    +- gFrame
+      |     |    |    |
+      |     |    |    +- gButton
+      |     |    |    |    +- gToggleButton
+      |     |    |    |           +- gCheckBox
+      |     |    |    |                +- gRadioButton
+      |     |    |    |
+      |     |    |    +- gEventBox
+      |     |    |    |
+      |     |    |    +- gCombobox *
+      |     |    |    |     +- gComboboxEntry
+      |     |    |    |     +- gCombobox_Clip
+      |     |    |    |
+      |     |    |    +- gMenuItem *
+      |     |    |    |      +- gMenuItemCheck *
+      |     |    |    |      +- gMenuItemImage *
+      |     |    |    |      +- gMenuItemSeparator *
+      |     |    |    |      +- gMenuTearoff *
+      |     |    |    |
+      |     |    |    +- gExpander
+      |     |    |    |
+      |     |    |    +- gToolItem
+      |     |    |    |    +- gToolButton
+      |     |    |    |    |     +- gToolMenu
+      |     |    |    |    |     +- gToolToggle
+      |     |    |    |    |             +- gToolRadio
+      |     |    |    |    +- gToolSeparator
+      |     |    |    |
+      |     |    |    +- gScrolledWindow
+      |     |    |    |
+      |     |    |    +- gViewport
+      |     |    |
+      |     |    +- gBox
+      |     |    |    +- gBoxVH
+      |     |    |          + gFileChooserButton
+      |     |    |          + gStatusBar
+      |     |    |
+      |     |    +- gFixed
+      |     |    |
+      |     |    +- gPaned *
+      |     |    |
+      |     |    +- gIconView 
+      |     |    |
+      |     |    +- gList          
+      |     |    |
+      |     |    +- gLayout ( TODO )
+      |     |    |
+      |     |    +- gMenuShell
+      |     |    |     +- gMenuBar *
+      |     |    |     +- gMenu    *
+      |     |    |
+      |     |    +- gNotebook
+      |     |    |
+      |     |    +- gTable
+      |     |    |
+      |     |    +- gTextView
+      |     |    |
+      |     |    +- gToolBar
+      |     |    |
+      |     |    +- gTreeView
+      |     |
+      |     +- gMisc
+      |     |   +- gArrow
+      |     |   +- gImage
+      |     |   +- gLabel
+      |     |         +- gAccelLabel ( TODO )
+      |     |
+      |     +- gCellView ( TODO )
+      |     |
+      |     +- gDrawingArea 
+      |     |
+      |     +- gRuler ( TODO )
+      |     |
+      |     +- gRange
+      |     |    +- gScaleVH
+      |     |    +- gSscrollbarVH ( TODO )
+      |     |
+      |     +- gSeparator
+      |     |
+      |     +- gProgressBar
+      |     |
+      |     +- gCalendar
+      |     |
+      |     +- gEntry
+      |     
+      |
+      +- gListStore  *
+      |
+      +- gTreeStore  
+      |
+      +- gViewTreeColumn
+      |
+      +- gCellRenderer
+      |     |
+      |     +- gCellRendererToggle
+      |     +- gCellRendererText
+      |     +- gCellRendererPixbuf
+      |     +- gCellRendererProgress
+      |     +- gCellRendererCombo
+      |
+      +- gAdjusment
+      |
+      +- gToolTip
+      |
+      +- gEntrycompletion
+      |
+      +- gAccelGroup
+      |
+      +- gTextBuffer
+      
+
+
+No es un widget :
+   + gTimer
+   + gTextFile
+
+TODO:// Clases que quedarian pendientes en principio y estan en funciones.
+- gButtonColor ( gtk_color_button_new   )
+
+TODO:// A nivel GTK+ Nativo.
++ gtk_font_button_new
++ gtk_accel_label_new ( GTk+ 2.5 )
+

@@ -1,0 +1,26 @@
+/*
+ Soporte para paneles
+ (c)2004 Rafa Carmona
+*/
+
+T-Gtk brinda ahora soporte para paneles o tambien conocidos como Splitters.
+Los paneles son widgets que dividen el area en dos, vertical o horizontal.
+
+Se a dado soporte a todos los widgets por ahora soportados por T-Gtk, para
+permitir su incrusion dentro de un paned.
+
+Automaticamente T-Gtk añadira el widget al area 1 si el padre de dicho widget
+es un Panel.
+
+Para poder meterlo en la segunda area , muy facil , se lo decimos al widget:
+     DEFINE NOTEBOOK oBook OF oPaned SECOND_PANED
+
+Todo widget tiene las clausulas:
+  + SECOND_PANED
+  + RESIZE
+  + SHRINK
+
+Que solamente tiene sentido cuando dicho widget a ser colocado dentro de un
+paned.
+
+

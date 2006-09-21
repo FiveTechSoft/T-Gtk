@@ -1,0 +1,218 @@
+/* $Id: new-kernel.txt,v 1.1 2006-09-21 10:09:46 xthefull Exp $*/
+
+                    /* Nuevo Kernel para T-Gtk */
+
+1.- Cambio de Técnica.
+2.- Tip.Como entender la nueva tecnica.
+3.- El Ejemplo perfecto. La clase gDlgFile
+
+******************************************************************************
+                         1.- Cambio de Técnica
+******************************************************************************
+T-Gtk , se aproxima al nivel de otras Guis muy profesionales, como Xailer,
+en que 'abandona' el uso del famoso array 'aWindows' a la 'Fivewin',
+es decir, el salto desde que se produce desde el evento del sistema a la
+ejecucion de nuestro codigo.
+
+Podemos observar en la practica totalidad de Guis bajo Harbour, de las que
+disponemos el codigo, como la implementacion se basa en recorrer un array.
+
+Explicare esta técnica, hasta ahora usado por T-Gtk+.
+Aunque como siempre he dicho, por cada desarrollador y Guis existente, habra
+una tecnica distinta, puesto que el programar es un arte ;-)
+
+¿ Que es lo que pasa desde el Evento del Sistema a la ejecucion de nuestro
+  codigo ?
+
+Veamos por encima el esquema :
+
+1-EVENTO DEL SISTEMA
+2-SALTO DESDE LA CALLBACK A HARBOUR
+3-RECORRIDO EN BUSCA DEL HWND Y SALTO AL METHOD
+4-EJECUCION DE NUESTRO CODIGO.
+
+Explicaremos ahora los pasos que se realiza hasta llegar a nuestra ejecucion
+del codigo
+
+EVENTO DEL SISTEMA
+Cuando el usuario pulsa un boton, el sistema lanza un evento, donde Gtk+,
+manda la señal "clicked", en GUIs basados puramente en el API Win32, reciben
+el mensaje WM_XXXX correspondiente, a continuacion....
+
+FUNCIONES CALLBACK A HARBOUR.
+Cada vez que se produce un evento, las funciones callback que hemos conectado
+seran las encargadas de saltar a Harbour y es aqui donde hay una implementa-
+cion por cada GUI disponible para harbour.
+
+¿ Y porque ocurre esto ? Cada programador quiere/tiene su propia
+implementacion, por diversos motivos, por su nivel o capacidad de
+programacion, etc... y aqui es DONDE vemos una diferencia sustancial entre
+los distintos GUIS...
+
+
+RECORRIDO EN BUSCA DEL HWND Y SALTO AL METHOD
+Hasta ahora, usaba un array aControls, y saltaba desde la funcion callback
+a una function en Harbour llamada Entry_Point() que recibia el puntero,
+y el tipo de evento producido, asi como otros parametros.
+Aqui teneis la funcion :
+
+FUNCTION ENTRY_POINT( pWidget, cEvento, nKey, nType )
+   LOCAL nWidget := AScan( aControls, { | oControl | oControl:pWidget == pWidget } )
+   Local uReturn := .F.
+
+   IF nWidget != 0
+       uReturn := aControls[ nWidget ]:HandleEvent( cEvento, nKey, nType )
+   ENDIF
+
+RETURN uReturn
+
+Depues de buscar en el indice , se saltaba al HandleEvent() del objeto
+correspondiente y se acabo.
+
+Si bien este sistema esta bien, tiene una pega, es que si destruimos un
+objeto en cuestion, debemos de quitar su referencia en dicho array, perdiendo
+ademas mas tiempo entre eventos que se pueden producir en el sistema, porque
+no vamos a dejar que vaya creciendo el array, porque si no, el sistema
+se vuelve mas lento, por cada control que se cree.
+
+Una forma que usaba T-Gtk, era, que cada vez que se destruia un control,
+se quitaba su referencia en el array aControls.
+
+     IF cEvento == "destroy"
+         ADEL( aControls, nWidget )
+         ASIZE( aControls, ( Len( aControls ) - 1) )
+     RETURN .F.
+
+Como podeis observar, se pierde tiempo en la creacion del control, se
+pierde tiempo en la gestion del evento, y se pierde tiempo en su destruccion.
+Y funciona, si funciona de maravilla, pero...
+
+¿ Que pasaria si..., hacemos desaparecer el array aControls, y la funcion
+ENTRY_POINT() ?
+
+No creo que seais unos genios al observar que la cantidad de ciclos de reloj
+que le quitamos a la CPU , asi como la gestion de la memoria es ENORME!!!
+
+En mi intento de mejorar T-Gtk, y a unas ideas de Carlos Mora, más la ayuda
+inestimable de Jose F.Gimenez, padre de Xailer, he podido implementar una
+parte similar a la Xailer, es decir, 'SALTO' directamente al method
+correspondiente, sin necesidad de tener ningun aControls, o algo similar.
+
+Si antes saltaba al METHOD HANDLEEVENT y de ahi al METHOD CLICKED, a traves
+de la funcion Entry_Point(), por cada vez que se presiona el boton , por
+ejemplo, ahora salta directamente al METHOD CLICKED, ademas , pasandole
+el objeto , oSender, que a producido dicho evento.
+
+Esquematicamente , quedaria asi, tal y como estaba T-Gtk :
+
+ ENTRY_POINT()
+     |--> METHOD HANDLEEVENT()
+             | -->METHOD CLICKED()
+
+Ahora , simplemente, se convierte por arte de magia en:
+METHOD CLICKED( oSender )
+
+Asi, que T-Gtk+ a sido reescrito un poco para soportar la nueva forma,
+a la 'Xailer', para ir abandonando el estilo  a la 'Fivewin'.
+
+Espero que al menos os haya quedado claro un pelin las distintas formas
+que hay dentro de nuestro mundo Harbour, de programar Guis.
+
+******************************************************************************
+              2.- Tip.Como entender la nueva tecnica.
+******************************************************************************
+Hasta ahora , teniamos por costumbre, los que venimos del mundo Fivewin,
+de un method llamado HandleEvent(), y asi es como estaba T-Gtk al inicio
+de su andadura.
+
+La cuestión es que ahora no existe ese method y puede que alguno no entienda
+el concepto, asi que lo vamos a resumir, para que no os perdais.
+
+Como sabeis, en GTK+ toda señal conectada , p.ej. "clicked", necesita de una
+funcion callback para cuando se dispare dicho evento.
+
+Bien, pues cuando conectemos por ejemplo la señal "clicked" su callback sera
+el "method OnClicked( oSender )", es decir, TODA SEÑAL que se dispare, saltara
+al method de igual nombre que la señal EXCEPTO con las palabras "ON" delante.
+
+Y , en vez de operar con el Self, acostumbrados , tenemos que operar realmente
+con el objeto que a ocasionado dicho evento, que estara contenido en oSender.
+
+Asi, señales de GTK+, como "Activate", en T-Gtk bajo gclass, POO, sera :
+
+METHOD OnActivate( oSender ) CLASS XXXXX
+       // lo que sea
+RETURN .F.
+
+Cada vez que se el sistema lance el evento "Activate", lo recojeremos en el
+METHOD OnActivate().
+
+OJO Y MUY IMPORTANTE!!
+Solamente saltara a ese evento SI HEMOS CONECTADO la señal,
+::Connect( "activate" ) , si la queremos gestionar, de lo contrario , no se
+producira jamas el salto al method OnActivate, de este ejemplo.
+Eso es comun a todas las señales que se este actualmente soportadas.
+
+******************************************************************************
+3.- El Ejemplo perfecto. La clase gDlgFile
+******************************************************************************
+Para entender las diferencias entre la 'vieja usanza' y el nuevo desarrollo,
+explicaremos la clases gDlgFile, pues aqui veremos PERFECTAMENTE el uso
+de dicha técnica.
+
+Dicha clase es ni mas ni menos una forma de seleccionar un fichero a traves
+de un dialogo.
+
+Pasemos pues haber su implementacion.
+
+Como podemos observar, en el dialogo de seleccion de archivos, tenemos
+los botones de Ok y cancelar.
+Podemos tratar dichos botones como un objeto, simplemente asignando su puntero
+a la variable pWidget.
+
+::oBtn_Ok     := gButton():Object_Empty()
+Esto nos devuelve un objeto de la clase gButton vacia.
+Despues, cogemos el puntero a traves de __get_pointer_btn_ok_file(),
+y se lo asignamos:
+
+ ::oBtn_Ok:pWidget     := __get_pointer_btn_ok_file( ::pWidget )
+
+A partir de ese momento , estamos controlando el boton "OK" del dialogo de
+seleccion de archivos como un objeto gButton. Podemos hacer con el lo que
+hariamos comunmente con cualquier boton.
+
+Nosotros necesitamos conectar las señales de "clicked" para los botones,
+pero tenemos que gestionarlos desde esta clase, no desde la clase de los
+botones.
+
+La solucion es bien sencilla:
+
+  ::Connect( "clicked" , "OnClickedBtnOk", ::oBtn_Ok:pWidget )
+
+y NO oBtn_Ok:Connect!!!
+
+¿ Porque de eso ?
+
+Por que en el METHOD OnClickedBtnOk(), el parametro oSender sera el objeto de
+la clase gDlgFile!!! de lo contrario , nos devolveria el objeto de la clase
+Button, que realmente no nos sirve para nada ;-)
+
+METHOD OnClickedBtnOk( oSender ) CLASS GDLGFILE
+       oSender:cFileName := gtk_file_selection_get_filename( oSender:pWidget )
+       oSender:End()
+RETURN .F.
+
+La prueba la teneis si mirais el method , la variable de instancia cFileName
+es de la clase gDlgFile, no de la clase gButton, que no existe esa variable.
+
+Todo ello es por esta simple linea, donde comunicamos que :
+
+  ::Connect( "clicked" , "OnClickedBtnOk", ::oBtn_Ok:pWidget )
+
+En objeto gDlgFile, va a conectar la señal clicked, del boton Ok a traves de
+su puntero, :oBtn_Ok:pWidget, y saltara al METHOD ONCLICKEDBTNOK, que recibira
+SELF, osease, el objeto gDlgFile, y lo trataremos nosotros como oSender.
+
+Si hubiesemos hecho ::oBtn_Ok:Connect(), hubiesemos pasado como oSender, el
+propio objeto gButton, recibiendo oSender como un objeto de la clase gButton,
+siendo eso totalmente inutil ;-)

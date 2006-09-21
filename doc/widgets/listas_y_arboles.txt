@@ -1,0 +1,36 @@
+                  Listas y Arboles bajo T-Gtk
+               a traves del widget GtkTreeView
+
+Una de las cosas que cambia radicalmente en GTK+ es el tema de las listas y
+los arboles.
+Para no tener que volver a reescribir 'todo' lo relativo a listas y arboles
+estamos haciendo un esfuerzo considerable en portar lo que parece ser que
+va ser mas duradero, y por ser mas robusto , flexible y potente.
+
+El concepto mas importante y el que nos puede ser muy duro de entender,
+es el concepto de separacion entre los datos que queremos visualizar, y
+como estos son presentados en pantalla.
+
+Este es comúnmente conocido como diseño Modelo/Vista/Controlador (MVC). Datos
+de varios tipos (strings, números, imágenes, etc.) son almacenados en
+un ’modelo’. Entonces se le dice a la ’vista’ que datos debe desplegar, donde
+debe hacerlo, y como debe hacerlo. Una de las ventajas de este acercamiento
+es que se pueden tener múltiples vistas que despliegen los mismos datos
+(un árbol de directorios por ejemplo)
+de diferentes maneras, o de la misma manera pero varias veces, con solo una
+copia de los datos subyacentes.
+
+Esto evita la duplicación de datos y esfuerzo de programación si los mismos
+datos son reutilizados en diferentes contextos. Además, cuando los datos en
+el modelo son actualizados, todas las vistas se actualizan de igual manera.
+
+GtkTreeModel es usado para almacenar datos.
+
+GtkTreeViewColumn y GtkCellRenderer.
+Determinan que datos son desplegados en el GtkTreeView y como se despliegan.
+
+GtkTreeView está compuesto de columnas de vistas de árboles.
+Estas son las columnas que el usuario percibe como tales.
+Tienen una cabecera de columna clickeable con un título de columna que puede
+ser ocultado, se puede modificar su tamaño y pueden ser reordenadas.
+

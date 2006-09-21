@@ -1,0 +1,74 @@
+﻿                       Implementación de Errorsys
+                              bajo T-Gtk
+                         (c)2005 Rafa Carmona
+
+Una de las cosas que he retocado bastante a sido la implementación de un
+errorsys lo mas fácil de usarse , al estilo de Harbour.
+
+El principal problema a sido el tener que destruir toda ventana y a
+proceder a salir de todos los posible bucles de eventos en que hayamos
+entrado, asi como la limpieza de la memoria 'residual' de Harbour.
+
+Finalmente, bajo el viejo kernel, habia conseguido 'estabilizarlo'.
+
+He estado observando comportamientos bastantes extraños en el errorsys,
+como su negativa a 'matarse' a si mismo y a la aplicación.
+
+Decidido de una vez por todas de coger el toro por los cuernos,
+he terminado de implementar el nuevo errorsys para el nuevo Kernel,
+de tal manera que he tenido que implicar a 2 clases para su correcto
+funcionamiento y que a continuación explicaré la técnica llevada a cabo,
+que si bien no me agrada del todo, cumple perfectamente con su misión.
+
+
+Clase gWidget.
+Involucrada a la hora de destruccion del widget, si es una ventana o un
+dialog , se encargara de des-referenciarlo en el array interno , aWindows,
+que solamente poseen los objetos del tipo gWindow o gDialog.
+
+Clase gWindow.
+Se crea un nuevo method Register() que lo único que realiza es añadirse
+a si mismo, Self, en la CLASSDATA aWindows de la clase gWindow.
+
+Asi, ante la caida inevitable del programa por cualquier causa que
+pueda ser tratada a traves de nuestro errorsys, lógicamente si
+se produce el error a nivel de código C ni decir que te va a dar
+un GPF o una violacion de segmento como un pino ;-), pero a nivel
+de Harbour, la gestión es practicamente es identico a Harbour,
+excepto que en T-Gtk debemos destruir cualquier recurso que hubiesemos
+echo y ahi es donde entra la funcion __Salir( oWnd ) :
+
+// SALIR DEL PROGRAMA Eliminando todo resido memorial ;-)
+// Salimos 'limpiamente' de la memoria del ordenador
+Static Function __Salir( oWnd )
+       Local nLen := Len( oWnd:aWindows ) - 1
+       Local X
+
+       if nLen > 0
+          // Dejo esto para Joaquim, seguro qe lo cambia por un Aeval ;-)
+          FOR X := nLen To 1
+             //Forzamos a morir las ventanas
+             oWnd:aWindows[x]:bEnd := NIL
+             oWnd:aWindows[x]:End()
+          NEXT
+       endif
+       oWnd:End()
+       gtk_main_quit()
+       QUIT
+
+Return .F.
+
+De todas no creo que este sea el definitivo, y estoy estudiando la
+manera de 'eliminar' el uso del array aWindows, y realizar lo mismo
+a nivel de gtk, que seguro que debe de haber alguna manera de conseguir
+lo mismo sin penalizar tanto los recursos, que aunque es totalmente
+despreciable el consumo/tiempo, por que de ventanas o dialogos no
+creo que tengamos miles en un simple aplicación.
+
+Por favor, ABSTENERSE de usar el comando QUIT. Esto no sienta nada
+bien a los GUIS, porque el mecanismo de salida es totalmente distinto.
+
+Quedais advertidos ;-)
+
+
+

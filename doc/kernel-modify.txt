@@ -1,0 +1,66 @@
+******************************************************************************
+                     /* Cambios en el nucleo de T-Gtk */    
+******************************************************************************
+		   Para versiones de xHarbour 0.99.60 o superior.
+		   Para versiones de Harbour  superior a 0.45.
+******************************************************************************
+Anteriormente, procediamos a colocar el simbolo en la pila de la VM,
+de la siguiente manera:
+ 
+  hb_vmPushSymbol( pDynSym->pSymbol );
+
+Ahora, han procedido a crear la equivalencia, a traves de la funcion
+hb_dynsymSymbol( pDynSym )
+
+El motivo, es por si cambian alguna cosa en la estructura HB_DYNS ,
+no nos afecte a terceras personas, por lo tanto, quedara como:
+
+  hb_vmPushSymbol( hb_dynsymSymbol( pDynSym ) );  
+  
+Según he podido seguir en la lista de Harbour, existe esto, lo dejo a modo
+de recordatorio:
+*******************
+        replace:
+            hb_dynsymFindName( "name" )->pSymbol
+        with:
+            hb_dynsymSymbol( hb_dynsymFindName( "name" ) )
+        hb_dynsymFind( ... )->pSymbol with:
+            hb_dynsymSymbol( hb_dynsymFind( ... ) )
+        or:
+            hb_dynsymFindSymbol( ... )
+        etc.
+
+        See new hb_dynsym*() functions.
+*******************
+
+Ademas, se a dado la mayor flexibilidad a la conexion de las señales,
+usando la funcion  HARB_SIGNAL_CONNECT , que permite pasarle un 
+nuevo parametro, que especifica que tipo de conexion vamos a emplear.
+
+Por defecto, es cero y se admite pasar: G_CONNECT_AFTER y G_CONNECT_SWAPPED
+
+Para ello, se a pasado de usar la funcion g_signal_connect() a usar
+la funcion g_signal_connect_data().
+
+Asi, si teniamos la funcion declarada como 
+
+  iReturn = g_signal_connect( G_OBJECT( widget ),
+                              array[ iPos ],
+                              G_CALLBACK( OnKeyPressEvent ), 
+                              cMethod ); 
+
+Se debe de declarar para soportar los nuevas conexiones de señales:
+
+  iReturn = g_signal_connect_data( G_OBJECT( widget ),
+                                   array[ iPos ],
+                                   G_CALLBACK( OnKeyPressEvent ), 
+                                   cMethod, 
+                                   NULL, 
+                                   ConnectFlags );
+
+Es posible por la sencilla razon de que las tres funciones, son unos
+simples defines en C:
+#define g_signal_connect(instance, detailed_signal, c_handler, data) 
+#define g_signal_connect_after(instance, detailed_signal, c_handler, data) 
+#define g_signal_connect_swapped(instance, detailed_signal, c_handler, data) 
+

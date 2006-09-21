@@ -1,0 +1,119 @@
+             Harbour , C y estructuras y su uso bajo T-Gtk.
+                      by (c)2005 Rafa Carmona
+
+Hasta ahora , cuando he tenido que meterme en C para implementar cosas en
+Harbour, nunca habia tenido problemas, bien o regular, siempre he
+salido adelante, hasta que llegaron las declaraciones de estructuras.
+
+Imagenemos la siguiente instruccion en C:
+
+RECT rc;
+dibuja( &rc );
+pinta( &rc );
+
+Nosotros, ay!, ilusos, pretendemos 'portar' esas funciones a nuestro lenguaje
+favorito, Harbour.
+
+Pensando en vuestra ignorancia , esto se llevará un par de minutos.
+Pues no , esto va a llevar mas de la cuenta, asi que empezamos a estudiar
+a fondo, que narizes podemos hacer para poder usar esas funciones como
+si fueran del lenguaje.
+
+Vamos a  analizar como implementar , seudo-codigo, la funcion dibuja().
+
+FUNCTION DIBUJA_PRG
+  RECT rc;
+  dibuja( &rc );
+  ¿// Ok, como narizes 'devuelvo' esto , la estructura rc a Harbour ?
+}
+
+Lógicamente, para hacerlo mas compatible, lo adecuado seria que la llamada
+desde Harbour sea  dibuja( rc ) y no rc = dibuja(), porque logicamente,
+la primera opcion es lo mas parecido a C, que es lo que se pretende.
+
+Asi, que , tenemos que adoptar un sistema en concreto, hemos decidido seguir
+las siguientes especificaciones:
+
+1.- Toda funcion que necesite modificar una estructura a nivel de C y que
+nos sea util, sera OBLIGATORIO pasarle el array correspondiente, para que
+podamos rellenarlo desde C.
+
+2.- Las funciones, devolveran, si es que deben devolver alguna cosa, tal y
+como se haria desde C.
+
+Asi , si imaginamos en C la funcion dibuja:
+RECT rc;
+lresult = dibuja( &rc );
+
+Tenemos , que en T-Gtk, lo vamos a realizar como :
+
+aRC = RECT_Struc
+lResult := dibuja( aRC )
+
+Asi, sabemos que si la estructura de C, son cuatro miembros de enteros,
+podemos implementar dicha estructura en Harbour como:
+
+#define RECT_Struc Array( 4 )
+
+Internamente, a nivel de C, comprobaremos realmente que la estructura sera
+de 4 posiciones, pero para nosotros, eso nos sera transparente, si hacemos
+uso de la macro RECT_Struc.
+
+Asi, si tenemos que en C, la estructura RECT tiene los miembros,
+left, top, right y bottom, en el array de Harbour , aRC, tendremos:
+aRC[ 1 ] == left , aRC[ 2 ] == top, aRC[ 3 ] == right y aRC[ 4 ] == bottom
+
+Pero, esto, no ha hecho mas que empezar....
+
+Todavia, que no hemos abordado el primer problema, inmediatamente nos surge
+el segundo, ya lo dicen el refran: No hay dos sin tres, que es :
+
+- ¿ Como narizes implemento ahora el pasar la estructura RECT a la funcion
+pinta(), si me tiene que ser devuelta desde C a Harbour y desde Harbour a C ?
+
+Si analizamos la situacion , nos encontramos que debemos de 'intermediar'
+entre el C y Harbour.
+
+Asi, el dilema es el siguiente:
+
+ Struct Tipo C -->Convertir a Tipo Harbour --> Convertir a Tipo C.
+       |----- PrimerPASO ---- | |------ Segundo PASO ----|
+               Dibuja()                  Pinta()
+
+
+Lo unico que podemos hacer, es usar un array, y dicho array lo usaremos para
+comunicarnos entre ambos mundos, porque en el API de Harbour, no existe tal
+cosa, o al menos , no tenemos una funcion que convierta una estructura en
+un array o un array, de harbour, a una estructura de C.
+( Que yo sepa, si alguien sabe como realizarlo , pues que lo comunique ;-) )
+
+Pero esto es un problemon, porque a de hacerlo con cada estructura diferente!!
+
+Veamos la funcion dibuja(), como lo implementariamos en C:
+
+HB_FUNC( DIBUJA )
+{
+ RECT rc;          // Estructura tipica.
+ PHB_ITEM aArray = hb_param( 2, HB_IT_ARRAY );  // HB_ITEM de Harbour.
+
+ dibuja( &rc );   // Funcion de C que modificara la estructura rc
+
+ // Rellenamos el array pasado con los miembros de la estructura
+  hb_storni( rc.top, 2, 1);
+  hb_xxxx( ) // Mas miembros
+
+ }
+
+ Asi, conseguimos, a grandes rasgos, salvar el primer paso, que es rellenar
+ un array pasado desde Harbour , con los miembros de una estructura de C.
+
+ Ahora bien, nos queda un ultimo paso,
+
+
+En fin, lo primero que vamos hacer es poner los prototipados:
+PHB_ITEM Struct_To_Array( RECT *rc  );
+void Struct_To_Rect(PHB_ITEM aRect, RECT *rc );
+
+
+
+

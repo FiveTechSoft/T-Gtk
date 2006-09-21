@@ -1,0 +1,68 @@
+/*
+  Creacion y activacion de ventanas
+  (c)2004 Rafa Carmona
+*/
+
+La creacion de una ventana , se realiza tal y como muchos de nosotros conocemos
+si venimos del mundo Fivewin.
+
+Ademas de su creacion, tambien se conecta la seal de destroy a la ventana para
+cuando saltemos a su destruccion, podamos decidir sin salimos o no.
+
+       DEFINE WINDOW <oWnd> [ TITLE <cTitle> ]
+                            [ TYPE <nType> ];
+                            [ SIZE <nWidth>, <nHeight> ] ;
+                            [ ID <cId> ;
+                            [ RESOURCE <uGlade> ] ];
+
+
+       <oWnd>
+       Objeto ventana que hemos creado
+
+       <cTitle>
+       Que titulo queremos para la ventana
+
+       <nType>
+        Que tipo de ventana queremos crear. Generalmente es GTK_WINDOW_TOPLEVEL,
+        y la unica de momento que esta implementada.
+
+       <nWidth>, <nHeight>
+       Ancho y Alto de la ventana.
+
+Como consecuencia de la creacion de la ventana, nos queda por activarla, y
+este sera el ultimo paso de todos, donde primeramente habremos creado y
+asignados todos los widgets que queramos.
+
+Lo que hacemos cuando activamos la ventana, es entrar en el bucle de procesos
+de gtk y es ahi donde la libreria GTK+ toma el control y empieza a procesar
+todas las seales del sistema operativo.
+
+
+       ACTIVATE WINDOW <oWnd>;
+                [ VALID <uEnd> ] ;
+                [ <lCenter: CENTER> ]
+                [ <lMaximize: MAXIMIZED> ] ;
+                [ <lModal: MODAL> ] ;
+                [ <lInitiate: INITIATE> ]
+
+       <oWnd>
+       Objeto ventana que habiamos creado.
+
+       <uEnd>
+       Desde aqui podemos hacer que salta a nuestra funcion cuando queramos
+       salir, si devolvemos .T. se queda, si no , se marcha.
+
+       <lCenter>
+       Si queremos la ventana centrada en la pantalla.
+
+       <lMaximize>
+       Muestra la ventana maximizada.
+
+       <lModal>
+       Si queremos que la ventana se comporte como modal.
+
+       <lInitiate>
+       Si queremos entrar en un nuevo bucle de eventos.
+
+Como se puede observar la creacion y destruccion de una ventana es muy simple,
+y no tiene mayor misterio.

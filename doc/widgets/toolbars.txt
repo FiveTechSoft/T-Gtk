@@ -1,0 +1,96 @@
+/*
+ Creacion de Barra de Herramientas o ToolBars
+ bajo T-Gtk( gClass )
+*/
+
+Las barras de herramientas o ToolBar como la llamaremos ahora, es una manera
+simple y efectiva de poner en nuestra aplicacion un acceso mas rapido a
+determinadas tareas.
+
+En T-Gtk la creacion de las toolbars se crean a partir de un contenedor
+toolbar, que es el que contendra los distintos botones que queramos poner.
+
+La creacion de la barra de herramientas, es como sigue:
+
+DEFINE TOOLBAR [<oToolBar>]  ;
+               [ <lExpand: EXPAND> ] ;
+               [ <lFill: FILL> ] ;
+               [ PADDING <nPadding> ];
+               [ <lContainer: CONTAINER> ] ;
+               [ OF <oParent> ] ;
+               [ STYLE <nStyle> ];
+               [ ID <cId> ;
+               [ RESOURCE <uGlade> ] ]
+
+<oToolBar> Objeto ToolBar creado.
+<nStyle>   Estilo que queramos que sea la toolbar, por defecto es BOTH,
+           teniendo a nuestra disposicion :
+           GTK_TOOLBAR_ICONS         0
+           GTK_TOOLBAR_TEXT          1
+           GTK_TOOLBAR_BOTH          2
+           GTK_TOOLBAR_BOTH_HORIZ    3
+
+<lExpand>    Si queremos que se expanda ocupando todo el espacio disponible
+             del contenedor.
+
+<lFill>      Si queremos que el widget crezca complemtamente o el espacio
+             que solamente necesite.
+             lFill solamente tiene efecto si EXPAND es TRUE.
+
+<nPadding>   Espacio que queremos que haya dentro del widget con respecto
+             al contenedor que lo contiene.
+
+<lContainer> Mete el widget en el contenedor por valores por defecto.
+             Esto inutiliza el uso de EXPAND, FILL y PADDING
+
+<cId>        Identificatico o etiqueta asignado en Glade.
+
+<uGlade>     Recurso glade seleccionado con SET RESOURCES donde mirar.
+
+
+// ToolButton
+DEFINE TOOLBUTTON[ <oBtn> ];
+                 [ TEXT <cText> ];
+                 [ STOCK_ID <cStock> ];
+	         [ FROM STOCK <cFromStock> ];
+		 [ ACTION <bAction> ];
+	         [ <lMnemonic: MNEMONIC> ];
+		 [ <lExpand: EXPAND> ] ;
+                 [ OF <oParent> ];
+                 [ ID <cId> ;
+                 [ RESOURCE <uGlade> ] ]
+
+// ToolToggle
+DEFINE TOOLTOGGLE [ <oBtn> ];
+                 [ TEXT <cText> ];
+                 [ <lActive: ACTIVED> ];
+                 [ STOCK_ID <cStock> ];
+	         [ FROM STOCK <cFromStock> ];
+		 [ ACTION <bAction> ];
+	         [ <lMnemonic: MNEMONIC> ];
+		 [ <lExpand: EXPAND> ] ;
+                 [ OF <oParent> ] ;
+                 [ ID <cId> ;
+                 [ RESOURCE <uGlade> ] ]
+
+// ToolRadio
+DEFINE TOOLRADIO [ <oBtn> ];
+                 [ TEXT <cText> ];
+                 [ <lActive: ACTIVED> ];
+                 [ GROUP <oGroup>  ];
+                 [ STOCK_ID <cStock> ];
+	         [ FROM STOCK <cFromStock> ];
+		 [ ACTION <bAction> ];
+	         [ <lMnemonic: MNEMONIC> ];
+		 [ <lExpand: EXPAND> ] ;
+                 [ OF <oParent> ] ;
+                 [ ID <cId> ;
+                 [ RESOURCE <uGlade> ] ]
+
+// ToolSeparator
+DEFINE TOOL SEPARATOR [ <oBtn> ]  ;
+		 [ <lExpand: EXPAND> ] ;
+                 [ <lNoDraw: NODRAW> ] ;
+                 [ OF <oParent> ] ;
+                 [ ID <cId> ;
+                 [ RESOURCE <uGlade> ] ]

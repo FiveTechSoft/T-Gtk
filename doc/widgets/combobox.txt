@@ -1,0 +1,43 @@
+/*
+  Combobox
+  (c)2004 Rafa Carmona
+*/
+
+El combobox aqui creado es el de la funcion gtk_combo_box_new(),
+y lo debemos de tener en cuenta , sobretodo para Glade, ya
+que tenemos el que permite usar un Entry(get) y el que no.
+
+A diferencia de otros GUIS, el combobox NO RETORNA el contenido del combobox,
+si no que RETORNARA el elemento del array pasado, es decir, podemos
+perfectamente pasarle una array con elementos en texto, numerico, etc..,
+y la variable <uVar> se actualizara con el elemento seleccionado.
+
+Nota para usar combobox en Glade:
+ Atentos, para que podamos usar correctamente, de momento,
+ los combobox simples, hay que meterse dentro de items y
+ no dar ningun valor, pero si buscais dentro del .glade debeis de tener esto
+ definido :
+    <property name="items" translatable="yes"></property>
+ si no no introducira los elementos. Quizas se deba a un bug de glade....
+
+
+DEFINE COMBOBOX [ <oCombo> ]  ;
+                 [ VAR <uVar> ];
+		 [ ITEMS <aItems> ];
+		 [ FONT <oFont> ];
+		 [ <lExpand: EXPAND> ] ;
+		 [ <lFill: FILL> ] ;
+		 [ PADDING <nPadding> ];
+		 [ <lContainer: CONTAINER> ] ;
+                 [ OF <oParent> ] ;
+                 [ ID <cId> ;
+                 [ RESOURCE <uGlade> ] ];
+                 [ POS <x>,<y>  ];
+                 [ LABELNOTEBOOK <uLabelBook> ];
+                 [ SIZE <nWidth>, <nHeight> ] ;
+                 [ <lEnd: INSERT_END> ] ;
+                 [ <lSecond: SECOND_PANED > ] ;
+                 [ <lResize: RESIZE > ] ;
+                 [ <lShrink: SHRINK > ] ;
+
+

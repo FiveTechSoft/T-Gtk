@@ -1,0 +1,122 @@
+/*
+  Creacion y activacion de dialogos
+  (c)2004 Rafa Carmona
+*/
+
+Generalmente , los dialogos bajo GTK+ se usan muy poco, es mas bien un sistema
+como el que empleamos en Fivewin con el MsgInfo(), etc...
+
+Generalmente, en GTK+ se usan casi siempre ventanas, pero nadie nos impide
+a nosotros usar dialogos para introduccion de datos.
+
+Acostumbrados a la Fivewin, poca cosa cambia:
+        DEFINE DIALOG <oDlg> [ TITLE <cTitle> ] ;
+                             [ SIZE <nWidth>, <nHeight> ] ;
+                             [ ID <cId> ;
+                             [ RESOURCE <uGlade> ] ]
+
+       <oDlg>
+       Sera el objeto dialogo.
+
+       <cTitle>
+       Titulo del dialogo.
+
+       <nWidth>, <nHeight>
+        Ancho y alto minimo que queremos.
+
+       <cId><uGlade> Para soporte de glade
+
+
+Una de las cosas 'distintas' al mundo de la programacion bajo Windows, es que
+aqui los dialogos tienen una zona para nuestros controles, y otra zona para
+poner los botones standards, que queramos poner, mas lo que nosotros queramos.
+
+Para aadir botones , no estandards, dentro de la zona de los botones del
+dialogo, usaremos este comando:
+
+     ADD DIALOG <oDlg>;
+         BUTTON <cText> ;
+         ACTION <uAction>;
+
+     <oDlg>
+     Dialogo que acabamos de crear
+
+     <cText>
+     Texto del boton.
+
+     <uAction>
+     Accion a ejecutar.
+
+Pero , generalmente, en los dialogos, con un Aceptar, Cancelar, normalmente
+lo tenemos todo resuelto, asi que, en la activacion , podemos definir dichos
+botones:
+
+     ACTIVATE DIALOG <oDlg>;
+            [ VALID <uEnd> ] ;
+            [ <lCenter: CENTER> ] ;
+            [ <lNoModal: NOMODAL> ] ;
+            [ <lResizable: RESIZABLE> ] ;
+            [ ON_YES <uYes> ] ;
+            [ ON_NO <uNo> ] ;
+            [ ON_OK <uOk> ] ;
+            [ ON_CANCEL <uCancel> ] ;
+            [ ON_CLOSE <uClose> ] ;
+            [ ON_APPLY <uApply> ] ;
+            [ ON_HELP <uHelp> ] ;
+
+      <oDlg>
+      Dialgo que queremos activar.
+
+      <uEnd>
+      Accion para salir. Ideal para , esta usted seguro ? ;-)
+
+      <lCenter>
+      Dialogo centrado en la pantalla.
+
+      <lNoModal>
+      Dialogo modo nomodal, permite dar el foco a la aplicacion sin
+      tener qe cerrar el dialogo en cuestion.
+      Ojo con este tipo de dialogos, y se acostumbra a no usarse.
+
+      <lResizable>
+      Si permitimos que el dialogo pueda modificarse en tamao.
+
+Despues pueden observar las clausulas ON_XXX <"Action">.
+Cada vez que definimos un ON_XXX se creara en el dialogo el boton
+correspondiente.
+
+Usted esta pensando porque no usar el comando ADD DIALOG BUTTON para ello.
+La razon es que esto esta en el standard de GTK+, ademas, es mucho mas
+rapido la respuesta a traves del ON, que desde la creacion de un boton a
+traves del comando ADD...
+
+Por ejemplo , usando Glade y dialogos:
+
+Function Dialogo1( )
+  Local oEntry1, cResource, oEntry3, oDlg
+  Local  cVar1,  cVar3
+
+  cVar1 := cVar3 := SPACE( 20 )
+
+  SET RESOURCES cResource FROM FILE "serio.glade"
+
+  DEFINE DIALOG oDlg  ID "dialog1" RESOURCE cResource
+         DEFINE ENTRY oEntry1 ;
+                VAR cVar1  ;
+                PICTURE "@!" ;
+                ID "entry1" ;
+
+         DEFINE ENTRY oEntry3 ;
+                VAR cVar3  ;
+                PICTURE "999.99" ;
+                ID "entry3" ;
+                RESOURCE cResource
+
+  ACTIVATE DIALOG oDlg CENTER ;
+          ON_OK  oDlg:End()  ;
+          ON_CANCEL ( oDlg:bEnd := NIL , oDlg:End() ) ;
+          VALID Salimos()
+
+Return NIL
+
+

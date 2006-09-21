@@ -1,0 +1,117 @@
+/* Modelo de Datos en T-Gtk */
+ 
+ Para definir un modelo de datos a partir de un ListStore, se define como;
+ 
+   DEFINE LIST_STORE <oLbx>  ;
+          TYPES <aTypes,...> ;
+
+   <oLbx>   Objeto ListStore
+   <aTypes> Aqui se especificará el conjuto de tipos de datos que se usará
+            en el modelo de datos.
+
+ Una vez tengamos el modelo de datos, la introduccion de los datos en el 
+ mismo, se realizará como:
+
+   APPEND LIST_STORE <oLbx> ;
+          [ ITER <aIter> ];
+          [ VALUES <aValues,...> ];
+
+  < oLbx >    Objeto ListStore
+  < aIter >   Si queremos recuperar el GtkTreeIter en dicha variable.
+              A continuacion se mostrará un ejemplo del significado.
+  < aValues > Valores que introducimos en el modelo de datos.
+
+  
+  Para insertar un valor en una fila determinada, podemos usar el comando
+  
+  INSERT LIST_STORE <oLbx> ROW <nRow> ;
+         [ ITER <aIter> ];
+         [ VALUES <aValues,...> ];
+  < oLbx >    Objeto ListStore
+  < aIter >   Si queremos recuperar el GtkTreeIter en dicha variable.
+  < aValues > Valores que introducimos en el modelo de datos.
+
+ Como anteriormente habiamos dichos, el ITER es opcional, y podemos establecer
+ unos valores a traves del comando SET LIST_STORE, para ello, deberemos 
+ disponer del <aIter> que nos a devuelto APPEND o INSERT.
+ Se a dispuesto de estas dos maneras , para mayor flexibilidad al programador.
+
+  SET LIST_STORE <oLbx> ;
+           ITER <aIter> ;
+           POS <n>;
+           VALUE <uValue>
+  < oLbx >    Objeto ListStore
+  < aIter >   GtkTreeIter que nos obtenemos usando APPEND o INSERT
+  < n >       Posicion del valor en el modelo de datos.
+  < uValues > Valor que introducimos , y que tiene que ser del mismo tipo que
+              hubiesemos definido en el modelo de datos.
+
+ Como habiamos dicho, vamos a poner un ejemplo de un APPEND con o sin ITER
+ para que podeais observar la flexibilidad que alcanzamos con ello.
+ 
+ /*Aqui definimos un modelo de datos que contendra 3 columnas con los
+   tipos que podeis apreciar, una cadena, uno con decimales y uno logico  */
+ DEFINE LIST_STORE oLbx TYPES G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_BOOLEAN
+
+ Imaginemos que queremos meter los datos, podemos hacerlo de dos maneras;
+ #ifdef __ONE__
+      APPEND LIST_STORE oLbx ITER aIter
+         SET LIST_STORE oLbx ITER aIter POS 1 VALUE "Cadena"
+         SET LIST_STORE oLbx ITER aIter POS 2 VALUE 100.87
+         SET LIST_STORE oLbx ITER aIter POS 3 VALUE .T.
+  #else
+      APPEND LIST_STORE oLbx VALUES "Cadena",100.87,.T.
+  #endif
+
+  Con los dos se obtiene el mismo resultado, pero , como podeis observar, 
+  el comando SET nos da una mayor flexibilidad a la hora de meter el dato
+  que queremos, cuando queramos.
+  Pero para ello, es muy importante decirle al comando APPEND el ITER <aIter>,
+  porque despues el comando SET requiere de su presencia.
+
+  Lo explicado para el comando APPEND se aplica al comando INSERT.
+
+
+**************************************************************************
+// Widget TreeView
+**************************************************************************
+  El Widget TreeView nos permite crear la vista que contendrá el modelo de 
+  datos creado con LIST_STORE o TREE_STORE.
+  Para ello simplemente:
+ 
+   DEFINE TREEVIEW [ <oTreeView> ]  ;
+                   [ MODEL <oModel> ];
+                   [ ..<resto>... ]
+
+  <oTreeView> Objeto TreeView, este deber ser obligatorio, pues es necesario
+              posteriormente para las columnas.
+  <oModel>    Modelo de Datos para la vista.
+  <resto>     Resto de propiedades del Widget, comun a todos.
+
+**************************************************************************
+// Widget TreeViewColumn
+**************************************************************************
+  El widget TreeViewColumn, determina el estado final de la columna, la cual
+  indica como la tiene que ver el usuario.
+ 
+  DEFINE TREEVIEWCOLUMN [ <oCol> ] ;
+              [ TITLE <cTitle> ];
+              [ <pos: COLUMN,POS> <nPos> ];
+              [ TYPE <cType> ];
+              [ <lExpand: EXPAND> ] ;
+              [ <lSort:   SORT> ] ;
+              [ WIDTH <nWidth> ];
+              [ OF <oTreeView> ] ;
+
+  <oCol>   Objeto TreeViewColumn
+  <cTitle> Titulo de la columna
+  <nPos>   Numero de la columna
+  <cType>  Tipo de Columna, tenemos: 
+           "text"   Para una columna para mostar tipo texto ( numerico tambien )
+           "pixbuf" Para una columna para mostrar pixbuf.
+           "check" o "active" Para un columna tipo toggle.
+  <lExpand> Si queremos que la columna rellena mas alla de su espacio natural
+  <lSort>   Si queremos que la columna sea ordenable.
+  <nWidth>  Ancho de la columna
+  <oTreeView> Objeto oTreeView donde se va a alojar la columna.
+

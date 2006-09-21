@@ -1,0 +1,60 @@
+******************************************************
+* Funciones de T-Gtk que no formen parte de Gtk+
+******************************************************
+
++ ChooseFont( CTitle, cFontDefault, cPreview ) -->cFont
++ ChooseFile( cTilte, cFileDefault ) -->cFile
++ __get_pointer_btn_ok_font( pFileSele ) --> pBtn
++ __get_pointer_btn_ok_file( pFileSele ) --> pBtn
++ __get_pointer_btn_cancel_font( pFileSele ) --> pBtn
++ __get_pointer_btn_cancel_file( pFileSele ) --> pBtn
++ GetActiveWindow() -->pWindow
++ hb_gtk_signal_connect_block( pWidget, "clicked", bCodeBlock )
++ HB_WIDGET_GET_STYLE_BLACK_GC( widget ) // widget->style->black_gc
++ HB_GET_EVENT_AREA_Y( event )
++ HB_GET_EVENT_AREA_X( event )
++ HB_GET_EVENT_AREA_WIDTH( event )
++ HB_GET_EVENT_AREA_HEIGHT( event )
++ HB_WIDGET_GET_WINDOW( widget )
++ HB_GTK_TREE_PATH_GET_INDICES( pPath ) -> nRow select
+
+/* Funciones de Listores y Tree, List and Icon Grid Widgets */
++ hb_gtk_list_store_new( aItems ) --> pListStore
+  Simplificacion de creacion de un modelo de datos.
+  aItems , array bi-dimensional.
+  El primer array del array será el patrón que tomara de muestra.
+  Veremos la diferencia entre esta funcion y como hacerlo en puro API:
+  Local aItems := { { "Fila 1", 12, 39.49, .T. },;
+                      "Fila 2", 43, 04.56, .F. } }
+
+  /* Modelo de datos */
+  pList  = hb_gtk_list_store_new( aItems )
+  es equivalente a esto:
+  /* Modelo de datos */
+  pList  = gtk_list_store_newv( 4, { G_TYPE_STRING,;
+                                     G_TYPE_INT, G_TYPE_DOUBLE,;
+                                     G_TYPE_BOOLEAN } )
+
+  Como podemos apreciar, LOS TIPOS LOS TIENE ABSOLUTAMENTE EN CUENTA!!
+  Y es muy importante decirle de que tipo quieres que trate la columna,
+  para sacarle todo el potenciar.
+
+
++ HB_GTK_LIST_STORE_SET_LONG )
+  Forzamos que el dato a introducir sea como del type G_TYPE_LONG
+  liststore: puntero a listore
+  column:  : Columna
+  aiter    : Array GtkTreeIter
+  long_data: Valor tratado como long.
+
+  Simil de C
+  gtk_list_store_set( store, &iter, column, ( glong )1234, -1 );
+
++ gtk_list_store_newv( iLenCols, { acolTypes } )
++ gtk_tree_view_column_new_with_attributes( cTitle, renderer, { attributes } )
+
+
++ HB_GTK_TREE_PATH_GET_INDICES( pPath ) -> nRow select
+  Esta funcion es igual a:  gtk_tree_path_get_indices( path )[0] 
+  Nos devuelve en que fila estamos.
+  

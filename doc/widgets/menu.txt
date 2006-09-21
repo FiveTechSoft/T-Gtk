@@ -1,0 +1,184 @@
+$Id: menu.txt,v 1.1 2006-09-21 10:09:46 xthefull Exp $
+
+******************************************************************************
+Menus
+1.- Creacion desde código fuente.
+2.- Uso desde Glade
+******************************************************************************
+
+
+******************************************************************************
+1.- Creacion desde código fuente.
+******************************************************************************
+
+La creacion de menus a traves de ppo, es muy simple, y consta de unos
+pasos que hay que seguir:
+
+1.- Creacion de la Barra de Menus.
+2.- Creacion del Menu
+3.- Creacion del Menu Raiz
+4.- Creacion de MenuItems  y Submenus ( Si queremos )
+5.- Activacion de los Menus.
+6.- Mas Tipos de MenuItems.
+
+  1.- Creacion de la Barra de Menus.
+      Esta barra es la que contendra a los elementos de los menus.
+      La creacion es muy simple:
+
+      DEFINE BARMENU < oMenuBar >
+
+      Logicamente , este widget despues debe ser introducido en su contenedor:
+      gtk_box_pack_start ( boxmenu, oMenubar:pWidget, FALSE, TRUE, 0),
+      este seria un ejemplo.
+
+
+  2.- Creacion del Menu
+      Esto sirve para inicializar un nuevo Menu que va a contener los
+      MenuItems que queramos:
+
+      MENUBAR <oMenu> OF <oMenuBar>
+
+      <oMenu>    Objeto Menu creado
+      <oMenuBar> Barra de Menus del que depende <oMenu>
+
+  3.- Creacion del Menu Raiz
+      Este es el elemento del Menu que veras en Horizontal en la barra,
+      y difiere porque tiene la clausula ROOT.
+
+      MENUITEM <oMenuItem> [ROOT] TITLE <cTitle> OF <oMenu> ACTION <bAction>
+
+      <oMenuItem> Objeto MenuItem creado.
+      <cTitle>    Titulo del Menu
+      <oMenu>     A que MENUBAR pertenece
+      <bAction>   Que accion a ejecutar, esto generalmente no valdra nada
+                  puesto que este Item generalmente esta condenado a contener
+		  a otros elementos del menu.
+
+  4.- Creacion de MenuItems  y Submenus ( Si queremos )
+      La creacion de Items , tanto para el MENUITEM como para el SUBMENU,
+      es identico:
+
+      MENUITEM [ <oMenuItem> ] TITLE <cTitle>  OF <oMenu> ;
+               [ACTION <bAction>]
+	       [ <lMnemonic: MNEMONIC>];
+
+      <oMenuItem> Objeto, opcional, de MenuItem creado.
+      <cTitle>    Titulo del menu.
+      <oMenu>     a que objeto Menu pertenece.
+      <bAction>   Accion a ejecutar.
+      <lMnemonic> Interpreta el signo _ antes de cTitle , como acelerador.
+
+      Adiccionalmente, si queremos crear un submenu en un MenuItem cualquiera:
+
+      SUBMENU <oSubMenu> OF <oMenuItem>
+
+      <oSubMenu>  Objeto Menu de un Item
+      <oMenuItem> Objeto menuitem para crear el submenu.
+
+      A continuacion , el añadir menuitems al submenu, es identico al
+      proceso de arriba, solamente que en este caso , el [OF ] sera el
+      nuevo SubMenu creado, OF oSubMenu, por ejemplo:
+
+      MENUITEM TITLE "Crear ventana" ACTION CreateWindow() OF oSubMenu
+
+  5.- Activacion de los Menus.
+      Una vez que se a definido un MENUBAR , basta activarlo para insertarlo
+      en la barra de menus:
+
+      ACTIVATE MENUBAR <oMenu>
+
+  6.- Mas Tipos de MenuItems.
+      T-Gtk pone a disposicion tambien los distintos tipos existentes en GTK,
+      donde lo antes explicado para el MENUITEM es identico, salvo :
+
+      + Tipo MenuItem Check
+      MENUITEM CHECK [ <oMenuItem> ] [ <lRoot: ROOT> ] ;
+               TITLE <cTitle> ;
+               [ ACTION <bAction> ];
+	       [ <lRadio: ASRADIO>];
+	       [ <lActive: ACTIVE> ];
+	       [ <lMnemonic: MNEMONIC>];
+	       OF  <oMenu> ;
+
+     <lRadio>  Si queremos que se representado por un radio, cuando este activo
+     <lActive> Si queremos que se muestre activado.
+
+      + Tipo MenuItem Image
+      MENUITEM IMAGE [ <oMenuItem> ] ;
+               [ <lRoot: ROOT> ] ;
+               [ TITLE <cTitle> ];
+	       [ ACTION <bAction> ];
+	       [ FROM STOCK <cFromStock> ];
+	       [ IMAGE <oImage> ];
+	       [ <lMnemonic: MNEMONIC> ];
+	       OF  <oMenu> ;
+       Menu conteniendo una etiqueta y/o una imagen cualquiera.
+
+       <cFromStock> Si queremos una imagen desde el stock.
+       <oImage> Objeto Image que queremos poner como opcion de menu.
+
+
+
+
+Ejemplo de montaje de un menu cualquiera:
+
+DEFINE BARMENU oMenuBar
+
+MENUBAR oMenu OF oMenuBar
+
+  MENU ROOT oMenuItem TITLE "Ejemplos" OF oMenu
+
+     MENUITEM oMenuItem2 TITLE "Windows"  OF oMenu
+      SUBMENU oSubMenu OF oMenuItem2
+          MENUITEM TITLE "Crear ventana" ACTION CreateWindow() OF oSubMenu
+          MENUITEM TITLE "MsgBox" ACTION Paso( "Hola pasado" ) OF oSubMenu
+
+     MENUITEM TITLE "StatusBar"   OF oMenu
+
+     MENUITEM oMenuProgress TITLE "ProgressBar" OF oMenu
+       SUBMENU oSubMenu2 OF oMenuProgress
+          MENUITEM oMenuPro TITLE "ProgressBar 2" OF oSubMenu2
+            SUBMENU oSubMenu3 OF oMenuPro
+               MENUITEM TITLE "ProgressBar 3" OF oSubMenu3 ACTION Salta()
+
+ACTIVATE MENUBAR oMenu
+
+
+MENUBAR oMenu2 OF oMenuBar
+  MENU ROOT oMenuOtro TITLE "Otro" OF oMenu2
+    MENUITEM oMenuItem2 TITLE "Un Item"  OF oMenu2
+ACTIVATE MENUBAR oMenu2
+
+
+
+
+******************************************************************************
+2.- Uso desde Glade
+******************************************************************************
+T-Gtk soporta el uso de menus definidos en Glade sin ningun tipo de problemas.
+Desde glade diseñas el menu tal y como te gustaria.
+
+Despues , segun el tipo de menuitem que hayas seleccionado en glade, tienes
+estos comandos.
+
+Para menuitems simples de texto:
+DEFINE MENUITEM [<oMenuItem>]
+       ACTION <bAction> ;
+       ID <cId> ;
+       RESOURCE <uGlade>
+
+Para menuitems que controlamos como un Check:
+DEFINE MENUITEM CHECK [ <oMenuItem> ] ;
+          ACTION <bAction> ;
+          [ <lRadio: ASRADIO>];
+          [ <lActive: ACTIVE> ];
+          ID <cId> ;
+          RESOURCE <uGlade>
+
+Para menuitems que contienen una imagen:
+DEFINE MENUITEM IMAGE [ <oMenuItem> ] ;
+       ACTION <bAction> ;
+       ID <cId> ;
+       RESOURCE <uGlade>
+
+Teneis un ejemplo en /tests/glass/menuglade
