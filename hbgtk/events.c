@@ -1,4 +1,4 @@
-/* $Id: events.c,v 1.3 2006-09-21 12:51:10 rosenwla Exp $*/
+/* $Id: events.c,v 1.4 2006-09-21 22:47:04 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -2057,7 +2057,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
     // Si pasamos un bloque de codigo, entonces, cMethod es igual a la señal encontrada.
     // Asi, en el CALLBACK podemos seleccionar el codeblock de la señal que nos interesa.
     if( ISBLOCK( 4 ) )
-      cMethod = array[ iPos ].method;
+      cMethod = array[ iPos ].name;
 
     if ( iPos != -1 ){
       iReturn = g_signal_connect_data( G_OBJECT( widget ),
