@@ -1,4 +1,4 @@
-/* $Id: gtkapi.ch,v 1.1 2006-09-08 10:16:34 xthefull Exp $*/
+/* $Id: gtkapi.ch,v 1.2 2006-09-22 20:54:51 clneumann Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -14,7 +14,7 @@
 #include "gtkkeys.ch"
 
 /* Codigos de evento */
-#include "GdkEvent.ch"
+#include "gdkevent.ch"
 
 /* Compatibilidad con C */
 #define TRUE   1
