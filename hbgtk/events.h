@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.2 2006-09-21 12:51:11 rosenwla Exp $*/
+/* $Id: events.h,v 1.3 2006-09-22 09:09:04 rosenwla Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {
@@ -111,3 +111,9 @@ static TGtkActionParce array[] = {
 };  /**/
 
 #define COUNT_ARRAY     104
+
+static TGtkPreDfnParce predefine[] = {
+               {"toggled", "cell_toggled"}
+};
+#define CONTT_PREDEFINE 1
+

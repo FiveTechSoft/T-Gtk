@@ -1,4 +1,4 @@
-/* $Id: events.c,v 1.4 2006-09-21 22:47:04 xthefull Exp $*/
+/* $Id: events.c,v 1.5 2006-09-22 09:09:04 rosenwla Exp $*/
 /*
     LGPL Licence.
 
@@ -2039,9 +2039,17 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, se√±al, Self, method a saltar, Connect
     gint iReturn;
     PHB_ITEM pSelf, pBlock;
     gint num_elements = sizeof( array )/ sizeof( TGtkActionParce );
+    gint num_predefine = sizeof( predefine )/ sizeof( TGtkPreDfnParce );
     gint ConnectFlags = ISNIL( 5 ) ? (GConnectFlags) 0 :  (GConnectFlags) hb_parni( 5 );
-    gchar *cMethod; // =  (gchar *) hb_parc( 4 );
+    gchar *cMethod = "onInternalError"; // =  (gchar *) hb_parc( 4 );
 
+    // Chech before seek in basa arra fo predefine signals from t-gtk source
+    for ( x = 0;  x < num_predefine; x++ ) {
+        if( g_strcasecmp( cStr, predefine[x].tgtkname ) == 0 ) {
+            cStr = predefine[x].gtkname;
+            break;
+        }
+    }
     // Busca la se√±al que tengo que procesar.
     for ( x = 0;  x < num_elements; x++ ) {
         if( g_strcasecmp( cStr, array[x].name ) == 0 ) {
@@ -2052,7 +2060,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, se√±al, Self, method a saltar, Connect
 
     /* Si es Self, es el nombre del method, de lo contrario, puede ser un codeblock */
     if( ISOBJECT( 3 ) )
-      cMethod =  ISNIL( 4 ) ? array[ iPos ].method : (gchar *) hb_parc( 4 );
+      cMethod = ISNIL( 4 ) ? array[ iPos ].method : (gchar *) hb_parc( 4 ); //This row is need for optimizations. when release a cmedhod in prg source is not work
 
     // Si pasamos un bloque de codigo, entonces, cMethod es igual a la seÒal encontrada.
     // Asi, en el CALLBACK podemos seleccionar el codeblock de la seÒal que nos interesa.
