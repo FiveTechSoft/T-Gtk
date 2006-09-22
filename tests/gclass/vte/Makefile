@@ -3,6 +3,6 @@
 TARGET = test
 SOURCES = testvte.prg
 
-LIBS=$(shell pkg-config --libs vte)
+LIBS=-L/home/tgtk/lib -lhbvte $(shell pkg-config --libs vte)
 include ../../../Rules.make
 
