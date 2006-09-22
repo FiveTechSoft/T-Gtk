@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.1 2006-09-08 10:16:34 xthefull Exp $ */
+/*  $Id: gclass.ch,v 1.2 2006-09-22 19:43:52 xthefull Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2003 Rafa Carmona
@@ -1387,5 +1387,15 @@
                            <.lContainer.>,<x>, <y>, <cId>, <uGlade>, <nWidth>, <nHeight> ,;
                            <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
                            <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
+
+/* AboutDialog */
+#xcommand DEFINE ABOUT [ <oAbout> ] ;
+                 [ NAME <cName> ] ;
+                 [ VERSION <cVersion> ] ;
+                 [ <lCenter: CENTER> ] ;
+                 [ ID <cId> ;
+                 [ RESOURCE <uGlade> ] ];
+       =>;
+         [ <oAbout> := ] gAboutDialog():New( <cName>, <cVersion>, <.lCenter.> ,<cId>, <uGlade> )
 
 extern errorsys

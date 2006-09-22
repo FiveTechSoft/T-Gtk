@@ -1,4 +1,4 @@
-/*  $Id: jerarquia_gclass.txt,v 1.1 2006-09-21 10:09:46 xthefull Exp $ */
+/*  $Id: jerarquia_gclass.txt,v 1.2 2006-09-22 19:43:52 xthefull Exp $ */
 /*
  Jerarquia de clases para gClass
  (c)2004 Rafa Carmona
@@ -21,6 +21,7 @@
       |     |    |    |      +-gDialog *
       |     |    |    |           +-gDlgFile
       |     |    |    |           +-gDlgFont
+      |     |    |    |           +-gAboutDialog
       |     |    |    |
       |     |    |    +- gAlignment
       |     |    |    |

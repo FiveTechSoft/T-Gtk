@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
+
+<glade-interface>
+
+<widget class="GtkAboutDialog" id="about1">
+  <property name="visible">True</property>
+  <property name="destroy_with_parent">False</property>
+  <property name="name" translatable="yes">Application Name</property>
+  <property name="copyright" translatable="yes">(c)Rafa Carmona</property>
+  <property name="comments" translatable="yes">Este es un ejemplo
+</property>
+  <property name="wrap_license">False</property>
+  <property name="authors">Rafa Carmona
+J.J</property>
+  <property name="documenters">Sarah
+Ruth</property>
+  <property name="translator_credits" translatable="yes" comments="TRANSLATORS: Replace this string with your names, one name per line.">Juan</property>
+</widget>
+
+</glade-interface>
