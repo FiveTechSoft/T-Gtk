@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.6 2006-09-21 23:11:18 xthefull Exp $
+ * $Id: ChangeLog,v 1.7 2006-09-22 19:45:00 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,17 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2006-09-22 21:45 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   + Add new code for support About dialog:
+     + gtkaboutdialog.c
+     + gaboutdialog.prg
+     + test for about.
+
+   * jeraquia_gclass.txt
+     + Add gaboutdialog class
+   
+   * New command : DEFINE ABOUT....
 
 2006-09-22 01:10 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    + Support and implementation Terminal for T-Gtk ( Only for GNU/linux )
