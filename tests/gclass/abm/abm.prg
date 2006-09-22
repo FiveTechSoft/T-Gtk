@@ -31,7 +31,7 @@ function main()
   INDEX ON Field->Last  TO "Apel"   FOR !deleted()
   INDEX ON Field->First TO "NOT_DEL" 
 
-  SET INDEX TO name, apel, Not_del
+  SET INDEX TO Name, Apel, NOT_DEL
 
   dbsetorder(1)
 
