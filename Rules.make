@@ -82,7 +82,7 @@ else
      ifeq ($(XBASE_COMPILER),XHARBOUR)
         # XHARBOUR
         #LIBFILES_ = -ldebug -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lrtl -lcommon -lm -lgpm
-        LIBFILES_ = -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lcommon -lm -lhbsix -pcrepos
+        LIBFILES_ = -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lcommon -lm -lhbsix -lpcrepos
      else
         # HARBOUR
         # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
