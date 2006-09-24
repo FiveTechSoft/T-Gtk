@@ -20,7 +20,7 @@ FUNCTION Main()
 
       oWnd:bInit := Indexa(oPBr)
 
-   ACTIVATE WINDOW oWnd CENTER CENTER
+   ACTIVATE WINDOW oWnd CENTER
 
    RETURN NIL
 
@@ -28,13 +28,13 @@ FUNCTION Indexa(oPBr)
   LOCAL nTotal, nContador := 0
 
   USE ../../CUSTOMER.DBF NEW ALIAS CLIENTES
-  
+
   while LastRec() < 2000
      DbAppend()
   end
 
   nTotal := LastRec()
-  
+
   * Datos para el ProgressBar
   oPBr:SetTotal( nTotal )
   oPBr:SetValue( 1 )
