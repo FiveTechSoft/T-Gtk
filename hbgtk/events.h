@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.3 2006-09-22 09:09:04 rosenwla Exp $*/
+/* $Id: events.h,v 1.4 2006-09-29 13:14:21 rosenwla Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {
@@ -105,9 +105,17 @@ static TGtkActionParce array[] = {
                {"toggle-handle-focus",       "OnToggleHandleFocus",         G_CALLBACK( OnEventos )},                /*100 -- GtkPaned  -- */
                {"adjust-bounds",             "OnAdjustBounds",              G_CALLBACK( OnAdjust_Bounds )},          /*101 -- GtkRange  -- */
                /* change-value, OJO SpinButton tiene mismo nombre, pero recibe != pararametros-- */
-               {"change-value", "OnChangeValue",                            G_CALLBACK( OnChange_Value )},           /*102 -- GtkRange  -- */
-               {"move-focus-out", "OnMoveFocusOut",                         G_CALLBACK( OnMove_Focus )},             /*103 -- GtkScrolledWindow  -- */
-               {"scroll-child", "OnScrollChild",                            G_CALLBACK( OnScroll_Child )}            /*104 -- GtkScrolledWindow  -- */
+               {"change-value", 			 "OnChangeValue",               G_CALLBACK( OnChange_Value )},           /*102 -- GtkRange  -- */
+               {"move-focus-out", 			 "OnMoveFocusOut",              G_CALLBACK( OnMove_Focus )},             /*103 -- GtkScrolledWindow  -- */
+               {"scroll-child", 			 "OnScrollChild",               G_CALLBACK( OnScroll_Child )},           /*104 -- GtkScrolledWindow  -- */
+			   {"backspace", 				 "OnBackspace",                 G_CALLBACK( OnBackspace )},           	 /*105 -- GtkEntry  -- */
+			   {"copy-clipboard", 			 "OnCopy_Clipboard",            G_CALLBACK( OnCopy_Clipboard )},         /*106 -- GtkEntry  -- */
+			   {"cut-clipboard", 			 "OnCut_Clipboard",             G_CALLBACK( OnCut_Clipboard )},          /*107 -- GtkEntry  -- */
+			   {"delete-from-cursor", 		 "OnDelete_From_Cursor",        G_CALLBACK( OnDelete_From_Cursor )},     /*108 -- GtkEntry  -- */
+			   {"move-cursor", 		 		 "OnMove_Cursor",        		G_CALLBACK( OnMove_Cursor )},     		 /*109 -- GtkEntry  -- void  OnMove_Cursor(GtkEntry *entry, GtkMovementStep *arg1, gint arg2, gboolean  arg3, gpointer  user_data)*/
+			   {"paste-clipboard", 		 	 "OnPaste_Clipboard",        	G_CALLBACK( OnPaste_Clipboard )},     	 /*111 -- GtkEntry  -- void   OnPaste_Clipboard(GtkEntry *entry, gpointer  user_data)*/
+			   {"populate-popup", 		 	 "OnPopulate_Popup",        	G_CALLBACK( OnPopulate_Popup )},     	 /*112 -- GtkEntry  -- void  OnPopulate_Popup(GtkEntry *entry,GtkMenu  *arg1, gpointer  user_data) */
+			   {"toggle-overwrite", 		 "OnToggle_Overwrite",        	G_CALLBACK( OnToggle_Overwrite )}     	 /*113 -- GtkEntry  -- void  OnToggle_Overwrite(GtkEntry *entry, gpointer  user_data) */
 };  /**/
 
 #define COUNT_ARRAY     104

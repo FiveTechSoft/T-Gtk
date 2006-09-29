@@ -1,4 +1,4 @@
-/* $Id: gentry.prg,v 1.1 2006-09-07 17:02:43 xthefull Exp $*/
+/* $Id: gentry.prg,v 1.2 2006-09-29 13:14:21 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -44,8 +44,16 @@ CLASS GENTRY FROM GWIDGET
       METHOD GetValue( )        INLINE ::GetText()
       
       METHOD OnFocus_out_event( oSender )
-      METHOD OnKey_Press_event( oSender,   pGdkEventKey  )
-      METHOD OnInsert_At_Cursor( oSender, cText )  VIRTUAL
+      METHOD OnKey_Press_event( oSender, pGdkEventKey  )
+	  METHOD OnBackspace( oSender ) VIRTUAL
+	  METHOD OnCopy_Clipboard( oSender ) VIRTUAL
+	  METHOD OnCut_Clipboard( oSender ) VIRTUAL
+	  METHOD OnDelete_From_Cursor( oSender, nDeleteType, nMode ) VIRTUAL
+	  METHOD OnInsert_At_Cursor( oSender, cText )  VIRTUAL
+	  METHOD OnMove_Cursor( oSender, nMovementStep, nMode, lMode ) VIRTUAL
+	  METHOD OnPaste_Clipboard( oSender ) VIRTUAL
+	  METHOD OnPopulate_Popup( oSender, pMenu ) VIRTUAL
+	  METHOD OnToggle_Overwrite( oSender ) VIRTUAL
       METHOD OnChanged( oSender )                  VIRTUAL
 
 ENDCLASS
