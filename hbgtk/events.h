@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.4 2006-09-29 13:14:21 rosenwla Exp $*/
+/* $Id: events.h,v 1.5 2006-10-03 10:34:41 xthefull Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {
@@ -58,7 +58,9 @@ static TGtkActionParce array[] = {
                {"remove",                    "OnRemove",                    G_CALLBACK( OnSignals_Container )},      /*53 -- GtkContainer -- */
                {"set-focus-child",           "OnSetFocusChild",             G_CALLBACK( OnSignals_Container )},      /*54 -- GtkContainer -- */
                {"check-resize",              "OnCheckResize",               G_CALLBACK( OnCheck_Resize )},           /*55 -- GtkContainer -- */
+               #if GTK_CHECK_VERSION(2,8,0)
                {"grab-broken-event",         "OnGrabBrokenEvent",           G_CALLBACK( OnGrab_Broken_Event )},      /*56 -- GtkWidget -- */
+               #endif
                {"grab-focus",                "OnGrabFocus",                 G_CALLBACK( OnEventos_void )},           /*57 -- GtkWidget -- */
                {"grab-notify",               "OnGrabNotify",                G_CALLBACK( OnGrab_Notify )},            /*58 -- GtkWidget -- */
                {"hide",                      "OnHide",                      G_CALLBACK( OnEventos_void )},           /*59 -- GtkWidget -- */

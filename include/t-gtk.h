@@ -1,4 +1,4 @@
-/* $Id: t-gtk.h,v 1.1 2006-09-22 09:09:04 rosenwla Exp $*/
+/* $Id: t-gtk.h,v 1.2 2006-10-03 10:34:42 xthefull Exp $*/
 
 /*
  * t-gtk.h Fichero de definiciones de T-Gtk -------------------------------------
@@ -8,12 +8,12 @@
  */
 
 typedef struct {
-  const gchar *name;
-  const gchar *method;
+  gchar *name;
+  gchar *method;
   GCallback   callback;
 } TGtkActionParce;
 
 typedef struct {
-  const gchar *gtkname;
-  const gchar *tgtkname;
+  gchar *gtkname;
+  gchar *tgtkname;
 } TGtkPreDfnParce;

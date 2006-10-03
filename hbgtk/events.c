@@ -1,4 +1,5 @@
-/* $Id: events.c,v 1.6 2006-09-29 13:14:21 rosenwla Exp $*/
+
+/* $Id: events.c,v 1.7 2006-10-03 10:34:41 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -1090,41 +1091,43 @@ void OnCheck_Resize( GtkContainer *container, gpointer data )
   }
 }
 
-gboolean OnGrab_Broken_Event( GtkWidget *widget, GdkEventGrabBroken *event, gpointer data )
-{
- PHB_ITEM pObj   = g_object_get_data( G_OBJECT( widget ), "Self" );
- PHB_ITEM pBlock;
- PHB_DYNS pMethod;
+#if GTK_CHECK_VERSION(2,8,0)
+    gboolean OnGrab_Broken_Event( GtkWidget *widget, GdkEventGrabBroken *event, gpointer data )
+    {
+     PHB_ITEM pObj   = g_object_get_data( G_OBJECT( widget ), "Self" );
+     PHB_ITEM pBlock;
+     PHB_DYNS pMethod;
 
- if( pObj  ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                       // Coloca objeto en pila.
-        hb_vmPush( pObj );                       // Dato a pasar
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );  // // Pointer de struct event
-        hb_vmSend( 2 );                              // LLamada por Send
-        return( hb_parl( -1 ) );
-     } else {
-        g_print( "Method doesn't exist OnGrab_Broken_Event" );
-     }
-  }
+     if( pObj  ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                       // Coloca objeto en pila.
+            hb_vmPush( pObj );                       // Dato a pasar
+            hb_vmPushLong( GPOINTER_TO_UINT( event ) );  // // Pointer de struct event
+            hb_vmSend( 2 );                              // LLamada por Send
+            return( hb_parl( -1 ) );
+         } else {
+            g_print( "Method doesn't exist OnGrab_Broken_Event" );
+         }
+      }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
-  if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
-     if( pBlock ) {
-        hb_vmPushSymbol( &hb_symEval );
-        hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
-        hb_vmSend( 2 );
-        return( hb_parl( -1 ) );
-     }
-  }
+      // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+      if( pObj == NULL ){
+         pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
+         if( pBlock ) {
+            hb_vmPushSymbol( &hb_symEval );
+            hb_vmPush( pBlock );
+            hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmSend( 2 );
+            return( hb_parl( -1 ) );
+         }
+      }
+    return( FALSE );  // Salimos
+    }
+#endif
 
-return( FALSE );  // Salimos
-}
 
 void OnGrab_Notify( GtkWidget *widget, gboolean arg1, gpointer data )
 {
