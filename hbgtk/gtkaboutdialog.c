@@ -107,33 +107,25 @@ HB_FUNC( GTK_ABOUT_DIALOG_SET_WEBSITE_LABEL )
   gtk_about_dialog_set_website_label( dialog, szText );
 }
 
-/* TODO:
- * 
 HB_FUNC( GTK_ABOUT_DIALOG_SET_ARTISTS )
 {
   GtkAboutDialog  * dialog = GTK_ABOUT_DIALOG( hb_parnl( 1 ) );
   PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY ); // array
   gint iLenCols = hb_arrayLen( pArray );        // columnas
   gint iCol;                                    // contador
-  const gchar *artist[ iLenCols + 1];           // array 
-  const gchar *a[] = { "pepe", "hjose", NULL }; // array de tipos
+  const gchar **artist  = hb_xgrab( iLenCols + 1 ); // array 
   
-  g_print( "\nlongitud del array %d \n", iLenCols );
-
-  for( iCol = 0; iCol < iLenCols; iCol++ )
+  for( iCol = 0; iCol < iLenCols ; iCol++ )
    {
      artist[ iCol ]  = ( const gchar * ) hb_arrayGetC( pArray, iCol + 1 );
-     g_print( "%s \n",artist[ iCol ] );
+     // g_print( "%s \n",artist[ iCol ] );
    }
-   artist[ iCol + 1] = NULL;
-   
-   g_print( "final" );
-   
-   //gtk_about_dialog_set_artists( dialog, a );  
+   artist[ iCol ] = NULL; // ultima
    gtk_about_dialog_set_artists( dialog, artist  );
 
+   hb_xfree( artist ); 
 }
-*/
+
 
 HB_FUNC( GTK_SHOW_ABOUT_DIALOG )
 {
@@ -143,3 +135,5 @@ HB_FUNC( GTK_SHOW_ABOUT_DIALOG )
 }
 #endif
 
+#if GTK_CHECK_VERSION(2,8,0)
+#endif

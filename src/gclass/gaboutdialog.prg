@@ -1,4 +1,4 @@
-/* $Id: gaboutdialog.prg,v 1.2 2006-10-03 10:47:04 xthefull Exp $*/
+/* $Id: gaboutdialog.prg,v 1.3 2006-10-03 12:52:54 xthefull Exp $*/
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
@@ -20,10 +20,11 @@ CLASS GAboutDialog FROM GDIALOG
       METHOD GetWebsite()           INLINE gtk_about_dialog_get_website( ::pWidget )
       METHOD SetWebsiteLabel( cText )    INLINE gtk_about_dialog_set_website_label( ::pWidget, cText )
       METHOD GetWebsiteLabel()           INLINE gtk_about_dialog_get_website_label( ::pWidget )
+      METHOD SetArtists( aArtists ) INLINE gtk_about_dialog_set_artists( ::pWidget, aArtists )
 
 ENDCLASS
 
-METHOD NEW( cName, cVersion, lCenter, cId, uGlade ) CLASS GAboutDialog
+METHOD NEW( cName, cVersion, aArtists ,lCenter, cId, uGlade ) CLASS GAboutDialog
 
        if cId == NIL
           ::pWidget := gtk_about_dialog_new()
@@ -35,6 +36,7 @@ METHOD NEW( cName, cVersion, lCenter, cId, uGlade ) CLASS GAboutDialog
 
        if cName    != NIL  ;  ::SetName( cName )        ;   endif
        if cVersion != NIL  ;  ::SetVersion( cVersion )  ;   endif
+       if aArtists != NIL  ;  ::SetArtists( aArtists )  ;   endif
       
        // Como en los dialogs, esto es ignorado desde glade...quizas sea un bug( gtk 2.8 win )
        if !::lGlade 
