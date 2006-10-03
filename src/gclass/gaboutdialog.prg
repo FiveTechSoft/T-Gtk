@@ -1,25 +1,4 @@
-/* $Id: gaboutdialog.prg,v 1.1 2006-09-22 19:43:53 xthefull Exp $*/
-/*
-    LGPL Licence.
-    
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this software; see the file COPYING.  If not, write to
-    the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-    Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
-
-    LGPL Licence.
-    (c)2006 Rafael Carmona <thefull@wanadoo.es>
-*/
+/* $Id: gaboutdialog.prg,v 1.2 2006-10-03 10:47:04 xthefull Exp $*/
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
@@ -30,6 +9,17 @@ CLASS GAboutDialog FROM GDIALOG
       METHOD GetName()              INLINE gtk_about_dialog_get_name( ::pWidget )
       METHOD SetVersion( cVersion ) INLINE gtk_about_dialog_set_version( ::pWidget, cVersion )
       METHOD GetVersion()           INLINE gtk_about_dialog_get_version( ::pWidget )
+      
+      METHOD SetCopyright( cText )  INLINE gtk_about_dialog_set_copyright( ::pWidget, cText )
+      METHOD GetCopyright()         INLINE gtk_about_dialog_get_copyright( ::pWidget )
+      METHOD SetComments( cText )   INLINE gtk_about_dialog_set_comments( ::pWidget, cText )
+      METHOD GetComments()          INLINE gtk_about_dialog_get_comments( ::pWidget )
+      METHOD SetLicense( cText )    INLINE gtk_about_dialog_set_license( ::pWidget, cText )
+      METHOD GetLicense()           INLINE gtk_about_dialog_get_license( ::pWidget )
+      METHOD SetWebsite( cText )    INLINE gtk_about_dialog_set_website( ::pWidget, cText )
+      METHOD GetWebsite()           INLINE gtk_about_dialog_get_website( ::pWidget )
+      METHOD SetWebsiteLabel( cText )    INLINE gtk_about_dialog_set_website_label( ::pWidget, cText )
+      METHOD GetWebsiteLabel()           INLINE gtk_about_dialog_get_website_label( ::pWidget )
 
 ENDCLASS
 
