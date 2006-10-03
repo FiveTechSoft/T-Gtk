@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.7 2006-09-22 19:45:00 xthefull Exp $
+ * $Id: ChangeLog,v 1.8 2006-10-03 10:39:56 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,19 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+
+2006-10-03 12:34 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   * t-gtk.h
+     The function g_signal_connect_data( ..., cMethod , ..), arg 4, is gchar *, but
+     in the struc TGtkActionParce, cMethod is , const gchar *method;
+     Change const gchar * at gchar * in the structures.
+
+   * events.c and events.h
+     + Push Define #if GTK_CHECK_VERSION(2,8,0)
+
+   * gtkaboutdialog.c
+     + Must function.
 
 2006-09-22 21:45 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    + Add new code for support About dialog:
