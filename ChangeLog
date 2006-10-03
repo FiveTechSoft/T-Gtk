@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.8 2006-10-03 10:39:56 xthefull Exp $
+ * $Id: ChangeLog,v 1.9 2006-10-03 11:25:48 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,10 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+
+2006-10-03 13:25 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   + New source code for pdf library /src/pdf/
+   + Examples create files pdfs in /tests/native/pdfs
 
 2006-10-03 12:34 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    * t-gtk.h
@@ -19,7 +23,7 @@
      + Push Define #if GTK_CHECK_VERSION(2,8,0)
 
    * gtkaboutdialog.c
-     + Must function.
+     + More function.
 
 2006-09-22 21:45 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    + Add new code for support About dialog:
