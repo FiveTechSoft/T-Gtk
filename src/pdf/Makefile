@@ -5,8 +5,8 @@
 
 TARGET=libpdf.a
 
-PRGFLAGS=-I../include
-CFLAGS+=-I../include
-TGTK_INSTALL=../lib
+PRGFLAGS=-I../../include
+CFLAGS+=-I../../include
+TGTK_INSTALL=../../lib
 
-include ../Rules.make
+include ../../Rules.make
