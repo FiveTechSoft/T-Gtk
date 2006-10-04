@@ -1,4 +1,4 @@
-/* $Id: gentry.prg,v 1.2 2006-09-29 13:14:21 rosenwla Exp $*/
+/* $Id: gentry.prg,v 1.3 2006-10-04 08:35:28 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -22,35 +22,39 @@
 */
 #include "hbclass.ch"
 #include "gclass.ch"
+#include "getexit.ch"
 
 CLASS GENTRY FROM GWIDGET
-      DATA oGet  // Get de toda la vida
-      DATA bSetGet
+      DATA oGet AS OBJECT // Get de toda la vida 
+      // DATA bSetGet // Remove from Rosen
       DATA char_iso INIT "ISO-8859-1"
       DATA lCompletion INIT .F.
       
       METHOD New( bSetGet, cPicture, oParent )
-      METHOD SetPos( nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
+      METHOD SetPos( nRow, nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
       METHOD SetText( cText ) INLINE gtk_entry_set_text( ::pWidget,  cText )
       METHOD GetText()        INLINE gtk_entry_get_text( ::pWidget )
       METHOD GetPos()         INLINE gtk_editable_get_position( ::pWidget )
       METHOD Justify (nType ) INLINE gtk_entry_set_alignment( ::pWidget, nType )
       METHOD SetVisible( lVisible )  INLINE gtk_entry_set_visibility( ::pWidget, lVisible )
-
+	  METHOD DispOutAt()
+	  
       METHOD Refresh()
       METHOD Create_Completion( aCompletion )
       
       METHOD SetValue( uValue ) INLINE ::SetText( uValue )
       METHOD GetValue( )        INLINE ::GetText()
-      
+      METHOD DispOutAt( nRow, nCol, xBuffer, cClr, lType, nMode )
+	  
+	  METHOD OnFocus_in_event( oSender )
       METHOD OnFocus_out_event( oSender )
       METHOD OnKey_Press_event( oSender, pGdkEventKey  )
-	  METHOD OnBackspace( oSender ) VIRTUAL
+	  METHOD OnBackspace( oSender ) INLINE TraceLog("OnBackspace")
 	  METHOD OnCopy_Clipboard( oSender ) VIRTUAL
 	  METHOD OnCut_Clipboard( oSender ) VIRTUAL
-	  METHOD OnDelete_From_Cursor( oSender, nDeleteType, nMode ) VIRTUAL
+	  METHOD OnDelete_From_Cursor( oSender, nDeleteType, nMode ) INLINE TraceLog("OnDelete_From_Cursor", nDeleteType, nMode)
 	  METHOD OnInsert_At_Cursor( oSender, cText )  VIRTUAL
-	  METHOD OnMove_Cursor( oSender, nMovementStep, nMode, lMode ) VIRTUAL
+	  METHOD OnMove_Cursor( oSender, nMovementStep, nMode, lMode ) INLINE TraceLog("OnMove_Cursor", nMovementStep, nMode, lMode)
 	  METHOD OnPaste_Clipboard( oSender ) VIRTUAL
 	  METHOD OnPopulate_Popup( oSender, pMenu ) VIRTUAL
 	  METHOD OnToggle_Overwrite( oSender ) VIRTUAL
@@ -62,7 +66,8 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
             lFill, nPadding , lContainer, x, y, cId, uGlade, uLabelTab, lPassWord,;
             lEnd , lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta,;
             xOptions_ta, yOptions_ta  ) CLASS GENTRY
-
+	   Local cColorSpec
+	   
        IF cId == NIL
           ::pWidget := gtk_entry_new()
        ELSE
@@ -74,15 +79,20 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
                          Asi que de momento, prefiero al BarÇa coñons que controlar un get de harbour */
                         
        ::Register()
-       ::bSetGet := bSetGet
-       ::oGet    := GetNew( -1, -1, bSetGet, "", cPicture )
-
-       ::AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y, uLabelTab,;
+       // ::bSetGet := bSetGet //Remowe from Rosen
+       // ::oGet    := GetNew( -1, -1, bSetGet, "", cPicture ) // Remove from Rosen
+	   ::oGet := Get():New( -1, -1, bSetGet, NIL, cPicture, cColorSpec )
+	   
+	   ::AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y, uLabelTab,;
                    lEnd, lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta,;
                    xOptions_ta, yOptions_ta   )
 
        ::bValid := bValid
+	   //TraceLog("key-press-event")
+	   ::Connect( "backspace" )
        ::Connect( "key-press-event" )
+	   ::Connect( "delete-from-cursor" )
+	   ::Connect( "move-cursor" )
 //       ::Connect( "changed" )
        ::Connect_After( "focus-out-event")
 
@@ -98,40 +108,55 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
           ::lCompletion := .T.
           ::Create_Completion( aCompletion )
        endif
-       
-       ::oGet:SetFocus()
-       ::SetText( alltrim( ::oGet:buffer ) )
-       ::SetPos( ::oGet:pos - 1 )
 
-       ::Show()
-
+	   ::oGet:oGUI := Self
+	   ::oGet:SetFocus()
+	   ::SetText( ::oGet:Buffer )
+	   ::SetPos( NIL, ::oGet:pos - 1 )
+	   ::Show()
+		
 RETURN Self
 
 METHOD Refresh() CLASS GENTRY
        ::oGet:UpdateBuffer()
-       ::SetText( ::oGet:buffer )
-*			 if ::oGet:buffer != ::GetText()
+       ::SetText( ::oGet:Buffer )
+*		if ::oGet:buffer != ::GetText()
 *          ::oGet:buffer = ::GetText()
 *       endif
 
 RETURN NIL
 
-METHOD OnFocus_Out_Event( oSender ) CLASS GENTRY
+METHOD DispOutAt( nRow, nCol, xBuffer, cClr, lType, nMode ) CLASS GENTRY
+	IF nMode == NIL .OR. nMode == HB_GET
+		::SetText( xBuffer )
+	ENDIf
+Return NIL
 
+METHOD OnFocus_in_event( oSender ) CLASS GENTRY
+	Local nReturn
+	if ( nReturn := Super:OnFocus_in_event( oSender ) )
+		::SetText( ::oGet:SetFocus():Buffer )
+	endif
+Return nReturn
+
+METHOD OnFocus_Out_Event( oSender ) CLASS GENTRY
+	Local nReturn
        if !( oSender:oGet:buffer == oSender:GetText() )
           // Tranformacion inversa , de utf8 a iso
-          oSender:oGet:buffer := oSender:GetText()// _UTF_8( oSender:GetText(), ::char_iso )
+          oSender:oGet:buffer( oSender:GetText() ) // _UTF_8( oSender:GetText(), ::char_iso )
        endif
-
-       oSender:oGet:Assign()
-
+       
        if oSender:bValid != nil
           if Len( oSender:GetText() ) == 0
              oSender:SetText( oSender:oGet:buffer )
           endif
        Endif
-
-RETURN Super:OnFocus_Out_Event( oSender )
+	   if ( nReturn := Super:OnFocus_Out_Event( oSender ) )
+		oSender:oGet:KillFocus()
+	   else
+		oSender:oGet:ExitState := GE_NOEXIT	   
+	   endif
+RETURN nReturn
 
 METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GEntry
 

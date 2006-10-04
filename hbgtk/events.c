@@ -1,5 +1,5 @@
 
-/* $Id: events.c,v 1.7 2006-10-03 10:34:41 xthefull Exp $*/
+/* $Id: events.c,v 1.8 2006-10-04 08:35:28 rosenwla Exp $*/
 /*
     LGPL Licence.
 
@@ -2321,14 +2321,15 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
     // Asi, en el CALLBACK podemos seleccionar el codeblock de la señal que nos interesa.
     if( ISBLOCK( 4 ) )
       cMethod = array[ iPos ].name;
-
-    if ( iPos != -1 ){
+	  
+	if ( iPos != -1 ){
       iReturn = g_signal_connect_data( G_OBJECT( widget ),
                                        array[ iPos ].name,
                                        array[ iPos ].callback,
                                        cMethod,
                                        NULL, ConnectFlags );
-      hb_retni( iReturn );
+		//g_print("Signal add %s for method %s\n", array[ iPos ].name, cMethod);									   
+		hb_retni( iReturn );
       }
    else
       g_print( "Attention, %s signal not support! Information method-%s, post-%i \n", cStr, cMethod, iPos);

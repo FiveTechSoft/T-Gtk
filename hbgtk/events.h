@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.5 2006-10-03 10:34:41 xthefull Exp $*/
+/* $Id: events.h,v 1.6 2006-10-04 08:35:28 rosenwla Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {
@@ -120,7 +120,7 @@ static TGtkActionParce array[] = {
 			   {"toggle-overwrite", 		 "OnToggle_Overwrite",        	G_CALLBACK( OnToggle_Overwrite )}     	 /*113 -- GtkEntry  -- void  OnToggle_Overwrite(GtkEntry *entry, gpointer  user_data) */
 };  /**/
 
-#define COUNT_ARRAY     104
+#define COUNT_ARRAY     113
 
 static TGtkPreDfnParce predefine[] = {
                {"toggled", "cell_toggled"}

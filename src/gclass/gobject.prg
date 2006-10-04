@@ -1,4 +1,4 @@
-/* $Id: gobject.prg,v 1.1 2006-09-07 17:02:45 xthefull Exp $*/
+/* $Id: gobject.prg,v 1.2 2006-10-04 08:35:28 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -62,7 +62,7 @@ METHOD Connect( cEvento, cMethod, pWidget, ConnectionFlags ) CLASS GOBJECT
     if pWidget == NIL
        pWidget := ::pWidget
     endif
-
+	//TraceLog( pWidget, cEvento, ValToPrg(Self), cMethod, ConnectionFlags)
     nIdEvent := harb_signal_connect( pWidget, cEvento, Self, cMethod, ConnectionFlags )
 
 RETURN nIdEvent

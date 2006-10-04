@@ -1,4 +1,4 @@
-/* $Id: gwidget.prg,v 1.1 2006-09-07 16:28:06 xthefull Exp $*/
+/* $Id: gwidget.prg,v 1.2 2006-10-04 08:35:28 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -119,7 +119,8 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnUnRealize( oSender ) VIRTUAL
        METHOD OnVisibilityNotifyEvent( oSender, pGdkEventVisibility ) INLINE .F.
        METHOD OnWindowStateEvent( oSender, pGdkEventWindowState ) INLINE .F.
-
+	   //METHOD OnDelete_From_Cursor( oSender, nDeleteType, nMode ) VIRTUAL
+	   
 ENDCLASS
 
 

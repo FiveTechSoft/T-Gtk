@@ -1,4 +1,4 @@
-/* $Id: gtkentry.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkentry.c,v 1.2 2006-10-04 08:35:28 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -79,6 +79,18 @@ HB_FUNC( GTK_ENTRY_SET_ALIGNMENT )
    gtk_entry_set_alignment( GTK_ENTRY( Entry ), hb_parnl( 2 ) );
 }
 #endif
+
+HB_FUNC( GTK_ENTRY_SET_MAX_LENGTH ) // pWidget, max
+{
+	GtkWidget * Entry = GTK_WIDGET( hb_parnl( 1 ) );
+	gtk_entry_set_max_length( GTK_ENTRY( Entry ), (gint) hb_parni( 2) );
+}
+
+HB_FUNC( GTK_ENTRY_GET_MAX_LENGTH )
+{
+	GtkWidget * Entry = GTK_WIDGET( hb_parnl( 1 ) );
+	hb_retni( gtk_entry_get_max_length( GTK_ENTRY( Entry ) ) );
+}
 
 HB_FUNC( GTK_ENTRY_SET_ACTIVATES_DEFAULT )
 {

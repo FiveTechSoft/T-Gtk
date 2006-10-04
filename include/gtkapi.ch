@@ -1,4 +1,4 @@
-/* $Id: gtkapi.ch,v 1.2 2006-09-22 20:54:51 clneumann Exp $*/
+/* $Id: gtkapi.ch,v 1.3 2006-10-04 08:35:28 rosenwla Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -19,6 +19,9 @@
 /* Compatibilidad con C */
 #define TRUE   1
 #define FALSE  0
+/* Define In Gentry two definition to work with caption or without */
+#define HB_GET			0
+#define HB_GET_CAPTION	1
 
 #DEFINE TOP      0.0
 #DEFINE BOTTOM   1.0
@@ -509,3 +512,13 @@
 
 // SetGet Standard
 #define bSetGet(x)   {|u| If( PCount() == 0, x, x := u ) }
+
+// Define Enum GtkDeleteType 
+#define GTK_DELETE_CHARS				0
+#define GTK_DELETE_WORD_ENDS			1 /* delete only the portion of the word to the * left/right of cursor if we're in the middle * of a word */
+#define GTK_DELETE_WORDS				2
+#define GTK_DELETE_DISPLAY_LINES		3
+#define GTK_DELETE_DISPLAY_LINE_ENDS	4
+#define GTK_DELETE_PARAGRAPH_ENDS		5 /* like C-k in Emacs (or its reverse) */
+#define GTK_DELETE_PARAGRAPHS			6 /* C-k in pico, kill whole line */
+#define GTK_DELETE_WHITESPACE			7
