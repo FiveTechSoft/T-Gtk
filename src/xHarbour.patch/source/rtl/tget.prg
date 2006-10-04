@@ -1,5 +1,5 @@
 /*
- * $Id: tget.prg,v 1.1 2006-10-04 08:35:28 rosenwla Exp $
+ * $Id: tget.prg,v 1.2 2006-10-04 15:22:37 rosenwla Exp $
  */
 
 /*
@@ -116,7 +116,7 @@ CLASS Get
    MESSAGE _Assign METHOD Assign()
    #endif
    
-   ACCESS Buffer					INLINE TraceLog(::xBuffer), ::xBuffer
+   ACCESS Buffer					INLINE ::xBuffer
    ASSIGN Buffer( xBuffer )			INLINE (::xBuffer := xBuffer)
    
    ACCESS ColorSpec                 INLINE ::cColorSpec
@@ -606,7 +606,7 @@ METHOD SetFocus() CLASS Get
    else
       ::Display()
    endif
-	TraceLog(::xBuffer, ::cPicMask, ::type)
+	//TraceLog(::xBuffer, ::cPicMask, ::type)
 return Self
 
 //---------------------------------------------------------------------------//
@@ -1479,7 +1479,6 @@ METHOD BackSpace( lDisplay ) CLASS Get
 
    DEFAULT lDisplay TO .t.
 
-
    if nPos > 1 .and. nPos == ::FirstEditable() .and. ::minus
       /* For delete the parethesis (negative indicator) in a non editable position */
 
@@ -1497,7 +1496,7 @@ METHOD BackSpace( lDisplay ) CLASS Get
          if lDisplay
             ::Display()
          endif
-
+		 
          return Self
 
       endif
@@ -1509,7 +1508,7 @@ METHOD BackSpace( lDisplay ) CLASS Get
    if ::Pos < nPos
       ::Delete( lDisplay )
    endif
-
+	TraceLog(lDisplay, ::xBuffer)
 return Self
 
 //---------------------------------------------------------------------------//

@@ -1,4 +1,4 @@
-/* $Id: gentry.prg,v 1.3 2006-10-04 08:35:28 rosenwla Exp $*/
+/* $Id: gentry.prg,v 1.4 2006-10-04 15:22:36 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -49,15 +49,15 @@ CLASS GENTRY FROM GWIDGET
 	  METHOD OnFocus_in_event( oSender )
       METHOD OnFocus_out_event( oSender )
       METHOD OnKey_Press_event( oSender, pGdkEventKey  )
-	  METHOD OnBackspace( oSender ) INLINE TraceLog("OnBackspace")
-	  METHOD OnCopy_Clipboard( oSender ) VIRTUAL
+	  METHOD OnBackspace( oSender ) INLINE oSender:oGet:BackSpace(.t.)
+	  METHOD OnCopy_Clipboard( oSender ) INLINE TraceLog("OnCopy_Clipboard"), oSender:oGet:Assign()
 	  METHOD OnCut_Clipboard( oSender ) VIRTUAL
 	  METHOD OnDelete_From_Cursor( oSender, nDeleteType, nMode ) INLINE TraceLog("OnDelete_From_Cursor", nDeleteType, nMode)
-	  METHOD OnInsert_At_Cursor( oSender, cText )  VIRTUAL
+	  METHOD OnInsert_At_Cursor( oSender, cKey ) INLINE TraceLog("OnInsert_At_Cursor"), oSender:oGet:Insert( cKey )
 	  METHOD OnMove_Cursor( oSender, nMovementStep, nMode, lMode ) INLINE TraceLog("OnMove_Cursor", nMovementStep, nMode, lMode)
 	  METHOD OnPaste_Clipboard( oSender ) VIRTUAL
 	  METHOD OnPopulate_Popup( oSender, pMenu ) VIRTUAL
-	  METHOD OnToggle_Overwrite( oSender ) VIRTUAL
+	  METHOD OnToggle_Overwrite( oSender ) INLINE TraceLog("OnToggle_Overwrite")
       METHOD OnChanged( oSender )                  VIRTUAL
 
 ENDCLASS
@@ -81,7 +81,7 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
        ::Register()
        // ::bSetGet := bSetGet //Remowe from Rosen
        // ::oGet    := GetNew( -1, -1, bSetGet, "", cPicture ) // Remove from Rosen
-	   ::oGet := Get():New( -1, -1, bSetGet, NIL, cPicture, cColorSpec )
+	   ::oGet := Get():New( -1, 0, bSetGet, NIL, cPicture, cColorSpec )
 	   
 	   ::AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y, uLabelTab,;
                    lEnd, lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta,;
@@ -92,7 +92,13 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
 	   ::Connect( "backspace" )
        ::Connect( "key-press-event" )
 	   ::Connect( "delete-from-cursor" )
+	   ::Connect( "insert-at-cursor" )
+	   ::Connect( "copy-clipboard" )
+	   ::Connect( "cut-clipboard" )
+	   ::Connect( "paste-clipboard" )
 	   ::Connect( "move-cursor" )
+	   ::Connect( "populate-popup" )
+	   ::Connect( "toggle-overwrite" )
 //       ::Connect( "changed" )
        ::Connect_After( "focus-out-event")
 
@@ -129,13 +135,14 @@ RETURN NIL
 METHOD DispOutAt( nRow, nCol, xBuffer, cClr, lType, nMode ) CLASS GENTRY
 	IF nMode == NIL .OR. nMode == HB_GET
 		::SetText( xBuffer )
+		//TraceLog( xBuffer )
 	ENDIf
 Return NIL
 
 METHOD OnFocus_in_event( oSender ) CLASS GENTRY
 	Local nReturn
 	if ( nReturn := Super:OnFocus_in_event( oSender ) )
-		::SetText( ::oGet:SetFocus():Buffer )
+		oSender:SetText( oSender:oGet:SetFocus():Buffer )
 	endif
 Return nReturn
 
@@ -160,19 +167,40 @@ RETURN nReturn
 
 METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GEntry
 
-   local  nKey, nType
+   local  nKey, nType, cKey
 
    nKey := HB_GET_GDKEVENTKEY_KEYVAL( pGdkEventKey )// aGdkEventKey[ 6 ]
    nType:= HB_GET_GDKEVENTKEY_TYPE( pGdkEventKey )  // aGdkEventKey[ 1 ]
-
-   do case
-      case nKey == GDK_Return
-           if !::lCompletion
+   
+   //TraceLog(nKey, nType)
+   Switch nKey
+      case GDK_Return
+		if !::lCompletion
               gtk_widget_child_focus( gtk_widget_get_toplevel( oSender:pWidget ) ,GTK_DIR_TAB_FORWARD )
               return .T.
-	   endif   
-   endcase
-
+		endif   
+		exit
+		
+	  Default
+         if ( nKey >= 32 .and. nKey <= 255 )
+            // clear buffer and get window when postblock returns .F.
+            cKey := Chr( nKey )
+            if oSender:oGet:type == "N" .and. ( cKey == "." .or. cKey == "," )
+               oSender:oGet:ToDecPos()
+			   Return .T.
+            else
+			oSender:oGet:xBuffer := oSender:GetText()
+			
+            if oSender:oGet:TypeOut
+				if ! Set( _SET_CONFIRM )
+					oSender:oGet:ExitState := GE_ENTER
+                endif
+            endif
+            endif
+         endif
+		 //Return .T.
+   end
+   TraceLog( nKey, cKey, oSender:oGet:buffer, oSender:GetText(), oSender:oGet:hasfocus )
 Return .F.
 
 METHOD Create_Completion( aCompletion ) CLASS GEntry
