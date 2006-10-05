@@ -1,4 +1,4 @@
-/* $Id: gdkkey.c,v 1.3 2006-10-05 15:32:39 xthefull Exp $*/
+/* $Id: gdkkey.c,v 1.4 2006-10-05 15:45:19 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -48,7 +48,19 @@ HB_FUNC( GDK_KEYVAL_TO_UNICODE )
 HB_FUNC( GDK_UNICODE_TO_KEYVAL )
 {
   guint wc = gdk_unicode_to_keyval( (guint32) hb_parni( 1 ) );
-  hb_retni( (guint) wv ); );
+  hb_retni( (guint) wc );
 }
 
+HB_FUNC( G_LOCALE_TO_UTF8 )
+{
+  
+  gchar *msg = g_locale_to_utf8( hb_parc(1), -1, NULL, NULL, NULL);
+  hb_retc( msg );
+}
 
+HB_FUNC( G_LOCALE_FROM_UTF8 )
+{
+  
+  gchar *msg = g_locale_from_utf8( hb_parc(1), -1, NULL, NULL, NULL);
+  hb_retc( msg );
+}

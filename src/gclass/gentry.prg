@@ -1,4 +1,4 @@
-/* $Id: gentry.prg,v 1.6 2006-10-05 15:17:03 rosenwla Exp $*/
+/* $Id: gentry.prg,v 1.7 2006-10-05 15:45:19 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -229,7 +229,7 @@ METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GEntry
    if !lReturn
 	oSender:oGet:xBuffer := oSender:GetText()
    endif
-   TraceLog( g_locale_to_utf8( lGdkEventKey:string ), asc(lGdkEventKey:string), chr(lGdkEventKey:keyval), oSender:oGet:buffer, oSender:GetText())
+   TraceLog( g_locale_to_utf8( lGdkEventKey:string ), asc(lGdkEventKey:string), oSender:oGet:buffer, oSender:GetText())
 Return lReturn
 
 METHOD Create_Completion( aCompletion ) CLASS GEntry
