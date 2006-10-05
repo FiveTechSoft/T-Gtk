@@ -1,4 +1,4 @@
-/* $Id: gaboutdialog.prg,v 1.3 2006-10-03 12:52:54 xthefull Exp $*/
+/* $Id: gaboutdialog.prg,v 1.4 2006-10-05 15:22:18 xthefull Exp $*/
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
@@ -21,10 +21,14 @@ CLASS GAboutDialog FROM GDIALOG
       METHOD SetWebsiteLabel( cText )    INLINE gtk_about_dialog_set_website_label( ::pWidget, cText )
       METHOD GetWebsiteLabel()           INLINE gtk_about_dialog_get_website_label( ::pWidget )
       METHOD SetArtists( aArtists ) INLINE gtk_about_dialog_set_artists( ::pWidget, aArtists )
+      METHOD SetAuthors( aAuthors ) INLINE gtk_about_dialog_set_authors( ::pWidget, aAuthors )
+      METHOD SetDocumenters( aDocumenters ) INLINE gtk_about_dialog_set_documenters( ::pWidget, aDocumenters )
+      METHOD SetLogo( oImage ) INLINE gtk_about_dialog_set_logo( ::pWidget, oImage:GetPixBuf() )
 
 ENDCLASS
 
-METHOD NEW( cName, cVersion, aArtists ,lCenter, cId, uGlade ) CLASS GAboutDialog
+METHOD NEW( cName, cVersion, aAuthors, aArtists, aDocumenters, oLogo, lCenter, cId, uGlade ) CLASS GAboutDialog
+       DEFAULT lCenter := .F.
 
        if cId == NIL
           ::pWidget := gtk_about_dialog_new()
@@ -37,6 +41,9 @@ METHOD NEW( cName, cVersion, aArtists ,lCenter, cId, uGlade ) CLASS GAboutDialog
        if cName    != NIL  ;  ::SetName( cName )        ;   endif
        if cVersion != NIL  ;  ::SetVersion( cVersion )  ;   endif
        if aArtists != NIL  ;  ::SetArtists( aArtists )  ;   endif
+       if aAuthors != NIL  ;  ::SetAuthors( aAuthors )  ;   endif
+       if aDocumenters != NIL  ;  ::SetDocumenters( aDocumenters )  ;   endif
+       if oLogo != NIL ;  ::SetLogo( oLogo )  ;   endif
       
        // Como en los dialogs, esto es ignorado desde glade...quizas sea un bug( gtk 2.8 win )
        if !::lGlade 

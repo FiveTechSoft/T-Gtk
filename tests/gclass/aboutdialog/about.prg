@@ -1,5 +1,5 @@
 /*
- * $Id: about.prg,v 1.3 2006-10-03 12:52:54 xthefull Exp $
+ * $Id: about.prg,v 1.4 2006-10-05 15:22:18 xthefull Exp $
 */
 #include "gclass.ch"
 
@@ -10,7 +10,7 @@ Function Main()
          DEFINE BOX oBox OF oWnd
            
            DEFINE BUTTON PROMPT "About.." OF oBox ;
-                 ACTION ( oAbout := gAboutDialog():New( "My Aplication", "1.1", , .T. )  )
+                 ACTION ( oAbout := gAboutDialog():New( "My Aplication", "1.1"  )  )
            
            DEFINE BUTTON PROMPT "About Glade " OF oBox ;
                  ACTION About_Glade()
@@ -32,11 +32,17 @@ STATIC FUNCTION About_Glade()
 RETURN NIL
 
 STATIC FUNCTION About_Artists( )
+   Local oImage
+   
+   DEFINE IMAGE oImage FILE "../../images/gnu-keys.png" LOAD
 
    DEFINE ABOUT ;
           NAME "Aplication arts" ;
           VERSION "2.0" ;
           ARTISTS { "Rafa", "Joaquim", "Ruth", "Ana" } ;
+          DOCUMENTERS { "Jose", "Walter", "Antonio" }  ;
+          AUTHORS { "Daniel", "Sarah","Miguel" }      ;
+          LOGO oImage ;
           CENTER 
 
 RETURN NIL

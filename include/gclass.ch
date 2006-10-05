@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.3 2006-10-03 12:52:54 xthefull Exp $ */
+/*  $Id: gclass.ch,v 1.4 2006-10-05 15:22:18 xthefull Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2004 Rafa Carmona
@@ -1392,11 +1392,15 @@
 #xcommand DEFINE ABOUT [ <oAbout> ] ;
                  [ NAME <cName> ] ;
                  [ VERSION <cVersion> ] ;
+                 [ AUTHORS <aAuthors> ];
                  [ ARTISTS <aArtists> ];
+                 [ DOCUMENTERS <aDocumenters> ];
+                 [ <img: LOGO, LOGO IMAGE> <oLogo> ] ;
                  [ <lCenter: CENTER> ] ;
                  [ ID <cId> ;
                  [ RESOURCE <uGlade> ] ];
        =>;
-         [ <oAbout> := ] gAboutDialog():New( <cName>, <cVersion>, <aArtists>, <.lCenter.> ,<cId>, <uGlade> )
+[ <oAbout> := ] gAboutDialog():New( <cName>, <cVersion>, <aAuthors>,;
+                                    <aArtists>, <aDocumenters>, <oLogo>, <.lCenter.>, <cId>, <uGlade> )
 
 extern errorsys

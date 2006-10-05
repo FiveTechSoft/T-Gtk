@@ -1,3 +1,25 @@
+/* $Id: gtkaboutdialog.c,v 1.4 2006-10-05 15:22:18 xthefull Exp $*/
+/*
+    LGPL Licence.
+    
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this software; see the file COPYING.  If not, write to
+    the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+    Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
+
+    LGPL Licence.
+    (c)2003 Rafael Carmona <thefull@wanadoo.es>
+*/
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
@@ -126,6 +148,49 @@ HB_FUNC( GTK_ABOUT_DIALOG_SET_ARTISTS )
    hb_xfree( artist ); 
 }
 
+HB_FUNC( GTK_ABOUT_DIALOG_SET_AUTHORS )
+{
+  GtkAboutDialog  * dialog = GTK_ABOUT_DIALOG( hb_parnl( 1 ) );
+  PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY ); 
+  gint iLenCols = hb_arrayLen( pArray );        
+  gint iCol;                                    
+  const gchar **authors  = hb_xgrab( iLenCols + 1 ); 
+  
+  for( iCol = 0; iCol < iLenCols ; iCol++ )
+   {
+     authors[ iCol ]  = ( const gchar * ) hb_arrayGetC( pArray, iCol + 1 );
+   }
+   authors[ iCol ] = NULL; // ultima
+   gtk_about_dialog_set_authors( dialog, authors  );
+
+   hb_xfree( authors ); 
+}
+
+HB_FUNC( GTK_ABOUT_DIALOG_SET_DOCUMENTERS )
+{
+  GtkAboutDialog  * dialog = GTK_ABOUT_DIALOG( hb_parnl( 1 ) );
+  PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY ); 
+  gint iLenCols = hb_arrayLen( pArray );        
+  gint iCol;                                    
+  const gchar **documenters  = hb_xgrab( iLenCols + 1 );
+  
+  for( iCol = 0; iCol < iLenCols ; iCol++ )
+   {
+     documenters[ iCol ]  = ( const gchar * ) hb_arrayGetC( pArray, iCol + 1 );
+   }
+   documenters[ iCol ] = NULL; 
+   gtk_about_dialog_set_documenters( dialog, documenters );
+
+   hb_xfree( documenters ); 
+}
+
+HB_FUNC( GTK_ABOUT_DIALOG_SET_LOGO )
+{
+  GtkAboutDialog  * dialog = GTK_ABOUT_DIALOG( hb_parnl( 1 ) );
+  GdkPixbuf * logo = GDK_PIXBUF( hb_parnl( 2 ) );
+  gtk_about_dialog_set_logo( dialog, logo );
+}
+
 
 HB_FUNC( GTK_SHOW_ABOUT_DIALOG )
 {
@@ -133,7 +198,4 @@ HB_FUNC( GTK_SHOW_ABOUT_DIALOG )
   parent = ISNIL( 1 ) ? NULL : GTK_WINDOW( hb_parnl( 1 ) );
   gtk_show_about_dialog( parent, NULL );
 }
-#endif
-
-#if GTK_CHECK_VERSION(2,8,0)
 #endif

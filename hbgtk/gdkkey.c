@@ -1,4 +1,4 @@
-/* $Id: gdkkey.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gdkkey.c,v 1.2 2006-10-05 15:22:18 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -37,4 +37,13 @@ hb_retni( (guint) gdk_keyval_from_name( hb_parc( 1 ) ));
 HB_FUNC( GDK_KEYVAL_NAME ) // nValue --> cValue
 {
  hb_retc( (gchar *) gdk_keyval_name( hb_parni( 1 ) ));
+}
+
+HB_FUNC( GDK_KEYVAL_TO_UNICODE )
+{
+  hb_retni( gdk_keyval_to_unicode( hb_parni(1) ) );
+}
+HB_FUNC( GDK_UNICODE_TO_KEYVAL )
+{
+  hb_retni( gdk_unicode_to_keyval( hb_parni(1) ) );
 }
