@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.10 2006-10-03 12:54:33 xthefull Exp $
+ * $Id: ChangeLog,v 1.11 2006-10-05 15:26:42 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,14 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+
+2006-10-04 14:23 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   + Support authors, documenters and logo for command DEFINE ABOUT 
+   
+   * gdkkey.c
+      + New functions.
+        gdk_keyval_to_unicode 
+        gdk_unicode_to_keyval
 
 2006-10-03 14:53 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    + Support artists for DEFINE ABOUT .. ARTISTS aArray
