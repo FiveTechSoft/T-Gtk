@@ -1,4 +1,4 @@
-/* $Id: gentry.prg,v 1.4 2006-10-04 15:22:36 rosenwla Exp $*/
+/* $Id: gentry.prg,v 1.5 2006-10-05 09:08:18 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -23,6 +23,23 @@
 #include "hbclass.ch"
 #include "gclass.ch"
 #include "getexit.ch"
+
+#include "cStruct.ch"
+#include "gtkTypes.ch"
+
+typedef struct {;
+  gint type;
+  glong window;
+  gint8 send_event;
+  guint32 time;
+  guint state;
+  guint keyval;
+  gint length;
+  gchar *string;
+  guint16 hardware_keycode;
+  guint8 group;
+  guint is_modifier;
+} GDKEVENTKEY
 
 CLASS GENTRY FROM GWIDGET
       DATA oGet AS OBJECT // Get de toda la vida 
@@ -167,41 +184,56 @@ RETURN nReturn
 
 METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GEntry
 
-   local  nKey, nType, cKey
-
-   nKey := HB_GET_GDKEVENTKEY_KEYVAL( pGdkEventKey )// aGdkEventKey[ 6 ]
-   nType:= HB_GET_GDKEVENTKEY_TYPE( pGdkEventKey )  // aGdkEventKey[ 1 ]
+   Local cKey, lGdkEventKey, lReturn := .f.
+   Local nKey, nType
    
-   //TraceLog(nKey, nType)
-   Switch nKey
+   lGdkEventKey IS GDKEVENTKEY
+   lGdkEventKey:Pointer( pGdkEventKey )
+   lGdkEventKey:DeValue()
+   
+   //nKey := HB_GET_GDKEVENTKEY_KEYVAL( pGdkEventKey )// aGdkEventKey[ 6 ]
+   //nType:= HB_GET_GDKEVENTKEY_TYPE( pGdkEventKey )  // aGdkEventKey[ 1 ]
+   
+   TraceLog(lGdkEventKey:keyval, lGdkEventKey:type)
+   //nKey := lGdkEventKey:keyval
+   Switch lGdkEventKey:keyval
       case GDK_Return
 		if !::lCompletion
               gtk_widget_child_focus( gtk_widget_get_toplevel( oSender:pWidget ) ,GTK_DIR_TAB_FORWARD )
-              return .T.
+              lReturn := .t.
 		endif   
 		exit
 		
 	  Default
-         if ( nKey >= 32 .and. nKey <= 255 )
+         if ( lGdkEventKey:keyval >= 32 .and. lGdkEventKey:keyval <= 255 )
             // clear buffer and get window when postblock returns .F.
-            cKey := Chr( nKey )
+            cKey := Chr( lGdkEventKey:keyval )
             if oSender:oGet:type == "N" .and. ( cKey == "." .or. cKey == "," )
                oSender:oGet:ToDecPos()
-			   Return .T.
             else
-			oSender:oGet:xBuffer := oSender:GetText()
-			
-            if oSender:oGet:TypeOut
-				if ! Set( _SET_CONFIRM )
-					oSender:oGet:ExitState := GE_ENTER
-                endif
+               if Set( _SET_INSERT )
+                  oSender:oGet:Insert( cKey )
+               else
+                  oSender:oGet:OverStrike( cKey )
+               endif
+
+               if oSender:oGet:TypeOut
+                  if Set( _SET_BELL )
+                     // ?? Chr( 7 )
+                  endif
+                  if ! Set( _SET_CONFIRM )
+                     oSender:oGet:ExitState := GE_ENTER
+                  endif
+               endif
             endif
-            endif
+			lReturn := .t.
          endif
-		 //Return .T.
    end
-   TraceLog( nKey, cKey, oSender:oGet:buffer, oSender:GetText(), oSender:oGet:hasfocus )
-Return .F.
+   if !lReturn
+	oSender:oGet:xBuffer := oSender:GetText()
+   endif
+   TraceLog( lGdkEventKey:keyval, cKey, oSender:oGet:buffer, oSender:GetText(), oSender:oGet:hasfocus )
+Return lReturn
 
 METHOD Create_Completion( aCompletion ) CLASS GEntry
     Local oLbx, x, n, oCompletion
