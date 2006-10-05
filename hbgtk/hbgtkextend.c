@@ -1,4 +1,4 @@
-/* $Id: hbgtkextend.c,v 1.2 2006-10-05 15:17:02 rosenwla Exp $*/
+/* $Id: hbgtkextend.c,v 1.3 2006-10-05 15:32:39 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -254,12 +254,6 @@ HB_FUNC( G_LOCALE_TO_UTF8 )
   
   gchar *msg = g_locale_to_utf8( hb_parc(1), -1, NULL, NULL, NULL);
   hb_retc( msg );
-}
-
-HB_FUNC( GDK_KEYVAL_TO_UNICODE )
-{
-  guint32 keyval = gdk_keyval_to_unicode( hb_parni( 1 ) );
-  hb_retni( (guint32 )keyval );
 }
 
 PHB_ITEM Rect2Array( GdkRectangle *rect );
