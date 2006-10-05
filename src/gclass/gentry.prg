@@ -1,4 +1,4 @@
-/* $Id: gentry.prg,v 1.5 2006-10-05 09:08:18 rosenwla Exp $*/
+/* $Id: gentry.prg,v 1.6 2006-10-05 15:17:03 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -35,7 +35,7 @@ typedef struct {;
   guint state;
   guint keyval;
   gint length;
-  gchar *string;
+  gcharptr string;
   guint16 hardware_keycode;
   guint8 group;
   guint is_modifier;
@@ -184,18 +184,16 @@ RETURN nReturn
 
 METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GEntry
 
-   Local cKey, lGdkEventKey, lReturn := .f.
-   Local nKey, nType
+   Local lGdkEventKey, lReturn := .f.
+   //Local nKey, cKey, nType
    
    lGdkEventKey IS GDKEVENTKEY
    lGdkEventKey:Pointer( pGdkEventKey )
    lGdkEventKey:DeValue()
-   
+   TraceLog(ValToPrg(lGdkEventKey))   
    //nKey := HB_GET_GDKEVENTKEY_KEYVAL( pGdkEventKey )// aGdkEventKey[ 6 ]
    //nType:= HB_GET_GDKEVENTKEY_TYPE( pGdkEventKey )  // aGdkEventKey[ 1 ]
-   
-   TraceLog(lGdkEventKey:keyval, lGdkEventKey:type)
-   //nKey := lGdkEventKey:keyval
+
    Switch lGdkEventKey:keyval
       case GDK_Return
 		if !::lCompletion
@@ -205,16 +203,15 @@ METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GEntry
 		exit
 		
 	  Default
-         if ( lGdkEventKey:keyval >= 32 .and. lGdkEventKey:keyval <= 255 )
+         if ( asc(lGdkEventKey:string) >= 32 .and. asc(lGdkEventKey:string) <= 255 )
             // clear buffer and get window when postblock returns .F.
-            cKey := Chr( lGdkEventKey:keyval )
-            if oSender:oGet:type == "N" .and. ( cKey == "." .or. cKey == "," )
+            if oSender:oGet:type == "N" .and. lGdkEventKey:string $ ".,"
                oSender:oGet:ToDecPos()
             else
                if Set( _SET_INSERT )
-                  oSender:oGet:Insert( cKey )
+                  oSender:oGet:Insert( g_locale_to_utf8( lGdkEventKey:string ) )
                else
-                  oSender:oGet:OverStrike( cKey )
+                  oSender:oGet:OverStrike( g_locale_to_utf8( lGdkEventKey:string ) )
                endif
 
                if oSender:oGet:TypeOut
@@ -232,7 +229,7 @@ METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GEntry
    if !lReturn
 	oSender:oGet:xBuffer := oSender:GetText()
    endif
-   TraceLog( lGdkEventKey:keyval, cKey, oSender:oGet:buffer, oSender:GetText(), oSender:oGet:hasfocus )
+   TraceLog( g_locale_to_utf8( lGdkEventKey:string ), asc(lGdkEventKey:string), chr(lGdkEventKey:keyval), oSender:oGet:buffer, oSender:GetText())
 Return lReturn
 
 METHOD Create_Completion( aCompletion ) CLASS GEntry

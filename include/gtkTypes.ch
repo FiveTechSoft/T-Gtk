@@ -1,4 +1,4 @@
-/* $Id: gtkTypes.ch,v 1.1 2006-10-05 09:08:17 rosenwla Exp $*/
+/* $Id: gtkTypes.ch,v 1.2 2006-10-05 15:17:03 rosenwla Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -38,3 +38,6 @@
 
 #define gsize		   -3 //CTYPE_UNSIGNED_INT
 #define gssize3 		3 //CTYPE_INT
+
+#define gcharptr		10 //CTYPE_CHAR_PTR
+#define gucharptr	   -10 //CTYPE_UNSIGNED_CHAR_PTR

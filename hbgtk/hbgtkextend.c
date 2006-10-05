@@ -1,4 +1,4 @@
-/* $Id: hbgtkextend.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: hbgtkextend.c,v 1.2 2006-10-05 15:17:02 rosenwla Exp $*/
 /*
     LGPL Licence.
     
@@ -246,6 +246,13 @@ HB_FUNC( _UTF_8 )
 {
   gchar * iso = ISNIL( 2 ) ? "ISO-8859-1" : hb_parc( 2 );
   gchar *msg = g_convert( hb_parc(1), -1, iso, "UTF-8" ,NULL,NULL,NULL );
+  hb_retc( msg );
+}
+
+HB_FUNC( G_LOCALE_TO_UTF8 )
+{
+  
+  gchar *msg = g_locale_to_utf8( hb_parc(1), -1, NULL, NULL, NULL);
   hb_retc( msg );
 }
 
