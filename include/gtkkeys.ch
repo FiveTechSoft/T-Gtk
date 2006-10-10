@@ -1,4 +1,4 @@
-/*  $Id: gtkkeys.ch,v 1.1 2006-09-08 10:16:34 xthefull Exp $ */
+/*  $Id: gtkkeys.ch,v 1.2 2006-10-10 10:50:12 rosenwla Exp $ */
 /*
  * GtkApi.ch Códigos de teclas para T-Gtk -------------------------------------
  * Porting Harbour to GTK+ power !
@@ -35,6 +35,23 @@
 #define GDK_Shift_R          0xFFE2
 #define GDK_Control_L        0xFFE3
 #define GDK_Control_R        0xFFE4
+#define GDK_space 			 0x020
+#define GDK_exclam 			 0x021
+#define GDK_quotedbl 		 0x022
+#define GDK_numbersign 		 0x023
+#define GDK_dollar 			 0x024
+#define GDK_percent 		 0x025
+#define GDK_ampersand 		 0x026
+#define GDK_apostrophe 		 0x027
+#define GDK_quoteright 		 0x027
+#define GDK_parenleft 		 0x028
+#define GDK_parenright 		 0x029
+#define GDK_asterisk 		 0x02A
+#define GDK_plus 			 0x02B
+#define GDK_comma 			 0x02C
+#define GDK_minus 			 0x02D
+#define GDK_period 			 0x02E
+#define GDK_slash 			 0x02F
 
 #define GDK_VoidSymbol       0xFFFFFF
 
