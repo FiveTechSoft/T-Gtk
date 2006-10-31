@@ -1,0 +1,112 @@
+/*
+ * $Id: progressbar.prg,v 1.1 2006-10-31 11:50:24 xthefull Exp $
+ * Ejemplo de uso de progressbar y cambio de estilo.
+ * Porting Harbour to GTK+ power !
+ * (C) 2004-05. Rafa Carmona -TheFull-
+ * (C) 2004-05. Joaquim Ferrer
+*/
+#include "gtkapi.ch"
+
+Static progress, progress2, progress3, progress4
+
+Function Main( )
+    Local window, vbox,status_bar, button
+    Local X := 0
+
+    window = gtk_window_new( GTK_WINDOW_TOPLEVEL )
+    gtk_widget_set_usize( window, 300, 300 )
+    gtk_window_set_title( window, "GTK ProgressBar Example" )
+    gtk_signal_connect( window, "destroy",{|| gtk_exit() } )
+
+    vbox = gtk_vbox_new( FALSE, 1)
+    gtk_container_add( window, vbox)
+    gtk_widget_show(vbox)
+
+    button = gtk_button_new_with_label("Incrementando..")
+    gtk_signal_connect( button, "clicked", {||Incre(@x)} )
+    gtk_box_pack_start( vbox, button, TRUE, TRUE, 2)
+    gtk_widget_show(button)
+
+    // Standard
+    progress = gtk_progress_bar_new()
+    gtk_progress_bar_set_text( progress, "ProgressBar Left To Right..." )
+    //Estableciendo estilo para esta progress
+    __GSTYLE( "blue"  ,progress, BGCOLOR , STATE_NORMAL)   // Cuando esta normal, fondo azul
+    __GSTYLE( "green" ,progress, FGCOLOR , STATE_NORMAL )  // Cuando esta normal, letras verdes
+    __GSTYLE( "yellow",progress, BGCOLOR  , STATE_PRELIGHT )
+    __GSTYLE( "red"   ,progress, FGCOLOR  , STATE_PRELIGHT )
+
+    gtk_box_pack_start( vbox, progress, FALSE, TRUE, 2)
+    gtk_widget_show( progress )
+
+    // Dercha a Left
+    progress2 = gtk_progress_bar_new()
+    gtk_progress_bar_set_text( progress2, "ProgressBar Right To Left..." )
+    //Estableciendo estilo para esta progress
+    __GSTYLE( "white"  ,progress2, BGCOLOR , STATE_NORMAL)   // Cuando esta normal, fondo azul
+    __GSTYLE( "magenta" ,progress2, FGCOLOR , STATE_NORMAL )  // Cuando esta normal, letras verdes
+    __GSTYLE( "black",progress2, BGCOLOR  , STATE_PRELIGHT )
+    __GSTYLE( "blue"   ,progress2, FGCOLOR  , STATE_PRELIGHT )
+    gtk_progress_bar_set_orientation(progress2, GTK_PROGRESS_RIGHT_TO_LEFT )
+    gtk_box_pack_start( vbox, progress2, FALSE, TRUE, 2)
+    gtk_widget_show( progress2 )
+
+    // Abajo a Arriba
+    progress3 = gtk_progress_bar_new()
+    gtk_progress_bar_set_text( progress3, "ProgressBar Bottom To Top..." )
+    //Estableciendo estilo para esta progress
+    __GSTYLE( "black"  ,progress3, BGCOLOR , STATE_NORMAL)   // Cuando esta normal, fondo azul
+    __GSTYLE( "red"    ,progress3, FGCOLOR , STATE_NORMAL )  // Cuando esta normal, letras verdes
+    __GSTYLE( "white"  ,progress3, BGCOLOR  , STATE_PRELIGHT )
+    __GSTYLE( "orange" ,progress3, FGCOLOR  , STATE_PRELIGHT )
+    gtk_progress_bar_set_orientation(progress3, GTK_PROGRESS_BOTTOM_TO_TOP)
+    gtk_box_pack_start( vbox, progress3, FALSE, TRUE, 2)
+    gtk_widget_show( progress3 )
+
+    progress4 = gtk_progress_bar_new()
+    gtk_progress_bar_set_text( progress4, "ProgressBar Top To Bottom..." )
+    gtk_progress_bar_set_orientation(progress4, GTK_PROGRESS_TOP_TO_BOTTOM )
+    gtk_box_pack_start( vbox, progress4, FALSE, TRUE, 2)
+    gtk_widget_show( progress4 )
+
+    button = gtk_button_new_with_label("Decrementando..")
+    gtk_signal_connect( button, "clicked", {||Decre(@x)} )
+    gtk_box_pack_start( vbox, button, TRUE, TRUE, 2)
+    gtk_widget_show(button)
+
+    status_bar = gtk_statusbar_new()
+    gtk_box_pack_start( vbox, status_bar, FALSE, TRUE, 0)
+    gtk_widget_show (status_bar)
+
+    gtk_widget_show(window)
+
+    gtk_main ()
+
+return nil
+
+Function incre( X )
+    Local nTotal := 10
+    if x < nTotal
+       X++
+       gtk_progress_bar_set_fraction( progress,  X  / nTotal )
+       gtk_progress_bar_set_fraction( progress2,  X / nTotal )
+       gtk_progress_bar_set_fraction( progress3,  X / nTotal )
+       gtk_progress_bar_set_fraction( progress4,  X / nTotal )
+    endif
+Return NIL
+
+Function decre( X )
+    Local nTotal := 10
+    if x > 0
+       X--
+       gtk_progress_bar_set_fraction( progress,  X  / nTotal )
+       gtk_progress_bar_set_fraction( progress2,  X / nTotal )
+       gtk_progress_bar_set_fraction( progress3,  X / nTotal )
+       gtk_progress_bar_set_fraction( progress4,  X / nTotal )
+    endif
+Return NIL
+
+Function gtk_exit()
+    gtk_main_quit()
+return .F.
+
