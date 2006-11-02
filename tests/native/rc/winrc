@@ -1,0 +1,148 @@
+# Ejemplo A MODO DE PRUEBAS para T-Gtk, sin funcionalidad.
+# Para rc2.prg
+
+style "default"
+{
+  GtkScrollbar::min_slider_length       = 30
+  GtkRange::trough_border               = 5
+  GtkRange::slider_width                = 15
+  GtkRange::stepper_size                = 12
+}
+
+style "scrollbar"
+{
+  engine "pixmap"
+  {
+
+    image
+    {
+      function          = BOX
+      recolorable               = TRUE
+      detail                    = "trough"
+      file                      = "trough-h.png"
+      border            = { 2, 2, 2, 2 }
+      stretch           = TRUE
+      orientation               = HORIZONTAL
+    }
+    image
+    {
+      function          = BOX
+      recolorable               = TRUE
+      detail                    = "trough"
+      file                      = "trough-v.png"
+      border            = { 2, 2, 2, 2 }
+      stretch           = TRUE
+      orientation               = VERTICAL
+    }
+    image
+    {
+      function          = SLIDER
+      recolorable               = TRUE
+      file                      = "slider-h.png"
+      border            = { 2, 2, 2, 2 }
+      stretch           = TRUE
+      orientation               = HORIZONTAL
+      overlay_file              = "thumb-grip-h.png"
+      overlay_stretch   = FALSE
+      orientation               = HORIZONTAL
+    }
+    image
+    {
+      function          = SLIDER
+      recolorable               = TRUE
+      file                      = "slider-v.png"
+      border            = { 2, 2, 2, 2 }
+      stretch           = TRUE
+      orientation               = VERTICAL
+      overlay_file              = "thumb-grip-v.png"
+      overlay_stretch   = FALSE
+      orientation               = VERTICAL
+    }
+    image
+    {
+      function          = STEPPER
+      recolorable               = TRUE
+      file                      = "stepper-up.png"
+      stretch           = TRUE
+      arrow_direction   = UP
+    }
+    image
+    {
+      function          = STEPPER
+      recolorable               = TRUE
+      file                      = "stepper-down.png"
+      stretch           = TRUE
+      arrow_direction   = DOWN
+    }
+    image
+    {
+      function          = STEPPER
+      recolorable               = TRUE
+      file                      = "stepper-right.png"
+      stretch           = TRUE
+      arrow_direction   = RIGHT
+    }
+    image
+    {
+      function          = STEPPER
+      recolorable               = TRUE
+      file                      = "stepper-left.png"
+      stretch           = TRUE
+      arrow_direction   = LEFT
+    }
+  }
+}
+
+style "range"           = "default"
+{
+  engine "pixmap"
+  {
+    image
+    {
+      function          = BOX
+      recolorable               = TRUE
+      detail                    = "trough"
+      file                      = "trough-h.png"
+      border            = { 2, 2, 2, 2 }
+      stretch           = TRUE
+      orientation               = HORIZONTAL
+    }
+    image
+    {
+      function          = BOX
+      recolorable               = TRUE
+      detail                    = "trough"
+      file                      = "trough-v.png"
+      border            = { 2, 2, 2, 2 }
+      stretch           = TRUE
+      orientation               = VERTICAL
+    }
+    image
+    {
+      function          = SLIDER
+      recolorable               = TRUE
+      file                      = "slider-h.png"
+      border    = { 1, 1, 1, 1 }
+      stretch           = TRUE
+      overlay_file              = "thumb-grip-h.png"
+      #overlay_border   = { 0, 0, 0, 0 }
+      overlay_stretch   = FALSE
+      orientation               = HORIZONTAL
+    }
+    image
+    {
+      function          = SLIDER
+      recolorable               = TRUE
+      file                      = "slider-v.png"
+      border    = { 1, 1, 1, 1 }
+      stretch           = TRUE
+      overlay_file              = "thumb-grip-v.png"
+      #overlay_border   = { 0, 0, 0, 0 }
+      overlay_stretch   = FALSE
+      orientation               = VERTICAL
+    }
+  }
+}
+
+class "GtkScrollbar"       style "scrollbar"
+class "GtkRange"           style "range"
