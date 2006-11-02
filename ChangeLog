@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.12 2006-10-05 15:33:21 xthefull Exp $
+ * $Id: ChangeLog,v 1.13 2006-11-02 12:34:55 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,16 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+
+2006-11-02 13:33 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   * gtkdialog.c
+     * Rename __gtk_dialog_new() at correct name gtk_dialog_new()
+     - Delete old function gtk_dialog_new().
+
+   * gdialog.prg
+     Fix correct name new function .
+
+   + More examples native.
 
 2006-10-04 17:32 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    - hgtkextend.c
