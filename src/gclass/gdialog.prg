@@ -1,4 +1,4 @@
-/* $Id: gdialog.prg,v 1.1 2006-09-07 17:02:43 xthefull Exp $*/
+/* $Id: gdialog.prg,v 1.2 2006-11-02 12:33:06 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -44,7 +44,7 @@ ENDCLASS
 METHOD NEW( cTitle, nWidth, nHeight, cId, uGlade, nType_Hint ) CLASS GDIALOG
 
        if cId == NIL
-          ::pWidget := __gtk_dialog_new( )
+          ::pWidget := gtk_dialog_new( )
        else
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
