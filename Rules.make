@@ -140,6 +140,9 @@ OBJECTS=$(patsubst %.$(SOURCE_TYPE),%.o,$(SOURCES))
 ifneq ($(strip $(CSOURCES)),)
 OBJECTS+=$(patsubst %.c,%.o,$(CSOURCES))
 endif
+ifneq ($(strip $(CPPSOURCES)),)
+   OBJECTS+=$(patsubst %.cpp,%.o,$(CPPSOURCES))
+endif
 endif
 
 
@@ -154,6 +157,9 @@ linux:$(TARGET) $(TARGETS)
 	$(CC) -o$@ $< $(LIBDIR_) $(LIBS_)
 
 %.o: %.c
+	$(CC) -c -o$@ $(CFLAGS) -I$(HB_INC_INSTALL) $<
+
+%.o: %.cpp
 	$(CC) -c -o$@ $(CFLAGS) -I$(HB_INC_INSTALL) $<
 
 %.c: %.prg
