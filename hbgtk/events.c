@@ -1,5 +1,5 @@
 
-/* $Id: events.c,v 1.8 2006-10-04 08:35:28 rosenwla Exp $*/
+/* $Id: events.c,v 1.9 2006-11-14 10:34:18 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -2297,6 +2297,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
     gint num_predefine = sizeof( predefine )/ sizeof( TGtkPreDfnParce );
     gint ConnectFlags = ISNIL( 5 ) ? (GConnectFlags) 0 :  (GConnectFlags) hb_parni( 5 );
     gchar *cMethod = "onInternalError"; // =  (gchar *) hb_parc( 4 );
+    gchar *gtk_class_name = GTK_OBJECT_TYPE_NAME(  GTK_OBJECT( widget )  ); // Name class_gtk
 
     // Check before seek in base array for predefine signals from t-gtk source
     for ( x = 0;  x < num_predefine; x++ ) {

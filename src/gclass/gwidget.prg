@@ -1,4 +1,4 @@
-/* $Id: gwidget.prg,v 1.2 2006-10-04 08:35:28 rosenwla Exp $*/
+/* $Id: gwidget.prg,v 1.3 2006-11-14 10:34:18 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -34,6 +34,8 @@ CLASS GWIDGET FROM GOBJECT
        DATA nTypeCursor
        DATA cMsgBar, oBar
 
+       DATA bConfigure_Event
+       DATA bExpose_Event
        METHOD Register() VIRTUAL
        METHOD Show()     INLINE gtk_widget_show( ::pWidget )
        METHOD Hide()     INLINE gtk_widget_hide( ::pWidget )
@@ -74,11 +76,13 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnCanActivateAccel( oSender, nSignal_Id )        INLINE .F.
        METHOD OnChildNotify( oSender, pGParamSpec )  VIRTUAL
        METHOD OnClientEvent( oSender, pGdkEventClient ) INLINE .F.
+       METHOD OnConfigure_Event( oSender, pGdkEventConfigure ) 
        METHOD OnDestroyEvent( oSender, pGdkEvent )      INLINE .F.
        METHOD OnDirectionChanged( oSender, nGtkTextDirection )  VIRTUAL
        METHOD OnEnterNotifyEvent( oSender,  pGdkEventCrossing )
        METHOD OnEvent( oSender, pGdkEvent ) INLINE .F. 
        METHOD OnEventAfter( oSender, pGdkEvent ) VIRTUAL
+       METHOD OnExpose_Event( oSender, pGdkEventExpose )
        METHOD OnFocus( oSender, nGtkDirectionType ) INLINE .F.
        METHOD OnFocus_In_Event( oSender , pGdkEventFocus )
        METHOD OnFocus_Out_Event( oSender, pGdkEventFocus )
@@ -332,3 +336,18 @@ METHOD OnFocus_in_event( oSender, pGdkEventFocus ) CLASS GWIDGET
      ENDIF
 
 RETURN .F.
+METHOD OnConfigure_Event( oSender, pGdkEventConfigure )  CLASS GWIDGET
+
+  IF oSender:bConfigure_Event != nil
+     RETURN Eval( oSender:bConfigure_Event, oSender, pGdkEventConfigure )
+  ENDIF
+
+RETURN .F.
+
+METHOD OnExpose_Event( oSender, pGdkEventExpose ) CLASS GWIDGET
+  
+   IF oSender:bExpose_Event != NIL
+      return Eval( oSender:bExpose_Event , oSender, pGdkEventExpose )
+   ENDIF
+
+RETURN .F.      
