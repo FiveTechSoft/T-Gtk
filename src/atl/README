@@ -1,0 +1,24 @@
+README.
+Please, for compiler this library you modificate your file Rules.make, add:
+
+ifeq ($(strip $(OBJECTS)),)
+   OBJECTS=$(patsubst %.$(SOURCE_TYPE),%.o,$(SOURCES))
+ifneq ($(strip $(CSOURCES)),)
+    OBJECTS+=$(patsubst %.c,%.o,$(CSOURCES))
+endif
+
+// ------  ADD THIS LINE ----- //
+ifneq ($(strip $(CPPSOURCES)),)
+   OBJECTS+=$(patsubst %.cpp,%.o,$(CPPSOURCES))
+endif
+// ------  ADD THIS LINE ----- //
+endif
+
+And too;
+%.o: %.c
+	$(CC) -c -o$@ $(CFLAGS) -I$(HB_INC_INSTALL) $<
+
+// ------  ADD THIS LINE ----- //
+%.o: %.cpp
+	$(CC) -c -o$@ $(CFLAGS) -I$(HB_INC_INSTALL) $<
+// ------  ADD THIS LINE ----- //
