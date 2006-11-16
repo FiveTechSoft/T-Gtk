@@ -1,5 +1,5 @@
 /*
- * $Id: buttons.prg,v 1.1 2006-10-31 11:28:15 xthefull Exp $
+ * $Id: buttons.prg,v 1.2 2006-11-16 10:07:21 xthefull Exp $
  * Ejemplo de uso de buttons y su conexion a codeblocks.
  * Porting Harbour to GTK+ power !
  * (C) 2004-05. Rafa Carmona -TheFull-
@@ -25,7 +25,7 @@ function main()
  local button1, button2, button3 , button4, image4, label4, box4
  local bBlock2, bBlock3
  local cVar := "hello !!"
- local accel
+ local accel, nId_Signal
   
   window = gtk_window_new( GTK_WINDOW_TOPLEVEL )
   gtk_signal_connect( window, "delete-event", {|widget,event| Salimos( widget,event ) } )
@@ -61,8 +61,8 @@ function main()
  
   button2 := gtk_button_new_with_label( "Codeblock a funcion estatica" )
   // Pasando codeblock referenciado en variable local 
-  bBlock2 := {|| my_static_fun( "Hello " ), .F. }
-  gtk_signal_connect( button2, "clicked", @bBlock2 )
+  bBlock2 := {|w| my_static_fun( w, "Hello", nId_Signal ), .F. }
+  nId_Signal := gtk_signal_connect( button2, "clicked", @bBlock2 )
   gtk_signal_connect( button2, "destroy", {|w|g_print("destruyendo.."+cvaltochar(w)+hb_osnewline() )} )
   gtk_box_pack_start( vbox, button2, .F.,.T.,0 )
   gtk_widget_show( button2 )
@@ -93,9 +93,16 @@ function main()
   g_object_unref( accel )
 return nil
 
-static func my_static_fun( cVar ) 
+/* Podemos ver como desconectamos la señal clicked del button, y
+   volvemos a conectar la señal a otro codeblock. */
+static func my_static_fun( widget, cVar, nId_Signal ) 
   cVar += "pepinillo :-)"
   msgalert( cVar ) 
+  MsgStop( "Now, DISCONNECT THIS ACTION", "ATENTION" )
+  hb_g_signal_handler_disconnect( widget , nId_signal, "clicked" );
+  
+  gtk_signal_connect( widget, "clicked", {||msginfo("Ahora estamos en otro." )} )
+
 return( NIL )
 
 static func paso( cVar, uVar, uwindow, widget )

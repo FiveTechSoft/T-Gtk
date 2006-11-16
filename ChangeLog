@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.13 2006-11-02 12:34:55 xthefull Exp $
+ * $Id: ChangeLog,v 1.14 2006-11-16 10:07:21 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,14 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2006-11-16 11:06 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   * gtksignal.c
+     New functions:
+     +  g_signal_handler_disconnect()
+     + hb_g_signal_handler_disconnect() 
+
+   * /tests/native/button/buttons.prg
+     Show disconnect signal of the button and create new signal jump a new codeblock.
 
 2006-11-02 13:33 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    * gtkdialog.c

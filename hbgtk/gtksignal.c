@@ -1,4 +1,4 @@
-/* $Id: gtksignal.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtksignal.c,v 1.2 2006-11-16 10:07:21 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -36,4 +36,24 @@ HB_FUNC( G_SIGNAL_STOP_EMISSION_BY_NAME ) //pWidget, cSignal
    g_signal_stop_emission_by_name( G_OBJECT( widget ), (gchar *) hb_parc( 2 ) );
 }
 
+HB_FUNC( G_SIGNAL_HANDLER_DISCONNECT )
+{
+   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+   gulong handler_id = hb_parnl( 2 );
+   g_signal_handler_disconnect( G_OBJECT( widget ), handler_id );
+}
+
+HB_FUNC( HB_G_SIGNAL_HANDLER_DISCONNECT ) // widget, handler_id_signal, cName_Signal
+{
+   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+   gulong handler_id = hb_parnl( 2 );
+   gchar *cSignal = (gchar *) hb_parc( 3 );
+   
+   g_signal_handler_disconnect( G_OBJECT( widget ), handler_id );
+   
+   if( g_object_get_data( G_OBJECT( widget ), cSignal ) ) 
+     {   
+       g_object_set_data( G_OBJECT( widget ), cSignal, NULL );
+     }
+}
 
