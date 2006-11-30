@@ -1,4 +1,4 @@
-/* $Id: gcellrenderer.prg,v 1.1 2006-09-07 17:07:55 xthefull Exp $*/
+/* $Id: gcellrenderer.prg,v 1.2 2006-11-30 09:49:58 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -28,6 +28,8 @@ CLASS gCellRenderer FROM GOBJECT
       METHOD New()
       METHOD SetAlign_H( nAlign ) INLINE g_object_set( ::pWidget, "xalign", nAlign  )
       METHOD SetAlign_V( nAlign ) INLINE g_object_set( ::pWidget, "yalign", nAlign  )
+      METHOD SetPadX( nAlign )    INLINE g_object_set( ::pWidget, "xpad", nAlign  )
+      METHOD SetPadY( nAlign )    INLINE g_object_set( ::pWidget, "ypad", nAlign  )
 
       METHOD OnDestroy()
 ENDCLASS

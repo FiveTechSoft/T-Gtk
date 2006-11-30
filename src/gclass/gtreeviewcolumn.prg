@@ -1,4 +1,4 @@
-/* $Id: gtreeviewcolumn.prg,v 1.1 2006-09-07 16:28:06 xthefull Exp $*/
+/* $Id: gtreeviewcolumn.prg,v 1.2 2006-11-30 09:49:58 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -38,6 +38,7 @@ CLASS gTreeViewColumn FROM GOBJECT
       METHOD GetSort( )               INLINE gtk_tree_view_column_get_sort_column_id( ::pWidget ) + 1
       METHOD SetAlign( nAlign )       INLINE g_object_set( ::pWidget, "alignment", nAlign  )
       METHOD SetWidgetHeader( oWidget ) INLINE gtk_tree_view_column_set_widget( ::pWidget, oWidget:pWidget )
+      METHOD SetSizing( nMode )       INLINE gtk_tree_view_column_set_sizing( ::pWidget, nMode )
       
       //Signals
       METHOD OnClicked( oSender )
@@ -81,6 +82,7 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort ) CLASS gTree
       endif
 
       if nWidth != NIL
+         ::SetSizing( GTK_TREE_VIEW_COLUMN_FIXED )
          ::Width( nWidth )
       endif
 

@@ -1,4 +1,4 @@
-/* $Id: gobject.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gobject.c,v 1.2 2006-11-30 09:49:58 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -132,5 +132,38 @@ HB_FUNC( G_OBJECT_GET_DATA )
     hb_retnl( (glong) g_object_get_data ( G_OBJECT (hb_parnl(1) ), hb_parc( 2 ) ) );
 }
 
+HB_FUNC( G_OBJECT_SET_PROPERTY )
+{
+  gpointer object = G_OBJECT (hb_parnl( 1 ) );
+  const gchar *property_name = hb_parc(2);
+  PHB_ITEM pItem = hb_param(3, HB_IT_ANY );
 
+  switch( hb_itemType(pItem) )
+  {
+    case HB_IT_STRING:
+    case HB_IT_MEMO:
+      g_object_set(object, property_name, hb_parc(3), NULL);
+      break;
+
+    case HB_IT_INTEGER:
+      g_object_set(object, property_name, hb_parni(3), NULL);
+      break;
+
+    case HB_IT_LONG:
+      g_object_set(object, property_name, hb_parnl(3), NULL);
+      break;
+
+    case HB_IT_DOUBLE:
+      g_object_set(object, property_name, hb_parnd(3), NULL);
+      break;
+
+    case HB_IT_POINTER:
+      g_object_set(object, property_name, hb_parptr(3), NULL);
+      break;
+
+    case HB_IT_LOGICAL:
+      g_object_set(object, property_name, hb_parl(3), NULL);
+      break;
+  }
+}
 

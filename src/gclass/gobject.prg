@@ -1,4 +1,4 @@
-/* $Id: gobject.prg,v 1.2 2006-10-04 08:35:28 rosenwla Exp $*/
+/* $Id: gobject.prg,v 1.3 2006-11-30 09:49:58 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -36,6 +36,7 @@ CLASS GOBJECT
 
       METHOD Object_Empty() INLINE Self
       METHOD Set_Valist( aValues, pWidget ) 
+      METHOD Set_Property( cProperty_name, uValue ) INLINE g_object_set_property( ::pWidget, cProperty_name, uValue  )
       METHOD Connect( cEvento, cMethod, pWidget, ConnectionFlags)
       METHOD Connect_After( cEvento, cMethod, pWidget )   INLINE ::Connect( cEvento, cMethod, pWidget, G_CONNECT_AFTER )
 //      METHOD Connect_Swapped( cEvento, cMethod, pWidget ) INLINE ::Connect( cEvento, cMethod, pWidget, G_CONNECT_SWAPPED )

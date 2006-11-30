@@ -1,4 +1,4 @@
-/* $Id: gwidget.prg,v 1.3 2006-11-14 10:34:18 xthefull Exp $*/
+/* $Id: gwidget.prg,v 1.4 2006-11-30 09:49:58 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -36,6 +36,8 @@ CLASS GWIDGET FROM GOBJECT
 
        DATA bConfigure_Event
        DATA bExpose_Event
+       DATA bSizeAllocate, bFocus, bButtonPressEvent
+
        METHOD Register() VIRTUAL
        METHOD Show()     INLINE gtk_widget_show( ::pWidget )
        METHOD Hide()     INLINE gtk_widget_hide( ::pWidget )
@@ -71,7 +73,7 @@ CLASS GWIDGET FROM GOBJECT
 
        /* Signals */
        METHOD OnAccelClosuresChanged( oSender )     VIRTUAL
-       METHOD OnButtonPressEvent( oSender, pGdkEventButton )   INLINE .F.
+       METHOD OnButtonPressEvent( oSender, pGdkEventButton )  
        METHOD OnButtonReleaseEvent( oSender, pGdkEventButton ) INLINE .F.
        METHOD OnCanActivateAccel( oSender, nSignal_Id )        INLINE .F.
        METHOD OnChildNotify( oSender, pGParamSpec )  VIRTUAL
@@ -83,7 +85,7 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnEvent( oSender, pGdkEvent ) INLINE .F. 
        METHOD OnEventAfter( oSender, pGdkEvent ) VIRTUAL
        METHOD OnExpose_Event( oSender, pGdkEventExpose )
-       METHOD OnFocus( oSender, nGtkDirectionType ) INLINE .F.
+       METHOD OnFocus( oSender, nGtkDirectionType ) 
        METHOD OnFocus_In_Event( oSender , pGdkEventFocus )
        METHOD OnFocus_Out_Event( oSender, pGdkEventFocus )
        METHOD OnGrabBrokenEvent( oSender, pGdkEvent ) INLINE .F.
@@ -114,7 +116,7 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnSelectionRequestEvent( oSender, pGdkEventSelection )     INLINE .F.
        METHOD OnShow( oSender ) VIRTUAL
        METHOD OnShowHelp( oSender, nGtkWidgetHelpType ) INLINE .F.
-       METHOD OnSizeAllocate( oSender, GtkAllocation )  VIRTUAL
+       METHOD OnSizeAllocate( oSender, GtkAllocation )  
        METHOD OnSizeRequest( oSender, pGtkRequisition ) VIRTUAL
        METHOD OnStateChanged( oSender, nGtkStateType )  VIRTUAL
        METHOD OnStyleSet( oSender, pGtkStyle_previous_style  ) VIRTUAL
@@ -336,6 +338,8 @@ METHOD OnFocus_in_event( oSender, pGdkEventFocus ) CLASS GWIDGET
      ENDIF
 
 RETURN .F.
+
+******************************************************************************
 METHOD OnConfigure_Event( oSender, pGdkEventConfigure )  CLASS GWIDGET
 
   IF oSender:bConfigure_Event != nil
@@ -344,6 +348,7 @@ METHOD OnConfigure_Event( oSender, pGdkEventConfigure )  CLASS GWIDGET
 
 RETURN .F.
 
+******************************************************************************
 METHOD OnExpose_Event( oSender, pGdkEventExpose ) CLASS GWIDGET
   
    IF oSender:bExpose_Event != NIL
@@ -351,3 +356,30 @@ METHOD OnExpose_Event( oSender, pGdkEventExpose ) CLASS GWIDGET
    ENDIF
 
 RETURN .F.      
+
+******************************************************************************
+METHOD OnSizeAllocate( oSender, pGtkAllocation ) CLASS GWIDGET
+   
+   IF oSender:bSizeAllocate != NIL
+      return Eval( oSender:bSizeAllocate , oSender, pGtkAllocation )
+   ENDIF
+
+RETURN .F.
+
+******************************************************************************
+METHOD OnFocus( oSender, nGtkDirectionType ) CLASS GWIDGET
+   
+   IF oSender:bFocus != NIL
+      return Eval( oSender:bFocus , oSender, nGtkDirectionType )
+   ENDIF
+
+RETURN .F.
+
+******************************************************************************
+METHOD OnButtonPressEvent( oSender, pGdkEventButton )  CLASS GWIDGET
+   
+   IF oSender:bButtonPressEvent != NIL
+      return Eval( oSender:bButtonPressEvent , oSender, pGdkEventButton  )
+   ENDIF
+
+RETURN .F.
