@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.14 2006-11-16 10:07:21 xthefull Exp $
+ * $Id: ChangeLog,v 1.15 2006-11-30 09:53:24 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,26 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2006-11-30 10:51 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   * gobject.prg
+     + New method Set_Property( cProperty_name, uValue )
+
+   * gwidget.prg
+     + News DATA bSizeAllocate, bFocus, bButtonPressEvent, change 
+       behavior objects from simple codeblocks.
+
+   * gcellrenderer.prg
+     + News methods :
+       SetPadX( nAlign ) 
+       SetPadY( nAlign ) 
+
+   * gtreeviewcolumn.prg
+     + New method SetSizing().
+     ! Fix Bug. Now respect width column, if defination.
+
+   * gobject.c
+     + New function g_object_set_property().  
 
 2006-11-16 11:06 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    * gtksignal.c
