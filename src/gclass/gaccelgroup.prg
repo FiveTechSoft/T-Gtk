@@ -1,4 +1,4 @@
-/* $Id: gaccelgroup.prg,v 1.1 2006-09-07 17:07:55 xthefull Exp $*/
+/* $Id: gaccelgroup.prg,v 1.2 2007-02-16 20:03:43 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -63,7 +63,7 @@ METHOD Add( oWidget, cSignal , uKey, nMode, nFlags ) CLASS GACCELGROUP
      gtk_widget_add_accelerator( oWidget:pWidget,;      
                                  cSignal,;
                                  ::pWidget,;
-                                 uKey,;
+                                 nKey,;
                                  nMode, nFlags )
   else
      MsgAlert( "The key name is not a valid key. ","Alert" )

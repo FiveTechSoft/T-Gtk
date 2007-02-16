@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.16 2006-11-30 10:11:19 xthefull Exp $
+ * $Id: ChangeLog,v 1.17 2007-02-16 20:03:40 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,22 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2006-11-30 22:10 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   ! /src/gclas/gaccelgroup.prg
+    Fix bug Method ADD()
+
+   * /src/gclass/gObject.prg
+    + New method Disconnect( cSignal )
+      This method disconnect Signal, cSignal.
+
+    + New DATA aSignals { cSignal, nId_Signal }, for use disconnect signals.
+    * Method Connect() put into array, aSignals, the name signal and ID.
+
+    * /hbgtk/events.c
+     * Modify callbacks for JUMP at codeblocks:
+       * OnEventos
+       * OnConfigure_Event
 
 2006-11-30 11:10 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    + /tests/gclass/activex

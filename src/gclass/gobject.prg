@@ -1,4 +1,4 @@
-/* $Id: gobject.prg,v 1.3 2006-11-30 09:49:58 xthefull Exp $*/
+/* $Id: gobject.prg,v 1.4 2007-02-16 20:03:43 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -28,6 +28,7 @@
 
 CLASS GOBJECT
       DATA pWidget  // puntero al Widget
+      DATA aSignals
       DATA bAction, bLeave, bEnter, bChange, bWhen
       DATA bValid
       DATA bEnd
@@ -46,6 +47,7 @@ CLASS GOBJECT
       METHOD OnEnter( oSender )
       METHOD OnActivate( oSender )
       METHOD Emit_Signal( cSignal ) INLINE g_signal_emit_by_name( ::pWidget, cSignal )
+      METHOD DisConnect( cSignal )
 
 ENDCLASS
 
@@ -57,16 +59,36 @@ METHOD Set_Valist( aValues, pWidget ) CLASS GOBJECT
 RETURN NIL
 
 ******************************************************************************
-METHOD Connect( cEvento, cMethod, pWidget, ConnectionFlags ) CLASS GOBJECT
-    Local nIdEvent
+METHOD Connect( cSignal, cMethod, pWidget, ConnectionFlags ) CLASS GOBJECT
+    Local nId_Signal
+
+    if ::aSignals == NIL
+       ::aSignals := {}
+    endif
 
     if pWidget == NIL
        pWidget := ::pWidget
     endif
 	//TraceLog( pWidget, cEvento, ValToPrg(Self), cMethod, ConnectionFlags)
-    nIdEvent := harb_signal_connect( pWidget, cEvento, Self, cMethod, ConnectionFlags )
+    nId_Signal := harb_signal_connect( pWidget, cSignal, Self, cMethod, ConnectionFlags )
 
-RETURN nIdEvent
+    AADD( ::aSignals, { cSignal, nId_Signal } )
+
+RETURN nId_Signal
+******************************************************************************
+METHOD DisConnect( cSignal ) CLASS GOBJECT
+  Local nPos, nId_Signal 
+
+  nPos := ascan( ::aSignals, {|aVal| UPPER( ALLTRIM( cSignal ) ) == UPPER( ALLTRIM( aVal[1] ) ) } ) 
+
+  if nPos != 0 
+     nId_Signal := ::aSignals[ nPos, 2 ] 
+     hb_g_signal_handler_disconnect( ::pWidget , nId_Signal, cSignal )
+     ADel( ::aSignals, nPos )
+     ASize( ::aSignals, Len( ::aSignals ) - 1 )
+  endif
+
+RETURN NIL
 
 ******************************************************************************
 METHOD OnActivate( oSender ) CLASS GOBJECT
