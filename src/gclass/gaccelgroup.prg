@@ -1,4 +1,4 @@
-/* $Id: gaccelgroup.prg,v 1.2 2007-02-16 20:03:43 xthefull Exp $*/
+/* $Id: gaccelgroup.prg,v 1.3 2007-02-26 21:48:11 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -51,13 +51,16 @@ METHOD SetWindow( oWnd ) CLASS GACCELGROUP
 RETURN NIL
 
 METHOD Add( oWidget, cSignal , uKey, nMode, nFlags ) CLASS GACCELGROUP
-  Local nKey 
+   Local nKey 
   
+   DEFAULT nMode := 0, nFlags := 0
+
    if VALTYPE( uKey ) = "C"
       nKey := gdk_keyval_from_name( uKey ) 
    else
       nKey := uKey
    endif
+   
 
   if ( nKey != GDK_VoidSymbol )
      gtk_widget_add_accelerator( oWidget:pWidget,;      
@@ -65,6 +68,7 @@ METHOD Add( oWidget, cSignal , uKey, nMode, nFlags ) CLASS GACCELGROUP
                                  ::pWidget,;
                                  nKey,;
                                  nMode, nFlags )
+
   else
      MsgAlert( "The key name is not a valid key. ","Alert" )
   endif

@@ -1,4 +1,4 @@
-/* $Id: gtkapi.ch,v 1.3 2006-10-04 08:35:28 rosenwla Exp $*/
+/* $Id: gtkapi.ch,v 1.4 2007-02-26 21:48:11 xthefull Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -8,13 +8,19 @@
  */
 
 /* Version que queremos que soporte de T-Gtk de GTK+ */
-#define T_GTK_VERSION  2.4
+#define T_GTK_VERSION  2.10
 
 /* Codigos de teclado */
 #include "gtkkeys.ch"
 
 /* Codigos de evento */
 #include "gdkevent.ch"
+
+/* Support Print */
+#include "gtkprint.ch"
+
+/* Support Pango */
+#include "pango.ch"
 
 /* Compatibilidad con C */
 #define TRUE   1
@@ -512,7 +518,6 @@
 
 // SetGet Standard
 #define bSetGet(x)   {|u| If( PCount() == 0, x, x := u ) }
-
 // Define Enum GtkDeleteType 
 #define GTK_DELETE_CHARS				0
 #define GTK_DELETE_WORD_ENDS			1 /* delete only the portion of the word to the * left/right of cursor if we're in the middle * of a word */

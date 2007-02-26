@@ -9,7 +9,7 @@ Function Main()
       DEFINE NOTEBOOK oNote OF oWnd CONTAINER ;
              POSITION GTK_POS_RIGHT
 
-					DEFINE BOX oBox OF oNote ;
+            DEFINE BOX oBox OF oNote ;
                 LABELNOTEBOOK "Etiqueta del notebook"
 
 

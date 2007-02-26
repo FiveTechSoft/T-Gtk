@@ -64,3 +64,7 @@ simples defines en C:
 #define g_signal_connect_after(instance, detailed_signal, c_handler, data) 
 #define g_signal_connect_swapped(instance, detailed_signal, c_handler, data) 
 
+La verdad es que la conexion a traves de G_CONNECT_SWAPPED no esta 
+implementada por la sencilla razón que lo que hace es intercambiar el orden
+de los parametros pasados, por lo tanto, a nivel de C si que es interesante,
+pero para nosotros, no tiene ningún sentido.

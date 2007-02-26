@@ -23,6 +23,7 @@
 
 
 //#ifdef HB_OS_LINUX
+#ifdef GTK_CHECK_VERSION(2,8,0)
 
 #include <hbapi.h>
 #include <gtk/gtk.h>
@@ -572,4 +573,4 @@ HB_FUNC( GTK_PRINT_DIALOG_NEW )
    hb_retl( result != GNOME_PRINT_DIALOG_RESPONSE_CANCEL );
 }
 
-//#endif
+#endif

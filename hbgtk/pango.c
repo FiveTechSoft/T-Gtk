@@ -1,4 +1,4 @@
-/* $Id: pango.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: pango.c,v 1.2 2007-02-26 21:48:11 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -61,6 +61,12 @@ HB_FUNC( PANGO_FONT_DESCRIPTION_FREE ) // *Font
    pango_font_description_free( ( PangoFontDescription * ) hb_parnl( 1 ) );
 }
 
+HB_FUNC( PANGO_FONT_DESCRIPTION_SET_SIZE ) 
+{
+   PangoFontDescription * Font = pango_font_description_from_string( hb_parc( 1 ) );
+   gint size = hb_parni( 2 );
+   pango_font_description_set_size( Font, size );
+}
 
 /* API Layout Objects â€” Highlevel layout driver objects */
 HB_FUNC( PANGO_LAYOUT_NEW )
@@ -87,11 +93,11 @@ HB_FUNC( PANGO_RENDERER_DRAW_LAYOUT )
 HB_FUNC( PANGO_LAYOUT_GET_SIZE )
 {
   PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
-  gint width = hb_parni( 2 );
-  gint height = hb_parni(3 );
+  gint width  = hb_parni( 2 );
+  gint height = hb_parni( 3 );
   pango_layout_get_size(layout, &width, &height);
-  hb_storni( width,  2 );
-  hb_storni( height, 3 );
+  hb_storni( (gint) width,  2 );
+  hb_storni( (gint) height, 3 );
 }
 
 HB_FUNC( PANGO_LAYOUT_SET_TEXT )
@@ -111,9 +117,40 @@ HB_FUNC( PANGO_LAYOUT_SET_FONT_DESCRIPTION )
 
 HB_FUNC( PANGO_LAYOUT_SET_MARKUP )
 {
- PangoLayout * pango = ( PangoLayout * ) hb_parnl( 1 );
+ PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
  gint length = ISNIL(3) ? -1 : hb_parni( 3 );
- pango_layout_set_markup( pango, hb_parc( 2 ), length );
+ pango_layout_set_markup( layout, hb_parc( 2 ), length );
+}
+
+HB_FUNC( PANGO_LAYOUT_SET_WIDTH )
+{
+ PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
+ gint width = hb_parni( 2 );
+ pango_layout_set_width( layout, width );
+}
+
+HB_FUNC( PANGO_LAYOUT_SET_ALIGNMENT )
+{
+ PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
+ PangoAlignment alignment = hb_parni( 2 );
+ pango_layout_set_alignment( layout, alignment );
+}
+
+/*
+ * Cairo Rendering — Rendering with the Cairo backend
+ */
+HB_FUNC( PANGO_CAIRO_SHOW_LAYOUT ) // ctx, layout
+{
+ cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+ PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 2 ) ) ;
+ pango_cairo_show_layout( ctx, layout );
+}
+
+HB_FUNC( PANGO_CAIRO_LAYOUT_PATH ) // ctx, layout
+{
+ cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+ PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 2 ) ) ;
+ pango_cairo_layout_path( ctx, layout );
 }
 
 

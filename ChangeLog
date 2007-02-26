@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.17 2007-02-16 20:03:40 xthefull Exp $
+ * $Id: ChangeLog,v 1.18 2007-02-26 21:48:11 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,7 +8,74 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
-2006-11-30 22:10 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+2007-02-26 10:10 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   * /doc
+     * Fix minor
+   
+    * /hbgtk/events.c
+     * Modify callbacks for JUMP at codeblocks:
+       * OnEventos_void
+       * OnDelete_Event
+       * OnEvent_After
+       * OnResponse
+       * OnKeyPressEvent
+       * OnFocusEvent
+       * OnMove_slider
+       * OnSelect_child
+       * OnSelection_changed
+       * OnSwitch_page
+      
+       + News callbacks for system printer, system printer for GTK 2.10:
+	 + OnBegin_Print    
+	 + OnBegin_Print    
+	 + OnDraw_Page 
+	 + OnRequest_Page_Setup
+    
+    * /hbgtk/events.h
+      + New support events for GtkPrintOperation, system printer for GTK 2.10:
+	"begin-print",      
+	"end-print",        
+	"draw-page",        
+	"request-page-setup"
+
+    * gtkapi.ch
+       + Add new files *.ch
+
+    * /src/gclass/gaccelgroup.prg
+       * Fix minor
+
+    * /src/gclass/gprinter
+      * Please, if you have use the GnomePrint, readme file for conditional compilation,
+        flag -D_GNOMEPRINT_.
+        Under new GTK 2.10, this class is deprecated, only for versions minor at GTK 2.10
+    
+    + New files /hbgtk/:
+      + cairo.c, support A Vector Graphics Library. Please i think if necesary GTK 2.8.
+        If you have problem, please add #ifdef GTK_CHECK_VERSION() mayor a your GTK version,
+        or , delete file. I not remember begin the use Cairo in the version GTK.
+	Are you help me ? Thank
+
+      + gtkpagesetup.c, Stores page setup information
+      
+      + gtkpapersize.c, Support for named paper sizes
+
+      + gtkprintoperation.c, High-level Printing API
+
+      + gtkprintcontext.c, Encapsulates context for drawing pages
+
+    + New files /include/:
+      + gtkprint.ch
+      + pango.ch
+
+    + /src/atl
+      + _winsink.c
+
+    + /tests/native/print:
+      + gtkprint.prg
+        New example for print under GTK 2.10.
+        The example show three pages, and use diferents formats and include change format paper!
+
+2007-02-16 22:10 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    ! /src/gclas/gaccelgroup.prg
     Fix bug Method ADD()
 

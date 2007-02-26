@@ -1,4 +1,4 @@
-/* $Id: gprinter.prg,v 1.1 2006-09-07 17:02:45 xthefull Exp $*/
+/* $Id: gprinter.prg,v 1.2 2007-02-26 21:48:11 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -21,6 +21,13 @@
     Clase para imprimir bajo GnomePrint( DEPRECATED... )
     (c)2003 Rafael Carmona <thefull@wanadoo.es>
 */
+
+/*Nota: Para versiones inferiores a GTK 2.10,  y para usar el sistema de GnomePrint, se debe
+        de activar esta directiva en el compilador de Harbour.
+        Por ejemplo, en el Makefile de los sources PRGS, añadir esta linea :
+        PRGFLAGS= -D_GNOMEPRINT_ */
+
+#ifdef _GNOMEPRINT_
 
 #include "gclass.ch"
 #include "hbclass.ch"
@@ -171,4 +178,4 @@ function PageEnd()
 
 return oPrinter:EndPage()
 
-//#endif
+#endif

@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.6 2006-10-04 08:35:28 rosenwla Exp $*/
+/* $Id: events.h,v 1.7 2007-02-26 21:48:11 xthefull Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {
@@ -117,10 +117,17 @@ static TGtkActionParce array[] = {
 			   {"move-cursor", 		 		 "OnMove_Cursor",        		G_CALLBACK( OnMove_Cursor )},     		 /*109 -- GtkEntry  -- void  OnMove_Cursor(GtkEntry *entry, GtkMovementStep *arg1, gint arg2, gboolean  arg3, gpointer  user_data)*/
 			   {"paste-clipboard", 		 	 "OnPaste_Clipboard",        	G_CALLBACK( OnPaste_Clipboard )},     	 /*111 -- GtkEntry  -- void   OnPaste_Clipboard(GtkEntry *entry, gpointer  user_data)*/
 			   {"populate-popup", 		 	 "OnPopulate_Popup",        	G_CALLBACK( OnPopulate_Popup )},     	 /*112 -- GtkEntry  -- void  OnPopulate_Popup(GtkEntry *entry,GtkMenu  *arg1, gpointer  user_data) */
-			   {"toggle-overwrite", 		 "OnToggle_Overwrite",        	G_CALLBACK( OnToggle_Overwrite )}     	 /*113 -- GtkEntry  -- void  OnToggle_Overwrite(GtkEntry *entry, gpointer  user_data) */
+               #if GTK_CHECK_VERSION(2,10,0)
+               {"begin-print",               "OnBegin_Print",               G_CALLBACK( OnBegin_Print )},            /*114 -- GtkPrintOperation */
+               {"end-print",                 "OnEnd_Print",                 G_CALLBACK( OnBegin_Print )},            /*115 -- GtkPrintOperation */
+               {"draw-page",                 "OnDraw_Page",                 G_CALLBACK( OnDraw_Page )},              /*116 -- GtkPrintOperation */
+               {"request-page-setup",        "OnRequest_Page_Setup",        G_CALLBACK( OnRequest_Page_Setup )},     /*117 -- GtkPrintOperation */
+               #endif
+               {"toggle-overwrite",          "OnToggle_Overwrite",          G_CALLBACK( OnToggle_Overwrite )}        /*113 -- GtkEntry  -- void  OnToggle_Overwrite(GtkEntry *entry, gpointer  user_data) */
+
 };  /**/
 
-#define COUNT_ARRAY     113
+#define COUNT_ARRAY     117
 
 static TGtkPreDfnParce predefine[] = {
                {"toggled", "cell_toggled"}
