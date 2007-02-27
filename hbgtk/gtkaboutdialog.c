@@ -1,4 +1,4 @@
-/* $Id: gtkaboutdialog.c,v 1.4 2006-10-05 15:22:18 xthefull Exp $*/
+/* $Id: gtkaboutdialog.c,v 1.5 2007-02-27 08:21:34 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -135,12 +135,11 @@ HB_FUNC( GTK_ABOUT_DIALOG_SET_ARTISTS )
   PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY ); // array
   gint iLenCols = hb_arrayLen( pArray );        // columnas
   gint iCol;                                    // contador
-  const gchar **artist  = hb_xgrab( iLenCols + 1 ); // array 
+  const gchar **artist = hb_xgrab( sizeof( const gchar * ) * iLenCols + 1 ); 
   
   for( iCol = 0; iCol < iLenCols ; iCol++ )
-   {
-     artist[ iCol ]  = ( const gchar * ) hb_arrayGetC( pArray, iCol + 1 );
-     // g_print( "%s \n",artist[ iCol ] );
+   {                                     
+     artist[ iCol ] = ( const gchar * ) hb_arrayGetC( pArray, (iCol + 1) );;
    }
    artist[ iCol ] = NULL; // ultima
    gtk_about_dialog_set_artists( dialog, artist  );
@@ -154,15 +153,15 @@ HB_FUNC( GTK_ABOUT_DIALOG_SET_AUTHORS )
   PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY ); 
   gint iLenCols = hb_arrayLen( pArray );        
   gint iCol;                                    
-  const gchar **authors  = hb_xgrab( iLenCols + 1 ); 
+  const gchar **authors = hb_xgrab( sizeof( const gchar * ) * iLenCols + 1 ); 
   
   for( iCol = 0; iCol < iLenCols ; iCol++ )
    {
-     authors[ iCol ]  = ( const gchar * ) hb_arrayGetC( pArray, iCol + 1 );
+     authors[ iCol ] = ( const gchar * ) hb_arrayGetC( pArray, (iCol + 1) );
    }
    authors[ iCol ] = NULL; // ultima
    gtk_about_dialog_set_authors( dialog, authors  );
-
+   
    hb_xfree( authors ); 
 }
 
@@ -172,11 +171,11 @@ HB_FUNC( GTK_ABOUT_DIALOG_SET_DOCUMENTERS )
   PHB_ITEM pArray = hb_param( 2, HB_IT_ARRAY ); 
   gint iLenCols = hb_arrayLen( pArray );        
   gint iCol;                                    
-  const gchar **documenters  = hb_xgrab( iLenCols + 1 );
+  const gchar **documenters  = hb_xgrab( sizeof( const gchar * ) * iLenCols + 1 );
   
   for( iCol = 0; iCol < iLenCols ; iCol++ )
    {
-     documenters[ iCol ]  = ( const gchar * ) hb_arrayGetC( pArray, iCol + 1 );
+     documenters[ iCol ] = ( const gchar * ) hb_arrayGetC( pArray, iCol + 1 );
    }
    documenters[ iCol ] = NULL; 
    gtk_about_dialog_set_documenters( dialog, documenters );

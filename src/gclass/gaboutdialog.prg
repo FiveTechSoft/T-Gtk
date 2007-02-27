@@ -1,4 +1,4 @@
-/* $Id: gaboutdialog.prg,v 1.4 2006-10-05 15:22:18 xthefull Exp $*/
+/* $Id: gaboutdialog.prg,v 1.5 2007-02-27 08:21:34 xthefull Exp $*/
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
@@ -52,7 +52,10 @@ METHOD NEW( cName, cVersion, aAuthors, aArtists, aDocumenters, oLogo, lCenter, c
           endif
        endif
 
-       ::Show()           
+       ::bCancel := {| o | o:End() } // Activate button Close for kill aboutdialog
+       ::Connect( "response" )
+       ::Connect( "delete-event" )
        ::Connect( "destroy" )
-
+       
+       ::Show()           
 RETURN Self
