@@ -1,5 +1,5 @@
 
-/* $Id: events.c,v 1.11 2007-02-26 21:48:11 xthefull Exp $*/
+/* $Id: events.c,v 1.12 2007-02-28 21:38:20 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -489,25 +489,30 @@ void OnSwitch_page( GtkNotebook *notebook, GtkNotebookPage *page, guint page_num
 
 void OnGroup_changed( GtkRadioButton *radiobutton, gpointer data )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( radiobutton ), "Self" );
+  PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
-  PHB_DYNS pMethod;
-
-  if( pObj ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                            // Coloca objeto en pila.
-        hb_vmPush( pObj );                            // oSender
-        hb_vmSend( 1 );                               // LLamada por Send que pasa
-     } else {
-       g_print( "Method doesn't %s exist en OnGroup_changed ", (gchar *)data );
-     }
-  }
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( radiobutton ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( radiobutton ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmSend( 1 );                               // LLamada por Send que pasa
+         } else {
+           g_print( "Method doesn't %s exist en OnGroup_changed", (gchar *)data );
+         }
+      }
+  } 
 
   // Obtenemos el codeblock de la señal, data, que debemos evaluar...
   if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( radiobutton ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
@@ -515,33 +520,37 @@ void OnGroup_changed( GtkRadioButton *radiobutton, gpointer data )
         hb_vmSend( 1 );
      }
   }
-
 }
 
 /* Señal para GtkCellRendererText — Renders text in a cell */
 void OnRow_activated( GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *col, gpointer data  )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( treeview ), "Self" );
+  PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
-  PHB_DYNS pMethod;
-
-  if( pObj ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                            // Coloca objeto en pila.
-        hb_vmPush( pObj );                            // oSender
-        hb_vmPushLong( GPOINTER_TO_UINT( path ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( col  ) );
-        hb_vmSend( 3 );                               // LLamada por Send que pasa
-     } else {
-       g_print( "Method doesn't %s exist en OnRow_Activate", (gchar *)data );
-     }
-  }
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( treeview ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( treeview ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushLong( GPOINTER_TO_UINT( path ) );
+            hb_vmPushLong( GPOINTER_TO_UINT( col  ) );
+            hb_vmSend( 3 );                               // LLamada por Send que pasa
+         } else {
+           g_print( "Method doesn't %s exist en OnRow_Activate", (gchar *)data );
+         }
+      }
+  } 
 
   // Obtenemos el codeblock de la señal, data, que debemos evaluar...
   if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( treeview ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
@@ -556,26 +565,31 @@ void OnRow_activated( GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColum
 
 void OnCell_toggled( GtkCellRendererToggle *cell_renderer, gchar *path, gpointer data )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( cell_renderer ), "Self" );
+  PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
-  PHB_DYNS pMethod;
-
-  if( pObj ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                            // Coloca objeto en pila.
-        hb_vmPush( pObj );                            // oSender
-        hb_vmPushString( path, strlen( path) );
-        hb_vmSend( 2 );                               // LLamada por Send que pasa
-     } else {
-       g_print( "Method doesn't %s exist en OnCell_toggled", (gchar *)data );
-     }
-  }
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( cell_renderer ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( cell_renderer ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushString( path, strlen( path) );
+            hb_vmSend( 2 );                               // LLamada por Send que pasa
+         } else {
+           g_print( "Method doesn't %s exist en OnCell_toggled", (gchar *)data );
+         }
+      }
+  } 
 
   // Obtenemos el codeblock de la señal, data, que debemos evaluar...
   if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( cell_renderer ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
@@ -584,31 +598,36 @@ void OnCell_toggled( GtkCellRendererToggle *cell_renderer, gchar *path, gpointer
         hb_vmSend( 2 );
      }
   }
-
+  
 }
 
 void OnInsert_at_cursor( GtkEntry *entry, gchar *arg1, gpointer data )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( entry ), "Self" );
+  PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
-  PHB_DYNS pMethod;
-
-  if( pObj ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                            // Coloca objeto en pila.
-        hb_vmPush( pObj );                            // oSender
-        hb_vmPushString( arg1, strlen( arg1 ) );
-        hb_vmSend( 2 );                               // LLamada por Send que pasa
-     } else {
-       g_print( "Method doesn't %s exist en OnInsert_At_Cursor", (gchar *)data );
-     }
-  }
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( entry ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushString( arg1, strlen( arg1 ) );
+            hb_vmSend( 2 );                               // LLamada por Send que pasa
+         } else {
+           g_print( "Method doesn't %s exist en OnInsert_At_Cursor", (gchar *)data );
+         }
+      }
+  } 
 
   // Obtenemos el codeblock de la señal, data, que debemos evaluar...
   if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
@@ -617,63 +636,75 @@ void OnInsert_at_cursor( GtkEntry *entry, gchar *arg1, gpointer data )
         hb_vmSend( 2 );
      }
   }
+  
 }
 
 void OnItem_Activated( GtkIconView *iconview, GtkTreePath *arg1, gpointer data )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( iconview ), "Self" );
+  PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
-  PHB_DYNS pMethod;
-
-  if( pObj ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                            // Coloca objeto en pila.
-        hb_vmPush( pObj );                            // oSender
-        hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
-        hb_vmSend( 2 );                               // LLamada por Send que pasa
-     } else {
-       g_print( "Method doesn't %s exist en OnItem_Activated", (gchar *)data );
-     }
-  }
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( iconview ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( iconview ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
+            hb_vmSend( 2 );                               // LLamada por Send que pasa
+         } else {
+           g_print( "Method doesn't %s exist en OnItem_Activated", (gchar *)data );
+         }
+      }
+  } 
 
   // Obtenemos el codeblock de la señal, data, que debemos evaluar...
   if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( iconview ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( iconview) );
+        hb_vmPushLong( GPOINTER_TO_UINT( iconview ) );
         hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
         hb_vmSend( 2 );
      }
   }
+
 }
 
 gboolean OnExpose_Event( GtkWidget *widget, GdkEventExpose *event, gpointer data )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( widget ), "Self" );
+  PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
-  PHB_DYNS pMethod;
-
-  if( pObj ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                            // Coloca objeto en pila.
-        hb_vmPush( pObj );                            // oSender
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
-        hb_vmSend( 2 );                               // LLamada por Send que pasa
-        return( hb_parl( -1 ) );
-     } else {
-       g_print( "Method doesn't %s exist en OnExpose_Event", (gchar *)data );
-     }
-  }
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( widget ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmSend( 2 );                               // LLamada por Send que pasa
+            return( hb_parl( -1 ) );
+         } else {
+           g_print( "Method doesn't %s exist en OnExpose_Event", (gchar *)data );
+         }
+      }
+  } 
 
   // Obtenemos el codeblock de la señal, data, que debemos evaluar...
   if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
@@ -683,6 +714,7 @@ gboolean OnExpose_Event( GtkWidget *widget, GdkEventExpose *event, gpointer data
         return( hb_parl( -1 ) );
      }
   }
+  
 return FALSE;
 }
 
@@ -729,25 +761,30 @@ return FALSE;
 
 void OnCursor_Changed( GtkTreeView *treeview, gpointer data  )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( treeview ), "Self" );
+  PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
-  PHB_DYNS pMethod;
-
-  if( pObj ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                            // Coloca objeto en pila.
-        hb_vmPush( pObj );                            // oSender
-        hb_vmSend( 1 );                               // LLamada por Send que pasa
-     } else {
-       g_print( "Method doesn't %s exist en OnCursor_Changed", (gchar *)data );
-     }
-  }
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( treeview ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( treeview ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmSend( 1 );                               // LLamada por Send que pasa
+         } else {
+           g_print( "Method doesn't %s exist en OnCursor_Changed", (gchar *)data );
+         }
+      }
+  } 
 
   // Obtenemos el codeblock de la señal, data, que debemos evaluar...
   if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( treeview ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
@@ -780,27 +817,32 @@ void OnColumns_changed( GtkTreeView *treeview, gpointer data  )
 
 void OnEdited( GtkCellRendererText * cellrenderertext, gchar *arg1, gchar *arg2, gpointer data )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( cellrenderertext ), "Self" );
+  PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
-  PHB_DYNS pMethod;
-
-  if( pObj ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                            // Coloca objeto en pila.
-        hb_vmPush( pObj );                            // oSender
-        hb_vmPushString( arg1, strlen( arg1) );
-        hb_vmPushString( arg2, strlen( arg2) );
-        hb_vmSend( 3 );                               // LLamada por Send que pasa
-     } else {
-       g_print( "Method doesn't %s exist en OnEdited", (gchar *)data );
-     }
-  }
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( cellrenderertext ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( cellrenderertext ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushString( arg1, strlen( arg1) );
+            hb_vmPushString( arg2, strlen( arg2) );
+            hb_vmSend( 3 );                               // LLamada por Send que pasa
+         } else {
+           g_print( "Method doesn't %s exist en OnEdited", (gchar *)data );
+         }
+      }
+  } 
 
   // Obtenemos el codeblock de la señal, data, que debemos evaluar...
   if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( cellrenderertext ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
@@ -815,31 +857,36 @@ void OnEdited( GtkCellRendererText * cellrenderertext, gchar *arg1, gchar *arg2,
 
 gboolean OnEnter_Leave_NotifyEvent( GtkWidget *widget, GdkEventCrossing *event, gpointer data )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( widget ), "Self" );
-  PHB_DYNS pMethod;
+  PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
-
-  if( pObj  ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                       // Coloca objeto en pila.
-        hb_vmPush( pObj );                       // Dato a pasar
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );  // Metemos puntero del widget
-        hb_vmSend( 2 );                              // LLamada por Send
-        return( hb_parl( -1 ) );
-     } else {
-        g_print( "Method doesn't exist OnEnterLeaveNotifyEvent" );
-     }
-  }
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( widget ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmSend( 2 );                               // LLamada por Send que pasa
+            return( hb_parl( -1 ) );
+         } else {
+           g_print( "Method doesn't %s exist en OnEnterLeaveNotifyEvent", (gchar *)data );
+         }
+      }
+  } 
 
   // Obtenemos el codeblock de la señal, data, que debemos evaluar...
   if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -852,31 +899,36 @@ gboolean OnEnter_Leave_NotifyEvent( GtkWidget *widget, GdkEventCrossing *event, 
 
 gboolean OnButton_Press_Event( GtkWidget *widget, GdkEventButton *event, gpointer data )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( widget ), "Self" );
-  PHB_DYNS pMethod;
+  PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
-
-  if( pObj  ) {
-     pMethod = hb_dynsymFindName( data );
-     if( pMethod ){
-        hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
-        hb_vmPush( pObj );                       // Coloca objeto en pila.
-        hb_vmPush( pObj );                       // Dato a pasar
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );  // Metemos puntero del widget
-        hb_vmSend( 2 );                              // LLamada por Send
-        return( hb_parl( -1 ) );
-     } else {
-        g_print( "Method doesn't exist OnButtonPress_ReleaseEvent" );
-     }
-  }
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( widget ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmSend( 2 );                               // LLamada por Send que pasa
+            return( hb_parl( -1 ) );
+         } else {
+           g_print( "Method doesn't %s exist en OnButtonPress_ReleaseEvent", (gchar *)data );
+         }
+      }
+  } 
 
   // Obtenemos el codeblock de la señal, data, que debemos evaluar...
   if( pObj == NULL ){
-     pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -2409,6 +2461,47 @@ void OnRequest_Page_Setup(GtkPrintOperation *operation, GtkPrintContext *context
      }
   }
 }
+
+gboolean OnPaginate( GtkPrintOperation *operation, GtkPrintContext *context, gpointer data )
+{
+  PHB_ITEM pObj = NULL;
+  PHB_ITEM pBlock;
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( operation ), (gchar*) data );
+ 
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( operation ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
+            hb_vmSend( 2 );                               // LLamada por Send que pasa
+            return( hb_parl( -1 ) );
+         } else {
+           g_print( "Method doesn't %s exist en OnPaginate", (gchar *)data );
+         }
+      }
+  } 
+
+  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  if( pObj == NULL ){
+     if( pBlock ) {
+        hb_vmPushSymbol( &hb_symEval );
+        hb_vmPush( pBlock );
+        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
+        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
+        hb_vmSend( 2 );
+        return( hb_parl( -1 ) );
+     }
+  }
+ 
+  return( FALSE );  // Salimos
+}
 #endif
 
 // Content arrays the signals and Methods
@@ -2444,20 +2537,42 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
     gint num_predefine = sizeof( predefine )/ sizeof( TGtkPreDfnParce );
     gint ConnectFlags = ISNIL( 5 ) ? (GConnectFlags) 0 :  (GConnectFlags) hb_parni( 5 );
     gchar *cMethod = "onInternalError"; // =  (gchar *) hb_parc( 4 );
-    gchar *gtk_class_name = GTK_OBJECT_TYPE_NAME(  GTK_OBJECT( widget )  ); // Name class_gtk
+    const gchar *gtk_class_name = NULL; 
 
-    // Check before seek in base array for predefine signals from t-gtk source
+    // Check before seek in base array for possible signals, distints callbacks
     for ( x = 0;  x < num_predefine; x++ ) {
-        if( g_strcasecmp( cStr, predefine[x].tgtkname ) == 0 ) {
-            cStr = predefine[x].gtkname;
+        if( g_strcasecmp( cStr, predefine[x].signalname ) == 0 ) {
+            gtk_class_name = GTK_OBJECT_TYPE_NAME( widget ); // get name class_gtk 
             break;
         }
     }
-    // Busca la seÃ±al que tengo que procesar.
+    
+    // Find signal for process.
     for ( x = 0;  x < num_elements; x++ ) {
-        if( g_strcasecmp( cStr, array[x].name ) == 0 ) {
+        // Si es encuentrada, y no tiene .gtkclassname y no hay existe signal en struct predefine
+        if( g_strcasecmp( cStr, array[x].name ) == 0 && ! array[x].gtkclassname && ! gtk_class_name )
+        {  
+            //g_print( "pos  %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ) );
             iPos = x;
             break;
+        }
+        
+        // Si existe señal en la struct predefine, gtk_class_name vale ahora el nombre del widget ,y ademas esta en array[x].gtkclassname.
+        if( gtk_class_name && array[x].gtkclassname ){
+            if ( g_strcasecmp( gtk_class_name, array[x].gtkclassname ) == 0 && g_strcasecmp( cStr, array[x].name ) == 0  )  {
+                // g_print( "pos class %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ));
+                 iPos = x;
+                 break;
+            }
+        }
+
+        // Si existe señal en la struct predefine, , pero en el array  no existe, guardamos posicion PERO no salimos
+        if( gtk_class_name && ! array[x].gtkclassname ){
+            if( g_strcasecmp( cStr, array[x].name ) == 0 ) {
+                // g_print( "pos 3 %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ));
+                iPos = x;
+                  //break;
+            }
         }
     }
 

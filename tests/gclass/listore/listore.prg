@@ -1,7 +1,12 @@
 /* Primero implementacion de Modelo Vista en POO
   (c)2005 Rafa Carmona
-  Ejemplo basado en el de ejemplo de GTK, excepto que activamos para mostrar
-  el numero de BUG.
+
+  Ejemplo basado en el de ejemplo de GTK, excepto que activamos para mostrar el numero de BUG.
+  
+  Nota:
+  Este ejemplo muestra como conectamos la señal toggled, tanto a un GtkToggleButton,
+  como a un GtkCellRendererToggle, y como esta ya solucionado el tema en los eventos
+  de la señal con el mismo nombre , pero el salto a la callback diferente.
  */
 
 #include "gclass.ch"
@@ -104,12 +109,12 @@ Static Function Comprueba( oTreeView, pPath, pTreeViewColumn  )
     // u := o:GetValue( nColumn, cType_data, pPath )
     nBug := oTreeview:GetValue( 2, "Int" , pPath )
     
-    MsgInfo( "The number bug is: "+ cValtoChar( nBug ) )
+    Msg2Info( "The number bug is: "+ cValtoChar( nBug ) )
 
 Return nil
 
-Static Function MsgInfo( cText, cTitle )
-  Local oBox, oWnd, oBoxH
+Static Function Msg2Info( cText, cTitle )
+  Local oBox, oWnd, oBoxH, oImage, oToggle
   DEFAULT cTitle := "Information", cText := "Information"
 
   DEFINE WINDOW oWnd TITLE cTitle TYPE_HINT GDK_WINDOW_TYPE_HINT_MENU
@@ -126,6 +131,14 @@ Static Function MsgInfo( cText, cTitle )
          
            DEFINE BUTTON FROM STOCK GTK_STOCK_OK ACTION oWnd:End OF oBox 
 
+            DEFINE TOGGLE oToggle TEXT "_Comnutador" ACTION g_print( "First Example" ) OF oBox 
+            
+            oToggle:DisConnect( "toggled" )
+            oToggle:Connect( "toggled" )
+
+            DEFINE TOGGLE oToggle TEXT "_Comnutador" ACTION g_print( "Two example" ) OF oBox 
+            oToggle:DisConnect( "toggled" )
+            g_signal_connect( oToggle:pWidget, "toggled", { ||g_print( "Dios, que vueltas!!" ) } )
 
   ACTIVATE WINDOW oWnd CENTER MODAL 
 

@@ -1,4 +1,4 @@
-/* $Id: gcellrenderertoggle.prg,v 1.1 2006-09-07 17:07:55 xthefull Exp $*/
+/* $Id: gcellrenderertoggle.prg,v 1.2 2007-02-28 21:38:21 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -32,7 +32,7 @@ METHOD New() CLASS gCellRendererToggle
        ::pWidget = gtk_cell_renderer_toggle_new()
        ::cType := "active"
        ::Connect( "destroy" ) 
-       ::Connect( "cell_toggled" ) // Internamente a nivel de GTK es "tooggled"
+       ::Connect( "toggled" ) 
 RETURN Self
 
 METHOD OnCell_Toggled( oSender, cPath ) CLASS gCellRendererToggle
