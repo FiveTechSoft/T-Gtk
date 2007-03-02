@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.8 2007-02-28 21:38:20 xthefull Exp $*/
+/* $Id: events.h,v 1.9 2007-03-02 08:21:32 xthefull Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {
@@ -123,12 +123,16 @@ static TGtkActionParce array[] = {
                {"draw-page",                 "OnDraw_Page",                 G_CALLBACK( OnDraw_Page ),NULL},              /*116 -- GtkPrintOperation */
                {"request-page-setup",        "OnRequest_Page_Setup",        G_CALLBACK( OnRequest_Page_Setup ),NULL},     /*117 -- GtkPrintOperation */
                {"paginate",                  "OnPaginate",                  G_CALLBACK( OnPaginate ),NULL},               /*118 -- GtkPrintOperation */
+               {"apply",                     "OnApply",                     G_CALLBACK( OnEventos_void ),NULL},           /*119 -- GtkAssistant */
+               {"cancel",                    "OnCancel",                    G_CALLBACK( OnEventos_void ),NULL},           /*120 -- GtkAssistant */
+               {"close",                     "Onclose",                     G_CALLBACK( OnEventos_void ),NULL},           /*121 -- GtkAssistant */
+               {"prepare",                   "OnPrepare",                   G_CALLBACK( OnPrepare ),NULL},                /*122 -- GtkAssistant */
                #endif
                {"toggle-overwrite",          "OnToggle_Overwrite",          G_CALLBACK( OnToggle_Overwrite ),NULL}        /*113 -- GtkEntry  -- void  OnToggle_Overwrite(GtkEntry *entry, gpointer  user_data) */
 
 };  /**/
 
-#define COUNT_ARRAY     118
+#define COUNT_ARRAY     122
 
 
 static TGtkPreDfnParce predefine[] = {

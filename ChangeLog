@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.20 2007-02-28 21:38:20 xthefull Exp $
+ * $Id: ChangeLog,v 1.21 2007-03-02 08:21:32 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,37 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2007-03-01 23:00 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+    + gtkassistant.c
+      + New support widget of GTK 2.10
+
+    * /hbgtk/events.c
+      + Support for signal "prepare"
+      * Modify callbacks for JUMP at codeblocks:
+	* OnCan_Activate_Accel
+	* OnChild_Notify
+	* OnClient_Event
+	* OnDirection_Changed
+	* OnFocus
+	* OnSignals_Container
+	* OnCheck_Resize
+	* OnGrab_Broken_Event
+	* OnGrab_Notify
+	 
+    * events.h
+      + New support for signals of GtkAssistant:
+        apply, cancel, close and prepare
+    
+    * gtkwidget.c
+      + New function gtk_widget_render_icon()
+
+    * window.c
+      + New support of wrappers of CAST converts.
+
+    + /tests/native/assistant
+      + New example for widget assistant, is equal a gtk-demo of C.
+         
 
 2007-02-28 22:00 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
     * /hbgtk/events.c

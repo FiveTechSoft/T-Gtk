@@ -1,4 +1,4 @@
-/* $Id: gtkwidget.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkwidget.c,v 1.2 2007-03-02 08:21:32 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -334,3 +334,12 @@ HB_FUNC( GTK_WIDGET_ADD_ACCELERATOR )// widget, accel_signal, accel_group, accel
    gtk_widget_add_accelerator( widget, accel_signal, accel_group, accel_key, mode, accel_flags ); 
 }
 
+HB_FUNC( GTK_WIDGET_RENDER_ICON )
+{
+   GtkWidget *widget = GTK_WIDGET( hb_parnl( 1 ) );
+   const gchar *stock_id = hb_parc( 2 );
+   GtkIconSize size = hb_parni(3);
+   const gchar * detail = hb_parc( 4 );
+   GdkPixbuf * pixbuf = gtk_widget_render_icon( widget, stock_id, size, detail );
+   hb_retnl( (glong) pixbuf );
+}

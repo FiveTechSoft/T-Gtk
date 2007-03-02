@@ -1,4 +1,4 @@
-/* $Id: window.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: window.c,v 1.2 2007-03-02 08:21:32 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -44,40 +44,49 @@ HB_FUNC( CONNECT_DESTROY_WIDGET )
 
 HB_FUNC( GTK_WINDOW )
 {
-  hb_retnl( (ULONG) hb_parnl( 1 ) );
+  hb_retnl( (glong) hb_parnl( 1 ) );
 }
 
 HB_FUNC( GTK_CONTAINER )
 {
-  hb_retnl( (ULONG) hb_parnl( 1 ) );
+  hb_retnl( (glong) hb_parnl( 1 ) );
 }
 HB_FUNC( GTK_BOX)
 {
-  hb_retnl( (ULONG) hb_parnl( 1 ) );
+  hb_retnl( (glong) hb_parnl( 1 ) );
 }
 
 HB_FUNC( GTK_COMBO_BOX )
 {
-  hb_retnl( (ULONG) hb_parnl( 1 ) );
+  hb_retnl( (glong) hb_parnl( 1 ) );
 }
 
 HB_FUNC( GTK_TOOLBAR )
 {
-  hb_retnl( (ULONG) hb_parnl( 1 ) );
+  hb_retnl( (glong) hb_parnl( 1 ) );
 }
 
 HB_FUNC( GTK_TREE )
 {
-  hb_retnl( (ULONG) hb_parnl( 1 ) );
+  hb_retnl( (glong) hb_parnl( 1 ) );
 }
 
 HB_FUNC( GTK_SCROLLED_WINDOW )
 {
-  hb_retnl( (ULONG) hb_parnl( 1 ) );
+  hb_retnl( (glong) hb_parnl( 1 ) );
 }
 
 HB_FUNC( GTK_TREE_ITEM )
 {
-  hb_retnl( (ULONG) hb_parnl( 1 ) );
+  hb_retnl( (glong) hb_parnl( 1 ) );
 }
 
+HB_FUNC( GTK_ASSISTANT )
+{
+  hb_retnl( (glong) hb_parnl( 1 ) );
+}
+
+HB_FUNC( GTK_ENTRY )
+{
+  hb_retnl( (glong) hb_parnl( 1 ) );
+}
