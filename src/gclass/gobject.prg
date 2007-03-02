@@ -1,4 +1,4 @@
-/* $Id: gobject.prg,v 1.4 2007-02-16 20:03:43 xthefull Exp $*/
+/* $Id: gobject.prg,v 1.5 2007-03-02 21:17:10 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -134,16 +134,16 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
        gdk_cursor_unref( oSender:pCursorEnter )
     endif
 
-    if cClassName == "GDIALOG" .OR. cClassName == "GWINDOW"
-       SysRefresh()       // PRUEBA!!
+    if oSender:ISDERIVEDFROM( "GWINDOW" )//cClassName == "GDIALOG" .OR. cClassName == "GWINDOW"
+       SysRefresh()       
        hb_gcAll()         // Garbage collector
     endif
 
-    if cClassName == "GWINDOW" .OR. cClassName == "GDIALOG"
+    if oSender:ISDERIVEDFROM( "GWINDOW" )  // cClassName == "GWINDOW" .OR. cClassName == "GDIALOG" .OR. cClassName == "GASSISTANT"
        if oSender:oAccelGroup != NIL
           oSender:oAccelGroup:Destroy()
        endif
-       if cClassName = "GDIALOG" // Si es un dialogo, lo matamos
+       if cClassName == "GDIALOG" .OR. cClassName == "GASSISTANT"// Si es un dialogo, lo matamos
           gtk_widget_destroy( oSender:pWidget )
        endif
        if oSender:ldestroy_gtk_Main

@@ -1,4 +1,4 @@
-/* $Id: gradiobutton.prg,v 1.1 2006-09-07 17:02:45 xthefull Exp $*/
+/* $Id: gradiobutton.prg,v 1.2 2007-03-02 21:17:11 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -30,7 +30,7 @@ CLASS GRadioButton FROM GCheckBox
 
 ENDCLASS
 
-METHOD New( cText, lActived, oRadio, oFont, lMnemonic, oParent,;
+METHOD New( cText, lActived, oRadio, bAction, oFont, lMnemonic, oParent,;
             lExpand, lFill, nPadding, lContainer, x, y, cId, uGlade,;
             nCursor, uLabelTab, nWidth, nHeight, oBar, cMsgBar, lEnd, lSecond, lResize, lShrink,;
             left_ta, right_ta, top_ta, bottom_ta, xOptions_ta, yOptions_ta ) CLASS GRadioButton
@@ -76,6 +76,16 @@ METHOD New( cText, lActived, oRadio, oFont, lMnemonic, oParent,;
 
        if oBar != NIL .AND. cMsgBar != NIL
          ::SetMsg( cMsgBar, oBar )
+       endif
+
+       /* Note : source-> /share/gtk-doc/html/gtk/GtkRadioButton.html
+          When an unselected button in the group is clicked the clicked button receives the "toggled" signal, 
+          as does the previously selected button. Inside the "toggled" handler, gtk_toggle_button_get_active() 
+          can be used to determine if the button has been selected or deselected.
+       */
+       if bAction != NIL
+         ::bAction := bAction
+         ::Connect( "toggled" )
        endif
 
        ::Show()

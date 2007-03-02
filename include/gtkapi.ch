@@ -1,4 +1,4 @@
-/* $Id: gtkapi.ch,v 1.4 2007-02-26 21:48:11 xthefull Exp $*/
+/* $Id: gtkapi.ch,v 1.5 2007-03-02 21:17:10 xthefull Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -527,3 +527,12 @@
 #define GTK_DELETE_PARAGRAPH_ENDS		5 /* like C-k in Emacs (or its reverse) */
 #define GTK_DELETE_PARAGRAPHS			6 /* C-k in pico, kill whole line */
 #define GTK_DELETE_WHITESPACE			7
+
+/* 
+ * enum GtkAssistantPageType 
+ */
+#define GTK_ASSISTANT_PAGE_CONTENT  0
+#define GTK_ASSISTANT_PAGE_INTRO    1
+#define GTK_ASSISTANT_PAGE_CONFIRM  2
+#define GTK_ASSISTANT_PAGE_SUMMARY  3
+#define GTK_ASSISTANT_PAGE_PROGRESS 4

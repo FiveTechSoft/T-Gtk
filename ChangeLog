@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.21 2007-03-02 08:21:32 xthefull Exp $
+ * $Id: ChangeLog,v 1.22 2007-03-02 21:17:10 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,29 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2007-03-02 18:00 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+    * gclass.ch
+      + News commands for GtkAssistant , DEFINE ASSISTANT ... ACTIVATE ASSISTANT
+      * New clausule for DEFINE RADIO ... ACTION bAction.
+    
+    * gtkapi.ch
+      + Definition for GtkAssistantPageType 
+
+    * /src/gclass/gradiobutton.prg
+      + Support for clausula ACTION
+
+    * /src/gclass/gtogglebtn.prg
+      * Fix minor in method OnToggled()
+    
+    * /src/gclass/gObject.prg
+      * Support for GtkAssistant in method OnDestroy
+   
+    + /tests/gclass/assistant
+      + New example for widget assistant, very cool!
+
+    + New logo image
+
 
 2007-03-01 23:00 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
     + gtkassistant.c

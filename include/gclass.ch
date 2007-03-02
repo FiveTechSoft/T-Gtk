@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.4 2006-10-05 15:22:18 xthefull Exp $ */
+/*  $Id: gclass.ch,v 1.5 2007-03-02 21:17:10 xthefull Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2004 Rafa Carmona
@@ -351,6 +351,7 @@
                  [ <label: TEXT,LABEL,PROMPT> <cText> ];
                  [ GROUP <oRadio> ];
                  [ <lActived: ACTIVED> ];
+	         [ ACTION <uAction> ];
                  [ FONT <oFont> ];
                  [ <lMnemonic: MNEMONIC> ];
                  [ <lExpand: EXPAND> ] ;
@@ -371,7 +372,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
      => ;
-  [ <oBtn > := ] GRadioButton():New( <cText>, <.lActived.>,<oRadio>,;
+  [ <oBtn > := ] GRadioButton():New( <cText>, <.lActived.>,<oRadio>, [ \{|o| <uAction> \} ],;
                  <oFont>,<.lMnemonic.>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,;
                  <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>,;
                  <nWidth>, <nHeight>, <oBar>,<cMsgBar>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
@@ -1402,5 +1403,41 @@
        =>;
 [ <oAbout> := ] gAboutDialog():New( <cName>, <cVersion>, <aAuthors>,;
                                     <aArtists>, <aDocumenters>, <oLogo>, <.lCenter.>, <cId>, <uGlade> )
+
+/* Assistan */
+#xcommand DEFINE ASSISTANT <oWnd> ;
+               [ <lCa: ON_CANCEL,   ON CANCEL>  <uCancel>  ] ;
+               [ <lCl: ON_CLOSE,    ON CLOSE>   <uClose>   ] ;
+               [ <lPr: ON_PREPARE,  ON PREPARE> <uPrepare> ] ;
+               [ <lAp: ON_APPLY,    ON APPLY>   <uApply>   ] ;
+               [ SIZE <nWidth>, <nHeight> ] ;
+	       [ ID <cId> ;
+	       [ RESOURCE <uGlade> ] ];
+      => ;
+      <oWnd> := gAssistant():New( [ \{|o| <uCancel> \} ] ,;
+				  [ \{|o| <uClose> \} ] ,;
+				  [ \{|o,pPage| <uPrepare> \} ] ,;
+				  [ \{|o| <uApply> \} ] ,;
+                                   <nWidth>, <nHeight>, [<cId>],[<uGlade>] )
+
+#xcommand APPEND ASSISTANT <oWnd> ;
+                 WIDGET <oWidget> ;
+                 [ <lComplete: COMPLETE> ] ;
+                 [ TYPE   <nType> ] ;
+                 [ TITLE  <cTitle> ];
+                 [ <li:IMAGE_HEADER, IMAGE HEADER> <uImage> ];
+                 [ <ls:IMAGE_SIDE, IMAGE SIDE> <uImage_Side> ];
+       =>;
+         <oWnd>:Append( <oWidget>, <nType>, <cTitle>, <uImage>, <uImage_Side>,<.lComplete.> )
+
+
+#xcommand ACTIVATE ASSISTANT <oWnd>;
+         [ VALID <uEnd> ] ;
+         [ <lCenter: CENTER> ] ;
+         [ <lMaximize: MAXIMIZED> ] ;
+         [ <lModal: MODAL> ] ;
+         [ <lInitiate: INITIATE> ] ;
+          => ;
+          <oWnd>:Activate( [ \{|o| <uEnd> \} ], <.lCenter.>, <.lMaximize.>, <.lModal.>,<.lInitiate.> )
 
 extern errorsys
