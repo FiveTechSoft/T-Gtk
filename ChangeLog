@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.22 2007-03-02 21:17:10 xthefull Exp $
+ * $Id: ChangeLog,v 1.23 2007-03-11 22:32:08 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,9 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2007-03-11 23:30 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+    + Add new test for ODBC. /test/gclass/test_odbc
 
 2007-03-02 18:00 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
     * gclass.ch
