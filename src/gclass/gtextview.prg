@@ -1,4 +1,4 @@
-/* $Id: gtextview.prg,v 1.1 2006-09-07 17:02:45 xthefull Exp $*/
+/* $Id: gtextview.prg,v 1.2 2007-03-12 22:34:55 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -49,7 +49,7 @@ CLASS GTEXTVIEW FROM GCONTAINER
       METHOD GetText(  )         INLINE ::oBuffer:GetText( )
       METHOD Insert( cText )     INLINE ( ::oBuffer:Insert( cText ), Eval( ::bSetGet, ::GetText() ) )
       METHOD Insert_PixBuf( aIter, uPixbuf ) INLINE ::oBuffer:Insert_Pixbuf( aIter, uPixBuf )
-      METHOD Insert_Tag( cText, cTag_Name, aIter ) INLINE ( ::oBuffer:Insert_Tag_Name( cText, cTag_Name, aIter ), , Eval( ::bSetGet, ::GetText() ) )
+      METHOD Insert_Tag( cText, cTag_Name, aIter ) INLINE ( ::oBuffer:Insert_Tag_Name( cText, cTag_Name, aIter ), Eval( ::bSetGet, ::GetText() ) )
       METHOD CreateTag( cName, aValues, xParam2, xParam3, xParam4 ) INLINE ::oBuffer:CreateTag( cName, aValues, xParam2, xParam3, xParam4  )
                                                                         
       METHOD GetTagTable()      INLINE gtk_text_buffer_get_tag_table( ::oBuffer:pWidget )
