@@ -1,4 +1,4 @@
-/* $Id: gtkmain.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkmain.c,v 1.2 2007-03-14 21:34:13 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -50,3 +50,7 @@ HB_FUNC( G_TYPE_INIT )
   g_type_init();
 }
 
+HB_FUNC( GTK_CHECK_VERSION )
+{
+hb_retl( GTK_CHECK_VERSION( hb_parni(1),hb_parni(2),hb_parni(3) ) );
+}

@@ -85,3 +85,15 @@ HB_FUNC( CAIRO_STROKE ) // ctx
   cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
   cairo_stroke( ctx );
 }
+
+HB_FUNC( CAIRO_CLIP ) // ctx
+{
+  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_clip( ctx );
+}   
+
+HB_FUNC( CAIRO_PAINT ) // ctx
+{
+  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_paint( ctx );
+}         

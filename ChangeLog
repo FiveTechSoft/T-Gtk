@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.23 2007-03-11 22:32:08 xthefull Exp $
+ * $Id: ChangeLog,v 1.24 2007-03-14 21:34:12 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,20 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2007-03-14 22:30 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+    + Add new file, gtkversion.ch
+    
+    * gtkapi.ch. Add include at file gtkversion.ch
+    
+    + /src/gclass/gassistant.prg
+      Ups! I not remember commit this file!
+  
+    * gtkmainc.c
+      + New function gtk_check_version()
+    
+    * cairo.c 
+      More functions.
 
 2007-03-11 23:30 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
     + Add new test for ODBC. /test/gclass/test_odbc

@@ -1,4 +1,4 @@
-/* $Id: gtkapi.ch,v 1.5 2007-03-02 21:17:10 xthefull Exp $*/
+/* $Id: gtkapi.ch,v 1.6 2007-03-14 21:34:13 xthefull Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -22,9 +22,13 @@
 /* Support Pango */
 #include "pango.ch"
 
+/* Support for version GTK*/
+#include "gtkversion.ch"
+
 /* Compatibilidad con C */
 #define TRUE   1
 #define FALSE  0
+
 /* Define In Gentry two definition to work with caption or without */
 #define HB_GET			0
 #define HB_GET_CAPTION	1
