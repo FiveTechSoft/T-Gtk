@@ -8,5 +8,5 @@ CFLAGS+=$(shell pkg-config --cflags vte)
 
 TGTK_INSTALL=../../lib
 
-include ../../../Rules.make
+include ../../Rules.make
 
