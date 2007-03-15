@@ -25,8 +25,7 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#ifdef GTK_CHECK_VERSION(2,10,0)
-
+#if GTK_CHECK_VERSION(2,10,0)
 HB_FUNC( GTK_PRINT_CONTEXT_GET_CAIRO_CONTEXT )
 {
  cairo_t *cr;   
@@ -56,5 +55,4 @@ HB_FUNC( GTK_PRINT_CONTEXT_GET_PAGE_SETUP )
  setup = gtk_print_context_get_page_setup( context );
  hb_retnl( (glong) setup );
 }
-
 #endif

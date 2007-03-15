@@ -25,8 +25,7 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#ifdef GTK_CHECK_VERSION(2,10,0)
-
+#if GTK_CHECK_VERSION(2,10,0)
 HB_FUNC( GTK_PAPER_SIZE_NEW )
 {
  GtkPaperSize * size;

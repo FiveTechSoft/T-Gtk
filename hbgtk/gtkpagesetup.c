@@ -21,12 +21,10 @@
  *
  *  Copyright 2007 Rafa Carmona
  */
-
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#ifdef GTK_CHECK_VERSION(2,10,0)
-
+#if GTK_CHECK_VERSION(2,10,0)
 HB_FUNC( GTK_PAGE_SETUP_NEW )
 {
  hb_retnl( (glong) gtk_page_setup_new() );
@@ -45,5 +43,4 @@ HB_FUNC( GTK_PAGE_SETUP_SET_PAPER_SIZE )
  GtkPaperSize * size = ( GtkPaperSize * ) hb_parnl( 2 );
  gtk_page_setup_set_paper_size( setup, size);
 }
-
 #endif
