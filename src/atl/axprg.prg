@@ -7,32 +7,46 @@ http://freewin.sytes.net
 @CopyRight 2006 Todos los Derechos Reservados 
 Requiere TOleAuto incluida en xHarbour 
 
- Adaptada para T-Gtk por Rafa Carmona
+Adaptada para T-Gtk por Rafa Carmona
+
 */ 
 /*-----------------------------------------------------------------------------------------------*/ 
 #include "gclass.ch"
 #include "hbclass.ch"
 
+INIT PROC ActiveX_Start
+   AtlAxWinInit()
+   RETURN
+
 CLASS TActiveX_FreeWin 
-    DATA oOle , oWnd , pWidget
+    DATA oWnd , pWidget
+    DATA hObj
+    DATA oOle
+    DATA pUnk
+    DATA hSink
+    DATA hEvents INIT Hash()
     
     METHOD New() 
+    METHOD UserMap( nMsg, xExec, nParams, oSelf ) INLINE ::hEvents[ nMsg ] := { xExec, nParams, oSelf }
     ERROR Handler OnError() 
 
 ENDCLASS 
 
 /*-----------------------------------------------------------------------------------------------*/ 
 METHOD New( uoWnd, cProgId ) 
-    Local hWnd
+    Local hWnd , hSink
 
-    AtlAxWinInit() 
     if Valtype( uoWnd ) = "O"
        hWnd :=  GET_HWND( uoWnd:pWidget )
     else
        hWnd := GET_HWND( uoWnd ) 
     endif
     ::pWidget := CreateWindowEx( hWnd, cProgId )
-    ::oOle := TOleAuto():New( AtlAxGetDisp( ::pWidget ) )
+    ::pUnk   := AtlAxGetControl( ::pWidget )
+    ::hObj   := AtlAxGetDispatch( ::pUnk )
+    SetupConnectionPoint( ::hObj, @hSink, ::hEvents )
+    ::hSink := hSink
+    ::oOle := TOleAuto():New( ::hObj )
 
 RETURN SELF 
 
@@ -44,6 +58,10 @@ METHOD ONERROR( ... )
     ENDIF 
     HB_ExecFromArray( ::oOle, cMethod, HB_aParams() ) 
 RETURN NIL 
+
+EXIT PROC FActiveX_Exit
+   AtlAxWinTerm()
+   RETURN
 
 /*-----------------------------------------------------------------------------------------------*/ 
 #pragma BEGINDUMP 
