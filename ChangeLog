@@ -1,5 +1,5 @@
 /*
- * $Id: ChangeLog,v 1.26 2007-03-15 21:58:33 xthefull Exp $
+ * $Id: ChangeLog,v 1.27 2007-03-16 22:37:06 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,36 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2007-03-16 23:20 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
+   * Fix bugs in gdbfgrid.prg, from Federico.
+   
+   + New files:
+     + gtkstatusicon.c  Support new widget GtkStatusIcon
+     + gdkcairo.c
+    
+   + /tests/native/statusicon
+     + Example implementation statusicon.
+    
+   * /hbgtk/events.c
+     + Support for signal "popup-menu" for GtkStatusIcon
+     * Modify callbacks for JUMP at codeblocks:
+      * OnHierarchy_Changed
+      * OnMnemonic_Activate
+      * OnMotion_Notify_Event
+      * OnNo_Expose_Event
+      * OnParent_Set
+      * OnProperty_Notify_Event
+      * OnProximity_Event
+      * OnScreen_Changed
+      * OnScroll_Event
+      * OnSelection_Event
+
+    * events.h
+       + Support signal "popup-menu" GtkStatusIcon
+   
+    * window.c
+      + New support of wrappers of CAST converts.
 
 2007-03-15 22:56 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
     * Fix minor bug. Change #ifdef by #if for source C.
@@ -147,7 +177,7 @@
       
        + News callbacks for system printer, system printer for GTK 2.10:
 	 + OnBegin_Print    
-	 + OnBegin_Print    
+	 + OnEnd_Print    
 	 + OnDraw_Page 
 	 + OnRequest_Page_Setup
     

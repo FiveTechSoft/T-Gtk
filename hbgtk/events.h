@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.9 2007-03-02 08:21:32 xthefull Exp $*/
+/* $Id: events.h,v 1.10 2007-03-16 22:37:07 xthefull Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {
@@ -127,6 +127,7 @@ static TGtkActionParce array[] = {
                {"cancel",                    "OnCancel",                    G_CALLBACK( OnEventos_void ),NULL},           /*120 -- GtkAssistant */
                {"close",                     "Onclose",                     G_CALLBACK( OnEventos_void ),NULL},           /*121 -- GtkAssistant */
                {"prepare",                   "OnPrepare",                   G_CALLBACK( OnPrepare ),NULL},                /*122 -- GtkAssistant */
+               {"popup-menu",                "OnPopupMenu",                 G_CALLBACK( OnPopupMenu ),"GtkStatusIcon"},     /*123 -- GtkStatusIcon -- */
                #endif
                {"toggle-overwrite",          "OnToggle_Overwrite",          G_CALLBACK( OnToggle_Overwrite ),NULL}        /*113 -- GtkEntry  -- void  OnToggle_Overwrite(GtkEntry *entry, gpointer  user_data) */
 
@@ -136,7 +137,8 @@ static TGtkActionParce array[] = {
 
 
 static TGtkPreDfnParce predefine[] = {
-               {"toggled" }
+               {"toggled" } ,
+               {"popup-menu" },
 };
 #define CONTT_PREDEFINE 1
 

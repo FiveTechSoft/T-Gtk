@@ -1,4 +1,4 @@
-/* $Id: window.c,v 1.2 2007-03-02 08:21:32 xthefull Exp $*/
+/* $Id: window.c,v 1.3 2007-03-16 22:37:07 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -90,3 +90,18 @@ HB_FUNC( GTK_ENTRY )
 {
   hb_retnl( (glong) hb_parnl( 1 ) );
 }
+
+HB_FUNC( GTK_MENU )
+{
+  hb_retnl( (glong) hb_parnl( 1 ) );
+}
+
+HB_FUNC( GTK_MENU_SHELL )
+{
+  hb_retnl( (glong) hb_parnl( 1 ) );
+}
+
+HB_FUNC( GTK_CHECK_MENU_ITEM )
+{
+  hb_retnl( (glong) hb_parnl( 1 ) );
+}                 

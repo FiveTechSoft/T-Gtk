@@ -1,4 +1,4 @@
-/* $Id: gdbfgrid.prg,v 1.1 2006-09-07 17:02:43 xthefull Exp $*/
+/* $Id: gdbfgrid.prg,v 1.2 2007-03-16 22:37:07 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -580,6 +580,8 @@ METHOD ClickEvent( nRow, nCol, nWidth, nHeight ) CLASS gDbfGrid
    ::SetFocus()
    ::nHeight = nHeight
 
+   ::nLen := Eval( ::bLogicLen, Self )			// Modif fjdemaussion
+							// Si no hay datos en el brows daba error
    if nRowAt == 0 .or. nRowAt == ::nRowPos .or. nRowAt > ::nLen
       return nil
    endif
@@ -646,6 +648,9 @@ return nil
 
 METHOD GotFocus() CLASS gDbfGrid
 
+   if ( ::nLen := Eval( ::bLogicLen, Self ) ) < 1	// Modif fjdemaussion
+      return nil					// Si no hay datos en el brows daba error
+   endif
   ::lFocus = .t.
   if ::bChange != nil
      Eval( ::bChange, Self )
@@ -659,6 +664,10 @@ return( .t. )
 
 METHOD LostFocus() CLASS gDbfGrid
   
+
+   if ( ::nLen := Eval( ::bLogicLen, Self ) ) < 1	// Modif fjdemaussion
+      return nil					// Si no hay datos en el brows daba error
+   endif
   ::lFocus = .f.
   if ::bLostFocus != NIL
      eval( ::bLostFocus, Self )
