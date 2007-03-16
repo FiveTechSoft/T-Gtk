@@ -24,7 +24,7 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-
+#if GTK_CHECK_VERSION( 2,10,0 )
 HB_FUNC( GTK_STATUS_ICON_NEW ) 
 {
   GtkStatusIcon * status = gtk_status_icon_new();
@@ -91,3 +91,4 @@ HB_FUNC( GTK_STATUS_ICON_POSITION_MENU )
                                  &push_in, NULL );
 
 }
+#endif
