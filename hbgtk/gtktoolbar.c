@@ -1,4 +1,4 @@
-/* $Id: gtktoolbar.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtktoolbar.c,v 1.2 2007-05-03 10:10:19 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -50,6 +50,11 @@ HB_FUNC( GTK_TOOLBAR_SET_SHOW_ARROW ) // toolbar, bShow
   gtk_toolbar_set_show_arrow( GTK_TOOLBAR( toolbar ), hb_parl( 2 ) );
 }
     
+HB_FUNC( GTK_TOOLBAR_SET_ORIENTATION ) // toolbar, bOrientation, ( 0 horizontally , 1 vertically )
+{    
+  GtkWidget * toolbar = GTK_WIDGET( hb_parnl( 1 ) );
+  gtk_toolbar_set_orientation( toolbar, hb_parni( 2 ) );
+}
 /* --------------------------------------------------------------------------
 // GtkToolItems____
 --------------------------------------------------------------------------  */

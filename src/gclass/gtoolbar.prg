@@ -1,4 +1,4 @@
-/* $Id: gtoolbar.prg,v 1.1 2006-09-07 17:02:46 xthefull Exp $*/
+/* $Id: gtoolbar.prg,v 1.2 2007-05-03 10:10:34 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -28,9 +28,12 @@ CLASS GTOOLBAR FROM GCONTAINER
       METHOD New( )
       METHOD SetStyle( nStyle ) INLINE gtk_toolbar_set_style ( ::pWidget, nStyle )
       METHOD SetShowArrow( lShow ) INLINE gtk_toolbar_set_show_arrow( ::pWidget, lShow )
+      METHOD SetOrientation( nOrientation ) INLINE gtk_toolbar_set_orientation( ::pWidget, nOrientation )
+      METHOD SetHorizontal( ) INLINE gtk_toolbar_set_orientation( ::pWidget, GTK_ORIENTATION_HORIZONTAL )
+      METHOD SetVertical( )   INLINE gtk_toolbar_set_orientation( ::pWidget, GTK_ORIENTATION_VERTICAL )
 ENDCLASS
 
-METHOD New( nStyle, lShowArrow, oParent, lExpand, lFill, nPadding , lContainer, x, y, cId, uGlade, uLabelTab,;
+METHOD New( nStyle, lShowArrow, lVertical, oParent, lExpand, lFill, nPadding , lContainer, x, y, cId, uGlade, uLabelTab,;
             lEnd, lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta ) CLASS GTOOLBAR
 
        IF cId == NIL
@@ -41,6 +44,9 @@ METHOD New( nStyle, lShowArrow, oParent, lExpand, lFill, nPadding , lContainer, 
        ENDIF
 
        ::Register()
+       if lVertical 
+          ::SetVertical()
+       endif
 
        if nStyle != NIL
           ::SetStyle( nStyle )

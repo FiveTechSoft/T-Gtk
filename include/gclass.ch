@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.5 2007-03-02 21:17:10 xthefull Exp $ */
+/*  $Id: gclass.ch,v 1.6 2007-05-03 10:10:33 xthefull Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2004 Rafa Carmona
@@ -501,6 +501,7 @@
 
 // ToolBar
 #xcommand DEFINE TOOLBAR [<oToolBar>]  ;
+                 [ <lVertical: VERTICAL> ] ;
                  [ <lExpand: EXPAND> ] ;
                  [ <lShowArrow: SHOW ARROW> ] ;
                  [ <lFill: FILL> ] ;
@@ -518,7 +519,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
       => ;
-[ <oToolBar> := ] GToolBar():New( <nStyle>, <.lShowArrow.>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding> , <.lContainer.>,;
+[ <oToolBar> := ] GToolBar():New( <nStyle>, <.lShowArrow.>, <.lVertical.>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding> , <.lContainer.>,;
                   <x>, <y>, <cId>, <uGlade>,<uLabelBook>, <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
                   <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>)
 

@@ -1,5 +1,5 @@
 /*
- * $Id: toolbar.prg,v 1.1 2006-09-21 10:05:13 xthefull Exp $
+ * $Id: toolbar.prg,v 1.2 2007-05-03 10:10:34 xthefull Exp $
  * Ejemplo de Toolbars
  * Porting Harbour to GTK+ power !
  * (C) 2004-05. Rafa Carmona -TheFull-
@@ -110,9 +110,9 @@ Function CreaDia( oWnd )
      Local nRespuesta
 
      DEFINE DIALOG oDlg TITLE "Ejemplo de un dialogo ;-)" SIZE 200,200
-       DEFINE BOX oBoxV VERTICAL OF oDlg CONTAINER
+       DEFINE BOX oBoxV OF oDlg CONTAINER
 
-           DEFINE TOOLBAR oToolBar  OF oBoxV
+           DEFINE TOOLBAR oToolBar  OF oBoxV  VERTICAL
 
               DEFINE TOOLMENU oToolMenu  ;
                      FROM STOCK GTK_STOCK_PRINT ;
