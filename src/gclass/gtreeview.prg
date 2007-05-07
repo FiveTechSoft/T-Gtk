@@ -1,4 +1,4 @@
-/* $Id: gtreeview.prg,v 1.1 2006-09-07 16:28:06 xthefull Exp $*/
+/* $Id: gtreeview.prg,v 1.2 2007-05-07 09:18:08 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -59,7 +59,10 @@ CLASS GTREEVIEW FROM GCONTAINER
 
       METHOD GetIterFirst( aIter ) INLINE gtk_tree_model_get_iter_first( ::GetModel(), aIter )
       METHOD GetIterNext( aIter )  INLINE gtk_tree_model_iter_next( ::GetModel(), aIter )  
-      //METHOD OnColumns_changed ( oSender )
+      
+      METHOD OnColumns_changed ( oSender ) VIRTUAL
+      METHOD OnCursorChanged( oSender )    VIRTUAL
+      METHOD OnMoveCursor( oSender, arg1, arg2 ) VIRTUAL
 
 ENDCLASS
 

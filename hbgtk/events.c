@@ -1,5 +1,5 @@
 
-/* $Id: events.c,v 1.14 2007-03-16 22:37:07 xthefull Exp $*/
+/* $Id: events.c,v 1.15 2007-05-07 09:18:05 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -794,26 +794,44 @@ void OnCursor_Changed( GtkTreeView *treeview, gpointer data  )
   }
 }
 
-/* Provaca caida de gWindow , diciendo
- * Error description:Error BASE/1004  Class: 'NIL' has no exported method: ONCOLUMNS_CHANGED
-void OnColumns_changed( GtkTreeView *treeview, gpointer data  )
+void OnMove_Cursor_Tree( GtkTreeView *treeview, GtkMovementStep arg1, gint arg2, gpointer data  )
 {
-  PHB_ITEM pObj  = g_object_get_data( G_OBJECT( treeview ), "Self" );
-  PHB_DYNS pMethod = hb_dynsymFindName( data );
+  PHB_ITEM pObj = NULL;
+  PHB_ITEM pBlock;
+  PHB_DYNS pMethod ;
+  
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( treeview ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( treeview ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushInteger( (gint) arg1 );              
+            hb_vmPushInteger( (gint) arg2 );              
+            hb_vmSend( 3 );                               // LLamada por Send que pasa
+         } else {
+           g_print( "Method doesn't %s exist en OnCursor_Changed", (gchar *)data );
+         }
+      }
+  } 
 
-  if( pObj && pMethod )
-    {
-     hb_vmPushSymbol( pMethod->pSymbol );     // Coloca simbolo en la pila
-     hb_vmPush( pObj );                       // Coloca objeto en pila.
-     hb_vmPush( pObj );                       // oSender
-     hb_vmSend( 1 );                          // LLamada por Send que pasa
-    }
-  else
-    {
-     g_print( "Method doesn't %s exist en OnColumns_changed", (gchar *)data );
-    }
+  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  if( pObj == NULL ){
+     if( pBlock ) {
+        hb_vmPushSymbol( &hb_symEval );
+        hb_vmPush( pBlock );
+        hb_vmPushLong( GPOINTER_TO_UINT( treeview ) );
+        hb_vmPushInteger( (gint) arg1 );              
+        hb_vmPushInteger( (gint) arg2 );              
+        hb_vmSend( 3 );
+     }
+  }
 }
-*/
 
 void OnEdited( GtkCellRendererText * cellrenderertext, gchar *arg1, gchar *arg2, gpointer data )
 {

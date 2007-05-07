@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.10 2007-03-16 22:37:07 xthefull Exp $*/
+/* $Id: events.h,v 1.11 2007-05-07 09:18:05 xthefull Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {
@@ -39,7 +39,9 @@ static TGtkActionParce array[] = {
                {"configure-event",           "OnConfigure_Event",           G_CALLBACK( OnConfigure_Event ),NULL},        /*34 -- GtkWidget -- */
                {"realize",                   "OnRealize",                   G_CALLBACK( OnEventos_void ),NULL},           /*35 -- GtkWidget -- */
                {"unrealize",                 "OnUnrealize",                 G_CALLBACK( OnEventos_void ),NULL},           /*36 -- GtkWidget -- */
-               {"cursor-changed",            "OnCursorChanged",             G_CALLBACK( OnCursor_Changed ),NULL},         /*37*/
+               {"cursor-changed",            "OnCursorChanged",             G_CALLBACK( OnCursor_Changed ),NULL},         /*37 -- GtkTreeView */
+               {"columns-changed",           "OnColumnsChanged",            G_CALLBACK( OnCursor_Changed ),NULL},         /*37 -- GtkTreeView */
+               {"move-cursor",               "OnMoveCursor",                G_CALLBACK( OnMove_Cursor_Tree ),NULL},             /*37 -- GtkTreeView */
                {"edited",                    "OnEdited",                    G_CALLBACK( OnEdited ),NULL},                 /*38*/
                {"event",                     "OnEvent",                     G_CALLBACK( OnDelete_Event ),NULL},           /*39 -- GtkWidget -- */
                {"enter-notify-event",        "OnEnterNotifyEvent",          G_CALLBACK( OnEnter_Leave_NotifyEvent ),NULL},/*40 -- GtkWidget -- */
