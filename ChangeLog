@@ -1,5 +1,6 @@
+
 /*
- * $Id: ChangeLog,v 1.27 2007-03-16 22:37:06 xthefull Exp $
+ * $Id: ChangeLog,v 1.28 2007-05-07 09:21:15 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +8,20 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2007-05-06 10:20 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
+* events.c y events.h
+  Support for more signals, GtkTreeview:
+  + columns-changed , move-cursor
+
+* gclass.ch
+   + New command DEFINE GET.... from Federico de Maussion
+
+* gGet.prg
+   + New class like GET Harbour.... from Federico de Maussion
+
+* gTreeView.prg
+   + News methods for support for new signals
 
 2007-03-16 23:20 UTC+0200 Rafael Carmona <thefull at wanadoo.es>
    * Fix bugs in gdbfgrid.prg, from Federico.
