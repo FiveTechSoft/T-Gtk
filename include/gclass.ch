@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.7 2007-05-07 09:18:08 xthefull Exp $ */
+/*  $Id: gclass.ch,v 1.8 2007-05-09 09:42:03 xthefull Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2004 Rafa Carmona
@@ -1442,33 +1442,32 @@
           <oWnd>:Activate( [ \{|o| <uEnd> \} ], <.lCenter.>, <.lMaximize.>, <.lModal.>,<.lInitiate.> )
 
 // Entry/Get
-#xcommand DEFINE GET [ <oGet> ]  ;
-                [ VAR <uVar> ];
-                [ <lPassword: PASSWORD> ] ;
-                [ PICTURE <cPicture> ];
-                [ VALID <bValid> ];
-                [ COMPLETION <aCompletion> ];
-                [ FONT <oFont> ];
-                [ <lExpand: EXPAND> ] ;
-                [ <lFill: FILL> ] ;
-                [ PADDING <nPadding> ];
-                [ <lContainer: CONTAINER> ] ;
-                [ OF <oParent> ] ;
-                [ ID <cId> ;
-                [ RESOURCE <uGlade> ] ];
-                [ POS <x>,<y>  ];
-                [ LABELNOTEBOOK <uLabelBook> ];
-                [ <lEnd: INSERT_END> ] ;
-                [ <lSecond: SECOND_PANED > ] ;
-                [ <lResize: RESIZE > ] ;
-                [ <lShrink: SHRINK > ] ;
-                [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
-     => ;
- [ <oGet > := ] gGet():New( bSetGet( <uVar> ), <cPicture>, [ \{|o| <bValid> \} ],;
-                  <aCompletion>, <oFont>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,<.lContainer.>,;
-                  <x>,<y>, <cId>, <uGlade>, <uLabelBook>,<.lPassword.>,;
-                  <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
-                  <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
-
+#xcommand DEFINE GET [ <oBtn> ]  ;
+                 [ VAR <uVar> ];
+                 [ <lPassword: PASSWORD> ] ;
+                 [ PICTURE <cPicture> ];
+                 [ VALID <bValid> ];
+                 [ COMPLETION <aCompletion> ];
+                 [ FONT <oFont> ];
+                 [ <lExpand: EXPAND> ] ;
+                 [ <lFill: FILL> ] ;
+                 [ PADDING <nPadding> ];
+                 [ <lContainer: CONTAINER> ] ;
+                 [ OF <oParent> ] ;
+                 [ ID <cId> ;
+                 [ RESOURCE <uGlade> ] ];
+                 [ POS <x>,<y>  ];
+                 [ LABELNOTEBOOK <uLabelBook> ];
+                 [ <lEnd: INSERT_END> ] ;
+                 [ <lSecond: SECOND_PANED > ] ;
+                 [ <lResize: RESIZE > ] ;
+                 [ <lShrink: SHRINK > ] ;
+                 [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
+      => ;
+  [ <oBtn > := ] gGet():New( bSetGet( <uVar> ), <cPicture>, [ \{|o| <bValid> \} ],;
+                   <aCompletion>, <oFont>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,<.lContainer.>,;
+                   <x>,<y>, <cId>, <uGlade>, <uLabelBook>,<.lPassword.>,;
+                   <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
+                   <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
 
 extern errorsys
