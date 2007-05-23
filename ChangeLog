@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.28 2007-05-07 09:21:15 xthefull Exp $
+ * $Id: ChangeLog,v 1.29 2007-05-23 09:53:33 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,25 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2007-05-23 11:24 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
++ New /src/sqlite3
+  From T-Gtk you can create library of Sqlite3.
+  Sqlite3 is Free Sofware, i put new version 3.3.17 from www.sqlite.org
+  I have in my mind, create support Sqlite3 for [x]Harbour, based in job
+  Alejandro Garate and must help from WenCheng of Tawain.
+  This is first step ;-)
+
+  ! Attention, change rev.1.7 at--> rev.1.2 for compatibility Harbour.
+    rev.1.7 new branch, xharbour_rosen.
+
+2007-05-09 11:38 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
++ New file gtktreesortable.c
+
+* gget.prg, gclass.ch
+  * Changes from Federico.
+
++ New example, /tests/gclass/get
 
 2007-05-06 10:20 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
 * events.c y events.h
