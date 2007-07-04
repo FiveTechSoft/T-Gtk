@@ -1,4 +1,4 @@
-/* $Id: gtkapi.ch,v 1.6 2007-03-14 21:34:13 xthefull Exp $*/
+/* $Id: gtkapi.ch,v 1.7 2007-07-04 10:46:08 xthefull Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -8,7 +8,7 @@
  */
 
 /* Version que queremos que soporte de T-Gtk de GTK+ */
-#define T_GTK_VERSION  2.10
+#define T_GTK_VERSION  2.10  // Deprecated, look file include "gtkversion.ch"
 
 /* Codigos de teclado */
 #include "gtkkeys.ch"

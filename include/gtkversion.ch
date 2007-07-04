@@ -7,4 +7,4 @@
 /* check whether a Gtk+ version equal to or greater than
  * major.minor.micro is present.
  */
-#define	GTK_CHECK_VERSION(major,minor,micro )   (GTK_MAJOR_VERSION > (major) || (GTK_MAJOR_VERSION == (major) && GTK_MINOR_VERSION > (minor)) || (GTK_MAJOR_VERSION == (major) && GTK_MINOR_VERSION == (minor) &&  GTK_MICRO_VERSION >= (micro)))
+#define GTK_CHECK_VERSION( major,minor,micro ) ( GTK_MAJOR_VERSION > (major) .or. (GTK_MAJOR_VERSION == (major) .and. GTK_MINOR_VERSION > (minor)) .or. (GTK_MAJOR_VERSION == (major) .and. GTK_MINOR_VERSION == (minor) .and.  GTK_MICRO_VERSION >= (micro)))

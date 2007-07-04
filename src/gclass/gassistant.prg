@@ -1,4 +1,4 @@
-/* $Id: gassistant.prg,v 1.1 2007-03-14 21:34:13 xthefull Exp $*/
+/* $Id: gassistant.prg,v 1.2 2007-07-04 10:46:08 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -24,7 +24,7 @@
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
-#ifdef GTK_CHECK_VERION( 2,10 )
+#if GTK_CHECK_VERSION( 2,10,0 )
 CLASS GASSISTANT FROM GWINDOW
     DATA bCancel, bClose, bPrepare, bApply
     
