@@ -1,4 +1,4 @@
-/* $Id: gtkapi.ch,v 1.7 2007-07-04 10:46:08 xthefull Exp $*/
+/* $Id: gtkapi.ch,v 1.8 2007-07-16 09:03:50 xthefull Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -33,12 +33,12 @@
 #define HB_GET			0
 #define HB_GET_CAPTION	1
 
-#DEFINE TOP      0.0
-#DEFINE BOTTOM   1.0
+#DEFINE GTK_TOP      0.0
+#DEFINE GTK_BOTTOM   1.0
 
-#DEFINE LEFT     0.0
-#DEFINE CENTERED 0.5
-#DEFINE RIGHT    1.0
+#DEFINE GTK_LEFT     0.0
+#DEFINE GTK_CENTERED 0.5
+#DEFINE GTK_RIGHT    1.0
 
 #define GTK_WIN_POS_NONE                0
 #define GTK_WIN_POS_CENTER              1
