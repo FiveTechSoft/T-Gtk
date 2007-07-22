@@ -171,10 +171,10 @@ static function edit_cliente( lNew )
           
           // Vamos a usar una tabla ;-)
           DEFINE TABLE oTable ROWS 4 COLS 2 OF oBox
-             DEFINE LABEL PROMPT "Nombre"   OF oTable TABLEATTACH 0,1,0,1 HALIGN LEFT
-             DEFINE LABEL PROMPT "Apellido" OF oTable TABLEATTACH 0,1,1,2 HALIGN LEFT
-             DEFINE LABEL PROMPT "SET"      OF oTable TABLEATTACH 0,1,2,3 HALIGN LEFT
-             DEFINE LABEL PROMPT "Calle"    OF oTable TABLEATTACH 0,1,3,4 HALIGN LEFT
+             DEFINE LABEL PROMPT "Nombre"   OF oTable TABLEATTACH 0,1,0,1 HALIGN GTK_LEFT
+             DEFINE LABEL PROMPT "Apellido" OF oTable TABLEATTACH 0,1,1,2 HALIGN GTK_LEFT
+             DEFINE LABEL PROMPT "SET"      OF oTable TABLEATTACH 0,1,2,3 HALIGN GTK_LEFT
+             DEFINE LABEL PROMPT "Calle"    OF oTable TABLEATTACH 0,1,3,4 HALIGN GTK_LEFT
              DEFINE ENTRY VAR aValues[1] ;
                           COMPLETION { "Raul", "Juan", "Sara", "Sarah", "Salvador" } ;
                           OF oTable TABLEATTACH 1,2,0,1

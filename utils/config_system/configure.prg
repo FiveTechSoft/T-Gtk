@@ -1,5 +1,5 @@
 /*
- * $Id: configure.prg,v 1.1 2006-09-08 12:18:59 xthefull Exp $
+ * $Id: configure.prg,v 1.2 2007-07-22 07:12:45 xthefull Exp $
  * (C) 2004-05. Rafa Carmona -TheFull-
 */
 
@@ -129,10 +129,10 @@ Function Main()
                           TABLEATTACH 1,2,2,3 , nOR( GTK_EXPAND, GTK_FILL), GTK_FILL ;
                           OF oTable2
 
-                DEFINE LABEL TEXT "<b>PRINTER under GNU/LINUX</b>" MARKUP OF oBox2 HALIGN LEFT
+                DEFINE LABEL TEXT "<b>PRINTER under GNU/LINUX</b>" MARKUP OF oBox2 HALIGN GTK_LEFT
                 DEFINE TOGGLE oToggle TEXT "Support Gnome-Print" OF oBOX2
                 
-                DEFINE LABEL TEXT "<b>PRINTER under WINDOWS</b>" MARKUP OF oBox2 HALIGN LEFT
+                DEFINE LABEL TEXT "<b>PRINTER under WINDOWS</b>" MARKUP OF oBox2 HALIGN GTK_LEFT
                 DEFINE TOGGLE oToggleW TEXT "Support Gnome-Print" OF oBOX2
 
              DEFINE BOX oBox_oBtn OF oBoxPrn HOMO
