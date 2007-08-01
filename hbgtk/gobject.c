@@ -1,4 +1,4 @@
-/* $Id: gobject.c,v 1.2 2006-11-30 09:49:58 xthefull Exp $*/
+/* $Id: gobject.c,v 1.3 2007-08-01 20:56:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -27,6 +27,7 @@
 
 #include <gtk/gtk.h>
 #include "hbapi.h"
+#include "hbapiitm.h"
 
 // TODO:Falta el tipo DOUBLE, no consigo entener PORQUE dice tipo incompatible;
 //  else if( HB_IS_DOUBLE( pValue ) )
@@ -138,6 +139,7 @@ HB_FUNC( G_OBJECT_SET_PROPERTY )
   const gchar *property_name = hb_parc(2);
   PHB_ITEM pItem = hb_param(3, HB_IT_ANY );
 
+  
   switch( hb_itemType(pItem) )
   {
     case HB_IT_STRING:

@@ -25,7 +25,7 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-
+#if GTK_CHECK_VERSION(2,8,0)
 HB_FUNC( GDK_CAIRO_SET_SOURCE_PIXBUF )
 {
   cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
@@ -34,3 +34,4 @@ HB_FUNC( GDK_CAIRO_SET_SOURCE_PIXBUF )
                                hb_parnd( 3 ),
                                hb_parnd( 4 ) );
 }
+#endif

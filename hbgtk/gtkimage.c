@@ -1,4 +1,4 @@
-/* $Id: gtkimage.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkimage.c,v 1.2 2007-08-01 20:56:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -69,11 +69,14 @@ HB_FUNC( GTK_IMAGE_SET_FROM_PIXBUF )  // pImage, pPixbuf
    GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parnl( 2 );
    gtk_image_set_from_pixbuf( GTK_IMAGE( image ), pixbuf );
 }
+
+#if GTK_CHECK_VERSION(2,8,0)
 HB_FUNC( GTK_IMAGE_CLEAR )
 {
    GtkWidget * image = GTK_WIDGET( hb_parnl( 1 ) );
    gtk_image_clear( GTK_IMAGE( image ) );
 }
+#endif
 
 // Proceso de depuracion
 HB_FUNC( GTK_DRAWING_AREA_NEW )

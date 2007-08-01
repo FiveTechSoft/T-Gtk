@@ -1,4 +1,4 @@
-/* $Id: gimage.prg,v 1.1 2006-09-07 17:02:44 xthefull Exp $*/
+/* $Id: gimage.prg,v 1.2 2007-08-01 20:56:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -29,8 +29,12 @@ CLASS GIMAGE FROM GMISC
       METHOD SetFromPixbuf( pPixbuf ) INLINE gtk_image_set_from_pixbuf( ::pWidget, pPixbuf )
       METHOD GetPixBuf( ) INLINE gtk_image_get_pixbuf( ::pWidget )
       METHOD GetPixMap( ) INLINE gtk_image_get_pixmap( ::pWidget )
+      #if GTK_CHECK_VERSION( 2,10,0 )
       METHOD Clear( )     INLINE gtk_image_clear( ::pWidget )
-
+      #else
+      METHOD Clear( )     VIRTUAL
+      #endif
+      
 ENDCLASS
 
 METHOD New( cImage , oParent, lExpand, lFill, nPadding , lContainer, x, y, cId, uGlade ,;

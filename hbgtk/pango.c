@@ -1,4 +1,4 @@
-/* $Id: pango.c,v 1.2 2007-02-26 21:48:11 xthefull Exp $*/
+/* $Id: pango.c,v 1.3 2007-08-01 20:56:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -25,6 +25,7 @@
 #include "hbapi.h"
 #include "hbapiitm.h"
 
+
 PHB_ITEM PangoMatrix2Array( PangoMatrix * matrix );
 BOOL Array2PangoMatrix(PHB_ITEM aMatrix, PangoMatrix * matrix  );
 PHB_ITEM Color2Array( GdkColor *color );
@@ -49,6 +50,7 @@ HB_FUNC( GTK_FONT_SELECTION_GET_FONT )
 }
 
 
+#if GTK_CHECK_VERSION(2,6,0)
 /* Soporte para fonts se realiza a traves de Pango */
 HB_FUNC( PANGO_FONT_DESCRIPTION_FROM_STRING ) //cString_font
 {
@@ -67,7 +69,7 @@ HB_FUNC( PANGO_FONT_DESCRIPTION_SET_SIZE )
    gint size = hb_parni( 2 );
    pango_font_description_set_size( Font, size );
 }
-
+#endif
 /* API Layout Objects â€” Highlevel layout driver objects */
 HB_FUNC( PANGO_LAYOUT_NEW )
 {
@@ -136,6 +138,8 @@ HB_FUNC( PANGO_LAYOUT_SET_ALIGNMENT )
  pango_layout_set_alignment( layout, alignment );
 }
 
+#if GTK_CHECK_VERSION(2,8,0)
+
 /*
  * Cairo Rendering — Rendering with the Cairo backend
  */
@@ -152,7 +156,7 @@ HB_FUNC( PANGO_CAIRO_LAYOUT_PATH ) // ctx, layout
  PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 2 ) ) ;
  pango_cairo_layout_path( ctx, layout );
 }
-
+#endif
 
 #if GTK_CHECK_VERSION(2,6,0)
 

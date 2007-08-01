@@ -33,13 +33,13 @@ HB_COMPILER = gcc
 XBASE_COMPILER = XHARBOUR
  
 #Nueva version 0.99.61
-HB_BIN_INSTALL = /home/user/xharbour/bin
-HB_INC_INSTALL = /home/user/xharbour/include
-HB_LIB_INSTALL = /home/user/xharbour/lib
+HB_BIN_INSTALL = /home/rafa/xharbour/install/bin
+HB_INC_INSTALL = /home/rafa/xharbour/install/include
+HB_LIB_INSTALL = /home/rafa/xharbour/install/lib
  
 #Rutas de librerias y de includes de TGTK.
-LIBDIR_TGTK= /home/user/t-gtk/lib
-INCLUDE_TGTK_PRG=/home/user/t-gtk/include
+LIBDIR_TGTK= /home/rafa/t-gtk/lib
+INCLUDE_TGTK_PRG=/home/rafa/t-gtk/include
  
 ############################################## 
 # Esqueleto para todas las plataformas
@@ -49,7 +49,13 @@ INCLUDE_TGTK_PRG=/home/user/t-gtk/include
 LINKER = ar
 CC = gcc
 LIBRARIAN = ranlib
-GT_LIBS=-lgtwin
+
+#Definition GT driver
+ifeq ($(HB_COMPILER),mingw32)
+   GT_LIBS=-lgtwin
+else
+   GT_LIBS=-lgtstd
+endif
 
 ifeq ($(HB_COMPILER),mingw32)
    CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_ 
@@ -82,7 +88,7 @@ else
      ifeq ($(XBASE_COMPILER),XHARBOUR)
         # XHARBOUR
         #LIBFILES_ = -ldebug -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lrtl -lcommon -lm -lgpm
-        LIBFILES_ = -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lcommon -lm -lhbsix -lpcrepos
+        LIBFILES_ = -lvm -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lcommon -lm -lhbsix -lpcrepos -lgtnul $(GT_LIBS)
      else
         # HARBOUR
         # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
