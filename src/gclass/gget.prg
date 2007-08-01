@@ -1,4 +1,4 @@
-/* $Id: gget.prg,v 1.2 2007-05-09 09:42:03 xthefull Exp $*/
+/* $Id: gget.prg,v 1.3 2007-08-01 15:24:26 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -344,9 +344,9 @@ METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GGET
 
      case "L"
      // Caracteres Alfabéticos
-        if Chr(nKey) IN "fnFNtyTY"
+        if Chr(nKey)$ "fnFNtyTY" 
           cKey := Chr(nKey)
-        elseif Chr(nKey) IN "sS"
+        elseif Chr(nKey) $ "sS" 
           cKey := "T"
         end
         exit
@@ -426,7 +426,7 @@ static Function cValidaTex( oSender )
       cLetra2 := SubStr(original,x,1)
       if cLetra $ "0123456789/"
         cDev += cLetra
-      elseif cLetra2 IN "0123456789/"
+      elseif cLetra2 $ "0123456789/"
         cDev += cLetra2
       end
     next
@@ -439,9 +439,9 @@ static Function cValidaTex( oSender )
     For x :=1 to nLen
       cLetra := SubStr(cText,x,1)
       cLetra2 := SubStr(original,x,1)
-      if cLetra IN "0123456789."
+      if cLetra $ "0123456789."
         cDev += cLetra
-      elseif cLetra2 IN "0123456789."
+      elseif cLetra2 $ "0123456789."
         cDev += cLetra2
       end
     next
