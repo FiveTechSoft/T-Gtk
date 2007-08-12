@@ -1,5 +1,5 @@
 
-/* $Id: events.c,v 1.15 2007-05-07 09:18:05 xthefull Exp $*/
+/* $Id: events.c,v 1.16 2007-08-12 10:24:43 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -53,7 +53,7 @@ gint OnEventos( GtkWidget * widget, gpointer data )
   PHB_DYNS pMethod ;
   
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
-  
+
   if( pBlock == NULL ){
       pObj  = g_object_get_data( G_OBJECT( widget ), "Self" );
       if( pObj ) {
@@ -2620,6 +2620,7 @@ gboolean OnPaginate( GtkPrintOperation *operation, GtkPrintContext *context, gpo
  
   return( FALSE );  // Salimos
 }
+
 void OnPrepare( GtkAssistant *assistant, GtkWidget * widget, gpointer data)
 {
   PHB_ITEM pObj = NULL;
@@ -2656,6 +2657,8 @@ void OnPrepare( GtkAssistant *assistant, GtkWidget * widget, gpointer data)
      }
   }
 }
+
+
 void OnPopupMenu( GtkStatusIcon *status_icon, 
                   guint          button, 
                   guint          activate_time,
@@ -2708,7 +2711,9 @@ void OnPopupMenu( GtkStatusIcon *status_icon,
 gint liberate_block_memory( gpointer data )
 {
   /* Debug */
-  //g_print("\nLiberando widget %d classname %s \n", GPOINTER_TO_UINT( data ), hb_objGetClsName( data ) );
+  #ifdef _XHARBOUR_
+     g_print("\nLiberando widget %d classname %s \n", GPOINTER_TO_UINT( data ), hb_objGetClsName( data ) );
+  #endif
 
  /** Esto libera memoria **/
  // hb_gcGripDrop( data );
@@ -2755,7 +2760,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
         // Si existe señal en la struct predefine, gtk_class_name vale ahora el nombre del widget ,y ademas esta en array[x].gtkclassname.
         if( gtk_class_name && array[x].gtkclassname ){
             if ( g_strcasecmp( gtk_class_name, array[x].gtkclassname ) == 0 && g_strcasecmp( cStr, array[x].name ) == 0  )  {
-                // g_print( "pos class %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ));
+                 //g_print( "pos class %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ));
                  iPos = x;
                  break;
             }
@@ -2770,24 +2775,23 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
             }
         }
     }
-
+    
     /* Si es Self, es el nombre del method, de lo contrario, puede ser un codeblock */
     if( ISOBJECT( 3 ) )
-      cMethod = ISNIL( 4 ) ? array[ iPos ].method : (gchar *) hb_parc( 4 ); //This row is need for optimizations. when release a cmedhod in prg source is not work
+       cMethod = ISNIL( 4 ) ? array[ iPos ].method : (gchar *) hb_parc( 4 ); //This row is need for optimizations. when release a cmedhod in prg source is not work
 
     // Si pasamos un bloque de codigo, entonces, cMethod es igual a la señal encontrada.
     // Asi, en el CALLBACK podemos seleccionar el codeblock de la señal que nos interesa.
     if( ISBLOCK( 4 ) )
       cMethod = array[ iPos ].name;
-	  
-	if ( iPos != -1 ){
+      
+    if ( iPos != -1 ){
       iReturn = g_signal_connect_data( G_OBJECT( widget ),
                                        array[ iPos ].name,
                                        array[ iPos ].callback,
                                        cMethod,
                                        NULL, ConnectFlags );
-		//g_print("Signal add %s for method %s\n", array[ iPos ].name, cMethod);									   
-		hb_retni( iReturn );
+      hb_retni( iReturn );
       }
    else
       g_print( "Attention, %s signal not support! Information method-%s, post-%i \n", cStr, cMethod, iPos);
@@ -2814,6 +2818,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
     if( ISBLOCK( 4 ) ) {
       if( g_object_get_data( G_OBJECT( widget ), array[ iPos ].name ) == NULL )
         {
+         g_print( "Es un bloque de codigo\n");
          //pBlock = hb_gcGripGet( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ) );
          //pBlock = hb_itemNew( hb_stackItemFromBase( 4 ) );
          // hb_stackItemFromBase(), significa que te devuelva un ITEM,

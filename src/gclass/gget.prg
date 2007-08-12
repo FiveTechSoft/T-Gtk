@@ -1,4 +1,4 @@
-/* $Id: gget.prg,v 1.3 2007-08-01 15:24:26 xthefull Exp $*/
+/* $Id: gget.prg,v 1.4 2007-08-12 10:24:44 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -68,7 +68,7 @@ CLASS GGET FROM  GWIDGET
       METHOD UpdateBuffer(  )
 
       METHOD OnFocus_out_event( oSender )
-      METHOD OnKey_Press_event( oSender,   pGdkEventKey  )
+      METHOD OnKeyPressEvent( oSender,   pGdkEventKey  )
       METHOD OnInsert_At_Cursor( oSender, cText )  VIRTUAL
       METHOD OnChanged( oSender )                  VIRTUAL
 
@@ -215,7 +215,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GGET
 //RETURN ldev
 RETURN Super:OnFocus_Out_Event( oSender )
 
-METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GGET
+METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GGET
 
    local  nKey, nType, cKey, cKey2, cText, cText2
 

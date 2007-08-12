@@ -1,4 +1,4 @@
-/* $Id: gcheckbox.prg,v 1.1 2006-09-07 17:07:55 xthefull Exp $*/
+/* $Id: gcheckbox.prg,v 1.2 2007-08-12 10:24:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -28,7 +28,7 @@ CLASS GCHECKBOX FROM GTOGGLEBUTTON
 
       METHOD New( )
       METHOD OnClicked( oSender )
-      METHOD OnKey_Press_Event( oSender, pGdkEventKey ) 
+      METHOD OnKeyPressEvent( oSender, pGdkEventKey ) 
 
 ENDCLASS
 
@@ -85,7 +85,7 @@ METHOD OnClicked( oSender ) CLASS GCHECKBOX
        endif
 RETURN .F.
 
-METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GCHECKBOX
+METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GCHECKBOX
 
    local  nKey, nType
 

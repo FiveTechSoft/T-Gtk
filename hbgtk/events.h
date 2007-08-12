@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.11 2007-05-07 09:18:05 xthefull Exp $*/
+/* $Id: events.h,v 1.12 2007-08-12 10:24:44 xthefull Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {
@@ -18,7 +18,7 @@ static TGtkActionParce array[] = {
                {"prev-year",                 "OnPrev_year",                 G_CALLBACK( OnEventos ),NULL},                /*13 -- GtkCalendar  -- */
                {"activate",                  "OnActivate",                  G_CALLBACK( OnEventos ),NULL},                /*14*/
                {"focus-out-event",           "OnFocus_out_event",           G_CALLBACK( OnFocusEvent ),NULL},             /*15 -- GtkWidget -- */
-               {"key-press-event",           "OnKey_press_event",           G_CALLBACK( OnKeyPressEvent ),NULL},          /*16 -- GtkWidget -- */
+               {"key-press-event",           "OnKeyPressEvent",             G_CALLBACK( OnKeyPressEvent ),NULL},          /*16 -- GtkWidget -- */
                {"response",                  "OnResponse",                  G_CALLBACK( OnResponse ),NULL},               /*17 -- GtkDialog -- */
                {"destroy",                   "OnDestroy",                   G_CALLBACK( OnEventos ),NULL},                /*18 -- GtkWidget -- */
                {"focus-in-event",            "OnFocus_in_event",            G_CALLBACK( OnFocusEvent ),NULL},             /*19 -- GtkWidget -- */
@@ -29,7 +29,7 @@ static TGtkActionParce array[] = {
                {"select-child",              "OnSelect_child",              G_CALLBACK( OnSelect_child ),NULL},           /*24*/
                {"selection-changed",         "OnSelection_changed",         G_CALLBACK( OnSelection_changed ),NULL},      /*25*/
                {"switch-page",               "OnSwitch_page",               G_CALLBACK( OnSwitch_page ),NULL},            /*26*/
-               {"key-release-event",         "OnKey_release_event",         G_CALLBACK( OnKeyPressEvent ),NULL},          /*27 -- GtkWidget    -- */
+               {"key-release-event",         "OnKeyReleaseEvent",           G_CALLBACK( OnKeyPressEvent ),NULL},          /*27 -- GtkWidget    -- */
                {"group-changed",             "OnGroup_changed",             G_CALLBACK( OnGroup_changed ),NULL},          /*28 Pendiente, no logro que funcione! */
                {"row-activated",             "OnRow_Activated",             G_CALLBACK( OnRow_activated ),NULL},          /*29*/
                {"toggled",                   "OnCell_toggled",              G_CALLBACK( OnCell_toggled ), "GtkCellRendererToggle" },           /*30 OJO! realmente la señal es toggled, para las cell.*/

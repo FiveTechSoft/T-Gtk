@@ -1,4 +1,4 @@
-/* $Id: gentry.prg,v 1.8 2007-05-23 09:48:49 xthefull Exp $*/
+/* $Id: gentry.prg,v 1.9 2007-08-12 10:24:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -44,7 +44,7 @@ CLASS GENTRY FROM GWIDGET
       METHOD GetValue( )        INLINE ::GetText()
       
       METHOD OnFocus_out_event( oSender )
-      METHOD OnKey_Press_event( oSender, pGdkEventKey  )
+      METHOD OnKeyPressEvent( oSender,   pGdkEventKey  )
       METHOD OnBackspace( oSender ) VIRTUAL
       METHOD OnCopy_Clipboard( oSender ) VIRTUAL
       METHOD OnCut_Clipboard( oSender ) VIRTUAL
@@ -133,7 +133,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GENTRY
 
 RETURN Super:OnFocus_Out_Event( oSender )
 
-METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GEntry
+METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
 
    local  nKey, nType
 

@@ -1,4 +1,4 @@
-/* $Id: gwindow.prg,v 1.1 2006-09-07 16:22:18 xthefull Exp $*/
+/* $Id: gwindow.prg,v 1.2 2007-08-12 10:24:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -59,7 +59,7 @@ CLASS GWINDOW FROM GCONTAINER
       METHOD OnSetFocus( oSender, pGtkWidget ) VIRTUAL
       
       // Signals Hierarchy re-write
-      METHOD OnKey_Press_event( oSender, pGdkEventKey  ) 
+      METHOD OnKeyPressEvent( oSender, pGdkEventKey  ) 
       METHOD OnEvent( oSender, pGdkEvent )
 
 ENDCLASS
@@ -171,11 +171,10 @@ METHOD OnEvent( oSender, pGdkEvent ) CLASS gWindow
 
 RETURN .F.
 
-METHOD OnKey_Press_event( oSender, pGdkEventKey ) CLASS gWindow
-   local  nKey, nType
+METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS gWindow
+   local  nKey
 
    nKey := HB_GET_GDKEVENTKEY_KEYVAL( pGdkEventKey )// aGdkEventKey[ 6 ]
-   nType:= HB_GET_GDKEVENTKEY_TYPE( pGdkEventKey )  // aGdkEventKey[ 1 ]
 
    do case
       case nKey == GDK_Escape
@@ -185,4 +184,4 @@ METHOD OnKey_Press_event( oSender, pGdkEventKey ) CLASS gWindow
            endif
    end case
 
-RETURN .F.
+RETURN Super:OnKeyPressEvent( oSender, pGdkEventKey )

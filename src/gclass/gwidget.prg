@@ -1,4 +1,4 @@
-/* $Id: gwidget.prg,v 1.4 2006-11-30 09:49:58 xthefull Exp $*/
+/* $Id: gwidget.prg,v 1.5 2007-08-12 10:24:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -37,7 +37,7 @@ CLASS GWIDGET FROM GOBJECT
        DATA bConfigure_Event
        DATA bExpose_Event
        DATA bSizeAllocate, bFocus, bButtonPressEvent
-
+       DATA bKeyPressEvent
        METHOD Register() VIRTUAL
        METHOD Show()     INLINE gtk_widget_show( ::pWidget )
        METHOD Hide()     INLINE gtk_widget_hide( ::pWidget )
@@ -93,8 +93,8 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnGrabNotify( oSender, lArg1 ) VIRTUAL
        METHOD OnHide( oSender ) VIRTUAL
        METHOD OnHierarchyChanged( oSender, pWidget2 ) VIRTUAL
-       METHOD OnKey_Press_event( oSender,   pGdkEventKey  ) INLINE .F.
-       METHOD OnKey_Release_Event( oSender, pGdkEventKey  ) INLINE .F.
+       METHOD OnKeyPressEvent( oSender,   pGdkEventKey  ) 
+       METHOD OnKeyReleaseEvent( oSender, pGdkEventKey  ) INLINE .F.
        METHOD OnLeaveNotifyEvent( oSender,  pGdkEventCrossing )
        METHOD OnMap( oSender ) VIRTUAL
        METHOD OnMapEvent( oSender, pGdkEvent )     INLINE .F.
@@ -381,5 +381,12 @@ METHOD OnButtonPressEvent( oSender, pGdkEventButton )  CLASS GWIDGET
    IF oSender:bButtonPressEvent != NIL
       return Eval( oSender:bButtonPressEvent , oSender, pGdkEventButton  )
    ENDIF
+
+RETURN .F.
+METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GWIDGET
+
+   if oSender:bKeyPressEvent != nil
+      return Eval( ::bKeyPressEvent , oSender, pGdkEventKey )
+   endif 
 
 RETURN .F.

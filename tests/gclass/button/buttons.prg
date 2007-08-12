@@ -1,5 +1,5 @@
 /*
- * $Id: buttons.prg,v 1.1 2006-09-16 20:12:01 xthefull Exp $
+ * $Id: buttons.prg,v 1.2 2007-08-12 10:24:44 xthefull Exp $
  * Ejemplo de las posibilidades de los botones.
  * (C) 2004-05. Rafa Carmona -TheFull-
 */
@@ -41,8 +41,8 @@ Function Main()
                 DEFINE IMAGE FILE "../../images/Anieyes.gif" OF oBoxV 
                 DEFINE LABEL PROMPT "<b>The</b> power of <b>T-Gtk </b>" ;
                        OF oBoxV MARKUP EXPAND FILL ;
-                       VALIGN TOP ;
-                       HALIGN RIGHT 
+                       VALIGN GTK_TOP ;
+                       HALIGN GTK_RIGHT 
 
          DEFINE BUTTON oBtn_Gordo OF oBox ACTION MsgAlert( "OJO...a el gordo...","alerta" )
                 DEFINE IMAGE FILE "../../images/flacoygordo.gif" OF oBtn_Gordo CONTAINER
@@ -51,9 +51,24 @@ Function Main()
          DEFINE ACCEL_GROUP oAccel OF oWnd
              ADD ACCELGROUP oAccel OF oBtn2      SIGNAL "clicked"  KEY "F2"
              ADD ACCELGROUP oAccel OF oBtn_Gordo SIGNAL "clicked"  KEY "F2" MODE GDK_SHIFT_MASK
+           oWnd:bKeyPressEvent := { |o, pGdkEventKey| MyPress( pGdkEventKey ) }             
 
   ACTIVATE WINDOW oWnd CENTER 
 
 
 Return NIL
 
+static function MyPress( pGdkEventKey )
+  Local nState := HB_GET_GDKEVENTKEY_STATE( pGdkEventKey )
+  Local nKey   := HB_GET_GDKEVENTKEY_KEYVAL( pGdkEventKey )
+
+  if nKey = GDK_F3 .AND. nState = GDK_CONTROL_MASK
+     MsgInfo( "CONTROL + F3" )
+  endif
+  
+  if nKey = GDK_F3 .AND. nState = GDK_SHIFT_MASK
+     MsgInfo( "SHIFT + F3" )
+  endif
+
+
+Return .F.

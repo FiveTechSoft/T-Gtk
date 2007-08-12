@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.29 2007-05-23 09:53:33 xthefull Exp $
+ * $Id: ChangeLog,v 1.30 2007-08-12 10:24:39 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,26 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+
+2007-08-12 12:23 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
+!Changes;
+  events.h
+      Name of method OnKey_Press_Event --> OnKeyPressEvent
+      Name of method OnKey_Release_Event --> OnKeyReleaseEvent
+     
+* gWidget.prg 
+   Support new bKeyPressEvent.
+   Please view example /tests/gclass/buttons for more details
+    
+   gwindow.prg
+   gspinbutton.prg
+   gget.prg
+   gentry.prg
+   gcheckbox.prg
+
+*buttons.prg
+   Show control of keys for the window.
 
 2007-05-23 11:24 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
 + New /src/sqlite3

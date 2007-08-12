@@ -1,4 +1,4 @@
-/* $Id: gspinbutton.prg,v 1.1 2006-09-07 17:02:45 xthefull Exp $*/
+/* $Id: gspinbutton.prg,v 1.2 2007-08-12 10:24:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -39,7 +39,7 @@ CLASS GSpinbutton FROM GWidget
 
       METHOD OnChanged( oSender )
       METHOD OnFocus_out_event( oSender )
-      METHOD OnKey_Press_event( oSender, pGdkEventKey  )
+      METHOD OnKeyPressEvent( oSender, pGdkEventKey  )
 
 ENDCLASS
 
@@ -120,7 +120,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GSPINBUTTON
 
 RETURN Super:OnFocus_Out_Event( oSender )
 
-METHOD OnKey_Press_Event( oSender, pGdkEventKey ) CLASS GSPINBUTTON
+METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GSPINBUTTON
    local  nKey, nType
 
    nKey := HB_GET_GDKEVENTKEY_KEYVAL( pGdkEventKey )// aGdkEventKey[ 6 ]
