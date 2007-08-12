@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.30 2007-08-12 10:24:39 xthefull Exp $
+ * $Id: ChangeLog,v 1.31 2007-08-12 13:51:23 clneumann Exp $
  */
 
 /* Use this format for the entry headers:
@@ -9,6 +9,13 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2007-08-12 15:37 UTC+0200 Claudia Neumann <dr.claudia.neumann at gmx.de>
+!Changes;
+  gtkkeys.ch added GDK_a to GDK_z from /usr/include/gtk-2.0/gdk/gdkkeysyms.h
+  to support GDK_a to GDK_z in OnkeyPressEvent
+
+*buttons.prg
+   example of key Crtl+k
 
 2007-08-12 12:23 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
 !Changes;
