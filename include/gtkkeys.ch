@@ -1,4 +1,4 @@
-/*  $Id: gtkkeys.ch,v 1.2 2006-10-10 10:50:12 rosenwla Exp $ */
+/*  $Id: gtkkeys.ch,v 1.3 2007-08-12 13:55:20 clneumann Exp $ */
 /*
  * GtkApi.ch Códigos de teclas para T-Gtk -------------------------------------
  * Porting Harbour to GTK+ power !
@@ -151,3 +151,30 @@
 #define VK_NUMLOCK         144        //  0x90
 #define VK_SCROLL          145        //  0x91
 */
+
+#define GDK_a 0x061
+#define GDK_b 0x062
+#define GDK_c 0x063
+#define GDK_d 0x064
+#define GDK_e 0x065
+#define GDK_f 0x066
+#define GDK_g 0x067
+#define GDK_h 0x068
+#define GDK_i 0x069
+#define GDK_j 0x06a
+#define GDK_k 0x06b
+#define GDK_l 0x06c
+#define GDK_m 0x06d
+#define GDK_n 0x06e
+#define GDK_o 0x06f
+#define GDK_p 0x070
+#define GDK_q 0x071
+#define GDK_r 0x072
+#define GDK_s 0x073
+#define GDK_t 0x074
+#define GDK_u 0x075
+#define GDK_v 0x076
+#define GDK_w 0x077
+#define GDK_x 0x078
+#define GDK_y 0x079
+#define GDK_z 0x07a
