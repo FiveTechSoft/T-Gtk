@@ -1,5 +1,5 @@
 /*
- * $Id: buttons.prg,v 1.2 2007-08-12 10:24:44 xthefull Exp $
+ * $Id: buttons.prg,v 1.3 2007-08-12 13:52:15 clneumann Exp $
  * Ejemplo de las posibilidades de los botones.
  * (C) 2004-05. Rafa Carmona -TheFull-
 */
@@ -70,5 +70,8 @@ static function MyPress( pGdkEventKey )
      MsgInfo( "SHIFT + F3" )
   endif
 
+  if nKey = GDK_k .AND. nState = GDK_CONTROL_MASK
+     MsgInfo( "CONTROL + k" )
+  endif
 
 Return .F.
