@@ -1,35 +1,18 @@
-/* $Id: gscrolled.prg,v 1.1 2006-09-07 17:02:45 xthefull Exp $*/
-/*
-    LGPL Licence.
-    
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this software; see the file COPYING.  If not, write to
-    the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-    Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
-
-    LGPL Licence.
-    (c)2003 Rafael Carmona <thefull@wanadoo.es>
-*/
+/*  $Id: gscrolled.prg,v 1.2 2007-08-12 15:03:54 xthefull Exp $ */
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
+/*************************************************************
+  Protipico de Clase GScrolledWindow
+*************************************************************/
 CLASS GSCROLLEDWINDOW FROM GBIN
 
       METHOD New( )
-      METHOD SetPolicy( h, v )  INLINE gtk_scrolled_window_set_policy( ::pWidget, h ,v ) 
-      METHOD SetShadow( nType ) INLINE gtk_scrolled_window_set_shadow_type( ::pWidget, nType )
-      METHOD GetVAdjustment( )  INLINE gtk_scrolled_window_get_vadjustment( ::pWidget )
-      METHOD SetVAdjustment( pAdjV ) INLINE gtk_scrolled_window_set_vadjustment( ::pWidget, pAdjV )
+      METHOD SetPolicy( h, v )         INLINE gtk_scrolled_window_set_policy( ::pWidget, h ,v ) 
+      METHOD SetShadow( nType )        INLINE gtk_scrolled_window_set_shadow_type( ::pWidget, nType )
+      METHOD GetVAdjustment( )         INLINE gtk_scrolled_window_get_vadjustment( ::pWidget )
+      METHOD SetVAdjustment( pAdjV )   INLINE gtk_scrolled_window_set_vadjustment( ::pWidget, pAdjV )
+      METHOD AddViewPort( oChild )     INLINE gtk_scrolled_window_add_with_viewport (::pWidget, oChild:pWidget )
 
       //Signals
       METHOD OnMoveFocusOut( oSender, nGtkDirectionType )     VIRTUAL
