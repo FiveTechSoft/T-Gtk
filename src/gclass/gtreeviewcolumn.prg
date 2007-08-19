@@ -1,4 +1,4 @@
-/* $Id: gtreeviewcolumn.prg,v 1.2 2006-11-30 09:49:58 xthefull Exp $*/
+/* $Id: gtreeviewcolumn.prg,v 1.3 2007-08-19 19:20:17 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -131,5 +131,7 @@ RETURN NIL
 
 ******************************************************************************
 METHOD OnClicked( oSender ) CLASS gTreeViewColumn
-    Eval( oSender:bAction, oSender )
+    if oSender:bAction != NIL
+       Eval( oSender:bAction, oSender )
+    endif
 RETURN .F.
