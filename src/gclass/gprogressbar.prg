@@ -1,4 +1,4 @@
-/* $Id: gprogressbar.prg,v 1.1 2006-09-07 17:02:45 xthefull Exp $*/
+/* $Id: gprogressbar.prg,v 1.2 2007-08-21 10:56:15 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -39,6 +39,7 @@ CLASS GProgressBar FROM GWidget
       METHOD Dec( nValue )
       
       METHOD SetValue( nValue ) INLINE ::Set( nValue )
+      METHOD GetValue( nValue ) INLINE Eval( ::bSetGet )
 
 ENDCLASS
 
@@ -81,6 +82,7 @@ RETURN Self
 
 METHOD Set( nValue ) CLASS GPROGRESSBAR
 
+       Eval( ::bSetGet,  nValue )
        gtk_progress_bar_set_fraction( ::pWidget,  nValue / ::nTotal )
 
 RETURN NIL

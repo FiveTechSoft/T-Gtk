@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.31 2007-08-12 13:51:23 clneumann Exp $
+ * $Id: ChangeLog,v 1.32 2007-08-21 10:56:15 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,10 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2007-08-21 12:50 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
+ + New method GetValue()
+ * Fix bug, Method SetValue(), update variable bSetGet.
 
 2007-08-12 15:37 UTC+0200 Claudia Neumann <dr.claudia.neumann at gmx.de>
 !Changes;
