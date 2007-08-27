@@ -1,14 +1,15 @@
 #include "gclass.ch"
 
-static oWin1, oWin2, oWin3
-
 function Maingtk()
-local oFont1, oFont2, oBox, oLabel1, oBar, oBoxWnd, oTable, oBtn1, oBtn2, oBtn3
+local oWin1,oBox, oLabel1, oBar, oBoxWnd, oTable, oBtn1, oBtn2, oBtn3
+MEMVAR aWin,oFont1,oFont2
+aWin:={}
 
 DEFINE FONT oFont1 Name "Arial 14"
 DEFINE FONT oFont2 Name "Arial bold 18"
 
 DEFINE WINDOW oWin1 TITLE "Programm"
+aadd(aWin,oWin1)
 
 	DEFINE BOX oBox VERTICAL OF oWin1
 
@@ -42,19 +43,19 @@ DEFINE WINDOW oWin1 TITLE "Programm"
 		FONT oFont1 ;
 		MNEMONIC 
 
-ACTIVATE WINDOW oWin1 MAXIMIZED 
+ACTIVATE WINDOW oWin1 MAXIMIZED MODAL
 
 RETURN .t.
 
 
 function Gtk2()
-local oFont1, oFont2, oBox, oLabel1, oBar, oBoxWnd, oTable, oBtn1, oBtn2, oBtn3
+LOCAL oWin2,oBox, oLabel1, oBar, oBoxWnd, oTable, oBtn1, oBtn2, oBtn3
+MEMVAR aWin,oFont1,oFont2
 
-if Empty( oWin2 )
-DEFINE FONT oFont1 Name "Arial 14"
-DEFINE FONT oFont2 Name "Arial bold 18"
+fWinHide()
 
 DEFINE WINDOW oWin2 TITLE "Programm"
+aadd(aWin,oWin2)
 
 	DEFINE BOX oBox VERTICAL OF oWin2
 
@@ -75,36 +76,31 @@ DEFINE WINDOW oWin2 TITLE "Programm"
 		MNEMONIC
 
         DEFINE BUTTON oBtn2 OF oTable TABLEATTACH 1,2,1,2 EXPAND FILL ;
-		ACTION   MsgInfo("Hello! Second Option") ;
+		ACTION   MsgBox("Do you really want option 2?") ;
 		BAR oBar MSG "prog fopt2" ;
 		TEXT "_Option 1.2" ;
 		FONT oFont1 ;
 		MNEMONIC
 
         DEFINE BUTTON oBtn3 OF oTable TABLEATTACH 1,2,2,3 EXPAND FILL ;
-		ACTION ( oWin1:Show(), oWin2:Hide() )  ;
+		ACTION fWinClose()  ;
 		BAR oBar MSG "prog fopt3" ;
 		TEXT "_Back" ;
 		FONT oFont1 ;
 		MNEMONIC
 
-ACTIVATE WINDOW oWin2 MODAL MAXIMIZED INITIATE
-else
- oWin2:SetFocus()
-endif
- 
- oWin1:Hide()
+ACTIVATE WINDOW oWin2 MAXIMIZED MODAL
 
 RETURN .t.
 
 function Gtk3()
-local oFont1, oFont2, oBox, oLabel1, oBar, oBoxWnd, oTable, oBtn1, oBtn2, oBtn3
+local oWin3, oBox, oLabel1, oBar, oBoxWnd, oTable, oBtn1, oBtn2, oBtn3
+memvar aWin, oFont1,oFont2
 
-if Empty( oWin3)
-DEFINE FONT oFont1 Name "Arial 14"
-DEFINE FONT oFont2 Name "Arial bold 18"
+fWinhide()
 
 DEFINE WINDOW oWin3 TITLE "Programm"
+aadd(aWin,oWin3)
 
 	DEFINE BOX oBox VERTICAL OF oWin3
 
@@ -125,23 +121,52 @@ DEFINE WINDOW oWin3 TITLE "Programm"
 		MNEMONIC
 
         DEFINE BUTTON oBtn2 OF oTable TABLEATTACH 1,2,1,2 EXPAND FILL ;
-		ACTION   MsgInfo("Hello! Second Option of 3") ;
+		ACTION   MsgBox("Do you really want option 3?") ;
 		BAR oBar MSG "prog fopt2" ;
 		TEXT "_Option 1.2" ;
 		FONT oFont1 ;
 		MNEMONIC
 
         DEFINE BUTTON oBtn3 OF oTable TABLEATTACH 1,2,2,3 EXPAND FILL ;
-		ACTION ( oWin1:Show(), oWin3:Hide() )  ;
+		ACTION fWinClose()  ;
 		BAR oBar MSG "prog fopt3" ;
 		TEXT "_Back" ;
 		FONT oFont1 ;
 		MNEMONIC 
 
-ACTIVATE WINDOW oWin3 MODAL MAXIMIZED INITIATE
-else
-  oWin3:SetFocus()
-endif
- oWin1:Hide()
+ACTIVATE WINDOW oWin3 MAXIMIZED MODAL
 
 RETURN .t.
+
+
+function fWinclose()
+local nn1
+memvar aWin
+
+nn1:=len(aWin)
+aWin[nn1-1]:Show()
+aWin[nn1]:End()
+Adel(aWin,nn1,.t.)
+aWin[nn1-1]:SetSkipTaskbar(.f.)
+aWin[nn1-1]:SetFocus()
+return .t.
+
+
+function fWinhide()
+local nn1
+memvar aWin
+nn1:=len(aWin)
+aWin[nn1]:SetSkipTaskbar(.t.)
+return .t.
+
+
+function showmsg(ctext)
+local nopt
+
+nopt:=MsgBox( ctext, GTK_MSGBOX_OK+GTK_MSGBOX_CANCEL , GTK_MSGBOX_QUESTION )
+
+if nopt ==1
+  MsgInfo("Hello! Second Option of 3")
+endif
+
+return .t.
