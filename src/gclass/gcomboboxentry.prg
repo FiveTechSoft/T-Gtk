@@ -1,7 +1,7 @@
 #include "gtkapi.ch"
 #include "hbclass.ch"
 /*************************************************************
-  $Id: gcomboboxentry.prg,v 1.1 2006-09-07 17:07:55 xthefull Exp $
+  $Id: gcomboboxentry.prg,v 1.2 2007-09-10 19:16:26 xthefull Exp $
   Protipico de Clase GComboBoxEntry
  (c)2004 Rafa Carmona
 *************************************************************/
@@ -10,6 +10,8 @@ CLASS GCOMBOBOXENTRY FROM GCOMBOBOX
       METHOD New( )
       METHOD GetText()
       METHOD Get_Widget_Entry( ) INLINE TGTK_GET_WIDGET_COMBO_ENTRY( ::pWidget )
+      METHOD GetValue()       INLINE ::oEntry:GetValue()
+      METHOD SetValue( uVal ) INLINE ::oEntry:SetValue( uVal )
 ENDCLASS
 
 METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nPadding, lContainer, x, y,;
