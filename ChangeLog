@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.32 2007-08-21 10:56:15 xthefull Exp $
+ * $Id: ChangeLog,v 1.33 2007-09-15 19:21:51 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,13 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2007-09-15 21:20 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
+ * gentry.c
+   New function gtk_entry_set_max_length
+ 
+ * gentry.prg
+   New method SetMaxLength.
 
 2007-08-21 12:50 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
  + New method GetValue()

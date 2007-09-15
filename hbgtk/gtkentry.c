@@ -1,4 +1,4 @@
-/* $Id: gtkentry.c,v 1.2 2006-10-04 08:35:28 rosenwla Exp $*/
+/* $Id: gtkentry.c,v 1.3 2007-09-15 19:21:57 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -105,3 +105,9 @@ HB_FUNC( GTK_ENTRY_GET_COMPLETION )
    hb_retnl( ( glong ) completion );
 }   
         
+HB_FUNC( GTK_ENTRY_SET_MAX_LENGTH )
+{
+   GtkWidget * Entry = GTK_WIDGET( hb_parnl( 1 ) );
+   gint max = hb_parni( 2 );
+   gtk_entry_set_max_length( GTK_ENTRY( Entry ), max );
+}
