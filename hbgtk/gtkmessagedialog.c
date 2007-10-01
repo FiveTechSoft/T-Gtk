@@ -1,4 +1,4 @@
-/* $Id: gtkmessagedialog.c,v 1.2 2007-10-01 19:47:23 clneumann Exp $*/
+/* $Id: gtkmessagedialog.c,v 1.3 2007-10-01 20:31:49 clneumann Exp $*/
 /*
     LGPL Licence.
     
@@ -261,5 +261,5 @@ HB_FUNC( MSGOKCANCEL ) // cMessage, cTitle -> logical
    response  = gtk_dialog_run( GTK_DIALOG( dialog ) );
    gtk_widget_destroy( dialog );
    
-   hb_retl( ( response == GTK_RESPONSE_YES) );
+   hb_retl( ( response == GTK_RESPONSE_OK) );
 }
