@@ -1,4 +1,4 @@
-/* $Id: gentry.prg,v 1.10 2007-09-15 19:21:57 xthefull Exp $*/
+/* $Id: gentry.prg,v 1.11 2007-10-01 19:48:10 clneumann Exp $*/
 /*
     LGPL Licence.
     
@@ -37,6 +37,7 @@ CLASS GENTRY FROM GWIDGET
       METHOD Justify (nType ) INLINE gtk_entry_set_alignment( ::pWidget, nType )
       METHOD SetVisible( lVisible )  INLINE gtk_entry_set_visibility( ::pWidget, lVisible )
       METHOD SetMaxLength( nMax ) INLINE gtk_entry_set_max_length( ::pWidget, nMax )
+      METHOD SetWidthChar( nWidth ) INLINE gtk_entry_set_width_chars( ::pWidget, nWidth )
 
       METHOD Refresh()
       METHOD Create_Completion( aCompletion )
