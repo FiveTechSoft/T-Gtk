@@ -1,4 +1,4 @@
-/* $Id: gtkmessagedialog.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkmessagedialog.c,v 1.2 2007-10-01 19:47:23 clneumann Exp $*/
 /*
     LGPL Licence.
     
@@ -237,3 +237,29 @@ HB_FUNC( MSGNOYES ) // cMessage, cTitle -> logical
    hb_retl( ( response == GTK_RESPONSE_YES) );
 }
 
+HB_FUNC( MSGOKCANCEL ) // cMessage, cTitle -> logical
+{
+   GtkWidget *dialog;
+   gchar *msg = hb_parc( 1 );
+   gchar *title = hb_parc( 2 );
+  /* 
+   gchar *msg   = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",
+                             NULL,NULL,NULL );
+   gchar *title = g_convert( hb_parc(2), -1,"UTF-8","ISO-8859-1",
+                             NULL,NULL,NULL );
+   */
+   gint response;
+
+   dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
+                                    GTK_MESSAGE_QUESTION,
+                                    GTK_BUTTONS_OK_CANCEL, msg );
+   
+   gtk_window_set_title( GTK_WINDOW( dialog ), title );
+   gtk_window_set_position( GTK_WINDOW( dialog ), GTK_WIN_POS_CENTER );
+   gtk_window_set_type_hint( GTK_WINDOW( dialog ), GDK_WINDOW_TYPE_HINT_MENU );
+
+   response  = gtk_dialog_run( GTK_DIALOG( dialog ) );
+   gtk_widget_destroy( dialog );
+   
+   hb_retl( ( response == GTK_RESPONSE_YES) );
+}
