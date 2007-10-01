@@ -1,4 +1,4 @@
-/* $Id: gtkentry.c,v 1.5 2007-10-01 18:36:31 xthefull Exp $*/
+/* $Id: gtkentry.c,v 1.6 2007-10-01 19:46:42 clneumann Exp $*/
 /*
     LGPL Licence.
     
@@ -108,5 +108,5 @@ HB_FUNC( GTK_ENTRY_GET_COMPLETION )
 HB_FUNC( GTK_ENTRY_SET_WIDTH_CHARS )
 {
    GtkWidget * Entry = GTK_WIDGET( hb_parnl( 1 ) );
-   gtk_entry_set_width_chars( GTK_ENTRY( entry ), hb_parni( 2 ) ) ;
+   gtk_entry_set_width_chars( GTK_ENTRY( Entry ), hb_parni( 2 ) ) ;
 }
