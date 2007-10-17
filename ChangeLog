@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.34 2007-10-01 19:49:05 clneumann Exp $
+ * $Id: ChangeLog,v 1.35 2007-10-17 11:11:42 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,14 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2007-10-17 13:09 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
+   * /hbgtk/events.c
+     * Modify callbacks for JUMP at codeblocks:
+	* OnSelection_Get
+	* OnSelection_Received
+	* OnShow_Help
+	* OnSize_Allocate
 
 2007-10-01 21:40 UTC+0200 Claudia Neumann <dr.claudia.neumann at gmx.de>
   *gentry.c 
