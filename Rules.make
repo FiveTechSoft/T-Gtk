@@ -30,12 +30,12 @@ SUPPORT_PRINT_WIN32=no
 HB_COMPILER = gcc
  
 #Especificamos compilador xBase a usar, si harbour o xHarbour
-XBASE_COMPILER = XHARBOUR
+XBASE_COMPILER = HARBOUR
  
-#Nueva version 0.99.61
-HB_BIN_INSTALL = /home/rafa/xharbour/install/bin
-HB_INC_INSTALL = /home/rafa/xharbour/install/include
-HB_LIB_INSTALL = /home/rafa/xharbour/install/lib
+#Nueva version harbour 1.1
+HB_BIN_INSTALL = /home/rafa/myharbour/bin
+HB_INC_INSTALL = /home/rafa/myharbour/include
+HB_LIB_INSTALL = /home/rafa/myharbour/lib
  
 #Rutas de librerias y de includes de TGTK.
 LIBDIR_TGTK= /home/rafa/t-gtk/lib
@@ -70,6 +70,10 @@ else
    endif
 endif
 
+ifeq ($(XBASE_COMPILER),HARBOUR)
+   CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF 
+endif
+
 #libraries for binary building
 ifeq ($(HB_MT),MT)
    LIBFILES_ = -ldebug -lvmmt -lrtlmt $(GT_LIBS) -lrddmt -lrtlmt -lvmmt -lmacro -lppmt -ldbfntxmt -ldbfcdx -ldbfdbt -lcommon -lm -lpthread
@@ -82,7 +86,7 @@ else
      else
          # HARBOUR
          #LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm -lgtwin $(GT_LIBS) -lgtwin
-         LIBFILES_ = -lvm -lrtl $(GT_LIBS) -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lhbsix -lhsx -lcommon -lm -lgtwin $(GT_LIBS)
+         LIBFILES_ = -lhbvm -lhbrtl $(GT_LIBS) -lhblang -lhbrdd -lhbmacro -lhbpp -lhbdbfntx -lhbdbfcdx -lhbdbffpt -lhbsix -lhsx -lhbcommon -lhbm -lgtwin $(GT_LIBS)
      endif
    else
      ifeq ($(XBASE_COMPILER),XHARBOUR)
@@ -92,7 +96,7 @@ else
      else
         # HARBOUR
         # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
-        LIBFILES_ = -lvm -lrtl $(GT_LIBS) -llang -lrdd -lvm -lmacro -lpp -ldbfntx -ldbfcdx -lhbsix -lcommon -lm  $(GT_LIBS)
+        LIBFILES_ = -lhbvm -lhbrtl $(GT_LIBS) -lhblang -lhbrdd -lhbvm -lhbmacro -lhbpp -lrddntx -lrddcdx -lrddfpt -lhbsix -lhbcommon -lgttrm $(GT_LIBS)
      endif
    endif
 endif
@@ -122,7 +126,7 @@ ifeq ($(SUPPORT_PRINT_WIN32),yes)
   LIBS += $(shell pkg-config --libs libgnomeprint-2.2) $(shell pkg-config --libs libgnomeprintui-2.2)
 endif
 
-#nos servirá, para compilar prgs exclusivos para GNU/Linux
+#nos servirï¿½, para compilar prgs exclusivos para GNU/Linux
 #por ejemplo, gPrinter.prg
 ifeq ($(HB_COMPILER),gcc)
    PRGFLAGS += -DHB_OS_LINUX
