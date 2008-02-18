@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.12 2007-08-12 10:24:44 xthefull Exp $*/
+/* $Id: events.h,v 1.13 2008-02-18 16:46:48 xthefull Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {

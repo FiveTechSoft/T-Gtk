@@ -1,7 +1,8 @@
-/* $Id: gtktreeview.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtktreeview.c,v 1.2 2008-02-18 16:46:48 xthefull Exp $*/
 /*
-    LGPL Licence.
-    
+ * GtkTreeView. List browses y Trees -----------------------------------------
+   LGPL Licence.
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -21,8 +22,10 @@
     (c)2003 Rafael Carmona <thefull@wanadoo.es>
     (c)2003 Joaquim Ferrer <quim_ferrer@yahoo.es>
 */
+
 #include <gtk/gtk.h>
 #include "hbapi.h"
+
 
 HB_FUNC( GTK_TREE_VIEW_NEW )
 {
@@ -189,6 +192,9 @@ HB_FUNC( HB_GTK_TREE_VIEW_NEXT_ROW )
     gtk_tree_path_next( path ) ;
     gtk_tree_view_set_cursor( tree , path, focus_column, TRUE );
     gtk_tree_path_free( path );
+    hb_retl( TRUE );
+  } else{
+    hb_retl( FALSE );
   }
 }  
 
@@ -201,10 +207,13 @@ HB_FUNC( HB_GTK_TREE_VIEW_PREV_ROW )
   gtk_tree_view_get_cursor( tree , &path, &focus_column);
   if ( path )
   {
-    if ( gtk_tree_path_prev( path ) )
+    if ( gtk_tree_path_prev( path ) ) {
         gtk_tree_view_set_cursor( tree , path, focus_column, TRUE );
-   
-   gtk_tree_path_free( path );
+        hb_retl( TRUE );
+    } else {
+        hb_retl( FALSE );
+    }    
+    gtk_tree_path_free( path );
   }
 }  
 
@@ -217,9 +226,12 @@ HB_FUNC( HB_GTK_TREE_VIEW_UP_ROW )
   gtk_tree_view_get_cursor( tree , &path, &focus_column);
   if ( path )
   {
-    if ( gtk_tree_path_up( path ) )
+    if ( gtk_tree_path_up( path ) ) {
         gtk_tree_view_set_cursor( tree , path, focus_column, TRUE );
-   
+        hb_retl( TRUE );
+    } else {
+        hb_retl( FALSE );
+    }    
     gtk_tree_path_free( path );
 
   }
@@ -237,7 +249,10 @@ HB_FUNC( HB_GTK_TREE_VIEW_DOWN_ROW )
     gtk_tree_path_down( path );
     gtk_tree_view_set_cursor( tree , path, focus_column, TRUE );
     gtk_tree_path_free( path );
-  }
+    hb_retl( TRUE );
+   }  else {
+      hb_retl( FALSE );
+   }  
 }  
 
 
