@@ -1,5 +1,5 @@
 /*
- * $Id: buttons.prg,v 1.3 2007-08-12 13:52:15 clneumann Exp $
+ * $Id: buttons.prg,v 1.4 2008-03-04 12:43:52 xthefull Exp $
  * Ejemplo de las posibilidades de los botones.
  * (C) 2004-05. Rafa Carmona -TheFull-
 */
@@ -38,7 +38,7 @@ Function Main()
 
          DEFINE BUTTON oBtn OF oBox EXPAND FILL 
             DEFINE BOX oBoxV OF oBtn CONTAINER 
-                DEFINE IMAGE FILE "../../images/Anieyes.gif" OF oBoxV 
+                DEFINE IMAGE FILE "../../images/anieyes.gif" OF oBoxV 
                 DEFINE LABEL PROMPT "<b>The</b> power of <b>T-Gtk </b>" ;
                        OF oBoxV MARKUP EXPAND FILL ;
                        VALIGN GTK_TOP ;
