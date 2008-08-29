@@ -133,7 +133,7 @@ ifeq ($(HB_COMPILER),gcc)
 endif   
 
 LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
-LIBS_=  $(LIBS)-Wl,--start-group $(LIBFILES_) -Wl,--end-group
+LIBS_= -L$(LIBDIR_TGTK) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) $(LIBFILES_) -Wl,--end-group $(LIBS)
 
 ifeq ($(strip $(SOURCE_TYPE)),)
 SOURCE_TYPE=prg
