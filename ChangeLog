@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.35 2007-10-17 11:11:42 xthefull Exp $
+ * $Id: ChangeLog,v 1.36 2008-09-02 21:16:33 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,15 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2008-09-02 23:00 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
+    ( Gracias a Riztan por dejarme usar su cuenta para subir los cambios )
+    + Soporte para GtkSourceView2. Activar en Rules.make si queremos soporte o no.
+      /hbgtk/gktsourceview.c
+
+    + /hbgtk/gtkvolumenbutton.c 
+
+    Ejemplo de GtkSourceView. Es capaz de usar sintaxis coloreada dependiendo del tipo de Mime pasado.
+    + /tests/native/sourceview.prg 
 
 2007-10-17 13:09 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
    * /hbgtk/events.c

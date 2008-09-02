@@ -41,6 +41,9 @@ HB_LIB_INSTALL = /home/rafa/myharbour/lib
 LIBDIR_TGTK= /home/rafa/t-gtk/lib
 INCLUDE_TGTK_PRG=/home/rafa/t-gtk/include
  
+#Soporte para GtkSourceView2
+GTKSOURCEVIEW=yes
+
 ############################################## 
 # Esqueleto para todas las plataformas
 ############################################## 
@@ -72,6 +75,12 @@ endif
 
 ifeq ($(XBASE_COMPILER),HARBOUR)
    CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF 
+endif
+
+ifeq ($(GTKSOURCEVIEW),yes)
+   CFLAGS += -D_HAVEGTKSOURCEVIEW_
+   CFLAGS += $(shell pkg-config --cflags gtksourceview-2.0) $(shell pkg-config --cflags libbonobo-2.0 ) $(shell pkg-config --cflags libbonoboui-2.0 )
+   LIBS += $(shell pkg-config --libs gtksourceview-2.0 ) $(shell pkg-config --libs libbonobo-2.0 ) $(shell pkg-config --libs libbonoboui-2.0 )
 endif
 
 #libraries for binary building
