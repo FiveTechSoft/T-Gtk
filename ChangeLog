@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.36 2008-09-02 21:16:33 riztan Exp $
+ * $Id: ChangeLog,v 1.37 2008-09-30 02:26:04 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,10 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2008-09-29 21:00 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
+    * Modificado gclass.ch para evitar error en compilacion de reglas en
+    script  de la contrib de xHarbour.
+
 2008-09-02 23:00 UTC+0200 Rafael Carmona <rafa.tgtk at gmail.com>
     ( Gracias a Riztan por dejarme usar su cuenta para subir los cambios )
     + Soporte para GtkSourceView2. Activar en Rules.make si queremos soporte o no.

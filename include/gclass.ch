@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.8 2007-05-09 09:42:03 xthefull Exp $ */
+/*  $Id: gclass.ch,v 1.9 2008-09-30 02:26:05 riztan Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2004 Rafa Carmona
@@ -246,7 +246,7 @@
                  [ VALIGN <nVer> ];
                  [ JUSTIFY <nJustify> ];
       => ;
- [ <oLabel > := ]GLabel():New( <cText>, <.lMarkup.>, <oParent>, <oFont>, <.lExpand.>,;
+ [ <oLabel> := ]GLabel():New( <cText>, <.lMarkup.>, <oParent>, <oFont>, <.lExpand.>,;
                 <.lFill.>, <nPadding>, <.lContainer.>, <x>, <y>,;
                 <cId>, <uGlade>, <uLabelBook>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
                 <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>,<yOptions_ta>,;
@@ -275,7 +275,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ];
       => ;
- [ <oExpander > := ]GExpander():New( <cText>, [ \{|o| <bAction> \} ], <.lOpen.>, <.lMarkup.>, <.lMnemonic.>,;
+ [ <oExpander> := ]GExpander():New( <cText>, [ \{|o| <bAction> \} ], <.lOpen.>, <.lMarkup.>, <.lMnemonic.>,;
                       <oParent>, <.lExpand.>, <.lFill.>, <nPadding> ,;
                       <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <uLabelBook>, <nWidth>, <nHeight>,<.lEnd.>,;
                       <.lSecond.>, <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
@@ -309,7 +309,7 @@
                  [ STYLE <aStyles> ];
                  [ STYLE_CHILD <aStylesChild> ];
       => ;
-    [ <oBtn > := ] GButton():New( <cText>,[ \{|o| <bAction> \} ] , [ \{|o| <bValid> \} ], <oFont>,;
+    [ <oBtn> := ] GButton():New( <cText>,[ \{|o| <bAction> \} ] , [ \{|o| <bValid> \} ], <oFont>,;
        <.lMnemonic.>, <cFromStock>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding> ,;
       <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>, <nWidth>, <nHeight>,;
       <oBar>,<cMsgBar>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
@@ -340,7 +340,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
       => ;
-[ <oBtn > := ] GToggleButton():New( <cText>,[ \{|o| <bAction> \} ] , [ \{|o| <bValid> \} ],;
+[ <oBtn> := ] GToggleButton():New( <cText>,[ \{|o| <bAction> \} ] , [ \{|o| <bValid> \} ],;
                <oFont>,<.lMnemonic.>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,;
                <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>,;
                <nWidth>, <nHeight>, <oBar>,<cMsgBar>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
@@ -372,7 +372,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
      => ;
-  [ <oBtn > := ] GRadioButton():New( <cText>, <.lActived.>,<oRadio>, [ \{|o| <uAction> \} ],;
+  [ <oBtn> := ] GRadioButton():New( <cText>, <.lActived.>,<oRadio>, [ \{|o| <uAction> \} ],;
                  <oFont>,<.lMnemonic.>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,;
                  <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>,;
                  <nWidth>, <nHeight>, <oBar>,<cMsgBar>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
@@ -401,7 +401,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
       => ;
-  [ <oBtn > := ] GEntry():New( bSetGet( <uVar> ), <cPicture>, [ \{|o| <bValid> \} ],;
+  [ <oBtn> := ] GEntry():New( bSetGet( <uVar> ), <cPicture>, [ \{|o| <bValid> \} ],;
                    <aCompletion>, <oFont>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,<.lContainer.>,;
                    <x>,<y>, <cId>, <uGlade>, <uLabelBook>,<.lPassword.>,;
                    <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
@@ -430,7 +430,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
           => ;
- [ <oCombo > := ] GComboBox():New( bSetGet( <uVar> ), <aItems>, [ \{|o| <bChange> \} ],<oModel>,;
+ [ <oCombo> := ] GComboBox():New( bSetGet( <uVar> ), <aItems>, [ \{|o| <bChange> \} ],<oModel>,;
               <oFont>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,<.lContainer.>,;
               <x>,<y>, <cId>, <uGlade>, <uLabelBook>, <nWidth>, <nHeight>, <.lEnd.>,;
               <.lSecond.>, <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
@@ -459,7 +459,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
           => ;
- [ <oCombo > := ] GComboBox_Clip():New( bSetGet( <uVar> ), <aItems>, [ \{|o| <bChange> \} ],<oModel>,;
+ [ <oCombo> := ] GComboBox_Clip():New( bSetGet( <uVar> ), <aItems>, [ \{|o| <bChange> \} ],<oModel>,;
               <oFont>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,<.lContainer.>,;
               <x>,<y>, <cId>, <uGlade>, <uLabelBook>, <nWidth>, <nHeight>, <.lEnd.>,;
               <.lSecond.>, <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
@@ -489,7 +489,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
       => ;
-   [ <oBtn > := ] GCheckBox():New( <cText>, bSetGet( <uVar> ) , [ \{|o| <bValid> \} ],;
+   [ <oBtn> := ] GCheckBox():New( <cText>, bSetGet( <uVar> ) , [ \{|o| <bValid> \} ],;
                      <oFont>,<.lMnemonic.>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,;
                      <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>,;
                      <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
@@ -535,7 +535,7 @@
                  [ ID <cId> ;
                  [ RESOURCE <uGlade> ] ];
                   => ;
-  [ <oBtn > := ] GToolButton():New( <cText>, [ \{|o| <bAction> \} ] , <cStock>,;
+  [ <oBtn> := ] GToolButton():New( <cText>, [ \{|o| <bAction> \} ] , <cStock>,;
                   <.lMnemonic.>,<cFromStock>, <oParent>, <.lExpand.>, <cId>, <uGlade> )
 
 // ToolToggle
@@ -551,7 +551,7 @@
                  [ ID <cId> ;
                  [ RESOURCE <uGlade> ] ];
       => ;
-  [ <oBtn > := ] GToolToggle():New( <cText>, [ \{|o| <bAction> \} ] , <.lActive.>, <cStock>,;
+  [ <oBtn> := ] GToolToggle():New( <cText>, [ \{|o| <bAction> \} ] , <.lActive.>, <cStock>,;
                   <.lMnemonic.>,<cFromStock>, <oParent>, <.lExpand.>, <cId>, <uGlade> )
 
 // ToolRadio
@@ -568,7 +568,7 @@
                  [ ID <cId> ;
                  [ RESOURCE <uGlade> ] ];
       => ;
-  [ <oBtn > := ] GToolRadio():New( <cText>, [ \{|o| <bAction> \} ] , <.lActive.>, <cStock>,;
+  [ <oBtn> := ] GToolRadio():New( <cText>, [ \{|o| <bAction> \} ] , <.lActive.>, <cStock>,;
                   <.lMnemonic.>,<cFromStock>, <oParent>, <.lExpand.>, <oGroup>, <cId>, <uGlade> )
 
 // ToolSeparator
@@ -579,7 +579,7 @@
                  [ ID <cId> ;
                  [ RESOURCE <uGlade> ] ];
       => ;
-  [ <oBtn > := ] GToolSeparator():New( <.lExpand.>, <.lNoDraw.>, <oParent>, <cId>, <uGlade> )
+  [ <oBtn> := ] GToolSeparator():New( <.lExpand.>, <.lNoDraw.>, <oParent>, <cId>, <uGlade> )
 
 // ToolMenu
 #xcommand DEFINE TOOLMENU [ <oBtn> ];
@@ -593,7 +593,7 @@
                  [ ID <cId> ;
                  [ RESOURCE <uGlade> ] ];
                   => ;
-  [ <oBtn > := ] GToolMenu():New( <cText>, <oImage>, <oMenu>, [ \{|o| <bAction> \} ] ,;
+  [ <oBtn> := ] GToolMenu():New( <cText>, <oImage>, <oMenu>, [ \{|o| <bAction> \} ] ,;
                                   <cFromStock>, <oParent>, <.lExpand.>, <cId>, <uGlade> )
 
 //Fixed
@@ -950,7 +950,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
           => ;
- [ <oList > := ] GList():New( bSetGet( <uVar> ), <aItems>,[ \{|o| <bChange> \} ],;
+ [ <oList> := ] GList():New( bSetGet( <uVar> ), <aItems>,[ \{|o| <bChange> \} ],;
               <oFont>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,<.lContainer.>,;
               <x>,<y>, <cId>, <uGlade>, <uLabelBook>, <nWidth>, <nHeight>, <.lEnd.>,;
               <.lSecond.>, <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
@@ -991,7 +991,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta> [,<xOptions_ta>, <yOptions_ta> ] ] ;
       => ;
-    [ <oBtn > := ] GFileChooserButton():New( <cText>, <nMode>, <cPath_Init>,;
+    [ <oBtn> := ] GFileChooserButton():New( <cText>, <nMode>, <cPath_Init>,;
                   <oParent>, <.lExpand.>, <.lFill.>, <nPadding> ,;
                   <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>, <nWidth>, <nHeight>,;
                  <oBar>,<cMsgBar>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
@@ -1329,7 +1329,7 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
           => ;
- [ <oCombo > := ] GComboBoxEntry():New( bSetGet( <uVar> ), <aItems>, [ \{|o| <bChange> \} ],<oModel>,;
+ [ <oCombo> := ] GComboBoxEntry():New( bSetGet( <uVar> ), <aItems>, [ \{|o| <bChange> \} ],<oModel>,;
               <oFont>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,<.lContainer.>,;
               <x>,<y>, <cId>, <uGlade>, <uLabelBook>, <nWidth>, <nHeight>, <.lEnd.>,;
               <.lSecond.>, <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
@@ -1464,10 +1464,11 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
       => ;
-  [ <oBtn > := ] gGet():New( bSetGet( <uVar> ), <cPicture>, [ \{|o| <bValid> \} ],;
+  [ <oBtn> := ] gGet():New( bSetGet( <uVar> ), <cPicture>, [ \{|o| <bValid> \} ],;
                    <aCompletion>, <oFont>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,<.lContainer.>,;
                    <x>,<y>, <cId>, <uGlade>, <uLabelBook>,<.lPassword.>,;
                    <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
                    <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
 
 extern errorsys
+
