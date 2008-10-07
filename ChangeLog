@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.38 2008-10-07 17:07:54 riztan Exp $
+ * $Id: ChangeLog,v 1.39 2008-10-07 19:38:54 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,13 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2008-10-07 15:01 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
+    + /include/tgtk.ch    Creado para la inclusion de comandos T-Gtk que 
+         seran utilizados tanto en "native" como en "gclass".
+    * /include/gclass.ch  Eliminadas entradas anteriores, colocadas ahora 
+         en tgtk.ch a fin de evitar errores en fuentes de "native".
+    * /include/gtkapi.ch  Se agrega llamado a tgtk.ch
+
 2008-10-07 12:28 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
     * /hbgtk/gtkmessagedialog.c
        * Modificadas las funciones:

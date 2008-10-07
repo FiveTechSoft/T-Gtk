@@ -1,4 +1,4 @@
-/* $Id: gtkapi.ch,v 1.8 2007-07-16 09:03:50 xthefull Exp $*/
+/* $Id: gtkapi.ch,v 1.9 2008-10-07 19:38:57 riztan Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -6,6 +6,9 @@
  * (C) 2004. Rafa Carmona -TheFull-
  * (C) 2004. Joaquim Ferrer
  */
+
+/* Definiciones de commandos para T-Gtk */
+#include "tgtk.ch"
 
 /* Version que queremos que soporte de T-Gtk de GTK+ */
 #define T_GTK_VERSION  2.10  // Deprecated, look file include "gtkversion.ch"
