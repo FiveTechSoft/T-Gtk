@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.37 2008-09-30 02:26:04 riztan Exp $
+ * $Id: ChangeLog,v 1.38 2008-10-07 17:07:54 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,26 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2008-10-07 12:28 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
+    * /hbgtk/gtkmessagedialog.c
+       * Modificadas las funciones:
+         MsgAlert()    -> Msg_Alert()
+	 MsgInfo()     -> Msg_Info()
+	 MsgStop()     -> Msg_Stop()
+	 MsgNoYes()    -> Msg_NoYes()
+	 MsgOkCancel() -> Msg_OkCancel()
+       * Se incorpora soporte para lenguaje de marcas.
+       * Se incorpora soporte para indicar icono (filename).
+    * /include/gclass.ch 
+       * Incorporados comandos:
+         MsgAlert()
+	 MsgInfo()
+	 MsgStop()
+	 MsgYesNo()
+	 MsgNoYes()
+	 MsgOkCancel()
+	 MsgCancelOk()
+
 2008-09-29 21:00 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
     * Modificado gclass.ch para evitar error en compilacion de reglas en
     script  de la contrib de xHarbour.

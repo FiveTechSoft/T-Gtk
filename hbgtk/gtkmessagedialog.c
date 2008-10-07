@@ -1,4 +1,4 @@
-/* $Id: gtkmessagedialog.c,v 1.3 2007-10-01 20:31:49 clneumann Exp $*/
+/* $Id: gtkmessagedialog.c,v 1.4 2008-10-07 17:07:54 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -77,6 +77,7 @@
 #define GTK_MSGBOX_YES          -8
 #define GTK_MSGBOX_NO           -9
 
+
 HB_FUNC( GTK_MESSAGE_DIALOG_NEW ) // cText, msgtype, buttons -> dialog
 {
    GtkWidget *dialog;
@@ -87,6 +88,8 @@ HB_FUNC( GTK_MESSAGE_DIALOG_NEW ) // cText, msgtype, buttons -> dialog
 
    dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
                                     msgtype, buttons, msg );
+
+
    hb_retni( (ULONG) dialog );
 }
 
@@ -94,7 +97,7 @@ HB_FUNC( GTK_MESSAGE_DIALOG_NEW ) // cText, msgtype, buttons -> dialog
  * Funciones de creacion de mensajes para compatibilidad FiveWin
  */
 
-void msgbox( gint msgtype, gchar *message, gchar *title )
+void msgbox( gint msgtype, gchar *message, gchar *title, gboolean lmarkup )
 {
    GtkWidget *dialog;
 //   g_convert( message, -1,"UTF-8","ISO-8859-1", NULL,NULL,NULL );
@@ -108,13 +111,38 @@ void msgbox( gint msgtype, gchar *message, gchar *title )
    gtk_window_set_position( GTK_WINDOW( dialog ), GTK_WIN_POS_CENTER );
    gtk_window_set_title( GTK_WINDOW( dialog ), title );
    gtk_window_set_type_hint( GTK_WINDOW( dialog ), GDK_WINDOW_TYPE_HINT_MENU );
+
+   if ( lmarkup ){
+      gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (dialog), message );
+   }
+
+   switch ( msgtype )
+   {
+      case  GTK_MESSAGE_ERROR:
+         gtk_window_set_icon_name (GTK_WINDOW (dialog), "gtk-stop");
+         break;
+
+      default:
+         gtk_window_set_icon_name (GTK_WINDOW (dialog), "gtk-info");
+         break;
+   }
+
+
    gtk_dialog_run( GTK_DIALOG( dialog ) );
    gtk_widget_destroy( dialog );
 }
 
-HB_FUNC( MSGINFO ) // cMessage, cTitle -> 0
+
+HB_FUNC( MSG_INFO ) // cMessage, cTitle, lmarkup -> 0
 {
    gchar * message, * title;
+   gboolean lmarkup;
+
+   if( ISNIL( 3 ) )
+      lmarkup = TRUE;
+   else
+      lmarkup = !hb_parl( 3 ) ;
+
    if( ISNIL( 1 ) )
        message = "";
    else
@@ -125,13 +153,16 @@ HB_FUNC( MSGINFO ) // cMessage, cTitle -> 0
    else
        title = ( gchar * ) hb_parc( 2 );
            
-   msgbox( GTK_MESSAGE_INFO, message, title );
+   msgbox( GTK_MESSAGE_INFO, message, title, lmarkup );
    hb_retni( 0 ); // Si devuelvo nada, Harbour devuelve por nosotros NIL
 }                 // pero a mi me gusta devolver 0, al estilo que todo va bien
 
-HB_FUNC( MSGSTOP ) // cMessage, cTitle -> 0
+
+HB_FUNC( MSG_STOP ) // cMessage, cTitle, lMarkup -> 0
 {
    gchar * message, * title;
+   gboolean lmarkup;
+
    if( ISNIL( 1 ) )
        message = "";
    else
@@ -142,7 +173,12 @@ HB_FUNC( MSGSTOP ) // cMessage, cTitle -> 0
    else
        title = ( gchar * ) hb_parc( 2 );
        
-   msgbox( GTK_MESSAGE_ERROR, message, title );
+   if( ISNIL( 3 ) )
+      lmarkup = TRUE;
+   else
+      lmarkup = !hb_parl( 3 ) ;
+
+   msgbox( GTK_MESSAGE_ERROR, message, title, lmarkup );
    hb_retni( 0 );
 }
 
@@ -194,9 +230,11 @@ HB_FUNC( ALERT ) // cMessage, aButtons -> nOption
    hb_retni( result );
 }
 
-HB_FUNC( MSGALERT ) // cMessage, cTitle -> 0
+HB_FUNC( MSG_ALERT ) // cMessage, cTitle, lMarkup -> 0
 {
    gchar * message, * title;
+   gboolean lmarkup = hb_parl( 3 );
+
    if( ISNIL( 1 ) )
        message = "";
    else
@@ -206,15 +244,20 @@ HB_FUNC( MSGALERT ) // cMessage, cTitle -> 0
        title = "Alert";
    else
        title = ( gchar * ) hb_parc( 2 );
-   msgbox( GTK_MESSAGE_WARNING, message, title );
+   msgbox( GTK_MESSAGE_WARNING, message, title, lmarkup );
    hb_retni( 0 );
 }
 
-HB_FUNC( MSGNOYES ) // cMessage, cTitle -> logical
+HB_FUNC( MSG_NOYES ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logical
 {
    GtkWidget *dialog;
-   gchar *msg = hb_parc( 1 );
-   gchar *title = hb_parc( 2 );
+   gchar    *msg      = hb_parc( 1 );
+   gchar    *title    = hb_parc( 2 );
+   gboolean lresponse = hb_parl( 3 );
+   gboolean lmarkup;
+   gchar    *icon_file= hb_parc( 5 );
+
+
   /* 
    gchar *msg   = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",
                              NULL,NULL,NULL );
@@ -222,6 +265,12 @@ HB_FUNC( MSGNOYES ) // cMessage, cTitle -> logical
                              NULL,NULL,NULL );
    */
    gint response;
+
+   if( ISNIL( 4 ) )
+      lmarkup = TRUE;
+   else
+      lmarkup = !hb_parl( 4 ) ;
+
 
    dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
                                     GTK_MESSAGE_QUESTION,
@@ -231,17 +280,36 @@ HB_FUNC( MSGNOYES ) // cMessage, cTitle -> logical
    gtk_window_set_position( GTK_WINDOW( dialog ), GTK_WIN_POS_CENTER );
    gtk_window_set_type_hint( GTK_WINDOW( dialog ), GDK_WINDOW_TYPE_HINT_MENU );
 
+   if( ISNIL( 5 ) )
+      gtk_window_set_icon_name (GTK_WINDOW (dialog), "gtk-dialog-question");
+   else
+      gtk_window_set_icon_from_file ( GTK_WINDOW( dialog ), icon_file , NULL );
+
+
+   if ( lmarkup ){
+      gtk_message_dialog_set_markup( GTK_MESSAGE_DIALOG( dialog ) , msg );  // Habilitando soporte de lenguaje de marcas
+   }
+
+   if ( lresponse ) {
+      gtk_dialog_set_default_response( GTK_DIALOG( dialog ), GTK_MSGBOX_YES );
+   }
+
    response  = gtk_dialog_run( GTK_DIALOG( dialog ) );
    gtk_widget_destroy( dialog );
    
    hb_retl( ( response == GTK_RESPONSE_YES) );
 }
 
-HB_FUNC( MSGOKCANCEL ) // cMessage, cTitle -> logical
+
+HB_FUNC( MSG_OKCANCEL ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logical
 {
    GtkWidget *dialog;
-   gchar *msg = hb_parc( 1 );
-   gchar *title = hb_parc( 2 );
+   gchar    *msg       = hb_parc( 1 );
+   gchar    *title     = hb_parc( 2 );
+   gboolean lresponse  = hb_parl( 3 );
+   gboolean lmarkup;
+   gchar    *icon_file = hb_parc( 5 );
+
   /* 
    gchar *msg   = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",
                              NULL,NULL,NULL );
@@ -250,13 +318,36 @@ HB_FUNC( MSGOKCANCEL ) // cMessage, cTitle -> logical
    */
    gint response;
 
+   if( ISNIL( 4 ) )
+      lmarkup = TRUE;
+   else
+      lmarkup = !hb_parl( 4 ) ;
+
+
    dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
                                     GTK_MESSAGE_QUESTION,
                                     GTK_BUTTONS_OK_CANCEL, msg );
+
+   if ( lresponse )
+      gtk_dialog_set_default_response (GTK_DIALOG( dialog ), GTK_RESPONSE_OK);
+   
+
+   if( ISNIL( 5 ) )
+      gtk_window_set_icon_name (GTK_WINDOW (dialog), "gtk-info");
+   else
+      gtk_window_set_icon_from_file ( GTK_WINDOW( dialog ), icon_file , NULL );
+   
    
    gtk_window_set_title( GTK_WINDOW( dialog ), title );
    gtk_window_set_position( GTK_WINDOW( dialog ), GTK_WIN_POS_CENTER );
    gtk_window_set_type_hint( GTK_WINDOW( dialog ), GDK_WINDOW_TYPE_HINT_MENU );
+
+   if ( lmarkup ){
+      gtk_message_dialog_set_markup( GTK_MESSAGE_DIALOG( dialog ) , msg );  // Habilitando soporte de lenguaje de marcas
+   }
+
+//   gtk_dialog_set_response_sensitive( GTK_MESSAGE_DIALOG( dialog ) , GTK_RESPONSE_OK , TRUE );	
+
 
    response  = gtk_dialog_run( GTK_DIALOG( dialog ) );
    gtk_widget_destroy( dialog );
