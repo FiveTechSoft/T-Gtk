@@ -1,4 +1,4 @@
-/* $Id: gtkvolumebutton.c,v 1.1 2008-09-02 21:17:21 riztan Exp $*/
+/* $Id: gtkvolumebutton.c,v 1.2 2008-10-07 18:59:34 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -23,7 +23,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-if GTK_CHECK_VERSION(2,12,0)
+#if GTK_CHECK_VERSION(2,12,0)
 
 HB_FUNC( GTK_VOLUME_BUTTON_NEW ) // -> widget
 {
