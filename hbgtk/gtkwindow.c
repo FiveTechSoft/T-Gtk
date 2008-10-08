@@ -1,4 +1,4 @@
-/* $Id: gtkwindow.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkwindow.c,v 1.2 2008-10-08 04:37:58 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -28,6 +28,24 @@ gint window_exit( GtkWidget *widget, gpointer data )
 {
   gtk_main_quit();
   return TRUE;
+}
+
+
+// funcion traida de Jan Bodnar http://zetcode.com/tutorials/gtktutorial/firstprograms/
+//
+GdkPixbuf *create_pixbuf( const gchar * filename )
+{
+   GdkPixbuf *pixbuf;
+   GError *error = NULL;
+   pixbuf = gdk_pixbuf_new_from_file(filename, &error);
+
+   if(!pixbuf) {
+      fprintf(stderr, "%s\n", error->message);
+      g_error_free(error);
+   }
+
+   return pixbuf;
+
 }
 
 HB_FUNC( GTK_WINDOW_NEW )
@@ -89,8 +107,23 @@ HB_FUNC( GTK_WINDOW_SET_DEFAULT_SIZE ) // widget, width, height ->void
 HB_FUNC( GTK_WINDOW_SET_ICON ) //  window, Icon -> void
 {
   GtkWidget * window = ( GtkWidget * ) hb_parnl( 1 );
-  GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parnl( 2 );
+  GdkPixbuf * pixbuf = ( GdkPixbuf * ) create_pixbuf( hb_parc( 2 ) );
+
   gtk_window_set_icon( GTK_WINDOW(window), pixbuf );
+}
+
+HB_FUNC( GTK_WINDOW_SET_ICON_NAME ) //  window, cIcon -> void
+{
+  GtkWidget * window = ( GtkWidget * ) hb_parnl( 1 );
+  gchar * cIcon = hb_parc( 2 );
+  gtk_window_set_icon_name( GTK_WINDOW(window), cIcon );
+}
+
+HB_FUNC( GTK_WINDOW_SET_ICON_FROM_FILE ) //  window, cIcon -> void
+{
+  GtkWidget * window = ( GtkWidget * ) hb_parnl( 1 );
+  gchar * cIcon = hb_parc( 2 );
+  gtk_window_set_icon_from_file( GTK_WINDOW(window), cIcon, NULL );
 }
 
 HB_FUNC( GTK_WINDOW_SET_MODAL ) // window, bState -> void
@@ -249,4 +282,24 @@ HB_FUNC( GTK_WINDOW_ADD_ACCEL_GROUP ) // pWindow, pAccel_Group --> void
   GtkWindow * window = GTK_WINDOW( hb_parnl( 1 ) );
   gtk_window_add_accel_group( window, accel_group );
 }
+
+
+/*
+HB_FUNC( CREATE_PIXBUF ) // cFilename
+{
+   GdkPixbuf *create_pixbuf(const gchar * filename)
+   {
+      GdkPixbuf *pixbuf;
+      GError *error = NULL;
+      pixbuf = gdk_pixbuf_new_from_file(filename, &error);
+      if(!pixbuf) {
+         fprintf(stderr, "%s\n", error->message);
+         g_error_free(error);
+      }
+
+      return pixbuf;
+   }
+}
+*/
+
 

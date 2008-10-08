@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.39 2008-10-07 19:38:54 riztan Exp $
+ * $Id: ChangeLog,v 1.40 2008-10-08 04:37:58 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,16 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2008-10-08 00:05 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
+    * /hbgtk/gtkwindow.c  
+       + Nueva funcion create_pixbuf para la creacion de iconos a partir de archivo.
+       + Nueva funcion GTK_WINDOW_SET_ICON_NAME para crear icono a partir de nombre, 
+                utilizando la funcion create_pixbuf().
+       + Nueva funcion GTK_WINDOWS_SET_ICON_FROM_FILE para crear icono a partir de
+                nombre de archivo.
+       * Modificada funcion GTK_WINDOW_SET_ICON, ahora convierte el valor mediante
+                create_pixbuf.
+
 2008-10-07 15:01 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
     + /include/tgtk.ch    Creado para la inclusion de comandos T-Gtk que 
          seran utilizados tanto en "native" como en "gclass".
