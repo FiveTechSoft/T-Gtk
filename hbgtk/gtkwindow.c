@@ -1,4 +1,4 @@
-/* $Id: gtkwindow.c,v 1.3 2008-10-16 14:55:00 riztan Exp $*/
+/* $Id: gtkwindow.c,v 1.4 2008-10-16 16:08:25 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -23,7 +23,6 @@
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
-#include "tgtk.h"
 
 gint window_exit( GtkWidget *widget, gpointer data )
 {
