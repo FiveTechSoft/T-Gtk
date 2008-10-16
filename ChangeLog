@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.40 2008-10-08 04:37:58 riztan Exp $
+ * $Id: ChangeLog,v 1.41 2008-10-16 14:55:00 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,12 +8,47 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2008-10-17 09:59 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+    * /include/t-gtk.h 
+      + Se anexa llamado a funcion get_win_parent()
+    * /include/gtkapi.ch 
+      + #define GTK_STOCK_CONNECT          "gtk-connect"
+    * /include/tgtk.ch
+        Modificadas las entradas de #xcommand a #xtranslate para corregir
+        fallo el intentar llamar alguna funcion msgxxx desde un codeblock.
+    * /hbgtk/gtkwindow.c 
+      + Nueva funcion get_win_parent(), creada a partir de el contenido en
+        msgbox.c para ser utilizada de manera general.
+    * /hbgtk/gtkmessagedialog.c
+        Implementado el uso de la funcion get_win_parent() en todas las 
+        funciones de gtkmessagedialog para que los mensajes siempre esten
+        en modal y evitar que "desaparezcan".
+    * /hbgtk/msgbox.c
+        Modificado para que ahora utilice get_win_parent().
+    
+2008-10-12 01:06 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+    * /src/gclass/gwindow.prg 
+      + Se anexa parametro cIconName para indicar el Icono(Stock) de la pantalla 
+        en la clase gwindow.
+      + Se anexa parametro cIconFile para indicar el archivo de imagen a utilizar
+        en la clase gwindow.
+    * /src/gclass/gdialog.prg 
+      + Se anexa parametro cIconName para indicar el Icono(Stock) de la pantalla 
+        en la clase gdialog.
+      + Se anexa parametro cIconFile para indicar el archivo de imagen a utilizar
+        en la clase gdialog.
+    * /include/gclass.ch
+      + Se anexan las opciones ICON_NAME e ICON_FILE para indicar a las clases 
+        gwindow y gdialog, el icono a utilizar bien sea de los STOCK o por
+        fichero de imagen respectivamente.
+
 2008-10-08 00:05 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
     * /hbgtk/gtkwindow.c  
        + Nueva funcion create_pixbuf para la creacion de iconos a partir de archivo.
        + Nueva funcion GTK_WINDOW_SET_ICON_NAME para crear icono a partir de nombre, 
                 utilizando la funcion create_pixbuf().
-       + Nueva funcion GTK_WINDOWS_SET_ICON_FROM_FILE para crear icono a partir de
+       + Nueva funcion GTK_WINDOW_SET_ICON_FROM_FILE para crear icono a partir de
                 nombre de archivo.
        * Modificada funcion GTK_WINDOW_SET_ICON, ahora convierte el valor mediante
                 create_pixbuf.
@@ -29,21 +64,21 @@
     * /hbgtk/gtkmessagedialog.c
        * Modificadas las funciones:
          MsgAlert()    -> Msg_Alert()
-	 MsgInfo()     -> Msg_Info()
-	 MsgStop()     -> Msg_Stop()
-	 MsgNoYes()    -> Msg_NoYes()
-	 MsgOkCancel() -> Msg_OkCancel()
+         MsgInfo()     -> Msg_Info()
+         MsgStop()     -> Msg_Stop()
+         MsgNoYes()    -> Msg_NoYes()
+         MsgOkCancel() -> Msg_OkCancel()
        * Se incorpora soporte para lenguaje de marcas.
        * Se incorpora soporte para indicar icono (filename).
     * /include/gclass.ch 
        * Incorporados comandos:
          MsgAlert()
-	 MsgInfo()
-	 MsgStop()
-	 MsgYesNo()
-	 MsgNoYes()
-	 MsgOkCancel()
-	 MsgCancelOk()
+         MsgInfo()
+         MsgStop()
+         MsgYesNo()
+         MsgNoYes()
+         MsgOkCancel()
+         MsgCancelOk()
 
 2008-09-29 21:00 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
     * Modificado gclass.ch para evitar error en compilacion de reglas en

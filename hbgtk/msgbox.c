@@ -1,4 +1,4 @@
-/* $Id: msgbox.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: msgbox.c,v 1.2 2008-10-16 14:55:00 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -23,6 +23,7 @@
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
+#include "t-gtk.h"
 
 #define GTK_MSGBOX_OK        1
 #define GTK_MSGBOX_CANCEL    2
@@ -34,11 +35,12 @@
 
 #define _(s) gettext(s)
 
+
 HB_FUNC( MSGBOX ) // cText, iButtons, iBoxType , cTitle
 {
    GtkWidget *gbox;
-   GtkWidget *wParent = NULL;
-   GList *tops = gtk_window_list_toplevels();
+
+   GtkWidget *wParent = get_win_parent();
 
    gchar * msg =  hb_parc( 1 );
    gchar * title =  hb_parc( 4 );
@@ -46,9 +48,6 @@ HB_FUNC( MSGBOX ) // cText, iButtons, iBoxType , cTitle
    gint iBoxtype = hb_parni( 3 );
    gint iResponse;
    
-   if( tops )
-      wParent =  tops->data;
-
    if( iBoxtype == 0 )
    {
       iBoxtype = GTK_MESSAGE_INFO;

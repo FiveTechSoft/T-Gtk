@@ -1,4 +1,4 @@
-/* $Id: gtkmessagedialog.c,v 1.4 2008-10-07 17:07:54 riztan Exp $*/
+/* $Id: gtkmessagedialog.c,v 1.5 2008-10-16 14:55:00 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -49,6 +49,7 @@
 
 #include <gtk/gtk.h>
 #include "hbapi.h"
+#include "t-gtk.h"
 
 /* Iconos en message_dialog() */
 #define GTK_MESSAGE_INFO         0
@@ -78,18 +79,22 @@
 #define GTK_MSGBOX_NO           -9
 
 
-HB_FUNC( GTK_MESSAGE_DIALOG_NEW ) // cText, msgtype, buttons -> dialog
+HB_FUNC( GTK_MESSAGE_DIALOG_NEW ) // cText, msgtype, buttons, parent -> dialog
 {
    GtkWidget *dialog;
    //gchar *msg = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
    gchar *msg   = hb_parc( 1 );
    gint msgtype = hb_parni( 2 );
    gint buttons = hb_parni( 3 );
+   gchar *wParent = hb_parc( 4 );
 
-   dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
-                                    msgtype, buttons, msg );
-
-
+   if ( ISNIL( 4 ) ) 
+      dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
+                                       msgtype, buttons, msg );
+   else
+      dialog = gtk_message_dialog_new( GTK_WINDOW(wParent), GTK_DIALOG_MODAL,
+                                       msgtype, buttons, msg );
+   
    hb_retni( (ULONG) dialog );
 }
 
@@ -100,13 +105,16 @@ HB_FUNC( GTK_MESSAGE_DIALOG_NEW ) // cText, msgtype, buttons -> dialog
 void msgbox( gint msgtype, gchar *message, gchar *title, gboolean lmarkup )
 {
    GtkWidget *dialog;
+   GtkWidget *wParent = get_win_parent();
+
 //   g_convert( message, -1,"UTF-8","ISO-8859-1", NULL,NULL,NULL );
-   
-   dialog  = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
+
+   dialog  = gtk_message_dialog_new( GTK_WINDOW( wParent ), GTK_DIALOG_MODAL,
                                      msgtype, GTK_BUTTONS_OK, message );
 
 //   g_convert( title, -1,"UTF-8","ISO-8859-1", NULL,NULL,NULL );
 
+   gtk_window_set_modal( GTK_WINDOW( dialog ), TRUE );
    gtk_window_set_policy( GTK_WINDOW( dialog ), FALSE, FALSE, FALSE );
    gtk_window_set_position( GTK_WINDOW( dialog ), GTK_WIN_POS_CENTER );
    gtk_window_set_title( GTK_WINDOW( dialog ), title );
@@ -130,6 +138,18 @@ void msgbox( gint msgtype, gchar *message, gchar *title, gboolean lmarkup )
 
    gtk_dialog_run( GTK_DIALOG( dialog ) );
    gtk_widget_destroy( dialog );
+}
+
+HB_FUNC( GTK_WINDOW_GET_TRANSIENT_FOR  ) // cMessage, cTitle, lmarkup -> 0
+{
+   GtkWidget *dialog;
+
+   gchar * widget;
+
+   gtk_window_get_transient_for ( GTK_WINDOW( widget ) );
+
+   hb_retni( (ULONG) dialog );
+  
 }
 
 
@@ -191,6 +211,7 @@ HB_FUNC( ALERT ) // cMessage, aButtons -> nOption
 {
    PHB_ITEM buttons;
    GtkWidget *dialog, *label;
+   GtkWidget *wParent = get_win_parent();
    gchar *message;
    gint result;
    
@@ -203,19 +224,19 @@ HB_FUNC( ALERT ) // cMessage, aButtons -> nOption
    gtk_widget_show (label);
 
    if( ISNIL( 2 ) )
-       dialog = gtk_dialog_new_with_buttons (message, NULL, GTK_DIALOG_MODAL,
+       dialog = gtk_dialog_new_with_buttons (message, GTK_WINDOW( wParent ), GTK_DIALOG_MODAL,
                                              GTK_STOCK_QUIT, GTK_ALERT_QUIT, NULL);
    else
        if( ISARRAY( 2 ) )
            buttons = hb_param( 2, HB_IT_ARRAY );
            if( hb_arrayLen(buttons) > 2 )
-               dialog = gtk_dialog_new_with_buttons ("T-Gtk error system", NULL, 
+               dialog = gtk_dialog_new_with_buttons ("T-Gtk error system", GTK_WINDOW( wParent ), 
                                                      GTK_DIALOG_MODAL,
                                                      GTK_STOCK_REFRESH, GTK_ALERT_RETRY, 
                                                      GTK_STOCK_CANCEL, GTK_ALERT_DEFAULT,
                                                      GTK_STOCK_QUIT, GTK_ALERT_QUIT, NULL);
            else
-               dialog = gtk_dialog_new_with_buttons ("T-Gtk error system", NULL, 
+               dialog = gtk_dialog_new_with_buttons ("T-Gtk error system", GTK_WINDOW( wParent ), 
                                                      GTK_DIALOG_MODAL,
                                                      GTK_STOCK_REFRESH, GTK_ALERT_RETRY, 
                                                      GTK_STOCK_QUIT, GTK_ALERT_QUIT, NULL);
@@ -251,11 +272,12 @@ HB_FUNC( MSG_ALERT ) // cMessage, cTitle, lMarkup -> 0
 HB_FUNC( MSG_NOYES ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logical
 {
    GtkWidget *dialog;
-   gchar    *msg      = hb_parc( 1 );
-   gchar    *title    = hb_parc( 2 );
-   gboolean lresponse = hb_parl( 3 );
-   gboolean lmarkup;
-   gchar    *icon_file= hb_parc( 5 );
+   GtkWidget *wParent = get_win_parent();
+   gchar     *msg      = hb_parc( 1 );
+   gchar     *title    = hb_parc( 2 );
+   gboolean  lresponse = hb_parl( 3 );
+   gboolean  lmarkup;
+   gchar     *icon_file= hb_parc( 5 );
 
 
   /* 
@@ -272,7 +294,7 @@ HB_FUNC( MSG_NOYES ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logic
       lmarkup = !hb_parl( 4 ) ;
 
 
-   dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
+   dialog = gtk_message_dialog_new( GTK_WINDOW( wParent ) , GTK_DIALOG_MODAL,
                                     GTK_MESSAGE_QUESTION,
                                     GTK_BUTTONS_YES_NO, msg );
    
@@ -304,11 +326,12 @@ HB_FUNC( MSG_NOYES ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logic
 HB_FUNC( MSG_OKCANCEL ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logical
 {
    GtkWidget *dialog;
-   gchar    *msg       = hb_parc( 1 );
-   gchar    *title     = hb_parc( 2 );
-   gboolean lresponse  = hb_parl( 3 );
-   gboolean lmarkup;
-   gchar    *icon_file = hb_parc( 5 );
+   GtkWidget *wParent = get_win_parent();
+   gchar     *msg       = hb_parc( 1 );
+   gchar     *title     = hb_parc( 2 );
+   gboolean  lresponse  = hb_parl( 3 );
+   gboolean  lmarkup;
+   gchar     *icon_file = hb_parc( 5 );
 
   /* 
    gchar *msg   = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",
@@ -324,7 +347,7 @@ HB_FUNC( MSG_OKCANCEL ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> lo
       lmarkup = !hb_parl( 4 ) ;
 
 
-   dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
+   dialog = gtk_message_dialog_new( GTK_WINDOW( wParent ), GTK_DIALOG_MODAL,
                                     GTK_MESSAGE_QUESTION,
                                     GTK_BUTTONS_OK_CANCEL, msg );
 

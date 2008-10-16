@@ -1,4 +1,4 @@
-/* $Id: gdialog.prg,v 1.2 2006-11-02 12:33:06 xthefull Exp $*/
+/* $Id: gdialog.prg,v 1.3 2008-10-16 14:55:01 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -30,10 +30,12 @@ CLASS GDialog FROM GWINDOW
       DATA nCount  INIT 0
       DATA lglade INIT .F.
 
-      METHOD New( cTitle, nWidth, nHeight, cId, cGlade, oWnd )
+      METHOD New( cTitle, nWidth, nHeight, cId, cGlade, oWnd, cIconName, cIconFile )
       METHOD Activate(  )
       METHOD AddButton( cText, nResponse, bAction )
-      METHOD Separator( lShow ) INLINE gtk_dialog_set_has_separator( ::pWidget, lShow )
+      METHOD Separator( lShow )   INLINE gtk_dialog_set_has_separator( ::pWidget, lShow )
+      METHOD SetIconName( cText ) INLINE gtk_window_set_icon_name ( ::pWidget, cText )
+      METHOD SetIconFile( cText ) INLINE gtk_window_set_icon ( ::pWidget, cText )
 
       //Signals
       METHOD OnResponse( oSender, nResponse )
@@ -41,7 +43,7 @@ CLASS GDialog FROM GWINDOW
 
 ENDCLASS
 
-METHOD NEW( cTitle, nWidth, nHeight, cId, uGlade, nType_Hint ) CLASS GDIALOG
+METHOD NEW( cTitle, nWidth, nHeight, cId, uGlade, nType_Hint, cIconName, cIconFile ) CLASS GDIALOG
 
        if cId == NIL
           ::pWidget := gtk_dialog_new( )
@@ -62,6 +64,16 @@ METHOD NEW( cTitle, nWidth, nHeight, cId, uGlade, nType_Hint ) CLASS GDIALOG
        
        if nType_Hint != NIL
           ::SetTypeHint( nType_Hint )
+       endif
+
+       if cIconName = NIL
+          if cIconFile = NIL
+             ::SetIconName( GTK_STOCK_PREFERENCES )
+          else
+             ::SetIconFile( cIconFile )
+          endif
+       else
+          ::SetIconName( cIconName )
        endif
 
        ::Connect( "response" )

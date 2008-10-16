@@ -1,4 +1,4 @@
-/* $Id: gwindow.prg,v 1.2 2007-08-12 10:24:44 xthefull Exp $*/
+/* $Id: gwindow.prg,v 1.3 2008-10-16 14:55:01 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -33,10 +33,12 @@ CLASS GWINDOW FROM GCONTAINER
       DATA oMenuPopup
       DATA lUseEsc INIT .F.
 
-      METHOD NEW( cTitle, nType, nWidth, nHeight, cId, cGlade )
-      METHOD SetTitle( cText ) INLINE gtk_window_set_title ( ::pWidget, cText )
-      METHOD cTitle( cText )   INLINE gtk_window_set_title ( ::pWidget, cText )
-      METHOD GetTitle( cText ) INLINE gtk_window_get_title ( ::pWidget )
+      METHOD NEW( cTitle, nType, nWidth, nHeight, cId, cGlade, cIconName, cIconFile )
+      METHOD SetTitle( cText )  INLINE gtk_window_set_title ( ::pWidget, cText )
+      METHOD cTitle( cText )    INLINE gtk_window_set_title ( ::pWidget, cText )
+      METHOD SetIconName( cText ) INLINE gtk_window_set_icon_name ( ::pWidget, cText )
+      METHOD SetIconFile( cText ) INLINE gtk_window_set_icon ( ::pWidget, cText )
+      METHOD GetTitle( cText )  INLINE gtk_window_get_title ( ::pWidget )
       METHOD Activate( bEnd )
       METHOD SetResizable( lResizable ) INLINE gtk_window_set_resizable( ::pWidget, lResizable )
       METHOD Modal( lModal ) INLINE gtk_window_set_modal( ::pWidget, lModal )
@@ -64,7 +66,7 @@ CLASS GWINDOW FROM GCONTAINER
 
 ENDCLASS
 
-METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint ) CLASS GWINDOW
+METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint, cIconName, cIconFile ) CLASS GWINDOW
        DEFAULT nType   := GTK_WINDOW_TOPLEVEL
                
 
@@ -86,6 +88,17 @@ METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint ) CLASS GWIN
        if nType_Hint != NIL
           ::SetTypeHint( nType_Hint )
        endif
+
+       if cIconName = NIL
+          if cIconFile = NIL
+             ::SetIconName( GTK_STOCK_PREFERENCES )
+          else
+             ::SetIconFile( cIconFile )
+          endif
+       else
+          ::SetIconName( cIconName )
+       endif
+
         
        ::Connect( "delete-event" )
        ::Connect( "destroy" )

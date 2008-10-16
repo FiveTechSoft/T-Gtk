@@ -1,4 +1,4 @@
-/* $Id: t-gtk.h,v 1.3 2007-02-28 21:38:21 xthefull Exp $*/
+/* $Id: t-gtk.h,v 1.4 2008-10-16 14:55:00 riztan Exp $*/
 
 /*
  * t-gtk.h Fichero de definiciones de T-Gtk -------------------------------------
@@ -17,3 +17,7 @@ typedef struct {
 typedef struct {
   gchar *signalname;
 } TGtkPreDfnParce;
+
+
+GtkWidget * get_win_parent(void);
+

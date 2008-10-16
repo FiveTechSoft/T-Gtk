@@ -1,4 +1,4 @@
-/* $Id: gtkapi.ch,v 1.9 2008-10-07 19:38:57 riztan Exp $*/
+/* $Id: gtkapi.ch,v 1.10 2008-10-16 14:55:00 riztan Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -180,6 +180,7 @@
 #define GTK_STOCK_CLEAR            "gtk-clear"
 #define GTK_STOCK_CLOSE            "gtk-close"
 #define GTK_STOCK_COLOR_PICKER     "gtk-color-picker"
+#define GTK_STOCK_CONNECT          "gtk-connect"
 #define GTK_STOCK_CONVERT          "gtk-convert"
 #define GTK_STOCK_COPY             "gtk-copy"
 #define GTK_STOCK_CUT              "gtk-cut"

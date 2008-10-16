@@ -1,4 +1,4 @@
-/* $Id: gtkwindow.c,v 1.2 2008-10-08 04:37:58 riztan Exp $*/
+/* $Id: gtkwindow.c,v 1.3 2008-10-16 14:55:00 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -23,6 +23,7 @@
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
+#include "tgtk.h"
 
 gint window_exit( GtkWidget *widget, gpointer data )
 {
@@ -47,6 +48,20 @@ GdkPixbuf *create_pixbuf( const gchar * filename )
    return pixbuf;
 
 }
+
+// Para tomar el valor de la ventana superior
+GtkWidget * get_win_parent()
+{
+    GtkWidget *wParent = NULL;
+
+    GList *tops = gtk_window_list_toplevels();
+
+    if ( tops )
+       wParent = tops->data;
+    
+    return wParent;
+}
+
 
 HB_FUNC( GTK_WINDOW_NEW )
 {
