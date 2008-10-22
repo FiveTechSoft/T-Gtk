@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.41 2008-10-16 14:55:00 riztan Exp $
+ * $Id: ChangeLog,v 1.42 2008-10-22 19:59:27 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,18 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2008-10-20 22:01 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+    * /src/pgsql/postgres.c
+      + Nueva funcion pg_encoding_to_char() que retorna la cadena correspondiente
+        al numero de "Encoding" pasado como parametro. (se envió la funcion a 
+        Rodrigo Moreno para su evaluación.)
+    * /test/gclass/test_pgsql/test.prg
+      Modificaciones varias a fin de integrar mas t-gtk en el ejemplo.
+    + /test/gclass/test_pgsql/main.prg
+      Programa inicial de testeo de aplicativo t-gtk con postgreSQL.
+    + /test/gclass/test_pgsql/images/
+      Nueva carpeta con imagen logo de postgreSQL.
 
 2008-10-17 09:59 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
     * /include/t-gtk.h 

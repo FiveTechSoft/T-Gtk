@@ -3,10 +3,10 @@
 # pero para depurar, va de muerte que salgan mensajes en la consola
 
 TARGET = test
-SOURCES = test.prg 
+SOURCES = main.prg test.prg
 
 # Para sistemas GNU/Linux
-LIBS=-L/usr/lib/TGTK -lhbpg -L/usr/lib -lpq -lpgport -lkrb5 -lssl -lcrypt -lpthread
+LIBS=-L/usr/lib/TGTK -lhbpg -L/usr/lib -lpq -lpgport -lkrb5 -lssl -lcrypt -lpthread -L/home/riztan/t-gtk/lib/xhbtools
 
 # Para sistemas Windows
 #LIBS=-LC:/TGKT/lib -lhbpg -L'C:/Archivos de programa/PostgreSQL/8.1/lib' -lpq 
