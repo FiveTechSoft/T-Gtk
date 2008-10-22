@@ -1,5 +1,5 @@
 /*
- * $Id: postgres.c,v 1.1 2006-09-15 00:30:00 riztan Exp $
+ * $Id: postgres.c,v 1.2 2008-10-22 20:10:33 riztan Exp $
  *
  * xHarbour Project source code:
  * PostgreSQL RDBMS low level (client api) interface code.
@@ -64,26 +64,26 @@
    #include <windows.h>
 #endif
 
-#define VARHDRSZ                4
-#define BOOLOID	                16
+#define VARHDRSZ        4
+#define BOOLOID         16
 #define INT8OID			20
 #define INT2OID			21
 #define INT4OID			23
 #define TEXTOID			25
-#define OIDOID			26
-#define FLOAT4OID               700
-#define FLOAT8OID               701
-#define CASHOID                 790                                                                
-#define BPCHAROID		1042
+#define OIDOID	         26
+#define FLOAT4OID       700
+#define FLOAT8OID       701
+#define CASHOID         790
+#define BPCHAROID		   1042
 #define VARCHAROID		1043
 #define DATEOID			1082
 #define TIMEOID			1083
-#define TIMESTAMPOID	        1114
-#define TIMESTAMPTZOID	        1184
-#define TIMETZOID		1266
-#define BITOID	                1560
-#define VARBITOID	        1562
-#define NUMERICOID		1700
+#define TIMESTAMPOID    1114
+#define TIMESTAMPTZOID  1184
+#define TIMETZOID       1266
+#define BITOID          1560
+#define VARBITOID       1562
+#define NUMERICOID      1700
 
 #define INV_WRITE		0x00020000
 #define INV_READ		0x00040000
@@ -163,6 +163,16 @@ HB_FUNC(PQSETCLIENTENCODING)
 {
     if (hb_pcount() == 2)
         hb_retni(PQsetClientEncoding(( PGconn * ) hb_parptr(1), hb_parcx(2)));
+}
+
+HB_FUNC(PG_ENCODING_TO_CHAR)
+{
+    int encoding_id;
+
+    encoding_id = hb_parni( 1 );
+
+    if (hb_parinfo( 1 ))
+       hb_retc( (char *) pg_encoding_to_char(encoding_id) );
 }
     
 HB_FUNC(PQDB)
@@ -486,7 +496,8 @@ HB_FUNC(PQTRANSACTIONSTATUS)
 HB_FUNC(PQERRORMESSAGE)
 {
     if (hb_parinfo(1))
-        hb_retc(PQerrorMessage(( PGconn * ) hb_parptr(1) ));
+         hb_retc( PQerrorMessage(( PGconn * ) hb_parptr(1) ));
+
 }
 
 HB_FUNC(PQSTATUS)
@@ -501,10 +512,20 @@ HB_FUNC(PQRESULTERRORMESSAGE)
         hb_retc(PQresultErrorMessage(( PGresult * ) hb_parptr(1)));
 }
 
+
 HB_FUNC(PQRESULTSTATUS)
 {
     if (hb_parinfo(1))
         hb_retni(PQresultStatus(( PGresult * ) hb_parptr(1) ));
+}
+
+
+HB_FUNC(PQRESSTATUS)
+{
+    int iResultStatus ;
+    iResultStatus = hb_parni( 1 );
+    if (hb_parinfo(1))
+        hb_retc((char *) PQresStatus( iResultStatus ));
 }
 
 
@@ -811,11 +832,20 @@ HB_FUNC(LO_UNLINK)
 
 #if HB_PGVERSION >= 0x0800
 
+
 HB_FUNC(PQSERVERVERSION)
 {
     if (hb_parinfo(1))
         hb_retni(PQserverVersion(( PGconn * ) hb_parptr(1)));
 }
+
+
+
+HB_FUNC(PQPRUEBA)
+{
+    hb_retni( 1234 );
+}
+
 
 HB_FUNC(PQGETCANCEL)
 {

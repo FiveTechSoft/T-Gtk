@@ -1,5 +1,5 @@
 /*
- * $Id: postgres.ch,v 1.1 2006-09-15 00:30:00 riztan Exp $
+ * $Id: postgres.ch,v 1.2 2008-10-22 20:10:33 riztan Exp $
  */
 
 #define CONNECTION_OK                   0
@@ -12,6 +12,10 @@
 #define CONNECTION_SSL_STARTUP          7
 #define CONNECTION_NEEDED               8
 
+
+/*
+ *  Respuestas de PQResultStatus
+*/
 #define PGRES_EMPTY_QUERY               0
 #define PGRES_COMMAND_OK                1
 #define PGRES_TUPLES_OK                 2
@@ -26,3 +30,7 @@
 #define PQTRANS_INTRANS                 2
 #define PQTRANS_INERROR                 3
 #define PQTRANS_UNKNOWN                 4
+
+#define PQERRORS_TERSE                  0
+#define PQERRORS_DEFAULT                1
+#define PQERRORS_VERBOSE                2

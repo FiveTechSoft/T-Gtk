@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.42 2008-10-22 19:59:27 riztan Exp $
+ * $Id: ChangeLog,v 1.43 2008-10-22 20:10:33 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -14,6 +14,10 @@
       + Nueva funcion pg_encoding_to_char() que retorna la cadena correspondiente
         al numero de "Encoding" pasado como parametro. (se envió la funcion a 
         Rodrigo Moreno para su evaluación.)
+    * /include/postgres.ch
+      + #define PQERRORS_TERSE    0
+      + #define PQERRORS_DEFAULT  1
+      + #define PQERRORS_VERBOSE  2
     * /test/gclass/test_pgsql/test.prg
       Modificaciones varias a fin de integrar mas t-gtk en el ejemplo.
     + /test/gclass/test_pgsql/main.prg
