@@ -30,19 +30,22 @@ SUPPORT_PRINT_WIN32=no
 HB_COMPILER = gcc
  
 #Especificamos compilador xBase a usar, si harbour o xHarbour
-XBASE_COMPILER = HARBOUR
+XBASE_COMPILER = XHARBOUR
  
 #Nueva version harbour 1.1
-HB_BIN_INSTALL = /home/rafa/myharbour/bin
-HB_INC_INSTALL = /home/rafa/myharbour/include
-HB_LIB_INSTALL = /home/rafa/myharbour/lib
+HB_BIN_INSTALL = /home/rafa/xharbour/install/bin
+HB_INC_INSTALL = /home/rafa/xharbour/include
+HB_LIB_INSTALL = /home/rafa/xharbour/install/lib
  
 #Rutas de librerias y de includes de TGTK.
 LIBDIR_TGTK= /home/rafa/t-gtk/lib
 INCLUDE_TGTK_PRG=/home/rafa/t-gtk/include
- 
-#Soporte para GtkSourceView2
+
+#Soporte para GtkSourceView
 GTKSOURCEVIEW=yes
+
+#Soporte para Bonobo
+BONOBO=yes
 
 ############################################## 
 # Esqueleto para todas las plataformas
@@ -57,7 +60,7 @@ LIBRARIAN = ranlib
 ifeq ($(HB_COMPILER),mingw32)
    GT_LIBS=-lgtwin
 else
-   GT_LIBS=-lgtstd
+   GT_LIBS=-lgtstd -lgttrm
 endif
 
 ifeq ($(HB_COMPILER),mingw32)
@@ -66,21 +69,27 @@ ifeq ($(HB_COMPILER),mingw32)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
 else
-   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) 
+   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) $(shell pkg-config --cflags libgnomedb-3.0)
    ifeq ($(SUPPORT_PRINT_LINUX),yes)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) -DHB_OS_LINUX
      LIBS += $(shell pkg-config --libs libgnomeprintui-2.2)
    endif
 endif
 
-ifeq ($(XBASE_COMPILER),HARBOUR)
-   CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF 
+ifeq ($(BONOBO),yes)
+    CFLAGS += -D_HAVEBONOBO_
+    CFLAGS += $(shell pkg-config --cflags libbonobo-2.0 ) $(shell pkg-config --cflags libbonoboui-2.0 )
+    LIBS += $(shell pkg-config --libs libbonobo-2.0 ) $(shell pkg-config --libs libbonoboui-2.0 )
 endif
 
 ifeq ($(GTKSOURCEVIEW),yes)
    CFLAGS += -D_HAVEGTKSOURCEVIEW_
-   CFLAGS += $(shell pkg-config --cflags gtksourceview-2.0) $(shell pkg-config --cflags libbonobo-2.0 ) $(shell pkg-config --cflags libbonoboui-2.0 )
-   LIBS += $(shell pkg-config --libs gtksourceview-2.0 ) $(shell pkg-config --libs libbonobo-2.0 ) $(shell pkg-config --libs libbonoboui-2.0 )
+   CFLAGS += $(shell pkg-config --cflags gtksourceview-2.0)
+   LIBS += $(shell pkg-config --libs gtksourceview-2.0 ) 
+endif
+
+ifeq ($(XBASE_COMPILER),HARBOUR)
+   CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF 
 endif
 
 #libraries for binary building
@@ -95,13 +104,13 @@ else
      else
          # HARBOUR
          #LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm -lgtwin $(GT_LIBS) -lgtwin
-         LIBFILES_ = -lhbvm -lhbrtl $(GT_LIBS) -lhblang -lhbrdd -lhbmacro -lhbpp -lhbdbfntx -lhbdbfcdx -lhbdbffpt -lhbsix -lhsx -lhbcommon -lhbm -lgtwin $(GT_LIBS)
+         LIBFILES_ = -lhbvm -lhbrtl $(GT_LIBS) -lhblang -lhbrdd -lhbmacro -lhbpp -lhbdbfntx -lhbdbfcdx -lhbdbffpt -lhbsix -lhsx -lhbcommon -lhbm -lgtwin $(GT_LIBS) 
      endif
    else
      ifeq ($(XBASE_COMPILER),XHARBOUR)
         # XHARBOUR
         #LIBFILES_ = -ldebug -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lrtl -lcommon -lm -lgpm
-        LIBFILES_ = -lvm -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lcommon -lm -lhbsix -lpcrepos -lgtnul $(GT_LIBS)
+        LIBFILES_ = -lvm -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lcommon -lm -lhbsix -lpcrepos $(GT_LIBS) -lcodepage -lct
      else
         # HARBOUR
         # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
@@ -125,7 +134,7 @@ else
 endif
 
 #librerias usadas por Tgtk las definimos aqui. GTK y GLADE
-LIBS += -L$(LIBDIR_TGTK) $(shell pkg-config --libs tgtk ) 
+LIBS += -L$(LIBDIR_TGTK) $(shell pkg-config --libs tgtk ) $(shell pkg-config --libs libgnomedb-3.0) 
 PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 # By Quim -->
