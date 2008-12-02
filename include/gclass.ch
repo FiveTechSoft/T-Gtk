@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.12 2008-10-16 14:55:00 riztan Exp $ */
+/*  $Id: gclass.ch,v 1.13 2008-12-02 21:37:48 riztan Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2004 Rafa Carmona
@@ -75,7 +75,7 @@
 /* Support Timers */
 #xcommand DEFINE TIMER <oTimer>;
               [ INTERVAL <nInterval> ];
-	      [ ACTION <uAction> ];
+   	        [ ACTION <uAction> ];
           => ;
           <oTimer> := gTimer():New( <nInterval>, [ \{|o| <uAction> \} ] )
 
@@ -1049,6 +1049,33 @@
                [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
        => ;
  [ <oMemo> := ] gTextView():New( bSetGet( <uVar> ), <.lReadOnly.>, [<oParent>], <.lExpand.>, <.lFill.>, <nPadding>,;
+                <.lContainer.>,<x>, <y>, <cId>, <uGlade>, <uLabelBook>, <nWidth>, <nHeight>,<.lEnd.>,;
+                <.lSecond.>, <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
+                <xOptions_ta>, <yOptions_ta> )
+
+#xcommand DEFINE SOURCEVIEW [ <oMemo> ];
+               [ MIME <cMime> ] ;
+               [ <lNoShowLines: NOSHOWLINES> ] ;
+               [ <lReadOnly: READONLY> ] ;
+               [ OF <oParent> ] ;
+               [ VAR <uVar> ];
+               [ <lExpand: EXPAND> ] ;
+               [ <lFill: FILL> ] ;
+               [ PADDING <nPadding> ];
+               [ <lContainer: CONTAINER> ] ;
+               [ POS <x>,<y>  ];
+               [ ID <cId> ;
+               [ RESOURCE <uGlade> ] ];
+               [ SIZE <nWidth>, <nHeight> ] ;
+               [ LABELNOTEBOOK <uLabelBook> ];
+               [ <lEnd: INSERT_END> ] ;
+               [ <lSecond: SECOND_PANED > ] ;
+               [ <lResize: RESIZE > ] ;
+               [ <lShrink: SHRINK > ] ;
+               [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
+       => ;
+ [ <oMemo> := ] gSourceView():New( <cMime>, <.lNoShowLines.> , bSetGet( <uVar> ), <.lReadOnly.>, [<oParent>],;
+                <.lExpand.>, <.lFill.>, <nPadding>,;
                 <.lContainer.>,<x>, <y>, <cId>, <uGlade>, <uLabelBook>, <nWidth>, <nHeight>,<.lEnd.>,;
                 <.lSecond.>, <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
                 <xOptions_ta>, <yOptions_ta> )

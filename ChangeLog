@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.45 2008-11-10 08:51:32 xthefull Exp $
+ * $Id: ChangeLog,v 1.46 2008-12-02 21:37:48 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,19 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2008-12-02 15:57 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+    + /include/tgtkext.ch   
+      Entradas EXTERNAL de Funciones TGTK
+    * /include/gclass.ch
+      Anexado comando DEFINE SOURCEVIEW
+    + /src/gclass/gsourceview.prg 
+      Inicio de clase para GtkSourceView.
+    + /test/gclass/xbscript
+      Ejemplo de utilizacion de script con TGTK.
+    * /src/gclass/errorsys.prg 
+      Funcion DefError queda publica para el uso en programa de script.
+
 
 2008-11-08 18:43 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
     + /hbgtk/bonobo.c
@@ -21,6 +34,7 @@
       
 2008-11-07 13:01 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
     + Update a la version 3.6.4 de Sqlite3
+
 
 2008-10-20 22:01 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
     * /src/pgsql/postgres.c

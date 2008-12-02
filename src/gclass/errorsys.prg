@@ -1,4 +1,4 @@
-/* $Id: errorsys.prg,v 1.1 2006-09-07 17:07:55 xthefull Exp $*/
+/* $Id: errorsys.prg,v 1.2 2008-12-02 21:37:48 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -31,7 +31,7 @@ PROCEDURE ErrorSys
 
 RETURN
 
-STATIC FUNCTION DefError( oError )
+FUNCTION DefError( oError )
    LOCAL cMessage
    LOCAL cDOSError
 
