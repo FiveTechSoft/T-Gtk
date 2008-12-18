@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.46 2008-12-02 21:37:48 riztan Exp $
+ * $Id: ChangeLog,v 1.47 2008-12-18 01:32:59 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,17 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2008-12-17 20:58 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+    * /include/tgtkext  Algunas adiciones.
+    * /test/gclass/xbscript/xbscript.prg
+      Correccion de busqueda de ruta para archivos de cabecera.
+
+
+2008-12-04 14:50 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+    * /hbgtk/gtkfilechooser.c
+      + gtk_file_chooser_set_action()
+      + gtk_file_chooser_get_action()
+
 
 2008-12-02 15:57 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
     + /include/tgtkext.ch   

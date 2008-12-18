@@ -1,4 +1,4 @@
-/*  $Id: tgtkext.ch,v 1.1 2008-12-02 21:37:48 riztan Exp $ */
+/*  $Id: tgtkext.ch,v 1.2 2008-12-18 01:33:00 riztan Exp $ */
 /*
  * Llamadas externas para ejecutar desde script.
  * (c)2008 Riztan Gutierrez
@@ -42,7 +42,9 @@
  EXTERNAL GTREEVIEWCOLUMN
  EXTERNAL GTEXTVIEW
  EXTERNAL GSOURCEVIEW
-
+ EXTERNAL GTOOLBAR
+ EXTERNAL GTOOLBUTTON
+ EXTERNAL GBUTTON
 
 
 

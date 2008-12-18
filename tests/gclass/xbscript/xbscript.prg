@@ -96,7 +96,7 @@
    EXTERN dbClearRel
    REQUEST DBFFPT
 
-   #includ "hbmacro.ch"
+   #include "hbmacro.ch"
 
    // Enable extended syntax.
    #ifdef __XHARBOUR__
@@ -225,7 +225,7 @@
       #define CT3
    #endif
 
-   #INCLUDE "./hbextern.ch"  // Modificado por Riztan. (Nov 2008) "ALERT"
+   #INCLUDE "./hbextern.ch"  // Modificado por Riztan. (Nov 2008) PARA EVITAR EL "ALERT"
 
    #DEFINE  CRLF HB_OsNewLine()
 
@@ -369,14 +369,16 @@ STATIC aDefRules     := {}, aDefResults   := {}
 STATIC aTransRules   := {}, aTransResults := {}
 STATIC aCommRules    := {}, aCommResults  := {}
 
-STATIC bDbgMatch := .F., bDbgExp := .F., bDbgPPO := .F., bLoadRules := .T., ;
-       bCount := .T., bCCH := .F., bCompile := .T., bStrict := .T.
+STATIC bDbgMatch := .F., bDbgExp := .F., bDbgPPO := .F., bLoadRules := .F., ;
+       bCount := .F., bCCH := .F., bCompile := .F., bStrict := .F.
 
 STATIC nIfDef := 0, abIfDef := {}, nIf := 0, abIf := {}
 
 STATIC hPP
 
 STATIC s_asPaths := {}
+STATIC s_sIncludePath := ""
+//STATIC s_asPaths := HB_aTokens( s_IncludePath, OS_PATH_LIST_SEPARATOR )
 
 STATIC s_bArrayPrefix := .F.
 
@@ -477,8 +479,9 @@ STATIC s_anRecover := {}, s_acRecover := {}, s_aSequence := {}
 #define PP_CONTEXT_bDbgMatch              63
 #define PP_CONTEXT_bDbgExp                64
 #define PP_CONTEXT_bDbgPPO                65
+#define PP_CONTEXT_sIncludePath           66
 
-#define PP_CONTEXT_SIZE                   65
+#define PP_CONTEXT_SIZE                   66
 
 STATIC s_aPPContext
 
@@ -492,335 +495,11 @@ STATIC s_cVer := "2.0 RC4"
    STATIC s_sAppPath
 #endif
 
-//--------------------------------------------------------------//
-
-#ifdef _USE_APPMAIN_
-PROCEDURE _AppMain( sSource, p1, p2, p3, p4, p5, p6, p7, p8, p9 )
-#else
-PROCEDURE PP_Main( sSource, p1, p2, p3, p4, p5, p6, p7, p8, p9 )
-#endif
-
-   LOCAL sIncludePath, nNext, sPath, sSwitch := ""
-   LOCAL nAt, sParams, sPPOExt, aParams := {}
-   LOCAL sDefine, sCH, lStayInDotPrompt := .f.
-
-   IF p1 != NIL
-      sSwitch += p1
-   ENDIF
-   IF p2 != NIL
-      sSwitch += p2
-   ENDIF
-   IF p3 != NIL
-      sSwitch += p3
-   ENDIF
-   IF p4 != NIL
-      sSwitch += p4
-   ENDIF
-   IF p5 != NIL
-      sSwitch += p5
-   ENDIF
-   IF p6 != NIL
-      sSwitch += p6
-   ENDIF
-   IF p7 != NIL
-      sSwitch += p7
-   ENDIF
-   IF p8 != NIL
-      sSwitch += p8
-   ENDIF
-   IF p9 != NIL
-      sSwitch += p9
-   ENDIF
-
-   IF sSource != NIL .AND. ( Upper( sSource ) == "-H" .OR. Upper( sSource ) == "--HELP" )
-      sSwitch := "   XBSCRIPT filename[.ext] [-CCH] [-D<id>] [-D:E] [-D:M] [-D:P] [-I<path>] [-P] [-R]" + CRLF
-      sSwitch += "                     [-S] [-FIX] [-U[ch-file]]" + CRLF + CRLF
-
-      sSwitch += [    -CCH     = Generate a .cch file (compiled command header).] + CRLF
-      sSwitch += [    -D<id>   = #define <id>.] + CRLF
-      sSwitch += [    -D:E     = Show tracing information into the Expression Scanner.] + CRLF
-      sSwitch += [    -D:M     = Show tracing information into the Match Engine.] + CRLF
-      sSwitch += [    -D:P     = Show tracing information into the Output Generator.] + CRLF
-      sSwitch += [    -FIX     = Do not clone Clipper PreProcessor bugs.] + CRLF
-      sSwitch += [    -H       = Syntax and command line switches description.] + CRLF
-      sSwitch += [    --help   = Syntax and command line switches description.] + CRLF
-      sSwitch += [    -I<path> = #include file search path(s) ('] + OS_PATH_LIST_SEPARATOR + [' seperated).] + CRLF
-      sSwitch += [    -Q       = Quiet. ] + CRLF
-      sSwitch += [    -P       = Generate .pp$ pre-processed output file.] + CRLF
-      sSwitch += [    -R       = Run filename as a script.] + CRLF
-      sSwitch += [    -S       = Stay in dot prompt mode after running source file.] + CRLF
-      sSwitch += [    -U       = Use command definitions set in <ch-file> (or none).] + CRLF
-
-      //  ? sSwitch
-      //  ?
-      QUIT
-   ENDIF
-
-   #ifdef __PLATFORM__UNIX
-      IF right( hb_argv( 0 ), 6 ) == "/pprun"
-         bCount := .F.
-         bCompile := .T.
-         sSwitch := ""
-         aParams := { p1, p2, p3, p4, p5, p6, p7, p8, p9 }
-         aSize( aParams, PCount() - 1 )
-      ENDIF
-   #endif
-
-   #ifdef _DEFAULT_INC_DIR
-      sPath := _DEFAULT_INC_DIR
-      IF ! ( Right( sPath, 1 ) $ OS_PATH_DELIMITER_LIST )
-         sPath += OS_PATH_DELIMITER
-      ENDIF
-      aAdd( s_asPaths, sPath )
-   #endif
-
-   sIncludePath := GetE( "INCLUDE" )
-
-   WHILE ( nNext := At( OS_PATH_LIST_SEPARATOR, sIncludePath ) ) > 0
-      sPath := Left( sIncludePath, nNext - 1 )
-      IF ! ( Right( sPath, 1 ) $ OS_PATH_DELIMITER_LIST )
-         sPath += OS_PATH_DELIMITER
-      ENDIF
-      aAdd( s_asPaths, sPath )
-      sIncludePath := SubStr( sIncludePath, nNext + 1 )
-   ENDDO
-   IF ! ( sIncludePath == '' )
-      IF ! ( Right( sIncludePath, 1 ) $ OS_PATH_DELIMITER_LIST )
-         sIncludePath += OS_PATH_DELIMITER
-      ENDIF
-      aAdd( s_asPaths, sIncludePath )
-   ENDIF
-
-#ifdef __CLIP__
-   sIncludePath := StartPath()
-   nAt := AtR( '/', sIncludePath )
-
-   IF nAt <= 0
-      nAt := AtR( "\", sIncludePath )
-   ENDIF
-   //? nAt,sIncludePath
-
-   IF nAt != 0
-      sIncludePath := Left( sIncludePath, nAt - 1 )
-
-      IF ! ( Right( sIncludePath, 1 ) $ OS_PATH_DELIMITER_LIST )
-         sIncludePath += OS_PATH_DELIMITER
-      ENDIF
-
-      aAdd( s_asPaths, sIncludePath )
-   ENDIF
-
-   IF Empty( GetEnv( "CLIPROOT" ) )
-      aAdd( s_asPaths, ClipRoot() + OS_PATH_DELIMITER + "include" + OS_PATH_DELIMITER )
-   ELSE
-      aAdd( s_asPaths, GetEnv( "CLIPROOT" ) + OS_PATH_DELIMITER + "include" + OS_PATH_DELIMITER )
-   ENDIF
-#endif
-
-   IF ! Empty( sSwitch )
-      sSwitch := Upper( sSwitch )
-
-      /* Generate compiled header. */
-      IF "-CCH" $ sSwitch
-         bCCH := .T.
-         bCompile := .F.
-      ENDIF
-
-      /* Quiet Mode. */
-      IF "-Q" $ sSwitch
-         bCount := .F.
-      ENDIF
-
-      /* Run Source but then run Dot prompt. Source can set up complex Views and relations. */
-      IF "-S" $ sSwitch
-         lStayInDotPrompt := .T.
-      ENDIF
-
-      /* Debug tracing options. */
-      IF "-D:E" $ sSwitch
-         bDbgExp := .T.
-         sSwitch := StrTran( sSwitch, "-D:E", "" )
-      ENDIF
-      IF "-D:M" $ sSwitch
-         bDbgMatch := .T.
-         sSwitch := StrTran( sSwitch, "-D:M", "" )
-      ENDIF
-      IF "-D:P" $ sSwitch
-         bDbgPPO := .T.
-         sSwitch := StrTran( sSwitch, "-D:P", "" )
-      ENDIF
-
-      /* Process command line defines. */
-      WHILE ( nAt := At( "-D", sSwitch ) ) > 0
-         nNext := At( "-", SubStr( sSwitch, nAt + 2 ) )
-         IF nNext == 0
-            nNext := 256
-         ENDIF
-
-         sDefine := SubStr( sSwitch, nAt + 2, nNext - 1 )
-         sSwitch := Left( sSwitch, nAt - 1 ) + SubStr( sSwitch, nAt + 1 + nNext )
-         //CompileDefine( sDefine )
-         aAdd( s_aSwitchDefs, sDefine )
-      ENDDO
-
-      /* Process command line include paths. */
-      IF ( nAt := At( "-I", sSwitch ) ) > 0
-         nNext := At( "-", SubStr( sSwitch, nAt + 2 ) )
-         IF nNext == 0
-            nNext := 256
-         ENDIF
-         sIncludePath := SubStr( sSwitch, nAt + 2, nNext - 1 )
-
-         WHILE ( nNext := At( OS_PATH_LIST_SEPARATOR, sIncludePath ) ) > 0
-            sPath := Left( sIncludePath, nNext - 1 )
-            IF ! ( Right( sPath, 1 ) $ OS_PATH_DELIMITER_LIST )
-               sPath += OS_PATH_DELIMITER
-            ENDIF
-            aAdd( s_asPaths, sPath )
-            sIncludePath := SubStr( sIncludePath, nNext + 1 )
-         ENDDO
-         IF ! ( sIncludePath == '' )
-            IF ! ( Right( sIncludePath, 1 ) $ OS_PATH_DELIMITER_LIST )
-               sIncludePath += OS_PATH_DELIMITER
-            ENDIF
-            aAdd( s_asPaths, sIncludePath )
-         ENDIF
-      ENDIF
-
-      /* Generate .pp$ pre-processed output file. */
-      IF "-P" $ sSwitch
-         sPPOExt := ".pp$"
-         bCompile := .F.
-      ENDIF
-
-      /* Run file as a script. */
-      IF "-R" $ sSwitch
-         bCompile := .T.
-      ENDIF
-
-      /* Clone Clipper PreProcessor bugs. */
-      IF "-FIX" $ sSwitch
-         bStrict := .F.
-      ENDIF
-
-      /* Use alternate command defintions file, or none. */
-      WHILE ( nAt := At( "-U", sSwitch ) ) > 0
-         nNext := At( "-", SubStr( sSwitch, nAt + 2 ) )
-         IF nNext == 0
-            nNext := 256
-         ENDIF
-
-         sCH := SubStr( sSwitch, nAt + 2, nNext - 1 )
-         sSwitch := Left( sSwitch, nAt - 1 ) + SubStr( sSwitch, nAt + 1 + nNext )
-
-         IF( ! sCH == "" )
-            ? [Loading standard definitions from: '] + sCH + "'"
-            // ?
-
-            CompileDefine( "__PP__" )
-            #ifdef __HARBOUR__
-               CompileDefine( "__HARBOUR__" )
-            #endif
-
-            #ifdef __XHARBOUR__
-               CompileDefine( "__XHARBOUR__" )
-            #endif
-
-            PP_PreProFile( sCH, NIL, .F., .T. ) // Process ONLY #Directives!
-
-            /* Reset.*/
-            hPP := NIL
-         ENDIF
-
-         /* Don't load standard definitions. */
-         bLoadRules := .F.
-      ENDDO
-
-      /* End of command line arguments processing. */
-   ENDIF
-
-   IF bLoadRules
-      bLoadRules := .F.
-
-      PP_InitStd()
-
-      IF Len( aDefRules ) != Len( aDefResults )
-         Eval( s_bRTEBlock, ErrorNew( [PP], 0, 1003, [Pre-Processing], [#DEFINE Rules size mismatch], { aDefRules, aDefResults } ) )
-         // Safety
-         BREAK
-      ENDIF
-
-      IF Len( aTransRules ) != Len( aTransResults )
-         Eval( s_bRTEBlock, ErrorNew( [PP], 0, 1003, [Pre-Processing], [#TRANSLATE Rules size mismatch], { aTransRules, aTransResults } ) )
-         // Safety
-         BREAK
-      ENDIF
-
-      IF Len( aCommRules ) != Len( aCommResults )
-         Eval( s_bRTEBlock, ErrorNew( [PP], 0, 1003, [Pre-Processing], [#COMMAND Rules size mismatch], { aCommRules, aCommResults } ) )
-         // Safety
-         BREAK
-      ENDIF
-   ELSE
-      IF sCH == NIL
-         PP_Warning( [Not using standard rules.] )
-      ENDIF
-   ENDIF
-
-   // Command line defines.
-   #ifdef __XHARBOUR__
-       FOR EACH sDefine IN s_aSwitchDefs
-          CompileDefine( sDefine )
-       NEXT
-   #else
-       FOR nAt := 1 TO Len( s_aSwitchDefs )
-          CompileDefine( s_aSwitchDefs[ nAt ] )
-       NEXT
-   #endif
-
-   IF sSource == NIL
-      s_nRow := 2
-      s_nCol := 0
-
-      RP_Dot()
-   ELSE
-      s_nRow := Row()
-      s_nCol := Col()
-
-      IF bCompile
-         // Populate possible Command-line Parameters
-         IF ( nAt := At( " ", sSource ) ) > 0
-            sParams := LTrim( SubStr( sSource, nAt + 1 ) )
-            sSource := Left( sSource, nAt - 1 )
-
-            WHILE ( nAt := At( " ", sParams ) ) > 0
-               aAdd( aParams, Left( sParams, nAt - 1 ) )
-               sParams := LTrim( SubStr( sParams, nAt + 1 ) )
-            ENDDO
-            IF ! sParams == ""
-               aAdd( aParams, sParams )
-            ENDIF
-         ENDIF
-
-         PP_Run( sSource, aParams, sPPOExt )
-         IF lStayInDotPrompt
-            RP_Dot()
-         ENDIF
-      ELSE
-         PP_PreProFile( sSource, sPPOExt )
-      ENDIF
-   ENDIF
-
-   //DevPos( s_nRow, s_nCol )
-
-RETURN
-
-//------------------------------- *** RP DOT and Interpreter Functions *** -------------------------------//
 
 STATIC FUNCTION PP_InitContext()
 
    LOCAL aPPContext[ PP_CONTEXT_SIZE ]
-
+   
    aPPContext[ PP_CONTEXT_aDefRules ] := {}
    aPPContext[ PP_CONTEXT_aDefResults ] := {}
    aPPContext[ PP_CONTEXT_aTransRules ] := {}
@@ -840,8 +519,6 @@ STATIC FUNCTION PP_InitContext()
    aPPContext[ PP_CONTEXT_abIf ] := {}
 
    aPPContext[ PP_CONTEXT_hPP ] := NIL
-
-   aPPContext[ PP_CONTEXT_asPaths ] := {}
 
    aPPContext[ PP_CONTEXT_bArrayPrefix ] := .F.
 
@@ -907,6 +584,10 @@ STATIC FUNCTION PP_InitContext()
    aPPContext[ PP_CONTEXT_bDbgMatch ] := .F.
    aPPContext[ PP_CONTEXT_bDbgExp ] := .F.
    aPPContext[ PP_CONTEXT_bDbgPPO ] := .F.
+   aPPContext[ PP_CONTEXT_sIncludePath ] := GetE( "PATH" )
+//   aPPContext[ PP_CONTEXT_asPaths ] := {}
+   aPPContext[ PP_CONTEXT_asPaths ] := HB_aTokens( aPPContext[ PP_CONTEXT_sIncludePath ], OS_PATH_LIST_SEPARATOR )
+   
 
 RETURN aPPContext
 
@@ -920,7 +601,7 @@ RETURN
 PROCEDURE PP_ResetStack( aProcedures )
 
    LOCAL aProcedure
-
+   
    IF ! Empty( aProcedures )
       FOR EACH aProcedure IN aProcedures
          // Reset Stack Pointer
@@ -1025,7 +706,7 @@ RETURN
      LOCAL sSwitch
 
      STATIC s_InlineMethodID := 0
-
+     
      // Debug only!
      #if 1
         LOCAL oErr
@@ -4827,7 +4508,7 @@ FUNCTION PP_PreProFile( sSource, sPPOExt, bBlanks, bDirectivesOnly, aPendingLine
    LOCAL sPath := "", oError, sPrevFile := s_sFile
    LOCAL sTmp, nLastPosition := 0
    LOCAL lMaintainPending
-   LOCAL sIncludePath
+   // LOCAL sIncludePath
 
    #ifdef __CONCILE_PCODE__
       LOCAL cPCode
@@ -4857,22 +4538,15 @@ FUNCTION PP_PreProFile( sSource, sPPOExt, bBlanks, bDirectivesOnly, aPendingLine
    s_sFile := sSource
 
 // ---------   Riztan
+   IF Empty( s_sIncludePath )
 
-   sIncludePath := GetE( "PATH" )
+      s_sIncludePath := GetE( "PATH" )
+      s_asPaths:= HB_aTokens( s_sIncludePath, OS_PATH_LIST_SEPARATOR ) 
+      nPaths := LEN( s_asPaths )
 
-   WHILE  nNext := 1 < NumToken(sIncludePath,OS_PATH_LIST_SEPARATOR)
-      sPath := Token( sIncludePath, OS_PATH_LIST_SEPARATOR , nNext )
-      IF ! ( Right( sPath, 1 ) $ OS_PATH_DELIMITER_LIST )
-         sPath += OS_PATH_DELIMITER
-         aAdd(s_asPaths,sPath)
-      ENDIF
-      // aAdd( s_asPaths, sPath )
-      sIncludePath := sPath
-   ENDDO
-
+   ENDIF
 // ----------  Fin
-
-// AEVAL( s_asPaths , { |a| Msg_Info(cStr(a)) } )   // Para Chequear los Path. Riztan
+//   AEVAL( s_asPaths , { |a| Msg_Info(cStr(a)) } )   // Para Chequear los Path. Riztan
 
    IF !File(sSource)
       hSource := -1
@@ -4883,14 +4557,15 @@ FUNCTION PP_PreProFile( sSource, sPPOExt, bBlanks, bDirectivesOnly, aPendingLine
    IF hSource == -1
       nPath := 1
       WHILE hSource == -1 .AND. nPath <= nPaths
-          hSource := FOpen( s_asPaths[nPath] + sSource, 64 )
+          IF File(s_asPaths[nPath] + OS_PATH_DELIMITER + sSource)
+             hSource := FOpen( s_asPaths[nPath] + OS_PATH_DELIMITER + sSource, 64 )
+          ENDIF
           nPath++
       ENDDO
    ENDIF
-
-//?? hSource, " ", sSource 
-
+   
    IF hSource == -1
+   // --- Tengo problema con este error... no lo esta reflejando. Riztan
       Break( ErrorNew( [PP], 0, 3007, sSource, [ERROR! opening: ] + Str( FError(), 2 ), { sSource } ) )
    ENDIF
 
@@ -4899,6 +4574,7 @@ FUNCTION PP_PreProFile( sSource, sPPOExt, bBlanks, bDirectivesOnly, aPendingLine
    ENDIF
 
    IF hPP == NIL .AND. aPendingLines == NIL
+
       IF bBlanks == NIL
          bBlanks := .T.
       ENDIF
@@ -4918,8 +4594,9 @@ FUNCTION PP_PreProFile( sSource, sPPOExt, bBlanks, bDirectivesOnly, aPendingLine
          ENDIF
       ENDIF
    ELSE
-      sLine := '#line 1 "' + sPath + Lower( sSource ) + '"' // Cambiado a Lower por Riztan Nov,2008.
-      FWrite( hPP, sLine + CRLF )
+      sLine := '#line 1 "' + sPath + lower( sSource ) + '"' // Cambiado a Lower por Riztan Nov,2008.
+//      Msg_Info( sLine )    // Riztan (para ver si no almacena estos valores en el preprocesado)
+//      FWrite( hPP, sLine + CRLF )
       IF lMaintainPending
          aAdd( aPendingLines, sLine )
       ENDIF
@@ -5626,7 +5303,8 @@ FUNCTION PP_PreProLine( sLine, nLine, sSource )
    LOCAL sTemp
 
    //TraceLog( sLine, nLine )
-
+// oTepuy:oWnd:SetTitle( "Entrada: "+sLine ) //riztan
+   
    s_bRTEBlock := s_bDefRTEBlock
 
    IF Left( LTrim( sLine ), 1 ) != '#'
@@ -5644,14 +5322,14 @@ FUNCTION PP_PreProLine( sLine, nLine, sSource )
       WHILE .T.
          //? "Processing: '" + sLine + "'"
          //? nPendingLines, nIfDef, IIF( nIfDef > 0, abIfDef[nIfDef] , )
-         //WAIT
-
+         // WAIT
+TraceLog( "Processing: '" + sLine +"'" )
          IF nCycles < MAX_CICLES
             nCycles++
          ELSE
             //TraceLog( "Circularity!", sLine )
-            //Alert( [ERROR! Circularity detected ]+"[" + sSource + "(" + LTrim( Str( nLine ) ) + ")]" )
-            //? sLine
+             //Alert( [ERROR! Circularity detected ]+"[" + sSource + "(" + LTrim( Str( nLine ) ) + ")]" )
+             //? sLine
             Break( ErrorNew( [PP], 0, 2083, [Pre-Process], [Ciruclarity Detected], { sLine, nLine, sSource } ) )
          ENDIF
 
@@ -5685,7 +5363,7 @@ FUNCTION PP_PreProLine( sLine, nLine, sSource )
 
          //TraceLog( "Processing: '" + sLine +"'" )
          //? "Processing: '" + sLine +"'"
-         //WAIT
+         // WAIT
 
          IF Left( sLine, 1 ) == '#'
 
@@ -6148,7 +5826,7 @@ FUNCTION PP_PreProLine( sLine, nLine, sSource )
          RECOVER USING oError
 
            IF ValType( oError ) == 'O'
-              //Alert( oError )
+              Alert( oError )
               Break( oError ) // We have another wrapper outside.
            ENDIF
 
@@ -6156,10 +5834,11 @@ FUNCTION PP_PreProLine( sLine, nLine, sSource )
 
          END SEQUENCE
 
-
       ENDDO
 
    RECOVER USING oError
+   
+   Msg_Info( "Aparentemente ERROR" )  //Riztan
 
      IF( oError:ClassName == "ERROR" )
         //TraceLog( nLine, oError:SubSystem, oError:Operation, oError:Description, oError:Args )
@@ -6205,12 +5884,15 @@ FUNCTION PP_PreProLine( sLine, nLine, sSource )
    IF ! Empty( sOut )
       //? "Returning: " + sOut
       //WAIT
-      //TraceLog( sOut )
+      TraceLog( sOut )
    ENDIF
 
    IF bCompile
       PP_CompileLine( sOut, nLine, s_aProcedures, s_aInitExit, @s_nProcId )
    ENDIF
+
+// oTepuy:oWnd:SetTitle( "Salida: "+sOut )  //riztan
+//Msg_Info( sOut )
 
 RETURN sOut
 
@@ -7841,7 +7523,7 @@ STATIC FUNCTION NextExp( sLine, cType, aWords, sNextAnchor, bX )
         IF ! ( ProcName(1) == "NEXTEXP" )
            ? "List Exp: " + '{'
            FOR Counter := 1 TO Len( aExp )
-              ?? aExp[Counter]
+              ?? aExp[Counter] 
               IF Counter < Len( aExp )
                  ?? ','
               ENDIF
@@ -11931,7 +11613,7 @@ FUNCTION PP_PreProText( sLines, asLines, bBlanks, bAutoCompile, nStartLine, sSou
    LOCAL oError
 
    //TraceLog( sLines )
-
+   
    IF bBlanks == NIL
       bBlanks := .T.
    ENDIF
@@ -11953,7 +11635,7 @@ FUNCTION PP_PreProText( sLines, asLines, bBlanks, bAutoCompile, nStartLine, sSou
    IF sSource == NIL
       sSource := ""
    ENDIF
-
+   
    sLines := StrTran( sLines, Chr(13), " " )
    sLines := StrTran( sLines, Chr(9), " " )
 
@@ -12696,7 +12378,7 @@ FUNCTION ErrorNewX(  SubSystem, GenCode, SubCode, Operation, Description, Args, 
    oError:Operation := Operation
    oError:Description := Description
    oError:Args := Args
-
+   
 RETURN oError
 #endif
 
@@ -12762,34 +12444,42 @@ RETURN oError
    FUNCTION TraceLog(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15 )
 
       LOCAL FileHandle, ProcName, Counter := 1, aEntries
+      
+//      ? "TRACE"
 
       aEntries := {p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15}
 
-      FileHandle := FOpen( 'Trace.Log', 1 )
+//      FileHandle := FOpen( 'Trace.Log', 1 )
 
-      FSeek(FileHandle, 0, 2)
+//      FSeek(FileHandle, 0, 2)
 
-      FWrite( FileHandle, '[' + ProcName(1) + '] (' + Str( Procline(1), 5 ) + ') Called from: '  + CRLF )
+//      FWrite( FileHandle, '[' + ProcName(1) + '] (' + Str( Procline(1), 5 ) + ') Called from: '  + CRLF )
+Msg_Info( 'trace' )
+oTepuy:oWnd:SetTitle( '[' + ProcName(1) + '] (' + Str( Procline(1), 5 ) + ') Called from: ' )
 
       DO WHILE ! ( ( ProcName := ProcName( ++Counter ) ) == '' )
-         FWrite( FileHandle, space(30) + ProcName + '(' + Str( Procline( Counter), 5 ) + ')' + CRLF )
+//         FWrite( FileHandle, space(30) + ProcName + '(' + Str( Procline( Counter), 5 ) + ')' + CRLF )
+oTepuy:oWnd:SetTitle( ProcName + '(' + Str( Procline( Counter), 5 ) + ')' )
       ENDDO
 
       IF ! ( PP_ProcName(0) == "" )
-         FWrite( FileHandle, "Interpreter:"  + CRLF )
+//         FWrite( FileHandle, "Interpreter:"  + CRLF )
+oTepuy:oWnd:SetTitle( "Interpreter:"  + CRLF )
          Counter := -1
          DO WHILE ! ( ( ProcName := PP_ProcName( ++Counter ) ) == "" )
-            FWrite( FileHandle, space(30) + ProcName + '(' + Str( PP_Procline( Counter), 5 ) + ')' + CRLF )
+//            FWrite( FileHandle, space(30) + ProcName + '(' + Str( PP_Procline( Counter), 5 ) + ')' + CRLF )
+oTepuy:oWnd:SetTitle( ProcName + '(' + Str( PP_Procline( Counter), 5 ) + ')' + CRLF )
          ENDDO
       ENDIF
 
       FOR Counter := 1 to PCount()
-         FWrite( FileHandle, '>>>' + CStr( aEntries[Counter] ) + '<<<' + CRLF )
+//         FWrite( FileHandle, '>>>' + CStr( aEntries[Counter] ) + '<<<' + CRLF )
+oTepuy:oWnd:SetTitle( '>>>' + CStr( aEntries[Counter] ) + '<<<' + CRLF )
       NEXT
 
-      FWrite( FileHandle, CRLF )
+//      FWrite( FileHandle, CRLF )
 
-      FClose(FileHandle)
+//      FClose(FileHandle)
 
    RETURN .T.
 

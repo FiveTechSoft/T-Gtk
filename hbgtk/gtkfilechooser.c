@@ -1,4 +1,4 @@
-/* $Id: gtkfilechooser.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkfilechooser.c,v 1.2 2008-12-18 01:32:59 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -56,9 +56,22 @@ HB_FUNC( GTK_FILE_CHOOSER_GET_FILENAME ) // pWidget--> folder
 
 HB_FUNC( GTK_FILE_CHOOSER_SET_FILENAME ) // pWidget,filename-->bOk
 {
-  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parnl( 1 ) );
+  GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parnl( 1 ) );
   hb_retl( gtk_file_chooser_set_filename( chooser , hb_parc( 2 ) ) );
 }
+
+HB_FUNC( GTK_FILE_CHOOSER_SET_ACTION ) // pWidget, folder --> bOk
+{
+  GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parnl( 1 ) );
+  gtk_file_chooser_set_action( chooser , hb_parni( 2 ) );
+}
+
+HB_FUNC( GTK_FILE_CHOOSER_GET_ACTION ) // pWidget, folder --> bOk
+{
+  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parnl( 1 ) );
+  hb_retni( gtk_file_chooser_get_action( chooser ) );
+}
+
 
 HB_FUNC( CHOOSEDIR ) // cTitle, cDir_Default, pParent_Window
 {
