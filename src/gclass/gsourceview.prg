@@ -1,4 +1,4 @@
-/* $Id: gsourceview.prg,v 1.1 2008-12-02 21:37:48 riztan Exp $*/
+/* $Id: gsourceview.prg,v 1.2 2008-12-25 19:23:52 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -18,7 +18,8 @@
     Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
 
     LGPL Licence.
-    (c)2003 Rafael Carmona <thefull@wanadoo.es>
+    (c)2008 Riztan Gutierrez <riztan at gmail.com>
+
 */
 #include "gtkapi.ch"
 #include "hbclass.ch"
