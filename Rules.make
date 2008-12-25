@@ -47,6 +47,9 @@ GTKSOURCEVIEW=yes
 #Soporte para Bonobo
 BONOBO=yes
 
+#Alpha. Soporte para GNOMEDB y LIBGDA
+GNOMEDB=yes
+
 ############################################## 
 # Esqueleto para todas las plataformas
 ############################################## 
@@ -69,7 +72,7 @@ ifeq ($(HB_COMPILER),mingw32)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
 else
-   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) $(shell pkg-config --cflags libgnomedb-3.0)
+   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk)
    ifeq ($(SUPPORT_PRINT_LINUX),yes)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) -DHB_OS_LINUX
      LIBS += $(shell pkg-config --libs libgnomeprintui-2.2)
@@ -87,6 +90,13 @@ ifeq ($(GTKSOURCEVIEW),yes)
    CFLAGS += $(shell pkg-config --cflags gtksourceview-2.0)
    LIBS += $(shell pkg-config --libs gtksourceview-2.0 ) 
 endif
+
+ifeq ($(GNOMEDB),yes)
+    CFLAGS += -D_GNOMEDB_
+    CFLAGS += $(shell pkg-config --cflags libgnomedb-3.0)
+    LIBS += $(shell pkg-config --libs libgnomedb-3.0 )
+endif
+
 
 ifeq ($(XBASE_COMPILER),HARBOUR)
    CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF 

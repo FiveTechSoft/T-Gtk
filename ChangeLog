@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.47 2008-12-18 01:32:59 riztan Exp $
+ * $Id: ChangeLog,v 1.48 2008-12-25 19:02:08 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,15 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2008-12-25 19:54 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   + Soporte inicial para GNOME-DB y LIBGDA, en /t-gtk/gnomedb
+   * Rules.make establece un nuevo flag, GNOMEDB=yes, para añadir soporte a GNOME-DB.
+   + /tests/native/gnomedb, un ejemplo funcional sobre un GRID, es necesario que
+     useis una acceso a vuestra tabla/Motor de SQL.
+     Bajo MySql 5, funciona perfectamente.
+
+
 2008-12-17 20:58 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
     * /include/tgtkext  Algunas adiciones.
     * /test/gclass/xbscript/xbscript.prg
