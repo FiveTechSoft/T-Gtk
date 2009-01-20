@@ -63,8 +63,15 @@ LIBRARIAN = ranlib
 ifeq ($(HB_COMPILER),mingw32)
    GT_LIBS=-lgtwin
 else
-   GT_LIBS=-lgtstd -lgttrm
+   ifeq ($(XBASE_COMPILER),HARBOUR)
+      #HARBOUR
+      GT_LIBS=-lgtstd -lgttrm
+   else
+      #XHARBOUR
+      GT_LIBS=-lgtcrs -lgtcgi -lgtnul -lgtstd -lgtxvt
+   endif
 endif
+
 
 ifeq ($(HB_COMPILER),mingw32)
    CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_ 
@@ -79,17 +86,20 @@ else
    endif
 endif
 
+
 ifeq ($(BONOBO),yes)
     CFLAGS += -D_HAVEBONOBO_
     CFLAGS += $(shell pkg-config --cflags libbonobo-2.0 ) $(shell pkg-config --cflags libbonoboui-2.0 )
     LIBS += $(shell pkg-config --libs libbonobo-2.0 ) $(shell pkg-config --libs libbonoboui-2.0 )
 endif
 
+
 ifeq ($(GTKSOURCEVIEW),yes)
    CFLAGS += -D_HAVEGTKSOURCEVIEW_
    CFLAGS += $(shell pkg-config --cflags gtksourceview-2.0)
    LIBS += $(shell pkg-config --libs gtksourceview-2.0 ) 
 endif
+
 
 ifeq ($(GNOMEDB),yes)
     CFLAGS += -D_GNOMEDB_
@@ -120,7 +130,7 @@ else
      ifeq ($(XBASE_COMPILER),XHARBOUR)
         # XHARBOUR
         #LIBFILES_ = -ldebug -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lrtl -lcommon -lm -lgpm
-        LIBFILES_ = -lvm -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lcommon -lm -lhbsix -lpcrepos $(GT_LIBS) -lcodepage -lct
+        LIBFILES_ = -lvm -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lcommon -lm -lhbsix -lpcrepos $(GT_LIBS) -lcodepage -lct -ltip
      else
         # HARBOUR
         # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
