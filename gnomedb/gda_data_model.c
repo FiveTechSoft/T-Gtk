@@ -1,4 +1,4 @@
-/* $Id: gda_data_model.c,v 1.1 2009-01-20 01:27:41 riztan Exp $*/
+/* $Id: gda_data_model.c,v 1.2 2009-01-20 03:01:28 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -29,7 +29,6 @@ Por Incluir:
   gda_data_model_row_updated()
   gda_data_model_row_removed()
   gda_data_model_get_access_flags()
-  gda_data_model_get_attributes_at()  
   gda_data_model_get_value_at_col_name ()  
   gda_data_model_send_hint ()  
   gda_data_model_import_from_model ()  
@@ -123,6 +122,16 @@ HB_FUNC( GDA_DATA_MODEL_SET_COLUMN_TITLE )
 }
 
 
+HB_FUNC( GDA_DATA_MODEL_GET_ATTRIBUTES_AT )
+{
+   GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
+   gint col = hb_parni( 2 );
+   gint row = hb_parni( 3 );
+
+   hb_retni( gda_data_model_get_attributes_at( model, col, row ) );
+}
+
+
 // --- En desarrollo...  (Riztan)
 HB_FUNC( GDA_DATA_MODEL_GET_VALUE_AT )
 {
@@ -133,7 +142,9 @@ HB_FUNC( GDA_DATA_MODEL_GET_VALUE_AT )
    
    result = gda_data_model_get_value_at( model, col, row );
 
+//   hb_retptr( result );
 }
+
 
 /*
 HB_FUNC( GDA_DATA_MODEL_SET_VALUE_AT )
