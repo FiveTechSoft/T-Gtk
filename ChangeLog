@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.49 2009-01-20 01:27:41 riztan Exp $
+ * $Id: ChangeLog,v 1.50 2009-01-20 01:37:38 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -9,11 +9,21 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2009-01-19 21:02 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+   * /gnomedb/libgda.c Se eliminaron algunas funciones para ser llevadas a otras
+     funciones.
+   + /gnomedb/gda_connection.c
+   + /gnomedb/gda_data_model.c
+   + /gnomedb/gda_object.c
+   * /Rules.make  incluida libreria libtip en compilacion con xHarbour y cambio
+     de librerias GT con Harbour/xHarbour.
+
+
 2009-01-08 11:04 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
    * /gnomedb/libgda.c 
      * modificados los llamados a la funcion hb_arraySetXX.
      + gda_config_get_provider_list()
-   * /test/gclass/xbscript/tgtkext se adicionaron funciones de gnomedb
+   * /test/gclass/xbscript/tgtkext se adicionaron funciones de gnomedb y gda
    * /test/gclass/xbscript/Makefile  se anexa la libreria libtgtk_gnomedb
 
 
