@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.50 2009-01-20 01:37:38 riztan Exp $
+ * $Id: ChangeLog,v 1.51 2009-01-27 14:51:54 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,15 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2009-01-27 10:14 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+   * /Rules.make  
+     * Modificado en la parte de modulos GT driver... para llamar correctamente
+       los correspondientes a xharbour o harbour.
+     + Nuevas lineas para incluir soporte de la libcurl.
+   + /curl-hb  Wrapper para la libcurl.
+   + /include/curl.ch  Cabeceras para la libcurl a nivel prg.
+   + /test/native/curl  Ejemplo inicial con libcurl.
+
 
 2009-01-19 21:02 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
    * /gnomedb/libgda.c Se eliminaron algunas funciones para ser llevadas a otras

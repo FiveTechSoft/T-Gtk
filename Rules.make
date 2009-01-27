@@ -50,6 +50,9 @@ BONOBO=yes
 #Alpha. Soporte para GNOMEDB y LIBGDA
 GNOMEDB=yes
 
+#Soporte para CURL
+CURL=yes
+
 ############################################## 
 # Esqueleto para todas las plataformas
 ############################################## 
@@ -105,6 +108,13 @@ ifeq ($(GNOMEDB),yes)
     CFLAGS += -D_GNOMEDB_
     CFLAGS += $(shell pkg-config --cflags libgnomedb-3.0)
     LIBS += $(shell pkg-config --libs libgnomedb-3.0 )
+endif
+
+
+ifeq ($(CURL),yes)
+    CFLAGS += -D_CURL_
+    CFLAGS += $(shell pkg-config --cflags libcurl)
+    LIBS += $(shell pkg-config --libs libcurl )
 endif
 
 
