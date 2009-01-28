@@ -7,7 +7,7 @@
 
 TARGET = test
 SOURCES = curl.prg
-LIBS= -lhbcurl
+LIBS= -lcurl-hb
 
 include ../../../Rules.make
 
