@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.51 2009-01-27 14:51:54 riztan Exp $
+ * $Id: ChangeLog,v 1.52 2009-02-12 22:24:33 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,17 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2009-02-12 17:43 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+   + /misc 
+     + Run2Me() Funcion para ejecutar comando en la shell de GNU/Linux y 
+       retornar la salida del mismo.
+
+
+2009-02-04 01:50 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+   + /tp_ contrib de xharbour (telepathy)
+      Se realizaron algunos ajustes
+
+
 2009-01-27 10:14 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
    * /Rules.make  
      * Modificado en la parte de modulos GT driver... para llamar correctamente
