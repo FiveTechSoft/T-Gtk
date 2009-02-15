@@ -1,4 +1,4 @@
-/* $Id: gtogglebtn.prg,v 1.2 2007-03-02 21:17:11 xthefull Exp $*/
+/* $Id: gtogglebtn.prg,v 1.3 2009-02-15 18:33:08 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -91,6 +91,7 @@ RETURN Self
 
 ******************************************************************************
 METHOD OnToggled( oSender ) CLASS GTOGGLEBUTTON
+
     if oSender:bAction != NIL
        Eval( oSender:bAction, oSender )
     endif

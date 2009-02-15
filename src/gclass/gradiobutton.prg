@@ -1,4 +1,4 @@
-/* $Id: gradiobutton.prg,v 1.2 2007-03-02 21:17:11 xthefull Exp $*/
+/* $Id: gradiobutton.prg,v 1.3 2009-02-15 18:33:08 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -27,6 +27,8 @@ CLASS GRadioButton FROM GCheckBox
       DATA pGroup
 
       METHOD New()
+      //Signals
+      METHOD OnToggled( oSender )
 
 ENDCLASS
 
@@ -91,4 +93,15 @@ METHOD New( cText, lActived, oRadio, bAction, oFont, lMnemonic, oParent,;
        ::Show()
 
 RETURN Self
+
+******************************************************************************
+METHOD OnToggled( oSender ) CLASS GRadioButton
+
+    if oSender:bAction != NIL
+       if oSender:GetActive()  // Se dispara SOLO el que se activa. 
+          Eval( oSender:bAction, oSender )
+       endif
+    endif
+
+RETURN .F.
 
