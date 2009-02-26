@@ -26,7 +26,7 @@ Function Main()
                     { .F., 50055, "Normal",     "Rework width/height computations for TreeView" },;
                     { .F., 58278, "Normal",     "gtk_dialog_set_response_sensitive () doesn't work" },;
                     { .F., 55767, "Normal",     "Getters for all setters" },;
-                    {   .F., 56925, "Normal",     "Gtkcalender size" },;
+                    { .F., 56925, "Normal",     "Gtkcalender size" },;
                     { .F., 56221, "Normal",     "Selectable label needs right-click copy menu" },;
                     { .T., 50939, "Normal",     "Add shift clicking to GtkTextView" },;
                     { .F., 6112,  "Enhancement","netscape-like collapsable toolbars" },;
@@ -82,17 +82,18 @@ STATIC FUNCTION fixed_toggled( oCellRendererToggle, cPath, oTreeView, oLbx )
   Local aIter 
   Local path
   Local fixed
+  Local nColumn := oCellRendererToggle:nColumn + 1
   
   path := gtk_tree_path_new_from_string( cPath )
   
   /* get toggled iter */
-  fixed := oTreeView:GetValue( 1, "Boolean", Path, @aIter )
+  fixed := oTreeView:GetValue( nColumn, "Boolean", Path, @aIter )
 
   // do something with the value 
   fixed := !fixed
    
    /* set new value */
-  oLbx:Set( aIter, 1, fixed )
+  oLbx:Set( aIter, nColumn, fixed )
   
   /* clean up */
   gtk_tree_path_free( path )

@@ -43,6 +43,13 @@ HB_FUNC( GTK_TREE_VIEW_COLUMN_SET_TITLE ) // -> void
                                    (gchar *) hb_parc( 2 ) );
 }
 
+HB_FUNC( GTK_TREE_VIEW_COLUMN_GET_TITLE ) 
+{
+   GtkTreeViewColumn *column = 
+                  GTK_TREE_VIEW_COLUMN( ( GtkTreeViewColumn * ) hb_parnl( 1 ) );
+   hb_retc( (gchar *) gtk_tree_view_column_get_title( column ) );
+}
+
 HB_FUNC( GTK_TREE_VIEW_COLUMN_PACK_START )
 {
    GtkTreeViewColumn *column   =

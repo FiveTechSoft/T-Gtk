@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.53 2009-02-15 18:33:07 xthefull Exp $
+ * $Id: ChangeLog,v 1.54 2009-02-26 22:50:18 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,10 +8,31 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2009-02-26 17:39 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+   * /hbgtk/gtktreeviewcolumn.c  
+     + Incluido GTK_TREE_VIEW_COLUMN_GET_TITLE()
+   * /src/gclass/gcellrenderer.prg 
+     + DATA nColumn   Variable para obtener el nro de la columna desde
+       el Renderer.
+   * /src/gclass/gtreeviewcolumn.prg 
+     + METHOD GetTitle()   Metodo para obtener el titulo de la columna.
+   * /test/gclass/listore/listore.prg
+     * Modificado para que actue sobre la columna de acuerdo a donde se 
+       ha dado click.  
+
+
+2009-02-18 23:11 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+   * /include/gclass.ch
+     + DEFINE TREE_STORE oLbx ARRAY aTypes 
+       Nueva linea para entregar en el trees_store un arreglo que contiene
+       los tipos de datos. Necesario cuando estos tipos son leidos de una 
+       estructura de datos (tabla).
+
 
 2009-02-15 19:30 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
   * /src/gclass/gradiobutton.prg
      * Se evalua SOLAMENTE el radiobutton que recibe el foco, NO el que lo pierde.
+
 
 2009-02-12 17:43 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
    + /misc 

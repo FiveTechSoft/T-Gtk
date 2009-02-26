@@ -1,4 +1,4 @@
-/* $Id: gtreeviewcolumn.prg,v 1.3 2007-08-19 19:20:17 xthefull Exp $*/
+/* $Id: gtreeviewcolumn.prg,v 1.4 2009-02-26 22:50:19 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -24,6 +24,7 @@
 #include "hbclass.ch"
 
 CLASS gTreeViewColumn FROM GOBJECT
+
       DATA nColumn
       DATA cType
       DATA oRenderer
@@ -39,6 +40,7 @@ CLASS gTreeViewColumn FROM GOBJECT
       METHOD SetAlign( nAlign )       INLINE g_object_set( ::pWidget, "alignment", nAlign  )
       METHOD SetWidgetHeader( oWidget ) INLINE gtk_tree_view_column_set_widget( ::pWidget, oWidget:pWidget )
       METHOD SetSizing( nMode )       INLINE gtk_tree_view_column_set_sizing( ::pWidget, nMode )
+      METHOD GetTitle( )              INLINE gtk_tree_view_column_get_title( ::pWidGet )
       
       //Signals
       METHOD OnClicked( oSender )
@@ -116,7 +118,9 @@ METHOD Renderer( cType ) CLASS gTreeViewColumn
            ::oRenderer = gCellRendererCombo():New()
            ::cType := "text"
    END CASE
-
+   
+   ::oRenderer:nColumn := ::nColumn
+   
 RETURN NIL
 
 ******************************************************************************

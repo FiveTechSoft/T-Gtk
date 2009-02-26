@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.13 2008-12-02 21:37:48 riztan Exp $ */
+/*  $Id: gclass.ch,v 1.14 2009-02-26 22:50:19 riztan Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2004 Rafa Carmona
@@ -358,7 +358,7 @@
                  [ <label: TEXT,LABEL,PROMPT> <cText> ];
                  [ GROUP <oRadio> ];
                  [ <lActived: ACTIVED> ];
-	         [ ACTION <uAction> ];
+                 [ ACTION <uAction> ];
                  [ FONT <oFont> ];
                  [ <lMnemonic: MNEMONIC> ];
                  [ <lExpand: EXPAND> ] ;
@@ -1222,6 +1222,11 @@
                  TYPES <aTypes,...> ;
        =>;
          <oLbx> :=  gTreeStore():New( \{<aTypes>\} )
+
+#xcommand DEFINE TREE_STORE <oLbx>  ;
+                 ARRAY <aTypes,...> ;
+       =>;
+         <oLbx> :=  gTreeStore():New( <aTypes> )
 
 #xcommand DEFINE TREE_STORE <oLbx>  ;
                  AUTO <aItems> ;

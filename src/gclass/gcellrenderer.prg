@@ -1,4 +1,4 @@
-/* $Id: gcellrenderer.prg,v 1.2 2006-11-30 09:49:58 xthefull Exp $*/
+/* $Id: gcellrenderer.prg,v 1.3 2009-02-26 22:50:19 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -25,6 +25,7 @@
 
 CLASS gCellRenderer FROM GOBJECT
       DATA cType  // Tipo de CellRenderer
+      DATA nColumn  
       METHOD New()
       METHOD SetAlign_H( nAlign ) INLINE g_object_set( ::pWidget, "xalign", nAlign  )
       METHOD SetAlign_V( nAlign ) INLINE g_object_set( ::pWidget, "yalign", nAlign  )
