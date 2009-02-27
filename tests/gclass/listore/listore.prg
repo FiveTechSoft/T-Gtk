@@ -117,15 +117,11 @@ Static Function Comprueba( oTreeView, pPath, pTreeViewColumn, oCol  )
     cColumn := AllTrim( CStr(nColumn) )
     cType   := oTreeView:GetColumnTypeStr( nColumn )
     
-    // u := o:GetValue( nColumn, cType_data, pPath )
+//     u := o:GetValue( nColumn, cType_data, pPath )
 //    nBug := oTreeview:GetValue( 2, "Int" , pPath )
     
     Msg2Info( "The Type of Col <b>"+cColumn+"</b> is: <b>"+ cType +"</b>"+CRLF+ ;
               "The Value is <b>"+ oTreeView:GetValue( nColumn, cType, pPath )+"</b>" )
-
-     
-//    MsgInfo( oTreeView:GetValue( nColumn, cType, pPath ) )
-     
 
 Return nil
 
