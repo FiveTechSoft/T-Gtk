@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.54 2009-02-26 22:50:18 riztan Exp $
+ * $Id: ChangeLog,v 1.55 2009-02-27 06:22:57 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,15 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2009-02-27 01:32 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+   * /src/gclass/gtreeview.prg 
+     + Metodo GetPosCol()  Para obtener la posicion numerica de una columna.
+     + Metodo GetColumnType( nColumn ) Para obtener tipo de columna.
+     + Metodo GetColumnTypeStr( nColumn )  Obtener tipo de columna en cadena.
+   * /test/gclass/listore.prg
+     * Funcion Comprueba() modificada para manejar datos de columna seleccionada.
+
+
 2009-02-26 17:39 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
    * /hbgtk/gtktreeviewcolumn.c  
      + Incluido GTK_TREE_VIEW_COLUMN_GET_TITLE()

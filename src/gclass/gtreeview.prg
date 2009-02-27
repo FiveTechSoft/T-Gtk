@@ -1,4 +1,4 @@
-/* $Id: gtreeview.prg,v 1.2 2007-05-07 09:18:08 xthefull Exp $*/
+/* $Id: gtreeview.prg,v 1.3 2009-02-27 06:22:57 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -26,6 +26,7 @@
 CLASS GTREEVIEW FROM GCONTAINER
       DATA bRow_Activated, bColumns_Changed
       DATA oModel 
+      DATA aCols
 
       METHOD New( )
       METHOD SetModel( oModel )     
@@ -39,6 +40,8 @@ CLASS GTREEVIEW FROM GCONTAINER
 
       METHOD SetRules( lSetting ) INLINE gtk_tree_view_set_rules_hint( ::pWidget, lSetting )
       METHOD GetColumn( nColumn ) INLINE gtk_tree_view_get_column( ::pWidget, nColumn ) 
+      METHOD GetColumnType( nColumn )      INLINE gtk_list_store_get_col_type( ::GetModel(), nColumn )
+      METHOD GetColumnTypeStr( nColumn )   
       METHOD RemoveColumn( nColumn ) 
       METHOD AppendColumn( oTreeViewColumn ) INLINE gtk_tree_view_append_column( ::pWidget, oTreeViewColumn:pWidget )
       
@@ -49,6 +52,7 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD IsGetSelected( aIter ) 
       METHOD GetPath( aIter ) INLINE gtk_tree_model_get_path( ::GetModel(), aIter )
       METHOD GetPosRow( aIter )
+      METHOD GetPosCol( cTitle )
       METHOD GetTotalColumns()  INLINE HB_GTK_TREE_VIEW_GET_TOTAL_COLUMNS( ::pWidget )
 
       METHOD GoUp()   INLINE HB_GTK_TREE_VIEW_UP_ROW( ::pWidget )
@@ -85,6 +89,7 @@ METHOD NEW( oModel, oParent, lExpand,;
       endif
    ENDIF
    
+   ::aCols := {}
    ::Register()
    ::AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y,;
                uLabelTab, lEnd, lSecond, lResize, lShrink,;
@@ -222,6 +227,15 @@ METHOD GetPosRow( aIter ) CLASS gTreeView
 
 RETURN nPos
 
+
+METHOD GetPosCol( cTitle ) CLASS gTreeView
+   Local nCol := -1
+
+   AEVAL( ::aCols, {| o | IIF( o[1]:GetTitle() == cTitle, nCol := o[2]+1, NIL)   } )
+
+RETURN nCol
+
+
 METHOD GetAutoValueIter( nColumn, aIter, aIter_Clone ) CLASS gTreeView
    Local model
    Local uValue, nType, path
@@ -254,12 +268,35 @@ METHOD GetAutoValueIter( nColumn, aIter, aIter_Clone ) CLASS gTreeView
 
 RETURN uValue
 
+
+METHOD GetColumnTypeStr( nColumn ) CLASS gTreeView
+   Local cType := NIL
+   Local nType := ::GetColumnType( nColumn - 1 )
+   
+   DO CASE
+      CASE ( nType = G_TYPE_CHAR .OR. nType = G_TYPE_UCHAR .OR. nType = G_TYPE_STRING     )
+           cType := "String"
+      CASE ( nType = G_TYPE_INT .OR. nType = G_TYPE_UINT .OR. nType = G_TYPE_INT64 .OR.nType = G_TYPE_UINT64 )
+           cType := "Int"
+      CASE ( nType = G_TYPE_BOOLEAN )
+           cType := "Boolean"
+      CASE ( nType = G_TYPE_LONG .OR. nType = G_TYPE_ULONG .OR. nType = GDK_TYPE_PIXBUF )
+           cType := "Long"
+      CASE ( nType = G_TYPE_DOUBLE .OR. nType = G_TYPE_FLOAT )
+           cType := "Double"
+   END CASE
+       
+Return cType       
+
+
 METHOD OnRow_Activated( oSender, pPath, pTreeViewColumn ) CLASS gTreeView
      
     if oSender:bRow_Activated != NIL
        Eval( oSender:bRow_Activated, pPath, pTreeViewColumn )
+       //MsgInfo( gtk_tree_view_column_get_title( pTreeViewColumn ) )
     endif
-
+    
+    
 RETURN NIL
 
 /*

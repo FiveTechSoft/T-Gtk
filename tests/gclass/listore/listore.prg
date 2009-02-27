@@ -8,6 +8,11 @@
   como a un GtkCellRendererToggle, y como esta ya solucionado el tema en los eventos
   de la señal con el mismo nombre , pero el salto a la callback diferente.
  */
+ 
+/* 
+ *  Algunos cambios incluidos para mejor manejo de columnas por Riztan Gutierrez
+ *
+ */
 
 #include "gclass.ch"
 
@@ -104,6 +109,27 @@ Return .f.
 // Una manera facil de obtener el valor de las columnas
 // Easy get values from columns
 
+Static Function Comprueba( oTreeView, pPath, pTreeViewColumn, oCol  )
+    Local nBug, nColumn, cColumn, cTitle, cType
+
+    cTitle  := gtk_tree_view_column_get_title( pTreeViewColumn )
+    nColumn := oTreeView:GetPosCol( cTitle )
+    cColumn := AllTrim( CStr(nColumn) )
+    cType   := oTreeView:GetColumnTypeStr( nColumn )
+    
+    // u := o:GetValue( nColumn, cType_data, pPath )
+//    nBug := oTreeview:GetValue( 2, "Int" , pPath )
+    
+    Msg2Info( "The Type of Col <b>"+cColumn+"</b> is: <b>"+ cType +"</b>"+CRLF+ ;
+              "The Value is <b>"+ oTreeView:GetValue( nColumn, cType, pPath )+"</b>" )
+
+     
+//    MsgInfo( oTreeView:GetValue( nColumn, cType, pPath ) )
+     
+
+Return nil
+
+/*
 Static Function Comprueba( oTreeView, pPath, pTreeViewColumn  )
     Local nBug
     
@@ -113,6 +139,10 @@ Static Function Comprueba( oTreeView, pPath, pTreeViewColumn  )
     Msg2Info( "The number bug is: "+ cValtoChar( nBug ) )
 
 Return nil
+*/
+
+
+
 
 Static Function Msg2Info( cText, cTitle )
   Local oBox, oWnd, oBoxH, oImage, oToggle
@@ -128,7 +158,7 @@ Static Function Msg2Info( cText, cTitle )
            oBoxH:SetBorder( 20 )
            DEFINE IMAGE oImage FROM STOCK GTK_STOCK_DIALOG_INFO ;
                                SIZE_ICON GTK_ICON_SIZE_DIALOG OF oBoxH 
-           DEFINE LABEL TEXT cText OF oBoxH
+           DEFINE LABEL TEXT cText OF oBoxH MARKUP
          
            DEFINE BUTTON FROM STOCK GTK_STOCK_OK ACTION oWnd:End OF oBox 
 

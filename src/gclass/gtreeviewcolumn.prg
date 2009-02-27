@@ -1,4 +1,4 @@
-/* $Id: gtreeviewcolumn.prg,v 1.4 2009-02-26 22:50:19 riztan Exp $*/
+/* $Id: gtreeviewcolumn.prg,v 1.5 2009-02-27 06:22:57 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -92,10 +92,12 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort ) CLASS gTree
          if oTreeView:ClassName() == "GTREEVIEW" //Solamente, cuando es un TreeView, no una columna
             oTreeView:AppendColumn( Self )
             ::Register()                         //Solamente CUANDO sea un TreeView, no forme parte de una columna.
+            AADD( oTreeView:aCols, {Self, ::nColumn} )  // Para tener el Nro de Columna a la mano...
          endif
       endif
 
 RETURN Self
+
 
 METHOD Renderer( cType ) CLASS gTreeViewColumn
    
