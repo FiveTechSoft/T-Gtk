@@ -1,4 +1,4 @@
-/* $Id: libgda.c,v 1.2 2009-01-20 01:27:41 riztan Exp $*/
+/* $Id: libgda.c,v 1.3 2009-03-13 04:34:13 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -269,25 +269,42 @@ HB_FUNC( GDA_CLIENT_OPEN_CONNECTION )
  // Si hay algún tipo de error
  if (error != NULL) {
      // g_printerr ("Error: %d %s\n", error->code, error->message );
+     
     if( pError )
       {
       hb_arrayNew( pError, 2 );
-      PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+      // PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+      PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-      pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-      pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+      char szNum[32];
+      sprintf( szNum, "%d", error->code );
+      g_printerr( szNum );
+      g_printerr( error->message );
+
+//      pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
+//      pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+
+      hb_itemPutNI( pTemp, error->code );
+      hb_arraySetForward( pError , 1, pTemp);
       
-      hb_arraySet( pError, 1, pCode );
-      hb_arraySet( pError, 2, pMessage);
+      hb_itemPutC( pTemp, error->message );
+      hb_arraySetForward( pError, 2, pTemp);
       
-      hb_itemRelease( pCode );
-      hb_itemRelease( pMessage );
+      hb_itemRelease( pTemp );
+      
     }
     g_error_free (error);
 
  }
 }
 
+/*
+   hb_itemReturnForward( aNew );
+    
+   hb_itemRelease( temp );
+   hb_itemRelease( aTemp );
+   hb_itemRelease( aNew );
+*/
 
 HB_FUNC( GDA_COMMAND_NEW )
 {

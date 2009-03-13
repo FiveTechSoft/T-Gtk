@@ -1,4 +1,4 @@
-/* $Id: gda_connection.c,v 1.1 2009-01-20 01:27:41 riztan Exp $*/
+/* $Id: gda_connection.c,v 1.2 2009-03-13 04:34:13 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -69,20 +69,23 @@ HB_FUNC( GDA_CONNECTION_EXECUTE_NON_SELECT_COMMAND )
 
    if (error != NULL) {
       g_printerr ("Error: %d %s\n", error->code, error->message );
-      if( pError ){
-      
+      if( pError )
+        {
         hb_arrayNew( pError, 2 );
-      
-        PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-        pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-        pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-        hb_arraySet( pError, 1, pCode );
-        hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-        hb_itemRelease( pCode );
-        hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
       
       }
       g_error_free (error);
@@ -111,20 +114,23 @@ HB_FUNC( GDA_CONNECTION_EXECUTE_SELECT_COMMAND )
        // hb_itemRelease( pError );
        // hb_storni( (gint) (error->code), 4, 1);
        // hb_storc( (gchar *) (error->message), 4, 2);
-      if( pError ){
-      
+      if( pError )
+        {
         hb_arrayNew( pError, 2 );
-      
-        PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-        pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-        pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-        hb_arraySet( pError, 1, pCode );
-        hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-        hb_itemRelease( pCode );
-        hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
       
       }
       g_error_free (error);
@@ -250,20 +256,23 @@ HB_FUNC( GDA_CONNECTION_EXECUTE_COMMAND )
 
    if (error != NULL) {
       g_printerr ("Error: %d %s\n", error->code, error->message );
-      if( pError ){
-      
+      if( pError )
+        {
         hb_arrayNew( pError, 2 );
-      
-        PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-        pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-        pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-        hb_arraySet( pError, 1, pCode );
-        hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-        hb_itemRelease( pCode );
-        hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
       
       }
       g_error_free (error);
@@ -289,18 +298,23 @@ HB_FUNC( GDA_CONNECTION_BEGIN_TRANSACTION )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 
@@ -324,18 +338,23 @@ HB_FUNC( GDA_CONNECTION_COMMIT_TRANSACTION )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 
@@ -359,18 +378,23 @@ HB_FUNC( GDA_CONNECTION_ROLLBACK_TRANSACTION )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 
@@ -394,18 +418,23 @@ HB_FUNC( GDA_CONNECTION_ADD_SAVEPOINT )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 
@@ -429,18 +458,23 @@ HB_FUNC( GDA_CONNECTION_ROLLBACK_SAVEPOINT )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 
@@ -464,18 +498,23 @@ HB_FUNC( GDA_CONNECTION_DELETE_SAVEPOINT )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 

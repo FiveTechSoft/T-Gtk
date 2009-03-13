@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.55 2009-02-27 06:22:57 riztan Exp $
+ * $Id: ChangeLog,v 1.56 2009-03-13 04:34:12 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,14 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2009-03-12 23:57 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+   * /gnomedb/gda_connection.c
+   * /gnomedb/gda_data_model.c
+   * /gnomedb/libgda.c
+   * Corregido problema cuando se intentaba cargar la información de error al
+     arreglo pasado como referencia en algunas funciones.
+
+
 2009-02-27 01:32 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
    * /src/gclass/gtreeview.prg 
      + Metodo GetPosCol()  Para obtener la posicion numerica de una columna.

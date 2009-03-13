@@ -1,4 +1,4 @@
-/* $Id: gda_data_model.c,v 1.2 2009-01-20 03:01:28 riztan Exp $*/
+/* $Id: gda_data_model.c,v 1.3 2009-03-13 04:34:13 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -37,20 +37,23 @@ Por Incluir:
   
   
 */
+// Compatibilidad con HB
+#include <hbgda.h>
 
 // Functions LIBGDA
 #include <hbapi.h>
 #include <hbapiitm.h>
 
 #ifdef _GNOMEDB_
+#include <glib.h>
+#include <glib-object.h>
 #include <libgda/libgda.h>
-
 
 /*
 HB_FUNC( GDA_DATA_MODEL_ROW_INSERTED )
 {
    GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
-   gint row = hb_parni( 2 );
+   gint row = GDA2HB_VECTOR(hb_parni( 2 ));
    
    gda_data_model_row_inserted(model, row);
 }
@@ -88,7 +91,7 @@ HB_FUNC( GDA_DATA_MODEL_GET_N_COLUMNS )
 HB_FUNC( GDA_DATA_MODEL_DESCRIBE_COLUMN )
 {
    GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
-   gint col = hb_parni( 2 );
+   gint col = GDA2HB_VECTOR(hb_parni( 2 ));
    
    hb_retnl( (glong) gda_data_model_describe_column(model, col) );
 }
@@ -106,7 +109,7 @@ HB_FUNC( GDA_DATA_MODEL_GET_COLUMN_INDEX_BY_NAME )
 HB_FUNC( GDA_DATA_MODEL_GET_COLUMN_TITLE )
 {
    GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
-   gint col = hb_parni( 2 );
+   gint col = GDA2HB_VECTOR( hb_parni( 2 ) );
 
    hb_retc( gda_data_model_get_column_title(model, col) );
 }
@@ -115,7 +118,7 @@ HB_FUNC( GDA_DATA_MODEL_GET_COLUMN_TITLE )
 HB_FUNC( GDA_DATA_MODEL_SET_COLUMN_TITLE )
 {
    GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
-   gint col = hb_parni( 2 );
+   gint col = GDA2HB_VECTOR( hb_parni( 2 ) );
    const gchar *title = hb_parc( 3 );
 
    gda_data_model_set_column_title(model, col, title);
@@ -125,37 +128,92 @@ HB_FUNC( GDA_DATA_MODEL_SET_COLUMN_TITLE )
 HB_FUNC( GDA_DATA_MODEL_GET_ATTRIBUTES_AT )
 {
    GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
-   gint col = hb_parni( 2 );
-   gint row = hb_parni( 3 );
+   gint col = GDA2HB_VECTOR( hb_parni( 2 ) );
+   gint row = GDA2HB_VECTOR( hb_parni( 3 ) );
 
    hb_retni( gda_data_model_get_attributes_at( model, col, row ) );
 }
 
 
-// --- En desarrollo...  (Riztan)
 HB_FUNC( GDA_DATA_MODEL_GET_VALUE_AT )
 {
    GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
-   gint col = hb_parni( 2 );
-   gint row = hb_parni( 3 );
-   const GValue *result = NULL;
+   gint col = GDA2HB_VECTOR( hb_parni( 2 ) );
+   gint row = GDA2HB_VECTOR( hb_parni( 3 ) );
+   const GValue *value =  gda_data_model_get_value_at( model, col, row );
    
-   result = gda_data_model_get_value_at( model, col, row );
-
-//   hb_retptr( result );
+   hb_retptr( (GValue *) value );
 }
 
+//g_strdup_value_contents 
+//HB_FUNC( G_STRDUP_VALUE_CONTENTS )
+//{
+//   const GValue *value = hb_param( 1, HB_IT_ANY );
+//   hb_retc( g_strdup_value_contents(value) );
+//}
 
+
+// HB_FUNC( GDA_VALUE_HOLDS_TIMESTAMP(value) )
+// HB_FUNC( GDA_VALUE_ISA() )
 /*
+HB_FUNC( GDA_VALUE_TO_XML )
+{
+   const GValue *value = hb_parptr( 1 );
+   hb_retptr( gda_value_to_xml(value) );
+}
+*/
+
+
+
 HB_FUNC( GDA_DATA_MODEL_SET_VALUE_AT )
 {
    GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
-   gint col = hb_parni( 2 );
-   gint row = hb_parni( 3 );
-   PHB_ITEM pvalue = hb_param( 4, HB_IT_ANY );
-//   gda_data_model_set_value_at
+   gint col = GDA2HB_VECTOR( hb_parni( 2 ) );
+   gint row = GDA2HB_VECTOR( hb_parni( 3 ) );
+   const GValue *value = (GValue *) hb_parptr( 4 );
+   
+   PHB_ITEM pError = hb_param( 5, HB_IT_ANY );
+   GError *error = NULL;
+   
+  
+   hb_retl( gda_data_model_set_value_at(model, col, row, value, &error)   );
+
+   // Si hay algún tipo de error
+   if (error != NULL) {
+      if( pError )
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
+
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
+      
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
+      
+        hb_itemRelease( pTemp );
+      
+      }
+      g_error_free (error);
+
+   }
+   
+   hb_itemRelease( pError );
 
 }
+
+/*
+   GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
+   gint col = GDA2HB_VECTOR( hb_parni( 2 ) );
+   gint row = GDA2HB_VECTOR( hb_parni( 3 ) );
+   const GValue *value =  gda_data_model_get_value_at( model, col, row );
+   
+   hb_retptr( (GValue *) value );
 */
 
 
@@ -178,18 +236,23 @@ HB_FUNC( GDA_DATA_MODEL_APPEND_VALUES )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 
@@ -209,18 +272,23 @@ HB_FUNC( GDA_DATA_MODEL_APPEND_ROW )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 
@@ -233,7 +301,7 @@ HB_FUNC( GDA_DATA_MODEL_APPEND_ROW )
 HB_FUNC( GDA_DATA_MODEL_REMOVE_ROW )
 {
    GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
-   gint row = hb_parni( 2 );
+   gint row = GDA2HB_VECTOR( hb_parni( 2 ) );
    PHB_ITEM pError = hb_param( 3, HB_IT_ANY );
    GError *error = NULL;
 
@@ -242,18 +310,23 @@ HB_FUNC( GDA_DATA_MODEL_REMOVE_ROW )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 
@@ -310,18 +383,23 @@ HB_FUNC( GDA_DATA_MODEL_EXPORT_TO_FILE )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 
@@ -345,18 +423,23 @@ HB_FUNC( GDA_DATA_MODEL_ADD_DATA_FROM_XML_NODE )
    // Si hay algún tipo de error
    if (error != NULL) {
       if( pError )
-         {
-         hb_arrayNew( pError, 2 );
-         PHB_ITEM pCode = hb_itemNew( NULL ), pMessage = hb_itemNew( NULL );
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
 
-         pCode = hb_itemPutNI( hb_arrayGetItemPtr( pError,1), error->code );
-         pMessage = hb_itemPutC( hb_arrayGetItemPtr( pError,2), error->message );
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
       
-         hb_arraySet( pError, 1, pCode );
-         hb_arraySet( pError, 2, pMessage);
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
       
-         hb_itemRelease( pCode );
-         hb_itemRelease( pMessage );
+        hb_itemRelease( pTemp );
+      
       }
       g_error_free (error);
 
@@ -405,7 +488,7 @@ HB_FUNC( GDA_DATA_MODEL_ITER_IS_VALID )
 HB_FUNC( GDA_DATA_MODEL_ITER_SET_AT_ROW )
 {
    GdaDataModelIter *iter = GDA_DATA_MODEL_ITER( hb_parnl( 1 ) );
-   gint row = hb_parni( 2 );
+   gint row = GDA2HB_VECTOR( hb_parni( 2 ) );
 
    hb_retl( gda_data_model_iter_set_at_row(iter, row) );
 }
@@ -450,7 +533,7 @@ HB_FUNC( GDA_DATA_MODEL_ITER_GET_COLUMN_FOR_PARAM )
 HB_FUNC( GDA_DATA_MODEL_ITER_GET_PARAM_FOR_COLUMN )
 {
    GdaDataModelIter *iter = GDA_DATA_MODEL_ITER( hb_parnl( 1 ) );
-   gint col = hb_parni( 2 );
+   gint col = GDA2HB_VECTOR( hb_parni( 2 ) );
    hb_retnl( (glong) gda_data_model_iter_get_param_for_column(iter,col) );
 }
 
