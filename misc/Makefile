@@ -3,7 +3,7 @@
 # Makefile para T-GTK codigo de C
 #
 
-TARGET=libmisc.a
+TARGET=libtgtk-misc.a
 #SOURCES = misc.prg
 
 PRGFLAGS=-I../include
