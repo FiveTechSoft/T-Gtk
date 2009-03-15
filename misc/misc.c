@@ -1,5 +1,5 @@
 /*
- * $Id: misc.c,v 1.2 2009-03-15 19:40:01 riztan Exp $
+ * $Id: misc.c,v 1.3 2009-03-15 19:45:52 riztan Exp $
  */
 /*
     LGPL Licence.
@@ -65,7 +65,7 @@ HB_FUNC( RUN2ME )
    
    }
 
-   hb_itemReturnForward( aTemp );
+   hb_itemReturnForward( aRes );
     
    hb_itemRelease( temp );
    hb_itemRelease( aRes );
