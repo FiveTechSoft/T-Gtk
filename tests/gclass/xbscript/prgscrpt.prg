@@ -1,5 +1,5 @@
 /*
- * $Id: prgscrpt.prg,v 1.1 2008-12-02 21:37:48 riztan Exp $
+ * $Id: prgscrpt.prg,v 1.2 2009-03-15 17:37:24 riztan Exp $
  */
 
 /*
@@ -53,7 +53,7 @@
  */
 
 #include "gclass.ch"
-#include "tgtkext.ch"
+#include "./tgtkext.ch"
 
 Procedure Main( sMsg )
 

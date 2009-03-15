@@ -1,0 +1,10 @@
+ATENCION.
+
+Para que el ejemplo pueda funcionar, debes colocar la ruta include de t-gtk en path.
+
+Ejemplo:
+
+PATH=$PATH:/home/*usuario*/t-gtk/include
+
+
+
