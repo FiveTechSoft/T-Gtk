@@ -1,4 +1,4 @@
-/* $Id: libgda.c,v 1.3 2009-03-13 04:34:13 riztan Exp $*/
+/* $Id: libgda.c,v 1.4 2009-03-15 17:10:16 riztan Exp $*/
 /*
     LGPL Licence.
     
