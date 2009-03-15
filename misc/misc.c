@@ -1,5 +1,5 @@
 /*
- * $Id: misc.c,v 1.3 2009-03-15 19:45:52 riztan Exp $
+ * $Id: misc.c,v 1.4 2009-03-15 20:11:05 riztan Exp $
  */
 /*
     LGPL Licence.
@@ -45,8 +45,8 @@ HB_FUNC( RUN2ME )
    char *command = hb_parc( 1 );
    char buffer[SIZE];
 
-   PHB_ITEM aRes = hb_itemNew( NULL );
-   PHB_ITEM temp  = hb_itemNew( NULL );
+   PHB_ITEM aRes = hb_itemArrayNew( 0 );
+   PHB_ITEM temp = hb_itemNew( NULL );
 
    
    file = popen( command, "r" );
@@ -58,9 +58,9 @@ HB_FUNC( RUN2ME )
       {
       
          hb_itemPutC( temp, buffer );
-         hb_arraySetForward( aRes, 1, temp );
+         hb_arrayAdd( aRes, temp  );
 
-         //printf( "%s", buffer ) ;
+         printf( "%s", buffer ) ;
       } 
    
    }
