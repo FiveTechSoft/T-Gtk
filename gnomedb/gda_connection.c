@@ -1,4 +1,4 @@
-/* $Id: gda_connection.c,v 1.3 2009-03-15 17:10:16 riztan Exp $*/
+/* $Id: gda_connection.c,v 1.4 2009-03-26 22:40:16 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -31,7 +31,6 @@ gda_connection_get_client ()
 gda_connection_get_options()
 gda_connection_get_provider_obj()
 gda_connection_get_infos()
-gda_connection_get_schema()
 
 gda_connection_add_event()
 gda_connection_add_event_string()
@@ -50,10 +49,82 @@ gda_connection_get_transaction_status()
 #ifdef _GNOMEDB_
 #include <libgda/libgda.h>
 
+HB_FUNC( GDA_CONNECTION_OPEN )
+{
+   GdaConnection *cnc = GDA_CONNECTION( hb_parnl( 1 ) );
+   GError *error = NULL;
+   PHB_ITEM pError = hb_param( 2, HB_IT_ANY );
+   
+   hb_retl( gda_connection_open( cnc, &error ) );
+
+   if (error != NULL) {
+      g_printerr ("Error: %d %s\n", error->code, error->message );
+      if( pError )
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
+
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
+      
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
+      
+        hb_itemRelease( pTemp );
+      
+      }
+      g_error_free (error);
+   }
+
+}
+
+/*  pertenece a la version 4 
+HB_FUNC( GDA_CONNECTION_OPEN_FROM_DSN )
+{
+   const gchar *dsn = hb_parc( 1 );
+   const gchar *auth_string = hb_parc( 2 );
+   int   options = hb_parni( 3 );
+   GError *error = NULL;
+   PHB_ITEM pError = hb_param( 4, HB_IT_ANY );
+   
+   hb_retnl( gda_connection_open_from_dsn( dsn, auth_string, options, &error ) );
+
+   if (error != NULL) {
+      g_printerr ("Error: %d %s\n", error->code, error->message );
+      if( pError )
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
+
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
+      
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
+      
+        hb_itemRelease( pTemp );
+      
+      }
+      g_error_free (error);
+   }
+
+}
+*/
+
 HB_FUNC( GDA_CONNECTION_CLOSE )
 {
- GdaConnection *cnc = GDA_CONNECTION( hb_parnl( 1 ) );
- gda_connection_close (cnc);
+   GdaConnection *cnc = GDA_CONNECTION( hb_parnl( 1 ) );
+   gda_connection_close (cnc);
 }
 
 HB_FUNC( GDA_CONNECTION_EXECUTE_NON_SELECT_COMMAND )
@@ -146,6 +217,43 @@ HB_FUNC( GDA_CONNECTION_SUPPORTS_FEATURE )
    int feature = hb_parni( 2 );
 
    hb_retl( gda_connection_supports_feature(cnc, feature) );
+}
+
+
+HB_FUNC( GDA_CONNECTION_GET_SCHEMA )
+{
+   GdaConnection *cnc = GDA_CONNECTION( hb_parnl( 1 ) );
+   int schema = hb_parni( 2 );
+   GdaParameterList *params = (GdaParameterList *)hb_parnl( 3 );
+
+   GError *error = NULL;
+   PHB_ITEM pError = hb_param( 4, HB_IT_ANY );
+
+   hb_retnl( (glong) gda_connection_get_schema( cnc, schema, params, &error ) );
+
+   if (error != NULL) {
+      g_printerr ("Error: %d %s\n", error->code, error->message );
+      if( pError )
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
+
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
+      
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
+      
+        hb_itemRelease( pTemp );
+      
+      }
+      g_error_free (error);
+   }
 }
 
 

@@ -1,4 +1,4 @@
-/* $Id: gda_data_model.c,v 1.4 2009-03-15 17:10:16 riztan Exp $*/
+/* $Id: gda_data_model.c,v 1.5 2009-03-26 22:40:16 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -536,6 +536,25 @@ HB_FUNC( GDA_DATA_MODEL_ITER_GET_PARAM_FOR_COLUMN )
    gint col = GDA2HB_VECTOR( hb_parni( 2 ) );
    hb_retnl( (glong) gda_data_model_iter_get_param_for_column(iter,col) );
 }
+
+/*  VERSION 4
+HB_FUNC( GDA_DATA_MODEL_ITER_GET_VALUE_AT )
+{
+   GdaDataModelIter *iter = GDA_DATA_MODEL_ITER( hb_parnl( 1 ) );
+   gint col = GDA2HB_VECTOR( hb_parni( 2 ) );
+   hb_retnl( (glong) gda_data_model_iter_get_value_at(iter,col) );
+}
+
+
+HB_FUNC( GDA_DATA_MODEL_ITER_GET_VALUE_FOR_FIELD )
+{
+   GdaDataModelIter *iter = GDA_DATA_MODEL_ITER( hb_parnl( 1 ) );
+   gchar *field_name = GDA2HB_VECTOR( hb_parc( 2 ) );
+   hb_retnl( (glong) gda_data_model_iter_get_value_for_field( iter, field_name) );
+}
+*/
+
+
 
 #endif
 

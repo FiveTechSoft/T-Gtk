@@ -1,4 +1,4 @@
-/* $Id: libgda.c,v 1.4 2009-03-15 17:10:16 riztan Exp $*/
+/* $Id: libgda.c,v 1.5 2009-03-26 22:40:16 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -55,6 +55,80 @@ password : 	password to use when authenticating username.
 is_global : 	TRUE if the data source is system-wide
 Returns : 	TRUE if no error occurred
 */
+
+
+HB_FUNC( GDA_EXECUTE_SELECT_COMMAND )
+{
+   GdaConnection *cnc = GDA_CONNECTION( hb_parnl( 1 ) );
+   const gchar *sql   = hb_parc( 2 );
+   GError *error = NULL;
+   PHB_ITEM pError = hb_param( 3, HB_IT_ANY );
+
+   hb_retnl( (glong) gda_execute_select_command( cnc, sql, &error ) );
+
+   if (error != NULL) {
+      g_printerr ("Error: %d %s\n", error->code, error->message );
+      if( pError )
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
+
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
+      
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
+      
+        hb_itemRelease( pTemp );
+      
+      }
+      g_error_free (error);
+   }
+
+}
+
+
+HB_FUNC( GDA_EXECUTE_SQL_COMMAND )
+{
+   GdaConnection *cnc = GDA_CONNECTION( hb_parnl( 1 ) );
+   const gchar *sql   = hb_parc( 2 );
+   GError *error = NULL;
+   PHB_ITEM pError = hb_param( 3, HB_IT_ANY );
+
+   hb_retnl( (glong) gda_execute_sql_command( cnc, sql, &error ) );
+
+   if (error != NULL) {
+      g_printerr ("Error: %d %s\n", error->code, error->message );
+      if( pError )
+        {
+        hb_arrayNew( pError, 2 );
+        PHB_ITEM pTemp    = hb_itemNew( NULL );
+
+        char szNum[32];
+        sprintf( szNum, "%d", error->code );
+        g_printerr( szNum );
+        g_printerr( error->message );
+
+        hb_itemPutNI( pTemp, error->code );
+        hb_arraySetForward( pError , 1, pTemp);
+      
+        hb_itemPutC( pTemp, error->message );
+        hb_arraySetForward( pError, 2, pTemp);
+      
+        hb_itemRelease( pTemp );
+      
+      }
+      g_error_free (error);
+   }
+
+}
+
+
 HB_FUNC( GDA_CONFIG_SAVE_DATA_SOURCE )
 {
 

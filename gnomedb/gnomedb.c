@@ -1,4 +1,4 @@
-/* $Id: gnomedb.c,v 1.2 2009-01-20 01:27:41 riztan Exp $*/
+/* $Id: gnomedb.c,v 1.3 2009-03-26 22:40:16 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -145,5 +145,35 @@ HB_FUNC( GNOME_DB_GRID_NEW )
  grid = gnome_db_grid_new( model );
  hb_retnl( (glong) grid );
 }
+
+
+
+HB_FUNC( GNOME_DB_RAW_GRID_NEW )
+{
+ GtkWidget * grid;
+ GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
+ grid = gnome_db_raw_grid_new( model );
+ hb_retnl( (glong) grid );
+}
+
+
+HB_FUNC( GNOME_DB_COMBO_NEW )
+{
+   hb_retnl( (glong) gnome_db_combo_new() );
+}
+
+
+HB_FUNC( GNOME_DB_COMBO_NEW_WITH_MODEL )
+{
+   GtkWidget * combo;
+   GdaDataModel *model = GDA_DATA_MODEL( hb_parnl( 1 ) );
+   gint n_cols = hb_parni( 2 );
+   gint cols_index = hb_parni( 3 );
+   combo = gnome_db_combo_new_with_model( model, n_cols, &cols_index );
+   hb_retnl( (glong) combo );
+}
+
+
+
 
 #endif

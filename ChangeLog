@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.58 2009-03-15 19:40:00 riztan Exp $
+ * $Id: ChangeLog,v 1.59 2009-03-26 22:40:10 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,15 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2009-03-26 17:57 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+  * gnomedb/gda_connection.c 
+  * gnomedb/gda_data_model.c
+  * gnomedb/gda_object.c
+  * gnomedb/gnomdb.c
+  * gnomedb/libgda.c
+  Mas funciones agregadas, y correcciones varias.
+
+
 2009-03-15 15:07 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
    * /misc/Makefile  Se modifico el nombre de la libreria a libtgtk-misc ya que misc se
                      presta para errores.
