@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.59 2009-03-26 22:40:10 riztan Exp $
+ * $Id: ChangeLog,v 1.60 2009-03-26 23:03:41 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -9,6 +9,9 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 2009-03-26 17:57 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+  + gnomedb/gda_data_model_query.c 
+  + gnomedb/gda_dict.c
+  + gnomedb/gda_query.c
   * gnomedb/gda_connection.c 
   * gnomedb/gda_data_model.c
   * gnomedb/gda_object.c
