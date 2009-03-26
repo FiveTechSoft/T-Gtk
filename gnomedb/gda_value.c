@@ -1,4 +1,4 @@
-/* $Id: gda_value.c,v 1.1 2009-03-15 17:10:16 riztan Exp $*/
+/* $Id: gda_value.c,v 1.2 2009-03-26 23:34:40 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -53,8 +53,106 @@ HB_FUNC( GDA_VALUE_STRINGIFY )
 }
 
 
+HB_FUNC( G_VALUE_HOLDS ) 
+{
+   const GValue *value = (GValue *) hb_parptr( 1 );
+   hb_retl( G_VALUE_HOLDS( value, hb_parni( 2 ) ) );
+
+}
 
 
+HB_FUNC( G_VALUE_HOLDS_STRING ) 
+{
+   const GValue *value = (GValue *) hb_parptr( 1 );
+   gchar * cType = "";
 
+//   PHB_ITEM cType = hb_itemNew( NULL );
+   
+   if ( G_VALUE_HOLDS_CHAR(value) )
+   {
+//      hb_itemPutC(  cType, "CHAR" );
+        cType = "CHAR";
+   }
+   else if ( G_VALUE_HOLDS_UCHAR(value) )
+   {
+//      hb_itemPutC(  cType, "UCHAR" );
+        cType = "UCHAR";
+   }
+   
+   else if ( G_VALUE_HOLDS_BOOLEAN(value) )
+   {
+//      hb_itemPutC(  cType, "BOOLEAN" );
+        cType = "BOOLEAN";
+   }
+   else if ( G_VALUE_HOLDS_INT(value) || G_VALUE_HOLDS_DOUBLE(value) )
+   {
+      PHB_ITEM pText = hb_itemNew(NULL);
+      
+      char * szText = gda_value_stringify(value);
+      int iWidth, iDec, iLen = ( int ) pText->item.asString.length;
+      BOOL fDbl;
+      HB_LONG lValue;
+      double dValue;
+
+      fDbl = hb_valStrnToNum( szText, iLen, &lValue, &dValue , &iDec, &iWidth );
+
+      if ( !fDbl )
+      {
+//         hb_itemPutC(  cType, "INT" );
+           cType = "INT";
+      }
+      else
+      {
+//         hb_itemPutC(  cType, "DOUBLE" );
+           cType = "DOUBLE";
+      }
+
+   }
+   else if ( G_VALUE_HOLDS_LONG(value) )
+   {
+//      hb_itemPutC(  cType, "LONG" );
+        cType = "LONG";
+   }
+   else if ( G_VALUE_HOLDS_ULONG(value) )
+   {
+//      hb_itemPutC(  cType, "ULONG" );
+        cType = "ULONG";
+   }
+   else if ( G_VALUE_HOLDS_INT64(value) )
+   {
+//      hb_itemPutC(  cType, "INT64" );
+        cType = "INT64";
+   }
+   else if ( G_VALUE_HOLDS_DOUBLE(value) )
+   {
+//      hb_itemPutC(  cType, "DOUBLE" );
+        cType = "DOUBLE";
+   }
+   else if ( G_VALUE_HOLDS_STRING(value) )  //64
+   {
+//      hb_itemPutC(  cType, "STRING" );
+        cType = "STRING";
+   }
+   else if ( G_VALUE_HOLDS(value, GDA_TYPE_TIME) )  
+   {
+//      hb_itemPutC(  cType, "TIME" );
+        cType = "TIME";
+   }
+   else if ( G_VALUE_HOLDS(value, GDA_TYPE_TIMESTAMP) )  
+   {
+//      hb_itemPutC(  cType, "TIMESTAMP" );
+        cType = "TIMESTAMP";
+   }
+   else
+   {
+//      hb_itemPutC(  cType, "UNDEFINED" );
+        cType = "UNDEFINED";
+   }
+
+   hb_retc( cType );
+
+//   hb_itemRelease( cType );
+
+}
 
 #endif
