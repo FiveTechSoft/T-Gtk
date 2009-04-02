@@ -1,4 +1,4 @@
-/* $Id: gentry.prg,v 1.11 2007-10-01 19:48:10 clneumann Exp $*/
+/* $Id: gentry.prg,v 1.12 2009-04-02 17:16:12 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -31,8 +31,11 @@ CLASS GENTRY FROM GWIDGET
       
       METHOD New( bSetGet, cPicture, oParent )
       METHOD SetPos( nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
-      METHOD SetText( cText ) INLINE gtk_entry_set_text( ::pWidget,  cText )
-      METHOD GetText()        INLINE gtk_entry_get_text( ::pWidget )
+      METHOD SetText( cText ) INLINE ( ;
+                                      ::Connect( "focus-out-event"), ;
+                                      ::Connect( "activate"),;
+                                      gtk_entry_set_text( ::pWidget,  cText ) )
+      METHOD GetText()        INLINE gtk_entry_get_text( ::pWidget ) 
       METHOD GetPos()         INLINE gtk_editable_get_position( ::pWidget )
       METHOD Justify (nType ) INLINE gtk_entry_set_alignment( ::pWidget, nType )
       METHOD SetVisible( lVisible )  INLINE gtk_entry_set_visibility( ::pWidget, lVisible )
@@ -102,7 +105,9 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
        endif
        
        ::oGet:SetFocus()
-       ::SetText( alltrim( ::oGet:buffer ) )
+       If !Empty( ::oGet:buffer )
+          ::SetText( alltrim( ::oGet:buffer ) )
+       EndIf
        ::SetPos( ::oGet:pos - 1 )
 
        ::Show()
