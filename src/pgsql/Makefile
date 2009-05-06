@@ -15,7 +15,7 @@ PRGFLAGS=-I../../include
 
 
 #Flags para sistemas GNU/Linux
-CFLAGS+=-I../../include -I/usr/include -I/usr/include/libpq -I/usr/include/pgsql/server/libpq
+CFLAGS+=-I../../include -I/usr/include -I/usr/include/libpq -I/usr/include/pgsql/server/libpq -I/usr/include/postgresql
 
 TGTK_INSTALL=../../lib
 

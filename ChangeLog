@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.61 2009-04-02 17:15:25 riztan Exp $
+ * $Id: ChangeLog,v 1.62 2009-05-06 16:52:09 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,9 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2009-05-06 12:19 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+  * src/pgsql/Makefile  Se anexa ruta de postgresql en ubuntu.
+
 2009-04-02 12:37 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
   * src/gclass/gentry.prg Se anexa condicion para evaluar si la 
                           variable ::oGet:buffer esta vacia y evitar error con
