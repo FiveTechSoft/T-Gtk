@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.62 2009-05-06 16:52:09 riztan Exp $
+ * $Id: ChangeLog,v 1.63 2009-05-08 00:40:54 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,8 +8,16 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2009-05-07 20:08 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
+  * /hbgtk/gtkwindow.c  Agregadas funciones para indicar icono por defecto.  
+    + gtk_window_set_default_icon
+    + gtk_window_set_default_icon_name
+    + gtk_window_set_default_icon_from_file
+
+
 2009-05-06 12:19 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
   * src/pgsql/Makefile  Se anexa ruta de postgresql en ubuntu.
+
 
 2009-04-02 12:37 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
   * src/gclass/gentry.prg Se anexa condicion para evaluar si la 

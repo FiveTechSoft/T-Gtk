@@ -1,4 +1,4 @@
-/* $Id: gtkwindow.c,v 1.4 2008-10-16 16:08:25 riztan Exp $*/
+/* $Id: gtkwindow.c,v 1.5 2009-05-08 00:40:56 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -245,6 +245,22 @@ HB_FUNC( GTK_WINDOW_SET_DEFAULT )
      default_widget = GTK_WIDGET( hb_parnl( 2 ) );
 
   gtk_window_set_default( GTK_WINDOW( window ), default_widget );
+}
+
+HB_FUNC( GTK_WINDOW_SET_DEFAULT_ICON )
+{
+  GdkPixbuf * pixbuf = ( GdkPixbuf * ) create_pixbuf( hb_parc( 1 ) );
+  gtk_window_set_default_icon( pixbuf );
+}
+
+HB_FUNC( GTK_WINDOW_SET_DEFAULT_ICON_FROM_FILE )
+{
+  gtk_window_set_default_icon_from_file( hb_parc( 1 ), NULL );
+}
+
+HB_FUNC( GTK_WINDOW_SET_DEFAULT_ICON_NAME )
+{
+  gtk_window_set_default_icon_name( hb_parc( 1 ) );
 }
 
 HB_FUNC( GTK_WINDOW_SET_FOCUS )
