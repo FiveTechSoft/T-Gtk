@@ -1,4 +1,4 @@
-/* $Id: gcellrenderertext.prg,v 1.1 2006-09-07 17:07:55 xthefull Exp $*/
+/* $Id: gcellrenderertext.prg,v 1.2 2009-05-15 05:24:50 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -35,11 +35,12 @@ ENDCLASS
 METHOD New() CLASS gCellRendererText
     ::pWidget := gtk_cell_renderer_text_new()
     ::cType   := "text"
+    ::Connect( "edited" )
 RETURN Self
 
 METHOD OnEdited( oSender , cPath, cTextNew ) CLASS gCellRendererText
     
-    if oSender:bEdited != nil
+    if oSender:bEdited != NIL
        Eval( oSender:bEdited, oSender, cPath, cTextNew )
     endif
 
