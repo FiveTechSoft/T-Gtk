@@ -1,4 +1,4 @@
-/* $Id: hbgtkextend.c,v 1.4 2006-10-05 15:45:19 rosenwla Exp $*/
+/* $Id: hbgtkextend.c,v 1.5 2009-05-18 09:45:36 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -32,8 +32,8 @@
  *  + hb_gtk_get_dlg_action_area()  Devuelve el contenedor action_area de un dialogo
  *  + hb_gtk_get_statusbar_label()  Devuelve widget label de un statusbar
  *  + hb_gtk_call_block()--interna- 'Ejecutor' de un codeblock en C
- *  + hb_gtk_signal_connect_block() Conexion de señales a codeblocks
- * Otra via  para conexion de señales :
+ *  + hb_gtk_signal_connect_block() Conexion de seï¿½ales a codeblocks
+ * Otra via  para conexion de seï¿½ales :
  *  + hb_call_block() Callback de GTK_SIGNAL_CONNECT_HB_BLOCK
  *  + GTK_SIGNAL_CONNECT_HB_BLOCK()
  *  + HB_CLICK_CONNECT_BY_PARAM() Conectando con paso de parametro
@@ -45,7 +45,7 @@
 #include "hbapiitm.h"
 
 // Atencion esto esta para mantener compatibilidad con xHarbour anteriores
-// Deberá desaparecer , pero lo necesito ahora
+// Deberï¿½ desaparecer , pero lo necesito ahora
 #ifdef __OLDHARBOUR__
   HB_EXPORT PHB_SYMB hb_dynsymSymbol( PHB_DYNS pDynSym );
 #endif
@@ -53,7 +53,7 @@
 /**
  * Internals ...............................................................
  **/
-
+#ifdef __INTERNAL_TGTK__
 void 
 hb_gtk_call_block( GtkWidget * widget, gpointer data )
 {
@@ -144,10 +144,10 @@ click_connect_destroy( gpointer data )
 
 /**
  * NOTAS: NO USAR ESTAS FUNCIONES!!! ES EXPERIMENTAL....
- * Distintos metodos de conexion a señales .................................
+ * Distintos metodos de conexion a seï¿½ales .................................
  **/
 
-HB_FUNC( HB_GTK_SIGNAL_CONNECT_BLOCK ) // widget, se¤al, codeblock -> NIL
+HB_FUNC( HB_GTK_SIGNAL_CONNECT_BLOCK ) // widget, seï¿½al, codeblock -> NIL
 {
   GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
   gchar *     signal = ( gchar * ) hb_parc( 2 );
@@ -156,8 +156,8 @@ HB_FUNC( HB_GTK_SIGNAL_CONNECT_BLOCK ) // widget, se¤al, codeblock -> NIL
   g_signal_connect( G_OBJECT( widget ), signal,
                     G_CALLBACK( hb_gtk_call_block ), pSelf );
 
-/* Al conectar la señal al codeblock, se fuerza la conexion a la callback que
- * será llamada al destruirse el widget, liberando el codeblock de memoria,
+/* Al conectar la seï¿½al al codeblock, se fuerza la conexion a la callback que
+ * serï¿½ llamada al destruirse el widget, liberando el codeblock de memoria,
  * Rafa una solucion muy 'eficiente' y 'transparente' al usuario.
  */
 
@@ -173,7 +173,7 @@ HB_FUNC( HB_GTK_SIGNAL_CONNECT_BLOCK ) // widget, se¤al, codeblock -> NIL
 
 /**
  * NOTAS: NO USAR ESTAS FUNCIONES!!! ES EXPERIMENTAL....
- * Distintos metodos de conexion a señales .................................
+ * Distintos metodos de conexion a seï¿½ales .................................
  **/
 HB_FUNC( HB_CLICK_CONNECT_BY_PARAM ) // widget, salto a funcion, param
 {
@@ -200,7 +200,7 @@ HB_FUNC( HB_CLICK_CONNECT_BY_PARAM ) // widget, salto a funcion, param
       * Atencion !
       * Cualquier salida via gtk_main_quit() provocara que no se llame nunca
       * a la 'callback' destroy. Hay que 'cerrar' los contenedores para que
-      * emitan la señal 'destroy' y se pueda autollamar a la funcion de
+      * emitan la seï¿½al 'destroy' y se pueda autollamar a la funcion de
       * liberacion de memoria click_connect_destroy
       **/
       g_object_set_data_full( G_OBJECT (widget), "click_user_data", pSelf, 
@@ -211,6 +211,7 @@ HB_FUNC( HB_CLICK_CONNECT_BY_PARAM ) // widget, salto a funcion, param
     }                                   
   hb_retni( iReturn );
 }
+#endif
 
 
 /**
