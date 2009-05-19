@@ -1,0 +1,18 @@
+<harbour>
+  <lib name="lvm" force="yes" />
+  <lib name="lrt" force="yes" />
+  <lib name="llan" force="yes"/>
+  <lib name="lrdd" force="yes"/>
+  <lib name="lmacro" force="yes"/>
+  <lib name="lpp" force="yes" />
+  <lib name="ldbfntx" force="yes"/>
+  <lib name="ldbfcdx" force="yes"/>
+  <lib name="ldbfftp" force="yes"/>
+  <lib name="lhbsix" force="yes"/>
+  <lib name="lpcrepos" force="yes"/>
+  <lib name="lcommon" force="yes"/>
+  <lib name="lm" force="yes" />
+  <lib name="ltip" force="yes"/>
+  <lib name="lgtwin" force="no"/>
+  <lib name="lgtnul" force="no"/>
+</harbour>
