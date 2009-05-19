@@ -1,11 +1,5 @@
-
-
-
-
-
-
 /*
- * $Id: tharbourconfig.prg,v 1.1 2009-05-19 21:31:27 xthefull Exp $
+ * $Id: tharbourconfig.prg,v 1.2 2009-05-19 21:32:08 xthefull Exp $
  * Clase que nos permite dotar de librerias nuevas sin tener que compilar de nuevo el
  * configurador, solamente cambiando el config.xml, obtenemos lo deseado.
  * Porting Harbour to GTK+ power !
