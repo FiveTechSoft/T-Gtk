@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.66 2009-05-19 23:48:47 riztan Exp $
+ * $Id: ChangeLog,v 1.67 2009-05-20 11:10:53 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,11 +8,24 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2009-05-20 14:03 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   * /src/gclass/gtreeview.prg
+     Method GetAutoValue() devuelve valor si el tipo es un pixbuf como un long,
+     por lo tanto esto;
+        pImage := oTreeview:GetValue( 4, "Long" , pPath )
+     ahora se puede usar
+        pImage := oTreeview:GetAutoValue( 4 )
+
+
 2009-05-19 19:15 UTC-04:30 Riztan Gutierrez <riztan at gmail.com>
   * /tests/gclass/listore.prg
     * Corregido detalle cuando se hace doble clic en elemento de tipo logico.
       se coloca CStr() para convertir valor a texto.
 
+2009-05-19 23:32 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   + Configurador Alpha;
+     /tests/gclass/configurador
 
 2009-05-18 11:45 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
   * Fix minor bug.
