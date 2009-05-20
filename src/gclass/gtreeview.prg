@@ -1,4 +1,4 @@
-/* $Id: gtreeview.prg,v 1.3 2009-02-27 06:22:57 riztan Exp $*/
+/* $Id: gtreeview.prg,v 1.4 2009-05-20 11:06:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -200,7 +200,7 @@ METHOD GetAutoValue( nColumn, aIter, aIter_Clone ) CLASS gTreeView
               hb_gtk_tree_model_get_int( model, aIter,  nColumn - 1, @uValue ) 
          CASE ( nType = G_TYPE_BOOLEAN )
               hb_gtk_tree_model_get_boolean( model, aIter,  nColumn - 1, @uValue ) 
-         CASE ( nType = G_TYPE_LONG .OR. nType = G_TYPE_ULONG )
+         CASE ( nType = G_TYPE_LONG .OR. nType = G_TYPE_ULONG .OR. nType = GDK_TYPE_PIXBUF )
               hb_gtk_tree_model_get_long( model, aIter, nColumn - 1, @uValue ) 
          CASE ( nType = G_TYPE_DOUBLE .OR. nType = G_TYPE_FLOAT )
               hb_gtk_tree_model_get_double( model, aIter, nColumn - 1, @uValue ) 
