@@ -1,5 +1,5 @@
 /*
- * $Id: configurador.prg,v 1.1 2009-05-19 21:31:27 xthefull Exp $
+ * $Id: configurador.prg,v 1.2 2009-05-21 07:50:18 xthefull Exp $
  * Alpha Configurador.
  * Porting Harbour to GTK+ power !
  * (C) 2009. Rafa Carmona -TheFull-
@@ -10,6 +10,7 @@ static oAssistant
 static s_cPath_pkg := ""          // Path hacia pkg-config
 static s_Continue_library := .f.  // Si estan disponibles las librerias obligatorias, continuaremos.
 static aLibrerias
+static s_aLibs_Harbour := {}          // Librerias de Harbour
 
 Function Main()
      Local oPage1, oPage2, oPage3, oPage13, oBtn
@@ -45,23 +46,24 @@ Function Main()
                    COMPLETE ;
                    TYPE GTK_ASSISTANT_PAGE_INTRO  ;
                    TITLE "Bienvenido a T-Gtk for [x]Harbour" ;
-                   IMAGE HEADER "../../images/rafa2.jpg" ; 
-                   IMAGE SIDE   "../../images/anieyes.gif"
+                   IMAGE HEADER "./images/tgtk-logo.png" ;
+                   IMAGE SIDE   "./images/rafa2.jpg"
 
             APPEND ASSISTANT oAssistant ;
                    WIDGET oPage2 ;
                    TITLE "License LGPL" ;
-                   IMAGE HEADER"../../images/gnu-keys.png"
+                   IMAGE HEADER"./images/gnu-keys.png"
 
             APPEND ASSISTANT oAssistant ;
                    WIDGET oPage3 ;
                    TITLE "Configuración base" ;
-                   IMAGE HEADER"../../images/gnu-keys.png"
+                   IMAGE HEADER "./images/tgtk-logo.png" 
 
            APPEND ASSISTANT oAssistant ;
                    WIDGET oPage13 ;
                    TITLE "Confirmación.";
                    TYPE GTK_ASSISTANT_PAGE_CONFIRM ;
+                   IMAGE HEADER "./images/tgtk-logo.png" ;
                    COMPLETE
 
            if s_Continue_library // Si vamos a dejar continuar
@@ -78,7 +80,7 @@ STATIC FUNCTION Create_Page13( )
   Local oBox, oImage
   
   DEFINE BOX oBox VERTICAL HOMO
-       DEFINE IMAGE FILE "../../images/gmoork.gif" OF oBox
+       DEFINE IMAGE FILE "./images/gmoork.gif" OF oBox
   oBox:SetBorder( 10 )
        
 RETURN oBox
@@ -95,7 +97,7 @@ STATIC FUNCTION Create_Page2( )
       DEFINE SCROLLEDWINDOW oScroll OF oBox CONTAINER
          DEFINE TEXTVIEW oTextView VAR cText OF oScroll CONTAINER READONLY
          
-         DEFINE IMAGE oImage FILE "../../images/gnu-keys.png" LOAD
+         DEFINE IMAGE oImage FILE "./images/gnu-keys.png" LOAD
      
          // Eh!, you localicate you position with GetIterAtOffset
          oTextView:oBuffer:GetIterAtOffSet( aStart, -1 ) 
@@ -134,7 +136,7 @@ STATIC FUNCTION Create_Page1( )
   DEFINE BOX oBox VERTICAL  
        DEFINE LABEL TEXT "<b>GMOORK</b> era mi perro, un Alaska Malamute." + CRLF+;
                          "Es el símbolo de T-Gtk." MARKUP OF oBox
-       DEFINE IMAGE FILE "gmoork.png" OF oBox EXPAND FILL
+       DEFINE IMAGE FILE "./images/gmoork.png" OF oBox EXPAND FILL
 RETURN oBox
 
 // Seleccionamos sistema operativo
@@ -149,51 +151,22 @@ STATIC FUNCTION Create_Page3( )
  Local oLabel3, oBtn_Inc_Tgtk, oBtn_Lib_Tgtk, oTable2, oFrame3, oBoxTable, oTable3
  Local oBtn_Lib_Har, oBtn_Inc_Har, oBtn_Bin_Har
  Local oTreeview_Harbour, oLbx_Harbour, oScroll_Lib_harbour
- Local aLibs_Harbour, o, oCol2
+ Local o, oCol2
+ Local uPixbuf:= gdk_pixbuf_new_from_file( "./images/drive-harddisk.png" )
 
  // Cargamos librerias de Harbour a traves de un xml
- o := THarbourConfig():New()
- aLibs_Harbour := o:GetLibs()
+ WITH OBJECT o := gConfigHarbour():Create()
+      :New()
+ END
+ s_aLibs_Harbour := o:GetLibs()
 
-       aLibrerias := { { .F., "gtk+-2.0"     , "Obligatoria." },;
-                       { .F., "libglade-2.0" , "Obligatoria." },;
-                       { .F., "gtksourceview", "Opcional"     },;
-                       { .F., "libbonobo-2.0", "Opcional"     },;
-                       { .F., "libgnomedb-3.0", "Opcional"     },;
-                       { .F., "libcurl"       , "Opcional"     } }
+ WITH OBJECT o := gConfigGTK():Create()
+      :New()
+ END
+ aLibrerias := o:GetLibs()
 
-        // Se encuentra instalado GTK+2
-        if !empty( run3me( 'pkg-config --list-all | grep ^gtk+-2.0' ) )
-           aLibrerias[1,1] := .T.
-        endif
-
-        // Se encuentra instalado LibGlade
-        if !empty( run3me( 'pkg-config --list-all | grep ^libglade-2.0' ) )
-           aLibrerias[2,1] := .T.
-        endif
-
-        // Se encuentra instalado gtksourceview
-        if !empty( run3me( 'pkg-config --list-all | grep ^gtksourceview-2.0' ) )
-        aLibrerias[3,1] := .T.
-        endif
-
-        // Se encuentra instalado libgnomedb
-        if !empty( run3me( 'pkg-config --list-all | grep ^libbonobo-2.0' ) )
-           aLibrerias[4,1] := .T.
-        endif
-
-        // Se encuentra instalado libgnomedb
-        if !empty( run3me( 'pkg-config --list-all | grep ^libgnomedb-3.0' ) )
-           aLibrerias[5,1] := .T.
-        endif
-
-        // Se encuentra instalado libcurl
-        if !empty( run3me( 'pkg-config --list-all | grep ^libcurl' ) )
-           aLibrerias[6,1] := .T.
-        endif
-
-        // Si estan las obligatorias, nos dejará continuar.
-        s_Continue_library := aLibrerias[1,1] .and. aLibrerias[2,1]
+ // Si estan las obligatorias, nos dejará continuar.
+ s_Continue_library := aLibrerias[1,1] .and. aLibrerias[2,1]
 
  DEFINE BOX oBoxV EXPAND FILL HOMO
   DEFINE BOX oBox VERTICAL EXPAND FILL OF oBoxV
@@ -226,18 +199,28 @@ STATIC FUNCTION Create_Page3( )
           DEFINE GET oGet VAR s_cPath_Pkg OF oBox_p
 
          /* Modelo de Datos de las librerias que necesitamos y las que son obligatorias */
-          DEFINE LIST_STORE oLbx_Lib TYPES G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING
+          DEFINE LIST_STORE oLbx_Lib TYPES G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING, GDK_TYPE_PIXBUF
           For x := 1 To Len( aLibrerias )
               APPEND LIST_STORE oLbx_Lib ITER aIter
               for n := 1 to Len( aLibrerias[ x ] )
-                  SET LIST_STORE oLbx_Lib ITER aIter POS n VALUE aLibrerias[x,n]
+                  if n != 4
+                     SET LIST_STORE oLbx_Lib ITER aIter POS n VALUE aLibrerias[x,n]
+                  else
+                     if aLibrerias[x,n]  //Esta la libreria en el sistema.
+                        SET LIST_STORE oLbx_Lib ITER aIter POS n VALUE uPixbuf
+                     else
+                        SET LIST_STORE oLbx_Lib ITER aIter POS n VALUE 0
+                     endif
+                  endif
               next
           Next
           DEFINE SCROLLEDWINDOW oScroll_Lib  OF oBox_p EXPAND FILL SHADOW GTK_SHADOW_ETCHED_IN
           /* Browse/Tree */
           DEFINE TREEVIEW oTreeView_Lib MODEL oLbx_Lib OF oScroll_Lib CONTAINER
- 
+          oTreeView_Lib:bRow_Activated := { |path,col| InstalarPaquete( oTreeview_Lib, path, col ) }
+
           DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "¿Instalada?"  TYPE "active" OF oTreeView_Lib
+          DEFINE TREEVIEWCOLUMN COLUMN 4 TYPE "pixbuf" OF oCol EXPAND
 
           DEFINE TREEVIEWCOLUMN COLUMN 2 TITLE "Libreria"    TYPE "text"  OF oTreeView_Lib
           DEFINE TREEVIEWCOLUMN COLUMN 3 TITLE "Tipo"        TYPE "text"  OF oTreeView_Lib
@@ -356,10 +339,10 @@ STATIC FUNCTION Create_Page3( )
          /* Modelo de Datos de las librerias que necesitamos y las que son obligatorias */
           aIter := {}
           DEFINE LIST_STORE oLbx_Harbour TYPES G_TYPE_BOOLEAN, G_TYPE_STRING
-          For x := 1 To Len( aLibs_Harbour )
+          For x := 1 To Len( s_aLibs_Harbour )
               APPEND LIST_STORE oLbx_Harbour ITER aIter
-             for n := 1 to Len( aLibs_Harbour[ x ] )
-                  SET LIST_STORE oLbx_Harbour ITER aIter POS n VALUE aLibs_Harbour[x,n]
+             for n := 1 to Len( s_aLibs_Harbour[ x ] )
+                  SET LIST_STORE oLbx_Harbour ITER aIter POS n VALUE s_aLibs_Harbour[x,n]
               next
           Next
           DEFINE SCROLLEDWINDOW oScroll_Lib_Harbour OF oBoxTable EXPAND FILL SHADOW GTK_SHADOW_ETCHED_IN
@@ -368,7 +351,7 @@ STATIC FUNCTION Create_Page3( )
           oTreeView_Harbour:SetRules( .T. )
 
           DEFINE TREEVIEWCOLUMN oCol1 COLUMN 1 TITLE "Select"   TYPE "active" OF oTreeView_Harbour
-          oCol1:oRenderer:bAction := {| o, cPath| select_lib( o, cPath, oTreeview_Harbour, oLbx_Harbour, aLibs_Harbour  ) }
+          oCol1:oRenderer:bAction := {| o, cPath| select_lib( o, cPath, oTreeview_Harbour, oLbx_Harbour  ) }
 
           DEFINE TREEVIEWCOLUMN oCol2 COLUMN 2 TITLE "Libreria" TYPE "text"   OF oTreeView_Harbour
           oCol2:oRenderer:Set_Valist( { "cell-background", "Orange", ;
@@ -376,12 +359,13 @@ STATIC FUNCTION Create_Page3( )
 
 
  oBoxV:SetBorder( 2 )
+ gdk_pixbuf_unref( uPixbuf )
 
 return oBoxV
 
 /* Ejemplo de como MODIFICAR un dato del modelo vista controlador.
    Vamos a autoalimentar el array para tenerlo listo al momento. */
-static function select_lib( oCellRendererToggle, cPath, oTreeView, oLbx, aLibs )
+static function select_lib( oCellRendererToggle, cPath, oTreeView, oLbx)
   Local aIter := Array( 4 )
   Local path, nFila
   Local fixed
@@ -404,12 +388,24 @@ static function select_lib( oCellRendererToggle, cPath, oTreeView, oLbx, aLibs )
   /* clean up */
   gtk_tree_path_free( path )
 
-  aLibs[ nFila,1 ] := fixed   // Modificamos directamente el array de las librerias
+  s_aLibs_Harbour[ nFila,1 ] := fixed   // Modificamos directamente el array de las librerias
 
 Return .f.
 
+/* Nos permite instalar el paquete necesario desde el instalador.*/
+Static Function InstalarPaquete( oTreeView, pPath, pTreeViewColumn  )
+    Local oWnd , oImage, width, height, pImage
+    
+    //pImage := oTreeview:GetValue( 4, "Long" , pPath )
+    pImage := oTreeview:GetAutoValue( 4 )
 
+    if pImage = 0  // Si no esta en el sistema
+       MsgInfo( "¿ Instalar el paquete " + oTreeview:GetAutoValue( 2 ) + " ?" )
+    endif
 
+Return nil
+
+// Selecciona el sistema operativo
 static function Select_System( oRadio2 )
 
         /* Si el sistema es windows, determinado posible ruta hacia pkhg-config*/
@@ -434,7 +430,7 @@ return nil
 
 #pragma BEGINDUMP
 /*
- * $Id: configurador.prg,v 1.1 2009-05-19 21:31:27 xthefull Exp $
+ * $Id: configurador.prg,v 1.2 2009-05-21 07:50:18 xthefull Exp $
  */
 /*
     LGPL Licence.

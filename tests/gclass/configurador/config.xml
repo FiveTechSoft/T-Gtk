@@ -1,18 +1,28 @@
+<config>
 <harbour>
-  <lib name="lvm" force="yes" />
-  <lib name="lrt" force="yes" />
-  <lib name="llan" force="yes"/>
-  <lib name="lrdd" force="yes"/>
-  <lib name="lmacro" force="yes"/>
-  <lib name="lpp" force="yes" />
-  <lib name="ldbfntx" force="yes"/>
-  <lib name="ldbfcdx" force="yes"/>
-  <lib name="ldbfftp" force="yes"/>
-  <lib name="lhbsix" force="yes"/>
-  <lib name="lpcrepos" force="yes"/>
-  <lib name="lcommon" force="yes"/>
-  <lib name="lm" force="yes" />
-  <lib name="ltip" force="yes"/>
-  <lib name="lgtwin" force="no"/>
-  <lib name="lgtnul" force="no"/>
+  <lib name="lvm" check="yes" />
+  <lib name="lrt" check="yes" />
+  <lib name="llan" check="yes"/>
+  <lib name="lrdd" check="yes"/>
+  <lib name="lmacro" check="yes"/>
+  <lib name="lpp" check="yes" />
+  <lib name="ldbfntx" check="yes"/>
+  <lib name="ldbfcdx" check="yes"/>
+  <lib name="ldbfftp" check="yes"/>
+  <lib name="lhbsix" check="yes"/>
+  <lib name="lpcrepos" check="yes"/>
+  <lib name="lcommon" check="yes"/>
+  <lib name="lm" check="yes" />
+  <lib name="ltip" check="yes"/>
+  <lib name="lgtwin" check="no"/>
+  <lib name="lgtnul" check="no"/>
 </harbour>
+<gtk>
+  <lib name="gtk+-2.0"       force="yes" />
+  <lib name="libglade-2.0"   force="yes" />
+  <lib name="gtksourceview"  force="no"  check="no" />
+  <lib name="libbonobo-2.0"  force="no"  check="no" />
+  <lib name="libgnomedb-3.0" force="no"  check="yes" />
+  <lib name="libcurl"        fofce="no"  check="yes"/>
+</gtk>
+</config>
