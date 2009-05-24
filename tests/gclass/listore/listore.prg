@@ -4,9 +4,9 @@
   Ejemplo basado en el de ejemplo de GTK, excepto que activamos para mostrar el numero de BUG.
   
   Nota:
-  Este ejemplo muestra como conectamos la señal toggled, tanto a un GtkToggleButton,
+  Este ejemplo muestra como conectamos la seï¿½al toggled, tanto a un GtkToggleButton,
   como a un GtkCellRendererToggle, y como esta ya solucionado el tema en los eventos
-  de la señal con el mismo nombre , pero el salto a la callback diferente.
+  de la seï¿½al con el mismo nombre , pero el salto a la callback diferente.
  */
  
 /* 
@@ -21,7 +21,8 @@
 Function Main()
 
   local hWnd, oScroll, oTreeView, oWnd, x, n, aIter := GtkTreeIter, oLbx
-  local oCol,oBox
+  local oCol,oBox, oCol2, oRenderer
+
   local aItems := { { .F., 60482, "Normal",     "scrollable notebooks and hidden tabs" },;
                     { .F., 60620, "Critical",   "gdk_window_clear_area (gdkwindow-win32.c) is not thread-safe" },;
                     { .F., 50214, "Major",      "Xft support does not clean up correctly" },;
@@ -67,14 +68,22 @@ Function Main()
        oTreeView:SetSearchColumn( 4 ) /*Determinamos por cual columna vamos a buscar */
        
        // Vamos a coger los valores de las columnas, se pasa path y col desde el evento
-       oTreeView:bRow_Activated := { |path,col| Comprueba( oTreeview, path, col ) }
+      oTreeView:bRow_Activated := { |path,col| Comprueba( oTreeview, path, col ) }
    
 
        DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Fixed?"  WIDTH 50 TYPE "active" OF oTreeView
        /* Indicamos la accion a ejecutar al click de la fila, de la columna Fixed? .*/
        oCol:oRenderer:bAction := {| o, cPath| fixed_toggled( o, cPath, oTreeview, oLbx  ) }
 
-       DEFINE TREEVIEWCOLUMN COLUMN 2 TITLE "Bug Number"  TYPE "text"  SORT  OF oTreeView
+       /*Ejemplo de como usar la seÃ±al editing-started, la cual se dispara ANTES de editar el texto */
+       DEFINE TREEVIEWCOLUMN oCol2 COLUMN 2 TITLE "Bug Number"  TYPE "text"  SORT  OF oTreeView
+       oRenderer :=  oCol2:oRenderer           // Contiene el objeto de la clase GtkCellRendererText
+       oRenderer:SetEditable( .t. )            // Va ser editable-
+       oRenderer:Connect( "editing-started" )  // Conecta seÃ±al que indica que se va a disparar ANTES de editar.
+       oRenderer:Connect( "editing-canceled" )  // Conecta seÃ±al que indica que se a cancelado con ESC
+       oRenderer:bOnEditing_Started := {|| MsgInfo("editing-started") }
+       oRenderer:bOnEditing_Canceled := {|| MsgInfo("SE CANCELA!") }
+
        DEFINE TREEVIEWCOLUMN COLUMN 3 TITLE "Severity"    TYPE "text"  SORT  OF oTreeView
        DEFINE TREEVIEWCOLUMN COLUMN 4 TITLE "Description" TYPE "text"  SORT  OF oTreeView
        

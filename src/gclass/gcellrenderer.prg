@@ -1,4 +1,4 @@
-/* $Id: gcellrenderer.prg,v 1.3 2009-02-26 22:50:19 riztan Exp $*/
+/* $Id: gcellrenderer.prg,v 1.4 2009-05-24 18:26:37 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -26,6 +26,9 @@
 CLASS gCellRenderer FROM GOBJECT
       DATA cType  // Tipo de CellRenderer
       DATA nColumn  
+      DATA bOnEditing_Started
+      DATA bOnEditing_Canceled
+
       METHOD New()
       METHOD SetAlign_H( nAlign ) INLINE g_object_set( ::pWidget, "xalign", nAlign  )
       METHOD SetAlign_V( nAlign ) INLINE g_object_set( ::pWidget, "yalign", nAlign  )
@@ -33,6 +36,8 @@ CLASS gCellRenderer FROM GOBJECT
       METHOD SetPadY( nAlign )    INLINE g_object_set( ::pWidget, "ypad", nAlign  )
 
       METHOD OnDestroy()
+      METHOD OnEditing_started( oSender, pEditable, cPath )
+      METHOD OnEditing_canceled( oSender )
 ENDCLASS
 
 METHOD New() CLASS gCellRenderer
@@ -45,3 +50,20 @@ METHOD OnDestroy( oSender ) CLASS gCellRenderer
     endif
 
 RETURN NIL
+
+METHOD OnEditing_started( oSender, pEditable, cPath ) CLASS gCellRenderer
+
+    if oSender:bOnEditing_Started != NIL
+       Eval( oSender:bOnEditing_Started, oSender, pEditable, cPath )
+    endif
+
+RETURN NIL
+
+METHOD OnEditing_Canceled( oSender ) CLASS gCellRenderer
+
+    if oSender:bOnEditing_Canceled != NIL
+       Eval( oSender:bOnEditing_Canceled, oSender )
+    endif
+
+RETURN NIL
+

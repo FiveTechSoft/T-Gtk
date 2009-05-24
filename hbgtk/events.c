@@ -1,5 +1,5 @@
 
-/* $Id: events.c,v 1.18 2008-02-18 16:46:48 xthefull Exp $*/
+/* $Id: events.c,v 1.19 2009-05-24 18:26:13 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -522,7 +522,8 @@ void OnGroup_changed( GtkRadioButton *radiobutton, gpointer data )
   }
 }
 
-/* Señal para GtkCellRendererText — Renders text in a cell */
+/* Señal para GtkCellRendererText 
+   Renders text in a cell */
 void OnRow_activated( GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *col, gpointer data  )
 {
   PHB_ITEM pObj = NULL;
@@ -871,6 +872,76 @@ void OnEdited( GtkCellRendererText * cellrenderertext, gchar *arg1, gchar *arg2,
      }
   }
 
+}
+/* GtkCellRenderer, signal: editing-started */
+void OnEditing_started( GtkCellRenderer *renderer, GtkCellEditable *editable,   gchar *path,  gpointer data ) 
+{
+  PHB_ITEM pObj = NULL;
+  PHB_ITEM pBlock;
+  PHB_DYNS pMethod ;
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( renderer ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( renderer ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushLong( GPOINTER_TO_UINT( editable ) );
+            hb_vmPushString( path, strlen( path ) );
+            hb_vmSend( 3 );                               // LLamada por Send que pasa
+         } else {
+           g_print( "Method doesn't %s exist en OnEditing_started", (gchar *)data );
+         }
+      }
+  } 
+  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  if( pObj == NULL ){
+     if( pBlock ) {
+        hb_vmPushSymbol( &hb_symEval );
+        hb_vmPush( pBlock );
+        hb_vmPushLong( GPOINTER_TO_UINT( renderer ) );
+        hb_vmPushLong( GPOINTER_TO_UINT( editable ) );
+        hb_vmPushString( path, strlen( path ) );
+        hb_vmSend( 3 );
+     }
+  }
+}
+/* GtkCellRenderer, signal: editing-canceled */
+void OnEditing_canceled( GtkCellRenderer *renderer, gpointer data ) 
+{
+  PHB_ITEM pObj = NULL;
+  PHB_ITEM pBlock;
+  PHB_DYNS pMethod ;
+  // comprobamos que no exista definido un codeblock a la señal.
+  pBlock = g_object_get_data( G_OBJECT( renderer ), (gchar*) data );
+  
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( renderer ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmSend( 1 );                               // LLamada por Send que pasa
+         } else {
+           g_print( "Method doesn't %s exist en OnEditing_canceled", (gchar *)data );
+         }
+      }
+  } 
+  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  if( pObj == NULL ){
+     if( pBlock ) {
+        hb_vmPushSymbol( &hb_symEval );
+        hb_vmPush( pBlock );
+        hb_vmPushLong( GPOINTER_TO_UINT( renderer ) );
+        hb_vmSend( 1 );
+     }
+  }
 }
 
 gboolean OnEnter_Leave_NotifyEvent( GtkWidget *widget, GdkEventCrossing *event, gpointer data )
