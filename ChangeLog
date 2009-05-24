@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.68 2009-05-21 08:11:55 xthefull Exp $
+ * $Id: ChangeLog,v 1.69 2009-05-24 18:30:46 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,16 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2009-05-24 20:29 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   * /hbgtk/events.c events.h
+   * /src/gclass/gcellrenderer.prg
+     + Soporte para nuevas señales.
+
+   * /test/gclass/listore.prg
+      + Nuevas señales para GtkCellRenderer;
+        editing-started y editing-canceled
+
 
 2009-05-21 10:09 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    * /test/gclass/configurador
