@@ -1,4 +1,4 @@
-/* $Id: events.h,v 1.14 2009-05-24 18:26:13 xthefull Exp $*/
+/* $Id: events.h,v 1.15 2009-12-11 21:13:40 riztan Exp $*/
 // Statics vars , for events.c
 
 static TGtkActionParce array[] = {
@@ -132,8 +132,11 @@ static TGtkActionParce array[] = {
                {"popup-menu",                "OnPopupMenu",                 G_CALLBACK( OnPopupMenu ),"GtkStatusIcon"},     /*123 -- GtkStatusIcon -- */
                #endif
                {"toggle-overwrite",          "OnToggle_Overwrite",          G_CALLBACK( OnToggle_Overwrite ),NULL},        /*124 -- GtkEntry  -- void  OnToggle_Overwrite(GtkEntry *entry, gpointer  user_data) */
-               {"editing-started",           "OnEditing_started",           G_CALLBACK( OnEditing_started ), NULL },       /*125 -- GtkCellRenderer*/
-               {"editing-canceled",          "OnEditing_canceled",          G_CALLBACK( OnEditing_canceled ), NULL }       /*126 -- GtkCellRenderer*/
+               {"insert-text",               "OnInsert_Text",               G_CALLBACK( On_Text ), NULL},                  /*125 -- GtkEntry  --  */
+               {"delete-text",               "OnDelete_Text",               G_CALLBACK( OnDel_Text ), NULL},               /*126 -- GtkEntry  --  */
+               {"editing-started",           "OnEditing_started",           G_CALLBACK( OnEditing_started ), NULL },       /*127 -- GtkCellRenderer*/
+               {"editing-canceled",          "OnEditing_canceled",          G_CALLBACK( OnEditing_canceled ), NULL }       /*128 -- GtkCellRenderer*/
+
 
 };  /**/
 

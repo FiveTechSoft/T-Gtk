@@ -1,4 +1,4 @@
-/* $Id: gtkwindow.c,v 1.5 2009-05-08 00:40:56 riztan Exp $*/
+/* $Id: gtkwindow.c,v 1.6 2009-12-11 21:13:40 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -229,6 +229,12 @@ HB_FUNC( GTK_WINDOW_SET_KEEP_BELOW )
   gtk_window_set_keep_below( GTK_WINDOW( window ), hb_parl( 2 ) );
 }
 #endif
+
+HB_FUNC( GTK_WINDOW_SET_DESTROY_WITH_PARENT )
+{
+  GtkWidget * window = GTK_WIDGET( hb_parnl( 1 ) );
+  gtk_window_set_destroy_with_parent( GTK_WINDOW( window ), hb_parl( 2 ) );
+}
 
 HB_FUNC( GTK_WINDOW_SET_DECORATED )
 {

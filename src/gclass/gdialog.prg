@@ -1,4 +1,4 @@
-/* $Id: gdialog.prg,v 1.3 2008-10-16 14:55:01 riztan Exp $*/
+/* $Id: gdialog.prg,v 1.4 2009-12-11 21:13:41 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -30,7 +30,7 @@ CLASS GDialog FROM GWINDOW
       DATA nCount  INIT 0
       DATA lglade INIT .F.
 
-      METHOD New( cTitle, nWidth, nHeight, cId, cGlade, oWnd, cIconName, cIconFile )
+      METHOD New( cTitle, nWidth, nHeight, cId, cGlade, oWnd, cIconName, cIconFile, oParent )
       METHOD Activate(  )
       METHOD AddButton( cText, nResponse, bAction )
       METHOD Separator( lShow )   INLINE gtk_dialog_set_has_separator( ::pWidget, lShow )
@@ -43,7 +43,8 @@ CLASS GDialog FROM GWINDOW
 
 ENDCLASS
 
-METHOD NEW( cTitle, nWidth, nHeight, cId, uGlade, nType_Hint, cIconName, cIconFile ) CLASS GDIALOG
+METHOD NEW( cTitle, nWidth, nHeight, cId, uGlade, nType_Hint, ;
+            cIconName, cIconFile, oParent ) CLASS GDIALOG
 
        if cId == NIL
           ::pWidget := gtk_dialog_new( )
@@ -76,6 +77,10 @@ METHOD NEW( cTitle, nWidth, nHeight, cId, uGlade, nType_Hint, cIconName, cIconFi
           ::SetIconName( cIconName )
        endif
 
+       if oParent != NIL
+          gtk_window_set_transient_for( ::pWidget, oParent:pWidget )  
+       endif
+        
        ::Connect( "response" )
        ::Connect( "delete-event" )
        ::Connect( "destroy" )

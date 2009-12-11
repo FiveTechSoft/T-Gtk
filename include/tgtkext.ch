@@ -1,4 +1,4 @@
-/*  $Id: tgtkext.ch,v 1.7 2009-04-21 02:53:24 riztan Exp $ */
+/*  $Id: tgtkext.ch,v 1.8 2009-12-11 21:13:40 riztan Exp $ */
 /*
  * Llamadas externas para ejecutar desde script.
  * (c)2008 Riztan Gutierrez
@@ -32,6 +32,7 @@
  EXTERNAL MSGRUN
 */
 
+ EXTERNAL GACCELGROUP
  EXTERNAL GCALENDAR
  EXTERNAL GCOMBOBOX
  EXTERNAL GCOMBOBOX_CLIP
@@ -62,6 +63,7 @@
  EXTERNAL GSEPARATOR
  EXTERNAL GPROGRESSBAR
  EXTERNAL GDRAWINGAREA
+ EXTERNAL GTABLE
 
  /* native */
  EXTERNAL GTK_CONTAINER

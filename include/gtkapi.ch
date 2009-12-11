@@ -1,4 +1,4 @@
-/* $Id: gtkapi.ch,v 1.10 2008-10-16 14:55:00 riztan Exp $*/
+/* $Id: gtkapi.ch,v 1.11 2009-12-11 21:13:40 riztan Exp $*/
 
 /*
  * GtkApi.ch Fichero de definiciones de T-Gtk -------------------------------------
@@ -185,6 +185,7 @@
 #define GTK_STOCK_COPY             "gtk-copy"
 #define GTK_STOCK_CUT              "gtk-cut"
 #define GTK_STOCK_DELETE           "gtk-delete"
+#define GTK_STOCK_EDIT             "gtk-edit"
 #define GTK_STOCK_EXECUTE          "gtk-execute"
 #define GTK_STOCK_FIND             "gtk-find"
 #define GTK_STOCK_FIND_AND_REPLACE "gtk-find-and-replace"

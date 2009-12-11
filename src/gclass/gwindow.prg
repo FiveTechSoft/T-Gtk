@@ -1,4 +1,4 @@
-/* $Id: gwindow.prg,v 1.3 2008-10-16 14:55:01 riztan Exp $*/
+/* $Id: gwindow.prg,v 1.4 2009-12-11 21:13:41 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -66,7 +66,8 @@ CLASS GWINDOW FROM GCONTAINER
 
 ENDCLASS
 
-METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint, cIconName, cIconFile ) CLASS GWINDOW
+METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint, ;
+            cIconName, cIconFile, oParent ) CLASS GWINDOW
        DEFAULT nType   := GTK_WINDOW_TOPLEVEL
                
 
@@ -99,11 +100,15 @@ METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint, cIconName, 
           ::SetIconName( cIconName )
        endif
 
+       if oParent != NIL
+          gtk_window_set_transient_for( ::pWidget, oParent:pWidget )  
+       endif
         
        ::Connect( "delete-event" )
        ::Connect( "destroy" )
 
 RETURN Self
+
 
 METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
 

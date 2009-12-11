@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.69 2009-05-24 18:30:46 xthefull Exp $
+ * $Id: ChangeLog,v 1.70 2009-12-11 21:13:40 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,32 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2009-12-11 15:30 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
+   * /include/postgres.ch
+      + #define VARHDRSZ
+   * /include/gtkapi.ch   
+      + #define GTK_STOCK_EDIT      
+   * /include/tgtkext.ch
+      + GACCELGROUP
+      + GTABLE
+   * /include/gclass.ch  
+      Se crea opcion OF en WINDOW y DIALOG para permitir indicar 
+      desde que ventana es transitoria.
+      Ver gtk_window_set_transient_for() en GTK+
+      Aportado por Federico de Maussion.
+   * /hbgtk/gtkwindow.c
+      + gtk_window_set_destroy_with_parent()
+   * /hbgtk/events.c events.h     
+      Soporte para nuevas señales "insert-text", "delete-text".
+      Aporte de Federico de Maussion
+   * /hbgtk/gtkmenus.c 
+      + gtk_menu_item_set_label()
+   
+
+include/postgres.ch include/tgtkext.ch src/gclass/gdialog.prg 
+src/gclass/gmenuitem.prg src/gclass/gtreeview.prg 
+src/gclass/gwindow.prg src/pgsql/postgres.ch 
+
 
 2009-05-24 20:29 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    * /hbgtk/events.c events.h

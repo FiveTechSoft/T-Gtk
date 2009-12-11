@@ -1,4 +1,4 @@
-/* $Id: gtkmenus.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkmenus.c,v 1.2 2009-12-11 21:13:40 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -275,3 +275,12 @@ HB_FUNC( GTK_MENU_POPUP )
   GtkMenu * menu = GTK_MENU( hb_parnl( 1 ) );
   gtk_menu_popup( menu, NULL,NULL,NULL,NULL, hb_parni( 6 ), hb_parni( 7 ) );
 }
+
+
+HB_FUNC( GTK_MENU_ITEM_SET_LABEL )
+{
+   GtkMenuItem * menu = GTK_MENU_ITEM( hb_parnl( 1 ) );
+   gchar * label  = hb_parcx( 2 ); 
+
+   gtk_menu_item_set_label( menu, label );
+} 

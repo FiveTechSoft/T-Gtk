@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.14 2009-02-26 22:50:19 riztan Exp $ */
+/*  $Id: gclass.ch,v 1.15 2009-12-11 21:13:40 riztan Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2004 Rafa Carmona
@@ -20,11 +20,12 @@
                                [ TYPE <nType> ];
                                [ TYPE_HINT <nType_Hint> ];
                                [ SIZE <nWidth>, <nHeight> ] ;
+                               [ OF <oParent> ];
                                [ ID <cId> ;
                                [ RESOURCE <uGlade> ] ];
       => ;
       <oWnd> := GWindow():New( <cTitle>, <nType>, <nWidth>, <nHeight>, [<cId>],;
-                              [<uGlade>],[<nType_Hint>],[<cIconName>],[<cIconFile>] )
+                              [<uGlade>],[<nType_Hint>],[<cIconName>],[<cIconFile>],[<oParent>] )
 
 #xcommand ACTIVATE WINDOW <oWnd>;
          [ VALID <uEnd> ] ;
@@ -38,13 +39,14 @@
 #xcommand DEFINE DIALOG <oDlg> [ TITLE <cTitle> ] ;
                                [ TYPE_HINT <nType_Hint> ];
                                [ SIZE <nWidth>, <nHeight> ] ;
+                               [ OF <oParent> ];
                                [ ID <cId> ;
                                [ RESOURCE <uGlade> ] ];
                                [ ICON_NAME <cIconName> ];
                                [ ICON_FILE <cIconFile> ];
   	      => ;
 	      <oDlg> := GDialog():New( <cTitle>, <nWidth>, <nHeight>, [<cId>],[<uGlade>],[<nType_Hint>],;
-                                 [<cIconName>],[<cIconFile>] )
+                                 [<cIconName>],[<cIconFile>],[<oParent>] )
 
 #xcommand ADD DIALOG <oDlg>;
               BUTTON <cText> ;
