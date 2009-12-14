@@ -1,4 +1,4 @@
-/* $Id: gtkmenus.c,v 1.2 2009-12-11 21:13:40 riztan Exp $*/
+/* $Id: gtkmenus.c,v 1.3 2009-12-14 23:31:56 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -277,6 +277,7 @@ HB_FUNC( GTK_MENU_POPUP )
 }
 
 
+#if GTK_CHECK_VERSION( 2,16,0)
 HB_FUNC( GTK_MENU_ITEM_SET_LABEL )
 {
    GtkMenuItem * menu = GTK_MENU_ITEM( hb_parnl( 1 ) );
@@ -284,3 +285,4 @@ HB_FUNC( GTK_MENU_ITEM_SET_LABEL )
 
    gtk_menu_item_set_label( menu, label );
 } 
+#endif
