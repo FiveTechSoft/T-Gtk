@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.71 2009-12-14 23:31:55 riztan Exp $
+ * $Id: ChangeLog,v 1.72 2010-01-20 06:26:10 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,9 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2010-01-20 01:51 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
+   * /hbgtk/gdkpixbuf.c  Corregido detalle de inicializacion de variable.
+   
 2009-12-14 18:59 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
    * /hbgtk/gtkmenus.c
      gtk_menu_item_set_label solo para GTK 2.16 en adelante.

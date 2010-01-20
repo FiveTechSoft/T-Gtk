@@ -1,4 +1,4 @@
-/* $Id: gdkpixbuf.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gdkpixbuf.c,v 1.2 2010-01-20 06:26:11 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -31,7 +31,7 @@ HB_FUNC( GDK_PIXBUF_NEW_FROM_FILE ) // cFilename -> pixbuf
 {
   GdkPixbuf * pixbuf;
   GError    * error = NULL;
-  gboolean has_alpha;  // transparent
+  gboolean has_alpha = TRUE ;  // transparent
   int bits_per_sample = 8;
   int width = 1;
   int height = 1;
