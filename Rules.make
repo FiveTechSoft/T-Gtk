@@ -51,7 +51,10 @@ BONOBO=yes
 GNOMEDB=yes
 
 #Soporte para CURL
-CURL=yes
+CURL=no
+
+#Soporte para WebKit, atencion debe estar activado tambien CURL
+WEBKIT=yes
 
 ############################################## 
 # Esqueleto para todas las plataformas
@@ -71,7 +74,7 @@ else
       GT_LIBS=-lgtstd -lgttrm
    else
       #XHARBOUR
-      GT_LIBS=-lgtcrs -lgtcgi -lgtnul -lgtstd -lgtxvt
+      GT_LIBS=-lgtstd -lgttrm
    endif
 endif
 
@@ -90,21 +93,21 @@ else
 endif
 
 
-ifeq ($(BONOBO),yes)
+ifeq ($(BONOBO),no)
     CFLAGS += -D_HAVEBONOBO_
     CFLAGS += $(shell pkg-config --cflags libbonobo-2.0 ) $(shell pkg-config --cflags libbonoboui-2.0 )
     LIBS += $(shell pkg-config --libs libbonobo-2.0 ) $(shell pkg-config --libs libbonoboui-2.0 )
 endif
 
 
-ifeq ($(GTKSOURCEVIEW),yes)
+ifeq ($(GTKSOURCEVIEW),no)
    CFLAGS += -D_HAVEGTKSOURCEVIEW_
    CFLAGS += $(shell pkg-config --cflags gtksourceview-2.0)
    LIBS += $(shell pkg-config --libs gtksourceview-2.0 ) 
 endif
 
 
-ifeq ($(GNOMEDB),yes)
+ifeq ($(GNOMEDB),no)
     CFLAGS += -D_GNOMEDB_
     CFLAGS += $(shell pkg-config --cflags libgnomedb-3.0)
     LIBS += $(shell pkg-config --libs libgnomedb-3.0 )
@@ -115,6 +118,12 @@ ifeq ($(CURL),yes)
     CFLAGS += -D_CURL_
     CFLAGS += $(shell pkg-config --cflags libcurl)
     LIBS += $(shell pkg-config --libs libcurl )
+endif
+
+ifeq ($(WEBKIT),yes)
+    CFLAGS += -D_WEBKIT_
+    CFLAGS += $(shell pkg-config --cflags webkit-1.0)
+    LIBS += $(shell pkg-config --libs webkit-1.0 )
 endif
 
 
