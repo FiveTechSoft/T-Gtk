@@ -42,18 +42,18 @@ LIBDIR_TGTK= /home/rafa/t-gtk/lib
 INCLUDE_TGTK_PRG=/home/rafa/t-gtk/include
 
 #Soporte para GtkSourceView
-GTKSOURCEVIEW=yes
+GTKSOURCEVIEW=no
 
 #Soporte para Bonobo
-BONOBO=yes
+BONOBO=no
 
 #Alpha. Soporte para GNOMEDB y LIBGDA
-GNOMEDB=yes
+GNOMEDB=no
 
 #Soporte para CURL
 CURL=no
 
-#Soporte para WebKit, atencion debe estar activado tambien CURL
+#Soporte para WebKit
 WEBKIT=yes
 
 ############################################## 
@@ -93,21 +93,21 @@ else
 endif
 
 
-ifeq ($(BONOBO),no)
+ifeq ($(BONOBO),yes)
     CFLAGS += -D_HAVEBONOBO_
     CFLAGS += $(shell pkg-config --cflags libbonobo-2.0 ) $(shell pkg-config --cflags libbonoboui-2.0 )
     LIBS += $(shell pkg-config --libs libbonobo-2.0 ) $(shell pkg-config --libs libbonoboui-2.0 )
 endif
 
 
-ifeq ($(GTKSOURCEVIEW),no)
+ifeq ($(GTKSOURCEVIEW),yes)
    CFLAGS += -D_HAVEGTKSOURCEVIEW_
    CFLAGS += $(shell pkg-config --cflags gtksourceview-2.0)
    LIBS += $(shell pkg-config --libs gtksourceview-2.0 ) 
 endif
 
 
-ifeq ($(GNOMEDB),no)
+ifeq ($(GNOMEDB),yes)
     CFLAGS += -D_GNOMEDB_
     CFLAGS += $(shell pkg-config --cflags libgnomedb-3.0)
     LIBS += $(shell pkg-config --libs libgnomedb-3.0 )
