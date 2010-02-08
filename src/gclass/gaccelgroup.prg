@@ -1,4 +1,4 @@
-/* $Id: gaccelgroup.prg,v 1.3 2007-02-26 21:48:11 xthefull Exp $*/
+/* $Id: gaccelgroup.prg,v 1.4 2010-02-08 12:37:38 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -70,7 +70,7 @@ METHOD Add( oWidget, cSignal , uKey, nMode, nFlags ) CLASS GACCELGROUP
                                  nMode, nFlags )
 
   else
-     MsgAlert( "The key name is not a valid key. ","Alert" )
+     Msg_Alert( "The key name is not a valid key. ","Alert" )
   endif
 
 RETURN NIL
