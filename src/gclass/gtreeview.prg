@@ -1,4 +1,4 @@
-/* $Id: gtreeview.prg,v 1.4 2009-05-20 11:06:44 xthefull Exp $*/
+/* $Id: gtreeview.prg,v 1.5 2010-02-09 04:22:04 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -32,6 +32,8 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD SetModel( oModel )     
       METHOD GetModel() INLINE gtk_tree_view_get_model( ::pWidget )
       METHOD ClearModel( )           
+      
+      METHOD SetAutoSize() INLINE gtk_tree_view_columns_autosize( ::pWidget ) 
 
       METHOD GetValue( nColumn, cType, path )
       METHOD GetAutoValue( nColumn, aIter, aIter_Clone )      
@@ -132,6 +134,7 @@ METHOD RemoveColumn( nColumn ) CLASS gTreeView
    gtk_tree_view_remove_column( ::pWidget, hColumn )
 RETURN NIL
 
+
 METHOD GetValue( nColumn, cType, path, aIter_Clone ) CLASS gTreeView
    Local model, aIter := Array( 4 ) 
    Local uValue, nType
@@ -175,6 +178,7 @@ METHOD GetValue( nColumn, cType, path, aIter_Clone ) CLASS gTreeView
 
 RETURN uValue
 
+
 METHOD GetAutoValue( nColumn, aIter, aIter_Clone ) CLASS gTreeView
    Local model
    Local uValue, nType, path
@@ -212,8 +216,10 @@ METHOD GetAutoValue( nColumn, aIter, aIter_Clone ) CLASS gTreeView
 
 RETURN uValue
 
+
 METHOD IsGetSelected( aIter ) CLASS gTreeView
 RETURN gtk_tree_selection_get_selected( ::GetSelection(), NIL, aIter ) 
+
 
 METHOD GetPosRow( aIter ) CLASS gTreeView
    Local nPos := 0

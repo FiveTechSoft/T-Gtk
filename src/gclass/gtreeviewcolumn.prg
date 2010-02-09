@@ -1,4 +1,4 @@
-/* $Id: gtreeviewcolumn.prg,v 1.5 2009-02-27 06:22:57 riztan Exp $*/
+/* $Id: gtreeviewcolumn.prg,v 1.6 2010-02-09 04:22:04 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -33,6 +33,8 @@ CLASS gTreeViewColumn FROM GOBJECT
       METHOD Register()               INLINE harb_signal_connect( ::pWidget, "destroy", Self )
       METHOD Renderer( cType )
       METHOD SetResizable( lResize )  INLINE gtk_tree_view_column_set_resizable( ::pWidget, lResize )
+      METHOD SetVisible( lSet )       INLINE gtk_tree_view_column_set_visible( ::pWidget, lSet )
+      METHOD GetVisible()             
       METHOD Width( nWidth )          INLINE gtk_tree_view_column_set_fixed_width( ::pWidget, nWidth )
       METHOD SetClickable( lClick )   INLINE gtk_tree_view_column_set_clickable( ::pWidget, lClick )
       METHOD SetSort( )               INLINE gtk_tree_view_column_set_sort_column_id( ::pWidget, ::nColumn )
@@ -97,6 +99,10 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort ) CLASS gTree
       endif
 
 RETURN Self
+
+
+METHOD GetVisible()
+RETURN gtk_tree_view_column_get_visible( ::pWidget )
 
 
 METHOD Renderer( cType ) CLASS gTreeViewColumn

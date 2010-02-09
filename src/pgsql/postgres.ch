@@ -1,6 +1,9 @@
 /*
- * $Id: postgres.ch,v 1.1 2006-09-15 00:30:00 riztan Exp $
+ * $Id: postgres.ch,v 1.2 2010-02-09 04:22:04 riztan Exp $
  */
+
+#define VARHDRSZ                        4
+
 
 #define CONNECTION_OK                   0
 #define CONNECTION_BAD                  1

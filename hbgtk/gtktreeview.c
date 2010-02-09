@@ -1,4 +1,4 @@
-/* $Id: gtktreeview.c,v 1.2 2008-02-18 16:46:48 xthefull Exp $*/
+/* $Id: gtktreeview.c,v 1.3 2010-02-09 04:22:04 riztan Exp $*/
 /*
  * GtkTreeView. List browses y Trees -----------------------------------------
    LGPL Licence.
@@ -166,6 +166,14 @@ HB_FUNC( GTK_TREE_VIEW_SET_HEADERS_VISIBLE )
 }
 
 
+HB_FUNC( GTK_TREE_VIEW_COLUMNS_AUTOSIZE )
+{
+  GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+  gtk_tree_view_columns_autosize( tree );
+}
+
+
+
 HB_FUNC( HB_GTK_TREE_VIEW_GET_TOTAL_COLUMNS ) // Treeview -->Total_Columns
 {
   GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
@@ -254,7 +262,6 @@ HB_FUNC( HB_GTK_TREE_VIEW_DOWN_ROW )
       hb_retl( FALSE );
    }  
 }  
-
 
 
 /*

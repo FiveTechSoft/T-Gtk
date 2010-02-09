@@ -15,6 +15,8 @@
  *  + gtk_tree_view_column_set_sort_column_id()
  *  + gtk_tree_view_column_set_fixed_width()
  *  + gtk_tree_view_column_set_sizing()
+ *  + gtk_tree_view_column_set_visible()
+ *  + gtk_tree_view_column_get_visible()
  */
 
 #include <gtk/gtk.h>
@@ -136,6 +138,18 @@ HB_FUNC( GTK_TREE_VIEW_COLUMN_SET_SIZING ) // nColumn, nType -> void
                   ( gint ) hb_parnl( 2 ) );
 }
 
+HB_FUNC( GTK_TREE_VIEW_COLUMN_SET_VISIBLE )
+{
+   gtk_tree_view_column_set_visible(
+                  GTK_TREE_VIEW_COLUMN (( GtkTreeViewColumn * ) hb_parnl( 1 )),
+                  ( gboolean ) hb_parl( 2 ) );  
+}
+
+HB_FUNC( GTK_TREE_VIEW_COLUMN_GET_VISIBLE )
+{
+   GtkTreeViewColumn *column = GTK_TREE_VIEW_COLUMN(  hb_parnl( 1 ) );
+   hb_retl( gtk_tree_view_column_get_visible( column ) );
+}
 
 HB_FUNC( GTK_TREE_VIEW_COLUMN_GET_SORT_COLUMN_ID ) // -->Column_Sort
 {
