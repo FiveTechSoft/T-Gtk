@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.74 2010-02-09 04:22:04 riztan Exp $
+ * $Id: ChangeLog,v 1.75 2010-02-09 04:24:15 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,7 +8,7 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
-2010-01-29 22:51 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
+2010-02-08 23:53 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
    * /hbgtk/gtktreeview.c
      + gtk_tree_view_columns_autosize()
    * /hbgtk/gtktreeviewcolumn.c
