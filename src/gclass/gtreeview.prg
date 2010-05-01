@@ -1,4 +1,4 @@
-/* $Id: gtreeview.prg,v 1.6 2010-05-01 20:02:04 xthefull Exp $*/
+/* $Id: gtreeview.prg,v 1.7 2010-05-01 20:51:21 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -315,7 +315,7 @@ METHOD OnMoveCursor( oSender, arg1, arg2 ) CLASS gTreeView
   
 RETURN NIL
 
-METHOD OnCursorChanged( oSender )   // cursor-changed
+METHOD OnCursorChanged( oSender )  CLASS gTreeView // cursor-changed
   
     if oSender:bCursorChanged != NIL
        Eval( oSender:bCursorChanged )
