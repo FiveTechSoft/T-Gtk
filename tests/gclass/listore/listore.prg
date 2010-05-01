@@ -21,7 +21,7 @@
 Function Main()
 
   local hWnd, oScroll, oTreeView, oWnd, x, n, aIter := GtkTreeIter, oLbx
-  local oCol,oBox, oCol2, oRenderer
+  local oCol,oBox, oCol2, oRenderer, oLabelBug
 
   local aItems := { { .F., 60482, "Normal",     "scrollable notebooks and hidden tabs" },;
                     { .F., 60620, "Critical",   "gdk_window_clear_area (gdkwindow-win32.c) is not thread-safe" },;
@@ -53,6 +53,8 @@ Function Main()
      oWnd:SetBorder( 8 )
 
      DEFINE BOX oBox VERTICAL OF oWnd  SPACING 8
+       DEFINE LABEL oLabelBug TEXT "This cLabelBug" OF oBox 
+
        DEFINE LABEL TEXT "This is the bug list (note: not based on real data,"+;
                          " it would be nice to have a nice ODBC interface to bugzilla or so, though)."  OF oBox
 
@@ -69,7 +71,10 @@ Function Main()
        
        // Vamos a coger los valores de las columnas, se pasa path y col desde el evento
       oTreeView:bRow_Activated := { |path,col| Comprueba( oTreeview, path, col ) }
-   
+
+       // Vamos a controlar cada cambio del cursor
+       oTreeView:Connect( "cursor-changed" ) 
+       oTreeView:bCursorChanged := {|| oLabelBug:SetText( oTreeView:GetAutoValue( 4 ) ) }
 
        DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Fixed?"  WIDTH 50 TYPE "active" OF oTreeView
        /* Indicamos la accion a ejecutar al click de la fila, de la columna Fixed? .*/

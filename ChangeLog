@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.75 2010-02-09 04:24:15 riztan Exp $
+ * $Id: ChangeLog,v 1.76 2010-05-01 20:01:14 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,14 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2010-05-01 21:59 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+    /src/gclass/gTreeview.prg 
+    + Activamos methods OnCursorChanged y OnMoveCursor
+    
+    /tests/gclass/listore
+    + Ejemplo de como obtener un valor automaticamente cuando se nueve el cursor.
+     
+
 2010-02-08 23:53 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
    * /hbgtk/gtktreeview.c
      + gtk_tree_view_columns_autosize()

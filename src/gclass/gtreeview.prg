@@ -1,4 +1,4 @@
-/* $Id: gtreeview.prg,v 1.5 2010-02-09 04:22:04 riztan Exp $*/
+/* $Id: gtreeview.prg,v 1.6 2010-05-01 20:02:04 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -25,6 +25,7 @@
 
 CLASS GTREEVIEW FROM GCONTAINER
       DATA bRow_Activated, bColumns_Changed
+      DATA bMoveCursor,bCursorChanged
       DATA oModel 
       DATA aCols
 
@@ -67,8 +68,8 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GetIterNext( aIter )  INLINE gtk_tree_model_iter_next( ::GetModel(), aIter )  
       
       METHOD OnColumns_changed ( oSender ) VIRTUAL
-      METHOD OnCursorChanged( oSender )    VIRTUAL
-      METHOD OnMoveCursor( oSender, arg1, arg2 ) VIRTUAL
+      METHOD OnCursorChanged( oSender )   // cursor-changed
+      METHOD OnMoveCursor( oSender, arg1, arg2 ) 
 
 ENDCLASS
 
@@ -303,6 +304,23 @@ METHOD OnRow_Activated( oSender, pPath, pTreeViewColumn ) CLASS gTreeView
     endif
     
     
+RETURN NIL
+
+METHOD OnMoveCursor( oSender, arg1, arg2 ) CLASS gTreeView
+
+    if oSender:bMoveCursor != NIL
+       Eval( oSender:bMoveCursor, arg1, arg2 )
+    endif
+  
+  
+RETURN NIL
+
+METHOD OnCursorChanged( oSender )   // cursor-changed
+  
+    if oSender:bCursorChanged != NIL
+       Eval( oSender:bCursorChanged )
+    endif
+
 RETURN NIL
 
 /*
