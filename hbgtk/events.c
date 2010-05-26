@@ -1,5 +1,5 @@
 
-/* $Id: events.c,v 1.20 2009-12-11 21:13:40 riztan Exp $*/
+/* $Id: events.c,v 1.21 2010-05-26 10:04:14 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -27,11 +27,11 @@
  *  (c)2003 Rafa Carmona
  */
 #include <gtk/gtk.h>
-#include "t-gtk.h"
 #include "hbapi.h"
 #include "hbvm.h"
 #include "hbapiitm.h"
 #include "hbstack.h"
+#include "t-gtk.h"
 
 // Atencion esto esta para mantener compatibilidad con xHarbour anteriores
 // Deberá desaparecer , pero lo necesito ahora
@@ -888,6 +888,7 @@ void OnMove_Cursor_Tree( GtkTreeView *treeview, GtkMovementStep arg1, gint arg2,
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
+
   // comprobamos que no exista definido un codeblock a la señal.
   pBlock = g_object_get_data( G_OBJECT( treeview ), (gchar*) data );
 
@@ -903,7 +904,7 @@ void OnMove_Cursor_Tree( GtkTreeView *treeview, GtkMovementStep arg1, gint arg2,
             hb_vmPushInteger( (gint) arg2 );
             hb_vmSend( 3 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnCursor_Changed", (gchar *)data );
+           g_print( "Method doesn't %s exist en OnMove_Cursor_Tree", (gchar *)data );
          }
       }
   }
@@ -2976,7 +2977,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
     if( ISBLOCK( 4 ) ) {
       if( g_object_get_data( G_OBJECT( widget ), array[ iPos ].name ) == NULL )
         {
-         g_print( "Es un bloque de codigo\n");
+         // g_print( "Es un bloque de codigo\n");
          //pBlock = hb_gcGripGet( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ) );
          //pBlock = hb_itemNew( hb_stackItemFromBase( 4 ) );
          // hb_stackItemFromBase(), significa que te devuelva un ITEM,
