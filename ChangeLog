@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.76 2010-05-01 20:01:14 xthefull Exp $
+ * $Id: ChangeLog,v 1.77 2010-05-26 10:36:19 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,16 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2010-05-26 12:30 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   + Soporte para Harbour 2.0
+     t-gtk.h contiene los defines para ser compatible con Harbour.
+     Varios .c han sido modificados para ello.
+
+   * TODO: Bug.
+     Los ejemplos que hacen uso de gtkbrowse(), he podido observar
+     que no se expanden, como /test/gclass/abm
+
+
 2010-05-01 21:59 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
     /src/gclass/gTreeview.prg 
     + Activamos methods OnCursorChanged y OnMoveCursor
