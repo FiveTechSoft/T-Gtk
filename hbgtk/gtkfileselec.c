@@ -1,4 +1,4 @@
-/* $Id: gtkfileselec.c,v 1.2 2006-09-20 09:45:10 xthefull Exp $*/
+/* $Id: gtkfileselec.c,v 1.3 2010-05-26 10:15:03 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -29,6 +29,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 #include "hbvm.h"
+#include "t-gtk.h"
 
 HB_FUNC( GTK_FILE_SELECTION_NEW )
 {

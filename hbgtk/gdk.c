@@ -1,4 +1,4 @@
-/* $Id: gdk.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gdk.c,v 1.2 2010-05-26 10:17:35 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -244,10 +244,10 @@ HB_FUNC( GDK_COLORMAP_ALLOC_COLOR ) // colormap, { colors }, writeable, best_mat
   if ( Array2Color( pColor, &color ) )
     {
      bresult = gdk_colormap_alloc_color(  colormap, &color, hb_parl( 3 ), hb_parl( 4 ) );
-     hb_storni( (guint32) (color.pixel),2, 1);
-     hb_stornl( (guint16) (color.red)  ,2, 2);
-     hb_stornl( (guint16) (color.green),2, 3);
-     hb_stornl( (guint16) (color.blue) ,2, 4);
+     hb_storni( (guint32) (color.pixel), 1);
+     hb_stornl( (guint16) (color.red)  , 2);
+     hb_stornl( (guint16) (color.green), 3);
+     hb_stornl( (guint16) (color.blue) , 4);
     }
     hb_retl( bresult );
 
@@ -262,10 +262,10 @@ HB_FUNC( GDK_GC_SET_FOREGROUND ) // gc, { colors }
     if ( Array2Color( pColor, &color ) )
     {
      gdk_gc_set_foreground( gc, &color );
-     hb_storni( (guint32) (color.pixel),2, 1);
-     hb_stornl( (guint16) (color.red)  ,2, 2);
-     hb_stornl( (guint16) (color.green) ,2, 3);
-     hb_stornl( (guint16) (color.blue) ,2, 4);
+     hb_storni( (guint32) (color.pixel), 1);
+     hb_stornl( (guint16) (color.red)  , 2);
+     hb_stornl( (guint16) (color.green), 3);
+     hb_stornl( (guint16) (color.blue) , 4);
     }
  hb_ret();
 }
@@ -278,10 +278,10 @@ HB_FUNC( GDK_GC_SET_BACKGROUND ) // gc, { colors }
     if ( Array2Color( pColor, &color ) )
     {
      gdk_gc_set_background( gc, &color );
-     hb_storni( (guint32) (color.pixel),2, 1);
-     hb_stornl( (guint16) (color.red)  ,2, 2);
-     hb_stornl( (guint16) (color.green) ,2, 3);
-     hb_stornl( (guint16) (color.blue) ,2, 4);
+     hb_storni( (guint32) (color.pixel), 1);
+     hb_stornl( (guint16) (color.red)  , 2);
+     hb_stornl( (guint16) (color.green), 3);
+     hb_stornl( (guint16) (color.blue) , 4);
     }
  hb_ret();
 }
@@ -296,10 +296,10 @@ HB_FUNC( GDK_RECTANGLE_INTERSECT )
     if ( Array2Rect( pSrc1, &rect1 ) &&  Array2Rect( pSrc2, &rect2 ) &&  Array2Rect( pDest, &dest ) )
        {
          bResult = gdk_rectangle_intersect( &rect1, &rect2, &dest );
-         hb_storni( (dest.x), 3, 1);
-         hb_storni( (dest.y), 3, 2);
-         hb_storni( (dest.width) ,3, 3);
-         hb_storni( (dest.height) ,3, 4);
+         hb_storni( (dest.x),  1);
+         hb_storni( (dest.y),  2);
+         hb_storni( (dest.width) , 3);
+         hb_storni( (dest.height) , 4);
        }
      hb_retl( bResult );
 }

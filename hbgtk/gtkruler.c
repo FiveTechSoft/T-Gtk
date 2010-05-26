@@ -1,4 +1,4 @@
-/* $Id: gtkruler.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkruler.c,v 1.2 2010-05-26 10:15:03 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -31,6 +31,8 @@
 
 #include <gtk/gtk.h>
 #include "hbapi.h"
+#include "t-gtk.h"
+
 
 HB_FUNC( GTK_HRULER_NEW ) // -> widget
 {

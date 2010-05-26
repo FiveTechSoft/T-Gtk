@@ -1,4 +1,4 @@
-/* $Id: pango.c,v 1.3 2007-08-01 20:56:44 xthefull Exp $*/
+/* $Id: pango.c,v 1.4 2010-05-26 10:15:03 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -24,6 +24,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 #include "hbapiitm.h"
+#include "t-gtk.h"
 
 
 PHB_ITEM PangoMatrix2Array( PangoMatrix * matrix );

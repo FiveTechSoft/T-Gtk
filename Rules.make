@@ -30,12 +30,12 @@ SUPPORT_PRINT_WIN32=no
 HB_COMPILER = gcc
  
 #Especificamos compilador xBase a usar, si harbour o xHarbour
-XBASE_COMPILER = XHARBOUR
+XBASE_COMPILER = HARBOUR
  
 #Nueva version harbour 1.1
-HB_BIN_INSTALL = /home/rafa/xharbour/install/bin
-HB_INC_INSTALL = /home/rafa/xharbour/include
-HB_LIB_INSTALL = /home/rafa/xharbour/install/lib
+HB_BIN_INSTALL = /home/rafa/harbour-project/trunk/harbour/bin/linux/gcc
+HB_INC_INSTALL = /home/rafa/harbour-project/trunk/harbour/include
+HB_LIB_INSTALL = /home/rafa/harbour-project/trunk/harbour/lib/linux/gcc
  
 #Rutas de librerias y de includes de TGTK.
 LIBDIR_TGTK= /home/rafa/t-gtk/lib
@@ -71,7 +71,7 @@ ifeq ($(HB_COMPILER),mingw32)
 else
    ifeq ($(XBASE_COMPILER),HARBOUR)
       #HARBOUR
-      GT_LIBS=-lgtstd -lgttrm
+      GT_LIBS=-lgtstd 
    else
       #XHARBOUR
       GT_LIBS=-lgtstd -lgttrm
@@ -80,7 +80,7 @@ endif
 
 
 ifeq ($(HB_COMPILER),mingw32)
-   CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_ 
+   CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_
    ifeq ($(SUPPORT_PRINT_WIN32),yes)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
@@ -128,7 +128,7 @@ endif
 
 
 ifeq ($(XBASE_COMPILER),HARBOUR)
-   CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF 
+   CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF -D__HARBOUR__
 endif
 
 #libraries for binary building
@@ -143,7 +143,7 @@ else
      else
          # HARBOUR
          #LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm -lgtwin $(GT_LIBS) -lgtwin
-         LIBFILES_ = -lhbvm -lhbrtl $(GT_LIBS) -lhblang -lhbrdd -lhbmacro -lhbpp -lhbdbfntx -lhbdbfcdx -lhbdbffpt -lhbsix -lhsx -lhbcommon -lhbm -lgtwin $(GT_LIBS) 
+         LIBFILES_ = -lhbvm -lhbrtl $(GT_LIBS) -lhblang -lhbrdd -lhbmacro -lhbpp -lhbdbfntx -lhbdbfcdx -lhbdbffpt -lhbsix -lhsx -lhbcommon -lhbm -lgtgui $(GT_LIBS) 
      endif
    else
      ifeq ($(XBASE_COMPILER),XHARBOUR)
@@ -153,7 +153,7 @@ else
      else
         # HARBOUR
         # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
-        LIBFILES_ = -lhbvm -lhbrtl $(GT_LIBS) -lhblang -lhbrdd -lhbvm -lhbmacro -lhbpp -lrddntx -lrddcdx -lrddfpt -lhbsix -lhbcommon -lgttrm $(GT_LIBS)
+        LIBFILES_ = -lhbrtl -lhblang -lhbrdd -lhbvm -lhbmacro -lhbpp -lrddntx -lrddcdx -lrddfpt -lhbsix -lhbcommon -lgttrm -lgpm
      endif
    endif
 endif

@@ -1,4 +1,4 @@
-/* $Id: gtkmessagedialog.c,v 1.5 2008-10-16 14:55:00 riztan Exp $*/
+/* $Id: gtkmessagedialog.c,v 1.6 2010-05-26 10:15:03 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -207,7 +207,7 @@ HB_FUNC( MSG_STOP ) // cMessage, cTitle, lMarkup -> 0
  * y ser compatible con la GUI de T-Gtk.
  * Para mostrar mensajes de usuario, utilizar MsgAlert()
  */
-HB_FUNC( ALERT ) // cMessage, aButtons -> nOption
+HB_FUNC( GTK_ALERT ) // cMessage, aButtons -> nOption
 {
    PHB_ITEM buttons;
    GtkWidget *dialog, *label;

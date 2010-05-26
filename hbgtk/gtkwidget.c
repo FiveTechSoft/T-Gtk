@@ -1,4 +1,4 @@
-/* $Id: gtkwidget.c,v 1.2 2007-03-02 08:21:32 xthefull Exp $*/
+/* $Id: gtkwidget.c,v 1.3 2010-05-26 10:15:03 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -23,6 +23,7 @@
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
+#include "t-gtk.h"
 
 PHB_ITEM Color2Array( GdkColor *color );
 BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );

@@ -1,4 +1,4 @@
-/* $Id: gtkliststore.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkliststore.c,v 1.2 2010-05-26 10:15:03 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -47,6 +47,7 @@ void        gtk_list_store_move_after       (GtkListStore *store,
 #include <gtk/gtk.h>
 #include "hbapi.h"
 #include "hbapiitm.h"
+#include "t-gtk.h"
 
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
 BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  );
