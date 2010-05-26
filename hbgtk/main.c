@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: main.c,v 1.2 2010-05-26 10:16:44 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -29,6 +29,11 @@
 #include "hbapi.h"
 #include "hbvm.h"
 
+#ifdef HAVEBONOBO
+  #include <libbonobo.h>
+  #include <libbonoboui.h>
+#endif
+
 int _CRT_glob = 0;
 
 int main( int argc, char * argv[] )
@@ -38,7 +43,17 @@ int main( int argc, char * argv[] )
 
    if( gtk_init_check( &argc, &argv ) )
    {
-      // gnome_init( "T-Gtk","0.1",argc, argv); --> Entrada a gnome desactivada
+      /* gnome_init( "T-Gtk","0.1",argc, argv); --> Entrada a gnome desactivada
+      #ifdef HAVEBONOBO
+         CORBA_ORB orb;
+         orb = bonobo_activation_init( argc, argv );
+         if (bonobo_init( &argc, argv ) == FALSE) {
+            g_error("No se pudo inicializar Bonobo\n");
+         }
+         bonobo_activate();
+         g_warning( "Activate BONOBO" );
+      #endif
+       */
       hb_cmdargInit( argc, argv );
       hb_vmInit( TRUE );
       hb_vmQuit();
