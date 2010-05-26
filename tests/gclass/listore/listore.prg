@@ -22,6 +22,7 @@ Function Main()
 
   local hWnd, oScroll, oTreeView, oWnd, x, n, aIter := GtkTreeIter, oLbx
   local oCol,oBox, oCol2, oRenderer, oLabelBug
+  local oTreeview2, oScroll2, oLbx2
 
   local aItems := { { .F., 60482, "Normal",     "scrollable notebooks and hidden tabs" },;
                     { .F., 60620, "Critical",   "gdk_window_clear_area (gdkwindow-win32.c) is not thread-safe" },;
@@ -37,7 +38,8 @@ Function Main()
                     { .T., 50939, "Normal",     "Add shift clicking to GtkTextView" },;
                     { .F., 6112,  "Enhancement","netscape-like collapsable toolbars" },;
                     { .F., 1,     "Normal",     "First bug :=)" } }
-
+  
+  
     /*Modelo de Datos */
     DEFINE LIST_STORE oLbx TYPES G_TYPE_BOOLEAN, G_TYPE_UINT, G_TYPE_STRING, G_TYPE_STRING
 
@@ -73,8 +75,11 @@ Function Main()
       oTreeView:bRow_Activated := { |path,col| Comprueba( oTreeview, path, col ) }
 
        // Vamos a controlar cada cambio del cursor
-       oTreeView:Connect( "cursor-changed" ) 
-       oTreeView:bCursorChanged := {|| oLabelBug:SetText( oTreeView:GetAutoValue( 4 ) ) }
+
+       oTreeView:Connect( "cursor-changed" )
+       oTreeView:bCursorChanged := {|| oLabelBug:SetText( oTreeView:GetAutoValue( 4 ) ),;
+                                       PonModelo( oTreeView2, oLabelBug:GetText() ) }
+
 
        DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Fixed?"  WIDTH 50 TYPE "active" OF oTreeView
        /* Indicamos la accion a ejecutar al click de la fila, de la columna Fixed? .*/
@@ -91,10 +96,42 @@ Function Main()
 
        DEFINE TREEVIEWCOLUMN COLUMN 3 TITLE "Severity"    TYPE "text"  SORT  OF oTreeView
        DEFINE TREEVIEWCOLUMN COLUMN 4 TITLE "Description" TYPE "text"  SORT  OF oTreeView
+
+      // Segundo Treeview va a mostrar un array 'dinamico'
+      
+        DEFINE SCROLLEDWINDOW oScroll2  OF oBox EXPAND ;
+              SHADOW GTK_SHADOW_ETCHED_IN 
+              
+              oScroll2:SetPolicy( GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC )
+         
+         DEFINE LIST_STORE oLbx2 TYPES G_TYPE_STRING      
+         DEFINE TREEVIEW oTreeView2 MODEL oLbx2 OF oScroll2 CONTAINER
+         oTreeView2:SetRules( .T. )            
+         DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Columna"  WIDTH 50 TYPE "text" OF oTreeView2
+ 
        
    ACTIVATE WINDOW oWnd CENTER
 
 return NIL
+
+Function PonModelo( oTreeView, cValor )
+   Local oLbx , aIter := GtkTreeIter, n,x
+
+   DEFAULT cValor := ""
+
+//   oTreeView:Clear()
+   oTreeView:SetModel( )
+   DEFINE LIST_STORE oLbx TYPES G_TYPE_STRING
+
+   APPEND LIST_STORE oLbx ITER aIter
+   SET LIST_STORE oLbx ITER aIter POS 1 VALUE cValor
+  
+   oTreeView:SetModel( oLbx )
+  
+
+return nil
+
+
 
 /* Ejemplo de como MODIFICAR un dato del modelo vista controlador. */
 STATIC FUNCTION fixed_toggled( oCellRendererToggle, cPath, oTreeView, oLbx )
@@ -119,6 +156,9 @@ STATIC FUNCTION fixed_toggled( oCellRendererToggle, cPath, oTreeView, oLbx )
 
 Return .f.
 
+
+static function CStr( uValue )
+return cValtoChar( uValue )
 
 // Una manera facil de obtener el valor de las columnas
 // Easy get values from columns
