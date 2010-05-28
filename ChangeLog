@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.77 2010-05-26 10:36:19 xthefull Exp $
+ * $Id: ChangeLog,v 1.78 2010-05-28 02:48:46 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,11 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2010-05-27 23:53 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
+   * Rules.make 
+     Se anexa libreria de compatibilidad para xharbour cuando se usa harbour.
+     
+
 2010-05-26 12:30 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    + Soporte para Harbour 2.0
      t-gtk.h contiene los defines para ser compatible con Harbour.
@@ -23,7 +28,7 @@
     + Activamos methods OnCursorChanged y OnMoveCursor
     
     /tests/gclass/listore
-    + Ejemplo de como obtener un valor automaticamente cuando se nueve el cursor.
+    + Ejemplo de como obtener un valor automaticamente cuando se mueve el cursor.
      
 
 2010-02-08 23:53 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
