@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.78 2010-05-28 02:48:46 riztan Exp $
+ * $Id: ChangeLog,v 1.79 2010-06-04 09:58:16 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,13 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2010-06-04 11:50 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   * Fix minor bug. Con xHarbour, entra el flag HARBOUR y hace
+     que entre en t-gtk.h en el #ifdef.
+     Se cambia __HARBOUR__ por __COMPATIBLE_HARBOUR__
+
+   * Cambios en el Rules.make
+
 2010-05-27 23:53 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
    * Rules.make 
      Se anexa libreria de compatibilidad para xharbour cuando se usa harbour.

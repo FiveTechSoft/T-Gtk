@@ -1,4 +1,4 @@
-/* $Id: t-gtk.h,v 1.5 2010-05-26 10:30:05 xthefull Exp $*/
+/* $Id: t-gtk.h,v 1.6 2010-06-04 09:56:04 xthefull Exp $*/
 
 /*
  * t-gtk.h Fichero de definiciones de T-Gtk -------------------------------------
@@ -21,7 +21,7 @@ typedef struct {
 
 GtkWidget * get_win_parent(void);
 
-#ifdef __HARBOUR__
+#ifdef __COMPATIBLE_HARBOUR__
    #define hb_storni   hb_storvni
    #define hb_stornl   hb_storvnl
    #define hb_storl    hb_storvl
