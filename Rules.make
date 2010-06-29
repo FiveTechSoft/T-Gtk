@@ -148,12 +148,12 @@ else
    else
      ifeq ($(XBASE_COMPILER),XHARBOUR)
         # XHARBOUR
-        #LIBFILES_ = -ldebug -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lrtl -lcommon -lm -lgpm
+        #LIBFILES_ = -ldebug -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lrtl -lcommon -lm
         LIBFILES_ = -lvm -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lcommon -lm -lhbsix -lpcrepos $(GT_LIBS) -lcodepage -lct -ltip
      else
         # HARBOUR
         # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
-        LIBFILES_ = -lhbrtl -lhblang -lhbrdd -lhbvm -lhbmacro -lhbpp -lrddntx -lrddcdx -lrddfpt -lhbsix -lhbcommon -lgttrm -lgpm -lxhb
+        LIBFILES_ = -lhbrtl -lhblang -lhbrdd -lhbvm -lhbmacro -lhbpp -lrddntx -lrddcdx -lrddfpt -lhbsix -lhbcommon -lgttrm -lxhb -lhbxpp
      endif
    endif
 endif

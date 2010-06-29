@@ -1,4 +1,4 @@
-/* $Id: gmenuitem.prg,v 1.2 2010-02-09 04:22:04 riztan Exp $*/
+/* $Id: gmenuitem.prg,v 1.3 2010-06-29 23:32:34 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -23,13 +23,18 @@
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
+
 CLASS GMENUITEM FROM GBIN
 
       METHOD New( cTitle, oMenu, bAction, lRoot, lMnemonic, cId, uGlade)
       METHOD Append( oMenu ) INLINE gtk_menu_append( oMenu:pWidget, ::pWidget )
       METHOD SetMenu( oMenuItem ) INLINE  gtk_menu_item_set_submenu( ::pWidget, oMenuItem:pWidget )
       METHOD SetFont( oFont )  INLINE ::oFont := oFont, gtk_widget_modify_font( gtk_bin_get_child( ::pWidget ) , oFont:pFont )
+#if GTK_CHECK_VERSION( 2,16,0 )
       METHOD SetTitle( oMenuItem, cTitle ) INLINE gtk_menu_item_set_label( oMenuItem, cTitle )
+#else
+      METHOD SetTitle( )     VIRTUAL
+#endif
 
 ENDCLASS
 
