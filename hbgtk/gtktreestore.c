@@ -1,4 +1,4 @@
-/* $Id: gtktreestore.c,v 1.2 2010-05-26 10:15:03 xthefull Exp $*/
+/* $Id: gtktreestore.c,v 1.3 2010-10-27 21:39:33 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -59,7 +59,12 @@ HB_FUNC( HB_GTK_TREE_STORE_NEW ) // aItems -> pTreeStore
   PHB_ITEM pArray     = hb_arrayGetItemPtr( pArray2, 1 );   // 1 Array
   PHB_BASEARRAY pBase = pArray->item.asArray.value;        // base
   gint iCol;
-  gint iLenCols = pBase->ulLen;  // columnas
+  #ifdef __HARBOUR20__
+     gint iLenCols = pBase->nLen;  // columnas
+  #else
+     gint iLenCols = pBase->ulLen;  // columnas
+  #endif
+
   GType colTypes[ iLenCols ];    // array de tipos
 
    /* Determinando el tipo de datos para cada columna */

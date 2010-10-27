@@ -1,4 +1,4 @@
-/* $Id: gobject.c,v 1.3 2007-08-01 20:56:44 xthefull Exp $*/
+/* $Id: gobject.c,v 1.4 2010-10-27 21:39:33 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -29,30 +29,22 @@
 #include "hbapi.h"
 #include "hbapiitm.h"
 
-// TODO:Falta el tipo DOUBLE, no consigo entener PORQUE dice tipo incompatible;
-//  else if( HB_IS_DOUBLE( pValue ) )
-//     value = ( gdouble *) hb_parnd( 3 );
 
 HB_FUNC( G_OBJECT_SET )  // object, property_name, value ->void
 {
   PHB_ITEM pValue = hb_param( 3, HB_IT_ANY );
-  gpointer value;  //type void * for cast
 
   if( HB_IS_STRING( pValue ) )
-      value = ( gchar *) hb_parc( 3 );
+       g_object_set( (gpointer) hb_parnl(1), (gchar  *) hb_parc(2), hb_parc( 3 ), NULL );
   else if( HB_IS_INTEGER( pValue ) )
-      value = ( gint *) hb_parni( 3 );
+       g_object_set( (gpointer) hb_parnl(1), (gchar  *) hb_parc(2), hb_parni( 3 ), NULL );
   else if( HB_IS_LONG( pValue ) )
-      value = ( glong *) hb_parnl( 3 );
-  else if( HB_IS_DOUBLE( pValue ) ){
+       g_object_set( (gpointer) hb_parnl(1), (gchar  *) hb_parc(2), hb_parnl( 3 ), NULL );
+  else if( HB_IS_DOUBLE( pValue ) )
        g_object_set( (gpointer) hb_parnl(1), (gchar  *) hb_parc(2), hb_parnd( 3 ), NULL );
-	   return ;
-	   }
   else if( HB_IS_LOGICAL( pValue ) )
-      value = ( gboolean *) hb_parl( 3 );
-
-  g_object_set( (gpointer) hb_parnl(1),
-                (gchar  *) hb_parc(2), value, NULL );
+       g_object_set( (gpointer) hb_parnl(1), (gchar  *) hb_parc(2), hb_parl( 3 ), NULL );
+  
 }
 
 HB_FUNC( G_OBJECT_SET_VALIST )
@@ -64,7 +56,12 @@ HB_FUNC( G_OBJECT_SET_VALIST )
   if( ISARRAY( 2 ) )
    {
    pBase = pArray->item.asArray.value;
-   iLen  = pBase->ulLen;
+
+   #ifdef __HARBOUR20__
+     iLen  = pBase->nLen;
+   #else
+     iLen  = pBase->ulLen;
+   #endif
 
    for( item = 0; item < iLen; item += 2 )
      {

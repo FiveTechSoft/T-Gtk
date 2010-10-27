@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.81 2010-06-29 23:32:31 riztan Exp $
+ * $Id: ChangeLog,v 1.82 2010-10-27 21:39:04 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,19 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+2010-10-27 23:51 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   * /src/hbgtk/gobject.c
+     * Cambios, porque en 64bits con Harbour, da error de tipos distintos tamaños en el puntero.
+       Se quita variable, y se llama directamente.
+
+   * /src/hbgtk/gtklistore.c
+   * /src/hbgtk/gtktreestore.c
+     Add #ifdef __HARBOUR20__, porque parece que han cambiado la estructura de PHB_BASEARRAY
+   
+   Nota:
+   Bajo GNU/Linux 64 bits y Harbour 2.0, estoy viendo que existen diversos problemas en /hbgtk.
+
+
 2010-06-29 20:23 UTC+0130 Federico de Maussion <fjdemaussion at gmail.com>
    * /src/gclass/gmenuitem.prg  Fix bug.
      Se evita llamar gtk_menu_item_set_label con versiones inferiores a 2.16
