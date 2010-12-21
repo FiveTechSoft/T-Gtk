@@ -1,5 +1,5 @@
 /*
- * $Id: tharbourconfig.prg,v 1.3 2009-05-21 07:50:18 xthefull Exp $
+ * $Id: tharbourconfig.prg,v 1.4 2010-12-21 21:52:51 xthefull Exp $
  * Clase que nos permite dotar de librerias nuevas sin tener que compilar de nuevo el
  * configurador, solamente cambiando el config.xml, obtenemos lo deseado.
  * Porting Harbour to GTK+ power !
@@ -57,7 +57,7 @@ METHOD New( ) CLASS gConfigHarbour
    if ::lOk
       oNode := ::oDoc:FindFirst( ::cNode )
       if oNode != NIL
-         oIter := TXmlIteratorRegex( oNode )
+         oIter := TXmlIteratorRegex():New( oNode )
          oNodeLib := oIter:Find( ::cFind )   // Exactamente lib
          while oNodeLib != NIL
                cLib   :=  cValtoChar( oNodeLib:GetAttribute( "name" ) )
@@ -94,7 +94,7 @@ METHOD New( ) CLASS gConfigGTK
    if ::lOk
       oNode := ::oDoc:FindFirst( ::cNode )
       if oNode != NIL
-         oIter := TXmlIteratorRegex( oNode )
+         oIter := TXmlIteratorRegex():New( oNode )
          oNodeLib := oIter:Find( ::cFind )   // Exactamente lib
          while oNodeLib != NIL
                cLib   :=  cValtoChar( oNodeLib:GetAttribute( "name" ) )
