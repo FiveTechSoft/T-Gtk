@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.82 2010-10-27 21:39:04 xthefull Exp $
+ * $Id: ChangeLog,v 1.83 2010-12-21 17:54:45 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,11 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2010-12-21 23:51 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   * /src/gclass/gtimer.prg
+     Mejoras sugeridas por Marco Bernardi
+
 2010-10-27 23:51 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    * /src/hbgtk/gobject.c
      * Cambios, porque en 64bits con Harbour, da error de tipos distintos tamaños en el puntero.
