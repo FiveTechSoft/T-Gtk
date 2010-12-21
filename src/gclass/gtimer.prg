@@ -1,4 +1,4 @@
-/* $Id: gtimer.prg,v 1.1 2006-09-07 17:02:45 xthefull Exp $*/
+/* $Id: gtimer.prg,v 1.2 2010-12-21 17:51:36 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -20,6 +20,7 @@
     LGPL Licence.
     Control de Timers a traves de gLib
     (c)2003 Rafael Carmona <thefull@wanadoo.es>
+    (c)2010 Marco Bernardi
 */
 
 //----------------------------------------------------------------------------//
@@ -27,16 +28,15 @@
 #include "gclass.ch"
 
 static aTimers := {}
-static nId     := 1
-
 CLASS gTimer
 
    DATA   bAction
+   DATA   nInterval
+   DATA   oTimer
+   DATA   i
    DATA   lActive
-   DATA   nId, nInterval
-   DATA   Cargo
 
-	 METHOD New( nInterval, bAction )
+   METHOD New( nInterval, bAction )
    METHOD Activate()
    METHOD Enable()  INLINE ::lActive := .T.
    METHOD Disable() INLINE ::lActive := .F.
@@ -50,45 +50,41 @@ METHOD New( nInterval, bAction ) CLASS gTimer
 
    DEFAULT nInterval := 1000, bAction := { || nil }
 
-   ::nInterval = nInterval
-   ::bAction   = bAction
- 	 ::nId := ++nId
-   ::lActive   = .F.
-	 AAdd( aTimers, Self )
+   ::nInterval := nInterval
+   ::bAction   := bAction
 
 return Self
 
 //----------------------------------------------------------------------------//
 
 METHOD Activate() CLASS gTimer
-
-	 ::nId := TGTK_hb_SetTimer( ::nInterval, cValToChar( ::nId ) )
-   ::lActive = .t.
+  local i  
+  if ( i := ascan(aTimers,{|bAct| bAct == NIL }) )=0 
+     aadd(aTimers, Self)
+     ::i := len(aTimers)
+  else
+     aTimers[i] := Self
+     ::i        := i
+  endif
+  ::lActive := .t.
+  ::oTimer  := TGTK_hb_SetTimer( ::nInterval, cValToChar( ::i ) )
 
 Return nil
 
 //----------------------------------------------------------------------------//
 
 METHOD End() CLASS gTimer
-	 Local nAt, lResult
-
-   lResult := TGTK_hb_deltimer( ::nId )
-   if ( nAt := AScan( aTimers, { | o | o == Self } )  ) != 0
-      ADel( aTimers, nAt )
-      ASize( aTimers, Len( aTimers ) - 1 )
-   endif
-
+   TGTK_hb_deltimer( ::oTimer )
+   aTimers[::i] := NIL    
 return nil
 
-//----------------------------------------------------------------------------//
+function timerevent( i )
+  i:=val(i)
+  
+  if aTimers[i]:lActive
+     eval( aTimers[i]:bAction )
+  endif
 
-function TimerEvent( nId )
+return .t.
 
-   local nTimer
-	 nId := Val( nId )
-	 nTimer := AScan( aTimers, { | oTimer | oTimer:nID == nId } )
-	 if nTimer != 0 .and. aTimers[ nTimer ]:lActive
-      Eval( aTimers[ nTimer ]:bAction )
-   endif
 
-Return .T.
