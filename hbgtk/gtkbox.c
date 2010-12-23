@@ -1,4 +1,4 @@
-/* $Id: gtkbox.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkbox.c,v 1.2 2010-12-23 18:48:37 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -41,7 +41,7 @@ HB_FUNC( GTK_BOX_PACK_START ) // box, child, lExpand, lFill, ipadding
 
   gtk_box_pack_start( GTK_BOX( ( GtkWidget *) hb_parnl( 1 ) ),
                       ( GtkWidget *) hb_parnl( 2 ),
-                      hb_parl( 3 ), hb_parl( 4 ), hb_parl( 5 ) );
+                      hb_parni( 3 ), hb_parni( 4 ), hb_parni( 5 ) );
 }
 
 HB_FUNC( GTK_BOX_PACK_END ) // box, child, lExpand, lFill, ipadding
@@ -49,6 +49,6 @@ HB_FUNC( GTK_BOX_PACK_END ) // box, child, lExpand, lFill, ipadding
 
   gtk_box_pack_end( GTK_BOX( ( GtkWidget *) hb_parnl( 1 ) ),
                    ( GtkWidget *) hb_parnl( 2 ),
-                   hb_parl( 3 ), hb_parl( 4 ), hb_parl( 5 ) );
+                   hb_parni( 3 ), hb_parni( 4 ), hb_parni( 5 ) );
 }
 
