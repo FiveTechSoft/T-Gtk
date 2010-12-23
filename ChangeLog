@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.86 2010-12-23 13:20:59 dgarciagil Exp $
+ * $Id: ChangeLog,v 1.87 2010-12-23 15:56:31 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,15 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2010-12-23 16:48 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   * /tests/native/image Fix bug 
+     El cambio de la funcion gtk_window_set_icon() a nivel de , hace que se rompa.
+      
+    */hbgtk/gtkwindow.c
+     * Funcion gtk_window_set_icon, se desrefencia pixbuf.
+     * Se esperaba const gchar y se envia gchar. Cambiado.
+
 
 2010-12-23 23:51 UTC-0200 Daniel Garcia-Gil <danielgarciagil at gmail.com>
    * gwidget.prg

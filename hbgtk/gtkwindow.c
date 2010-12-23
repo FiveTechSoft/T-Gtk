@@ -1,4 +1,4 @@
-/* $Id: gtkwindow.c,v 1.7 2010-05-26 10:15:03 xthefull Exp $*/
+/* $Id: gtkwindow.c,v 1.8 2010-12-23 15:55:47 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -130,14 +130,14 @@ HB_FUNC( GTK_WINDOW_SET_ICON ) //  window, Icon -> void
 HB_FUNC( GTK_WINDOW_SET_ICON_NAME ) //  window, cIcon -> void
 {
   GtkWidget * window = ( GtkWidget * ) hb_parnl( 1 );
-  gchar * cIcon = hb_parc( 2 );
+  const gchar * cIcon = hb_parcx( 2 );
   gtk_window_set_icon_name( GTK_WINDOW(window), cIcon );
 }
 
 HB_FUNC( GTK_WINDOW_SET_ICON_FROM_FILE ) //  window, cIcon -> void
 {
   GtkWidget * window = ( GtkWidget * ) hb_parnl( 1 );
-  gchar * cIcon = hb_parc( 2 );
+  const gchar * cIcon = hb_parc( 2 );
   gtk_window_set_icon_from_file( GTK_WINDOW(window), cIcon, NULL );
 }
 
@@ -258,6 +258,7 @@ HB_FUNC( GTK_WINDOW_SET_DEFAULT_ICON )
 {
   GdkPixbuf * pixbuf = ( GdkPixbuf * ) create_pixbuf( hb_parc( 1 ) );
   gtk_window_set_default_icon( pixbuf );
+  gdk_pixbuf_unref(  pixbuf );
 }
 
 HB_FUNC( GTK_WINDOW_SET_DEFAULT_ICON_FROM_FILE )

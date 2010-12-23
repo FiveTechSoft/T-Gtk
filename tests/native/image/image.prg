@@ -1,5 +1,5 @@
 /*
- * $Id: image.prg,v 1.1 2006-10-31 11:43:59 xthefull Exp $
+ * $Id: image.prg,v 1.2 2010-12-23 15:55:47 xthefull Exp $
  * Ejemplo de uso de pixbuf y colocacion de un icono a la ventana.
  * Porting Harbour to GTK+ power !
  * (C) 2004-05. Rafa Carmona -TheFull-
@@ -18,12 +18,7 @@ function main()
    Gtk_Signal_Connect( hWnd, "destroy", {||gtk_main_quit() } )  // Cuando se mata la aplicacion
 
 /* Icono para barra de titulo de la ventana */
-   hIcon := gdk_pixbuf_new_from_file( "../../images/glade.png" )
-
-   if hIcon != 0
-      gtk_window_set_icon( hWnd, hIcon )
-      gdk_pixbuf_unref( hIcon )
-   endif
+   gtk_window_set_icon( hWnd, "../../images/glade.png" )
 
 /* Caja de 'empaquetamiento'*/
    hBox := gtk_hbox_new( .f., 0 )
