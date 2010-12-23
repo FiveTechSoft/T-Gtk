@@ -1,4 +1,4 @@
-/* $Id: gwidget.prg,v 1.5 2007-08-12 10:24:44 xthefull Exp $*/
+/* $Id: gwidget.prg,v 1.6 2010-12-23 13:21:00 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -62,6 +62,8 @@ CLASS GWIDGET FROM GOBJECT
        METHOD Box_Pack_end( oBox, lExpand, lFill, nPadding)
        METHOD AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y , lEnd)
        METHOD Refresh( ) INLINE gtk_widget_queue_draw( ::pWidget )
+
+       METHOD RemoveContainer( oChild ) VIRTUAL
 
        METHOD CursorEnter()
        METHOD CursorLeave()
@@ -282,7 +284,7 @@ METHOD MsgLeave()  CLASS GWIDGET
     endif
 RETURN NIL
 
-// Las señales "enter" y "leave", son deprecated.
+// Las seï¿½ales "enter" y "leave", son deprecated.
 // En su lugar , indican que deberian usarse "enter-notify-event" y "leave-notify-event"
 ******************************************************************************
 METHOD OnLeaveNotifyEvent( oSender, pGdkEventCrossing ) CLASS GWIDGET

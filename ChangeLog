@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.85 2010-12-23 12:06:42 xthefull Exp $
+ * $Id: ChangeLog,v 1.86 2010-12-23 13:20:59 dgarciagil Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,20 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2010-12-23 23:51 UTC-0200 Daniel Garcia-Gil <danielgarciagil at gmail.com>
+   * gwidget.prg
+      + METHOD RemoveContainer( oChild ) VIRTUAL
+
+   * GButton.prg
+      + METHOD RemoveContainer( oChild ) 
+      + METHOD SetImage( uImage )
+
+   * gtkcontainer.c
+      + HB_FUNC( GTK_CONTAINER_REMOVE ) function wrapper a la funcion del mismo nombre de gtk http://library.gnome.org/devel/gtk/unstable/GtkContainer.html#gtk-container-remove
+
+   * gclass.ch
+      + agragada clausula [ IMAGE <uImage> ], uImage podria ser un Objecto GImage o un literal con el nombre de la misma
 
 2010-12-21 23:51 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    * /tests/gclass/configurador

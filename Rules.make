@@ -33,13 +33,14 @@ HB_COMPILER = gcc
 XBASE_COMPILER = HARBOUR
  
 #Nueva version harbour 1.1
-HB_BIN_INSTALL = /home/rafa/harbour-project/trunk/harbour/bin/linux/gcc
-HB_INC_INSTALL = /home/rafa/harbour-project/trunk/harbour/include
-HB_LIB_INSTALL = /home/rafa/harbour-project/trunk/harbour/lib/linux/gcc
+HB_BIN_INSTALL = /usr/local/bin
+HB_INC_INSTALL = /usr/local/include/harbour
+HB_LIB_INSTALL = /usr/local/lib/harbour
  
+
 #Rutas de librerias y de includes de TGTK.
-LIBDIR_TGTK= /home/rafa/t-gtk/lib
-INCLUDE_TGTK_PRG=/home/rafa/t-gtk/include
+LIBDIR_TGTK= /home/daniel/repos/tgtk/lib
+INCLUDE_TGTK_PRG=/home/daniel/repos/tgtk/include
 
 #Soporte para GtkSourceView
 GTKSOURCEVIEW=no
@@ -128,7 +129,7 @@ endif
 
 
 ifeq ($(XBASE_COMPILER),HARBOUR)
-   CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF -D__COMPATIBLE_HARBOUR__
+   CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF -D__COMPATIBLE_HARBOUR__ -D__HARBOUR20__
 endif
 
 #libraries for binary building

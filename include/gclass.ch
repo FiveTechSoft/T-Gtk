@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.15 2009-12-11 21:13:40 riztan Exp $ */
+/*  $Id: gclass.ch,v 1.16 2010-12-23 13:21:00 dgarciagil Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2004 Rafa Carmona
@@ -317,12 +317,13 @@
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
                  [ STYLE <aStyles> ];
                  [ STYLE_CHILD <aStylesChild> ];
+                 [ IMAGE <cImage> ];
       => ;
     [ <oBtn> := ] GButton():New( <cText>,[ \{|o| <bAction> \} ] , [ \{|o| <bValid> \} ], <oFont>,;
        <.lMnemonic.>, <cFromStock>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding> ,;
       <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>, <nWidth>, <nHeight>,;
       <oBar>,<cMsgBar>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
-      <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>, <aStyles> , <aStylesChild> )
+      <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>, <aStyles> , <aStylesChild>, <cImage> )
 
 // Toggle
 #xcommand DEFINE TOGGLE [ <oBtn> ]  ;

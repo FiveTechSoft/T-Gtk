@@ -1,4 +1,4 @@
-/* $Id: gbutton.prg,v 1.1 2006-09-07 17:07:55 xthefull Exp $*/
+/* $Id: gbutton.prg,v 1.2 2010-12-23 13:21:00 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -29,12 +29,19 @@
 
 CLASS GBUTTON FROM GBIN
 
+      DATA oImg
+
       METHOD New( )
+      
+      METHOD RemoveContainer( oChild ) INLINE Gtk_Container_Remove( ::pWidget, oChild:pWidget )
+      
       METHOD SetLabel( cText ) INLINE gtk_button_set_label( ::pWidget, cText )
       METHOD SetText( cText )  INLINE gtk_button_set_label( ::pWidget, cText )
       METHOD GetLabel( )       INLINE gtk_button_get_label( ::pWidget )
       METHOD SetFont( oFont )  INLINE ::oFont := oFont, gtk_widget_modify_font( gtk_bin_get_child( ::pWidget ) , oFont:pFont )
       METHOD StyleChild( cColor, iComponent, iState ) INLINE  __GSTYLE( cColor, gtk_bin_get_child( ::pWidget ), iComponent , iState )
+      
+      METHOD SetImage( uImage ) 
       
       //Signals
       METHOD OnClicked( oSender )
@@ -44,7 +51,7 @@ ENDCLASS
 METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpand,;
             lFill, nPadding , lContainer, x, y, cId, uGlade, nCursor,;
             uLabelTab, nWidth, nHeight, oBar, cMsgBar, lEnd, lSecond, lResize, lShrink,;
-            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta, aStyles, aStylesChild ) CLASS GBUTTON
+            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta, aStyles, aStylesChild, uImage ) CLASS GBUTTON
 
        IF cId == NIL
           IF cFromStock != NIL
@@ -114,6 +121,8 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
           NEXT
        endif
 
+       ::SetImage( uImage )
+
        ::Show()
 
 RETURN Self
@@ -122,3 +131,24 @@ RETURN Self
 METHOD OnClicked( oSender ) CLASS GBUTTON
     Eval( oSender:bAction, oSender )
 RETURN .F.
+
+******************************************************************************
+
+METHOD SetImage( uImage ) CLASS GBUTTON
+
+   if ::oImg != NIL 
+      // no es necesario limpiar la imagen con clear
+      // el removedor se encarga de limpiarla automaticamente 
+      ::RemoveContainer( ::oImg )      
+      ::oImg = NIL
+   endif
+
+   if ValType( uImage ) == "O"
+      ::oImg = uImage
+      uImage:AddChild( Self, .F., .F., , .T. )
+      uImage:Show()
+   elseif ValType( uImage ) == "C"       
+      ::oImg = GImage():New( uImage , Self, , , , .T. )
+   endif
+
+RETURN nil

@@ -1,4 +1,4 @@
-/* $Id: gtkcontainer.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkcontainer.c,v 1.2 2010-12-23 13:21:00 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -41,6 +41,15 @@ HB_FUNC( GTK_CONTAINER_ADD )
         gtk_container_add(GTK_CONTAINER(window), widget  );
     }        
 }
+
+HB_FUNC( GTK_CONTAINER_REMOVE )
+{
+    GtkWidget *window = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget *widget = GTK_WIDGET( hb_parnl( 2 ) );    
+
+    gtk_container_remove(GTK_CONTAINER(window), widget  );
+}
+
 
 HB_FUNC( GTK_CONTAINER_SET_BORDER_WIDTH ) // widget, guint border_width
 {

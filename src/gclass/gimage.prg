@@ -1,4 +1,4 @@
-/* $Id: gimage.prg,v 1.2 2007-08-01 20:56:44 xthefull Exp $*/
+/* $Id: gimage.prg,v 1.3 2010-12-23 13:21:00 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -20,7 +20,7 @@
     LGPL Licence.
     (c)2003 Rafael Carmona <thefull@wanadoo.es>
 */
-#include "gtkapi.ch"
+#include "gtkapi.ch" 
 #include "hbclass.ch"
 
 CLASS GIMAGE FROM GMISC
@@ -42,7 +42,7 @@ METHOD New( cImage , oParent, lExpand, lFill, nPadding , lContainer, x, y, cId, 
             left_ta, right_ta, top_ta, bottom_ta, xOptions_ta, yOptions_ta, nHor, nVer,;
             cFromStock, nIcon_Size, lLoad ) CLASS GIMAGE
        
-       DEFAULT nIcon_Size := GTK_ICON_SIZE_INVALID
+       DEFAULT nIcon_Size := GTK_ICON_SIZE_INVALID, lLoad := .F.
 
        IF cId == NIL
           IF cFromStock != NIL
