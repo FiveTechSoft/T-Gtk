@@ -1,4 +1,4 @@
-/* $Id: glib.c,v 1.3 2006-09-19 14:42:42 rosenwla Exp $*/
+/* $Id: glib.c,v 1.4 2010-12-23 16:44:22 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -41,7 +41,7 @@
   HB_EXPORT PHB_SYMB hb_dynsymSymbol( PHB_DYNS pDynSym );
 #endif
 
-int time_harbour( gpointer data )
+gboolean time_harbour( gpointer data )
 {
  PHB_DYNS pDynSym = hb_dynsymFindName( (gchar *) data );
 
@@ -62,9 +62,9 @@ int time_harbour( gpointer data )
 
 HB_FUNC( G_TIMEOUT_ADD ) // milisegundos, funcion
 {
-  gint interval = hb_parni( 1 );
-  gchar * cFunc = hb_parc( 2 );
-  hb_retni( g_timeout_add( interval, time_harbour, cFunc ) );
+  guint interval = hb_parni( 1 );
+  const gchar * cFunc = hb_parc( 2 );
+  hb_retni( g_timeout_add( interval,  (GSourceFunc) time_harbour, ( gpointer ) cFunc ) );
 }
 
 HB_FUNC( G_SOURCE_REMOVE )

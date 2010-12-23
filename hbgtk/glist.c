@@ -1,4 +1,4 @@
-/* $Id: glist.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: glist.c,v 1.2 2010-12-23 16:44:22 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -31,7 +31,7 @@
 HB_FUNC( G_LIST_APPEND )
 {
 	GList *list = (GList *) hb_parnl( 1 );
-	list = g_list_append (list, hb_parc( 2 ) );
+	list = g_list_append (list, ( gpointer )hb_parc( 2 ) );
     hb_retnl( ( glong) list );
 }
 
