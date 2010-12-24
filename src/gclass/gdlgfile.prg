@@ -1,4 +1,4 @@
-/* $Id: gdlgfile.prg,v 1.1 2006-09-07 17:02:43 xthefull Exp $*/
+/* $Id: gdlgfile.prg,v 1.2 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -101,7 +101,7 @@ METHOD New( cTitle, cFileDefault, cPattern, lNoModal, cId, uGlade ) CLASS GDLGFI
        ENDIF
 
         if !lNoModal
-          ::Modal( TRUE )
+          ::Modal( .T. )
        endif
 
        // Entramos en un nuevo bucle de mensajes, para poder devolver el nombre

@@ -1,4 +1,4 @@
-/* $Id: gdialog.prg,v 1.4 2009-12-11 21:13:41 riztan Exp $*/
+/* $Id: gdialog.prg,v 1.5 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -162,10 +162,10 @@ METHOD Activate(  bYes, bNo, bOk, bCancel, bClose, bApply, bHelp, bEnd, lCenter,
              ::Center()
           endif
           if !lResizable
-             ::SetResizable( FALSE )
+             ::SetResizable( .F. )
           endif
           if !lNoModal 
-             ::Modal( TRUE )
+             ::Modal( .T. )
           endif
        endif
 

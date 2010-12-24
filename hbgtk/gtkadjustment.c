@@ -1,4 +1,4 @@
-/* $Id: gtkadjustment.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gtkadjustment.c,v 1.2 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -53,12 +53,12 @@
 
 HB_FUNC( GTK_ADJUSTMENT_NEW ) // -> nAdjustment
 {
-  gdouble lower = (gdouble) hb_parnl( 1 );
-  gdouble upper = (gdouble) hb_parnl( 2 );
-  gdouble value = (gdouble) hb_parnl( 3 );
-  gdouble step_increment = (gdouble) hb_parnl( 4 );
-  gdouble page_increment = (gdouble) hb_parnl( 5 );
-  gdouble page_size      = (gdouble) hb_parnl( 6 );
+  gdouble lower = (gdouble) hb_parnd( 1 );
+  gdouble upper = (gdouble) hb_parnd( 2 );
+  gdouble value = (gdouble) hb_parnd( 3 );   
+  gdouble step_increment = (gdouble) hb_parnd( 4 );
+  gdouble page_increment = (gdouble) hb_parnd( 5 );
+  gdouble page_size      = (gdouble) hb_parnd( 6 );
 
   GtkObject * adjust = gtk_adjustment_new( lower, upper, value,
                                                step_increment,

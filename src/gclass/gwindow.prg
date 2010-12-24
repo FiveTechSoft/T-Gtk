@@ -1,4 +1,4 @@
-/* $Id: gwindow.prg,v 1.4 2009-12-11 21:13:41 riztan Exp $*/
+/* $Id: gwindow.prg,v 1.5 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -130,7 +130,7 @@ METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
        ::Show()
 
        if lModal
-          ::Modal( TRUE )
+          ::Modal( .T. )
        endif
 
        ::lInitiate := lInitiate

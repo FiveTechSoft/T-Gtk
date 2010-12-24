@@ -1,4 +1,4 @@
-/* $Id: gradiobutton.prg,v 1.3 2009-02-15 18:33:08 xthefull Exp $*/
+/* $Id: gradiobutton.prg,v 1.4 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -65,7 +65,7 @@ METHOD New( cText, lActived, oRadio, bAction, oFont, lMnemonic, oParent,;
        endif
 
        if lActived
-          ::SetState( TRUE )
+          ::SetState( .T. )
        endif
 
        if nCursor != NIL

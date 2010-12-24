@@ -1,4 +1,4 @@
-/* $Id: gtkbrowse.c,v 1.2 2010-05-26 10:27:26 xthefull Exp $*/
+/* $Id: gtkbrowse.c,v 1.3 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -437,6 +437,7 @@ gtk_browse_unclick( GtkWidget *widget, GdkEventButton *event )
 gboolean 
 gtk_browse_col_resized( GtkWidget *widget, gdouble size )
 {
+
   if ( size ){
      PHB_ITEM pObj     = &GTK_BROWSE(widget)->item;
      PHB_DYNS pMethod  = hb_dynsymFindName( "COLRESIZEVENT" );

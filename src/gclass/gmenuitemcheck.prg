@@ -1,4 +1,4 @@
-/* $Id: gmenuitemcheck.prg,v 1.1 2006-09-07 17:02:44 xthefull Exp $*/
+/* $Id: gmenuitemcheck.prg,v 1.2 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -60,11 +60,11 @@ METHOD New( cTitle, oMenu, bAction, lRoot, lRadio, lActive, lMnemonic, cId, uGla
        endif
 
        IF lRadio
-          ::DrawAsRadio( TRUE )
+          ::DrawAsRadio( .T. )
        ENDIF
 
        IF lActive
-          ::SetActive( TRUE )
+          ::SetActive( .T. )
        ENDIF
 
        IF ::bAction != NIL

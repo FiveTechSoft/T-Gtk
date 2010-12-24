@@ -1,4 +1,4 @@
-/* $Id: gdbfgrid.prg,v 1.2 2007-03-16 22:37:07 xthefull Exp $*/
+/* $Id: gdbfgrid.prg,v 1.3 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -22,9 +22,9 @@
     (c)2005 Joaquim Ferrer Godoy <quim_ferrer@yahoo.es>
 */
 
-#include "gtkapi.ch"
 #include "hbclass.ch"
 #include "dbstruct.ch"
+#include "gtkapi.ch"
 
 #define SCROLL_VERTICAL  1
 
@@ -143,11 +143,12 @@ METHOD New( uParent, nRow, nCol, aHeaders, aColSizes, abFields, cAlias, nWidth,;
    ::oBox := GBoxVH():New(.T.,,.T., uParent, lExpand, lFill, nPadding, lContainer, x, y,uLabelTab,;
                 lSecond, lResize, lShrink, left_ta, right_ta, top_ta, bottom_ta, xOptions_ta, yOptions_ta )   // Meto la caja , en el Parent
      
-   gtk_box_pack_start( ::oBox:pWidget, ::oScroll:hWnd, TRUE, TRUE, 0 )     // Meto en la caja, el scroll
+   gtk_box_pack_start( ::oBox:pWidget, ::oScroll:hWnd, .T., .T., .F. )     // Meto en la caja, el scroll
    gtk_container_add( ::oScroll:hWnd, ::pWidget )                          // Meto en el scroll, el browse
    ::oBox:Show()                                                           // Mostramos la caja
    ::Show()                                                                // Mostramos el Browse
-   
+ 
+
    if !empty( cAlias )
       ::SetDbf()
       eval( ::bGoTop )

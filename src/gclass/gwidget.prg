@@ -1,4 +1,4 @@
-/* $Id: gwidget.prg,v 1.6 2010-12-23 13:21:00 dgarciagil Exp $*/
+/* $Id: gwidget.prg,v 1.7 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -46,8 +46,8 @@ CLASS GWIDGET FROM GOBJECT
        METHOD CheckGlade( cId )
        METHOD SetFocus() INLINE gtk_widget_grab_focus( ::pWidget )
 
-       METHOD Enable()     INLINE gtk_widget_set_sensitive( ::pWidget, TRUE)
-       METHOD Disable()    INLINE gtk_widget_set_sensitive( ::pWidget, FALSE)
+       METHOD Enable()     INLINE gtk_widget_set_sensitive( ::pWidget, .T.)
+       METHOD Disable()    INLINE gtk_widget_set_sensitive( ::pWidget, .F.)
        METHOD End()        INLINE gtk_widget_destroy( ::pWidget )
        METHOD SetEvents( uEvents ) INLINE gtk_widget_set_events( ::pWidget, uEvents )
        METHOD AddEvents( uEvents ) INLINE gtk_widget_add_events( ::pWidget, uEvents )

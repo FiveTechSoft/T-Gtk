@@ -1,4 +1,4 @@
-/* $Id: gmenubar.prg,v 1.1 2006-09-07 17:02:44 xthefull Exp $*/
+/* $Id: gmenubar.prg,v 1.2 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -35,7 +35,7 @@ METHOD NEW( oParent ) CLASS GMENUBAR
        ::Register()
 
        IF oParent != NIL
-          gtk_box_pack_start( oParent:pWidget, ::pWidget, FALSE, TRUE, 0)
+          gtk_box_pack_start( oParent:pWidget, ::pWidget, .F., .T., 0)
          // ::AddContainer( oParent )
        ENDIF
 
