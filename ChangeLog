@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.90 2010-12-24 01:06:17 dgarciagil Exp $
+ * $Id: ChangeLog,v 1.91 2010-12-24 14:35:38 dgarciagil Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,12 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2010-12-24 10:00 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
+   * LABEL 
+      + added MNEMONIC clause to Label
+   * BUTTON
+      ! now we can change prompt label in buttons created from resources with DEFINE command 
 
 2010-12-23 20:30 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
    * changed TRUE/FALSE by .T./.F. in prg level, for compatibility with Harbour/xHarbour

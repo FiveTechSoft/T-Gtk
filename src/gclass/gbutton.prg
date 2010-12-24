@@ -1,4 +1,4 @@
-/* $Id: gbutton.prg,v 1.2 2010-12-23 13:21:00 dgarciagil Exp $*/
+/* $Id: gbutton.prg,v 1.3 2010-12-24 14:35:37 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -70,6 +70,9 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
        ELSE
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
+          if cText != NIL 
+             ::SetText( cText )
+          endif
        ENDIF
 
        // La aplicacion del style es ANTES de aadir al padre

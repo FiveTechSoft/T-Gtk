@@ -1,4 +1,4 @@
-/* $Id: glabel.prg,v 1.1 2006-09-07 17:02:44 xthefull Exp $*/
+/* $Id: glabel.prg,v 1.2 2010-12-24 14:35:37 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -46,12 +46,16 @@ ENDCLASS
 METHOD New( cText, lMarkup, oParent, oFont, lExpand, lFill, nPadding ,;
            lContainer, x, y , cId, uGlade, uLabelTab, lEnd, lSecond, lResize, lShrink,;
            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta,;
-           nHor , nVer, nJustify  ) CLASS GLabel
+           nHor , nVer, nJustify, lMnemonic ) CLASS GLabel
 
-       DEFAULT nHor := 0 , nVer := 0
+       DEFAULT nHor := 0 , nVer := 0, lMnemonic := .F.
 
        IF cId == NIL
-          ::pWidget := gtk_label_new( cText )
+          if ! lMnemonic
+             ::pWidget := gtk_label_new( cText )
+          else 
+             ::pWidget := gtk_label_new_with_mnemonic( cText )
+          endif
        ELSE
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
@@ -60,7 +64,11 @@ METHOD New( cText, lMarkup, oParent, oFont, lExpand, lFill, nPadding ,;
        ::Register()
 
        if !Empty( cText ) .AND. !lMarkup .AND. cId != NIL
-          ::SetText( cText )
+          if lMnemonic
+             gtk_label_set_mnemonic_widget( cText, ::pWidget )
+          else 
+             ::SetText( cText )
+          endif
        endif
        
        if nJustify != NIL

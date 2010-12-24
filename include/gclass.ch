@@ -1,4 +1,4 @@
-/*  $Id: gclass.ch,v 1.16 2010-12-23 13:21:00 dgarciagil Exp $ */
+/*  $Id: gclass.ch,v 1.17 2010-12-24 14:35:37 dgarciagil Exp $ */
 /*
  * Definicion de clases , filosofia GTK.
  * (c)2004 Rafa Carmona
@@ -238,6 +238,7 @@
                  [ <label: TEXT,LABEL,PROMPT> <cText> ];
                  [ <lMarkup: MARKUP> ] ;
                  [ <lExpand: EXPAND> ] ;
+                 [ <lMnemonic: MNEMONIC> ];                 
                  [ FONT <oFont> ];
                  [ <lFill: FILL> ] ;
                  [ PADDING <nPadding> ];
@@ -259,7 +260,7 @@
                 <.lFill.>, <nPadding>, <.lContainer.>, <x>, <y>,;
                 <cId>, <uGlade>, <uLabelBook>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
                 <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>,<yOptions_ta>,;
-                <nHor>, <nVer>, <nJustify> )
+                <nHor>, <nVer>, <nJustify>, <.lMnemonic.> )
 
 // Expander
 #xcommand DEFINE EXPANDER [<oExpander>]  ;
