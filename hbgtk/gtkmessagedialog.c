@@ -1,4 +1,4 @@
-/* $Id: gtkmessagedialog.c,v 1.6 2010-05-26 10:15:03 xthefull Exp $*/
+/* $Id: gtkmessagedialog.c,v 1.7 2010-12-24 22:43:15 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -48,7 +48,12 @@
  */               // boton y devolviendo lo contrario
 
 #include <gtk/gtk.h>
-#include "hbapi.h"
+#include <hbapi.h>
+#include <hbapiitm.h>
+#include <hbdate.h>
+#include <hbset.h>
+#include <hbvm.h>
+#include <hbapicls.h>
 #include "t-gtk.h"
 
 /* Iconos en message_dialog() */
@@ -78,19 +83,93 @@
 #define GTK_MSGBOX_YES          -8
 #define GTK_MSGBOX_NO           -9
 
+void ValToChar( PHB_ITEM item )
+{
+
+ //          hb_retc( "nil" );
+
+   switch( hb_itemType( item ) )
+   {
+      case HB_IT_NIL:
+           hb_retc( "nil" );
+           break;
+
+      case HB_IT_STRING:
+           hb_retc( hb_itemGetC( item ) );
+           break;
+
+      case HB_IT_INTEGER:
+      	   {
+      	      char lng[ 15 ];
+              sprintf( lng, "%d", hb_itemGetNI( item ) );
+              hb_retc( lng );
+           }   
+           break;
+
+      case HB_IT_LONG:
+      	   {
+              char dbl[ HB_MAX_DOUBLE_LENGTH ];
+              sprintf( dbl, "%f", ( double ) hb_itemGetND( item ) );
+              * strchr( dbl, '.' ) = 0;
+              hb_retc( dbl );
+           }   
+           break;
+
+      case HB_IT_DOUBLE:
+           {
+              char dbl[ HB_MAX_DOUBLE_LENGTH ];
+              sprintf( dbl, "%f", hb_itemGetND( item ) );
+              hb_retc( dbl );
+           }
+           break;
+
+      case HB_IT_DATE:
+           {
+              hb_vmPushSymbol( hb_dynsymSymbol( hb_dynsymFindName( "DTOC" ) ) );	
+              hb_vmPushNil();
+              hb_vmPush( item );
+              hb_vmDo( 1 );  
+           }
+           break;
+
+      case HB_IT_LOGICAL:
+           hb_retc( hb_itemGetL( item ) ? ".T." : ".F."  );
+           break;
+
+      case HB_IT_ARRAY:
+           if( hb_objGetClass( item ) == 0 )
+              hb_retc( "Array" );
+           else
+              hb_retc( "Object" );
+           break;
+           
+      case HB_IT_HASH:
+         hb_retc( "Hash" );
+         break;
+
+      case HB_IT_BLOCK:
+         hb_retc( "Block" );         
+         break;
+
+      default:
+           hb_retc( "ValtoChar not suported type yet" );
+  }
+}
+
+
 
 HB_FUNC( GTK_MESSAGE_DIALOG_NEW ) // cText, msgtype, buttons, parent -> dialog
 {
    GtkWidget *dialog;
    //gchar *msg = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
-   gchar *msg   = hb_parc( 1 );
+   gchar *msg   = ( gchar *) hb_parc( 1 );
    gint msgtype = hb_parni( 2 );
    gint buttons = hb_parni( 3 );
-   gchar *wParent = hb_parc( 4 );
+   gchar *wParent = ( gchar * ) hb_parc( 4 );
 
    if ( ISNIL( 4 ) ) 
       dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
-                                       msgtype, buttons, msg );
+                                       msgtype, buttons,msg );
    else
       dialog = gtk_message_dialog_new( GTK_WINDOW(wParent), GTK_DIALOG_MODAL,
                                        msgtype, buttons, msg );
@@ -166,12 +245,23 @@ HB_FUNC( MSG_INFO ) // cMessage, cTitle, lmarkup -> 0
    if( ISNIL( 1 ) )
        message = "";
    else
-       message = ( gchar * ) hb_parc( 1 );
+   {
+      if( ! HB_ISCHAR( 1 ) ){
+         ValToChar( hb_param( 1, -1 ) ); 
+         message = ( gchar * ) hb_parc( -1 );
+      }else
+         message = ( gchar * ) hb_parc( 1 );
+   }
    
    if( ISNIL( 2 ) )
        title = "Info";
-   else
-       title = ( gchar * ) hb_parc( 2 );
+   else {
+      if( ! HB_ISCHAR( 2 ) ){
+         ValToChar( hb_param( 2, -1 ) ); 
+         title = ( gchar * ) hb_parc( -1 );
+      }else
+         title = ( gchar * ) hb_parc( 2 );
+   }
            
    msgbox( GTK_MESSAGE_INFO, message, title, lmarkup );
    hb_retni( 0 ); // Si devuelvo nada, Harbour devuelve por nosotros NIL
@@ -186,13 +276,24 @@ HB_FUNC( MSG_STOP ) // cMessage, cTitle, lMarkup -> 0
    if( ISNIL( 1 ) )
        message = "";
    else
-       message = ( gchar * ) hb_parc( 1 );
+   {
+      if( ! HB_ISCHAR( 1 ) ){
+         ValToChar( hb_param( 1, -1 ) ); 
+         message = ( gchar * ) hb_parc( -1 );
+      }else
+         message = ( gchar * ) hb_parc( 1 );
+   }
    
    if( ISNIL( 2 ) )
-       title = "Stop";
-   else
-       title = ( gchar * ) hb_parc( 2 );
-       
+       title = "Info";
+   else {
+      if( ! HB_ISCHAR( 2 ) ){
+         ValToChar( hb_param( 2, -1 ) ); 
+         title = ( gchar * ) hb_parc( -1 );
+      }else
+         title = ( gchar * ) hb_parc( 2 );
+   }
+      
    if( ISNIL( 3 ) )
       lmarkup = TRUE;
    else
@@ -218,8 +319,15 @@ HB_FUNC( GTK_ALERT ) // cMessage, aButtons -> nOption
    if( ISNIL( 1 ) )
        message = "";
    else
-       message = ( gchar * ) hb_parc( 1 );
-  
+   {
+      if( ! HB_ISCHAR( 1 ) ){
+         ValToChar( hb_param( 1, -1 ) ); 
+         message = ( gchar * ) hb_parc( -1 );
+      }else
+         message = ( gchar * ) hb_parc( 1 );
+   }
+   
+
    label = gtk_label_new (message);
    gtk_widget_show (label);
 
@@ -259,12 +367,24 @@ HB_FUNC( MSG_ALERT ) // cMessage, cTitle, lMarkup -> 0
    if( ISNIL( 1 ) )
        message = "";
    else
-       message = ( gchar * ) hb_parc( 1 );
+   {
+      if( ! HB_ISCHAR( 1 ) ){
+         ValToChar( hb_param( 1, -1 ) ); 
+         message = ( gchar * ) hb_parc( -1 );
+      }else
+         message = ( gchar * ) hb_parc( 1 );
+   }
    
    if( ISNIL( 2 ) )
-       title = "Alert";
-   else
-       title = ( gchar * ) hb_parc( 2 );
+       title = "Info";
+   else {
+      if( ! HB_ISCHAR( 2 ) ){
+         ValToChar( hb_param( 2, -1 ) ); 
+         title = ( gchar * ) hb_parc( -1 );
+      }else
+         title = ( gchar * ) hb_parc( 2 );
+   }
+   
    msgbox( GTK_MESSAGE_WARNING, message, title, lmarkup );
    hb_retni( 0 );
 }
@@ -273,12 +393,32 @@ HB_FUNC( MSG_NOYES ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logic
 {
    GtkWidget *dialog;
    GtkWidget *wParent = get_win_parent();
-   gchar     *msg      = hb_parc( 1 );
-   gchar     *title    = hb_parc( 2 );
+   gchar     *msg      ;
+   gchar     *title    ;
    gboolean  lresponse = hb_parl( 3 );
    gboolean  lmarkup;
    gchar     *icon_file= hb_parc( 5 );
 
+   if( ISNIL( 1 ) )
+       msg = "";
+   else
+   {
+      if( ! HB_ISCHAR( 1 ) ){
+         ValToChar( hb_param( 1, -1 ) ); 
+         msg = ( gchar * ) hb_parc( -1 );
+      }else
+         msg = ( gchar * ) hb_parc( 1 );
+   }
+   
+   if( ISNIL( 2 ) )
+       title = "Info";
+   else {
+      if( ! HB_ISCHAR( 2 ) ){
+         ValToChar( hb_param( 2, -1 ) ); 
+         title = ( gchar * ) hb_parc( -1 );
+      }else
+         title = ( gchar * ) hb_parc( 2 );
+   }
 
   /* 
    gchar *msg   = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",
@@ -327,11 +467,33 @@ HB_FUNC( MSG_OKCANCEL ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> lo
 {
    GtkWidget *dialog;
    GtkWidget *wParent = get_win_parent();
-   gchar     *msg       = hb_parc( 1 );
-   gchar     *title     = hb_parc( 2 );
+   gchar     *msg;
+   gchar     *title;
    gboolean  lresponse  = hb_parl( 3 );
    gboolean  lmarkup;
    gchar     *icon_file = hb_parc( 5 );
+
+
+   if( ISNIL( 1 ) )
+       msg = "";
+   else
+   {
+      if( ! HB_ISCHAR( 1 ) ){
+         ValToChar( hb_param( 1, -1 ) ); 
+         msg = ( gchar * ) hb_parc( -1 );
+      }else
+         msg = ( gchar * ) hb_parc( 1 );
+   }
+   
+   if( ISNIL( 2 ) )
+       title = "Info";
+   else {
+      if( ! HB_ISCHAR( 2 ) ){
+         ValToChar( hb_param( 2, -1 ) ); 
+         title = ( gchar * ) hb_parc( -1 );
+      }else
+         title = ( gchar * ) hb_parc( 2 );
+   }
 
   /* 
    gchar *msg   = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",

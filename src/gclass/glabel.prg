@@ -1,4 +1,4 @@
-/* $Id: glabel.prg,v 1.2 2010-12-24 14:35:37 dgarciagil Exp $*/
+/* $Id: glabel.prg,v 1.3 2010-12-24 22:43:15 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -65,7 +65,7 @@ METHOD New( cText, lMarkup, oParent, oFont, lExpand, lFill, nPadding ,;
 
        if !Empty( cText ) .AND. !lMarkup .AND. cId != NIL
           if lMnemonic
-             gtk_label_set_mnemonic_widget( cText, ::pWidget )
+             gtk_label_set_text_with_mnemonic( ::pWidget, cText )
           else 
              ::SetText( cText )
           endif

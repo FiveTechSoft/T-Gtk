@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.91 2010-12-24 14:35:38 dgarciagil Exp $
+ * $Id: ChangeLog,v 1.92 2010-12-24 22:43:15 dgarciagil Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,14 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2010-12-24 18:10 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
+   * glabel.prg 
+      ! fixed little bug in last rev 
+   
+   * gtkmessagedialog.c
+      + added funcion ValToChar convert any parameter to Char, now all msg_* accept any value and show correctly
+      
 
 2010-12-24 10:00 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
    * LABEL 
