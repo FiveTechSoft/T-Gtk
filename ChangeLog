@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.92 2010-12-24 22:43:15 dgarciagil Exp $
+ * $Id: ChangeLog,v 1.93 2010-12-27 04:18:15 riztan Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,13 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2010-12-26 23:39 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
+   Se incorporan programas de harbour para script.
+   * tests/gclass/xbscript/Makefile
+   + tests/gclass/xbscript/hbrun.prg
+   + tests/gclass/xbscript/hbscript.prg
+   + tests/gclass/xbscript/hola.prg
 
 2010-12-24 18:10 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
    * glabel.prg 
