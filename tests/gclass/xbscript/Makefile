@@ -8,9 +8,12 @@ SOURCES = prgscrpt.prg xbscript.prg
 
 #ifndef __XHARBOUR__
   SOURCES = hbrun.prg hbscript.prg 
+  
+  LIBS +=-lhbextern -lhbdebug -lhbvmmt -lhblang -lhbcpage -lgtcgi -lgtpca -lhbrdd -lrddnsx -lrddcdx -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl -lhbmacro -lhbcplr -lhbpp -lhbcommon
+
 #endif
 
-LIBS +=-lhbcplr -lhbpp -lhbcommon
 
 include ../../../Rules.make
+
 

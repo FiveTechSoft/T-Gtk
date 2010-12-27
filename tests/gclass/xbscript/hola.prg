@@ -1,4 +1,4 @@
-// $Id: hola.prg,v 1.2 2010-12-27 04:16:28 riztan Exp $
+// $Id: hola.prg,v 1.3 2010-12-27 04:58:48 riztan Exp $
 // GUI T-Gtk para Harbour
 // Usando Programacion orientado al objeto de Window y Menus.
 // (c)2004 Rafa Carmona
@@ -32,7 +32,8 @@ Function Hola( uPar1 )
   DEFINE FONT oFont NAME "Tahoma 18"   
   
   DEFINE WINDOW oWindow TITLE "GUI T-Gtk for Harbour from Script!"
-       oWindow:SetMenuPopup( MenuPopup() )
+// ---  En GNU/Linux no funciona SetMenuPopup
+//       oWindow:SetMenuPopup( MenuPopup() )
 
        DEFINE BOX oBoxMenu VERTICAL OF oWindow
               DEFINE STATUSBAR oBar OF oBoxMenu ;
