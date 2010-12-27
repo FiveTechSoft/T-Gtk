@@ -3,12 +3,14 @@
 # pero para depurar, va de muerte que salgan mensajes en la consola
 
 TARGET = testscript
+
 SOURCES = prgscrpt.prg xbscript.prg
 
-#PRGFLAGS=-I../../../include
-#LIBS=-L../../../src/gclass -lgclass -L../../../hbgtk -lhbgtk $(shell pkg-config --libs libglade-2.0) $(shell pkg-config --libs gtk+-2.0 )
+#ifndef __XHARBOUR__
+  SOURCES = hbrun.prg hbscript.prg 
+#endif
 
-LIBS=-ltgtk_gnomedb
+LIBS +=-lhbcplr -lhbpp -lhbcommon
 
 include ../../../Rules.make
 

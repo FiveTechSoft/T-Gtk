@@ -1,4 +1,4 @@
-// $Id: hola.prg,v 1.1 2008-12-02 21:37:48 riztan Exp $
+// $Id: hola.prg,v 1.2 2010-12-27 04:16:28 riztan Exp $
 // GUI T-Gtk para Harbour
 // Usando Programacion orientado al objeto de Window y Menus.
 // (c)2004 Rafa Carmona
@@ -6,9 +6,9 @@
 
 #include "gclass.ch"
 
-// Static expand,oBar
+Static expand,oBar
 
-Function Main( uPar1 )
+Function Hola( uPar1 )
   Local label, calendar
   Local cTextLabel, ToolTips,  notebook
   Local vBox2,  vBox_E, cTextExpand, oCheck, oBtn1, oImage
@@ -131,7 +131,7 @@ Static Function EstadoCom( o )
 return nil
 
 Function MYCLICKED( oBtn )
-    Local n
+    Local n,a
     n := a + 2 // OCASIONAMOS CAIDA A PROPOSITO , PARA QUE ENTRE ERRORSYS
     MsgBox( "Click en GTK_STOCK_ADD", GTK_MSGBOX_OK, GTK_MSGBOX_INFO )
 
