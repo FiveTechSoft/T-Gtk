@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.93 2010-12-27 04:18:15 riztan Exp $
+ * $Id: ChangeLog,v 1.94 2010-12-28 10:33:59 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,10 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2010-12-28 11:32 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   /hbgtk/events.c 
+   Fix. Incorrecta definicion de callbacks
 
 2010-12-26 23:39 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
    Se incorporan programas de harbour para script.
