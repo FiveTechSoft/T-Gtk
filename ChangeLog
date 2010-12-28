@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.95 2010-12-28 11:07:04 xthefull Exp $
+ * $Id: ChangeLog,v 1.96 2010-12-28 11:53:03 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,11 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2010-12-28 12:52 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+* Fix Function gdk_window_set_cursor
+  /hbgtk/gdkwin32.c
+  Se puede comprobar que ahora funciona correctamente los cursores ejecutando /tests/native/cursors
 
 2010-12-28 12:06 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    /hbgtk/gdkcursor.c 
