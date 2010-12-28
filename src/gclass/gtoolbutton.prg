@@ -1,4 +1,4 @@
-/* $Id: gtoolbutton.prg,v 1.1 2006-09-07 17:02:46 xthefull Exp $*/
+/* $Id: gtoolbutton.prg,v 1.2 2010-12-28 18:52:20 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -64,6 +64,9 @@ METHOD New( cText, bAction, cStock, lMnemonic, cFromStock, oParent, lExpand,;
         ELSE
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
+          if cText != NIL
+             ::SetLabel( cText )
+          endif
         ENDIF
 
        ::Register()

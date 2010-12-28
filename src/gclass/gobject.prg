@@ -1,4 +1,4 @@
-/* $Id: gobject.prg,v 1.5 2007-03-02 21:17:10 xthefull Exp $*/
+/* $Id: gobject.prg,v 1.6 2010-12-28 18:52:20 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -92,7 +92,11 @@ RETURN NIL
 
 ******************************************************************************
 METHOD OnActivate( oSender ) CLASS GOBJECT
-    Eval( oSender:bAction, oSender )
+   
+   if oSender:bAction != NIL
+      Eval( oSender:bAction, oSender )
+   endif
+
 RETURN .F.
 
 

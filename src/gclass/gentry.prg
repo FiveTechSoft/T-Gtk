@@ -1,4 +1,4 @@
-/* $Id: gentry.prg,v 1.12 2009-04-02 17:16:12 riztan Exp $*/
+/* $Id: gentry.prg,v 1.13 2010-12-28 18:52:20 dgarciagil Exp $*/
 /*
     LGPL Licence.
     
@@ -131,12 +131,14 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GENTRY
        endif
 
        oSender:oGet:Assign()
+       oSender:SetPos( 1 )
 
        if oSender:bValid != nil
           if Len( oSender:GetText() ) == 0
              oSender:SetText( oSender:oGet:buffer )
           endif
        Endif
+
 
 RETURN Super:OnFocus_Out_Event( oSender )
 
@@ -148,7 +150,7 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
    nType:= HB_GET_GDKEVENTKEY_TYPE( pGdkEventKey )  // aGdkEventKey[ 1 ]
 
    do case
-      case nKey == GDK_Return
+      case nKey == GDK_Return .or. nKey == GDK_KP_Enter
            if !::lCompletion
               gtk_widget_child_focus( gtk_widget_get_toplevel( oSender:pWidget ) ,GTK_DIR_TAB_FORWARD )
               return .T.

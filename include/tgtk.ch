@@ -1,4 +1,4 @@
-/*  $Id: tgtk.ch,v 1.2 2008-10-16 14:55:00 riztan Exp $ */
+/*  $Id: tgtk.ch,v 1.3 2010-12-28 18:52:20 dgarciagil Exp $ */
 
 /*
  * Definicion de comandos para T-Gtk.
@@ -38,5 +38,5 @@
             =>;
             Msg_OkCancel( <cMessage>,[ <cTitle> ],.F.,[ <.lMarkup.> ],[ <cIconFile> ] )
 
-
+#command ? [ <list,...> ] => WQout( [ \{ <list> \} ] )
 

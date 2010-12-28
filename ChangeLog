@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.97 2010-12-28 13:41:14 xthefull Exp $
+ * $Id: ChangeLog,v 1.98 2010-12-28 18:52:21 dgarciagil Exp $
  */
 
 /* Use this format for the entry headers:
@@ -9,6 +9,22 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2010-12-28 14:15 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
+   /include/tgtk.ch 
+   + added "?" command, to show a list of any values inside a MsgInfo
+   
+   +/src/gclass/wqout.prg 
+   function to show a list of values 
+   
+   /src/gclass/gentry.prg 
+   ! fixed bug when return key from number pad is pressed
+   
+   /src/gclass/gobject.prg 
+   ! verify bAction in Method OnActivate
+   
+   /src/gclass/gtoolbutton.prg 
+   ! now we can change prompt label in buttons created from resources with DEFINE command
+   
 
 2010-12-28 14:40 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    /hbgtk/g_spawn.c
