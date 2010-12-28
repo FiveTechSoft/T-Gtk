@@ -1,4 +1,4 @@
-/* $Id: g_spawn.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: g_spawn.c,v 1.2 2010-12-28 13:40:06 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -27,7 +27,7 @@
 /* Esto es la version reducida del g_spawn_async, y funciona ;-) */
 HB_FUNC( WINEXEC )
 {
-  gchar * command_line = hb_parc( 1 );
+  const gchar * command_line = hb_parc( 1 );
   GError * error;
   hb_retl( g_spawn_command_line_async( command_line, &error ) );
 }
@@ -61,7 +61,7 @@ HB_FUNC( SHELLEXEC )   //-> path, name_program, params_program
  * El WINRUN famaso*/
 HB_FUNC( WINRUN )
 {
-  gchar * command_line = hb_parc( 1 );
+  const gchar * command_line = hb_parc( 1 );
   GError * error;
   /*
    * gchar * standard_output;

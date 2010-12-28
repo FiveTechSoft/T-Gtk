@@ -1,5 +1,5 @@
 /*
- * $Id: shell.prg,v 1.1 2006-11-02 12:41:40 xthefull Exp $
+ * $Id: shell.prg,v 1.2 2010-12-28 13:40:07 xthefull Exp $
  * Ejemplo de uso de llamadas externas.
  * Porting Harbour to GTK+ power !
  * (C) 2004-05. Rafa Carmona -TheFull-
@@ -14,7 +14,13 @@ func exit( ) ;  gtk_main_quit() ; return( .f. )
 function main()
 
  local window, vbox, button
+ local cLabel_Navigator := "Ejecuta [ firefox ]" 
+ local cLabel_Notepad   := "Ejecuta [ gedit ]"
  
+ if "WINDOWS" $  Upper( Os()  )
+    cLabel_Navigator := "Ejecuta [ iexplore.exe ]"  
+    cLabel_Notepad   := "Ejecuta [ notepad.exe ]"
+  endif
   
   window = gtk_window_new( GTK_WINDOW_TOPLEVEL )
   gtk_signal_connect( window, "destroy", {|| exit() })
@@ -26,17 +32,17 @@ function main()
   gtk_container_add ( window, vbox )
   gtk_widget_show( vbox )
 
-  button := gtk_button_new_with_label( "Ejecuta [ notepad.exe ]" )
+  button := gtk_button_new_with_label( cLabel_Notepad )
   gtk_signal_connect( button, "clicked", {|| run_winexec()} )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   gtk_widget_show( button )
   
-  button := gtk_button_new_with_label( "Ejecuta [ iexplore.exe ]" )
+  button := gtk_button_new_with_label( cLabel_Navigator )
   gtk_signal_connect( button, "clicked", {|| run_shellexec() } )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   gtk_widget_show( button )
  
-  button := gtk_button_new_with_label( "WINRUN Ejecuta [ notepad.exe ]" )
+  button := gtk_button_new_with_label( "WINRUN " + cLabel_Notepad )
   gtk_signal_connect( button, "clicked", {||run_winrun() } )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   gtk_widget_show( button )
@@ -76,6 +82,6 @@ func run_shellexec()
              "iexplore.exe", "www.google.es" )
   else
   shellexec( '/usr/bin/', ;
-             "mozilla", "www.google.es" )
+             "firefox", "www.google.es" )
   endif
 return( 0 )
