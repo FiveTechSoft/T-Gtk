@@ -1,4 +1,4 @@
-/* $Id: gdkwin32.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gdkwin32.c,v 1.2 2010-12-28 11:51:53 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -31,7 +31,7 @@
 HB_FUNC( GDK_WINDOW_SET_CURSOR ) // nWindow, nCursor -> void
 {
   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
-  GdkCursor * cursor = ( GdkCursor * ) hb_parnl( 2 );
+  GdkCursor * cursor = ( GdkCursor * ) hb_parptr( 2 );
   gdk_window_set_cursor( widget->window, cursor );
 }
 
