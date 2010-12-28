@@ -1,4 +1,4 @@
-/* $Id: gdkcursor.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
+/* $Id: gdkcursor.c,v 1.2 2010-12-28 11:04:17 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -31,19 +31,19 @@
 HB_FUNC( GDK_CURSOR_NEW ) // nGdkTypeCursor -> cursor
 {
   GdkCursor * cursor = gdk_cursor_new( ( gint ) hb_parni( 1 ) );
-  hb_retnl( (ULONG) cursor );
+  hb_retptr( (GdkCursor*) cursor );
 }
 
-HB_FUNC( GDK_CURSOR_UNREF ) // nCursor -> void
+HB_FUNC( GDK_CURSOR_UNREF ) // pCursor -> void
 {
-  GdkCursor * cursor = ( GdkCursor * ) hb_parni( 1 );
+  GdkCursor * cursor = ( GdkCursor * )  hb_parptr( 1 );
   gdk_cursor_unref( cursor );
 }
 
-HB_FUNC( GDK_CURSOR_GET_DISPLAY ) // nCursor -> display
+HB_FUNC( GDK_CURSOR_GET_DISPLAY ) // pCursor -> display
 {
-  GdkCursor * cursor = ( GdkCursor *) hb_parni( 1 );
+  GdkCursor * cursor = ( GdkCursor *) hb_parptr( 1 );
   GdkDisplay * display = gdk_cursor_get_display( cursor );
-  hb_retnl( (ULONG) display );
+  hb_retptr( (GdkDisplay*) display );
 }
 
