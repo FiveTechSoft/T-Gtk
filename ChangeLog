@@ -1,6 +1,6 @@
 
 /*
- * $Id: ChangeLog,v 1.94 2010-12-28 10:33:59 xthefull Exp $
+ * $Id: ChangeLog,v 1.95 2010-12-28 11:07:04 xthefull Exp $
  */
 
 /* Use this format for the entry headers:
@@ -8,6 +8,10 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2010-12-28 12:06 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
+   /hbgtk/gdkcursor.c 
+   * Fix. Valores que se devolvian/recogian , incorrectos.
 
 2010-12-28 11:32 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    /hbgtk/events.c 
