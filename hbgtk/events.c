@@ -1,5 +1,5 @@
 
-/* $Id: events.c,v 1.21 2010-05-26 10:04:14 xthefull Exp $*/
+/* $Id: events.c,v 1.22 2010-12-28 10:32:34 xthefull Exp $*/
 /*
     LGPL Licence.
 
@@ -23,7 +23,7 @@
     (c)2003 Joaquim Ferrer <quim_ferrer@yahoo.es>
 */
 /*
- *   KERNEL T-GTK [ Control conexion de señales de GTK+ ]
+ *   KERNEL T-GTK [ Control conexion de seï¿½ales de GTK+ ]
  *  (c)2003 Rafa Carmona
  */
 #include <gtk/gtk.h>
@@ -34,7 +34,7 @@
 #include "t-gtk.h"
 
 // Atencion esto esta para mantener compatibilidad con xHarbour anteriores
-// Deberá desaparecer , pero lo necesito ahora
+// Deberï¿½ desaparecer , pero lo necesito ahora
 #ifdef __OLDHARBOUR__
   HB_EXPORT PHB_SYMB hb_dynsymSymbol( PHB_DYNS pDynSym )
   {
@@ -49,7 +49,7 @@
     PHB_ITEM pBlock;
     PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
     pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
     if( pBlock == NULL ){
@@ -69,7 +69,7 @@
       }
     }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
     if( pObj == NULL ){
       if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -91,7 +91,7 @@
     PHB_ITEM pBlock;
     PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
     pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
     if( pBlock == NULL ){
@@ -113,7 +113,7 @@
       }
     }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
     if( pObj == NULL ){
       if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -132,7 +132,7 @@
 
 
 /*---------------------------------------------------
-// CALLBACK generica para diferentes señales.
+// CALLBACK generica para diferentes seï¿½ales.
 ---------------------------------------------------*/
 gint OnEventos( GtkWidget * widget, gpointer data )
 {
@@ -158,7 +158,7 @@ gint OnEventos( GtkWidget * widget, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -178,7 +178,7 @@ gint OnEventos( GtkWidget * widget, gpointer data )
 }
 
 /*---------------------------------------------------
-// CALLBACK generica para diferentes señales.
+// CALLBACK generica para diferentes seï¿½ales.
 ---------------------------------------------------*/
 void OnEventos_void( GtkWidget * widget, gpointer data )
 {
@@ -186,7 +186,7 @@ void OnEventos_void( GtkWidget * widget, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -204,7 +204,7 @@ void OnEventos_void( GtkWidget * widget, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -225,7 +225,7 @@ gboolean OnDelete_Event( GtkWidget *widget, GdkEvent  *event, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -245,7 +245,7 @@ gboolean OnDelete_Event( GtkWidget *widget, GdkEvent  *event, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -266,7 +266,7 @@ void OnEvent_After( GtkWidget *widget, GdkEvent  *event, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -285,7 +285,7 @@ void OnEvent_After( GtkWidget *widget, GdkEvent  *event, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -304,7 +304,7 @@ gint OnResponse( GtkDialog * widget, gint arg1, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -324,7 +324,7 @@ gint OnResponse( GtkDialog * widget, gint arg1, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -346,7 +346,7 @@ gint OnKeyPressEvent( GtkWidget * widget, GdkEventKey * event, gpointer data )
   PHB_DYNS pMethod ;
 //  PHB_ITEM ReturnArray, ArrayItem, pBlock;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -366,7 +366,7 @@ gint OnKeyPressEvent( GtkWidget * widget, GdkEventKey * event, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -388,7 +388,7 @@ gint OnFocusEvent( GtkWidget *widget, GdkEventFocus * event, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -408,7 +408,7 @@ gint OnFocusEvent( GtkWidget *widget, GdkEventFocus * event, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -429,7 +429,7 @@ void OnMove_slider( GtkWidget *widget, GtkScrollType arg1, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -448,7 +448,7 @@ void OnMove_slider( GtkWidget *widget, GtkScrollType arg1, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -467,7 +467,7 @@ void OnSelect_child ( GtkList *list,  GtkWidget *widget, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( list ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -486,7 +486,7 @@ void OnSelect_child ( GtkList *list,  GtkWidget *widget, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -505,7 +505,7 @@ void OnSelection_changed( GtkList *list, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( list ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -523,7 +523,7 @@ void OnSelection_changed( GtkList *list, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -541,7 +541,7 @@ void OnSwitch_page( GtkNotebook *notebook, GtkNotebookPage *page, guint page_num
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( notebook ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -561,7 +561,7 @@ void OnSwitch_page( GtkNotebook *notebook, GtkNotebookPage *page, guint page_num
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -581,7 +581,7 @@ void OnGroup_changed( GtkRadioButton *radiobutton, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( radiobutton ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -599,7 +599,7 @@ void OnGroup_changed( GtkRadioButton *radiobutton, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -610,14 +610,14 @@ void OnGroup_changed( GtkRadioButton *radiobutton, gpointer data )
   }
 }
 
-/* Señal para GtkCellRendererText <97> Renders text in a cell */
+/* Seï¿½al para GtkCellRendererText <97> Renders text in a cell */
 void OnRow_activated( GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *col, gpointer data  )
 {
   PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( treeview ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -637,7 +637,7 @@ void OnRow_activated( GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColum
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -657,7 +657,7 @@ void OnCell_toggled( GtkCellRendererToggle *cell_renderer, gchar *path, gpointer
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( cell_renderer ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -676,7 +676,7 @@ void OnCell_toggled( GtkCellRendererToggle *cell_renderer, gchar *path, gpointer
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -695,7 +695,7 @@ void OnInsert_at_cursor( GtkEntry *entry, gchar *arg1, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -714,7 +714,7 @@ void OnInsert_at_cursor( GtkEntry *entry, gchar *arg1, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -733,7 +733,7 @@ void OnItem_Activated( GtkIconView *iconview, GtkTreePath *arg1, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( iconview ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -752,7 +752,7 @@ void OnItem_Activated( GtkIconView *iconview, GtkTreePath *arg1, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -771,7 +771,7 @@ gboolean OnExpose_Event( GtkWidget *widget, GdkEventExpose *event, gpointer data
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -791,7 +791,7 @@ gboolean OnExpose_Event( GtkWidget *widget, GdkEventExpose *event, gpointer data
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -812,7 +812,7 @@ gboolean OnConfigure_Event( GtkWidget  *widget, GdkEventConfigure *event, gpoint
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -832,7 +832,7 @@ gboolean OnConfigure_Event( GtkWidget  *widget, GdkEventConfigure *event, gpoint
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -853,7 +853,7 @@ void OnCursor_Changed( GtkTreeView *treeview, gpointer data  )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( treeview ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -871,7 +871,7 @@ void OnCursor_Changed( GtkTreeView *treeview, gpointer data  )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -889,7 +889,7 @@ void OnMove_Cursor_Tree( GtkTreeView *treeview, GtkMovementStep arg1, gint arg2,
   PHB_DYNS pMethod ;
 
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( treeview ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -909,7 +909,7 @@ void OnMove_Cursor_Tree( GtkTreeView *treeview, GtkMovementStep arg1, gint arg2,
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -928,7 +928,7 @@ void OnEdited( GtkCellRendererText * cellrenderertext, gchar *arg1, gchar *arg2,
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( cellrenderertext ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -948,7 +948,7 @@ void OnEdited( GtkCellRendererText * cellrenderertext, gchar *arg1, gchar *arg2,
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -967,7 +967,7 @@ void OnEditing_started( GtkCellRenderer *renderer, GtkCellEditable *editable,   
   PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( renderer ), (gchar*) data );
   
   if( pBlock == NULL ){
@@ -986,7 +986,7 @@ void OnEditing_started( GtkCellRenderer *renderer, GtkCellEditable *editable,   
          }
       }
   } 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1004,7 +1004,7 @@ void OnEditing_canceled( GtkCellRenderer *renderer, gpointer data )
   PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( renderer ), (gchar*) data );
   
   if( pBlock == NULL ){
@@ -1021,7 +1021,7 @@ void OnEditing_canceled( GtkCellRenderer *renderer, gpointer data )
          }
       }
   } 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1038,7 +1038,7 @@ gboolean OnEnter_Leave_NotifyEvent( GtkWidget *widget, GdkEventCrossing *event, 
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1058,7 +1058,7 @@ gboolean OnEnter_Leave_NotifyEvent( GtkWidget *widget, GdkEventCrossing *event, 
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1080,7 +1080,7 @@ gboolean OnButton_Press_Event( GtkWidget *widget, GdkEventButton *event, gpointe
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1100,7 +1100,7 @@ gboolean OnButton_Press_Event( GtkWidget *widget, GdkEventButton *event, gpointe
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1120,7 +1120,7 @@ gboolean OnCan_Activate_Accel( GtkWidget *widget, guint signal_id, gpointer data
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1140,7 +1140,7 @@ gboolean OnCan_Activate_Accel( GtkWidget *widget, guint signal_id, gpointer data
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1161,7 +1161,7 @@ void OnChild_Notify( GtkWidget *widget, GParamSpec *pspec, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1180,7 +1180,7 @@ void OnChild_Notify( GtkWidget *widget, GParamSpec *pspec, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1198,7 +1198,7 @@ gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1218,7 +1218,7 @@ gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1238,7 +1238,7 @@ void OnDirection_Changed( GtkWidget *widget, GtkTextDirection arg1, gpointer dat
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1257,7 +1257,7 @@ void OnDirection_Changed( GtkWidget *widget, GtkTextDirection arg1, gpointer dat
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1276,7 +1276,7 @@ gboolean OnFocus( GtkWidget *widget, GtkDirectionType arg1, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1296,7 +1296,7 @@ gboolean OnFocus( GtkWidget *widget, GtkDirectionType arg1, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1310,14 +1310,14 @@ gboolean OnFocus( GtkWidget *widget, GtkDirectionType arg1, gpointer data )
   return( FALSE );
 }
 
-// Señales para GtkContainer
+// Seï¿½ales para GtkContainer
 void OnSignals_Container( GtkContainer *container, GtkWidget  *widget, gpointer data )
 {
   PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( container ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1336,7 +1336,7 @@ void OnSignals_Container( GtkContainer *container, GtkWidget  *widget, gpointer 
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1348,14 +1348,14 @@ void OnSignals_Container( GtkContainer *container, GtkWidget  *widget, gpointer 
   }
 
 }
-// Señales para GtkContainer
+// Seï¿½ales para GtkContainer
 void OnCheck_Resize( GtkContainer *container, gpointer data )
 {
   PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( container ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1373,7 +1373,7 @@ void OnCheck_Resize( GtkContainer *container, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1391,7 +1391,7 @@ gboolean OnGrab_Broken_Event( GtkWidget *widget, GdkEventGrabBroken *event, gpoi
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1411,7 +1411,7 @@ gboolean OnGrab_Broken_Event( GtkWidget *widget, GdkEventGrabBroken *event, gpoi
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1433,7 +1433,7 @@ void OnGrab_Notify( GtkWidget *widget, gboolean arg1, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1452,7 +1452,7 @@ void OnGrab_Notify( GtkWidget *widget, gboolean arg1, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1470,7 +1470,7 @@ void OnHierarchy_Changed( GtkWidget *widget, GtkWidget *widget2, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1489,7 +1489,7 @@ void OnHierarchy_Changed( GtkWidget *widget, GtkWidget *widget2, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1508,7 +1508,7 @@ gboolean OnMnemonic_Activate( GtkWidget *widget, gboolean arg1, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1528,7 +1528,7 @@ gboolean OnMnemonic_Activate( GtkWidget *widget, gboolean arg1, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1548,7 +1548,7 @@ gboolean OnMotion_Notify_Event( GtkWidget *widget, GdkEventMotion *event, gpoint
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1568,7 +1568,7 @@ gboolean OnMotion_Notify_Event( GtkWidget *widget, GdkEventMotion *event, gpoint
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1589,7 +1589,7 @@ gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1609,7 +1609,7 @@ gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1630,7 +1630,7 @@ void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1649,7 +1649,7 @@ void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1667,7 +1667,7 @@ gboolean OnProperty_Notify_Event( GtkWidget *widget, GdkEventProperty *event, gp
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1687,7 +1687,7 @@ gboolean OnProperty_Notify_Event( GtkWidget *widget, GdkEventProperty *event, gp
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1707,7 +1707,7 @@ gboolean OnProximity_Event( GtkWidget *widget, GdkEventProximity *event, gpointe
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1727,7 +1727,7 @@ gboolean OnProximity_Event( GtkWidget *widget, GdkEventProximity *event, gpointe
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1747,7 +1747,7 @@ void OnScreen_Changed( GtkWidget *widget, GdkScreen *arg1, gpointer data )
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1766,7 +1766,7 @@ void OnScreen_Changed( GtkWidget *widget, GdkScreen *arg1, gpointer data )
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1784,7 +1784,7 @@ gboolean OnScroll_Event( GtkWidget *widget, GdkEventScroll *event, gpointer data
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1804,7 +1804,7 @@ gboolean OnScroll_Event( GtkWidget *widget, GdkEventScroll *event, gpointer data
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1824,7 +1824,7 @@ gboolean OnSelection_Event( GtkWidget *widget, GdkEventSelection *event, gpointe
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -1844,7 +1844,7 @@ gboolean OnSelection_Event( GtkWidget *widget, GdkEventSelection *event, gpointe
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -1880,7 +1880,7 @@ gboolean OnSelection_Get( GtkWidget *widget, GtkSelectionData * selection_data, 
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -1918,7 +1918,7 @@ gboolean OnSelection_Received( GtkWidget *widget, GtkSelectionData * selection_d
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -1954,7 +1954,7 @@ gboolean OnShow_Help( GtkWidget *widget, GtkWidgetHelpType arg1, gpointer data )
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -1988,7 +1988,7 @@ void OnSize_Allocate( GtkWidget *widget, GtkAllocation *allocation, gpointer dat
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2020,7 +2020,7 @@ void OnSize_Request( GtkWidget *widget, GtkRequisition *requisition, gpointer da
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2052,7 +2052,7 @@ void OnState_Changed( GtkWidget *widget, GtkStateType state, gpointer data )
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2084,7 +2084,7 @@ void OnStyle_Set( GtkWidget *widget, GtkStyle *previous_style, gpointer data )
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2117,7 +2117,7 @@ gboolean OnVisibility_Notify_Event( GtkWidget *widget, GdkEventVisibility *event
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2152,7 +2152,7 @@ gboolean OnWindow_State_Event( GtkWidget *widget, GdkEventWindowState *event, gp
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2186,7 +2186,7 @@ void OnMove_Focus( GtkWidget *widget, GtkDirectionType arg1, gpointer data )
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2219,7 +2219,7 @@ gboolean OnCycle_Child_Focus( GtkWidget *widget, gboolean arg1, gpointer data )
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2253,7 +2253,7 @@ gboolean OnMove_Handle( GtkWidget *widget, GtkScrollType arg1, gpointer data )
         g_print( "Method doesn't %s exist en OnMove_Handle ", (gchar *)data ) ;
      }
   }
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2286,7 +2286,7 @@ void OnAdjust_Bounds( GtkWidget *widget, gdouble arg1, gpointer data )
         g_print( "Method doesn't %s exist en OnAdjust_Bounds", (gchar *)data ) ;
      }
   }
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2318,7 +2318,7 @@ gboolean OnChange_Value( GtkWidget *widget, GtkScrollType arg1, gdouble value, g
         g_print( "Method doesn't %s exist en OnChange_Value", (gchar *)data ) ;
      }
   }
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2353,7 +2353,7 @@ void OnScroll_Child( GtkWidget *widget, GtkScrollType arg1, gboolean arg2, gpoin
         g_print( "Method doesn't %s exist en OnScroll_Child", (gchar *)data ) ;
      }
   }
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
      if( pBlock ) {
@@ -2386,7 +2386,7 @@ void OnBackspace( GtkEntry *entry, gpointer data )
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
      if( pBlock ) {
@@ -2416,7 +2416,7 @@ void OnCopy_Clipboard( GtkEntry *entry, gpointer data )
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
      if( pBlock ) {
@@ -2446,7 +2446,7 @@ void OnCut_Clipboard( GtkEntry *entry, gpointer data )
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
      if( pBlock ) {
@@ -2458,7 +2458,7 @@ void OnCut_Clipboard( GtkEntry *entry, gpointer data )
   }
 }
 
-void OnDelete_From_Cursor( GtkEntry *entry, GtkDeleteType *arg1, gint arg2, gpointer data )
+void OnDelete_From_Cursor( GtkEntry *entry, GtkDeleteType arg1, gint arg2, gpointer data )
 {
   PHB_ITEM pObj  = g_object_get_data( G_OBJECT( entry ), "Self" );
   PHB_ITEM pBlock;
@@ -2470,15 +2470,15 @@ void OnDelete_From_Cursor( GtkEntry *entry, GtkDeleteType *arg1, gint arg2, gpoi
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                            	   // Coloca objeto en pila.
         hb_vmPush( pObj );                            	   // Dato a pasar
-        hb_vmPushInteger( (gint) arg1 );                   // GtkDeleteType
-        hb_vmPushInteger( arg2 );                   	   // none
+        hb_vmPushInteger( (GtkDeleteType) arg1 );                   // GtkDeleteType
+        hb_vmPushInteger( (gint) arg2 );                   	   // none
         hb_vmSend( 3 );                               	   // LLamada por Send
      } else {
         g_print( "Method doesn't %s exist en OnDelete_From_Cursor ", (gchar *)data );
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
      if( pBlock ) {
@@ -2492,7 +2492,7 @@ void OnDelete_From_Cursor( GtkEntry *entry, GtkDeleteType *arg1, gint arg2, gpoi
   }
 }
 
-void OnMove_Cursor( GtkEntry *entry, GtkDeleteType *arg1, gint arg2, gboolean arg3, gpointer data )
+void OnMove_Cursor( GtkEntry *entry, GtkDeleteType arg1, gint arg2, gboolean arg3, gpointer data )
 {
   PHB_ITEM pObj  = g_object_get_data( G_OBJECT( entry ), "Self" );
   PHB_ITEM pBlock;
@@ -2504,16 +2504,16 @@ void OnMove_Cursor( GtkEntry *entry, GtkDeleteType *arg1, gint arg2, gboolean ar
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                            	   // Coloca objeto en pila.
         hb_vmPush( pObj );                            	   // Dato a pasar
-        hb_vmPushInteger( (gint) arg1 );                   // GtkDeleteType
+        hb_vmPushInteger( (GtkDeleteType) arg1 );                   // GtkDeleteType
         hb_vmPushInteger( arg2 );                   	   // none
-		hb_vmPushLogical( arg3 );
+	hb_vmPushLogical( arg3 );
         hb_vmSend( 4 );                               	   // LLamada por Send
      } else {
         g_print( "Method doesn't %s exist en OnDelete_From_Cursor ", (gchar *)data );
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
      if( pBlock ) {
@@ -2546,7 +2546,7 @@ void OnPaste_Clipboard( GtkEntry *entry, gpointer data )
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
      if( pBlock ) {
@@ -2570,21 +2570,21 @@ void OnPopulate_Popup( GtkEntry *entry, GtkMenu *arg1, gpointer data )
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                            	   // Coloca objeto en pila.
         hb_vmPush( pObj );                            	   // Dato a pasar
-        hb_vmPushInteger( (gint) arg1 );                   // GtkDeleteType
+        hb_vmPushInteger( GPOINTER_TO_UINT( arg1 ) );      // GtkMenu
         hb_vmSend( 2 );                               	   // LLamada por Send
      } else {
         g_print( "Method doesn't %s exist en OnPopulate_Popup ", (gchar *)data );
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
-        hb_vmPushInteger( (gint) arg1 );                   // GtkDeleteType
+        hb_vmPushInteger( GPOINTER_TO_UINT( arg1 ) );                   // GtkMenu
         hb_vmSend( 2 );                               	   // LLamada por Send
      }
   }
@@ -2608,7 +2608,7 @@ void OnToggle_Overwrite( GtkEntry *entry, gpointer data )
      }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      pBlock = g_object_get_data( G_OBJECT( entry ), (gchar*) data );
      if( pBlock ) {
@@ -2628,7 +2628,7 @@ void OnBegin_Print( GtkPrintOperation *operation, GtkPrintContext *context, gpoi
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( operation ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -2647,7 +2647,7 @@ void OnBegin_Print( GtkPrintOperation *operation, GtkPrintContext *context, gpoi
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -2665,7 +2665,7 @@ void OnDraw_Page( GtkPrintOperation *operation, GtkPrintContext *context, gint p
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( operation ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -2685,7 +2685,7 @@ void OnDraw_Page( GtkPrintOperation *operation, GtkPrintContext *context, gint p
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -2704,7 +2704,7 @@ void OnRequest_Page_Setup(GtkPrintOperation *operation, GtkPrintContext *context
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( operation ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -2725,7 +2725,7 @@ void OnRequest_Page_Setup(GtkPrintOperation *operation, GtkPrintContext *context
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -2745,7 +2745,7 @@ gboolean OnPaginate( GtkPrintOperation *operation, GtkPrintContext *context, gpo
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( operation ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -2765,7 +2765,7 @@ gboolean OnPaginate( GtkPrintOperation *operation, GtkPrintContext *context, gpo
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -2786,7 +2786,7 @@ void OnPrepare( GtkAssistant *assistant, GtkWidget * widget, gpointer data)
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( assistant ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -2805,7 +2805,7 @@ void OnPrepare( GtkAssistant *assistant, GtkWidget * widget, gpointer data)
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -2827,7 +2827,7 @@ void OnPopupMenu( GtkStatusIcon *status_icon,
   PHB_ITEM pBlock;
   PHB_DYNS pMethod ;
 
-  // comprobamos que no exista definido un codeblock a la señal.
+  // comprobamos que no exista definido un codeblock a la seï¿½al.
   pBlock = g_object_get_data( G_OBJECT( status_icon ), (gchar*) data );
 
   if( pBlock == NULL ){
@@ -2847,7 +2847,7 @@ void OnPopupMenu( GtkStatusIcon *status_icon,
       }
   }
 
-  // Obtenemos el codeblock de la señal, data, que debemos evaluar...
+  // Obtenemos el codeblock de la seï¿½al, data, que debemos evaluar...
   if( pObj == NULL ){
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
@@ -2916,7 +2916,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
             break;
         }
 
-        // Si existe señal en la struct predefine, gtk_class_name vale ahora el nombre del widget ,y ademas esta en array[x].gtkclassname.
+        // Si existe seï¿½al en la struct predefine, gtk_class_name vale ahora el nombre del widget ,y ademas esta en array[x].gtkclassname.
         if( gtk_class_name && array[x].gtkclassname ){
             if ( g_strcasecmp( gtk_class_name, array[x].gtkclassname ) == 0 && g_strcasecmp( cStr, array[x].name ) == 0  )  {
                  //g_print( "pos class %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ));
@@ -2925,7 +2925,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
             }
         }
 
-        // Si existe señal en la struct predefine, , pero en el array  no existe, guardamos posicion PERO no salimos
+        // Si existe seï¿½al en la struct predefine, , pero en el array  no existe, guardamos posicion PERO no salimos
         if( gtk_class_name && ! array[x].gtkclassname ){
             if( g_strcasecmp( cStr, array[x].name ) == 0 ) {
                 // g_print( "pos 3 %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ));
@@ -2939,8 +2939,8 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
     if( ISOBJECT( 3 ) )
        cMethod = ISNIL( 4 ) ? array[ iPos ].method : (gchar *) hb_parc( 4 ); //This row is need for optimizations. when release a cmedhod in prg source is not work
 
-    // Si pasamos un bloque de codigo, entonces, cMethod es igual a la señal encontrada.
-    // Asi, en el CALLBACK podemos seleccionar el codeblock de la señal que nos interesa.
+    // Si pasamos un bloque de codigo, entonces, cMethod es igual a la seï¿½al encontrada.
+    // Asi, en el CALLBACK podemos seleccionar el codeblock de la seï¿½al que nos interesa.
     if( ISBLOCK( 4 ) )
       cMethod = array[ iPos ].name;
 
@@ -2970,9 +2970,9 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
 
     /*Nota:
      * A diferencia de cuando disponemos de Self, necesitamos guardar cada bloque
-     * por señal, de lo contrario, solamente la primera declarada, funcionara...
-     * Para ello, aprovechamos el nombre de la señal, contenido en el array,
-     * para guardar el codeblock segun la señal.
+     * por seï¿½al, de lo contrario, solamente la primera declarada, funcionara...
+     * Para ello, aprovechamos el nombre de la seï¿½al, contenido en el array,
+     * para guardar el codeblock segun la seï¿½al.
      * */
     if( ISBLOCK( 4 ) ) {
       if( g_object_get_data( G_OBJECT( widget ), array[ iPos ].name ) == NULL )
@@ -2982,13 +2982,13 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, seÃ±al, Self, method a saltar, Connect
          //pBlock = hb_itemNew( hb_stackItemFromBase( 4 ) );
          // hb_stackItemFromBase(), significa que te devuelva un ITEM,
          // del STACK, partiendo de la BASE
-         // y por BASE se entiende la función actual
+         // y por BASE se entiende la funciï¿½n actual
          pBlock = hb_itemNew( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ));
          /**
          * Atencion !
          * Cualquier salida via gtk_main_quit() provocara que no se llame nunca
          * a la 'callback' destroy. Hay que 'cerrar' los contenedores para que
-         * emitan la señal 'destroy' y se pueda autollamar a la funcion de
+         * emitan la seï¿½al 'destroy' y se pueda autollamar a la funcion de
          * liberacion de memoria liberate_block_memory
           **/
           g_object_set_data_full( G_OBJECT (widget), array[ iPos ].name, pBlock,
