@@ -7,7 +7,7 @@
  */
 
 #include "gclass.ch"
-//#include "tgtkext.ch"
+#include "tgtkext.ch"
 
 FUNCTION MAIN( cFile, ... )
 

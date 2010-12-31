@@ -24,13 +24,42 @@ SUPPORT_PRINT_LINUX=no
 # en el path de Gtk+, si no es asi, SUPPORT_PRINT_WIN32=no -->
 SUPPORT_PRINT_WIN32=no
 
-#Especifica aqui, si lo necesitas por no tenerlo en el entorno, SET,
-#las rutas del compilador de Harbour.
-#Bajo Windows especificar mingw32, bajo linux especificar gcc.
-ifeq ($(HB_COMPILER),)
-HB_COMPILER=gcc
-endif   
- 
+# Make platform detection
+HB_COMPILER := mingw32
+ifneq ($(findstring COMMAND,$(SHELL)),)
+   HB_MAKE_PLAT := dos
+else
+   ifneq ($(findstring sh.exe,$(SHELL)),)
+      HB_MAKE_PLAT := win
+   else
+      ifneq ($(findstring CMD.EXE,$(SHELL)),)
+         HB_MAKE_PLAT := os2
+      else
+         HB_MAKE_PLAT := unix
+         HB_COMPILER  := gcc
+      endif
+   endif
+endif
+# Directory separator default
+ifeq ($(DIRSEP),)
+   DIRSEP := /
+   ifeq ($(HB_COMPILER),mingw32)
+      DIRSEP := $(subst /,\,\)
+   endif
+endif
+# Path separator default
+ifeq ($(PTHSEP),)
+   # small hack, it's hard to detect what is real path separator because
+   # some shells in MS-DOS/Windows translates MS-DOS style paths to POSIX form
+   ifeq ($(subst ;,:,$(PATH)),$(PATH))
+      PTHSEP := :
+   else
+      PTHSEP := ;
+   endif
+endif
+
+#$(info $(DIRSEP) -- $(PTHSEP))
+
 #Especificamos compilador xBase a usar, si harbour o xHarbour
 ifeq ($(XBASE_COMPILER),)
 XBASE_COMPILER = HARBOUR
@@ -38,18 +67,24 @@ endif
 
 #Nueva version harbour 1.1
 ifeq ($(HB_COMPILER),gcc)
-HB_BIN_INSTALL = /usr/local/bin
-HB_INC_INSTALL = /usr/local/include/harbour
-HB_LIB_INSTALL = /usr/local/lib/harbour
+  HB_BIN_INSTALL=/usr/local/bin
+  HB_INC_INSTALL=/usr/local/include/harbour
+  HB_LIB_INSTALL=/usr/local/lib/harbour
 else
-HB_BIN_INSTALL = /harbour/bin
-HB_INC_INSTALL = /harbour/bin/include
-HB_LIB_INSTALL = /harbour/bin/lib
+  HB_BIN_INSTALL=/harbour/bin
+  HB_INC_INSTALL=/harbour/include
+  HB_LIB_INSTALL=/harbour/lib/win/mingw
 endif 
 
+#Ruta Programas Windows
+PROGRAMFILES = \Archivos de Programa
+
 #Rutas de librerias y de includes de TGTK.
-LIBDIR_TGTK= ./lib
-INCLUDE_TGTK_PRG=./include
+#Se usa DIRSEP para que pueda funcionar xcopy al utilizar "make install"
+TGTK_DIR=t-gtk
+LIBDIR_TGTK=$(DIRSEP)$(TGTK_DIR)$(DIRSEP)lib
+INCLUDE_TGTK_PRG=$(DIRSEP)$(TGTK_DIR)$(DIRSEP)include
+TGTK_INSTALL=$(DIRSEP)$(TGTK_DIR)$(DIRSEP)lib
 
 #Soporte para GtkSourceView
 GTKSOURCEVIEW=no
@@ -64,7 +99,41 @@ GNOMEDB=no
 CURL=no
 
 #Soporte para WebKit
-WEBKIT=yes
+WEBKIT=no
+
+#Soporte MySQL
+MYSQL=yes
+DOLPHIN=yes
+ifeq ($(MYSQL),yes)
+   ifeq ($(MYSQL_PATH),)
+      MYSQL_PATH='$(PROGRAMFILES)\MySQL\MySQL Server 5.0\include'
+   endif
+endif
+
+$(info *************************************************** )
+$(info * Plataforma: $(HB_MAKE_PLAT).   Compilador: $(HB_COMPILER) ) 
+$(info * Compilador XBase: $(XBASE_COMPILER)                 )
+$(info * Rutas:                                              )
+$(info * bin: $(HB_BIN_INSTALL)                              )
+$(info * lib: $(HB_LIB_INSTALL)                              )
+$(info * include: $(HB_INC_INSTALL)                          )
+$(info *                                                     )
+$(info * Soporte.                                            )
+$(info * GtkSourceView = $(GTKSOURCEVIEW)                    )
+$(info * Bonobo        = $(BONOBO)                           )
+$(info * gnomeDB       = $(GNOMEDB)                          )
+$(info * CURL          = $(CURL)                             )
+ifneq ($(HB_MAKE_PLAT),win)
+   $(info * WebKitGTK+    = $(WEBKIT) )
+endif
+$(info * MySQL         = $(MYSQL)                            )
+ifeq ($(MYSQL),yes)
+  $(info *    PATH    = $(MYSQL_PATH))
+  $(info *    Dolphin    = $(DOLPHIN)                          )
+endif
+$(info *************************************************** )
+
+
 
 ############################################## 
 # Esqueleto para todas las plataformas
@@ -120,20 +189,56 @@ endif
 ifeq ($(GNOMEDB),yes)
     CFLAGS += -D_GNOMEDB_
     CFLAGS += $(shell pkg-config --cflags libgnomedb-3.0)
-    LIBS += $(shell pkg-config --libs libgnomedb-3.0 )
+    LIBS   += $(shell pkg-config --libs libgnomedb-3.0 )
 endif
 
 
 ifeq ($(CURL),yes)
-    CFLAGS += -D_CURL_
-    CFLAGS += $(shell pkg-config --cflags libcurl)
-    LIBS += $(shell pkg-config --libs libcurl )
+    ifeq ($(HB_COMPILER),mingw32)
+        ifeq ($(XBASE_COMPILER),XHARBOUR)
+            CFLAGS += -D_CURL_
+            CFLAGS +=-Ic:/curl/include -DHB_OS_WIN_32_USED
+        else
+            LIBFILES_ +=-lhbcurl
+        endif
+    else
+        CFLAGS += -D_CURL_
+        CFLAGS += $(shell pkg-config --cflags libcurl)
+        LIBS += $(shell pkg-config --libs libcurl )
+    endif
 endif
 
 ifeq ($(WEBKIT),yes)
     CFLAGS += -D_WEBKIT_
     CFLAGS += $(shell pkg-config --cflags webkit-1.0)
     LIBS += $(shell pkg-config --libs webkit-1.0 )
+endif
+
+
+ifeq ($(MYSQL),yes)
+#    PRGFLAGS=-I../../include
+    ifeq ($(HB_COMPILER),mingw32)
+        #Flags para sistemas WINDOWS
+        CFLAGS+=-I../../include -I$(MYSQL_PATH) -DHB_OS_WIN_32_USED -DWIN32 -D_WIN32 -D__WIN32__ 
+    else
+        #Flags para sistemas GNU/Linux
+        CFLAGS+=-I../../include -I/usr/mysql/include
+        CFLAGS+=$(shell pkg-config --libs mysql-connector-net )
+    endif
+endif
+
+ifeq ($(MYSQL),yes)
+ifeq ($(DOLPHIN),yes)
+    ifeq ($(HB_COMPILER),mingw32)
+        #Flags para sistemas WINDOWS
+        LIBS +=-L$(LIBDIR_TGTK) -L./ -lmysql
+        CFLAGS += -I$(INCLUDE_TGTK_PRG)
+        PRGFLAGS += -DNOINTERNAL-DDEBUG
+        ifeq ($(XBASE_COMPILER),HARBOUR)
+           LIBS+= -lhbct -lharbour-21 -lhbwin -lhbnf -lole32 -loleaut32 -lwinspool -luuid
+        endif
+    endif
+endif
 endif
 
 
@@ -153,7 +258,9 @@ else
      else
          # HARBOUR
          #LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm -lgtwin $(GT_LIBS) -lgtwin
-         LIBFILES_ = -lhbvm -lhbrtl $(GT_LIBS) -lhblang -lhbrdd -lhbmacro -lhbpp -lhbdbfntx -lhbdbfcdx -lhbdbffpt -lhbsix -lhsx -lhbcommon -lhbm -lgtgui $(GT_LIBS) 
+         LIBFILES_ = -lhbvm -lhbrtl -lhblang -lhbrdd -lhbmacro -lhbpp -lhbxpp \
+                     -lhbsix -lhbdebug -lhbcommon -lrddntx -lrddfpt -lrddcdx \
+                     -lhbsix -lxhb -lhbpp -lhbcpage -lhbwin -lhbpcre $(GT_LIBS) 
      endif
    else
      ifeq ($(XBASE_COMPILER),XHARBOUR)
@@ -169,6 +276,8 @@ else
 endif
 
 ifeq ($(HB_COMPILER),mingw32)
+   LIBFILES_ += -luser32 -lwinspool -lole32 -loleaut32 -luuid -lgdi32 -lcomctl32 \
+                -lcomdlg32 -lodbc32 -lwininet -lwsock32 -lodbc32 
     ifeq ($(XBASE_COMPILER),XHARBOUR)
         # XHARBOUR
         LIBFILES_ += -lhbodbc -luser32 -lwinspool -lole32 -loleaut32 -luuid -lgdi32 -lcomctl32 -lcomdlg32 -lodbc32 -lwininet -lwsock32
@@ -183,7 +292,7 @@ else
 endif
 
 #librerias usadas por Tgtk las definimos aqui. GTK y GLADE
-LIBS += -L$(LIBDIR_TGTK) $(shell pkg-config --libs tgtk ) $(shell pkg-config --libs libgnomedb-3.0) 
+LIBS += -L$(LIBDIR_TGTK) $(shell pkg-config --libs tgtk ) 
 PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 # By Quim -->
@@ -251,12 +360,21 @@ else
 endif
 
 clean:
+ifeq ($(HB_COMPILER),mingw32)
+	del *.o
+	del *.ppo
+	del $(TARGET).exe
+else
 	rm -f *.o
 	rm -f *.ppo
 	rm -f $(TARGET)
 	rm -f $(TARGET).exe
 	rm -f $(TARGETS)
+endif
 
 install: all
+ifeq ($(HB_COMPILER),mingw32)
+	xcopy /Y *.a $(TGTK_INSTALL)
+else
 	cp -f *.a $(TGTK_INSTALL)
-
+endif

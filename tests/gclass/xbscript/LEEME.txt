@@ -1,10 +1,17 @@
 ATENCION.
 
-Para que el ejemplo pueda funcionar, debes colocar la ruta include de t-gtk en path.
+Para que el ejemplo pueda funcionar, la rute de los include 
+invocados deben ser localizables desde la variable PATH.
+
+Se recomienda colocar en el path la ruta include de t-gtk y harbour.
+
 
 Ejemplo:
 
 PATH=$PATH:/home/*usuario*/t-gtk/include
+
+En Windows:
+PATH=%PATH%;c:\t-gtk\include;c:\harbour\include
 
 
 

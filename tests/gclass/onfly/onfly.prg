@@ -2,7 +2,7 @@
 
 Static s_aWidgets := {} // Content widgets for create and destroy
 
-REQUEST MsgInfo
+REQUEST Msg_Info
 
 Function Main( )
     Local oWindow, oBox, oBtn
@@ -24,7 +24,7 @@ Function CreateButtons( oBox )
        For x := 1 TO 10
            DEFINE BUTTON oBtn TEXT "Button " + str( x, 2 ) OF oBox
                   oBtn:Connect( "clicked" )
-                  oBtn:bAction :=  &( "{|o|"+ "MsgInfo( cValToChar( " + str( X,2 )+ " ))}")
+                  oBtn:bAction :=  &( "{|o|"+ "Msg_Info( cValToChar( " + str( X,2 )+ " ))}")
            AADD( s_aWidgets , oBtn )
        Next
     endif
