@@ -27,20 +27,29 @@ SUPPORT_PRINT_WIN32=no
 #Especifica aqui, si lo necesitas por no tenerlo en el entorno, SET,
 #las rutas del compilador de Harbour.
 #Bajo Windows especificar mingw32, bajo linux especificar gcc.
-HB_COMPILER = gcc
+ifeq ($(HB_COMPILER),)
+HB_COMPILER=gcc
+endif   
  
 #Especificamos compilador xBase a usar, si harbour o xHarbour
+ifeq ($(XBASE_COMPILER),)
 XBASE_COMPILER = HARBOUR
- 
+endif
+
 #Nueva version harbour 1.1
+ifeq ($(HB_COMPILER),gcc)
 HB_BIN_INSTALL = /usr/local/bin
 HB_INC_INSTALL = /usr/local/include/harbour
 HB_LIB_INSTALL = /usr/local/lib/harbour
- 
+else
+HB_BIN_INSTALL = /harbour/bin
+HB_INC_INSTALL = /harbour/bin/include
+HB_LIB_INSTALL = /harbour/bin/lib
+endif 
 
 #Rutas de librerias y de includes de TGTK.
-LIBDIR_TGTK= /home/daniel/repos/tgtk/lib
-INCLUDE_TGTK_PRG=/home/daniel/repos/tgtk/include
+LIBDIR_TGTK= ./lib
+INCLUDE_TGTK_PRG=./include
 
 #Soporte para GtkSourceView
 GTKSOURCEVIEW=no
