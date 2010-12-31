@@ -23,8 +23,13 @@
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
+static oWndMain
+
+static function SetWndMain( oWnd ); oWndMain := oWnd; return nil
+function GetWndMain(); return oWndMain
+
 CLASS GWINDOW FROM GCONTAINER
-      CLASSDATA lInitiate INIT .F.
+
       CLASSDATA aWindows INIT {}
 
       DATA ldestroy_gtk_Main INIT .F.
@@ -32,6 +37,7 @@ CLASS GWINDOW FROM GCONTAINER
       DATA oAccelGroup
       DATA oMenuPopup
       DATA lUseEsc INIT .F.
+      DATA lInitiate INIT .F.
 
       METHOD NEW( cTitle, nType, nWidth, nHeight, cId, cGlade, cIconName, cIconFile )
       METHOD SetTitle( cText )  INLINE gtk_window_set_title ( ::pWidget, cText )
@@ -106,6 +112,10 @@ METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint, ;
         
        ::Connect( "delete-event" )
        ::Connect( "destroy" )
+       
+       if GetWndMain() == NIL 
+          SetWndMain( Self ) 
+       endif
 
 RETURN Self
 
@@ -138,7 +148,7 @@ METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
        ::Connect( "key-press-event" )
 
        // Solamente se entra una vez en el bucle de GTK.
-       IF !::lInitiate
+       IF ::lInitiate .or. GetWndMain() == Self
           ::lInitiate := .T.
           ::ldestroy_gtk_Main := .T.
           //connect_destroy_widget( ::pWidget ) // Conectarmos seal de destroy automaticamente
