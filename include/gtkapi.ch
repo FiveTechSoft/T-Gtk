@@ -29,8 +29,12 @@
 #include "gtkversion.ch"
 
 /* Compatibilidad con C */
+#ifndef TRUE
 #define TRUE   1
+#endif
+#ifndef FALSE
 #define FALSE  0
+#endif
 
 /* Define In Gentry two definition to work with caption or without */
 #define HB_GET			0
