@@ -1,4 +1,4 @@
-
+a
 /*
  * $Id: ChangeLog,v 1.98 2010-12-28 18:52:21 dgarciagil Exp $
  */
@@ -25,21 +25,21 @@
 
 
 2010-12-28 14:15 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
-   /include/tgtk.ch 
+   /include/tgtk.ch
    + added "?" command, to show a list of any values inside a MsgInfo
-   
-   +/src/gclass/wqout.prg 
-   function to show a list of values 
-   
-   /src/gclass/gentry.prg 
+
+   +/src/gclass/wqout.prg
+   function to show a list of values
+
+   /src/gclass/gentry.prg
    ! fixed bug when return key from number pad is pressed
-   
-   /src/gclass/gobject.prg 
+
+   /src/gclass/gobject.prg
    ! verify bAction in Method OnActivate
-   
-   /src/gclass/gtoolbutton.prg 
+
+   /src/gclass/gtoolbutton.prg
    ! now we can change prompt label in buttons created from resources with DEFINE command
-   
+
 
 2010-12-28 14:40 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    /hbgtk/g_spawn.c
@@ -54,11 +54,11 @@
   Se puede comprobar que ahora funciona correctamente los cursores ejecutando /tests/native/cursors
 
 2010-12-28 12:06 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
-   /hbgtk/gdkcursor.c 
+   /hbgtk/gdkcursor.c
    * Fix. Valores que se devolvian/recogian , incorrectos.
 
 2010-12-28 11:32 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
-   /hbgtk/events.c 
+   /hbgtk/events.c
    Fix. Incorrecta definicion de callbacks
 
 2010-12-26 23:39 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
@@ -69,30 +69,30 @@
    + tests/gclass/xbscript/hola.prg
 
 2010-12-24 18:10 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
-   * glabel.prg 
-      ! fixed little bug in last rev 
-   
+   * glabel.prg
+      ! fixed little bug in last rev
+
    * gtkmessagedialog.c
       + added funcion ValToChar convert any parameter to Char, now all msg_* accept any value and show correctly
-      
+
 
 2010-12-24 10:00 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
-   * LABEL 
+   * LABEL
       + added MNEMONIC clause to Label
    * BUTTON
-      ! now we can change prompt label in buttons created from resources with DEFINE command 
+      ! now we can change prompt label in buttons created from resources with DEFINE command
 
 2010-12-23 20:30 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
    * changed TRUE/FALSE by .T./.F. in prg level, for compatibility with Harbour/xHarbour
 
 2010-12-23 17:39 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
-   * /hbgtk/glib.c 
+   * /hbgtk/glib.c
      Function G_TIMEOUT_ADD Fix warnings
 
 2010-12-23 16:48 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
-   * /tests/native/image Fix bug 
+   * /tests/native/image Fix bug
      El cambio de la funcion gtk_window_set_icon() a nivel de , hace que se rompa.
-      
+
     */hbgtk/gtkwindow.c
      * Funcion gtk_window_set_icon, se desrefencia pixbuf.
      * Se esperaba const gchar y se envia gchar. Cambiado.
@@ -100,14 +100,14 @@
 
 2010-12-23 14:30 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
    ! solved harbour compatibility problem
-      
+
 
 2010-12-23 07:51 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
    * gwidget.prg
       + METHOD RemoveContainer( oChild ) VIRTUAL
 
    * GButton.prg
-      + METHOD RemoveContainer( oChild ) 
+      + METHOD RemoveContainer( oChild )
       + METHOD SetImage( uImage )
 
    * gtkcontainer.c
@@ -133,7 +133,7 @@
    * /src/hbgtk/gtklistore.c
    * /src/hbgtk/gtktreestore.c
      Add #ifdef __HARBOUR20__, porque parece que han cambiado la estructura de PHB_BASEARRAY
-   
+
    Nota:
    Bajo GNU/Linux 64 bits y Harbour 2.0, estoy viendo que existen diversos problemas en /hbgtk.
 
@@ -141,7 +141,7 @@
 2010-06-29 20:23 UTC+0130 Federico de Maussion <fjdemaussion at gmail.com>
    * /src/gclass/gmenuitem.prg  Fix bug.
      Se evita llamar gtk_menu_item_set_label con versiones inferiores a 2.16
-     
+
 2010-06-04 15:30 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    + Alpha del nuevo configurador para T-Gtk
      /utils/configurador
@@ -154,12 +154,12 @@
    * Cambios en el Rules.make
 
 2010-05-27 23:53 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
-   * Rules.make 
+   * Rules.make
      Se anexa libreria de compatibilidad para xharbour cuando se usa harbour.
-     Se anexa libreria libhbxpp para uso con harbour. 
+     Se anexa libreria libhbxpp para uso con harbour.
         Algunos ejemplos la usan, ej. "funcion DBSKIPPER()".
-     Eliminada libgpm del Rules.make 
-     
+     Eliminada libgpm del Rules.make
+
 
 2010-05-26 12:30 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
    + Soporte para Harbour 2.0
@@ -172,12 +172,12 @@
 
 
 2010-05-01 21:59 UTC-0200 Rafa Carmona <rafa.tgtk at gmail.com>
-    /src/gclass/gTreeview.prg 
+    /src/gclass/gTreeview.prg
     + Activamos methods OnCursorChanged y OnMoveCursor
-    
+
     /tests/gclass/listore
     + Ejemplo de como obtener un valor automaticamente cuando se mueve el cursor.
-     
+
 
 2010-02-08 23:53 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
    * /hbgtk/gtktreeview.c
