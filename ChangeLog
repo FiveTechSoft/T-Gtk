@@ -9,6 +9,21 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2010-12-31 03:37 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
+  * Rules.make
+    Siguiendo el cambio anterior de Daniel, se detecta la
+    plataforma. Separador de directorios y path.
+    Se Coloca informacion inicial de la configuracion.
+    Se Coloca configuracion de soporte para mysql y dolphin.
+  * include/tgtkext.ch
+  * tests/gclass/xbscript/hbscript.prg
+  - tests/gclass/xbscript/tgtkext.ch
+  * tests/gclass/xbscript/Makefile
+    Modificaciones para correcto funcionamiento de scripts
+    (Probado en Windows)
+  * tests/gclass/onfly/onfly.prg Se cambia MsgInfo por Msg_Info
+
+
 2010-12-28 14:15 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
    /include/tgtk.ch 
    + added "?" command, to show a list of any values inside a MsgInfo
