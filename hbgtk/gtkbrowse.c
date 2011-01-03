@@ -159,6 +159,7 @@ gtk_browse_realize( GtkWidget *widget )
   GtkBrowse *browse;
   GdkWindowAttr attributes;
   gint attributes_mask;
+ // GtkStyle *style = NULL;
 
    g_return_if_fail( widget != NULL );
    g_return_if_fail( GTK_IS_BROWSE( widget ) );
@@ -189,6 +190,10 @@ gtk_browse_realize( GtkWidget *widget )
   widget->window  = gdk_window_new (widget->parent->window, &attributes, attributes_mask);
 
   widget->style   = gtk_style_attach (widget->style, widget->window);
+/*
+  style = gtk_rc_get_style_by_paths(gtk_widget_get_settings(widget), NULL,"GtkButton", GTK_TYPE_BUTTON);
+  style = gtk_style_attach(style, widget->window);
+*/
 
   gdk_window_set_user_data( widget->window, widget );
   gdk_window_set_background( widget->window, &widget->style->base[GTK_STATE_NORMAL] );
@@ -213,16 +218,18 @@ gtk_browse_set_adjustments (GtkBrowse *browse, GtkAdjustment *hadj, GtkAdjustmen
 static void
 gtk_browse_destroy( GtkObject *object )
 {
-  if( &GTK_BROWSE(object)->item )
+ 
+ if( &GTK_BROWSE(object)->item )
      hb_itemClear( &GTK_BROWSE(object)->item );
-}	
+
+ }	
 
 /*****************************************************************************************
  * Internas
  ****************************************************************************************/
 
 void
-gtk_browse_draw_text( GdkGC *gc, GtkWidget *widget, GdkRectangle *rect, gchar *text, gchar *color )
+gtk_browse_draw_text( GdkGC *gc, GtkWidget *widget, GdkRectangle *rect, const gchar *text, const gchar *color )
 {
    GdkColor mapcolor;
    gdk_color_parse (color, &mapcolor);
@@ -257,7 +264,7 @@ gtk_browse_draw_rectangle( GdkGC *gc, GtkWidget *widget, GdkRectangle *rect, gch
 }   
 
 void
-gtk_browse_draw_pixbuf (GtkWidget *widget, gchar *filename, gint y, gint x)
+gtk_browse_draw_pixbuf (GtkWidget *widget, const gchar *filename, gint y, gint x)
 {
    GError    *error  = NULL;
    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file ( filename, &error );
@@ -536,7 +543,12 @@ HB_FUNC( GTK_BROWSE_DRAWHEADERS ) // ( widget, pEvent, aHeaders, aColSizes, aBmp
             iRight = widget->allocation.width - iLeft;
             
          // Caja tipo 'boton' para headers 
+         /*TODO: 
+           Existe un bug en Harbour 64 , falla el paso del parámetro widget->style 
+         */
+         #ifndef __HARBOUR64__
          if ( hb_parl( 7 ) )
+
             gtk_paint_box( widget->style, widget->window,
 	      	        GTK_STATE_NORMAL, GTK_SHADOW_OUT,
 		        &event->area, widget, "button",
@@ -547,10 +559,11 @@ HB_FUNC( GTK_BROWSE_DRAWHEADERS ) // ( widget, pEvent, aHeaders, aColSizes, aBmp
 	      	        GTK_STATE_NORMAL, GTK_SHADOW_OUT,
 		        &event->area, widget, "button",
 		        iLeft, 0, iRight, ROW_HEIGHT +1 );
+         #endif
 
          // Pintando bitmaps en headers si es != NIL 
          if ( hb_arrayGetType( pBmpFiles, i + 1 ) != HB_IT_NIL ) {
-            gtk_browse_draw_pixbuf (widget, hb_parc( 5, i + 1 ), iLeft+3, 3);
+            gtk_browse_draw_pixbuf (widget, ( gchar * )hb_parc( 5, i + 1 ), iLeft+3, 3);
             iRight = 26; // 20 ancho bitmap + 6
             }
          else   
@@ -612,9 +625,9 @@ HB_FUNC( GTK_BROWSE_DRAWCELL ) // ( widget, nRow, nCol, cText, nWidth, lSelected
    // 'Pintado' de la area de fondo de la fila, dependiendo de si es la seleccionada y si tiene foco
    // Se podria personalizar a nivel de clase [x]Harbour para que 'blue/gray' fueran parametros
    if( gtk_widget_is_focus(widget) )
-      gtk_browse_draw_rectangle (gc, widget, &rect, hb_parl( 6 ) ? "blue" : hb_parc( 10 )); 
+      gtk_browse_draw_rectangle (gc, widget, &rect, hb_parl( 6 ) ? "blue" : ( gchar *)hb_parc( 10 )); 
    else
-      gtk_browse_draw_rectangle (gc, widget, &rect, hb_parl( 6 ) ? "gray" : hb_parc( 10 )); 
+      gtk_browse_draw_rectangle (gc, widget, &rect, hb_parl( 6 ) ? "gray" : ( gchar *)hb_parc( 10 )); 
    
    // Pinta una pequeña 'punta de flecha', al estilo de los grid de M$Access, antes de la primera columna 
    if ( hb_parl( 7 ) && hb_parnl( 3 ) == 1 ) {

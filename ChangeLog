@@ -8,6 +8,10 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2010-01-03 22:59 UTC-1 Rafa Carmona <rafa.tgtk at gmail.com>
+  * /hbgtk/gtkbrowse.c
+    ! Fix types
+
 2011-01-03 11:15 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
 
    * gWindow.prg
