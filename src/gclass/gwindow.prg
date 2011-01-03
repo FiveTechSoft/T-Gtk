@@ -75,7 +75,7 @@ ENDCLASS
 METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint, ;
             cIconName, cIconFile, oParent ) CLASS GWINDOW
        DEFAULT nType   := GTK_WINDOW_TOPLEVEL
-               
+       DEFAULT oParent := GetWndMain()
 
        if cId == NIL
           ::pWidget := gtk_window_new( nType )

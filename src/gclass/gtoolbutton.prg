@@ -48,6 +48,7 @@ METHOD New( cText, bAction, cStock, lMnemonic, cFromStock, oParent, lExpand,;
        DEFAULT lExpand := .F.,;
                lMnemonic := .F.
 
+
        IF cId == NIL
           IF cFromStock != NIL
              ::pWidget := gtk_tool_button_new_from_stock( cFromStock )
@@ -64,6 +65,7 @@ METHOD New( cText, bAction, cStock, lMnemonic, cFromStock, oParent, lExpand,;
         ELSE
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
+          ::Mnemonic( lMnemonic )
           if cText != NIL
              ::SetLabel( cText )
           endif

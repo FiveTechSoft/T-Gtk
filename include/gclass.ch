@@ -1288,7 +1288,7 @@
 
 #xcommand DEFINE BROWSE [ <oBrw> ] ;
                [ FIELDS <Expr1> [,<ExprN>] ] ;
-               [ ALIAS <cAlias> ] ;
+               [ <dsrc: ALIAS, DATASOURCE, ARRAY, OBJECT, RECORDSET> <uData> ] ;
                [ <sizes:FIELDSIZES, SIZES, COLSIZES> <aColSizes,...> ] ;
                [ <head:HEAD,HEADER,HEADERS> <aHeaders,...> ] ;
                [ SIZE <nWidth>, <nHeigth> ] ;
@@ -1312,7 +1312,7 @@
          [ <oBrw> := ] gDbfGrid():New( [<oWnd>], <nRow>, <nCol>, ;
                            [\{<aHeaders>\}], [\{<aColSizes>\}], ;
                            \{ [\{|o|<Expr1>\}] [,\{|o|<ExprN>\}] \},;
-                           <cAlias>, <nWidth>, <nHeigth>,;
+                           <uData>, <nWidth>, <nHeigth>,;
                            [<{uChange}>], <cFont>, <uClrFore>, <uClrBack>,;
                            <.lExpand.>, <.lFill.>, <nPadding> ,<.lContainer.>,;
                             <x>,<y>,<uLabelBook>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;

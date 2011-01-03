@@ -140,7 +140,7 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
 
     if oSender:ISDERIVEDFROM( "GWINDOW" )//cClassName == "GDIALOG" .OR. cClassName == "GWINDOW"
        SysRefresh()       
-       hb_gcAll()         // Garbage collector
+//       hb_gcAll()         // Garbage collector
     endif
 
     if oSender:ISDERIVEDFROM( "GWINDOW" )  // cClassName == "GWINDOW" .OR. cClassName == "GDIALOG" .OR. cClassName == "GASSISTANT"

@@ -4,11 +4,40 @@
   Una colaboracion desde Carlos Mora.
  */
 #include "gtkapi.ch"
+#include "gclass.ch"
 
 #define DBF_FIELD  1
 
 Static hTree
-function main()
+
+function Main( )
+   local oWnd
+   local oBox
+   local aArray := {}
+   local n, j
+   local oMenu, oItem, oMainMenu, oBoxV
+   
+   define window oWnd title "DBF Browse test" size 640, 480
+
+   define box oBoxV vertical of oWnd   
+   
+   define barmenu oMainMenu of oBoxV
+   
+   menubar oMenu of oMainMenu
+   
+      menuitem root oItem title "Browse" of oMenu
+
+      menuitem oItem title "Dbf" ;
+               action ppp( oWnd );
+               of oMenu 
+   oMenu:Activate()
+   
+   activate window oWnd center
+   
+
+RETURN NIL
+
+function ppp()
 
   local hWnd, hScroll, hList, hRenderer, hColumn, hItem, hSelection
   local aFields := {}
@@ -16,7 +45,7 @@ function main()
   local n, nLen
 
 	Set Excl Off
-   USE BROWSE.DBF NEW
+   USE ../../CUSTOMER.DBF NEW SHARED 
    aStruct := dbstruct()
    aeval( aStruct, {|a| aadd( aFields, a[DBF_FIELD] ) } )
    nLen := len( aFields )
@@ -63,7 +92,7 @@ function main()
    gtk_signal_connect ( hWnd, "destroy", {|| Salir() } )
    gtk_widget_show_all( hWnd )
 
-   gtk_Main()
+  // gtk_Main()
 
 return NIL
 
@@ -158,7 +187,8 @@ return FALSE
 //--------------------------------------------------------------------------//
 
 Function Salir()
-         gtk_main_quit()
+   ( Alias() )->( dbclosearea() )
+//         gtk_main_quit()
 return .F.
 
 //--------------------------------------------------------------------------//

@@ -40,3 +40,5 @@
 
 #command ? [ <list,...> ] => WQout( [ \{ <list> \} ] )
 
+#command ?. [ <list,...> ] => gQout( [ \{ <list> \} ] )
+

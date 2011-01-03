@@ -8,6 +8,9 @@
 function Main( )
    Local  oWnd
    Local oBox ,aFields , uData, x, oBrw, cType 
+  /* 
+   USE ../../CUSTOMER.DBF NEW SHARED    
+   DbfBrowse( uData ) */
    
    DEFINE WINDOW oWnd TITLE "Browse dinamic" SIZE 800,600
     
@@ -47,5 +50,6 @@ function Main( )
          NEXT
     
     ACTIVATE WINDOW oWnd CENTER 
+
 
 RETURN NIL
