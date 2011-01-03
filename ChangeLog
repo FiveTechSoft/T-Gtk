@@ -1,4 +1,3 @@
-a
 /*
  * $Id: ChangeLog,v 1.98 2010-12-28 18:52:21 dgarciagil Exp $
  */
@@ -8,6 +7,29 @@ a
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2011-01-03 11:15 UTC-0430 Daniel Garcia-Gil <danielgarciagil at gmail.com>
+
+   * gWindow.prg
+      ! set default uParent GetWndMain()
+
+   * gtoolbutto.prg
+      + added Mnemonic
+
+   * gobject.prg
+      ! there are a problem call hb_gcAll, commented
+
+   * dbfgrid.prg
+      + added function DbfBrowse( uData ), build a browse automatically
+      ! enhancement: we can use HEADER, SIZE and FIELDS like arrays
+      ! enhancement: support to tdolphin class
+      # look tests/gclass/browses/dbfborwse.prg
+      
+    * tgtk.ch
+      + added command "?." to show a list in console
+
+    * gclass.ch
+       ! enhancement: now we can use ALIAS, DATASOURCE, ARRAY, OBJECT
 
 2010-12-31 03:37 UTC-0430 Riztan Gutierrez <riztan at gmail.com>
   * Rules.make
