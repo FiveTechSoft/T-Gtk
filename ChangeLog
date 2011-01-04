@@ -8,8 +8,11 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-01-04 09:29 UTC-1 Rafa Carmona <rafa.tgtk at gmail.com>
+  * Fix bug dbfgrid.prg. By default cAlias := NIL, because break /tests/gclass/browses/brwarray.prg
+
 2011-01-04 00:27 UTC-430 Riztan Gutierrez <riztan at gmail.com>
-  * Makefile's 
+  * Makefile's
     !Modificados para uso de variable ROOT. Esta variable es necesaria
     !en los makefiles para que pueda localizar el /config/global.mk
 
@@ -25,7 +28,7 @@
     !modificado y compatible con harbour y xharbour.
 
   + /src/pgsql/xhb
-  - /src/pgsql/Tpostgres.prg 
+  - /src/pgsql/Tpostgres.prg
   + /src/pgsql/xhb/tpostre.prg
     !contrib de postgres en xharbour.
 
@@ -58,7 +61,7 @@
       ! enhancement: we can use HEADER, SIZE and FIELDS like arrays
       ! enhancement: support to tdolphin class
       # look tests/gclass/browses/dbfborwse.prg
-      
+
     * tgtk.ch
       + added command "?." to show a list in console
 

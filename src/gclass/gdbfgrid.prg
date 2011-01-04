@@ -1,7 +1,7 @@
 /* $Id: gdbfgrid.prg,v 1.3 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -41,42 +41,42 @@
 #define DATATYPE_OBJECT  4
 #define DATATYPE_MYSQL   5
 
-CLASS gDbfGrid FROM gWidget 
+CLASS gDbfGrid FROM gWidget
 
    DATA   hParent, hWnd, hContainer
    DATA   oScroll, oBox
-   DATA   aColumns, aHeaders, abFields, aColSizes, aDbfStruct   
-   DATA   cAlias, nArea     
+   DATA   aColumns, aHeaders, abFields, aColSizes, aDbfStruct
+   DATA   cAlias, nArea
    DATA   bSkip, bChange, bGoTop, bGoBottom, bLogicLen
    DATA   bKeyEvent, bGotFocus, bLostFocus
    DATA   lHitTop, lHitBottom
    DATA   lPaint AS LOGICAL INIT .T.
    DATA   lArrow AS LOGICAL INIT .T.
    DATA   lFocus AS LOGICAL INIT .F.
-   DATA   nLen, nColumns, nRowPos, nColPos, nAt, nWidth, nHeight 
+   DATA   nLen, nColumns, nRowPos, nColPos, nAt, nWidth, nHeight
    DATA   nFontSize  AS NUMERIC INIT 8
    DATA   nLineStyle AS NUMERIC INIT 1
    DATA   nDataType, uData
-   
-   
+
+
    METHOD New( hParent, nRow, nCol, aHeaders, aColSizes, abFields, cAlias, ;
                nWidth, nHeight, bChange, cFont, uClrFore, uClrBack ) CONSTRUCTOR
 
    METHOD AddColumn( oCol ) INLINE AAdd( ::aColumns, oCol )
    METHOD LoadColumns()
-/**   
+/**
  * LoadColumns()
- * Nos permite crear si queremos las columnas y encabezados en el metodo New()  
+ * Nos permite crear si queremos las columnas y encabezados en el metodo New()
  * asi desde el preprocesado se puede construir desde comando xBase.
  * Tambien provee la creacion de las columnas y headers 'despues' del metodo New()
  * por lo que da mayor flexibilidad
  **/
- 
+
    METHOD DrawHeaders( nPEvent )
    METHOD DrawLine( nRow )
    METHOD DrawRows()
    METHOD DrawSelect() INLINE If( ::lFocus, ::DrawLine( ::nRowPos, .t. ), )
-   METHOD SetFont( cFont ) 
+   METHOD SetFont( cFont )
    METHOD Set3DLook()  INLINE aeval( ::aColumns, {|oCol| oCol:nColType := COL_TYPE_BOX } )
    METHOD SetColor( uClrFore, uClrBack )
 
@@ -87,52 +87,52 @@ CLASS gDbfGrid FROM gWidget
    METHOD GoLeft()
    METHOD GoRight()
    METHOD Skip( n )
-   
+
    METHOD SetDbf( uDatabase )
-   METHOD SetoDBF( uDatabase )   
+   METHOD SetoDBF( uDatabase )
    METHOD SetArray( aArray )
    METHOD SetDolphin( oRS )
-   
+
    METHOD KeyEvent( nKey )
    METHOD ClickEvent( nRow, nCol, nWidth, nHeight )
-   METHOD ScrollEvent( nOrientation, nValue )   
+   METHOD ScrollEvent( nOrientation, nValue )
    METHOD ColResizEvent( nCol, nValue )
 
    METHOD GotFocus()
    METHOD LostFocus()
-   
+
    METHOD nRowCount()           INLINE gtk_browse_row_count( ::hWnd )
    METHOD nRowHeight( nHeight ) INLINE gtk_browse_row_height( nHeight )
-   
+
    METHOD PageDown( nLines )
    METHOD PageUp( nLines )
 
    METHOD Paint( nPEvent )
    METHOD SetFocus()            INLINE gtk_widget_grab_focus( ::hWnd )
    METHOD SetDataSrc( uDataSrc )
-   
 
-   METHOD UpStable()             
+
+   METHOD UpStable()
    METHOD Refresh()             INLINE gtk_widget_queue_draw( ::hWnd )
-  
+
 ENDCLASS
 
 //------------------------------------------------------//
 
-function DbfBrowse( uData ) 
+function DbfBrowse( uData )
 
-   local oWnd 
-   local cTitle 
+   local oWnd
+   local cTitle
    local oBrw
 
    DEFAULT  uData    := Alias()
-   
+
    cTitle = If( ValType( uData ) == 'C', uData, ;
                 If( ValType( uData ) == 'O', uData:ClassName(), 'DbfBrowse' ) )
 
    oWnd = gWindow():New( cTitle, , 640, 480 )
-   
-   
+
+
    oBrw = gDbfGrid():New( oWnd, , , , , , uData, , , , , , , .T., .T., , .T., , , , , , , , , , , , ,  )
 
    //center, ! maximized, modal
@@ -145,53 +145,53 @@ return nil
 
 METHOD SetDataSrc( uDataSrc ) class gDbfGrid
 
-   local cDataSrc 
-   local cType 
-   local cClass 
+   local cDataSrc
+   local cType
+   local cClass
    local n
-   
+
    cType = ValType( uDataSrc )
-   
+
    switch cType
-   
+
       case "C"
-      
+
          ::cAlias     = uDataSrc
          ::nArea      = Select( uDataSrc )
-      
-         if ! Empty( uDataSrc ) 
+
+         if ! Empty( uDataSrc )
             ::aDbfStruct = ( ::cAlias )->( dbstruct() )
             ::nArea      = Select( uDataSrc )
-         endif      
-         
+         endif
+
          ::nDataType := DATATYPE_RDD
-         ::SetDbf() 
+         ::SetDbf()
          eval( ::bGoTop )
          exit
-         
-      case "A" 
+
+      case "A"
          ::nDataType := DATATYPE_ARRAY
          uDataSrc = CheckArray( uDataSrc )
-         ::SetArray( uDataSrc ) 
-         exit  
-         
-      case "O" 
-      
-         cClass = uDataSrc:ClassName() 
-         switch cClass 
+         ::SetArray( uDataSrc )
+         exit
+
+      case "O"
+
+         cClass = uDataSrc:ClassName()
+         switch cClass
             case "TDATABASE"
-               ::nDataType = DATATYPE_ODBF 
+               ::nDataType = DATATYPE_ODBF
                ::SetoDBF( uDataSrc )
-               eval( ::bGoTop )         
-               exit 
+               eval( ::bGoTop )
+               exit
             case "TDOLPHINQRY"
                ::nDataType = DATATYPE_MYSQL
                ::SetDolphin( uDataSrc )
                eval( ::bGoTop )
                exit
          endswitch
-         
-   endswitch 
+
+   endswitch
 
 
 
@@ -207,10 +207,10 @@ METHOD New( uParent, nRow, nCol, aHeaders, aColSizes, abFields, cAlias, nWidth,;
             left_ta,right_ta,top_ta,bottom_ta,xOptions_ta,yOptions_ta ) CLASS gDbfGrid
 
 
-   DEFAULT cAlias := Alias(), nWidth := 200, nHeight := 200
+   DEFAULT cAlias := NIL, nWidth := 200, nHeight := 200
 
    ::hParent := uParent:pWidget
-   
+
    ::hWnd       = gtk_browse_new( Self )
    ::pWidget    := ::hWnd
 
@@ -220,11 +220,11 @@ METHOD New( uParent, nRow, nCol, aHeaders, aColSizes, abFields, cAlias, nWidth,;
    ::cAlias     = cAlias
    ::nArea      = Select()
 
-   if !Empty( cAlias ) 
+   if !Empty( cAlias )
       ::aDbfStruct = ( ::cAlias )->( dbstruct() )
       ::nArea      = Select( cAlias )
    endif
-*/   
+*/
 
 
    ::lHitTop    = .f.
@@ -241,26 +241,26 @@ METHOD New( uParent, nRow, nCol, aHeaders, aColSizes, abFields, cAlias, nWidth,;
 
    ::oScroll := TScrolledBar():New()
    gtk_browse_scroll_connect( ::pWidget, ::oScroll:hWnd )
-   
+
    ::oBox := GBoxVH():New(.T.,,.T., uParent, lExpand, lFill, nPadding, lContainer, x, y,uLabelTab,;
                 lSecond, lResize, lShrink, left_ta, right_ta, top_ta, bottom_ta, xOptions_ta, yOptions_ta )   // Meto la caja , en el Parent
-     
+
    gtk_box_pack_start( ::oBox:pWidget, ::oScroll:hWnd, .T., .T., .F. )     // Meto en la caja, el scroll
    gtk_container_add( ::oScroll:hWnd, ::pWidget )                          // Meto en el scroll, el browse
    ::oBox:Show()                                                           // Mostramos la caja
    ::Show()                                                                // Mostramos el Browse
- 
-        
+
+
    ::SetDataSrc( cAlias )
- 
+
 /*
    if !empty( cAlias )
       ::SetDbf()
       eval( ::bGoTop )
    endif
-*/  
+*/
 
-   
+
    if cFont != NIL
       ::SetFont( cFont )
       ::nRowHeight( ::nFontSize * 2 ) // Acomodamos tamaño de la fuente
@@ -293,14 +293,14 @@ METHOD LoadColumns() CLASS gDbfGrid
              if ::cAlias != "" .and. ::uData == NIL
                 // * ancho de la fuente <-> 20 es el ancho 'minimo'
                 oColumn:nWidth = Max( Max( Len( ::aHeaders[ n ] ) * ::nFontSize  + 2 * ::nFontSize, ;
-                                      (::aDbfStruct[n, DBS_LEN] * ::nFontSize) + 2 * ::nFontSize ), 20 ) 
+                                      (::aDbfStruct[n, DBS_LEN] * ::nFontSize) + 2 * ::nFontSize ), 20 )
                 if oColumn:nHeadWidth > oColumn:nWidth
                    oColumn:nWidth = oColumn:nHeadWidth
                 endif
-             else 
+             else
                 oColumn:nWidth = Max( Max( Len( ::aHeaders[ n ] ) * ::nFontSize  + 2 * ::nFontSize, ;
                                       Len( cValToChar( Eval( oColumn:uData ) ) ) * ::nFontSize + 2 * ::nFontSize ), 20 )
-             endif             
+             endif
           endif
       next
    endif
@@ -312,9 +312,9 @@ return nil
 
 METHOD DrawHeaders( nPEvent ) CLASS gDbfGrid
 
-   local aHeaders := {}, aColSizes := {}, aBmpFiles := {} 
+   local aHeaders := {}, aColSizes := {}, aBmpFiles := {}
    local n
-      
+
    for n = 1 to Len( ::aColumns )
       AAdd( aHeaders, ::aColumns[ n ]:cHeading )
       AAdd( aColSizes, ::aColumns[ n ]:nWidth )
@@ -333,19 +333,19 @@ METHOD DrawLine( nRow, lSelected ) CLASS gDbfGrid
               nCols := Len( ::aColumns )
    local uFieldGet, uType
    local hWnd := ::hWnd, nRowAct := ::nRowPos
-   local cfgColor, cbgColor 
+   local cfgColor, cbgColor
 
    DEFAULT nRow := ::nRowPos, lSelected := .f.
 
    while nColPos < nWidth .and. n <= nCols
-   
-      if "BLOCK" $ ::aColumns[ n ]:uData:ClassName() 
+
+      if "BLOCK" $ ::aColumns[ n ]:uData:ClassName()
          uFieldGet := eval( ::aColumns[ n ]:uData )
-      elseif "ARRAY" $ ::aColumns[ n ]:uData:ClassName() 
+      elseif "ARRAY" $ ::aColumns[ n ]:uData:ClassName()
          uFieldGet := ::aColumns[ n ]:uData[ ::nAt ]
       endif
       uType := valtype( uFieldGet )
-         
+
       do case
          case uType == "N" .AND. ::aColumns[ n ]:nColType != COL_TYPE_BITMAP
               uFieldGet = str( uFieldGet )
@@ -354,12 +354,12 @@ METHOD DrawLine( nRow, lSelected ) CLASS gDbfGrid
                  uFieldGet = if( uFieldGet, ".T.", ".F." )
               endif
          case uType == "D"
-              uFieldGet = dtoc( uFieldGet )     
+              uFieldGet = dtoc( uFieldGet )
       endcase
-      
+
       cfgColor := if( valtype( ::aColumns[ n ]:cfgColor ) = "B",;
                       Eval(  ::aColumns[ n ]:cfgColor ), ::aColumns[ n ]:cfgColor )
-      
+
       cbgColor := if( valtype( ::aColumns[ n ]:cbgColor ) = "B",;
                       Eval(  ::aColumns[ n ]:cbgColor ), ::aColumns[ n ]:cbgColor )
 
@@ -375,8 +375,8 @@ METHOD DrawLine( nRow, lSelected ) CLASS gDbfGrid
                            cfgColor, ;
                            cbgColor, ;
                            ::nLineStyle )
-      	   
-      nColPos += ::aColumns[ n++ ]:nWidth 
+
+      nColPos += ::aColumns[ n++ ]:nWidth
    enddo
 
 return nil
@@ -398,7 +398,7 @@ METHOD DrawRows() CLASS gDbfGrid
          if nSkipped == 1
             n++
          else
-            exit   
+            exit
          endif
       end
       ::Skip( ::nRowPos - n )
@@ -410,7 +410,7 @@ METHOD DrawRows() CLASS gDbfGrid
       ::DrawSelect()
    endif
 
-   if ! empty( ::cAlias ) 
+   if ! empty( ::cAlias )
       ::lHitTop    = ( ::cAlias )->( BoF() )
       ::lHitBottom = ( ::cAlias )->( EoF() )
    endif
@@ -420,7 +420,7 @@ return nil
 //------------------------------------------------------//
 
 METHOD SetFont( cFont ) CLASS gDbfGrid
-   
+
    gtk_browse_set_font( ::hWnd, cFont )
    ::nFontSize = gtk_browse_get_font_size( ::hWnd )
 
@@ -459,13 +459,13 @@ METHOD GoUp() CLASS gDbfGrid
          else
             gtk_browse_ScrollUp( ::hWnd, nLines )
          endif
-         if ::oScroll != NIL 
+         if ::oScroll != NIL
             ::oScroll:GoUp()
-         endif   
+         endif
       else
          ::lHitTop = .t.
       endif
-      
+
       ::DrawSelect()
 
       if ::bChange != nil
@@ -496,13 +496,13 @@ METHOD GoDown() CLASS gDbfGrid
          endif
          if ::oScroll != NIL
             ::oScroll:GoDown()
-         endif   
+         endif
       else
          ::lHitBottom = .t.
       endif
 
       ::DrawSelect()
-      
+
       if ::bChange != nil
          Eval( ::bChange, Self )
       endif
@@ -528,9 +528,9 @@ METHOD GoTop() CLASS gDbfGrid
          Eval( ::bChange, Self )
       endif
       if ::oScroll != NIL
-         ::oScroll:SetAdjustment( len( ::aColumns ), ::nLen ) 
+         ::oScroll:SetAdjustment( len( ::aColumns ), ::nLen )
          ::oScroll:GoTo( 1 )
-      endif   
+      endif
 
       ::Refresh()
    endif
@@ -557,7 +557,7 @@ METHOD GoBottom() CLASS gDbfGrid
       nSkipped = ::Skip( -( nLines - 1 ) )
       ::nRowPos = 1 - nSkipped
 
-      for n = 1 to -nSkipped + 1 
+      for n = 1 to -nSkipped + 1
           ::DrawLine( n )
           ::Skip( 1 )
       next
@@ -568,7 +568,7 @@ METHOD GoBottom() CLASS gDbfGrid
       endif
       if ::oScroll != NIL
          ::oScroll:GoTo( ::nLen )
-      endif   
+      endif
    endif
 
 return nil
@@ -582,7 +582,7 @@ METHOD GoLeft() CLASS gDbfGrid
       ::Refresh()
       if ::oScroll != NIL
          ::oScroll:GoLeft()
-      endif   
+      endif
    endif
 
 return nil
@@ -596,7 +596,7 @@ METHOD GoRight() CLASS gDbfGrid
       ::Refresh()
       if ::oScroll != NIL
          ::oScroll:GoRight()
-      endif   
+      endif
    endif
 
 return nil
@@ -622,11 +622,11 @@ METHOD PageUp( nLines ) CLASS gDbfGrid
          ::lHitBottom = .f.
          if -nSkipped < nLines
             ::nRowPos = 1
-           
+
          else
             nSkipped = ::Skip( -nLines )
             ::Skip( -nSkipped )
-            
+
          endif
 	 ::DrawRows()
 	 ::DrawSelect()
@@ -637,7 +637,7 @@ METHOD PageUp( nLines ) CLASS gDbfGrid
       if ::oScroll != NIL
          ::oScroll:nVvalue -= nLines
          ::oScroll:GoTo( ::oScroll:nVvalue )
-      endif   
+      endif
 
    endif
 
@@ -674,7 +674,7 @@ METHOD PageDown( nLines ) CLASS gDbfGrid
               endif
               ::nRowPos = Min( ::nRowPos + nSkipped, nLines )
               ::lHitBottom = .t.
-             
+
          otherwise
               for n = nLines to 1 step -1
                   ::DrawLine( n )
@@ -689,8 +689,8 @@ METHOD PageDown( nLines ) CLASS gDbfGrid
       if ::oScroll != NIL
          ::oScroll:nVvalue += nLines
          ::oScroll:GoTo( ::oScroll:nVvalue )
-      endif   
-      
+      endif
+
       ::DrawSelect()
    endif
 
