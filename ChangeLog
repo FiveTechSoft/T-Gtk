@@ -8,7 +8,32 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
-2010-01-03 22:59 UTC-1 Rafa Carmona <rafa.tgtk at gmail.com>
+2011-01-03 22:00 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  + /config/global.mk
+  * /Makefile
+  * /Rules.make
+    ! dividiendo el rules.make para facilitar la configuracion manual.
+    ! las variables si inicializan en config/global.make
+
+  * /src/pgsql/postgres.ch
+  * /include/postgres.ch
+    !modificado y compatible con harbour y xharbour.
+
+  + /src/pgsql/xhb
+  - /src/pgsql/Tpostgres.prg 
+  + /src/pgsql/xhb/tpostre.prg
+    !contrib de postgres en xharbour.
+
+  + /src/pgsql/hb
+  + /src/pgsql/hb/postgres.c
+  + /src/pgsql/hb/tpostgre.prg
+  + /src/pgsql/hb/pgrdd.prg
+    ! contrib de postgresql en harbour.
+
+  * /tests/gclass/test_pgsql/Makefile
+    !Modificado para ajustarse a nuevo rules.make
+
+2011-01-03 22:59 UTC-1 Rafa Carmona <rafa.tgtk at gmail.com>
   * /hbgtk/gtkbrowse.c
     ! Fix types
 

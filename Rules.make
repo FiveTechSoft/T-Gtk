@@ -11,129 +11,7 @@
 # Create: 11/28/05 # 15:47:14
 ##################################################
  
-# Para tener soporte de impresion en GNU/Linux a traves de gnome.
-# tenemos que tener instalado el paquete libgnomeprintui22-devel,
-# si queremos realizar la aplicacion con soporte de impresion.
-# Aqui , especificaremos los cFlags de compilacion necesarios para C
-SUPPORT_PRINT_LINUX=no
-
-# 20-12-2005 by Joaquim Ferrer <quim_ferrer@yahoo.es>
-# Soporte de Impresion para Win32
-# Es necesario tener instalado el pack de soporte para impresion
-# de gnome, portado a Win32, gtk-win32-gnomeprint-2-2 instalado
-# en el path de Gtk+, si no es asi, SUPPORT_PRINT_WIN32=no -->
-SUPPORT_PRINT_WIN32=no
-
-# Make platform detection
-HB_COMPILER := mingw32
-ifneq ($(findstring COMMAND,$(SHELL)),)
-   HB_MAKE_PLAT := dos
-else
-   ifneq ($(findstring sh.exe,$(SHELL)),)
-      HB_MAKE_PLAT := win
-   else
-      ifneq ($(findstring CMD.EXE,$(SHELL)),)
-         HB_MAKE_PLAT := os2
-      else
-         HB_MAKE_PLAT := unix
-         HB_COMPILER  := gcc
-      endif
-   endif
-endif
-# Directory separator default
-ifeq ($(DIRSEP),)
-   DIRSEP := /
-   ifeq ($(HB_COMPILER),mingw32)
-      DIRSEP := $(subst /,\,\)
-   endif
-endif
-# Path separator default
-ifeq ($(PTHSEP),)
-   # small hack, it's hard to detect what is real path separator because
-   # some shells in MS-DOS/Windows translates MS-DOS style paths to POSIX form
-   ifeq ($(subst ;,:,$(PATH)),$(PATH))
-      PTHSEP := :
-   else
-      PTHSEP := ;
-   endif
-endif
-
-#$(info $(DIRSEP) -- $(PTHSEP))
-
-#Especificamos compilador xBase a usar, si harbour o xHarbour
-ifeq ($(XBASE_COMPILER),)
-XBASE_COMPILER = HARBOUR
-endif
-
-#Nueva version harbour 1.1
-ifeq ($(HB_COMPILER),gcc)
-  HB_BIN_INSTALL=/usr/local/bin
-  HB_INC_INSTALL=/usr/local/include/harbour
-  HB_LIB_INSTALL=/usr/local/lib/harbour
-else
-  HB_BIN_INSTALL=/harbour/bin
-  HB_INC_INSTALL=/harbour/include
-  HB_LIB_INSTALL=/harbour/lib/win/mingw
-endif 
-
-#Ruta Programas Windows
-PROGRAMFILES = \Archivos de Programa
-
-#Rutas de librerias y de includes de TGTK.
-#Se usa DIRSEP para que pueda funcionar xcopy al utilizar "make install"
-TGTK_DIR=t-gtk
-LIBDIR_TGTK=$(DIRSEP)$(TGTK_DIR)$(DIRSEP)lib
-INCLUDE_TGTK_PRG=$(DIRSEP)$(TGTK_DIR)$(DIRSEP)include
-TGTK_INSTALL=$(DIRSEP)$(TGTK_DIR)$(DIRSEP)lib
-
-#Soporte para GtkSourceView
-GTKSOURCEVIEW=no
-
-#Soporte para Bonobo
-BONOBO=no
-
-#Alpha. Soporte para GNOMEDB y LIBGDA
-GNOMEDB=no
-
-#Soporte para CURL
-CURL=no
-
-#Soporte para WebKit
-WEBKIT=no
-
-#Soporte MySQL
-MYSQL=yes
-DOLPHIN=yes
-ifeq ($(MYSQL),yes)
-   ifeq ($(MYSQL_PATH),)
-      MYSQL_PATH='$(PROGRAMFILES)\MySQL\MySQL Server 5.0\include'
-   endif
-endif
-
-$(info *************************************************** )
-$(info * Plataforma: $(HB_MAKE_PLAT).   Compilador: $(HB_COMPILER) ) 
-$(info * Compilador XBase: $(XBASE_COMPILER)                 )
-$(info * Rutas:                                              )
-$(info * bin: $(HB_BIN_INSTALL)                              )
-$(info * lib: $(HB_LIB_INSTALL)                              )
-$(info * include: $(HB_INC_INSTALL)                          )
-$(info *                                                     )
-$(info * Soporte.                                            )
-$(info * GtkSourceView = $(GTKSOURCEVIEW)                    )
-$(info * Bonobo        = $(BONOBO)                           )
-$(info * gnomeDB       = $(GNOMEDB)                          )
-$(info * CURL          = $(CURL)                             )
-ifneq ($(HB_MAKE_PLAT),win)
-   $(info * WebKitGTK+    = $(WEBKIT) )
-endif
-$(info * MySQL         = $(MYSQL)                            )
-ifeq ($(MYSQL),yes)
-  $(info *    PATH    = $(MYSQL_PATH))
-  $(info *    Dolphin    = $(DOLPHIN)                          )
-endif
-$(info *************************************************** )
-
-
+#-include $(TGTK_DIR)/config/global.mk
 
 ############################################## 
 # Esqueleto para todas las plataformas
@@ -242,8 +120,23 @@ endif
 endif
 
 
+ifeq ($(POSTGRE),yes)
+#    PRGFLAGS=-I../../include
+    ifeq ($(HB_COMPILER),mingw32)
+        #Flags para sistemas WINDOWS
+        CFLAGS+=-I$(POSTGRE_PATH) -DHB_OS_WIN_32_USED -DWIN32 -D_WIN32 \
+                -D__WIN32__ 
+    else
+        #Flags para sistemas GNU/Linux
+        CFLAGS+=-I../../include -I/usr/include -I/usr/include/libpq \
+                -I/us/include/pgsql/server/libpq -I/usr/include/postgresql
+    endif
+endif
+
+
 ifeq ($(XBASE_COMPILER),HARBOUR)
-   CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF -D__COMPATIBLE_HARBOUR__ -D__HARBOUR20__
+   CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF \
+             -D__COMPATIBLE_HARBOUR__ -D__HARBOUR20__
 endif
 
 #libraries for binary building

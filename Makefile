@@ -1,6 +1,10 @@
 ##################################
 #  T-Gtk makefile principal
 ##################################
+ROOT := ./
+
+include $(ROOT)config/global.mk
+
 all:
 	make -C src/gclass
 	make -C hbgtk

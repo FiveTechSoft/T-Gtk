@@ -1,5 +1,14 @@
 $Id: README,v 1.1 2006-09-15 00:30:00 riztan Exp $
 
+*************************************************************************
+*  Generar la libreria .a en Windows.
+*  Con el archivo de definicion libpq.def desde los sources de postgresql
+*
+*  dlltool -d libpqdll.def -D libpq.dll -k -l libpq.a -S as.exe
+*
+*************************************************************************
+
+
 README 23/12/2003 - Harbour Low Level api for Postgres RDBMS
 
 It's to be seem like Harbour TMysql routines.
@@ -39,10 +48,8 @@ http://www.postgresql.org/docs/current/static/libpq.html
 
 FILES:
 postgres.c - Low level api
-TPostgres.prg - Class implementation, it's to be seems like TMysql.
-tests\simple.prg - Simple test class
-tests\stress.prg - Stress test 
-tests\cache.prg  - Show hot to use .dbf as pg cache, like TDataset for Delphi.
+tpostgre.prg - Class implementation, it's to be seems like TMysql.
+tests.prg - Simple test class
 
 TODO:
 

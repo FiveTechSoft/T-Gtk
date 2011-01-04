@@ -1,12 +1,10 @@
 Archivo: Leeme.txt
-Actualizado al: 12-09-2006
+Actualizado al: 03-01-2011
 Por: Riztan Gutierrez
 
 Notas.
 
-Los documentos en su gran mayoría son originales de la contrib de xHarbour por Rodrigo Moreno.
-
-Esta fuente la probe con Fedora Core 5, espero en unos días probarla con Debian Sarge.
+Los fuentes corresponden con los de la contrib de harbour y xharbour en los directorios hb y xhb respectivamente
 
 Saludos
 Riztan Gutierrez.
