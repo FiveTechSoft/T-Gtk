@@ -2,8 +2,9 @@
 # -mwindows al enlazar no sale ventana consola.
 # pero para depurar, va de muerte que salgan mensajes en la consola
 
-TARGET = testscript
+ROOT = ../../../
 
+TARGET = testscript
 SOURCES = prgscrpt.prg xbscript.prg
 
 #ifndef __XHARBOUR__
@@ -12,5 +13,5 @@ SOURCES = prgscrpt.prg xbscript.prg
 #endif
 
 
-include ../../../Rules.make
+include $(ROOT)Rules.make
 

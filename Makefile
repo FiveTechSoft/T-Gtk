@@ -1,9 +1,9 @@
 ##################################
 #  T-Gtk makefile principal
 ##################################
-ROOT := ./
+export ROOT := ./
 
-include $(ROOT)config/global.mk
+include $(ROOT)/config/global.mk
 
 all:
 	make -C src/gclass

@@ -2,8 +2,10 @@
 # -mwindows al enlazar no sale ventana consola.
 # pero para depurar, va de muerte que salgan mensajes en la consola
 
+ROOT = ../../../
+
 TARGET = test
 SOURCES = pdf_demo.prg
-LIBS=-L../../../lib -lpdf
+LIBS=-L$(ROOT)lib -lpdf
 
-include ../../../Rules.make
+include $(ROOT)Rules.make

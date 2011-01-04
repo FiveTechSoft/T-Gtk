@@ -2,9 +2,11 @@
 # -mwindows al enlazar no sale ventana consola.
 # pero para depurar, va de muerte que salgan mensajes en la consola
 
+ROOT = ../../../
+
 TARGET = test
 SOURCES = browse.prg
 #LIBS= -mwindows
 #PRGFLAGS=-p
-include ../../../Rules.make
+include $(ROOT)Rules.make
 

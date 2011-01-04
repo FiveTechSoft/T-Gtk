@@ -2,9 +2,11 @@
 # -mwindows al enlazar no sale ventana consola.
 # pero para depurar, va de muerte que salgan mensajes en la consola
 
+ROOT = ../../../
+
 TARGET = test
 SOURCES = test.prg 
 
-LIBS=-Lc:/TGTK/lib -lhbmysql -lmysql 
+LIBS=-L$(ROOT)lib -lhbmysql -lmysql 
 
-include ../../../Rules.make 
+include $(ROOT)Rules.make 

@@ -2,9 +2,11 @@
 # -mwindows al enlazar no sale ventana consola.
 # pero para depurar, va de muerte que salgan mensajes en la consola
 
+ROOT = ../../../
+
 TARGET = test
 SOURCES = activex.prg 
 
 LIBS=-L./ -lax
-include ../../../Rules.make 
+include $(ROOT)Rules.make 
 

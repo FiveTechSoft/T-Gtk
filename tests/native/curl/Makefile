@@ -5,9 +5,11 @@
 # Para usar este ejemplos recuerda que la libreria tgtk debe ser creada
 # con soporte para Bonobo en Rules.make
 
+ROOT = ../../../
+
 TARGET = test
 SOURCES = curl.prg
 LIBS= -lcurl-hb
 
-include ../../../Rules.make
+include $(ROOT)Rules.make
 
