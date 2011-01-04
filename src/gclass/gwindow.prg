@@ -1,7 +1,7 @@
 /* $Id: gwindow.prg,v 1.5 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -49,7 +49,7 @@ CLASS GWINDOW FROM GCONTAINER
       METHOD SetResizable( lResizable ) INLINE gtk_window_set_resizable( ::pWidget, lResizable )
       METHOD Modal( lModal ) INLINE gtk_window_set_modal( ::pWidget, lModal )
       METHOD Maximize()      INLINE gtk_window_maximize( ::pWidget )
-      METHOD Center()        
+      METHOD Center()
       METHOD End()
       METHOD Register()
       METHOD SetDecorated( lDecorated ) INLINE gtk_window_set_decorated( ::pWidget , lDecorated )
@@ -57,7 +57,7 @@ CLASS GWINDOW FROM GCONTAINER
       METHOD SetTypeHint( nType )       INLINE gtk_window_set_type_hint( ::pWidget , nType )
       METHOD SetFocus()                 INLINE gtk_window_present( ::pWidget )
       METHOD SetMenuPopup( oMenu )
-      
+
       //Signals of gWindow
       METHOD OnActivateDefault( oSender ) VIRTUAL
       METHOD OnActivateFocus( oSender )   VIRTUAL
@@ -65,9 +65,9 @@ CLASS GWINDOW FROM GCONTAINER
       METHOD OnKeysChanged( oSender ) VIRTUAL
       METHOD OnMoveFocus( oSender , nGtkDirectionType ) VIRTUAL
       METHOD OnSetFocus( oSender, pGtkWidget ) VIRTUAL
-      
+
       // Signals Hierarchy re-write
-      METHOD OnKeyPressEvent( oSender, pGdkEventKey  ) 
+      METHOD OnKeyPressEvent( oSender, pGdkEventKey  )
       METHOD OnEvent( oSender, pGdkEvent )
 
 ENDCLASS
@@ -107,14 +107,14 @@ METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint, ;
        endif
 
        if oParent != NIL
-          gtk_window_set_transient_for( ::pWidget, oParent:pWidget )  
+          gtk_window_set_transient_for( ::pWidget, oParent:pWidget )
        endif
-        
+
        ::Connect( "delete-event" )
        ::Connect( "destroy" )
-       
-       if GetWndMain() == NIL 
-          SetWndMain( Self ) 
+
+       if GetWndMain() == NIL
+          SetWndMain( Self )
        endif
 
 RETURN Self
@@ -137,6 +137,7 @@ METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
           ::Maximize()
        endif
 
+			 ::Register()
        ::Show()
 
        if lModal
@@ -144,7 +145,7 @@ METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
        endif
 
        ::lInitiate := lInitiate
-       
+
        ::Connect( "key-press-event" )
 
        // Solamente se entra una vez en el bucle de GTK.
@@ -154,7 +155,7 @@ METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
           //connect_destroy_widget( ::pWidget ) // Conectarmos seal de destroy automaticamente
           Gtk_Main()
        ENDIF
-      
+
 
 RETURN NIL
 
@@ -169,12 +170,12 @@ METHOD Register() CLASS GWINDOW
 RETURN NIL
 
 METHOD Center( nPosition ) CLASS GWINDOW
-   DEFAULT nPosition := GTK_WIN_POS_CENTER 
+   DEFAULT nPosition := GTK_WIN_POS_CENTER
    Gtk_Window_Set_Position( ::pWidget, nPosition )
 RETURN NIL
 
 METHOD SetMenuPopup( oMenu ) CLASS GWINDOW
-  
+
   ::oMenuPopup := oMenu
   ::Connect( "event" )
   ::SetEvents( GDK_BUTTON_PRESS_MASK  )
@@ -183,9 +184,9 @@ RETURN NIL
 
 METHOD OnEvent( oSender, pGdkEvent ) CLASS gWindow
    Local nEvent_Type, nEvent_Button_Button, nEvent_Button_Time
-   
+
    if ::oMenuPopup != NIL // Si habiamos definido un MenuPopup
-      nEvent_Type := HB_GET_GDKEVENT_TYPE( pGdkevent ) 
+      nEvent_Type := HB_GET_GDKEVENT_TYPE( pGdkevent )
       if ( nEvent_Type == GDK_BUTTON_PRESS )        // Event_Type
           nEvent_Button_Button := HB_GET_GDKEVENT_BUTTON_BUTTON( pGdkevent )
           if ( nEvent_Button_Button == 3)                    // Event->Button.Button

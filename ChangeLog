@@ -8,6 +8,10 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-01-04 08:17 UTC-1 Rafa Carmona <rafa.tgtk at gmail.com>
+  * /src/gclass/gWindow.prg
+    ! Registramos la ventana en el activate ::Register().
+
 2011-01-04 09:29 UTC-1 Rafa Carmona <rafa.tgtk at gmail.com>
   * Fix bug dbfgrid.prg. By default cAlias := NIL, because break /tests/gclass/browses/brwarray.prg
 
