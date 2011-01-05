@@ -11,7 +11,10 @@
 # Create: 11/28/05 # 15:47:14
 ##################################################
 
-#include $(TOP)$(ROOT)/config/global.mk
+ifneq ($(TGTK_GLOBAL),yes)
+   $(info ejecutando global.mk )
+   include $(TOP)$(ROOT)config/global.mk
+endif
 
 ############################################## 
 # Esqueleto para todas las plataformas
