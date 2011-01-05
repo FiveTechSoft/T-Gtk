@@ -137,7 +137,7 @@ METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
           ::Maximize()
        endif
 
-			 ::Register()
+			 ::Register()
        ::Show()
 
        if lModal

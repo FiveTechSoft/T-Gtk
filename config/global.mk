@@ -3,9 +3,13 @@ endif
 export XBASE_COMPILER =HARBOUR
 export HB_COMPILER    =mingw32
 
-export HB_BIN_INSTALL =/hb-mingw/bin
-export HB_INC_INSTALL =/hb-mingw/include
-export HB_LIB_INSTALL =/hb-mingw/lib
+#export HB_BIN_INSTALL =/hb-mingw/bin
+#export HB_INC_INSTALL =/hb-mingw/include
+#export HB_LIB_INSTALL =/hb-mingw/lib
+
+export HB_BIN_INSTALL=/usr/local/bin
+export HB_INC_INSTALL=/usr/local/include/harbour
+export HB_LIB_INSTALL=/usr/local/lib/harbour
 
 export TGTK_DIR       =/t-gtk
 

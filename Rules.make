@@ -11,7 +11,7 @@
 # Create: 11/28/05 # 15:47:14
 ##################################################
 
-include $(TOP)$(ROOT)/config/global.mk
+#include $(TOP)$(ROOT)/config/global.mk
 
 ############################################## 
 # Esqueleto para todas las plataformas
