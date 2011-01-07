@@ -8,6 +8,14 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-01-03 22:00 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  + /config/detect.mk
+  * /config/global.mk
+  * /Rules.make
+  * /doc/guia_basica/guia_basica.txt
+    ! Nuevos cambios a fin de facilitar el uso de los Make's
+    ! No es necesario manipular Rules.make, solo modificar global.mk
+
 2011-01-04 08:17 UTC-1 Rafa Carmona <rafa.tgtk at gmail.com>
   * /src/gclass/gWindow.prg
     ! Registramos la ventana en el activate ::Register().

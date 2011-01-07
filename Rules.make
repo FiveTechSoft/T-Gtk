@@ -1,20 +1,62 @@
-######################################################################
-# Please, use tool /utils/config_system/configure for create this file
-# OR modify correct the paths.
-######################################################################
-
-##################################################
+##############################################
 # System Configure of T-Gtk.
-# Version para el S.O Windows y para HARBOUR
+# Version para:
+# - GNU/Linux y Windows
+# - Harbour o xHarbour
 # (c)2004-05 Rafa Carmona.
 # 
 # Create: 11/28/05 # 15:47:14
-##################################################
+##############################################
 
+##############################################
 ifneq ($(TGTK_GLOBAL),yes)
    $(info ejecutando global.mk )
    include $(TOP)$(ROOT)config/global.mk
 endif
+
+
+##############################################
+# Compilador de Lenguaje C. 
+# Opciones.
+# Windows   =mingw32
+# GNU/Linux =gcc 
+##############################################
+ifeq ($(HB_MAKE_PLAT),win)
+  export HB_COMPILER =mingw32
+else
+  export HB_COMPILER =gcc
+endif
+
+
+##############################################
+
+$(info *************************************************** )
+$(info * Plataforma: $(HB_MAKE_PLAT).   Compilador: $(HB_COMPILER) ) 
+$(info * Compilador XBase: $(XBASE_COMPILER)                 )
+$(info * Rutas:                                              )
+$(info * bin: $(HB_BIN_INSTALL)                              )
+$(info * lib: $(HB_LIB_INSTALL)                              )
+$(info * include: $(HB_INC_INSTALL)                          )
+$(info *************************************************** )
+$(info * Soporte.                                            )
+$(info * GtkSourceView = $(GTKSOURCEVIEW)                    )
+$(info * Bonobo        = $(BONOBO)                           )
+$(info * gnomeDB       = $(GNOMEDB)                          )
+$(info * CURL          = $(CURL)                             )
+ifneq ($(HB_MAKE_PLAT),win)
+   $(info * WebKitGTK+    = $(WEBKIT) )
+endif
+$(info * MySQL         = $(MYSQL)                            )
+ifeq ($(MYSQL),yes)
+  $(info *    Dolphin    = $(DOLPHIN)                          )
+  $(info *    PATH    = $(MYSQL_PATH))
+endif
+$(info * PostgreSQL    = $(MYSQL)                            )
+ifeq ($(POSTGRE),yes)
+  $(info *    PATH    = $(POSTGRE_PATH))
+endif
+$(info *************************************************** )
+
 
 ############################################## 
 # Esqueleto para todas las plataformas
@@ -89,12 +131,13 @@ ifeq ($(CURL),yes)
     endif
 endif
 
+ifneq ($(HB_MAKE_PLAT),win)
 ifeq ($(WEBKIT),yes)
     CFLAGS += -D_WEBKIT_
     CFLAGS += $(shell pkg-config --cflags webkit-1.0)
     LIBS += $(shell pkg-config --libs webkit-1.0 )
 endif
-
+endif
 
 ifeq ($(MYSQL),yes)
 #    PRGFLAGS=-I../../include
@@ -198,7 +241,7 @@ ifeq ($(SUPPORT_PRINT_WIN32),yes)
   LIBS += $(shell pkg-config --libs libgnomeprint-2.2) $(shell pkg-config --libs libgnomeprintui-2.2)
 endif
 
-#nos servir�, para compilar prgs exclusivos para GNU/Linux
+#nos servira, para compilar prgs exclusivos para GNU/Linux
 #por ejemplo, gPrinter.prg
 ifeq ($(HB_COMPILER),gcc)
    PRGFLAGS += -DHB_OS_LINUX

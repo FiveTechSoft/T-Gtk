@@ -62,7 +62,7 @@ http://prdownloads.sourceforge.net/mingw/MinGW-4.1.0.exe?download
 
 La instalación es muy simple, siguiente, siguiente, etc...
 
-A veces, segun le de, no pone la ruta al minw32 en el path, asi, que es
+A veces, segun le de, no pone la ruta al mingw32 en el path, asi, que es
 necesario especificar el path:
 Set path=%path%;c:\mingw\bin
 
@@ -107,7 +107,8 @@ Actualmente, se suministra un simple fichero comprimido, tgtk.zip, que lo
 descomprimireis donde mas os plazca, aunque yo lo tengo como C:\TGTK o
 /home/rafa/TGTK , a gustos.
 
-Una vez descomprimido, solamente tenemos que tocar un archivo , Rules.make,
+Una vez descomprimido, solamente tenemos que tocar un archivo en el 
+directorio config, denominado global.mk,
 que es el corazón del sistema, y segun el sistema operativo , indicaremos
 un valor u otro.
 
@@ -121,11 +122,6 @@ efectos de que seais capaces de comprender el funcionamiento, aunque sea
 simplemente como curiosidad.
 
 Asi , las variables que debemos TOCAR, son:
-
-#Especifica aqui, si lo necesitas por no tenerlo en el entorno, SET,
-#las rutas del compilador de Harbour.
-#Bajo Windows especificar mingw32, bajo linux , poner , gcc .
-HB_COMPILER = mingw32
 
 Este flag, solamente sirve si estamos en GNU/Linux, no tiene efecto si
 estamos en un sistema Windows.
