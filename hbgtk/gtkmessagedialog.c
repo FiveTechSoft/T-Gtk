@@ -53,7 +53,9 @@
 #include <hbdate.h>
 #include <hbset.h>
 #include <hbvm.h>
-#include <hbapicls.h>
+#ifndef __HARBOUR__
+  #include <hbapicls.h>
+#endif
 #include "t-gtk.h"
 
 /* Iconos en message_dialog() */
@@ -246,7 +248,7 @@ HB_FUNC( MSG_INFO ) // cMessage, cTitle, lmarkup -> 0
        message = "";
    else
    {
-      if( ! HB_ISCHAR( 1 ) ){
+      if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
          message = ( gchar * ) hb_parc( -1 );
       }else
@@ -256,7 +258,7 @@ HB_FUNC( MSG_INFO ) // cMessage, cTitle, lmarkup -> 0
    if( ISNIL( 2 ) )
        title = "Info";
    else {
-      if( ! HB_ISCHAR( 2 ) ){
+      if( ! ISCHAR( 2 ) ){
          ValToChar( hb_param( 2, -1 ) ); 
          title = ( gchar * ) hb_parc( -1 );
       }else
@@ -277,7 +279,7 @@ HB_FUNC( MSG_STOP ) // cMessage, cTitle, lMarkup -> 0
        message = "";
    else
    {
-      if( ! HB_ISCHAR( 1 ) ){
+      if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
          message = ( gchar * ) hb_parc( -1 );
       }else
@@ -287,7 +289,7 @@ HB_FUNC( MSG_STOP ) // cMessage, cTitle, lMarkup -> 0
    if( ISNIL( 2 ) )
        title = "Info";
    else {
-      if( ! HB_ISCHAR( 2 ) ){
+      if( ! ISCHAR( 2 ) ){
          ValToChar( hb_param( 2, -1 ) ); 
          title = ( gchar * ) hb_parc( -1 );
       }else
@@ -320,7 +322,7 @@ HB_FUNC( GTK_ALERT ) // cMessage, aButtons -> nOption
        message = "";
    else
    {
-      if( ! HB_ISCHAR( 1 ) ){
+      if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
          message = ( gchar * ) hb_parc( -1 );
       }else
@@ -368,7 +370,7 @@ HB_FUNC( MSG_ALERT ) // cMessage, cTitle, lMarkup -> 0
        message = "";
    else
    {
-      if( ! HB_ISCHAR( 1 ) ){
+      if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
          message = ( gchar * ) hb_parc( -1 );
       }else
@@ -378,7 +380,7 @@ HB_FUNC( MSG_ALERT ) // cMessage, cTitle, lMarkup -> 0
    if( ISNIL( 2 ) )
        title = "Info";
    else {
-      if( ! HB_ISCHAR( 2 ) ){
+      if( ! ISCHAR( 2 ) ){
          ValToChar( hb_param( 2, -1 ) ); 
          title = ( gchar * ) hb_parc( -1 );
       }else
@@ -403,7 +405,7 @@ HB_FUNC( MSG_NOYES ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logic
        msg = "";
    else
    {
-      if( ! HB_ISCHAR( 1 ) ){
+      if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
          msg = ( gchar * ) hb_parc( -1 );
       }else
@@ -413,7 +415,7 @@ HB_FUNC( MSG_NOYES ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logic
    if( ISNIL( 2 ) )
        title = "Info";
    else {
-      if( ! HB_ISCHAR( 2 ) ){
+      if( ! ISCHAR( 2 ) ){
          ValToChar( hb_param( 2, -1 ) ); 
          title = ( gchar * ) hb_parc( -1 );
       }else
@@ -478,7 +480,7 @@ HB_FUNC( MSG_OKCANCEL ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> lo
        msg = "";
    else
    {
-      if( ! HB_ISCHAR( 1 ) ){
+      if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
          msg = ( gchar * ) hb_parc( -1 );
       }else
@@ -488,7 +490,7 @@ HB_FUNC( MSG_OKCANCEL ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> lo
    if( ISNIL( 2 ) )
        title = "Info";
    else {
-      if( ! HB_ISCHAR( 2 ) ){
+      if( ! ISCHAR( 2 ) ){
          ValToChar( hb_param( 2, -1 ) ); 
          title = ( gchar * ) hb_parc( -1 );
       }else
