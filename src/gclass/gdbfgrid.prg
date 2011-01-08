@@ -145,10 +145,8 @@ return nil
 
 METHOD SetDataSrc( uDataSrc ) class gDbfGrid
 
-   local cDataSrc
    local cType
    local cClass
-   local n
 
    cType = ValType( uDataSrc )
 
@@ -192,7 +190,6 @@ METHOD SetDataSrc( uDataSrc ) class gDbfGrid
          endswitch
 
    endswitch
-
 
 
 return nil
@@ -945,6 +942,8 @@ return nil
 //------------------------------------------------------//
 
 METHOD SetDolphin( oRS ) CLASS gDbfGrid
+
+   local n
 
    ::uData = oRS
 
