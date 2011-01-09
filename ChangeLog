@@ -13,6 +13,7 @@
     Implementada la posibilidad de enviar el nombre del archivo script o
     el contenido del mismo. Si recibe el texto, genera un archivo temporal.
     Se hace publico el procedimiento hbrun_Exec( 'command' ).
+    Se intenta "atrapar" cuando hay error al compilar el script.
 
 
 2011-01-08 22:00 UTC-430 Riztan Gutierrez <riztan at gmail.com>

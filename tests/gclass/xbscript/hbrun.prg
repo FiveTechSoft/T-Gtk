@@ -57,6 +57,7 @@
 #include "fileio.ch"
 #include "inkey.ch"
 #include "setcurs.ch"
+#include "error.ch"
 
 #include "hbgtinfo.ch"
 
@@ -88,7 +89,7 @@ STATIC s_cDirBase
 /* ********************************************************************** */
 
 PROCEDURE RUNXBS( cFile, ... )
-   LOCAL cPath, cExt, cLogFile := "comp.log", cTempFile
+   LOCAL cPath, cExt, cLogFile := "comp.log", cTempFile, oErr
 
    IF PCount() > 0
 
@@ -146,7 +147,17 @@ PROCEDURE RUNXBS( cFile, ... )
             If HB_ISNIL(cFile)
                If file(cLogFile)
 //                  MsgStop(memoread(cLogFile),"Error")
-                  EVAL( ErrorBlock(), MemoRead(cLogFile) )
+                  oErr := ErrorNew()
+                  oErr:severity    := ES_ERROR
+                  oErr:genCode     := EG_LIMIT
+                  oErr:subSystem   := "hbrun_RUNXBS"
+                  oErr:subCode     := 0
+                  oErr:description := "Error de Sintaxis"+CRLF+MemoRead(cLogFile)
+                  oErr:canRetry    := .f.
+                  oErr:canDefault  := .f.
+                  oErr:fileName    := cLogFile
+                  oErr:osCode      := 0
+                  Eval( ErrorBlock(), oErr )
                Else
                   MsgStop( "Posiblemente no localiza archivo de cabecera ", "Error")
                   AEVAL(  s_aIncDir,{|a| MsgInfo(a) } )
