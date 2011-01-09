@@ -4,12 +4,16 @@
 
 ROOT = ../../../
 
+#include $(ROOT)config/global.mk
+
 TARGET = testscript
 SOURCES = prgscrpt.prg xbscript.prg
 
 #ifndef __XHARBOUR__
   SOURCES = hbrun.prg hbscript.prg 
   LIBS    =-lhbcplr -lhbpp -lhbcommon
+#else
+  LIBS += -lharbour-$(HB_VERSION)
 #endif
 
 

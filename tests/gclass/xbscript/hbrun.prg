@@ -50,6 +50,7 @@
  * If you do not wish that, delete this exception notice.
  *
  */
+#ifdef __HARBOUR__
 
 #include "common.ch"
 #include "gclass.ch"
@@ -93,7 +94,6 @@ PROCEDURE RUNXBS( cFile, ... )
    IF !EMPTY( cPath )
       AADD( s_aIncDir, "-I" + cPath )
    ENDIF
-
 
    cPath := getenv( "TGTK_INC" )
    IF !EMPTY( cPath )
@@ -148,7 +148,7 @@ PROCEDURE RUNXBS( cFile, ... )
                   CASE ".hbs"
 FReOpen_Stderr( "comp.log", "w" )
 //AEVAL(  s_aIncDir,{|a| MsgInfo(a) } )
-                     cFile := HB_COMPILEBUF( HB_ARGV( 0 ), "-n2", "-w", "-es2", "-q0", ;
+                     cFile := HB_COMPILEBUF( HB_ARGV( 0 ), "-n2", "-w0", "-es2", "-q0", ;
                                              s_aIncDir, "-I" + FNameDirGet( cFile ), "-D" + "__HBSCRIPT__HBRUN", cFile )
 //MsgInfo( valtype(cFile) )
 //cfile:=HB_compilebuf( HB_ARGV( 0 ), "hola.hbs", "-n", "-Ic:\t-gtk_1.7\include" )
@@ -157,8 +157,12 @@ FReOpen_Stderr( "comp.log", "w" )
 //   MsgInfo( MemoRead( "comp.log" ) )
 
 IF HB_ISNIL(cFile)
-   MsgStop( "Posiblemente no localiza archivo de cabecera ", "Error")
-   AEVAL(  s_aIncDir,{|a| MsgInfo(a) } )
+   If file("comp.log")
+      MsgStop(memoread("comp.log"),"Error")
+   else
+      MsgStop( "Posiblemente no localiza archivo de cabecera ", "Error")
+      AEVAL(  s_aIncDir,{|a| MsgInfo(a) } )
+   endif
    EXIT
 ENDIF
                      IF cFile == NIL
@@ -176,7 +180,6 @@ ENDIF
    ELSE
       hbrun_Prompt()
    ENDIF
-
 RETURN
 
 STATIC FUNCTION FNameDirGet( cFileName )
@@ -572,3 +575,5 @@ HB_FUNC( FREOPEN_STDERR )
 }    
 
 #pragma ENDDUMP
+
+#endif

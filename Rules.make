@@ -49,11 +49,15 @@ endif
 $(info * MySQL         = $(MYSQL)                            )
 ifeq ($(MYSQL),yes)
   $(info *    Dolphin    = $(DOLPHIN)                          )
-  $(info *    PATH    = $(MYSQL_PATH))
+  ifeq ($(HB_MAKE_PLAT),win)
+     $(info *    PATH    = $(MYSQL_PATH))
+  endif
 endif
-$(info * PostgreSQL    = $(MYSQL)                            )
+$(info * PostgreSQL    = $(POSTGRE)                            )
 ifeq ($(POSTGRE),yes)
-  $(info *    PATH    = $(POSTGRE_PATH))
+  ifeq ($(HB_MAKE_PLAT),win)
+     $(info *    PATH    = $(POSTGRE_PATH))
+  endif
 endif
 $(info *************************************************** )
 
@@ -61,6 +65,20 @@ $(info *************************************************** )
 ############################################## 
 # Esqueleto para todas las plataformas
 ############################################## 
+
+#Determinar version de Harbour.
+ifneq ($(HB_VERSION),)
+   ifeq ($(HB_VERSION),2.0)
+      HB_VERSION=20
+   else
+      ifeq ($(HB_VERSION),2.1)
+         HB_VERSION=21
+      endif
+   endif
+else
+   HB_VERSION=21
+endif
+
 
 #Generic make options
 LINKER = ar
@@ -159,7 +177,7 @@ ifeq ($(DOLPHIN),yes)
         CFLAGS += -I$(INCLUDE_TGTK_PRG)
         PRGFLAGS += -DNOINTERNAL-DDEBUG
         ifeq ($(XBASE_COMPILER),HARBOUR)
-           LIBS+= -lhbct -lharbour-21 -lhbwin -lhbnf -lole32 -loleaut32 -lwinspool -luuid
+           LIBS+= -lhbct -lharbour-$(HB_VERSION) -lhbwin -lhbnf -lole32 -loleaut32 -lwinspool -luuid
         endif
     endif
 endif

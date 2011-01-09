@@ -30,7 +30,9 @@ ifeq ($(HB_MAKE_PLAT),win)
 
   export HB_BIN_INSTALL =$(HARBOUR_PATH)\bin
   export HB_INC_INSTALL =$(HARBOUR_PATH)\include
-  export HB_LIB_INSTALL =$(HARBOUR_PATH)\lib
+  export HB_LIB_INSTALL =$(HARBOUR_PATH)\lib\win\mingw
+  # -- Version = [ 2.0 | 2.1 ]
+  export HB_VERSION =2.1
 else
 # Ruta en GNU/Linux:
   HARBOUR_PATH  =/usr/local
@@ -38,6 +40,8 @@ else
   export HB_BIN_INSTALL =$(HARBOUR_PATH)/bin
   export HB_INC_INSTALL =$(HARBOUR_PATH)/include/harbour
   export HB_LIB_INSTALL =$(HARBOUR_PATH)/lib/harbour
+  # -- Version = [ 2.0 | 2.1 ]
+  export HB_VERSION =2.1
 endif
 ##############################################
 
@@ -54,7 +58,7 @@ ifeq ($(HB_MAKE_PLAT),win)
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)\include
 else
   # Ruta en GNU/Linux
-  export TGTK_DIR         =~/t-gtk
+  export TGTK_DIR         =$(HOME)/t-gtk
   export LIBDIR_TGTK      =$(TGTK_DIR)/lib
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)/include
 endif
