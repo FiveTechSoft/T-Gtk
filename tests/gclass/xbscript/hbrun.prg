@@ -89,7 +89,8 @@ STATIC s_cDirBase
 /* ********************************************************************** */
 
 PROCEDURE RUNXBS( cFile, ... )
-   LOCAL cPath, cExt, cLogFile := "comp.log", cTempFile, oErr
+   Local cPath, cExt, cLogFile := "comp.log", cTempFile
+   Local oErr, cErrMsg
 
    IF PCount() > 0
 
@@ -111,7 +112,7 @@ PROCEDURE RUNXBS( cFile, ... )
       AADD( s_aIncDir, "-I/usr/local/include/harbour" )
 #endif
 
-      If ( !File(cFile) .or. !File(hb_DirBase(cFile)) ) .and. Len(cFile)>5
+      If ( !File(cFile) .and. !File(hb_DirBase(cFile)) ) .and. Len(cFile)>5
 #ifdef __PLATFORM__UNIX
          cTempFile := "/tmp/hbruntmp"+GetVar("RAMDOM")+".xbs"
 #else
@@ -147,12 +148,14 @@ PROCEDURE RUNXBS( cFile, ... )
             If HB_ISNIL(cFile)
                If file(cLogFile)
 //                  MsgStop(memoread(cLogFile),"Error")
+                  cErrMsg := MemoRead(cLogFile)
+                  cErrMsg := STRTRAN( cErrMsg, ") Error",")"+CRLF+"Error" )
                   oErr := ErrorNew()
                   oErr:severity    := ES_ERROR
                   oErr:genCode     := EG_LIMIT
                   oErr:subSystem   := "hbrun_RUNXBS"
                   oErr:subCode     := 0
-                  oErr:description := "Error de Sintaxis"+CRLF+MemoRead(cLogFile)
+                  oErr:description := "Error de Sintaxis"+CRLF+cErrMsg
                   oErr:canRetry    := .f.
                   oErr:canDefault  := .f.
                   oErr:fileName    := cLogFile
