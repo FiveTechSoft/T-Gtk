@@ -8,7 +8,14 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
-2011-01-03 22:00 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+2011-01-09 02:02 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * /tests/gclass/xbscript/hbrun.prg
+    Implementada la posibilidad de enviar el nombre del archivo script o
+    el contenido del mismo. Si recibe el texto, genera un archivo temporal.
+    Se hace publico el procedimiento hbrun_Exec( 'command' ).
+
+
+2011-01-08 22:00 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   + /config/detect.mk
   * /config/global.mk
   * /Rules.make

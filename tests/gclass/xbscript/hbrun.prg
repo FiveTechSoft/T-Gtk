@@ -88,97 +88,77 @@ STATIC s_cDirBase
 /* ********************************************************************** */
 
 PROCEDURE RUNXBS( cFile, ... )
-   LOCAL cPath, cExt
-
-   cPath := getenv( "HB_INSTALL_INC" )
-   IF !EMPTY( cPath )
-      AADD( s_aIncDir, "-I" + cPath )
-   ENDIF
-
-   cPath := getenv( "TGTK_INC" )
-   IF !EMPTY( cPath )
-      AADD( s_aIncDir, "-I" + cPath )
-   ENDIF
-
-   AEVAL( HB_aTokens( GetEnv("PATH"), hb_osPathListSeparator() ), ;
-          {|a| IIF( "inc"$a, AADD( s_aIncDir, "-I" + a ),) } )
-
-#ifdef __PLATFORM__UNIX
-   AADD( s_aIncDir, "-I/usr/include/harbour" )
-   AADD( s_aIncDir, "-I/usr/local/include/harbour" )
-#endif
+   LOCAL cPath, cExt, cLogFile := "comp.log", cTempFile
 
    IF PCount() > 0
-      SWITCH lower( cFile )
-         CASE "-?"
-         CASE "-h"
-         CASE "--help"
-         CASE "/?"
-         CASE "/h"
-            hbrun_Usage()
-            EXIT
-         CASE "-v"
-         CASE "/v"
-            hbrun_Prompt( "? hb_version()" )
-            EXIT
-         CASE "-p"
-         CASE "/p"
-            s_lPreserveHistory := .F.
-            hbrun_Prompt()
+
+      cPath := getenv( "HB_INSTALL_INC" )
+      IF !EMPTY( cPath )
+         AADD( s_aIncDir, "-I" + cPath )
+      ENDIF
+
+      cPath := getenv( "TGTK_INC" )
+      IF !EMPTY( cPath )
+         AADD( s_aIncDir, "-I" + cPath )
+      ENDIF
+
+      AEVAL( HB_aTokens( GetEnv("PATH"), hb_osPathListSeparator() ), ;
+             {|a| IIF( "inc"$a, AADD( s_aIncDir, "-I" + a ),) } )
+
+#ifdef __PLATFORM__UNIX
+      AADD( s_aIncDir, "-I/usr/include/harbour" )
+      AADD( s_aIncDir, "-I/usr/local/include/harbour" )
+#endif
+
+      If ( !File(cFile) .or. !File(hb_DirBase(cFile)) ) .and. Len(cFile)>5
+#ifdef __PLATFORM__UNIX
+         cTempFile := "/tmp/hbruntmp"+GetVar("RAMDOM")+".xbs"
+#else
+         cTempFile := GetEnv("TEMP")+"\hbruntmp.xbs"
+#endif
+         memowrit( cTempFile, cFile )
+         cFile := cTempFile
+      EndIf
+
+      cFile := hbrun_FindInPath( cFile )
+
+      hb_FNameSplit( cFile, NIL, NIL, @cExt )
+      cExt := lower( cExt )
+      SWITCH cExt
+         CASE ".prg"
+         CASE ".xbs"
+         CASE ".hbs"
+         CASE ".hrb"
             EXIT
          OTHERWISE
-            cFile := hbrun_FindInPath( cFile )
-            IF ! Empty( cFile )
-               hb_FNameSplit( cFile, NIL, NIL, @cExt )
-               cExt := lower( cExt )
-               SWITCH cExt
-                  CASE ".prg"
-                  CASE ".hbs"
-                  CASE ".hrb"
-                  CASE ".dbf"
-                     EXIT
-                  OTHERWISE
-                     cExt := hbrun_FileSig( cFile )
-               ENDSWITCH
-               SWITCH cExt
-                  CASE ".dbf"
-                     hbrun_Prompt( "USE " + cFile + " SHARED" )
-                     EXIT
-                  CASE ".prg"
-                  CASE ".hbs"
-FReOpen_Stderr( "comp.log", "w" )
-//AEVAL(  s_aIncDir,{|a| MsgInfo(a) } )
-                     cFile := HB_COMPILEBUF( HB_ARGV( 0 ), "-n2", "-w0", "-es2", "-q0", ;
-                                             s_aIncDir, "-I" + FNameDirGet( cFile ), "-D" + "__HBSCRIPT__HBRUN", cFile )
-//MsgInfo( valtype(cFile) )
-//cfile:=HB_compilebuf( HB_ARGV( 0 ), "hola.hbs", "-n", "-Ic:\t-gtk_1.7\include" )
-
-//   HB_compilebuf( HB_ARGV( 0 ), "hola.hbs" )
-//   MsgInfo( MemoRead( "comp.log" ) )
-
-IF HB_ISNIL(cFile)
-   If file("comp.log")
-      MsgStop(memoread("comp.log"),"Error")
-   else
-      MsgStop( "Posiblemente no localiza archivo de cabecera ", "Error")
-      AEVAL(  s_aIncDir,{|a| MsgInfo(a) } )
-   endif
-   EXIT
-ENDIF
-                     IF cFile == NIL
-//? "pa fuera"
-                        ERRORLEVEL( 1 )
-                     ENDIF
-                  OTHERWISE
-                     s_cDirBase := hb_DirBase()
-                     hb_argShift( .T. )
-                     hb_hrbRun( cFile, ... )
-                     EXIT
-               ENDSWITCH
-            ENDIF
+            cExt := hbrun_FileSig( cFile )
       ENDSWITCH
-   ELSE
-      hbrun_Prompt()
+
+      SWITCH cExt
+         CASE ".prg"
+         CASE ".xbs"
+         CASE ".hbs"
+            FReOpen_Stderr( cLogFile, "w" )
+            cFile := HB_COMPILEBUF( HB_ARGV( 0 ), "-n2", "-w0", "-es2", "-q0", ;
+                                    s_aIncDir, "-I" + FNameDirGet( cFile ), ;
+                                    "-D" + "__HBSCRIPT__HBRUN", cFile )
+
+            If HB_ISNIL(cFile)
+               If file(cLogFile)
+//                  MsgStop(memoread(cLogFile),"Error")
+                  EVAL( ErrorBlock(), MemoRead(cLogFile) )
+               Else
+                  MsgStop( "Posiblemente no localiza archivo de cabecera ", "Error")
+                  AEVAL(  s_aIncDir,{|a| MsgInfo(a) } )
+               EndIf
+               EXIT
+            ENDIF
+         OTHERWISE
+            s_cDirBase := hb_DirBase()
+            hb_argShift( .T. )
+            hb_hrbRun( cFile, ... )
+            EXIT
+      ENDSWITCH
    ENDIF
 RETURN
 
@@ -397,7 +377,7 @@ STATIC PROCEDURE hbrun_Err( oErr, cCommand )
 
 /* ********************************************************************** */
 
-STATIC PROCEDURE hbrun_Exec( cCommand )
+PROCEDURE hbrun_Exec( cCommand )
    LOCAL pHRB, cHRB, cFunc, bBlock, cEol
 
    cEol := hb_eol()
@@ -429,7 +409,7 @@ STATIC PROCEDURE hbrun_Exec( cCommand )
    ENDSEQUENCE
 
    __MVSETBASE()
-
+   
    RETURN
 
 STATIC FUNCTION HBRawVersion()
@@ -573,6 +553,7 @@ HB_FUNC( FREOPEN_STDERR )
 {
    hb_retnl( ( LONG ) freopen( hb_parc( 1 ), hb_parc( 2 ), stderr ) );
 }    
+
 
 #pragma ENDDUMP
 

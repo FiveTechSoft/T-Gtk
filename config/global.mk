@@ -53,7 +53,7 @@ endif
 ##############################################
 ifeq ($(HB_MAKE_PLAT),win)
   # Ruta en Windows:
-  export TGTK_DIR         =\t-gtk
+  export TGTK_DIR         =\tgtk-test\trunk
   export LIBDIR_TGTK      =$(TGTK_DIR)\lib
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)\include
 else
