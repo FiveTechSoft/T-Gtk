@@ -35,18 +35,18 @@ BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );
 HB_FUNC( GTK_FONT_SELECTION_NEW )
 {
    GtkWidget * font = gtk_font_selection_new();
-   hb_retnl( (glong) font );
+   hb_retptr( (GtkWidget *) font );
 }
 
 HB_FUNC( GTK_FONT_SELECTION_SET_FONT_NAME )
 {
-   GtkWidget * font = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * font = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_font_selection_set_font_name( GTK_FONT_SELECTION( font ), hb_parc( 2 ) );
 }
 
 HB_FUNC( GTK_FONT_SELECTION_GET_FONT )
 {
-   GtkWidget * font = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * font = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retc( (gchar*) gtk_font_selection_get_font( GTK_FONT_SELECTION( font ) ) );
 }
 
@@ -56,12 +56,12 @@ HB_FUNC( GTK_FONT_SELECTION_GET_FONT )
 HB_FUNC( PANGO_FONT_DESCRIPTION_FROM_STRING ) //cString_font
 {
    PangoFontDescription * Font = pango_font_description_from_string( hb_parc( 1 ) );
-   hb_retnl( ( glong ) Font );
+   hb_retptr( ( PangoFontDescription * ) Font );
 }
 
 HB_FUNC( PANGO_FONT_DESCRIPTION_FREE ) // *Font
 {
-   pango_font_description_free( ( PangoFontDescription * ) hb_parnl( 1 ) );
+   pango_font_description_free( ( PangoFontDescription * ) hb_parptr( 1 ) );
 }
 
 HB_FUNC( PANGO_FONT_DESCRIPTION_SET_SIZE ) 
@@ -74,28 +74,28 @@ HB_FUNC( PANGO_FONT_DESCRIPTION_SET_SIZE )
 /* API Layout Objects — Highlevel layout driver objects */
 HB_FUNC( PANGO_LAYOUT_NEW )
 {
-  PangoContext * context = (PangoContext *)hb_parnl( 1 );
+  PangoContext * context = (PangoContext *)hb_parptr( 1 );
   PangoLayout * pango = pango_layout_new( context );
-  hb_retnl( (glong) pango );
+  hb_retptr( (PangoLayout *) pango );
 }
 
 HB_FUNC( PANGO_LAYOUT_CONTEXT_CHANGED )
 {
-  PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
+  PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 1 ) ) ;
   pango_layout_context_changed (layout);
 }
 
 #if GTK_CHECK_VERSION(2,6,0)
 HB_FUNC( PANGO_RENDERER_DRAW_LAYOUT )
 {
-  PangoRenderer * renderer = PANGO_RENDERER( hb_parnl( 1 ) );
-  PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 2 ) ) ;
+  PangoRenderer * renderer = PANGO_RENDERER( hb_parptr( 1 ) );
+  PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 2 ) ) ;
   pango_renderer_draw_layout( renderer, layout, hb_parni( 3 ), hb_parni( 4 ) );
 }
 #endif
 HB_FUNC( PANGO_LAYOUT_GET_SIZE )
 {
-  PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
+  PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 1 ) ) ;
   gint width  = hb_parni( 2 );
   gint height = hb_parni( 3 );
   pango_layout_get_size(layout, &width, &height);
@@ -105,36 +105,36 @@ HB_FUNC( PANGO_LAYOUT_GET_SIZE )
 
 HB_FUNC( PANGO_LAYOUT_SET_TEXT )
 {
-  PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
-  gchar * text = hb_parc( 2 );
+  PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 1 ) ) ;
+  gchar * text = ( gchar * ) hb_parc( 2 );
   gint length = ISNIL(3) ? -1 : hb_parni( 3 );
   pango_layout_set_text( layout, text, length );
 }
 
 HB_FUNC( PANGO_LAYOUT_SET_FONT_DESCRIPTION )
 {
-  PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
+  PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 1 ) ) ;
   PangoFontDescription *desc = (PangoFontDescription *)hb_parnl( 2 );
   pango_layout_set_font_description( layout, desc );
 }
 
 HB_FUNC( PANGO_LAYOUT_SET_MARKUP )
 {
- PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
+ PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 1 ) ) ;
  gint length = ISNIL(3) ? -1 : hb_parni( 3 );
  pango_layout_set_markup( layout, hb_parc( 2 ), length );
 }
 
 HB_FUNC( PANGO_LAYOUT_SET_WIDTH )
 {
- PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
+ PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 1 ) ) ;
  gint width = hb_parni( 2 );
  pango_layout_set_width( layout, width );
 }
 
 HB_FUNC( PANGO_LAYOUT_SET_ALIGNMENT )
 {
- PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 1 ) ) ;
+ PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 1 ) ) ;
  PangoAlignment alignment = hb_parni( 2 );
  pango_layout_set_alignment( layout, alignment );
 }
@@ -146,15 +146,15 @@ HB_FUNC( PANGO_LAYOUT_SET_ALIGNMENT )
  */
 HB_FUNC( PANGO_CAIRO_SHOW_LAYOUT ) // ctx, layout
 {
- cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
- PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 2 ) ) ;
+ cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
+ PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 2 ) ) ;
  pango_cairo_show_layout( ctx, layout );
 }
 
 HB_FUNC( PANGO_CAIRO_LAYOUT_PATH ) // ctx, layout
 {
- cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
- PangoLayout * layout = PANGO_LAYOUT( hb_parnl( 2 ) ) ;
+ cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
+ PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 2 ) ) ;
  pango_cairo_layout_path( ctx, layout );
 }
 #endif
@@ -166,28 +166,28 @@ HB_FUNC( PANGO_CAIRO_LAYOUT_PATH ) // ctx, layout
  */
 HB_FUNC( GDK_PANGO_RENDERER_GET_DEFAULT )
 {
-    GdkScreen *screen  = GDK_SCREEN( hb_parnl( 1 ) );
+    GdkScreen *screen  = GDK_SCREEN( hb_parptr( 1 ) );
     PangoRenderer * pango = gdk_pango_renderer_get_default( screen );
-    hb_retnl( (glong) pango );
+    hb_retptr( (PangoRenderer *) pango );
 }
 
 HB_FUNC( GDK_PANGO_RENDERER_SET_DRAWABLE )
 {
-  GdkPangoRenderer * renderer = GDK_PANGO_RENDERER( hb_parnl( 1 ) );
-  GdkDrawable * drawable =  ISNIL(2) ? NULL : GDK_DRAWABLE( hb_parnl( 2 ) );
+  GdkPangoRenderer * renderer = GDK_PANGO_RENDERER( hb_parptr( 1 ) );
+  GdkDrawable * drawable =  ISNIL(2) ? NULL : GDK_DRAWABLE( hb_parptr( 2 ) );
   gdk_pango_renderer_set_drawable(renderer, drawable );
 }
 
 HB_FUNC( GDK_PANGO_RENDERER_SET_GC )
 {
-  GdkPangoRenderer * renderer = GDK_PANGO_RENDERER( hb_parnl( 1 ) );
-  GdkGC * gc = ISNIL(2) ? NULL : GDK_GC( hb_parnl( 2 ) );
+  GdkPangoRenderer * renderer = GDK_PANGO_RENDERER( hb_parptr( 1 ) );
+  GdkGC * gc = ISNIL(2) ? NULL : GDK_GC( hb_parptr( 2 ) );
   gdk_pango_renderer_set_gc( renderer, gc );
 }
 
 HB_FUNC( GDK_PANGO_RENDERER_SET_OVERRIDE_COLOR )
 {
-  GdkPangoRenderer * renderer = GDK_PANGO_RENDERER( hb_parnl( 1 ) );
+  GdkPangoRenderer * renderer = GDK_PANGO_RENDERER( hb_parptr( 1 ) );
   GdkColor color;
   PHB_ITEM pColor = hb_param( 2, HB_IT_ARRAY );        // array
 
@@ -214,7 +214,7 @@ HB_FUNC( GDK_PANGO_RENDERER_SET_OVERRIDE_COLOR )
 
 HB_FUNC( PANGO_CONTEXT_SET_MATRIX )
 {
-  PangoContext * context = (PangoContext *) hb_parnl( 1 );
+  PangoContext * context = (PangoContext *) hb_parptr( 1 );
   PHB_ITEM pMatrix = hb_param( 2, HB_IT_ARRAY );  // array
   PangoMatrix matrix;
 

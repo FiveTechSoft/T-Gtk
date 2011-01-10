@@ -23,53 +23,61 @@
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
-
+#include <t-gtk.h>
 
 HB_FUNC( GTK_BUTTON_NEW ) // -> widget
 {
    GtkWidget * button = gtk_button_new( );
-   hb_retnl( (glong) button );
+   hb_retptr( ( GtkWidget * ) button );
 
 }
 
 HB_FUNC( GTK_BUTTON_NEW_WITH_MNEMONIC ) // _cText -> widget
 {
    GtkWidget * button;
-   gchar *msg = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
+   gchar *msg = str2utf8( ( gchar * ) hb_parc( 1 ) );//g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
 
    button = gtk_button_new_with_mnemonic( msg );
+   
+   SAFE_RELEASE( msg );
 
-   hb_retnl( (glong) button );
+   hb_retptr( (GtkWidget *) button );
+   
 
 }
 
 HB_FUNC( GTK_BUTTON_NEW_WITH_LABEL ) //_cText -> widget
 {
    GtkWidget * button;
-   gchar *msg = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
+   gchar *msg = str2utf8( ( gchar * ) hb_parc( 1 ) ); //g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
    button = gtk_button_new_with_label ( msg );
 
-   hb_retnl( (glong) button );
-
+   hb_retptr( ( GtkWidget * ) button );
+   
+   SAFE_RELEASE( msg );
+   
 }
 
 HB_FUNC( GTK_BUTTON_NEW_FROM_STOCK ) // stock_id
 {
   GtkWidget * button = gtk_button_new_from_stock ( (gchar *) hb_parc( 1 ) );
-  hb_retnl( (glong) button );
+  hb_retptr( ( GtkWidget * ) button );
 }
 
 HB_FUNC( GTK_BUTTON_SET_LABEL ) // widget, cText
 {
-  gchar *msg = g_convert( hb_parc(2), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
-  gtk_button_set_label( GTK_BUTTON( hb_parnl( 1 ) ), msg );
+  gchar *msg = str2utf8( ( gchar * ) hb_parc( 2 ) ); //g_convert( hb_parc(2), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
+  gtk_button_set_label( GTK_BUTTON( hb_parptr( 1 ) ), msg );
+  SAFE_RELEASE( msg );
 }
 
 HB_FUNC( GTK_BUTTON_GET_LABEL ) // widget -> cExt
 {
  gchar *cText;
  gchar *msg;
- cText = ( gchar *) gtk_button_get_label( GTK_BUTTON( hb_parnl( 1 ) ) );
- msg = ( gchar *) g_convert( cText, -1,"ISO-8859-1","UTF-8",NULL,NULL,NULL );
+ cText = ( gchar *) gtk_button_get_label( GTK_BUTTON( hb_parptr( 1 ) ) );
+ msg = utf82str( cText );//( gchar *) g_convert( cText, -1,"ISO-8859-1","UTF-8",NULL,NULL,NULL );
  hb_retc( ( gchar * ) msg );
+ SAFE_RELEASE( msg );
+
 }

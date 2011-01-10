@@ -25,31 +25,32 @@
 #include <hbapi.h>
 #include "t-gtk.h"
 
+void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
 BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  );
 
 HB_FUNC( GTK_TREE_SELECTION_GET_MODE ) // treeselection -> mode
 {
-  GtkTreeSelection * selection = GTK_TREE_SELECTION( hb_parnl( 1 ) );
+  GtkTreeSelection * selection = GTK_TREE_SELECTION( hb_parptr( 1 ) );
   hb_retni( gtk_tree_selection_get_mode( selection ) );
 }
 
 HB_FUNC( GTK_TREE_SELECTION_SET_MODE ) // treeselection, nmode -> void
 {
-  GtkTreeSelection * selection = GTK_TREE_SELECTION( hb_parnl( 1 ) );
+  GtkTreeSelection * selection = GTK_TREE_SELECTION( hb_parptr( 1 ) );
   gtk_tree_selection_set_mode( selection, ( gint ) hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_TREE_SELECTION_COUNT_SELECTED_ROWS ) // treeSelection -> rows selected.
 {
-  GtkTreeSelection * selection = GTK_TREE_SELECTION( hb_parnl( 1 ) );
+  GtkTreeSelection * selection = GTK_TREE_SELECTION( hb_parptr( 1 ) );
   hb_retni( gtk_tree_selection_count_selected_rows( selection ) );
 }    
 
 HB_FUNC( GTK_TREE_SELECTION_GET_SELECTED ) // treeSelection , model, iter --> bool
 {
-  GtkTreeSelection * selection = GTK_TREE_SELECTION( hb_parnl( 1 ) );
-  GtkTreeModel *model = (GtkTreeModel *) hb_parnl( 2 );
+  GtkTreeSelection * selection = GTK_TREE_SELECTION( hb_parptr( 1 ) );
+  GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 2 );
   GtkTreeIter iter;
   PHB_ITEM aIter = hb_param( 3, HB_IT_ARRAY );
   
@@ -57,10 +58,7 @@ HB_FUNC( GTK_TREE_SELECTION_GET_SELECTED ) // treeSelection , model, iter --> bo
      hb_retl( gtk_tree_selection_get_selected (selection, (ISNIL(2) ? NULL :&model ), (ISNIL( 3 ) ? NULL : &iter ) ) );
   }
   if( HB_IS_ARRAY( aIter ) && hb_arrayLen( aIter ) == 4 ) {
-     hb_storni( (gint)  (iter.stamp)      ,3, 1);
-     hb_stornl( (glong) (iter.user_data)  ,3, 2);
-     hb_stornl( (glong) (iter.user_data2) ,3, 3);
-     hb_stornl( (glong) (iter.user_data3) ,3, 4);
+     FillArrayFromIter( &iter, aIter );
   }
 }    
     

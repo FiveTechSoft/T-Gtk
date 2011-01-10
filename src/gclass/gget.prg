@@ -209,7 +209,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GGET
      end
 
      if oSender:oGet:hasfocus
-       oSender:oGet:hasfocus := .f.
+       oSender:oGet:KillFocus()
      end
 
 //RETURN ldev

@@ -30,57 +30,57 @@
 
 HB_FUNC( GDK_WINDOW_SET_CURSOR ) // nWindow, nCursor -> void
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   GdkCursor * cursor = ( GdkCursor * ) hb_parptr( 2 );
   gdk_window_set_cursor( widget->window, cursor );
 }
 
 HB_FUNC( GDK_WINDOW_SET_MODAL_HINT ) // nWindow, lModal -> void
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   gboolean modal     = ( gboolean ) hb_parl( 2 );
   gdk_window_set_modal_hint( widget->window, modal );
 }
 
 HB_FUNC( GDK_WINDOW_MAXIMIZE ) // nWindow -> void
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   gdk_window_maximize( widget->window );
 }
 
 HB_FUNC( GDK_WINDOW_FULLSCREEN ) // nWindow -> void
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   gdk_window_fullscreen( widget->window );
 }
 
 HB_FUNC( GDK_WINDOW_ICONIFY ) // nWindow -> void
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   gdk_window_iconify( widget->window );
 }
 
 HB_FUNC( GDK_WINDOW_DEICONIFY ) // nWindow -> void
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   gdk_window_deiconify( widget->window );
 }
 
 HB_FUNC( GDK_WINDOW_HIDE ) // nWindow -> void
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   gdk_window_hide( widget->window );
 }
 
 HB_FUNC( GDK_WINDOW_SHOW ) // nWindow -> void
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   gdk_window_show( widget->window );
 }
 
 HB_FUNC( GDK_WINDOW_MOVE ) // nWindow, x, y -> void
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   gint x = ( gint ) hb_parni( 1 );
   gint y = ( gint ) hb_parni( 2 );
   gdk_window_move( widget->window, x, y );
@@ -88,7 +88,7 @@ HB_FUNC( GDK_WINDOW_MOVE ) // nWindow, x, y -> void
 
 HB_FUNC( GDK_WINDOW_RESIZE ) // nWindow, width, height -> void
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   gint width  = ( gint ) hb_parni( 1 );
   gint height = ( gint ) hb_parni( 2 );
   gdk_window_resize( widget->window, width, height );
@@ -97,17 +97,17 @@ HB_FUNC( GDK_WINDOW_RESIZE ) // nWindow, width, height -> void
 HB_FUNC( GDK_WINDOW_GET_TOPLEVELS )
 {
   GList * windows = gdk_window_get_toplevels();
-  hb_retnl( (glong) windows );
+  hb_retptr( (GList *) windows );
 }
 HB_FUNC( GDK_WINDOW_GET_USER_DATA )
 {
    gpointer data;
-   GdkWindow * window = (GdkWindow * )hb_parnl( 1 ) ;
+   GdkWindow * window = (GdkWindow * )hb_parptr( 1 ) ;
    gdk_window_get_user_data( window, &data);
-   hb_retnl( (glong)data );
+   hb_retptr( (gpointer)data );
 }
 
 HB_FUNC( GDK_GET_DEFAULT_ROOT_WINDOW )
 {
-   hb_retnl( (glong) gdk_get_default_root_window() );
+   hb_retptr( (GdkWindow * ) gdk_get_default_root_window() );
 }

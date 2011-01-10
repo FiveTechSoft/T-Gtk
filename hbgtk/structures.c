@@ -30,67 +30,67 @@
  */
 HB_FUNC( HB_GET_WIDGET_WINDOW )
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
-   hb_retnl( (glong) widget->window );
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+   hb_retptr( (GdkWindow *) widget->window );
 }
 
 HB_FUNC( HB_GET_WIDGET_STYLE_BLACK_GC )
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
-   hb_retnl(  (glong) widget->style->black_gc ); // GdkGC *black_gc
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+   hb_retptr( (GdkGC *) widget->style->black_gc ); // GdkGC *black_gc
 }
 
 HB_FUNC( HB_GET_WIDGET_ALLOCATION_WIDTH )
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retni(  widget->allocation.width );
 }
 
 HB_FUNC( HB_GET_WIDGET_ALLOCATION_HEIGHT )
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retni(  widget->allocation.height );
 }
    
 HB_FUNC( HB_GET_EVENTEXPOSE_AREA_Y )
 {
-   GdkEventExpose * event = ( GdkEventExpose *) hb_parnl( 1 ) ;
+   GdkEventExpose * event = ( GdkEventExpose *) hb_parptr( 1 ) ;
    hb_retni(  event->area.y );
 }
 
 HB_FUNC( HB_GET_EVENTEXPOSE_AREA_X )
 {
-   GdkEventExpose * event = ( GdkEventExpose *) hb_parnl( 1 ) ;
+   GdkEventExpose * event = ( GdkEventExpose *) hb_parptr( 1 ) ;
    hb_retni(  event->area.x );
 }
 
 HB_FUNC( HB_GET_EVENTEXPOSE_AREA_WIDTH )
 {
-   GdkEventExpose * event = ( GdkEventExpose *) hb_parnl( 1 ) ;
+   GdkEventExpose * event = ( GdkEventExpose *) hb_parptr( 1 ) ;
    hb_retni(  event->area.width );
 }
 
 HB_FUNC( HB_GET_EVENTEXPOSE_AREA_HEIGHT )
 {
-   GdkEventExpose * event = ( GdkEventExpose *) hb_parnl( 1 ) ;
+   GdkEventExpose * event = ( GdkEventExpose *) hb_parptr( 1 ) ;
    hb_retni(  event->area.height);
 }
 
 HB_FUNC( HB_GET_GDKEVENT_TYPE )
 {
-  GdkEvent * event = ( GdkEvent * ) hb_parnl( 1 ) ;
+  GdkEvent * event = ( GdkEvent * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->type );
 }
 
 HB_FUNC( HB_GET_GDKEVENT_BUTTON_BUTTON )
 {
-  GdkEvent * event = ( GdkEvent * ) hb_parnl( 1 ) ;
+  GdkEvent * event = ( GdkEvent * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->button.button );
 }
 
 HB_FUNC( HB_GET_GDKEVENT_BUTTON_TIME )
 {
-  GdkEvent * event = ( GdkEvent * ) hb_parnl( 1 ) ;
+  GdkEvent * event = ( GdkEvent * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->button.time );
 }
 
@@ -99,60 +99,60 @@ HB_FUNC( HB_GET_GDKEVENT_BUTTON_TIME )
  */
 HB_FUNC( HB_GET_GDKEVENTKEY_TYPE )
 {
-  GdkEventKey * event = ( GdkEventKey * ) hb_parnl( 1 ) ;
+  GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->type);
 }
 
 HB_FUNC( HB_GET_GDKEVENTKEY_WINDOW )
 {
-  GdkEventKey * event = ( GdkEventKey * ) hb_parnl( 1 ) ;
-  hb_retnl( (glong) event->window );
+  GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
+  hb_retptr( (GdkWindow *) event->window );
 }
 
 HB_FUNC( HB_GET_GDKEVENTKEY_SEND_EVENT )
 {
-  GdkEventKey * event = ( GdkEventKey * ) hb_parnl( 1 ) ;
+  GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->send_event);
 }
 
 HB_FUNC( HB_GET_GDKEVENTKEY_TIME )
 {
-  GdkEventKey * event = ( GdkEventKey * ) hb_parnl( 1 ) ;
+  GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->time );
 }
 
 HB_FUNC( HB_GET_GDKEVENTKEY_STATE )
 {
-  GdkEventKey * event = ( GdkEventKey * ) hb_parnl( 1 ) ;
+  GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->state );
 }
 
 HB_FUNC( HB_GET_GDKEVENTKEY_KEYVAL )
 {
-  GdkEventKey * event = ( GdkEventKey * ) hb_parnl( 1 ) ;
+  GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->keyval );
 }
 
 HB_FUNC( HB_GET_GDKEVENTKEY_LENGTH )
 {
-  GdkEventKey * event = ( GdkEventKey * ) hb_parnl( 1 ) ;
+  GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->length );
 }
 
 HB_FUNC( HB_GET_GDKEVENTKEY_STRING )
 {
-  GdkEventKey * event = ( GdkEventKey * ) hb_parnl( 1 ) ;
+  GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
   hb_retc( (gchar*) event->string );
 }
 
 HB_FUNC( HB_GET_GDKEVENTKEY_HARDWARE_KEYCODE )
 {
-  GdkEventKey * event = ( GdkEventKey * ) hb_parnl( 1 ) ;
+  GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->hardware_keycode );
 }
 
 HB_FUNC( HB_GET_GDKEVENTKEY_GROUP )
 {
-  GdkEventKey * event = ( GdkEventKey * ) hb_parnl( 1 ) ;
+  GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->group );
 }

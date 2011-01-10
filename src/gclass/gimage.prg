@@ -42,7 +42,7 @@ METHOD New( cImage , oParent, lExpand, lFill, nPadding , lContainer, x, y, cId, 
             left_ta, right_ta, top_ta, bottom_ta, xOptions_ta, yOptions_ta, nHor, nVer,;
             cFromStock, nIcon_Size, lLoad ) CLASS GIMAGE
        
-       DEFAULT nIcon_Size := GTK_ICON_SIZE_INVALID, lLoad := .F.
+       DEFAULT nIcon_Size := GTK_ICON_SIZE_INVALID, lLoad := .F., nHor := 0 , nVer := 0
 
        IF cId == NIL
           IF cFromStock != NIL

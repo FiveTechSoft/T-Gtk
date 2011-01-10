@@ -77,12 +77,13 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
 
        // La aplicacion del style es ANTES de aadir al padre
        // Lo dejamos como recordatorio
+
        if Valtype( aStyles  ) = "A"
           FOR X := 1 TO Len( aStyles )
              ::Style( aStyles[X,STYLE_COLOR], aStyles[ X,STYLE_COMPONENT ], aStyles[ X,STYLE_STATE ] )
           NEXT
        endif
-       
+      
        ::Register()
 
        ::AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y,;
@@ -118,7 +119,8 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
   La aplicacion de StyleChild debe ser posterior a la puesta en su contenedor
   por el tema de la font
  */
-       if Valtype( aStylesChild  ) = "A"
+   
+    if Valtype( aStylesChild  ) = "A"
           FOR X := 1 TO Len( aStylesChild )
              ::StyleChild( aStylesChild[X,STYLE_COLOR], aStylesChild[ X,STYLE_COMPONENT ], aStylesChild[ X,STYLE_STATE ] )
           NEXT

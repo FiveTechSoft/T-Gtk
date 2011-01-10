@@ -12,12 +12,17 @@
 
 Static expand
 
+REQUEST HB_CODEPAGE_ESISO
+
 Function Main( )
   Local Button, Window
   Local vBox, label, calendar
   Local cTextLabel, ToolTips, hBox, notebook
   Local vBox2,  vBox_E, cTextExpand, boxmenu, hFont
 
+
+  HB_CDPSELECT( "ESISO" )
+  
   cTextLabel := '<span foreground="blue" size="large"><b>Esto es <span foreground="yellow"'+;
                 ' size="xx-large" background="black" ><i>fabuloso</i></span></b>!!!!</span>'+;
                 HB_OSNEWLINE()+;
@@ -35,7 +40,7 @@ Function Main( )
   Gtk_Signal_Connect( Window, "destroy", {|| Exit() } )  // Cuando se mata la aplicacion
   Gtk_Signal_Connect( Window, "delete-event", {|w| Salida(w) } )  // Cuando se mata la aplicacion
 
-  boxmenu := gtk_vbox_new (FALSE, 0)
+  boxmenu := gtk_vbox_new (.F., 0)
   gtk_container_add( window, boxmenu )
   gtk_widget_show( boxmenu )
 
@@ -90,16 +95,16 @@ Function Main( )
   Gtk_tooltips_set_tip( tooltips, button,;
                         "Soporte de ToolTips"+;
                          Hb_OsNewLine()+;
-                         "Tambien soporta multilinea..." )
+                         "También soporta multilinea..." )
   gtk_tooltips_set_delay( tooltips, 1000 )
 
 
   button := Gtk_toggle_button_new_with_label( "Conmutador" )
   gtk_widget_show( button )
   Gtk_box_pack_start( vbox, button, .F.,.T.,0 )
-  Gtk_Signal_Connect( button, "toggled", {|w| EstadoCom( w )} )
+//  Gtk_Signal_Connect( button, "toggled", {|w| EstadoCom( w )} )
 
-  button := Gtk_button_new_with_mnemonic( "_Salida rapidita..." )
+  button := Gtk_button_new_with_mnemonic( "_Salida rápida..." )
   gtk_widget_show( button )
   Gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   Gtk_Signal_Connect( button, "clicked", {|| g_signal_emit_by_name( window, "destroy" ) } )
@@ -109,13 +114,13 @@ Function Main( )
   expand = gtk_expander_new( cTextExpand )
   Gtk_box_pack_start( vbox, expand, .F.,.F.,0 )
   gtk_widget_show( expand )
-  gtk_expander_set_use_markup( expand, TRUE )
+  gtk_expander_set_use_markup( expand, .T. )
 
   vBox_E  := gtk_vbox_new( .F.,0 )
   Gtk_Widget_Show( vBox_E )
   gtk_container_add( expand, vBox_E)
 
-  button := gtk_check_button_new_with_label( "CheckBox,sera posible.." )
+  button := gtk_check_button_new_with_label( "CheckBox,será posible.." )
   Gtk_box_pack_start( vbox_E, button, .F.,.T.,0 )
   gtk_widget_show( button )
   Gtk_Signal_Connect( button, "toggled", {|w|EstadoCom(w)} )
@@ -159,11 +164,12 @@ return nil
 
 Function MYLEAVE( widget )
   gtk_button_set_label( widget, "Hola, ponte en encima" )
+  ?. "El texto es: "+ str2utf8( GTK_BUTTON_GET_LABEL( widget ) )
 return nil
 
 Function MYENTER( widget )
  gtk_button_set_label( widget, "Estoy en el botón" )
- ? "El texto es: "+ GTK_BUTTON_GET_LABEL( widget )
+ ?. "El texto es: " + str2utf8( GTK_BUTTON_GET_LABEL( widget ) )
 return nil
 
 

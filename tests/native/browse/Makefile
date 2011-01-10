@@ -5,7 +5,9 @@
 ROOT = ../../../
 
 TARGET = test
+#SOURCES = browse.prg
 SOURCES = brweditable.prg
+#SOURCES = browsdbf.prg
 #LIBS= -mwindows
 
 PRGFLAGS=-I$(ROOT)include

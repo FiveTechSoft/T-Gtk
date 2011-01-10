@@ -66,18 +66,18 @@ function main()
    gtk_signal_connect( window, "destroy", {|| gtk_main_quit() } ) 
    gtk_window_set_title( window, "Test gObject. GtkLabel properties" )
 
-   vbox = gtk_vbox_new (FALSE, 8)
+   vbox = gtk_vbox_new (.F., 8)
    gtk_container_set_border_width (vbox, 8)
    gtk_container_add (window, vbox)
   
    label := gtk_label_new( "GtkLabel" )
    gtk_label_set_markup( label, cTextLabel )
-   gtk_box_pack_start (vbox, label, FALSE, FALSE, 0)
+   gtk_box_pack_start (vbox, label, .F., .F., 0)
   
-   g_object_set( label, "selectable", TRUE )
+   g_object_set( label, "selectable", .T. )
    
    check := gtk_check_button_new_with_label( "Don't Markup" )
-   gtk_box_pack_start( vbox, check, FALSE, TRUE, 0 )
+   gtk_box_pack_start( vbox, check, .F., .T., 0 )
    gtk_widget_show( check )
       
    gtk_signal_connect( check, "toggled", {|w| SetMarkup(w) } )

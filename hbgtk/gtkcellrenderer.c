@@ -26,26 +26,26 @@
 
 HB_FUNC( GTK_CELL_RENDERER_TEXT_NEW ) // -> renderer
 {
-   GtkCellRenderer *renderer = gtk_cell_renderer_text_new();
-   hb_retnl( (ULONG) renderer );
+   GtkCellRenderer * renderer = gtk_cell_renderer_text_new();
+   hb_retptr( ( GtkCellRenderer * ) renderer );
 }
 
 HB_FUNC( GTK_CELL_RENDERER_TOGGLE_NEW ) // -> renderer
 {
    GtkCellRenderer *renderer = gtk_cell_renderer_toggle_new();
-   hb_retnl( (ULONG) renderer );
+   hb_retptr( ( GtkCellRenderer * ) renderer );
 }
 
 HB_FUNC( GTK_CELL_RENDERER_PIXBUF_NEW ) // -> renderer
 {
    GtkCellRenderer *renderer = gtk_cell_renderer_pixbuf_new();
-   hb_retnl( (ULONG) renderer );
+   hb_retptr( ( GtkCellRenderer * ) renderer );
 }
 
 HB_FUNC( GTK_CELL_LAYOUT_PACK_START )
 {
-   GtkCellLayout * cell_layout =  GTK_CELL_LAYOUT( ( GtkCellLayout * )hb_parnl( 1 ) );
-   GtkCellRenderer *cell = GTK_CELL_RENDERER( ( GtkCellRenderer * ) hb_parnl( 2 ) );
+   GtkCellLayout * cell_layout =  GTK_CELL_LAYOUT( ( GtkCellLayout * )hb_parptr( 1 ) );
+   GtkCellRenderer *cell = GTK_CELL_RENDERER( ( GtkCellRenderer * ) hb_parptr( 2 ) );
    gboolean expand = hb_parl( 3 );
 
    gtk_cell_layout_pack_start( cell_layout , cell, expand );
@@ -54,8 +54,8 @@ HB_FUNC( GTK_CELL_LAYOUT_PACK_START )
 
 HB_FUNC( GTK_CELL_LAYOUT_ADD_ATTRIBUTE )
 {
-   GtkCellLayout *cell_layout =  GTK_CELL_LAYOUT( ( GtkCellLayout * )hb_parnl( 1 ) );
-   GtkCellRenderer *cell = GTK_CELL_RENDERER( ( GtkCellRenderer * ) hb_parnl( 2 ) );
+   GtkCellLayout *cell_layout =  GTK_CELL_LAYOUT( ( GtkCellLayout * )hb_parptr( 1 ) );
+   GtkCellRenderer *cell = GTK_CELL_RENDERER( ( GtkCellRenderer * ) hb_parptr( 2 ) );
    const gchar *attribute = hb_parc( 3 );
    gint column = hb_parni( 4 );  
    
@@ -68,13 +68,13 @@ HB_FUNC( GTK_CELL_LAYOUT_ADD_ATTRIBUTE )
 HB_FUNC( GTK_CELL_RENDERER_PROGRESS_NEW ) // -> renderer
 {
    GtkCellRenderer *renderer = gtk_cell_renderer_progress_new();
-   hb_retnl( (ULONG) renderer );
+   hb_retptr( ( GtkCellRenderer * ) renderer );
 }
 
 HB_FUNC( GTK_CELL_RENDERER_COMBO_NEW ) // -> renderer
 {
    GtkCellRenderer *renderer = gtk_cell_renderer_combo_new();
-   hb_retnl( (ULONG) renderer );
+   hb_retptr( ( GtkCellRenderer * ) renderer );
 }
 
 #endif

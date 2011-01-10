@@ -29,8 +29,8 @@
  */
 HB_FUNC( GTK_CONTAINER_ADD )
 {
-    GtkWidget *window = GTK_WIDGET( hb_parnl( 1 ) );
-    GtkWidget *widget = GTK_WIDGET( hb_parnl( 2 ) );    
+    GtkWidget *window = GTK_WIDGET( hb_parptr( 1 ) );
+    GtkWidget *widget = GTK_WIDGET( hb_parptr( 2 ) );    
 
     if GTK_IS_DIALOG(window)    
     {
@@ -44,8 +44,8 @@ HB_FUNC( GTK_CONTAINER_ADD )
 
 HB_FUNC( GTK_CONTAINER_REMOVE )
 {
-    GtkWidget *window = GTK_WIDGET( hb_parnl( 1 ) );
-    GtkWidget *widget = GTK_WIDGET( hb_parnl( 2 ) );    
+    GtkWidget *window = GTK_WIDGET( hb_parptr( 1 ) );
+    GtkWidget *widget = GTK_WIDGET( hb_parptr( 2 ) );    
 
     gtk_container_remove(GTK_CONTAINER(window), widget  );
 }
@@ -53,7 +53,7 @@ HB_FUNC( GTK_CONTAINER_REMOVE )
 
 HB_FUNC( GTK_CONTAINER_SET_BORDER_WIDTH ) // widget, guint border_width
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
-  gtk_container_set_border_width( GTK_CONTAINER( widget ) , hb_parni( 2 ) );
+    GtkWidget *widget = GTK_WIDGET( hb_parptr( 1 ) );
+    gtk_container_set_border_width( GTK_CONTAINER( widget ) , hb_parni( 2 ) );
 }
 

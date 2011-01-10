@@ -28,13 +28,13 @@
 
 HB_FUNC( GTK_FILE_CHOOSER_SET_CURRENT_NAME )
 {
-  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parnl( 1 ) );
+  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parptr( 1 ) );
   gtk_file_chooser_set_current_name( chooser, hb_parc( 2 ) ) ;
 }
 
 HB_FUNC( GTK_FILE_CHOOSER_GET_CURRENT_FOLDER ) // pWidget--> folder
 {
-  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parnl( 1 ) );
+  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parptr( 1 ) );
   gchar * file = gtk_file_chooser_get_current_folder( chooser );
   hb_retc( file );
   g_free( file );
@@ -42,13 +42,13 @@ HB_FUNC( GTK_FILE_CHOOSER_GET_CURRENT_FOLDER ) // pWidget--> folder
 
 HB_FUNC( GTK_FILE_CHOOSER_SET_CURRENT_FOLDER ) // pWidget, folder --> bOk
 {
-  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parnl( 1 ) );
-  hb_retl( gtk_file_chooser_set_current_folder( chooser, hb_parc( 2 ) ) );
+  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parptr( 1 ) );
+  hb_retptr( ( GtkFileChooser * ) gtk_file_chooser_set_current_folder( chooser, hb_parc( 2 ) ) );
 }
 
 HB_FUNC( GTK_FILE_CHOOSER_GET_FILENAME ) // pWidget--> folder
 {
-  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parnl( 1 ) );
+  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parptr( 1 ) );
   gchar * file = gtk_file_chooser_get_filename( chooser );
   hb_retc( file );
   g_free( file );
@@ -56,19 +56,19 @@ HB_FUNC( GTK_FILE_CHOOSER_GET_FILENAME ) // pWidget--> folder
 
 HB_FUNC( GTK_FILE_CHOOSER_SET_FILENAME ) // pWidget,filename-->bOk
 {
-  GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parnl( 1 ) );
-  hb_retl( gtk_file_chooser_set_filename( chooser , hb_parc( 2 ) ) );
+  GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
+  hb_retptr( ( GtkFileChooser * ) gtk_file_chooser_set_filename( chooser , hb_parc( 2 ) ) );
 }
 
 HB_FUNC( GTK_FILE_CHOOSER_SET_ACTION ) // pWidget, folder --> bOk
 {
-  GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parnl( 1 ) );
+  GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
   gtk_file_chooser_set_action( chooser , hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_FILE_CHOOSER_GET_ACTION ) // pWidget, folder --> bOk
 {
-  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parnl( 1 ) );
+  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parptr( 1 ) );
   hb_retni( gtk_file_chooser_get_action( chooser ) );
 }
 
@@ -79,7 +79,7 @@ HB_FUNC( CHOOSEDIR ) // cTitle, cDir_Default, pParent_Window
     gchar *filename;
 
     dialog = gtk_file_chooser_dialog_new ( hb_parc( 1 ),
-                      ISNIL( 3 ) ? NULL : GTK_WINDOW( hb_parnl( 3 ) ),
+                      ISNIL( 3 ) ? NULL : GTK_WINDOW( hb_parptr( 3 ) ),
                       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
                       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                       GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,

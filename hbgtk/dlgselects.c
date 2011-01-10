@@ -30,59 +30,59 @@
 
 HB_FUNC( __GET_POINTER_BTN_OK_FILE )
 {
-   GtkWidget * file_selector = GTK_WIDGET( hb_parnl( 1 ) );
-   hb_retnl( (glong) GTK_FILE_SELECTION (file_selector)->ok_button );
+   GtkWidget * file_selector = GTK_WIDGET( hb_parptr( 1 ) );
+   hb_retptr( (GtkWidget *) GTK_FILE_SELECTION (file_selector)->ok_button );
 }
 
 HB_FUNC( __GET_POINTER_BTN_CANCEL_FILE )
 {
-   GtkWidget * file_selector = GTK_WIDGET( hb_parnl( 1 ) );
-   hb_retnl( (glong) GTK_FILE_SELECTION (file_selector)->cancel_button );
+   GtkWidget * file_selector = GTK_WIDGET( hb_parptr( 1 ) );
+   hb_retptr( (GtkWidget *) GTK_FILE_SELECTION (file_selector)->cancel_button );
 }
 
 /* Seleccion de dialogo de fonts */
 HB_FUNC( __GET_POINTER_BTN_OK_FONT )
 {
-   GtkWidget * dlg_font = GTK_WIDGET( hb_parnl( 1 ) );
-   hb_retnl( (glong) GTK_FONT_SELECTION_DIALOG (dlg_font)->ok_button );
+   GtkWidget * dlg_font = GTK_WIDGET( hb_parptr( 1 ) );
+   hb_retptr( (GtkWidget *) GTK_FONT_SELECTION_DIALOG (dlg_font)->ok_button );
 }
 
 HB_FUNC( __GET_POINTER_BTN_CANCEL_FONT )
 {
-   GtkWidget * dlg_font = GTK_WIDGET( hb_parnl( 1 ) );
-   hb_retnl( (glong) GTK_FONT_SELECTION_DIALOG(dlg_font)->cancel_button );
+   GtkWidget * dlg_font = GTK_WIDGET( hb_parptr( 1 ) );
+   hb_retptr( (GtkWidget *) GTK_FONT_SELECTION_DIALOG(dlg_font)->cancel_button );
 }
 
 HB_FUNC( GTK_FONT_SELECTION_DIALOG_NEW ) /* cTitle */
 {
    GtkWidget *dlg_font;
    dlg_font = gtk_font_selection_dialog_new ( hb_parc( 1 ) );
-   hb_retnl( (glong) dlg_font );
+   hb_retptr( (GtkWidget *) dlg_font );
 }
 
 HB_FUNC( GTK_FONT_SELECTION_DIALOG_GET_FONT_NAME )
 {
-   GtkWidget * dlg_font = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * dlg_font = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retc( ( gchar * ) gtk_font_selection_dialog_get_font_name(
                             GTK_FONT_SELECTION_DIALOG( dlg_font ) ) );
 }
 
 HB_FUNC( GTK_FONT_SELECTION_DIALOG_SET_FONT_NAME )
 {
-   GtkWidget * dlg_font = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * dlg_font = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retl( gtk_font_selection_dialog_set_font_name(
                             GTK_FONT_SELECTION_DIALOG( dlg_font ), hb_parc( 2 ) ) );
 }
 
 HB_FUNC( GTK_FONT_SELECTION_DIALOG_SET_PREVIEW_TEXT )
 {
-   GtkWidget * dlg_font = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * dlg_font = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_font_selection_dialog_set_preview_text( GTK_FONT_SELECTION_DIALOG( dlg_font ),
                                                 hb_parc( 2 ) );
 }
 
 HB_FUNC( GTK_FONT_SELECTION_DIALOG_GET_PREVIEW_TEXT )
 {
-   GtkWidget * dlg_font = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * dlg_font = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retc( (gchar*) gtk_font_selection_dialog_get_preview_text( GTK_FONT_SELECTION_DIALOG( dlg_font ) ));
 }

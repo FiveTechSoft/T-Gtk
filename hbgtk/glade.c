@@ -33,19 +33,19 @@ HB_FUNC( GLADE_XML_NEW ) //fname,root,domain
 {
   GladeXML *xml;
   xml = glade_xml_new( hb_parc( 1 ), ISNIL( 2 ) ? NULL : hb_parc( 2 ), ISNIL( 3 ) ? NULL : hb_parc( 3 ) );
-  hb_retnl( (glong) xml );
+  hb_retptr( ( GladeXML * ) xml );
 }
 
 HB_FUNC( GLADE_XML_GET_WIDGET )
 {
   GtkWidget * widget;
-  widget = glade_xml_get_widget( (GladeXML *) hb_parnl( 1 ), (gchar *) hb_parc( 2 ) );
-  hb_retnl( (glong) widget );
+  widget = glade_xml_get_widget( (GladeXML *) hb_parptr( 1 ), (gchar *) hb_parc( 2 ) );
+  hb_retptr( ( GtkWidget * ) widget );
 }
 
 HB_FUNC( GLADE_GET_WIDGET_NAME )
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   const gchar * name = glade_get_widget_name (widget);
   hb_retc( (gchar *) name );
 }

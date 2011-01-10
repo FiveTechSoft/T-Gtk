@@ -20,7 +20,7 @@ HB_FUNC( BONOBO_INIT )
 
 HB_FUNC( BONOBO_WIDGET )
 {
-  GtkWidget * ventana = GTK_WIDGET( hb_parnl( 1 ) ); 
+    GtkWidget * ventana =  GTK_WIDGET( hb_parptr( 1 ) );
    // const gchar* interfaces[] = { "IDL:Bonobo/Control:1.0", NULL };
   //  gchar* seleccionado = bonobo_selector_select_id("Selecciona control", interfaces);
   // if (seleccionado) {

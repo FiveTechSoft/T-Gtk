@@ -43,12 +43,19 @@
 #include "hbapi.h"
 #include "hbvm.h"
 #include "hbapiitm.h"
+#include "hbapicdp.h"
+
 
 // Atencion esto esta para mantener compatibilidad con xHarbour anteriores
 // Deber� desaparecer , pero lo necesito ahora
 #ifdef __OLDHARBOUR__
   HB_EXPORT PHB_SYMB hb_dynsymSymbol( PHB_DYNS pDynSym );
 #endif
+
+gboolean Set_Auto_Utf8( gint bValue );
+
+static gboolean bStatus = FALSE;
+
 
 /**
  * Internals ...............................................................
@@ -218,36 +225,178 @@ HB_FUNC( HB_CLICK_CONNECT_BY_PARAM ) // widget, salto a funcion, param
  * Miscelaneas ............................................................
  **/
 
+static const char * get_cdp_id()
+{   
+  PHB_CODEPAGE cdp = hb_cdpFind( hb_cdpID() );
+  const char * iso = NULL;
+  
+  if( cdp )
+#ifndef __XHARBOUR__      
+      iso = cdp->uniTable->uniID;
+#else
+      iso = cdp->uniID;
+#endif      
+
+return iso;
+}
+   
+//work together with harbour / xharbour codepage 
+gchar * str2utf8( gchar * szString )
+{
+   gchar * szDest;
+
+   if( Set_Auto_Utf8( -1 ) ){
+   
+      ULONG nLen     = szString ? strlen( szString ) : 0 ;
+      const char  * iso    = get_cdp_id();
+ 
+      if( nLen )
+         if( iso )
+            szDest = g_convert( szString, nLen, "UTF-8", iso, NULL, NULL, NULL );         
+    } else 
+      szDest = szString;
+
+   return szDest;
+}
+
+//--------------------------------------------------------//
+
+//work together with harbour / xharbour codepage 
+HB_FUNC( STR2UTF8 )
+{
+   gchar * src;
+   gchar * szDest;
+ 
+   if( HB_ISNIL( 1 ) )
+      src = "";
+   else 
+      src = ( gchar * ) hb_parc( 1 );
+   
+   szDest = str2utf8( src );
+   
+   hb_retc( ( gchar * ) szDest );
+   
+   if( szDest && Set_Auto_Utf8( -1 ) )
+      g_free( szDest );
+}
+
+//--------------------------------------------------------//
+
+
+gchar * utf82str( gchar * szString )
+{
+   gchar * szDest;
+   
+   if( Set_Auto_Utf8( -1 ) ){
+ 
+      ULONG nLen     = szString ? strlen( szString ) : 0;
+      const char  * iso = get_cdp_id();
+ 
+      if( nLen )
+         if( iso )
+            szDest = g_convert( szString, nLen, iso, "UTF-8", NULL, NULL, NULL );         
+   } else
+      szDest = szString;
+      
+   return szDest;
+}
+
+//--------------------------------------------------------//
+
+HB_FUNC( UTF82STR )
+{
+   gchar * src; 
+   gchar * szDest;
+   
+   
+   if( HB_ISNIL( 1 ) )
+      src = "";
+   else 
+      src = ( gchar * ) hb_parc( 1 );
+      
+   szDest = utf82str( src );
+   
+   hb_retc( ( gchar * ) szDest );
+   
+   if( szDest && Set_Auto_Utf8( -1 ) )
+      g_free( szDest );
+}
+
+//--------------------------------------------------------//
+
+HB_FUNC( G_FREE )
+{
+   g_free( ( gchar * ) hb_parc( 1 ) );
+}
+
+
+//--------------------------------------------------------//
+
+gboolean Set_Auto_Utf8( gint bValue )
+{
+   gboolean bOldStatus;
+   
+   bOldStatus = bStatus;
+   
+   if( bValue > -1 )
+      bStatus = ( gboolean ) bValue;
+
+   return bOldStatus;
+
+}
+
+void Safe_GFree( void * x )
+{
+   if( Set_Auto_Utf8( -1 ) )
+      if( x != NULL )
+         g_free( ( gchar * ) x );
+   
+   x = NULL;
+      
+}
+
+//--------------------------------------------------------//
+
+HB_FUNC( SET_AUTO_UTF8 )
+{
+   hb_retl( HB_ISLOG( 1 ) ? Set_Auto_Utf8( hb_parl( 1 ) ) : bStatus ) ;
+}
+
+//--------------------------------------------------------//
+
 HB_FUNC( HB_GTK_GET_DLG_BOX ) //  nWidget dialog -> child vBox
 {
-  GtkWidget * box = GTK_DIALOG( hb_parnl( 1 ) )->vbox;
-  hb_retnl( (glong) box );
+  GtkWidget * box = GTK_DIALOG( hb_parptr( 1 ) )->vbox;
+  hb_retptr( ( GtkWidget * ) box );
 }
 
 HB_FUNC( HB_GTK_GET_DLG_ACTION_AREA ) //  nWidget dialog -> child action_area
 {
-  GtkWidget * area = GTK_DIALOG( hb_parnl( 1 ) )->action_area;
-  hb_retnl( (glong) area );
+  GtkWidget * area = GTK_DIALOG( hb_parptr( 1 ) )->action_area;
+  hb_retptr( ( GtkWidget * ) area );
 }
 
 HB_FUNC( HB_GTK_GET_STATUSBAR_LABEL ) //  nWidget statusbar -> child label
 {
-  GtkWidget * label = GTK_STATUSBAR( hb_parnl( 1 ) )->label;
-  hb_retnl( (glong) label );
+  GtkWidget * label = GTK_STATUSBAR( hb_parptr( 1 ) )->label;
+  hb_retptr( ( GtkWidget * ) label );
 }
+
 
 HB_FUNC( UTF_8 )
 {
-  gchar * iso = ISNIL( 2 ) ? "ISO-8859-1" : hb_parc( 2 );
-  gchar *msg = g_convert( hb_parc(1), -1,"UTF-8", iso ,NULL,NULL,NULL );
-  hb_retc( msg );
+  gchar * iso = ISNIL( 2 ) ? "ISO-8859-1" : ( gchar * ) hb_parc( 2 );
+  gchar *msg = g_convert( ( gchar * ) hb_parc(1), hb_parclen( 1 ), "UTF-8", iso, NULL, NULL, NULL );
+  hb_retc( ( gchar * ) msg );
+  g_free( msg );
 }
 
 HB_FUNC( _UTF_8 )
 {
-  gchar * iso = ISNIL( 2 ) ? "ISO-8859-1" : hb_parc( 2 );
-  gchar *msg = g_convert( hb_parc(1), -1, iso, "UTF-8" ,NULL,NULL,NULL );
-  hb_retc( msg );
+  gchar * iso = ISNIL( 2 ) ? "ISO-8859-1" : ( gchar * ) hb_parc( 2 );
+  gchar *msg = g_convert( ( gchar * ) hb_parc(1), -1, iso, "UTF-8" ,NULL,NULL,NULL );
+  hb_retc( ( gchar * ) msg );
+  g_free( msg );
 }
 
 PHB_ITEM Rect2Array( GdkRectangle *rect );
@@ -291,3 +440,5 @@ BOOL Array2Rect(PHB_ITEM aRect, GdkRectangle *rect )
    }
    return FALSE;
 }
+
+

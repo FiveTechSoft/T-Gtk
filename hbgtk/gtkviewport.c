@@ -30,21 +30,21 @@ HB_FUNC( GTK_VIEWPORT_NEW )  // void -> nWidget
    GtkAdjustment *hadjustment, *vadjustment;
 
    if ISNIL( 1 )
-      hadjustment = GTK_ADJUSTMENT( hb_parnl( 1 ) );
+      hadjustment = GTK_ADJUSTMENT( hb_parptr( 1 ) );
    else
       hadjustment = NULL;
    if ISNIL( 2 )
-      vadjustment = GTK_ADJUSTMENT( hb_parnl( 2 ) );
+      vadjustment = GTK_ADJUSTMENT( hb_parptr( 2 ) );
    else
       vadjustment = NULL;
    
    viewport = gtk_viewport_new( hadjustment, vadjustment );
-   hb_retnl( ( glong ) viewport );
+   hb_retptr( ( GtkWidget * ) viewport );
 }
 
 HB_FUNC( GTK_VIEWPORT_SET_SHADOW_TYPE )  // nWidget -> void
 {
-   GtkWidget * viewport = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * viewport = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_viewport_set_shadow_type( GTK_VIEWPORT(viewport),
                                  (gint) hb_parni( 2 ) );
 }

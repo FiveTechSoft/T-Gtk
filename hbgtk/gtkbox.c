@@ -27,28 +27,28 @@
 HB_FUNC( GTK_VBOX_NEW ) // bHomogeneus, iSpacing
 {
    GtkWidget * VBox = gtk_vbox_new( hb_parl( 1 ), hb_parni( 2 ) );
-   hb_retnl( (ULONG) VBox );
+   hb_retptr( ( GtkWidget * ) VBox );
 }
 
 HB_FUNC( GTK_HBOX_NEW ) // bHomogeneus, iSpacing
 {
    GtkWidget * HBox = gtk_hbox_new( hb_parl( 1 ), hb_parni( 2 ) );
-   hb_retnl( (ULONG) HBox );
+   hb_retptr( ( GtkWidget * ) HBox );
 }
 
 HB_FUNC( GTK_BOX_PACK_START ) // box, child, lExpand, lFill, ipadding
 {
 
-  gtk_box_pack_start( GTK_BOX( ( GtkWidget *) hb_parnl( 1 ) ),
-                      ( GtkWidget *) hb_parnl( 2 ),
+  gtk_box_pack_start( GTK_BOX( GTK_WIDGET( hb_parptr( 1 ) ) ),
+                      GTK_WIDGET( hb_parptr( 2 ) ),
                       hb_parl( 3 ), hb_parl( 4 ), hb_parl( 5 ) );
 }
 
 HB_FUNC( GTK_BOX_PACK_END ) // box, child, lExpand, lFill, ipadding
 {
 
-  gtk_box_pack_end( GTK_BOX( ( GtkWidget *) hb_parnl( 1 ) ),
-                   ( GtkWidget *) hb_parnl( 2 ),
-                   hb_parl( 3 ), hb_parl( 4 ), hb_parl( 5 ) );
+  gtk_box_pack_end( GTK_BOX( GTK_WIDGET( hb_parptr( 1 ) ) ),
+                      GTK_WIDGET( hb_parptr( 2 ) ),
+                      hb_parl( 3 ), hb_parl( 4 ), hb_parl( 5 ) );
 }
 

@@ -40,7 +40,7 @@ function main()
  
    ACTIVATE DIALOG oDlg ;
             VALID ( MsgInfo("Salimos"), .t. ) ;
-            ON_YES MsgStop()  ;
+            ON_YES MsgStop( "" )  ;
             ON_OK oDlg:End()
 
 return .t.

@@ -30,6 +30,8 @@
 #include "hbapi.h"
 #include "hbvm.h"
 #include "t-gtk.h"
+#include "hbapiitm.h"
+#include "hbapierr.h"
 
 HB_FUNC( GTK_FILE_SELECTION_NEW )
 {
@@ -37,36 +39,36 @@ HB_FUNC( GTK_FILE_SELECTION_NEW )
   const gchar * title = ( const gchar*) hb_parc( 1 );
 
   filesel = gtk_file_selection_new ( title );
-  
+
   g_signal_connect_swapped (GTK_FILE_SELECTION (filesel)->cancel_button,
                             "clicked", G_CALLBACK (gtk_widget_destroy),
                             (gpointer) filesel);
 
-  hb_retnl( (glong) filesel );
+  hb_retptr( ( GtkWidget * ) filesel );
 }
 
 HB_FUNC( GTK_FILE_SELECTION_HIDE_FILEOP_BUTTONS )
 {
-  GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parnl( 1 ) );
+  GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parptr( 1 ) );
   gtk_file_selection_hide_fileop_buttons( filesel );
 }
 
 HB_FUNC( GTK_FILE_SELECTION_SHOW_FILEOP_BUTTONS )
 {
-  GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parnl( 1 ) );
+  GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parptr( 1 ) );
   gtk_file_selection_show_fileop_buttons( filesel );
 }
 
 HB_FUNC( GTK_FILE_SELECTION_SET_SELECT_MULTIPLE )
 {
-  GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parnl( 1 ) );
+  GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parptr( 1 ) );
   gboolean select = ( gboolean ) hb_parl( 2 );
   gtk_file_selection_set_select_multiple( filesel, select );
 }
 
 HB_FUNC( GTK_FILE_SELECTION_GET_FILENAME )
 {
-  GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parnl( 1 ) );
+  GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parptr( 1 ) );
   const gchar * sel_filename = gtk_file_selection_get_filename( filesel );
   hb_retc( ( gchar * ) sel_filename );
 }
@@ -74,7 +76,7 @@ HB_FUNC( GTK_FILE_SELECTION_GET_FILENAME )
 // TODO: Atencion , tenemos que tener en cuenta el tema del g_filename_from_utf8
 HB_FUNC( GTK_FILE_SELECTION_SET_FILENAME )
 {
-   GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parnl( 1 ) );
+   GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parptr( 1 ) );
    gchar * file = ( gchar * ) hb_parc( 2 );
    gtk_file_selection_set_filename( filesel, file );
 }
@@ -87,7 +89,7 @@ HB_FUNC( GTK_FILE_SELECTION_GET_SELECTIONS )
   * Use g_strfreev() to free it.
   */
 
-  GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parnl( 1 ) );
+  GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parptr( 1 ) );
   gchar ** sel_filename = gtk_file_selection_get_selections( filesel );
   gint i = 0;
 
@@ -106,8 +108,53 @@ HB_FUNC( GTK_FILE_SELECTION_GET_SELECTIONS )
   
 HB_FUNC( GTK_FILE_SELECTION_COMPLETE )
 {
-   GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parnl( 1 ) );
+   GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parptr( 1 ) );
    gchar * pattern = ( gchar * ) hb_parc( 2 );
    gtk_file_selection_complete( filesel, pattern );
 }
+
+static void event_filename( GtkWidget *widget, gpointer user_data )
+{
+   PHB_ITEM pUser_Data = ( PHB_ITEM ) user_data;
+   PHB_ITEM pBlock     = hb_arrayGetItemPtr( pUser_Data, 1 );
+   PHB_ITEM pWidget    = hb_itemNew( 0 );
+
+   if( HB_IS_BLOCK( pBlock ) )
+   {
+      hb_itemPutPtr( pWidget, widget );
+      hb_vmEvalBlockV( pBlock, 1, pWidget );
+      hb_itemRelease( pWidget );
+      hb_itemRelease( pUser_Data );
+
+   }
+  
+}
+
+HB_FUNC( GTK_FILE_SELECTION_CONNECT )
+{
+   GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parptr( 1 ) );
+   const char * szsignal = hb_parc( 2 );
+   PHB_ITEM pBlock       = hb_param( 3, HB_IT_BLOCK );
+   PHB_ITEM pUser_Data   = hb_itemArrayNew( 1 );
+   
+   
+   
+   if( HB_IS_BLOCK( pBlock ) ){
+      hb_itemArrayPut( pUser_Data, 1, pBlock );
+      if( hb_stricmp( szsignal, "ok_button" ) == 0 )
+      {
+         g_signal_connect (GTK_FILE_SELECTION (filesel)->ok_button,
+                           "clicked",
+                            G_CALLBACK(event_filename),
+                            (gpointer) pUser_Data ); 
+         g_signal_connect_swapped (GTK_FILE_SELECTION (filesel)->ok_button,
+                           "clicked",
+                            G_CALLBACK(gtk_widget_destroy ),
+                            (gpointer) filesel );
+      }
+   }
+
+}
+
+
 

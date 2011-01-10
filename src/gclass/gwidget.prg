@@ -212,12 +212,9 @@ RETURN nil
 ******************************************************************************
 // Chequea si el puntero es correto, evitando GPF y dando 'pistas'
 METHOD CheckGlade( cId ) CLASS GWIDGET
-     Local pWndActive
-     IF ::pWidget == 0
-          MsgStop( "No existe widget: " + cId ,  "PARADA CRITICA!!" )
-          pWndActive := GETACTIVEWINDOW()
-          g_signal_emit_by_name( pWndActive, "destroy" )
-          QUIT // FORZAMOS SALIDA, porque nos nada mas problemas ;-)
+     IF ::pWidget == NIL
+        MsgStop( "No existe widget: " + cId ,  "PARADA CRITICA!!" )
+        gtk_widget_destroy( GetWndMain():pWidget ) 
      ENDIF
 RETURN .F.
 

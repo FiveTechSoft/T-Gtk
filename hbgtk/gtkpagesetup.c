@@ -32,15 +32,15 @@ HB_FUNC( GTK_PAGE_SETUP_NEW )
 
 HB_FUNC( GTK_PAGE_SETUP_SET_ORIENTATION )
 {
- GtkPageSetup * setup = GTK_PAGE_SETUP( hb_parnl( 1 ) );
+ GtkPageSetup * setup = GTK_PAGE_SETUP( hb_parptr( 1 ) );
  GtkPageOrientation orientation = hb_parni( 2 );
  gtk_page_setup_set_orientation( setup, orientation );
 }
 
 HB_FUNC( GTK_PAGE_SETUP_SET_PAPER_SIZE )
 {
- GtkPageSetup * setup = GTK_PAGE_SETUP( hb_parnl( 1 ) );
- GtkPaperSize * size = ( GtkPaperSize * ) hb_parnl( 2 );
+ GtkPageSetup * setup = GTK_PAGE_SETUP( hb_parptr( 1 ) );
+ GtkPaperSize * size = ( GtkPaperSize * ) hb_parptr( 2 );
  gtk_page_setup_set_paper_size( setup, size);
 }
 #endif

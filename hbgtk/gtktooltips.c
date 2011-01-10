@@ -23,37 +23,42 @@
 */
 #include <hbapi.h>
 #include <gtk/gtk.h>
+#include <t-gtk.h>
 
 HB_FUNC( GTK_TOOLTIPS_NEW ) //->widget
 {
    GtkTooltips * hWnd = gtk_tooltips_new( );
 
-   hb_retnl( ( glong ) hWnd );
+   hb_retptr( ( GtkTooltips * ) hWnd );
 }
 
 HB_FUNC( GTK_TOOLTIPS_SET_TIP ) // tooltips, widgetchild, cText
 {
-   GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parnl( 1 ) );
-   GtkWidget * widgetchild = GTK_WIDGET( hb_parnl( 2 ) );
+   GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parptr( 1 ) );
+   GtkWidget * widgetchild = GTK_WIDGET( hb_parptr( 2 ) );
+   gchar *msg = str2utf8( ( gchar * ) hb_parc( 3 ) );
 
-   gtk_tooltips_set_tip ( tooltips, widgetchild, hb_parc( 3 ), NULL );
+   gtk_tooltips_set_tip ( tooltips, widgetchild, msg, NULL );
+   
+   SAFE_RELEASE( msg );
+   
 }
 
 HB_FUNC( GTK_TOOLTIPS_ENABLE ) //tooltips
 {
-   GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parnl( 1 ) );
+   GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parptr( 1 ) );
    gtk_tooltips_enable( tooltips  );
 
  }
 
 HB_FUNC( GTK_TOOLTIPS_DISABLE ) //tooltips
 {
-   GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parnl( 1 ) );
+   GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parptr( 1 ) );
    gtk_tooltips_disable(  tooltips  );
 }
 
 HB_FUNC( GTK_TOOLTIPS_SET_DELAY ) //tooltips, delay(default 1000ms)
 {
-   GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parnl( 1 ) );
+   GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parptr( 1 ) );
    gtk_tooltips_set_delay(  tooltips , hb_parni( 2 ) );
 }

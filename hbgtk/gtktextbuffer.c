@@ -36,22 +36,24 @@ BOOL Array2IterText(PHB_ITEM aIter, GtkTextIter *iter  );
 
  HB_FUNC( GTK_TEXT_BUFFER_SET_TEXT ) //  nBuffer -> void
 {
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
-  gchar * text =  hb_parc(2 );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
+  gchar * text =  str2utf8( ( gchar * ) hb_parc( 2 ) );
   gtk_text_buffer_set_text( buffer, text, -1);
-  hb_retnl( (glong) buffer );
+  SAFE_RELEASE( text );
+  hb_retptr( ( GtkTextBuffer * ) buffer );
 }
 
 HB_FUNC( GTK_TEXT_BUFFER_INSERT_AT_CURSOR ) //  pBuffer, text , nlen-> void
 {
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
-  gchar * text =  hb_parc( 2 );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
+  gchar * text =  str2utf8( ( gchar * ) hb_parc( 2 ) );
   gtk_text_buffer_insert_at_cursor( buffer, text, ( ISNIL( 3 ) ? -1 : hb_parni( 3 ) ) );
+  SAFE_RELEASE( text );
 }
 
 HB_FUNC( HB_GTK_TEXT_BUFFER_GET_TEXT )
 {
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   GtkTextIter start, end;
   gchar * char_buffer;
    
@@ -64,7 +66,7 @@ HB_FUNC( HB_GTK_TEXT_BUFFER_GET_TEXT )
 
 HB_FUNC( GTK_TEXT_BUFFER_GET_LINE_COUNT )
 {
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   gint iCount;
   iCount = gtk_text_buffer_get_line_count( buffer );
   hb_retni( iCount );
@@ -77,18 +79,18 @@ HB_FUNC( GTK_TEXT_BUFFER_GET_LINE_COUNT )
 HB_FUNC( GTK_TEXT_BUFFER_CREATE_TAG ) //  pBuffer,name_Tag, first property,...->pTag
 {
   GtkTextTag * tag = NULL;
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   gchar * tag_1 =  (gchar *) hb_parc( 2 );
   gchar * tag_2 =  (gchar *) hb_parc( 3 );
   gchar * tag_n =  (gchar *) hb_parc( 4 );
   tag = gtk_text_buffer_create_tag( buffer, tag_1, tag_2, tag_n, NULL );
-  hb_retnl( (glong) tag );
+  hb_retptr( ( GtkTextTag * ) tag );
 }
 
 HB_FUNC( GTK_TEXT_BUFFER_APPLY_TAG ) //  buffer, tag, aStart, aEnd
 {
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
-  GtkTextTag    * tag    = GTK_TEXT_TAG( hb_parnl( 2 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
+  GtkTextTag    * tag    = GTK_TEXT_TAG( hb_parptr( 2 ) );
   GtkTextIter start,end;
   PHB_ITEM pStart = hb_param( 3, HB_IT_ARRAY );
   PHB_ITEM pEnd = hb_param( 4, HB_IT_ARRAY );
@@ -133,7 +135,7 @@ HB_FUNC( GTK_TEXT_BUFFER_APPLY_TAG ) //  buffer, tag, aStart, aEnd
 
 HB_FUNC( GTK_TEXT_BUFFER_APPLY_TAG_BY_NAME ) //  buffer, name , &start, &end
 {
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   gchar * name = (gchar*) hb_parc( 2 );
   PHB_ITEM pStart = hb_param( 3, HB_IT_ARRAY );
   PHB_ITEM pEnd = hb_param( 4, HB_IT_ARRAY );
@@ -181,7 +183,7 @@ HB_FUNC( GTK_TEXT_BUFFER_APPLY_TAG_BY_NAME ) //  buffer, name , &start, &end
 
 HB_FUNC( GTK_TEXT_BUFFER_GET_ITER_AT_OFFSET )  // buffer,  aIter , Pos
 {
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   GtkTextIter iter;
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
   
@@ -209,7 +211,7 @@ HB_FUNC( GTK_TEXT_BUFFER_GET_ITER_AT_OFFSET )  // buffer,  aIter , Pos
 //TODO: de momento pasamos 4 parametros.
 HB_FUNC( GTK_TEXT_BUFFER_INSERT_WITH_TAGS_BY_NAME  )  // buffer,  aIter , text, nLen, tag_1, tag_2, tag_3, tag_4 
 {
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
   gchar * text = (gchar*) hb_parc( 3 );
   gchar * tag1 = (gchar*) hb_parc( 5 );
@@ -240,9 +242,9 @@ HB_FUNC( GTK_TEXT_BUFFER_INSERT_WITH_TAGS_BY_NAME  )  // buffer,  aIter , text, 
 
 HB_FUNC( GTK_TEXT_BUFFER_INSERT_PIXBUF  )  // buffer,  aIter , pixbuf
 {
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
-  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parnl( 3 ) );
+  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 3 ) );
   GtkTextIter iter;
 
   if ( Array2IterText( pIter, &iter ) )
@@ -267,9 +269,9 @@ HB_FUNC( GTK_TEXT_BUFFER_INSERT_PIXBUF  )  // buffer,  aIter , pixbuf
 
 HB_FUNC( GTK_TEXT_BUFFER_GET_TAG_TABLE )  // buffer --> Tag_table 
 {
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   GtkTextTagTable * table = gtk_text_buffer_get_tag_table( buffer );
-  hb_retnl( (glong) table );
+  hb_retptr( ( GtkTextTagTable * ) table );
 }
 
 
@@ -285,35 +287,35 @@ HB_FUNC( GTK_TEXT_BUFFER_GET_TAG_TABLE )  // buffer --> Tag_table
 HB_FUNC( GTK_TEXT_TAG_TABLE_NEW )
 {
   GtkTextTagTable * table = gtk_text_tag_table_new();
-  hb_retnl( (glong) table );
+  hb_retptr( ( GtkTextTagTable * ) table );
 }
 
 HB_FUNC( GTK_TEXT_TAG_TABLE_ADD )
 {
-  GtkTextTagTable * table = GTK_TEXT_TAG_TABLE( hb_parnl( 1 ) );
-  GtkTextTag * tag = GTK_TEXT_TAG( hb_parnl( 2 ) );
+  GtkTextTagTable * table = GTK_TEXT_TAG_TABLE( hb_parptr( 1 ) );
+  GtkTextTag * tag = GTK_TEXT_TAG( hb_parptr( 2 ) );
   gtk_text_tag_table_add( table, tag );
 }
 
 HB_FUNC( GTK_TEXT_TAG_TABLE_REMOVE )
 {
-  GtkTextTagTable * table = GTK_TEXT_TAG_TABLE( hb_parnl( 1 ) );
-  GtkTextTag * tag = GTK_TEXT_TAG( hb_parnl( 2 ) );
+  GtkTextTagTable * table = GTK_TEXT_TAG_TABLE( hb_parptr( 1 ) );
+  GtkTextTag * tag = GTK_TEXT_TAG( hb_parptr( 2 ) );
   gtk_text_tag_table_remove( table, tag );
 }
 
 HB_FUNC( GTK_TEXT_TAG_TABLE_LOOKUP )
 {
-  GtkTextTagTable * table = GTK_TEXT_TAG_TABLE( hb_parnl( 1 ) );
-  gchar * name = hb_parc( 2 );
+  GtkTextTagTable * table = GTK_TEXT_TAG_TABLE( hb_parptr( 1 ) );
+  gchar * name = ( gchar * ) hb_parc( 2 );
   GtkTextTag * tag;
   tag = gtk_text_tag_table_lookup( table, name );
-  hb_retnl( (glong) tag );
+  hb_retptr( ( GtkTextTagTable * ) tag );
 }
 
 HB_FUNC( GTK_TEXT_TAG_TABLE_GET_SIZE )
 {
-  GtkTextTagTable * table = GTK_TEXT_TAG_TABLE( hb_parnl( 1 ) );
+  GtkTextTagTable * table = GTK_TEXT_TAG_TABLE( hb_parptr( 1 ) );
   hb_retni( gtk_text_tag_table_get_size( table ) );
 }
 
@@ -338,18 +340,18 @@ void        gtk_text_attributes_ref         (GtkTextAttributes *values);
 HB_FUNC( GTK_TEXT_TAG_NEW )
 {
   GtkTextTag * tag = gtk_text_tag_new( (gchar *) hb_parc( 1 ) );
-  hb_retnl( (glong) tag );
+  hb_retptr( ( GtkTextTag * ) tag );
 }
 
 HB_FUNC( GTK_TEXT_TAG_GET_PRIORITY )
 {
-   GtkTextTag * tag = GTK_TEXT_TAG( hb_parnl( 1 ) );
+   GtkTextTag * tag = GTK_TEXT_TAG( hb_parptr( 1 ) );
    hb_retni(  gtk_text_tag_get_priority( tag ) );
 }
 
 HB_FUNC( GTK_TEXT_TAG_SET_PRIORITY )
 {
-   GtkTextTag * tag = GTK_TEXT_TAG( hb_parnl( 1 ) );
+   GtkTextTag * tag = GTK_TEXT_TAG( hb_parptr( 1 ) );
    gtk_text_tag_set_priority( tag, hb_parni( 2 ) );
 }
 

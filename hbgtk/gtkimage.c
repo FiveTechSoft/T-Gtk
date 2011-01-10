@@ -27,69 +27,69 @@
 HB_FUNC( GTK_IMAGE_NEW ) // -->widget
 {
    GtkWidget * image = gtk_image_new();
-   hb_retnl( ( glong ) image );
+   hb_retptr( ( GtkWidget * ) image );
 }
 
 HB_FUNC( GTK_IMAGE_NEW_FROM_FILE ) // cFileName -> image
 {
   GtkWidget * image  = gtk_image_new_from_file( (gchar *) hb_parc( 1 ) );
-  hb_retnl( (glong) image );
+  hb_retptr( (GtkWidget *) image );
 }
 
 HB_FUNC( GTK_IMAGE_NEW_FROM_STOCK ) // nIcon, nSize -> image
 {
   GtkWidget * image  = gtk_image_new_from_stock( (gchar *) hb_parc( 1 ),
                                                  (gint   ) hb_parni( 2 ) );
-  hb_retnl( (glong) image );
+  hb_retptr( (GtkWidget *) image );
 }
 
 HB_FUNC( GTK_IMAGE_SET_FROM_FILE ) // widget , cFileName
 {
-   GtkWidget * image = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * image = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_image_set_from_file( GTK_IMAGE( image ), hb_parc( 2 ) );
 }
 
 HB_FUNC( GTK_IMAGE_GET_PIXBUF )
 {
-   GtkWidget * image = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * image = GTK_WIDGET( hb_parptr( 1 ) );
    GdkPixbuf * pixbuf = gtk_image_get_pixbuf ( GTK_IMAGE( image ) );
-   hb_retnl( (glong) pixbuf );
+   hb_retptr( (GdkPixbuf *) pixbuf );
 }
 
 HB_FUNC( GTK_IMAGE_NEW_FROM_PIXBUF ) // nIcon -> image
 {
-  GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parnl( 1 );
+  GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parptr( 1 );
   GtkWidget * image  = gtk_image_new_from_pixbuf( pixbuf );
-  hb_retnl( (glong) image );
+  hb_retptr( (GtkWidget *) image );
 }
 
 HB_FUNC( GTK_IMAGE_SET_FROM_PIXBUF )  // pImage, pPixbuf
 {
-   GtkWidget * image = GTK_WIDGET( hb_parnl( 1 ) );
-   GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parnl( 2 );
+   GtkWidget * image = GTK_WIDGET( hb_parptr( 1 ) );
+   GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parptr( 2 );
    gtk_image_set_from_pixbuf( GTK_IMAGE( image ), pixbuf );
 }
 
 #if GTK_CHECK_VERSION(2,8,0)
 HB_FUNC( GTK_IMAGE_CLEAR )
 {
-   GtkWidget * image = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * image = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_image_clear( GTK_IMAGE( image ) );
 }
 #endif
 
-// Proceso de depuracion
+
 HB_FUNC( GTK_DRAWING_AREA_NEW )
 {
   GtkWidget * draw =  gtk_drawing_area_new ();
-  hb_retnl( (glong) draw );
+  hb_retptr( (GtkWidget *) draw );
 
 }
 
 HB_FUNC( GTK_IMAGE_GET_PIXMAP )
 {
-   GtkWidget * image = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * image = GTK_WIDGET( hb_parptr( 1 ) );
    GdkPixmap * pixmap;
    gtk_image_get_pixmap( GTK_IMAGE( image ), &pixmap, NULL );
-   hb_retnl( (glong) pixmap );
+   hb_retptr( (GdkPixmap *) pixmap );
 }

@@ -5,7 +5,7 @@
 ROOT = ../../../
 
 TARGET = buttons
-SOURCES = buttons2.prg
+SOURCES = buttons.prg
 
 PRGFLAGS=-I$(ROOT)include
 LIBS=-L$(ROOT)src/gclass -lgclass -L$(ROOT)hbgtk -lhbgtk $(shell pkg-config --libs libglade-2.0) $(shell pkg-config --libs gtk+-2.0 )

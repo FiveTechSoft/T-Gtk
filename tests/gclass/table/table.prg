@@ -20,7 +20,7 @@ Function main()
                  TABLEATTACH 3,4,0,2
 
          // La parte de abajo , entera
-         DEFINE IMAGE FILE "../../images/Anieyes.gif" OF oTable ;
+         DEFINE IMAGE FILE "../../images/anieyes.gif" OF oTable ;
                 TABLEATTACH 0,2,1,2
 
          DEFINE LABEL PROMPT cText OF oTable ;

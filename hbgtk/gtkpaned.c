@@ -27,54 +27,54 @@
 HB_FUNC( GTK_HPANED_NEW ) //-->Widget
 {
    GtkWidget * hpaned = gtk_hpaned_new();
-   hb_retnl( (glong) hpaned );
+   hb_retptr( ( GtkWidget * ) hpaned );
 }
 
 HB_FUNC( GTK_VPANED_NEW ) //-->Widget
 {
    GtkWidget * vpaned = gtk_vpaned_new();
-   hb_retnl( (glong) vpaned );
+   hb_retptr( ( GtkWidget * ) vpaned );
 }
 
 //This is equivalent to gtk_paned_pack1 (paned, child, TRUE, TRUE);
 //Esto es equivalente a gtk_paned_pack1 (paned, child, TRUE, TRUE);
 HB_FUNC( GTK_PANED_ADD1 ) // paned, child
 {
-  GtkWidget * paned = GTK_WIDGET( hb_parnl( 1 ) );
-  GtkWidget * child = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkWidget * paned = GTK_WIDGET( hb_parptr( 1 ) );
+  GtkWidget * child = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_paned_add1( GTK_PANED( paned ), child ) ;
 }
 
 HB_FUNC( GTK_PANED_ADD2 ) // paned, child
 {
-  GtkWidget * paned = GTK_WIDGET( hb_parnl( 1 ) );
-  GtkWidget * child = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkWidget * paned = GTK_WIDGET( hb_parptr( 1 ) );
+  GtkWidget * child = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_paned_add2( GTK_PANED( paned ), child ) ;
 }
 
 HB_FUNC( GTK_PANED_PACK1 ) // paned, child, lResize, lshrink
 {
-  GtkWidget * paned = GTK_WIDGET( hb_parnl( 1 ) );
-  GtkWidget * child = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkWidget * paned = GTK_WIDGET( hb_parptr( 1 ) );
+  GtkWidget * child = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_paned_pack1( GTK_PANED( paned ), child , hb_parl( 3 ), hb_parl( 4 ) ) ;
 }
 
 HB_FUNC( GTK_PANED_PACK2 ) // paned, child, lResize, lshrink
 {
-  GtkWidget * paned = GTK_WIDGET( hb_parnl( 1 ) );
-  GtkWidget * child = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkWidget * paned = GTK_WIDGET( hb_parptr( 1 ) );
+  GtkWidget * child = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_paned_pack2( GTK_PANED( paned ), child , hb_parl( 3 ), hb_parl( 4 ) ) ;
 }
 
 HB_FUNC( GTK_PANED_SET_POSITION ) // paned, iPosition
 {
-  GtkWidget * paned = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * paned = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_paned_set_position( GTK_PANED( paned ), hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_PANED_GET_POSITION ) // paned --> iPosition
 {
-   GtkWidget * paned = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * paned = GTK_WIDGET( hb_parptr( 1 ) );
    hb_parni( (gint) gtk_paned_get_position( GTK_PANED( paned ) ) );
 }
 /*TODO:

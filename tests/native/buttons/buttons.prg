@@ -28,21 +28,23 @@ function main()
  local accel, nId_Signal
   
   window = gtk_window_new( GTK_WINDOW_TOPLEVEL )
+  
   gtk_signal_connect( window, "delete-event", {|widget,event| Salimos( widget,event ) } )
   gtk_signal_connect( window, "destroy", {| widget | Exit( widget) } )
   
-  gtk_signal_connect( window, "add", {| container,widget | g_print( "Add Container..."+ str( widget ) +CRLF ) } )
+//  gtk_signal_connect( window, "add", {| container,widget | g_print( "Add Container..."+ str( widget ) +CRLF ) } )
 
   gtk_window_set_title ( window, "Test buttons & codeblocks" )
   gtk_container_set_border_width( window, 10 )
 
-  vbox = gtk_vbox_new (FALSE, 0)
+  vbox = gtk_vbox_new (.F., 0)
   gtk_container_add ( window, vbox )
   gtk_widget_show( vbox )
-  g_print( "vBox  es igual a " + str( vbox ) + CRLF )
+  ?. "vBox  es igual a ",  vbox
 
   button1 := gtk_button_new_with_label( "Ejecuta codeblock local. Press F3" )
   // Pasando codeblock directamente 
+
   gtk_signal_connect( button1, "clicked", ;
                                { |widget| paso( cVar, "ja", window, widget ) } )
 
@@ -77,7 +79,7 @@ function main()
   gtk_widget_show( button3 )
   
   button4 := gtk_button_new( )
-  box4 = gtk_hbox_new (FALSE, 0)
+  box4 = gtk_hbox_new (.F., 0)
   gtk_container_add( button4, box4 )
   gtk_container_set_border_width( box4, 2)
   image4 = gtk_image_new_from_stock("gtk-index", GTK_ICON_SIZE_DIALOG)

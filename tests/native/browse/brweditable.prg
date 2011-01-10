@@ -3,12 +3,14 @@
  * Example T-Gtk 
   Una colaboracion desde Carlos Mora.
  */
-#include "gtkapi.ch"
+//#include "gtkapi.ch"
 #include "gclass.ch"
 
 #define DBF_FIELD  1
 
 Static hTree
+
+REQUEST HB_CODEPAGE_ESISO
 
 function Main( )
    local oWnd
@@ -16,6 +18,8 @@ function Main( )
    local aArray := {}
    local n, j
    local oMenu, oItem, oMainMenu, oBoxV
+  
+   HB_CDPSELECT( "ESISO" )
    
    define window oWnd title "DBF Browse test" size 640, 480
 
@@ -137,18 +141,19 @@ function CellValue( hTree, hRenderer, hList, hIter )
 GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
                                              GtkTreeIter *iter, gpointer data
 */
-  Local nField, nRecNo, nColumn
-   If Recno() != ( nRecNo := gtk_tree_model_get_long( hList, hIter ) )
-		dBGoto( nRecNo )
-	EndIf
+Local nField, nRecNo, nColumn, uValue
+  If Recno() != ( nRecNo := gtk_tree_model_get_long( hList, hIter ) )
+     dBGoto( nRecNo )
+  endIf
 
   nColumn:= g_object_get_data( hRenderer, "column" )
   nField := nColumn + 1
 
   // ? nRecNo, RecNo(), nColumn, nField, '*' + Transform( FieldGet( nColumn+1), NIL ) +'*'
-
+  
+  uValue =  Utf82Str( Transform( FieldGet( nColumn + 1 ), NIL ) )
   // uValue:=
-  g_object_set_string( hRenderer, "text", Transform( FieldGet( nColumn+1), NIL ) )
+  g_object_set_string( hRenderer, "text", uValue )  
 
 return NIL
 
@@ -170,7 +175,7 @@ return .t.
 function keypress( pTree, pEventKey )
   Local nKey  :=  HB_GET_GDKEVENTKEY_KEYVAL( pEventKey ) 
   Local nType   // aGdkEventKey[ 1 ]
-
+/*
     do case
      case nKey == GDK_UP // VK_UP
            ? "fecha arriba"
@@ -181,7 +186,7 @@ function keypress( pTree, pEventKey )
      case nKey == GDK_RIGHT // VK_RIGHT
            ? "fecha derecha"
   endcase
-
+*/
 return FALSE
 
 //--------------------------------------------------------------------------//
@@ -203,9 +208,9 @@ Function ListStore4Dbf( cArea )
   // ? GTK_LIST_STORE_GET_COL_TYPE( hList, 0 ), gtk_type_long()
 	n:= LastRec() // OrdKeyCount()
 
-	For i:= 1 To n
-      gtk_list_store_append( hList, aIter )
-      hb_gtk_list_store_set_long(  hList, 0, aIter, i ) // Metemos LONG directamente
-  End For
+  for i:= 1 To n
+     gtk_list_store_append( hList, aIter )
+     hb_gtk_list_store_set_long(  hList, 0, aIter, i ) // Metemos LONG directamente
+  next
 
 Return hList

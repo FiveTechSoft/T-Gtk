@@ -28,26 +28,26 @@
 HB_FUNC( GTK_ENTRY_COMPLETION_NEW ) 
 {
    GtkEntryCompletion * completion = gtk_entry_completion_new();
-   hb_retnl( ( glong ) completion );
+   hb_retptr( ( GtkEntryCompletion * ) completion );
 }
 
 HB_FUNC( GTK_ENTRY_SET_COMPLETION ) 
 {
-   GtkWidget * entry = GTK_WIDGET( hb_parnl( 1 ) );
-   GtkEntryCompletion * completion = GTK_ENTRY_COMPLETION( hb_parnl( 2 ) );
+   GtkWidget * entry = GTK_WIDGET( hb_parptr( 1 ) );
+   GtkEntryCompletion * completion = GTK_ENTRY_COMPLETION( hb_parptr( 2 ) );
    gtk_entry_set_completion (GTK_ENTRY (entry), completion );
  }
  
 HB_FUNC( GTK_ENTRY_COMPLETION_SET_MODEL ) 
 {
-   GtkEntryCompletion * completion = GTK_ENTRY_COMPLETION( hb_parnl( 1 ) );
-   GtkListStore * store = GTK_LIST_STORE( hb_parnl( 2 ) );
+   GtkEntryCompletion * completion = GTK_ENTRY_COMPLETION( hb_parptr( 1 ) );
+   GtkListStore * store = GTK_LIST_STORE( hb_parptr( 2 ) );
    gtk_entry_completion_set_model (completion, GTK_TREE_MODEL( store ));
  }
  
 HB_FUNC( GTK_ENTRY_COMPLETION_SET_TEXT_COLUMN ) 
 {
-   GtkEntryCompletion * completion = GTK_ENTRY_COMPLETION( hb_parnl( 1 ) );
+   GtkEntryCompletion * completion = GTK_ENTRY_COMPLETION( hb_parptr( 1 ) );
    gint column = hb_parni( 2 );
    gtk_entry_completion_set_text_column (completion, column ); 
 }

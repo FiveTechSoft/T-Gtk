@@ -8,7 +8,7 @@
 
 function main()
 
-  local oWnd, oBrw1, oBrw2, oBox
+  local oWnd, oBrw1, oBrw2, oBox1, oBox2, cRes, cValue
   local aColSpa := { "rojo", " blanco", "amarillo", "verde", "marron", "rosa", ;
                      "negro", "naranja", "gris", "lila", "azul", "fucsia" }
   local aColCat := { "roig", "blanc", "groc", "vert", "marro", "rosa", ;
@@ -25,16 +25,14 @@ function main()
                      "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve" }
   local aDays   := { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }
   
-  Local cValue := "" 
-  
-  DEFINE WINDOW oWnd TITLE "Browse arrays T-Gtk" SIZE 500,300
+   DEFINE WINDOW oWnd TITLE "Browse arrays T-Gtk" SIZE 500,300
+    
+   define box oBox1 spacing 2 of oWnd
       
-      DEFINE BOX oBox SPACING 2 OF oWnd
-        
         DEFINE BROWSE oBrw1 ;
                HEADERS "Number" ;
                COLSIZES 50;                
-               OF oBox EXPAND FILL ;
+               OF oBox1 EXPAND FILL ;
                COLORS "red" ;
                ON CHANGE ( oBrw2:SetArray( { { aNumSpa[oBrw1:nAt], aColSpa[oBrw1:nAt] }, ;
                                              { aNumCat[oBrw1:nAt], aColCat[oBrw1:nAt] }, ;
@@ -57,32 +55,23 @@ function main()
                      {|| if( oBrw1:nAt %2 <> 0, "gray", "white" ) } ;
                SIZE 80
          
-        oBrw1:SetArray( aNumber )
-        
+	        oBrw1:SetArray( aNumber )
+                       
         DEFINE BROWSE oBrw2 ;
                HEADERS "Spanish", "Catalan", "English" ;  
                COLSIZES 70,70,70 ;                
-               OF oBox EXPAND FILL ;
+               OF oBox1      EXPAND FILL ;
                COLORS "black"
-        
+                                             
         oBrw2:lArrow := .f.
         oBrw2:aColumns[ 2 ]:cfgColor = "#FFD700"
         oBrw2:aColumns[ 2 ]:cbgColor = "#1E90FF"       
-        //oBrw2:SetArray( aNumber )
-
-        oBrw1:bKeyEvent := {|o,nkey| Brw_keys( o, nKey, @cValue ), MsgInfo( cValue ) }
-
-        
+        oBrw2:SetArray( { { aNumSpa[oBrw1:nAt], aColSpa[oBrw1:nAt] }, ;
+                          { aNumCat[oBrw1:nAt], aColCat[oBrw1:nAt] }, ;
+                          { aNumEng[oBrw1:nAt], aColEng[oBrw1:nAt] } } ) 
+                      
+                                
   ACTIVATE WINDOW oWnd CENTER 
 
 return nil
 
-STATIC FUNCTION Brw_Keys( oBrw, nKey, cValue )
-
- DO CASE 
-    CASE nKey == GDK_Return
-         cValue := Eval( oBrw:aColumns[ oBrw:nAt ]:uData )
-
- ENDCASE
-
- RETURN .F.

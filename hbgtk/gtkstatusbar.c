@@ -23,36 +23,39 @@
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
+#include <t-gtk.h>
 
 
 HB_FUNC( GTK_STATUSBAR_NEW ) // -> widget
 {
    GtkWidget * statusbar = gtk_statusbar_new( );
-   hb_retnl( (ULONG) statusbar );
+   hb_retptr( ( GtkWidget * ) statusbar );
 }
 
 HB_FUNC( GTK_STATUSBAR_GET_CONTEXT_ID ) // pStatusbar, cContext --> ID_Context
 {
-   GtkWidget * statusbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * statusbar = GTK_WIDGET( hb_parptr( 1 ) );
    hb_parni( (guint)  gtk_statusbar_get_context_id ( GTK_STATUSBAR( statusbar ) , (gchar *) hb_parc( 2 ) ) );
 }
 
 HB_FUNC( GTK_STATUSBAR_PUSH ) // pStatusbar, ID_Context , cText --> ID_Msg
 {
-   GtkWidget * statusbar = GTK_WIDGET( hb_parnl( 1 ) );
-   hb_parni( (guint)  gtk_statusbar_push( GTK_STATUSBAR( statusbar ) , (guint) hb_parni( 2 ) ,(gchar*) hb_parc( 3 ) ) );
+   GtkWidget * statusbar = GTK_WIDGET( hb_parptr( 1 ) );
+   gchar * text = str2utf8( ( gchar * ) hb_parc( 3 ) );
+   hb_parni( (guint)  gtk_statusbar_push( GTK_STATUSBAR( statusbar ) , (guint) hb_parni( 2 ), text ) );
+   SAFE_RELEASE( text );
 }
 
 HB_FUNC( GTK_STATUSBAR_POP ) // pStatusbar, ID_Context 
 {
-   GtkWidget * statusbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * statusbar = GTK_WIDGET( hb_parptr( 1 ) );
    guint id = (guint) hb_parni( 2 );	
    gtk_statusbar_pop( GTK_STATUSBAR( statusbar ), id );
 }
 
 HB_FUNC( GTK_STATUSBAR_REMOVE ) // pStatusbar, ID_Context , ID_Msg
 {
-   GtkWidget * statusbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * statusbar = GTK_WIDGET( hb_parptr( 1 ) );
    guint id  = (guint) hb_parni( 2 );	
    guint msg = (guint) hb_parni( 3 );
    gtk_statusbar_remove( GTK_STATUSBAR( statusbar ), id , msg );
@@ -60,13 +63,13 @@ HB_FUNC( GTK_STATUSBAR_REMOVE ) // pStatusbar, ID_Context , ID_Msg
 
 HB_FUNC( GTK_STATUSBAR_SET_HAS_RESIZE_GRIP ) // pStatusbar, bSetting
 {
-   GtkWidget * statusbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * statusbar = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_statusbar_set_has_resize_grip( GTK_STATUSBAR( statusbar ),hb_parl( 2 ) );
 }
 
 
 HB_FUNC( GTK_STATUSBAR_GET_HAS_RESIZE_GRIP ) // pStatusbar -> bResize
 {
-   GtkWidget * statusbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * statusbar = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retl( gtk_statusbar_get_has_resize_grip( GTK_STATUSBAR( statusbar ) ) );
 }

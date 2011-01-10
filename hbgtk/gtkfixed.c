@@ -27,13 +27,13 @@
 HB_FUNC( GTK_FIXED_NEW ) // -> widget
 {
    GtkWidget * fixed = gtk_fixed_new( );
-   hb_retnl( (glong) fixed );
+   hb_retptr( ( GtkWidget * ) fixed );
 }
 
 HB_FUNC( GTK_FIXED_PUT ) // fixed, child_widget,x, y
 {
-  GtkFixed  * fixed = GTK_FIXED( hb_parnl( 1 ) );
-  GtkWidget * child = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkFixed  * fixed = GTK_FIXED( hb_parptr( 1 ) );
+  GtkWidget * child = GTK_WIDGET( hb_parptr( 2 ) );
 
   gtk_fixed_put( fixed, child , (gint) hb_parni( 3 ), (gint) hb_parni( 4 ) );
 
@@ -41,8 +41,8 @@ HB_FUNC( GTK_FIXED_PUT ) // fixed, child_widget,x, y
 
 HB_FUNC( GTK_FIXED_MOVE ) // fixed, child_widget,x, y
 {
-  GtkFixed  * fixed = GTK_FIXED( hb_parnl( 1 ) );
-  GtkWidget * child = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkFixed  * fixed = GTK_FIXED( hb_parptr( 1 ) );
+  GtkWidget * child = GTK_WIDGET( hb_parptr( 2 ) );
 
   gtk_fixed_move( fixed, child , (gint) hb_parni( 3 ), (gint) hb_parni( 4 ) );
 
@@ -50,11 +50,11 @@ HB_FUNC( GTK_FIXED_MOVE ) // fixed, child_widget,x, y
 
 HB_FUNC( GTK_FIXED_GET_HAS_WINDOW )
 {
-     hb_retl( gtk_fixed_get_has_window( GTK_FIXED( hb_parnl( 1 ) ) ) ) ;
+   hb_retl( gtk_fixed_get_has_window( GTK_FIXED( hb_parptr( 1 ) ) ) ) ;
 }
 
 HB_FUNC( GTK_FIXED_SET_HAS_WINDOW )
 {
-    gtk_fixed_set_has_window( GTK_FIXED( hb_parnl( 1 ) ), hb_parl( 2 ) ) ;
+   gtk_fixed_set_has_window( GTK_FIXED( hb_parptr( 1 ) ), hb_parl( 2 ) ) ;
 }
 

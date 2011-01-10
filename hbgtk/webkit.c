@@ -13,13 +13,13 @@ HB_FUNC( WEBKIT_WEB_VIEW )
 HB_FUNC( WEBKIT_WEB_VIEW_NEW )
 {
    GtkWidget * webkit= webkit_web_view_new();
-   hb_retnl( (glong) webkit );
+   hb_retptr( ( GtkWidget * ) webkit );
 }
 
 HB_FUNC( WEBKIT_WEB_VIEW_OPEN )
 {
 
-   webkit_web_view_open( WEBKIT_WEB_VIEW ( hb_parnl( 1 ) ), hb_parc( 2 ) );
+   webkit_web_view_open( WEBKIT_WEB_VIEW ( hb_parptr( 1 ) ), hb_parc( 2 ) );
 }
 
 /*

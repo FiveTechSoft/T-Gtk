@@ -236,7 +236,7 @@ gtk_browse_draw_text( GdkGC *gc, GtkWidget *widget, GdkRectangle *rect, const gc
    gdk_gc_set_rgb_fg_color (gc, &mapcolor);  
    
    pango_layout_set_text( GTK_BROWSE (widget)->layout, text, -1 );
-            
+   
    gdk_draw_layout( widget->window, gc,
                     rect->x +PADDING, rect->y +PADDING, GTK_BROWSE( widget )->layout );
 }
@@ -516,13 +516,13 @@ HB_FUNC( GTK_BROWSE_NEW )
 {
    PHB_ITEM pSelf = hb_param( 1, HB_IT_OBJECT );
    GtkWidget *browse = gtk_browse_new( pSelf );
-   hb_retnl( (glong) browse );
+   hb_retptr( ( GtkWidget * ) browse );
 }
 
 HB_FUNC( GTK_BROWSE_DRAWHEADERS ) // ( widget, pEvent, aHeaders, aColSizes, aBmpFiles, nColPos, lArrow )
 {
-   GtkWidget *widget     = ( GtkWidget * ) hb_parnl( 1 );
-   GdkEventExpose *event = ( GdkEventExpose * ) hb_parnl( 2 );
+   GtkWidget *widget     = ( GtkWidget * ) hb_parptr( 1 );
+   GdkEventExpose *event = ( GdkEventExpose * ) hb_parptr( 2 );
    PHB_ITEM pBmpFiles    = hb_param( 5, HB_IT_ARRAY );
    gint i, iRight;
    gint iCols   = hb_parinfa( 3, 0 );
@@ -601,7 +601,7 @@ HB_FUNC( GTK_BROWSE_DRAWCELL ) // ( widget, nRow, nCol, cText, nWidth, lSelected
  * si se va a realizar cambios en fuentes o colores, ya que puede afectar a los *gc de otros
  * widget, almenos en la practica es lo que he constatado.
  **/
-   GtkWidget *widget = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget *widget = ( GtkWidget * ) hb_parptr( 1 );
    gint yPixCol      = hb_parnl( 2 ) * ROW_HEIGHT;
    GdkRectangle rect = { hb_parnl( 3 ), yPixCol,
                          hb_parnl( 5 ), ROW_HEIGHT  };
@@ -721,7 +721,7 @@ HB_FUNC( GTK_BROWSE_DRAWCELL ) // ( widget, nRow, nCol, cText, nWidth, lSelected
 
 HB_FUNC( GTK_BROWSE_ROW_COUNT ) // ( widget )
 {
-   hb_retnl( ( ( GtkWidget * ) hb_parnl( 1 ) )->allocation.height / ROW_HEIGHT );
+   hb_retnl( ( ( GtkWidget * ) hb_parptr( 1 ) )->allocation.height / ROW_HEIGHT );
 }
 
 HB_FUNC( GTK_BROWSE_ROW_HEIGHT ) // ( row height ) SetGet !
@@ -734,7 +734,7 @@ HB_FUNC( GTK_BROWSE_ROW_HEIGHT ) // ( row height ) SetGet !
 
 HB_FUNC( GTK_BROWSE_SET_FONT ) // ( widget, font description )
 {
-   GtkWidget *widget = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget *widget = ( GtkWidget * ) hb_parptr( 1 );
    PangoFontDescription *font_desc = pango_font_description_from_string (hb_parc( 2 ));
 
    gtk_widget_modify_font (widget, font_desc);
@@ -743,7 +743,7 @@ HB_FUNC( GTK_BROWSE_SET_FONT ) // ( widget, font description )
 
 HB_FUNC( GTK_BROWSE_GET_FONT_SIZE ) // ( widget )
 {
-   GtkWidget *widget = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget *widget = ( GtkWidget * ) hb_parptr( 1 );
    GtkRcStyle *rc_style;
 
    rc_style = gtk_widget_get_modifier_style (widget);  
@@ -752,7 +752,7 @@ HB_FUNC( GTK_BROWSE_GET_FONT_SIZE ) // ( widget )
 
 HB_FUNC( GTK_BROWSE_SCROLLDOWN )
 {
-   GtkWidget * hWnd = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * hWnd = ( GtkWidget * ) hb_parptr( 1 );
    gdk_draw_pixmap( hWnd->window, hWnd->style->fg_gc[ GTK_STATE_NORMAL ],
                     hWnd->window, 0, ROW_HEIGHT + ROW_HEIGHT, 0, ROW_HEIGHT, 
                     hWnd->allocation.width, hWnd->allocation.height );
@@ -760,7 +760,7 @@ HB_FUNC( GTK_BROWSE_SCROLLDOWN )
 
 HB_FUNC( GTK_BROWSE_SCROLLUP )
 {
-   GtkWidget * hWnd = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * hWnd = ( GtkWidget * ) hb_parptr( 1 );
    gint nLines = hb_parni( 2 );
 // ROW_HEIGHT + ROW_HEIGHT ( uno de los sera HEADER_HEIGHT, de momento valen igual)
    gdk_draw_pixmap( hWnd->window, hWnd->style->fg_gc[ GTK_STATE_NORMAL ],
@@ -770,8 +770,8 @@ HB_FUNC( GTK_BROWSE_SCROLLUP )
 
 HB_FUNC( GTK_BROWSE_SCROLL_CONNECT )  // browse, scrolled
 {
-   GtkWidget *widget = GTK_WIDGET( hb_parnl(1) );
-   GtkScrolledWindow *scrolled = GTK_SCROLLED_WINDOW( hb_parnl(2) );
+   GtkWidget *widget = GTK_WIDGET( hb_parptr( 1 ) );
+   GtkScrolledWindow *scrolled = GTK_SCROLLED_WINDOW( hb_parptr( 2 ) );
 
    g_signal_connect( G_OBJECT( scrolled->vscrollbar ), "value-changed",
                      G_CALLBACK( gtk_browse_scroll_event ), widget );

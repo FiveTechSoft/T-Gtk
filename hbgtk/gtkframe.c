@@ -23,37 +23,39 @@
 */
 #include <hbapi.h>
 #include <gtk/gtk.h>
+#include <t-gtk.h>
 
 HB_FUNC( GTK_FRAME_NEW )
 {
   GtkWidget * frame = gtk_frame_new( hb_parc( 1 ) );
-  hb_retnl( (ULONG) frame);
+  hb_retptr( ( GtkWidget * ) frame);
 }
 
 HB_FUNC( GTK_FRAME_SET_LABEL ) // frame, cText
 {
-   GtkWidget * frame = ( GtkWidget * ) hb_parnl( 1 );
-   gchar *text = hb_parc( 2 );
+   GtkWidget * frame = GTK_WIDGET( hb_parptr( 1 ) );
+   gchar *text = str2utf8( ( gchar * ) hb_parc( 2 ) );
    gtk_frame_set_label( GTK_FRAME( frame ), text  );
+   SAFE_RELEASE( text );
 }
 
 HB_FUNC( GTK_FRAME_SET_LABEL_WIDGET ) //frame, widget_label
 {
-   GtkWidget * frame = ( GtkWidget * ) hb_parnl( 1 );
-   GtkWidget * label = ( GtkWidget * ) hb_parnl( 2 );
+   GtkWidget * frame = GTK_WIDGET(  hb_parptr( 1 ) );
+   GtkWidget * label = GTK_WIDGET( hb_parptr( 2 ) );
 
    gtk_frame_set_label_widget( GTK_FRAME( frame ), label );
 }
 
 HB_FUNC( GTK_FRAME_GET_LABEL ) // frame->cText
 {
-   GtkWidget * frame = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * frame = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retc( ( char * ) gtk_frame_get_label( GTK_FRAME( frame ) ) );
 }
 
 HB_FUNC( GTK_FRAME_SET_LABEL_ALIGN ) // frame, nPosX, nPosY
 {
-   GtkWidget * frame = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * frame = GTK_WIDGET( hb_parptr( 1 ) );
 
    gtk_frame_set_label_align( GTK_FRAME( frame ) ,
                              ( gfloat ) hb_parnd( 2 ),
@@ -62,7 +64,7 @@ HB_FUNC( GTK_FRAME_SET_LABEL_ALIGN ) // frame, nPosX, nPosY
 
 HB_FUNC( GTK_FRAME_SET_SHADOW_TYPE ) // frame, nType
 {
-   GtkWidget * frame = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * frame = GTK_WIDGET( hb_parptr( 1 ) );
    GtkShadowType type = hb_parni( 2 );
 
    gtk_frame_set_shadow_type( GTK_FRAME( frame ), type );

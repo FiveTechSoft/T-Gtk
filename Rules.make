@@ -27,9 +27,56 @@ else
   export HB_COMPILER =gcc
 endif
 
+<<<<<<< .copia-de-trabajo
+#Nueva version harbour 1.1
+ifeq ($(HB_COMPILER),gcc)
+  HB_BIN_INSTALL=/home/rafa/harbour/bin/linux/gcc
+  HB_INC_INSTALL=/home/rafa/harbour/include
+  HB_LIB_INSTALL=/home/rafa/harbour/lib/linux/gcc
+else
+  HB_BIN_INSTALL=/harbour/bin
+  HB_INC_INSTALL=/harbour/include
+  HB_LIB_INSTALL=/harbour/lib/win/mingw
+endif 
+=======
+>>>>>>> .derecha-fusion.r344
 
 ##############################################
 
+<<<<<<< .copia-de-trabajo
+#Rutas de librerias y de includes de TGTK.
+#Se usa DIRSEP para que pueda funcionar xcopy al utilizar "make install"
+TGTK_DIR=/home/rafa/repositorios/subversion/tgtkdevel/branches/unrelease/
+LIBDIR_TGTK=$(DIRSEP)$(TGTK_DIR)$(DIRSEP)lib
+INCLUDE_TGTK_PRG=$(DIRSEP)$(TGTK_DIR)$(DIRSEP)include
+TGTK_INSTALL=$(DIRSEP)$(TGTK_DIR)$(DIRSEP)lib
+
+#Soporte para GtkSourceView
+GTKSOURCEVIEW=no
+
+#Soporte para Bonobo
+BONOBO=no
+
+#Alpha. Soporte para GNOMEDB y LIBGDA
+GNOMEDB=no
+
+#Soporte para CURL
+CURL=no
+
+#Soporte para WebKit
+WEBKIT=no
+
+#Soporte MySQL
+MYSQL=no
+DOLPHIN=no
+ifeq ($(MYSQL),yes)
+   ifeq ($(MYSQL_PATH),)
+      MYSQL_PATH='$(PROGRAMFILES)\MySQL\MySQL Server 5.0\include'
+   endif
+endif
+
+=======
+>>>>>>> .derecha-fusion.r344
 $(info *************************************************** )
 $(info * Plataforma: $(HB_MAKE_PLAT).   Compilador: $(HB_COMPILER) ) 
 $(info * Compilador XBase: $(XBASE_COMPILER)                 )
@@ -105,7 +152,7 @@ ifeq ($(HB_COMPILER),mingw32)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
 else
-   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk)
+   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) -D__HARBOUR64__
    ifeq ($(SUPPORT_PRINT_LINUX),yes)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) -DHB_OS_LINUX
      LIBS += $(shell pkg-config --libs libgnomeprintui-2.2)

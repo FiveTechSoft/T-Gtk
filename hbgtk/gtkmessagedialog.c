@@ -164,19 +164,24 @@ HB_FUNC( GTK_MESSAGE_DIALOG_NEW ) // cText, msgtype, buttons, parent -> dialog
 {
    GtkWidget *dialog;
    //gchar *msg = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
-   gchar *msg   = ( gchar *) hb_parc( 1 );
+   gchar *msg   = str2utf8( ( gchar *) hb_parc( 1 ) );
    gint msgtype = hb_parni( 2 );
    gint buttons = hb_parni( 3 );
-   gchar *wParent = ( gchar * ) hb_parc( 4 );
+   gchar *wParent;
 
-   if ( ISNIL( 4 ) ) 
-      dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL,
-                                       msgtype, buttons,msg );
-   else
-      dialog = gtk_message_dialog_new( GTK_WINDOW(wParent), GTK_DIALOG_MODAL,
-                                       msgtype, buttons, msg );
+   if ( ISNIL( 4 ) )
+      dialog = gtk_message_dialog_new( NULL, GTK_DIALOG_MODAL, msgtype, buttons, "%s", msg );
+   else{
+      wParent = str2utf8( ( gchar * ) hb_parc( 4 ) );
+      dialog = gtk_message_dialog_new( GTK_WINDOW(wParent), GTK_DIALOG_MODAL, msgtype, buttons, "%s", msg );
+      SAFE_RELEASE( wParent ); 
+    }
+
    
-   hb_retni( (ULONG) dialog );
+   
+   SAFE_RELEASE( msg );
+   
+   hb_retptr( ( GtkWidget * ) dialog );
 }
 
 /*
@@ -190,8 +195,7 @@ void msgbox( gint msgtype, gchar *message, gchar *title, gboolean lmarkup )
 
 //   g_convert( message, -1,"UTF-8","ISO-8859-1", NULL,NULL,NULL );
 
-   dialog  = gtk_message_dialog_new( GTK_WINDOW( wParent ), GTK_DIALOG_MODAL,
-                                     msgtype, GTK_BUTTONS_OK, message );
+   dialog  = gtk_message_dialog_new( GTK_WINDOW( wParent ), GTK_DIALOG_MODAL, msgtype, GTK_BUTTONS_OK, "%s", message );
 
 //   g_convert( title, -1,"UTF-8","ISO-8859-1", NULL,NULL,NULL );
 
@@ -220,7 +224,7 @@ void msgbox( gint msgtype, gchar *message, gchar *title, gboolean lmarkup )
    gtk_dialog_run( GTK_DIALOG( dialog ) );
    gtk_widget_destroy( dialog );
 }
-
+/*
 HB_FUNC( GTK_WINDOW_GET_TRANSIENT_FOR  ) // cMessage, cTitle, lmarkup -> 0
 {
    GtkWidget *dialog;
@@ -232,7 +236,7 @@ HB_FUNC( GTK_WINDOW_GET_TRANSIENT_FOR  ) // cMessage, cTitle, lmarkup -> 0
    hb_retni( (ULONG) dialog );
   
 }
-
+*/
 
 HB_FUNC( MSG_INFO ) // cMessage, cTitle, lmarkup -> 0
 {
@@ -245,30 +249,34 @@ HB_FUNC( MSG_INFO ) // cMessage, cTitle, lmarkup -> 0
       lmarkup = !hb_parl( 3 ) ;
 
    if( ISNIL( 1 ) )
-       message = "";
+       message = str2utf8( "" );
    else
    {
       if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
-         message = ( gchar * ) hb_parc( -1 );
+         message = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         message = ( gchar * ) hb_parc( 1 );
+         message = str2utf8( ( gchar * ) hb_parc( 1 ) );
    }
    
    if( ISNIL( 2 ) )
-       title = "Info";
+       title = str2utf8( "Info" );
    else {
       if( ! ISCHAR( 2 ) ){
          ValToChar( hb_param( 2, -1 ) ); 
-         title = ( gchar * ) hb_parc( -1 );
+         title = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         title = ( gchar * ) hb_parc( 2 );
+         title = str2utf8( ( gchar * ) hb_parc( 2 ) );
    }
            
    msgbox( GTK_MESSAGE_INFO, message, title, lmarkup );
    hb_retni( 0 ); // Si devuelvo nada, Harbour devuelve por nosotros NIL
-}                 // pero a mi me gusta devolver 0, al estilo que todo va bien
-
+                  // pero a mi me gusta devolver 0, al estilo que todo va bien
+                  
+                     
+   SAFE_RELEASE( title );
+   SAFE_RELEASE( message );                     
+}
 
 HB_FUNC( MSG_STOP ) // cMessage, cTitle, lMarkup -> 0
 {
@@ -276,24 +284,24 @@ HB_FUNC( MSG_STOP ) // cMessage, cTitle, lMarkup -> 0
    gboolean lmarkup;
 
    if( ISNIL( 1 ) )
-       message = "";
+       message = str2utf8( "" );
    else
    {
       if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
-         message = ( gchar * ) hb_parc( -1 );
+         message = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         message = ( gchar * ) hb_parc( 1 );
+         message = str2utf8( ( gchar * ) hb_parc( 1 ) );
    }
    
    if( ISNIL( 2 ) )
-       title = "Info";
+       title = str2utf8( "Info" );
    else {
       if( ! ISCHAR( 2 ) ){
          ValToChar( hb_param( 2, -1 ) ); 
-         title = ( gchar * ) hb_parc( -1 );
+         title = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         title = ( gchar * ) hb_parc( 2 );
+         title = str2utf8( ( gchar * ) hb_parc( 2 ) );
    }
       
    if( ISNIL( 3 ) )
@@ -302,6 +310,9 @@ HB_FUNC( MSG_STOP ) // cMessage, cTitle, lMarkup -> 0
       lmarkup = !hb_parl( 3 ) ;
 
    msgbox( GTK_MESSAGE_ERROR, message, title, lmarkup );
+
+   SAFE_RELEASE( title );
+   SAFE_RELEASE( message );         
    hb_retni( 0 );
 }
 
@@ -319,14 +330,14 @@ HB_FUNC( GTK_ALERT ) // cMessage, aButtons -> nOption
    gint result;
    
    if( ISNIL( 1 ) )
-       message = "";
+       message = str2utf8( "" );
    else
    {
       if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
-         message = ( gchar * ) hb_parc( -1 );
+         message = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         message = ( gchar * ) hb_parc( 1 );
+         message = str2utf8( ( gchar * ) hb_parc( 1 ) );
    }
    
 
@@ -358,6 +369,8 @@ HB_FUNC( GTK_ALERT ) // cMessage, aButtons -> nOption
    result = gtk_dialog_run( GTK_DIALOG (dialog) );
    gtk_widget_destroy( dialog );
 
+   SAFE_RELEASE( message );
+
    hb_retni( result );
 }
 
@@ -367,27 +380,31 @@ HB_FUNC( MSG_ALERT ) // cMessage, cTitle, lMarkup -> 0
    gboolean lmarkup = hb_parl( 3 );
 
    if( ISNIL( 1 ) )
-       message = "";
+       message = str2utf8( "" );
    else
    {
       if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
-         message = ( gchar * ) hb_parc( -1 );
+         message = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         message = ( gchar * ) hb_parc( 1 );
+         message = str2utf8( ( gchar * ) hb_parc( 1 ) );
    }
    
    if( ISNIL( 2 ) )
-       title = "Info";
+       title = str2utf8( "Info" );
    else {
       if( ! ISCHAR( 2 ) ){
          ValToChar( hb_param( 2, -1 ) ); 
-         title = ( gchar * ) hb_parc( -1 );
+         title = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         title = ( gchar * ) hb_parc( 2 );
+         title = str2utf8( ( gchar * ) hb_parc( 2 ) );
    }
    
    msgbox( GTK_MESSAGE_WARNING, message, title, lmarkup );
+   
+   SAFE_RELEASE( message );
+   SAFE_RELEASE( title );
+   
    hb_retni( 0 );
 }
 
@@ -399,27 +416,27 @@ HB_FUNC( MSG_NOYES ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logic
    gchar     *title    ;
    gboolean  lresponse = hb_parl( 3 );
    gboolean  lmarkup;
-   gchar     *icon_file= hb_parc( 5 );
+   gchar     *icon_file= ( gchar *) hb_parc( 5 );
 
    if( ISNIL( 1 ) )
-       msg = "";
+       msg = str2utf8( "" );
    else
    {
       if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
-         msg = ( gchar * ) hb_parc( -1 );
+         msg = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         msg = ( gchar * ) hb_parc( 1 );
+         msg = str2utf8( ( gchar * ) hb_parc( 1 ) );
    }
    
    if( ISNIL( 2 ) )
-       title = "Info";
+       title = str2utf8( "Info" );
    else {
       if( ! ISCHAR( 2 ) ){
          ValToChar( hb_param( 2, -1 ) ); 
-         title = ( gchar * ) hb_parc( -1 );
+         title = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         title = ( gchar * ) hb_parc( 2 );
+         title = str2utf8( ( gchar * ) hb_parc( 2 ) );
    }
 
   /* 
@@ -438,7 +455,7 @@ HB_FUNC( MSG_NOYES ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logic
 
    dialog = gtk_message_dialog_new( GTK_WINDOW( wParent ) , GTK_DIALOG_MODAL,
                                     GTK_MESSAGE_QUESTION,
-                                    GTK_BUTTONS_YES_NO, msg );
+                                    GTK_BUTTONS_YES_NO, "%s", msg );
    
    gtk_window_set_title( GTK_WINDOW( dialog ), title );
    gtk_window_set_position( GTK_WINDOW( dialog ), GTK_WIN_POS_CENTER );
@@ -461,7 +478,12 @@ HB_FUNC( MSG_NOYES ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> logic
    response  = gtk_dialog_run( GTK_DIALOG( dialog ) );
    gtk_widget_destroy( dialog );
    
+   SAFE_RELEASE( msg );
+   SAFE_RELEASE( title );
+   
    hb_retl( ( response == GTK_RESPONSE_YES) );
+   
+   
 }
 
 
@@ -473,28 +495,28 @@ HB_FUNC( MSG_OKCANCEL ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> lo
    gchar     *title;
    gboolean  lresponse  = hb_parl( 3 );
    gboolean  lmarkup;
-   gchar     *icon_file = hb_parc( 5 );
+   gchar     *icon_file = ( gchar * ) hb_parc( 5 );
 
 
    if( ISNIL( 1 ) )
-       msg = "";
+       msg = str2utf8( "" );
    else
    {
       if( ! ISCHAR( 1 ) ){
          ValToChar( hb_param( 1, -1 ) ); 
-         msg = ( gchar * ) hb_parc( -1 );
+         msg = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         msg = ( gchar * ) hb_parc( 1 );
+         msg = str2utf8( ( gchar * ) hb_parc( 1 ) );
    }
    
    if( ISNIL( 2 ) )
-       title = "Info";
+       title = str2utf8( "Info" );
    else {
       if( ! ISCHAR( 2 ) ){
          ValToChar( hb_param( 2, -1 ) ); 
-         title = ( gchar * ) hb_parc( -1 );
+         title = str2utf8( ( gchar * ) hb_parc( -1 ) );
       }else
-         title = ( gchar * ) hb_parc( 2 );
+         title = str2utf8( ( gchar * ) hb_parc( 2 ) );
    }
 
   /* 
@@ -513,7 +535,7 @@ HB_FUNC( MSG_OKCANCEL ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> lo
 
    dialog = gtk_message_dialog_new( GTK_WINDOW( wParent ), GTK_DIALOG_MODAL,
                                     GTK_MESSAGE_QUESTION,
-                                    GTK_BUTTONS_OK_CANCEL, msg );
+                                    GTK_BUTTONS_OK_CANCEL, "%s", msg );
 
    if ( lresponse )
       gtk_dialog_set_default_response (GTK_DIALOG( dialog ), GTK_RESPONSE_OK);
@@ -538,6 +560,10 @@ HB_FUNC( MSG_OKCANCEL ) // cMessage, cTitle, lResponse, lMarkup, cIconFile -> lo
 
    response  = gtk_dialog_run( GTK_DIALOG( dialog ) );
    gtk_widget_destroy( dialog );
+ 
+   SAFE_RELEASE( msg );
+   SAFE_RELEASE( title );
+   
    
    hb_retl( ( response == GTK_RESPONSE_OK) );
 }

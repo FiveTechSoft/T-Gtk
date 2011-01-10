@@ -8,21 +8,29 @@
 #include "gtkapi.ch"
 
 
+REQUEST HB_CODEPAGE_ESISO
+
 Function Main()
      Local Window, button,  table,  oFont, label,frame, i
      Local notebook
 
+     HB_CDPSELECT( "ESISO" )
+     Set_Auto_Utf8( .T. )
+
      window = gtk_window_new()
+     
      gtk_window_set_title ( window, "Notebook")
      gtk_signal_connect (window, "delete-event",{|| gtk_main_quit(), .F. } )
+     gtk_signal_connect( window, "destroy", {| widget | gtk_main_quit(), .F. } )
+     
      Gtk_container_set_border_width( window, 10 )
 
      oFont := GFont():New( "Tahoma bold 14" )
 
-     table = gtk_table_new(2,6,TRUE)
+     table = gtk_table_new(2,6, .T. )
      gtk_container_add(window, table)
-
      /* Crea un nuevo libro de notas, indicando la posición de los indicadores */
+     
      notebook = gtk_notebook_new ()
      __GSTYLE( "blue",notebook, FGCOLOR, STATE_NORMAL ) // Color
      __GSTYLE( "white",notebook, BGCOLOR, STATE_NORMAL ) // Color
@@ -33,6 +41,7 @@ Function Main()
      gtk_widget_show( notebook)
 
       /* le añadimos un montón de páginas al libro de notas  */
+      
       FOR I := 1 TO 4
 
         frame = gtk_frame_new( Str( I,1 ) )
@@ -46,11 +55,10 @@ Function Main()
         gtk_widget_modify_font( label, oFont:pFont )
                     gtk_container_add(frame, label)
         gtk_widget_show(label)
-
         label = gtk_label_new( Str( I ) )
         gtk_widget_modify_font( label, oFont:pFont )
         gtk_notebook_append_page( notebook, frame, label)
-                  __GSTYLE( "green",label,FGCOLOR, STATE_NORMAL ) // Color
+        __GSTYLE( "green", label, FGCOLOR, STATE_NORMAL ) // Color
 
       NEXT
 
@@ -62,11 +70,11 @@ Function Main()
                      __GSTYLE( "magenta",frame,BGCOLOR, STATE_NORMAL ) // Color
          gtk_widget_show(frame)
 
-         label = gtk_label_new( "PPage "+ Str( I, 1 ) )
+         label = gtk_label_new( "Page "+ Str( I, 1 ) )
          gtk_container_add( frame , label )
          gtk_widget_show (label)
 
-         label = gtk_label_new( "PPage "+ Str( I, 1 ) )
+         label = gtk_label_new( "Page "+ Str( I, 1 ) )
          gtk_notebook_prepend_page(notebook, frame, label )
      NEXT
 
@@ -78,7 +86,7 @@ Function Main()
     gtk_signal_connect( button, "clicked", {|| g_signal_emit_by_name( window, "destroy" ) } )
     gtk_table_attach_defaults( table, button, 0, 1, 1, 2)
     gtk_widget_show (button)
-
+*
     button = gtk_button_new_with_label ("next page")
     gtk_signal_connect( button, "clicked", {||next_page( notebook ) } )
     gtk_table_attach_defaults(table, button, 1, 2, 1, 2)

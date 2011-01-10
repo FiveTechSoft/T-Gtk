@@ -1,10 +1,15 @@
 #include "gclass.ch"
 
+REQUEST HB_CODEPAGE_ESISO
+
 FUNCTION Main()
    LOCAL oWnd, oPBr, oBtn
    LOCAL nVar := 0, cFileRes, cResource
 
    cFileRes := "pruebas.glade"
+   
+   HB_CDPSELECT( "ESISO" )
+   Set_Auto_UTF8( .T. )
 
    SET RESOURCES cResource FROM FILE cFileRes ROOT "wndMain"
 

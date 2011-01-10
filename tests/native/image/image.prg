@@ -28,7 +28,7 @@ function main()
 /* Imagen 'via' icono */
    hIcon := gdk_pixbuf_new_from_file( "../../images/rafa.jpg" )
 
-   if hIcon != 0
+   if hIcon != NIL
       hImage = gtk_image_new_from_pixbuf( hIcon )
       gtk_container_add( hBox, hImage )
       gdk_pixbuf_unref( hIcon )

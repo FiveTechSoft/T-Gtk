@@ -47,7 +47,7 @@ Function Main()
       N_IMAGES := Len( images )
 
       window = gtk_window_new( GTK_WINDOW_TOPLEVEL )
-      gtk_window_set_title (GTK_WINDOW (window), "T-Gtk Pixbufs ;-)")
+      gtk_window_set_title ( window, "T-Gtk Pixbufs ;-)")
       Gtk_window_set_position( Window, GTK_WIN_POS_CENTER )
       gtk_window_set_resizable (GTK_WINDOW (window), FALSE)
       
@@ -105,7 +105,6 @@ FUNCTION EXPOSE_CB(  widget, event )
 
    rowstride := gdk_pixbuf_get_rowstride( frame )
    pixels   := gdk_pixbuf_get_pixels( frame ) + rowstride * area_y + area_x * 3
-
    gdk_draw_rgb_image_dithalign( widget_window,;
                                  style_black,;
                                  area_x, area_y,;

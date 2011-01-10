@@ -28,6 +28,6 @@
 HB_FUNC( GTK_VOLUME_BUTTON_NEW ) // -> widget
 {
    GtkWidget * button = gtk_volume_button_new ();
-   hb_retnl( (glong) button );
+   hb_retptr( ( GtkWidget * ) button );
 }
 #endif

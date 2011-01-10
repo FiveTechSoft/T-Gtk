@@ -34,3 +34,9 @@ GtkWidget * get_win_parent(void);
    #define hb_stornd   hb_storvnd
 #endif
 
+
+void Safe_GFree( gchar * );
+#define SAFE_RELEASE(x) Safe_GFree( x );
+
+gchar * str2utf8( gchar * szString );
+gchar * utf82str( gchar * szString );

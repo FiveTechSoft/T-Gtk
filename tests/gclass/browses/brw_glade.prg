@@ -73,7 +73,7 @@ function main()
         oBrw2:SetArray( { { aNumSpa[oBrw1:nAt], aColSpa[oBrw1:nAt] }, ;
                           { aNumCat[oBrw1:nAt], aColCat[oBrw1:nAt] }, ;
                           { aNumEng[oBrw1:nAt], aColEng[oBrw1:nAt] } } ) 
-                                 
+                                
   ACTIVATE WINDOW oWnd CENTER 
 
 return nil

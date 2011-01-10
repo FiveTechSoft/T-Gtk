@@ -27,11 +27,11 @@
 HB_FUNC( GTK_HSEPARATOR_NEW )
 {
   GtkWidget * separator =  gtk_hseparator_new ();
-  hb_retnl( (ULONG) separator );
+  hb_retptr( ( GtkWidget * ) separator );
 }
 
 HB_FUNC( GTK_VSEPARATOR_NEW )
 {
   GtkWidget * separator =  gtk_vseparator_new ();
-  hb_retnl( (ULONG) separator );
+  hb_retptr( ( GtkWidget * ) separator );
 }

@@ -54,7 +54,7 @@ function main( )
                        0,0 )
  
 /* Dibujo */    
-    pImage2 := gtk_image_new_from_file( "../../images/logo.PNG" )
+    pImage2 := gtk_image_new_from_file( "../../images/glogo.png" )
     gtk_table_attach ( table, pimage2, 1, 2, 1, 2,;
                        nOr( GTK_FILL,GTK_SHRINK ) ,;
                        nOr( GTK_FILL,GTK_SHRINK )  , 0,0 )

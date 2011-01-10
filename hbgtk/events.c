@@ -74,7 +74,8 @@
       if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // pWidget
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // pWidget
         hb_vmPushInteger( ini );      // Texto
         hb_vmPushInteger( end );                   // Largo
         hb_vmSend( 3 );
@@ -118,7 +119,8 @@
       if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // pWidget
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // pWidget
         hb_vmPushString( text, strlen( text ) );      // Texto
         hb_vmPushInteger( length );                   // Largo
         hb_vmPushInteger( *position );          // Posicion
@@ -163,7 +165,8 @@ gint OnEventos( GtkWidget * widget, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
         hb_vmSend( 1 );                               // LLamada por Send al codeblocks
         // Esto es otra manera de ejecutar un codeblock
         //PHB_ITEM h_widget;
@@ -209,7 +212,8 @@ void OnEventos_void( GtkWidget * widget, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmSend( 1 );
      }
   }
@@ -236,7 +240,8 @@ gboolean OnDelete_Event( GtkWidget *widget, GdkEvent  *event, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEvent  *) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -250,8 +255,10 @@ gboolean OnDelete_Event( GtkWidget *widget, GdkEvent  *event, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEvent  *) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -277,7 +284,8 @@ void OnEvent_After( GtkWidget *widget, GdkEvent  *event, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEvent  *) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
            g_print( "Method doesn't %s exist en OnEventAfter", (gchar *)data );
@@ -290,8 +298,10 @@ void OnEvent_After( GtkWidget *widget, GdkEvent  *event, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEvent  *) event );        
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
      }
   }
@@ -329,7 +339,8 @@ gint OnResponse( GtkDialog * widget, gint arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushInteger( arg1 );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -357,7 +368,8 @@ gint OnKeyPressEvent( GtkWidget * widget, GdkEventKey * event, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventKey  *) event );            
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -371,8 +383,10 @@ gint OnKeyPressEvent( GtkWidget * widget, GdkEventKey * event, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventKey  *) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -399,7 +413,8 @@ gint OnFocusEvent( GtkWidget *widget, GdkEventFocus * event, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventFocus  *) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -413,8 +428,10 @@ gint OnFocusEvent( GtkWidget *widget, GdkEventFocus * event, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventFocus  *) event );        
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -453,7 +470,8 @@ void OnMove_slider( GtkWidget *widget, GtkScrollType arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushInteger( arg1 );                     // GtkScrollType
         hb_vmSend( 2 );
      }
@@ -478,7 +496,8 @@ void OnSelect_child ( GtkList *list,  GtkWidget *widget, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Pointer widget child
+            hb_vmPushPointer( ( GtkWidget * ) widget );
+//            hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Pointer widget child
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
            g_print( "Method doesn't %s exist en OnSelect_child", (gchar *)data );
@@ -491,8 +510,10 @@ void OnSelect_child ( GtkList *list,  GtkWidget *widget, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( list ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+        hb_vmPushPointer( ( GtkList * ) list );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( list ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmSend( 2 );
      }
   }
@@ -528,7 +549,8 @@ void OnSelection_changed( GtkList *list, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( list ) );
+        hb_vmPushPointer( ( GtkList * ) list );
+//        hb_vmPushLong( GPOINTER_TO_UINT( list ) );
         hb_vmSend( 1 );
      }
   }
@@ -552,7 +574,8 @@ void OnSwitch_page( GtkNotebook *notebook, GtkNotebookPage *page, guint page_num
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) ); // Coloca simbolo en la pila
             hb_vmPush( pObj );                             // Coloca objeto en pila.
             hb_vmPush( pObj );                             // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( page ) );     // page
+            hb_vmPushPointer( ( GtkNotebookPage * ) page );
+//            hb_vmPushLong( GPOINTER_TO_UINT( page ) );     // page
             hb_vmPushInteger( page_num );                  // actual page number 
             hb_vmSend( 3 );
          } else {
@@ -566,8 +589,10 @@ void OnSwitch_page( GtkNotebook *notebook, GtkNotebookPage *page, guint page_num
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( notebook ) ); // notebook
-        hb_vmPushLong( GPOINTER_TO_UINT( page ) );     // page
+        hb_vmPushPointer( ( GtkNotebook * ) notebook );
+        hb_vmPushPointer( ( GtkNotebookPage * ) page );
+//        hb_vmPushLong( GPOINTER_TO_UINT( notebook ) ); // notebook
+//        hb_vmPushLong( GPOINTER_TO_UINT( page ) );     // page
         hb_vmPushInteger( page_num );                  // numero de pagina actual
         hb_vmSend( 3 );
      }
@@ -604,7 +629,8 @@ void OnGroup_changed( GtkRadioButton *radiobutton, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( radiobutton ) );
+        hb_vmPushPointer( ( GtkRadioButton * ) radiobutton );
+//        hb_vmPushLong( GPOINTER_TO_UINT( radiobutton ) );
         hb_vmSend( 1 );
      }
   }
@@ -628,8 +654,10 @@ void OnRow_activated( GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColum
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( path ) );
-            hb_vmPushLong( GPOINTER_TO_UINT( col  ) );
+            hb_vmPushPointer( ( GtkTreePath * ) path );
+            hb_vmPushPointer( ( GtkTreeViewColumn *) col );
+//            hb_vmPushLong( GPOINTER_TO_UINT( path ) );
+//            hb_vmPushLong( GPOINTER_TO_UINT( col  ) );
             hb_vmSend( 3 );                               // LLamada por Send que pasa
          } else {
            g_print( "Method doesn't %s exist en OnRow_Activate", (gchar *)data );
@@ -642,9 +670,12 @@ void OnRow_activated( GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColum
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( treeview ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( path ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( col  ) );
+        hb_vmPushPointer( ( GtkTreeView * ) treeview );
+        hb_vmPushPointer( ( GtkTreePath * ) path );
+        hb_vmPushPointer( ( GtkTreeViewColumn *) col );        
+//        hb_vmPushLong( GPOINTER_TO_UINT( treeview ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( path ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( col  ) );
         hb_vmSend( 3 );
      }
   }
@@ -681,7 +712,8 @@ void OnCell_toggled( GtkCellRendererToggle *cell_renderer, gchar *path, gpointer
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( cell_renderer ) );
+        hb_vmPushPointer( ( GtkCellRendererToggle * ) cell_renderer );
+//        hb_vmPushLong( GPOINTER_TO_UINT( cell_renderer ) );
         hb_vmPushString( path, strlen( path) );
         hb_vmSend( 2 );
      }
@@ -719,7 +751,8 @@ void OnInsert_at_cursor( GtkEntry *entry, gchar *arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
+        hb_vmPushPointer( ( GtkEntry * ) entry );
+//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmPushString( arg1, strlen( arg1 ) );
         hb_vmSend( 2 );
      }
@@ -744,7 +777,8 @@ void OnItem_Activated( GtkIconView *iconview, GtkTreePath *arg1, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
+            hb_vmPushPointer( ( GtkTreePath * ) arg1 );        
+//            hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
            g_print( "Method doesn't %s exist en OnItem_Activated", (gchar *)data );
@@ -757,8 +791,10 @@ void OnItem_Activated( GtkIconView *iconview, GtkTreePath *arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( iconview ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
+        hb_vmPushPointer( ( GtkIconView * ) iconview );      
+        hb_vmPushPointer( ( GtkTreePath * ) arg1 );
+//        hb_vmPushLong( GPOINTER_TO_UINT( iconview ) );        
+//        hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
         hb_vmSend( 2 );
      }
   }
@@ -782,7 +818,8 @@ gboolean OnExpose_Event( GtkWidget *widget, GdkEventExpose *event, gpointer data
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventExpose * )event  );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -796,8 +833,10 @@ gboolean OnExpose_Event( GtkWidget *widget, GdkEventExpose *event, gpointer data
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget  );
+        hb_vmPushPointer( ( GdkEventExpose * )event  );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -823,7 +862,8 @@ gboolean OnConfigure_Event( GtkWidget  *widget, GdkEventConfigure *event, gpoint
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventConfigure * )event  );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -837,8 +877,10 @@ gboolean OnConfigure_Event( GtkWidget  *widget, GdkEventConfigure *event, gpoint
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget  );
+        hb_vmPushPointer( ( GdkEventConfigure * )event  );        
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -876,7 +918,8 @@ void OnCursor_Changed( GtkTreeView *treeview, gpointer data  )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( treeview ) );
+        hb_vmPushPointer( ( GtkTreeView * ) treeview  );
+//        hb_vmPushLong( GPOINTER_TO_UINT( treeview ) );
         hb_vmSend( 1 );
      }
   }
@@ -914,7 +957,8 @@ void OnMove_Cursor_Tree( GtkTreeView *treeview, GtkMovementStep arg1, gint arg2,
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( treeview ) );
+        hb_vmPushPointer( ( GtkTreeView * ) treeview  );
+//        hb_vmPushLong( GPOINTER_TO_UINT( treeview ) );
         hb_vmPushInteger( (gint) arg1 );
         hb_vmPushInteger( (gint) arg2 );
         hb_vmSend( 3 );
@@ -953,7 +997,8 @@ void OnEdited( GtkCellRendererText * cellrenderertext, gchar *arg1, gchar *arg2,
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( cellrenderertext ) );
+        hb_vmPushPointer( ( GtkCellRendererText * ) cellrenderertext  );
+//        hb_vmPushLong( GPOINTER_TO_UINT( cellrenderertext ) );
         hb_vmPushString( arg1, strlen( arg1) );
         hb_vmPushString( arg2, strlen( arg2) );
         hb_vmSend( 3 );
@@ -978,7 +1023,8 @@ void OnEditing_started( GtkCellRenderer *renderer, GtkCellEditable *editable,   
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( editable ) );
+            hb_vmPushPointer( ( GtkCellEditable * ) editable  );
+//            hb_vmPushLong( GPOINTER_TO_UINT( editable ) );
             hb_vmPushString( path, strlen( path ) );
             hb_vmSend( 3 );                               // LLamada por Send que pasa
          } else {
@@ -991,8 +1037,10 @@ void OnEditing_started( GtkCellRenderer *renderer, GtkCellEditable *editable,   
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( renderer ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( editable ) );
+        hb_vmPushPointer( ( GtkCellRenderer * ) renderer  );
+        hb_vmPushPointer( ( GtkCellEditable * ) editable  );
+//        hb_vmPushLong( GPOINTER_TO_UINT( renderer ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( editable ) );
         hb_vmPushString( path, strlen( path ) );
         hb_vmSend( 3 );
      }
@@ -1026,7 +1074,8 @@ void OnEditing_canceled( GtkCellRenderer *renderer, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( renderer ) );
+        hb_vmPushPointer( ( GtkCellRenderer * ) renderer  );
+//        hb_vmPushLong( GPOINTER_TO_UINT( renderer ) );
         hb_vmSend( 1 );
      }
   }
@@ -1049,7 +1098,8 @@ gboolean OnEnter_Leave_NotifyEvent( GtkWidget *widget, GdkEventCrossing *event, 
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventCrossing * ) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -1063,8 +1113,10 @@ gboolean OnEnter_Leave_NotifyEvent( GtkWidget *widget, GdkEventCrossing *event, 
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventCrossing * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1091,7 +1143,8 @@ gboolean OnButton_Press_Event( GtkWidget *widget, GdkEventButton *event, gpointe
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventButton * ) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -1105,8 +1158,10 @@ gboolean OnButton_Press_Event( GtkWidget *widget, GdkEventButton *event, gpointe
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventButton * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1145,7 +1200,8 @@ gboolean OnCan_Activate_Accel( GtkWidget *widget, guint signal_id, gpointer data
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushInteger( (guint) signal_id );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -1172,7 +1228,8 @@ void OnChild_Notify( GtkWidget *widget, GParamSpec *pspec, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( pspec ) );  // Metemos puntero
+            hb_vmPushPointer( ( GParamSpec * ) pspec );
+//            hb_vmPushLong( GPOINTER_TO_UINT( pspec ) );  // Metemos puntero
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
            g_print( "Method doesn't %s exist en OnChildNotify", (gchar *)data );
@@ -1185,8 +1242,10 @@ void OnChild_Notify( GtkWidget *widget, GParamSpec *pspec, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( pspec ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GParamSpec * ) pspec );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( pspec ) );
         hb_vmSend( 2 );
      }
   }
@@ -1209,7 +1268,8 @@ gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );  // Metemos puntero del widget
+            hb_vmPushPointer( ( GdkEventClient * ) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );  // Metemos puntero del widget
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -1223,8 +1283,10 @@ gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventClient * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1262,7 +1324,8 @@ void OnDirection_Changed( GtkWidget *widget, GtkTextDirection arg1, gpointer dat
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushInteger( (gint) arg1 );
         hb_vmSend( 2 );
      }
@@ -1301,7 +1364,8 @@ gboolean OnFocus( GtkWidget *widget, GtkDirectionType arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushInteger( (gint) arg1 );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -1328,7 +1392,8 @@ void OnSignals_Container( GtkContainer *container, GtkWidget  *widget, gpointer 
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero
+            hb_vmPushPointer( ( GtkWidget * ) widget );
+//            hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
            g_print( "Method doesn't %s exist en OnSignals_Container", (gchar *)data );
@@ -1341,8 +1406,10 @@ void OnSignals_Container( GtkContainer *container, GtkWidget  *widget, gpointer 
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( container ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+        hb_vmPushPointer( ( GtkContainer * ) container );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( container ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmSend( 2 );
      }
   }
@@ -1378,7 +1445,8 @@ void OnCheck_Resize( GtkContainer *container, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( container ) );
+        hb_vmPushPointer( ( GtkContainer * ) container );
+//        hb_vmPushLong( GPOINTER_TO_UINT( container ) );
         hb_vmSend( 1 );
      }
   }
@@ -1402,7 +1470,8 @@ gboolean OnGrab_Broken_Event( GtkWidget *widget, GdkEventGrabBroken *event, gpoi
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventGrabBroken * ) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -1416,8 +1485,10 @@ gboolean OnGrab_Broken_Event( GtkWidget *widget, GdkEventGrabBroken *event, gpoi
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventGrabBroken * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1457,7 +1528,8 @@ void OnGrab_Notify( GtkWidget *widget, gboolean arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmPushLogical( arg1 );
         hb_vmSend( 2 );
      }
@@ -1481,7 +1553,8 @@ void OnHierarchy_Changed( GtkWidget *widget, GtkWidget *widget2, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                                 // Coloca objeto en pila.
             hb_vmPush( pObj );
-            hb_vmPushLong( GPOINTER_TO_UINT( widget2 ) );
+            hb_vmPushPointer( ( GtkWidget * ) widget2 );
+//            hb_vmPushLong( GPOINTER_TO_UINT( widget2 ) );
             hb_vmSend( 2 );
          } else {
            g_print( "Method doesn't %s exist en OnHierarchy_Changed", (gchar *)data );
@@ -1494,8 +1567,10 @@ void OnHierarchy_Changed( GtkWidget *widget, GtkWidget *widget2, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget2 ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GtkWidget * ) widget2 );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget2 ) );
         hb_vmSend( 2 );
      }
   }
@@ -1533,7 +1608,8 @@ gboolean OnMnemonic_Activate( GtkWidget *widget, gboolean arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushLogical( arg1 );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -1559,7 +1635,8 @@ gboolean OnMotion_Notify_Event( GtkWidget *widget, GdkEventMotion *event, gpoint
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventMotion * ) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -1573,8 +1650,10 @@ gboolean OnMotion_Notify_Event( GtkWidget *widget, GdkEventMotion *event, gpoint
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );  
+        hb_vmPushPointer( ( GdkEventMotion * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1600,7 +1679,8 @@ gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventNoExpose * ) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -1614,8 +1694,10 @@ gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventMotion * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1641,7 +1723,8 @@ void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( old_parent ) );  // Metemos puntero
+            hb_vmPushPointer( ( GtkObject * ) old_parent );
+//            hb_vmPushLong( GPOINTER_TO_UINT( old_parent ) );  // Metemos puntero
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
            g_print( "Method doesn't %s exist en OnParent_Set", (gchar *)data );
@@ -1654,8 +1737,10 @@ void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( old_parent ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GtkObject * ) old_parent );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( old_parent ) );
         hb_vmSend( 2 );
      }
   }
@@ -1678,7 +1763,8 @@ gboolean OnProperty_Notify_Event( GtkWidget *widget, GdkEventProperty *event, gp
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventProperty * ) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -1692,8 +1778,10 @@ gboolean OnProperty_Notify_Event( GtkWidget *widget, GdkEventProperty *event, gp
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventProperty * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1718,7 +1806,8 @@ gboolean OnProximity_Event( GtkWidget *widget, GdkEventProximity *event, gpointe
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventProximity * ) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -1732,8 +1821,10 @@ gboolean OnProximity_Event( GtkWidget *widget, GdkEventProximity *event, gpointe
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventProximity * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1758,7 +1849,8 @@ void OnScreen_Changed( GtkWidget *widget, GdkScreen *arg1, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                                 // Coloca objeto en pila.
             hb_vmPush( pObj );                                 // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
+            hb_vmPushPointer( ( GdkScreen * ) arg1 );
+//            hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
             hb_vmSend( 2 );
          } else {
            g_print( "Method doesn't %s exist en OnScreen_Changed", (gchar *)data );
@@ -1771,8 +1863,10 @@ void OnScreen_Changed( GtkWidget *widget, GdkScreen *arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkScreen * ) arg1 );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
         hb_vmSend( 2 );
      }
   }
@@ -1795,7 +1889,8 @@ gboolean OnScroll_Event( GtkWidget *widget, GdkEventScroll *event, gpointer data
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventScroll * ) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -1809,8 +1904,10 @@ gboolean OnScroll_Event( GtkWidget *widget, GdkEventScroll *event, gpointer data
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventScroll * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1835,7 +1932,8 @@ gboolean OnSelection_Event( GtkWidget *widget, GdkEventSelection *event, gpointe
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+            hb_vmPushPointer( ( GdkEventSelection * ) event );
+//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -1849,8 +1947,10 @@ gboolean OnSelection_Event( GtkWidget *widget, GdkEventSelection *event, gpointe
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventSelection * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1870,7 +1970,8 @@ gboolean OnSelection_Get( GtkWidget *widget, GtkSelectionData * selection_data, 
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
-        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
+        hb_vmPushPointer( ( GtkSelectionData * ) selection_data );
+//        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
         hb_vmPushInteger( (gint) info );
         hb_vmPushInteger( (gint) time );
         hb_vmSend( 4 );                              // LLamada por Send
@@ -1886,8 +1987,10 @@ gboolean OnSelection_Get( GtkWidget *widget, GtkSelectionData * selection_data, 
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GtkSelectionData * ) selection_data );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
         hb_vmPushInteger( (gint) info );
         hb_vmPushInteger( (gint) time );
         hb_vmSend( 4 );
@@ -1909,7 +2012,8 @@ gboolean OnSelection_Received( GtkWidget *widget, GtkSelectionData * selection_d
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
-        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
+        hb_vmPushPointer( ( GtkSelectionData * ) selection_data );
+//        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
         hb_vmPushInteger( (gint) time );
         hb_vmSend( 3 );                              // LLamada por Send
         return( hb_parl( -1 ) );
@@ -1924,8 +2028,10 @@ gboolean OnSelection_Received( GtkWidget *widget, GtkSelectionData * selection_d
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GtkSelectionData * ) selection_data );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
         hb_vmPushInteger( (gint) time );
         hb_vmSend( 3 );
         return( hb_parl( -1 ) );
@@ -1960,7 +2066,8 @@ gboolean OnShow_Help( GtkWidget *widget, GtkWidgetHelpType arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmPushInteger( (gint) arg1 );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -1981,7 +2088,8 @@ void OnSize_Allocate( GtkWidget *widget, GtkAllocation *allocation, gpointer dat
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
-        hb_vmPushLong( GPOINTER_TO_UINT( allocation ) );
+        hb_vmPushPointer( ( GtkAllocation * ) allocation );
+//        hb_vmPushLong( GPOINTER_TO_UINT( allocation ) );
         hb_vmSend( 2 );                              // LLamada por Send
      } else {
         g_print( "Method doesn't exist OnSize_Request" );
@@ -1994,8 +2102,10 @@ void OnSize_Allocate( GtkWidget *widget, GtkAllocation *allocation, gpointer dat
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( allocation ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GtkAllocation * ) allocation );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( allocation ) );
         hb_vmSend( 2 );
      }
   }
@@ -2013,7 +2123,8 @@ void OnSize_Request( GtkWidget *widget, GtkRequisition *requisition, gpointer da
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
-        hb_vmPushLong( GPOINTER_TO_UINT( requisition ) );
+        hb_vmPushPointer( ( GtkRequisition * ) requisition );
+//        hb_vmPushLong( GPOINTER_TO_UINT( requisition ) );
         hb_vmSend( 2 );                              // LLamada por Send
      } else {
         g_print( "Method doesn't exist OnSize_Request" );
@@ -2026,8 +2137,10 @@ void OnSize_Request( GtkWidget *widget, GtkRequisition *requisition, gpointer da
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( requisition ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GtkRequisition * ) requisition );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( requisition ) );
         hb_vmSend( 2 );
      }
   }
@@ -2058,7 +2171,8 @@ void OnState_Changed( GtkWidget *widget, GtkStateType state, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmPushInteger( (gint) state );
         hb_vmSend( 2 );
      }
@@ -2077,7 +2191,8 @@ void OnStyle_Set( GtkWidget *widget, GtkStyle *previous_style, gpointer data )
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
-        hb_vmPushLong( GPOINTER_TO_UINT( previous_style ) );
+        hb_vmPushPointer( ( GtkStyle * ) previous_style );
+//        hb_vmPushLong( GPOINTER_TO_UINT( previous_style ) );
         hb_vmSend( 2 );                              // LLamada por Send
      } else {
         g_print( "Method doesn't exist OnStyle_Set" );
@@ -2090,8 +2205,10 @@ void OnStyle_Set( GtkWidget *widget, GtkStyle *previous_style, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( previous_style ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GtkStyle * ) previous_style );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( previous_style ) );
         hb_vmSend( 2 );
      }
   }
@@ -2109,7 +2226,8 @@ gboolean OnVisibility_Notify_Event( GtkWidget *widget, GdkEventVisibility *event
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GdkEventVisibility * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );                              // LLamada por Send
         return( hb_parl( -1 ) );
      } else {
@@ -2123,8 +2241,10 @@ gboolean OnVisibility_Notify_Event( GtkWidget *widget, GdkEventVisibility *event
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventVisibility * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -2144,7 +2264,8 @@ gboolean OnWindow_State_Event( GtkWidget *widget, GdkEventWindowState *event, gp
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GdkEventWindowState * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );                              // LLamada por Send
         return( hb_parl( -1 ) );
      } else {
@@ -2158,8 +2279,10 @@ gboolean OnWindow_State_Event( GtkWidget *widget, GdkEventWindowState *event, gp
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushPointer( ( GdkEventWindowState * ) event );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -2192,7 +2315,8 @@ void OnMove_Focus( GtkWidget *widget, GtkDirectionType arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmPushInteger( (gint) arg1 );
         hb_vmSend( 2 );
      }
@@ -2225,7 +2349,8 @@ gboolean OnCycle_Child_Focus( GtkWidget *widget, gboolean arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmPushLogical( arg1 );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -2259,7 +2384,8 @@ gboolean OnMove_Handle( GtkWidget *widget, GtkScrollType arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
         hb_vmPushInteger( arg1 );                     // GtkScrollType
         hb_vmSend( 2 );                               // LLamada por Send al codeblocks
         return( hb_parl( -1 ) );
@@ -2292,7 +2418,8 @@ void OnAdjust_Bounds( GtkWidget *widget, gdouble arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
         hb_vmPushDouble( arg1, 10 );                  // Double con 10 decimales
         hb_vmSend( 2 );                               // LLamada por Send al codeblocks
      }
@@ -2324,7 +2451,8 @@ gboolean OnChange_Value( GtkWidget *widget, GtkScrollType arg1, gdouble value, g
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
         hb_vmPushInteger( arg1 );                     // GtkScrollType
         hb_vmPushDouble( value, 10 );                 // Double con 10 decimales
         hb_vmSend( 3 );                               // LLamada por Send al codeblocks
@@ -2359,7 +2487,8 @@ void OnScroll_Child( GtkWidget *widget, GtkScrollType arg1, gboolean arg2, gpoin
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
         hb_vmPushInteger( arg1 );                     // GtkScrollType
         hb_vmPushLogical( arg2 );
         hb_vmSend( 3 );                               // LLamada por Send al codeblocks
@@ -2392,7 +2521,8 @@ void OnBackspace( GtkEntry *entry, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
+        hb_vmPushPointer( ( GtkEntry * ) entry );
+//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmSend( 1 );
      }
   }
@@ -2422,7 +2552,8 @@ void OnCopy_Clipboard( GtkEntry *entry, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
+        hb_vmPushPointer( ( GtkEntry * ) entry );
+//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmSend( 1 );
      }
   }
@@ -2452,7 +2583,8 @@ void OnCut_Clipboard( GtkEntry *entry, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
+        hb_vmPushPointer( ( GtkEntry * ) entry );
+//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmSend( 1 );
      }
   }
@@ -2484,7 +2616,8 @@ void OnDelete_From_Cursor( GtkEntry *entry, GtkDeleteType arg1, gint arg2, gpoin
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
+        hb_vmPushPointer( ( GtkEntry * ) entry );
+//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmPushInteger( (gint) arg1 );                   // GtkDeleteType
         hb_vmPushInteger( arg2 );                   	   // none
         hb_vmSend( 3 );                               	   // LLamada por Send
@@ -2519,7 +2652,8 @@ void OnMove_Cursor( GtkEntry *entry, GtkDeleteType arg1, gint arg2, gboolean arg
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
+        hb_vmPushPointer( ( GtkEntry * ) entry );
+//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmPushInteger( (gint) arg1 );                   // GtkDeleteType
         hb_vmPushInteger( arg2 );
 		hb_vmPushLogical( arg3 );
@@ -2552,7 +2686,8 @@ void OnPaste_Clipboard( GtkEntry *entry, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
+        hb_vmPushPointer( ( GtkEntry * ) entry );
+//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmSend( 1 );
      }
   }
@@ -2570,7 +2705,8 @@ void OnPopulate_Popup( GtkEntry *entry, GtkMenu *arg1, gpointer data )
         hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
         hb_vmPush( pObj );                            	   // Coloca objeto en pila.
         hb_vmPush( pObj );                            	   // Dato a pasar
-        hb_vmPushInteger( GPOINTER_TO_UINT( arg1 ) );      // GtkMenu
+        hb_vmPushPointer( ( GtkMenu * ) arg1 );
+//        hb_vmPushInteger( GPOINTER_TO_UINT( arg1 ) );      // GtkMenu
         hb_vmSend( 2 );                               	   // LLamada por Send
      } else {
         g_print( "Method doesn't %s exist en OnPopulate_Popup ", (gchar *)data );
@@ -2583,8 +2719,10 @@ void OnPopulate_Popup( GtkEntry *entry, GtkMenu *arg1, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
-        hb_vmPushInteger( GPOINTER_TO_UINT( arg1 ) );                   // GtkMenu
+        hb_vmPushPointer( ( GtkEntry * ) entry );
+        hb_vmPushPointer( ( GtkMenu * ) arg1 );
+//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
+//        hb_vmPushInteger( GPOINTER_TO_UINT( arg1 ) );                   // GtkMenu
         hb_vmSend( 2 );                               	   // LLamada por Send
      }
   }
@@ -2614,7 +2752,8 @@ void OnToggle_Overwrite( GtkEntry *entry, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
+        hb_vmPushPointer( ( GtkEntry * ) entry );
+//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmSend( 1 );
      }
   }
@@ -2639,7 +2778,8 @@ void OnBegin_Print( GtkPrintOperation *operation, GtkPrintContext *context, gpoi
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
+            hb_vmPushPointer( ( GtkPrintContext * ) context );
+//            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
            g_print( "Method doesn't %s exist en OnBegin_Print", (gchar *)data );
@@ -2652,8 +2792,10 @@ void OnBegin_Print( GtkPrintOperation *operation, GtkPrintContext *context, gpoi
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
+        hb_vmPushPointer( ( GtkPrintOperation * ) operation );
+        hb_vmPushPointer( ( GtkPrintContext * ) context );
+//        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
         hb_vmSend( 2 );
      }
   }
@@ -2676,7 +2818,8 @@ void OnDraw_Page( GtkPrintOperation *operation, GtkPrintContext *context, gint p
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
+            hb_vmPushPointer( ( GtkPrintContext * ) context );
+//            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
             hb_vmPushInteger( (gint) page_nr );
             hb_vmSend( 3 );                               // LLamada por Send que pasa
          } else {
@@ -2690,8 +2833,10 @@ void OnDraw_Page( GtkPrintOperation *operation, GtkPrintContext *context, gint p
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
+        hb_vmPushPointer( ( GtkPrintOperation * ) operation );
+        hb_vmPushPointer( ( GtkPrintContext * ) context );
+//        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
         hb_vmPushInteger( (gint) page_nr );
         hb_vmSend( 3 );
      }
@@ -2715,9 +2860,11 @@ void OnRequest_Page_Setup(GtkPrintOperation *operation, GtkPrintContext *context
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
+            hb_vmPushPointer( ( GtkPrintContext * ) context );     
+//            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
             hb_vmPushInteger( (gint) page_nr );
-            hb_vmPushLong( GPOINTER_TO_UINT( setup ) );
+            hb_vmPushPointer( ( GtkPageSetup * ) setup );
+//            hb_vmPushLong( GPOINTER_TO_UINT( setup ) );
             hb_vmSend( 4 );                               // LLamada por Send que pasa
          } else {
            g_print( "Method doesn't %s exist en OnRequest_Page_Setup", (gchar *)data );
@@ -2730,10 +2877,13 @@ void OnRequest_Page_Setup(GtkPrintOperation *operation, GtkPrintContext *context
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
+        hb_vmPushPointer( ( GtkPrintOperation * ) operation );
+        hb_vmPushPointer( ( GtkPrintContext * ) context );
+//        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
         hb_vmPushInteger( (gint) page_nr );
-        hb_vmPushLong( GPOINTER_TO_UINT( setup ) );
+        hb_vmPushPointer( ( GtkPageSetup * ) setup );
+//        hb_vmPushLong( GPOINTER_TO_UINT( setup ) );
         hb_vmSend( 4 );
      }
   }
@@ -2756,7 +2906,8 @@ gboolean OnPaginate( GtkPrintOperation *operation, GtkPrintContext *context, gpo
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
+            hb_vmPushPointer( ( GtkPrintContext * ) context );            
+//            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
@@ -2770,8 +2921,10 @@ gboolean OnPaginate( GtkPrintOperation *operation, GtkPrintContext *context, gpo
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
+        hb_vmPushPointer( ( GtkPrintOperation * ) operation );
+        hb_vmPushPointer( ( GtkPrintContext * ) context );            
+//        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -2797,7 +2950,8 @@ void OnPrepare( GtkAssistant *assistant, GtkWidget * widget, gpointer data)
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+            hb_vmPushPointer( ( GtkWidget * ) widget );            
+//            hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
            g_print( "Method doesn't %s exist en OnPrepare", (gchar *)data );
@@ -2810,8 +2964,10 @@ void OnPrepare( GtkAssistant *assistant, GtkWidget * widget, gpointer data)
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( assistant ) );
-        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
+        hb_vmPushPointer( ( GtkAssistant * ) assistant );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+//        hb_vmPushLong( GPOINTER_TO_UINT( assistant ) );
+//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmSend( 2 );
      }
   }
@@ -2852,7 +3008,8 @@ void OnPopupMenu( GtkStatusIcon *status_icon,
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushLong( GPOINTER_TO_UINT( status_icon ) );
+        hb_vmPushPointer( ( GtkStatusIcon * ) status_icon );
+//        hb_vmPushLong( GPOINTER_TO_UINT( status_icon ) );
         hb_vmPushInteger( (guint) button );
         hb_vmPushInteger( (guint) activate_time );
         hb_vmSend( 3 );
@@ -2886,7 +3043,7 @@ gint liberate_block_memory( gpointer data )
  */                                                 //,  ->Codeblock
 HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect_Flags, child
 {
-    GtkWidget *widget = ( GtkWidget * ) hb_parnl( 1 );
+    GtkWidget *widget = ( GtkWidget * ) hb_parptr( 1 );
     gchar *cStr =  (gchar *) hb_parc( 2 );
     gint iPos = -1;
     gint x;

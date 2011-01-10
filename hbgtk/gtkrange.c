@@ -26,28 +26,28 @@
 
 HB_FUNC( GTK_RANGE_SET_UPDATE_POLICY ) // pWidget, nTypeUpdate
 {
-    GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
     gtk_range_set_update_policy( GTK_RANGE( range ), hb_parni( 2 ));
 }
 
 HB_FUNC( GTK_RANGE_GET_ADJUSTMENT ) // pWidget--> pAdjustment
 {
-    GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
     GtkAdjustment * adjust;
     adjust =  gtk_range_get_adjustment( GTK_RANGE( range ) );
-    hb_retnl( (glong) adjust );
+    hb_retptr( ( GtkWidget * ) adjust );
 }
 
 HB_FUNC( GTK_RANGE_SET_ADJUSTMENT ) // pWidget, pAdjustment
 {
-   GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
-   GtkObject * adjust = GTK_OBJECT( hb_parnl( 2 ) );
+   GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
+   GtkObject * adjust = GTK_OBJECT( hb_parptr( 2 ) );
    gtk_range_set_adjustment( GTK_RANGE( range ), GTK_ADJUSTMENT( adjust ) );
 }
 
 HB_FUNC( GTK_RANGE_GET_INVERTED ) // pWidget --> bResult
 {
-   GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retl( gtk_range_get_inverted( GTK_RANGE( range ) ) );
 }
 
@@ -59,19 +59,19 @@ HB_FUNC( GTK_RANGE_SET_INVERTED ) // pWidget, bSetting
 
 HB_FUNC( GTK_RANGE_GET_UPDATE_POLICY ) // pWidget--> iTypeUpdate
 {
-   GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retni( gtk_range_get_update_policy( GTK_RANGE( range ) ) );
 }
 
 HB_FUNC( GTK_RANGE_GET_VALUE ) // pWidget--> dValue
 {
-   GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retnd( gtk_range_get_value( GTK_RANGE( range ) ) );
 }
 
 HB_FUNC( GTK_RANGE_SET_INCREMENTS ) // pWidget, dStep, dPage
 {
-   GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
    gdouble step = hb_parnd( 2 );
    gdouble page = hb_parnd( 3 );
    gtk_range_set_increments( GTK_RANGE( range ),
@@ -80,7 +80,7 @@ HB_FUNC( GTK_RANGE_SET_INCREMENTS ) // pWidget, dStep, dPage
 
 HB_FUNC( GTK_RANGE_SET_RANGE ) // pWidget, dMin, dMax
 {
-   GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
    gdouble min = hb_parnd( 2 );
    gdouble max = hb_parnd( 3 );
    gtk_range_set_range( GTK_RANGE( range ),
@@ -89,14 +89,14 @@ HB_FUNC( GTK_RANGE_SET_RANGE ) // pWidget, dMin, dMax
 
 HB_FUNC( GTK_RANGE_SET_VALUE ) // pWidget, dValue
 {
-   GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
    gdouble value = hb_parnd( 2 );
    gtk_range_set_value( GTK_RANGE( range ),value );
 }
 
 HB_FUNC( GTK_RANGE_GET_ORIENTATION ) // pWidget, int orientation
 {
-   GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
    gint orientation  = GTK_RANGE (range)->orientation;
-   hb_retnl( (glong) orientation );
+   hb_retni( orientation );
 }

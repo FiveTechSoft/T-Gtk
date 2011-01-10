@@ -27,7 +27,7 @@
    Well, in C, is 0 or 1, in Harbour, .F. = GTK_SORT_ASCENDING , .T. = GTK_SORT_DESCENDING */
 HB_FUNC( GTK_TREE_SORTABLE_GET_SORT_COLUMN_ID )
 {
-  GtkTreeModel * model = GTK_TREE_MODEL( hb_parnl( 1 ) );
+  GtkTreeModel * model = GTK_TREE_MODEL( hb_parptr( 1 ) );
   gint sort_id;
   GtkSortType sort_type;
 

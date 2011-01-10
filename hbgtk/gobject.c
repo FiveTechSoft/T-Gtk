@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 #include "hbapiitm.h"
+#include <t-gtk.h>
 
 
 HB_FUNC( G_OBJECT_SET )  // object, property_name, value ->void
@@ -35,15 +36,15 @@ HB_FUNC( G_OBJECT_SET )  // object, property_name, value ->void
   PHB_ITEM pValue = hb_param( 3, HB_IT_ANY );
 
   if( HB_IS_STRING( pValue ) )
-       g_object_set( (gpointer) hb_parnl(1), (gchar  *) hb_parc(2), hb_parc( 3 ), NULL );
+       g_object_set( (gpointer) hb_parptr( 1 ), (gchar  *) hb_parc( 2 ), hb_parc( 3 ), NULL );
   else if( HB_IS_INTEGER( pValue ) )
-       g_object_set( (gpointer) hb_parnl(1), (gchar  *) hb_parc(2), hb_parni( 3 ), NULL );
+       g_object_set( (gpointer) hb_parptr( 1 ), (gchar  *) hb_parc( 2 ), hb_parni( 3 ), NULL );
   else if( HB_IS_LONG( pValue ) )
-       g_object_set( (gpointer) hb_parnl(1), (gchar  *) hb_parc(2), hb_parnl( 3 ), NULL );
+       g_object_set( (gpointer) hb_parptr( 1 ), (gchar  *) hb_parc( 2 ), hb_parnl( 3 ), NULL );
   else if( HB_IS_DOUBLE( pValue ) )
-       g_object_set( (gpointer) hb_parnl(1), (gchar  *) hb_parc(2), hb_parnd( 3 ), NULL );
+       g_object_set( (gpointer) hb_parptr( 1 ), (gchar  *) hb_parc( 2 ), hb_parnd( 3 ), NULL );
   else if( HB_IS_LOGICAL( pValue ) )
-       g_object_set( (gpointer) hb_parnl(1), (gchar  *) hb_parc(2), hb_parl( 3 ), NULL );
+       g_object_set( (gpointer) hb_parptr( 1 ), (gchar  *) hb_parc( 2 ), hb_parl( 3 ), NULL );
   
 }
 
@@ -56,37 +57,39 @@ HB_FUNC( G_OBJECT_SET_VALIST )
   if( ISARRAY( 2 ) )
    {
    pBase = pArray->item.asArray.value;
-
+   
+   iLen = hb_arrayLen( pArray );
+   /*
    #ifdef __HARBOUR20__
      iLen  = pBase->nLen;
    #else
      iLen  = pBase->ulLen;
    #endif
-
+*/
    for( item = 0; item < iLen; item += 2 )
      {
       if( HB_IS_STRING( pBase->pItems + item+1 ) )
-          g_object_set( (gpointer) hb_parnl(1),
+          g_object_set( (gpointer) hb_parptr( 1 ),
                         (pBase->pItems + item)->item.asString.value,
                         (pBase->pItems + item+1)->item.asString.value, NULL );
 
       else if( HB_IS_INTEGER( pBase->pItems + item+1 ) )
-          g_object_set( (gpointer) hb_parnl(1),
+          g_object_set( (gpointer) hb_parptr( 1 ),
                         (pBase->pItems + item)->item.asString.value,
                         (pBase->pItems + item+1)->item.asInteger.value, NULL );
 
       else if( HB_IS_LONG( pBase->pItems + item+1 ) )
-          g_object_set( (gpointer) hb_parnl(1),
+          g_object_set( (gpointer) hb_parptr( 1 ),
                         (pBase->pItems + item)->item.asString.value,
                         (pBase->pItems + item+1)->item.asLong.value, NULL );
 
       else if( HB_IS_DOUBLE( pBase->pItems + item+1 ) )
-          g_object_set( (gpointer) hb_parnl(1),
+          g_object_set( (gpointer) hb_parptr( 1 ),
                         (pBase->pItems + item)->item.asString.value,
                         (pBase->pItems + item+1)->item.asDouble.value, NULL );
 
       else if( HB_IS_LOGICAL( pBase->pItems + item+1 ) )
-          g_object_set( (gpointer) hb_parnl(1),
+          g_object_set( (gpointer) hb_parptr( 1 ),
                         (pBase->pItems + item)->item.asString.value,
                         TRUE, NULL );
      }
@@ -97,43 +100,47 @@ HB_FUNC( G_OBJECT_SET_VALIST )
 
 HB_FUNC( G_OBJECT_UNREF )
 {
-  g_object_unref( (gpointer) hb_parnl( 1 ) );
+  g_object_unref( (gpointer) hb_parptr( 1 ) );
 }
 
 HB_FUNC( G_OBJECT_SET_STRING )
 {
-    g_object_set ( (GObject *) hb_parnl( 1 ), hb_parc( 2 ), hb_parc( 3 ), NULL);
+   gchar * src    = utf82str( ( gchar * ) hb_parc( 3 ) );
+   gchar * szDest = str2utf8( src );
+   g_object_set ( G_OBJECT( hb_parptr( 1 ) ), hb_parc( 2 ), ( gchar * ) szDest, NULL);
+   SAFE_RELEASE( szDest );
+   SAFE_RELEASE( src );
 }
 
 HB_FUNC( G_OBJECT_SET_INTEGER )
 {
-    g_object_set ( (GObject *) hb_parnl( 1 ), hb_parc( 2 ), hb_parni(3), NULL);
+    g_object_set ( G_OBJECT( hb_parptr( 1 ) ), hb_parc( 2 ), hb_parni(3), NULL);
 }
 
 HB_FUNC( G_OBJECT_SET_LONG )
 {
-    g_object_set ( (GObject *) hb_parnl( 1 ), hb_parc( 2 ), hb_parnl(3), NULL);
+    g_object_set ( G_OBJECT( hb_parptr( 1 ) ), hb_parc( 2 ), hb_parnl(3), NULL);
 }
 
 HB_FUNC( G_OBJECT_SET_BOOL )
 {
-    g_object_set ( (GObject *) hb_parnl( 1 ), hb_parc( 2 ), hb_parl(3), NULL);
+    g_object_set ( G_OBJECT( hb_parptr( 1 ) ), hb_parc( 2 ), hb_parl(3), NULL);
 }
 
 HB_FUNC( G_OBJECT_SET_DATA )
 {
-    g_object_set_data ( G_OBJECT (hb_parnl(1) ), hb_parc( 2 ), (gpointer) hb_parnl( 3 ) );
+    g_object_set_data ( G_OBJECT( hb_parptr( 1 ) ), hb_parc( 2 ), (gpointer) hb_parnl( 3 ) );
 }
 
 HB_FUNC( G_OBJECT_GET_DATA )
 {
-    hb_retnl( (glong) g_object_get_data ( G_OBJECT (hb_parnl(1) ), hb_parc( 2 ) ) );
+    hb_retnl( (glong) g_object_get_data ( G_OBJECT( hb_parptr( 1 ) ), hb_parc( 2 ) ) );
 }
 
 HB_FUNC( G_OBJECT_SET_PROPERTY )
 {
-  gpointer object = G_OBJECT (hb_parnl( 1 ) );
-  const gchar *property_name = hb_parc(2);
+  gpointer object = G_OBJECT( hb_parptr( 1 ) );
+  const gchar *property_name = hb_parc( 2 );
   PHB_ITEM pItem = hb_param(3, HB_IT_ANY );
 
   

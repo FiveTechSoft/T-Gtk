@@ -27,12 +27,12 @@
 HB_FUNC( GTK_TABLE_NEW ) // rows,columns, homogeneous -->widget
 {
  GtkWidget * Table = gtk_table_new( hb_parni( 1 ),  hb_parni( 2 ),  hb_parl( 3 ) );
- hb_retnl( (glong) Table );
+ hb_retptr( ( GtkWidget * ) Table );
 }
 
 HB_FUNC( GTK_TABLE_RESIZE ) // table, rows, columns
 {
-  GtkWidget * Table = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * Table = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_table_resize( GTK_TABLE( Table ),
                     hb_parni(3),
                     hb_parni(4) );
@@ -41,8 +41,8 @@ HB_FUNC( GTK_TABLE_RESIZE ) // table, rows, columns
 
 HB_FUNC( GTK_TABLE_ATTACH ) // table, child, iLeft, iRight,top, bottom, xoptions, yOptions, xpadding, ypadding
 {
-  GtkWidget * Table = GTK_WIDGET( hb_parnl( 1 ) );
-  GtkWidget * Child = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkWidget * Table = GTK_WIDGET( hb_parptr( 1 ) );
+  GtkWidget * Child = GTK_WIDGET( hb_parptr( 2 ) );
 
   gtk_table_attach( GTK_TABLE( Table ), Child ,
                     hb_parni(3),
@@ -57,8 +57,8 @@ HB_FUNC( GTK_TABLE_ATTACH ) // table, child, iLeft, iRight,top, bottom, xoptions
 
 HB_FUNC( GTK_TABLE_ATTACH_DEFAULTS ) // table, child, left,right,top,bottom
 {
-  GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
-  GtkWidget * Child = ( GtkWidget * ) hb_parnl( 2 );
+  GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
+  GtkWidget * Child = ( GtkWidget * ) hb_parptr( 2 );
 
   gtk_table_attach_defaults( GTK_TABLE( Table ),
                              Child,
@@ -72,7 +72,7 @@ HB_FUNC( GTK_TABLE_ATTACH_DEFAULTS ) // table, child, left,right,top,bottom
 HB_FUNC( GTK_TABLE_SET_ROW_SPACING ) // table, row, spacing
 {
 
-   GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    gtk_table_set_row_spacing( GTK_TABLE( Table ),
                               hb_parni(2),
                               hb_parni(3) );
@@ -81,7 +81,7 @@ HB_FUNC( GTK_TABLE_SET_ROW_SPACING ) // table, row, spacing
 HB_FUNC( GTK_TABLE_SET_COL_SPACING ) // table, column, spacing
 {
 
-   GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    gtk_table_set_col_spacing( GTK_TABLE( Table ),
                               hb_parni(2),
                               hb_parni(3) );
@@ -89,7 +89,7 @@ HB_FUNC( GTK_TABLE_SET_COL_SPACING ) // table, column, spacing
 
 HB_FUNC( GTK_TABLE_SET_ROW_SPACINGS ) // table, spacing
 {
-   GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    gtk_table_set_row_spacings( GTK_TABLE( Table ),
                                hb_parni( 2 ) );
 }
@@ -97,44 +97,44 @@ HB_FUNC( GTK_TABLE_SET_ROW_SPACINGS ) // table, spacing
 HB_FUNC( GTK_TABLE_SET_COL_SPACINGS ) // table, spacing
 {
 
-   GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    gtk_table_set_col_spacings( GTK_TABLE( Table ),
                                hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_TABLE_SET_HOMOGENEOUS ) // table, homogeneous
 {
-   GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    gtk_table_set_homogeneous( GTK_TABLE( Table ),
                                hb_parl( 2 ) );
 }
 
 HB_FUNC( GTK_TABLE_GET_DEFAULT_ROW_SPACING ) // table -> row default
 {
-   GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    hb_retni( gtk_table_get_default_row_spacing( GTK_TABLE( Table ) ) );
 }
 
 HB_FUNC( GTK_TABLE_GET_HOMOGENEOUS ) // table -> bHomogeneous
 {
-   GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    hb_retl( gtk_table_get_homogeneous( GTK_TABLE( Table ) ) );
 }
 
 HB_FUNC( GTK_TABLE_GET_ROW_SPACING ) // table , nRow -> spacing
 {
-   GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    hb_retni( gtk_table_get_row_spacing( GTK_TABLE( Table ), hb_parni( 2 ) ) );
 }
 
 HB_FUNC( GTK_TABLE_GET_COL_SPACING ) // table, nCol ->  spacing
 {
-   GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    hb_retni( gtk_table_get_col_spacing( GTK_TABLE( Table ), hb_parni( 2 ) ) );
 }
 
 HB_FUNC( GTK_TABLE_GET_DEFAULT_COL_SPACING ) // table -> col default
 {
-   GtkWidget * Table = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    hb_retni( gtk_table_get_default_col_spacing( GTK_TABLE( Table ) ) );
 }

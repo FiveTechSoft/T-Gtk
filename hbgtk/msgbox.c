@@ -42,8 +42,8 @@ HB_FUNC( MSGBOX ) // cText, iButtons, iBoxType , cTitle
 
    GtkWidget *wParent = get_win_parent();
 
-   gchar * msg =  hb_parc( 1 );
-   gchar * title =  hb_parc( 4 );
+   gchar * msg   = ( gchar * ) hb_parc( 1 );
+   gchar * title = ( gchar * ) hb_parc( 4 );
    gint iButtons = hb_parni( 2 );
    gint iBoxtype = hb_parni( 3 );
    gint iResponse;
@@ -56,7 +56,7 @@ HB_FUNC( MSGBOX ) // cText, iButtons, iBoxType , cTitle
    gbox = gtk_message_dialog_new( GTK_WINDOW( wParent ),
                                   GTK_DIALOG_DESTROY_WITH_PARENT,
                                   iBoxtype,
-                                  GTK_BUTTONS_NONE, msg );
+                                  GTK_BUTTONS_NONE, "%s", msg );
    
    gtk_window_set_type_hint( GTK_WINDOW( gbox ), GDK_WINDOW_TYPE_HINT_MENU );
    

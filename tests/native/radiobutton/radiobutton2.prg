@@ -14,7 +14,7 @@ Function main( )
    window = gtk_window_new (GTK_WINDOW_TOPLEVEL)
    Gtk_Signal_Connect( window, "delete-event", {|| Salir() } )  // Cuando se mata la aplicacion
 
-   box = gtk_vbox_new (TRUE, 2)
+   box = gtk_vbox_new (.T., 2)
 
    /* Create a radio button with a GtkEntry widget */
    radio1 = gtk_radio_button_new (NIL)
@@ -26,8 +26,8 @@ Function main( )
    radio2 = gtk_radio_button_new_with_label_from_widget ( radio1,"I'm the second radio button.")
 
    /* Pack them into a box, then show all the widgets */
-   gtk_box_pack_start (box, radio1, TRUE, TRUE, 2)
-   gtk_box_pack_start (box, radio2, TRUE, TRUE, 2)
+   gtk_box_pack_start (box, radio1, .T., .T., 2)
+   gtk_box_pack_start (box, radio2, .T., .T., 2)
    gtk_container_add (window, box)
    gtk_widget_show_all (window)
 

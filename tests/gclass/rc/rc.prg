@@ -6,10 +6,14 @@ FUNCTION Main()
    Local aThemes := {}, aDirectorys, oBox, oNote, oBox1,oBox2, oSay
    Local nSiguiente := 1, oCombo, cValueCombo
   
-   s_cPathThemes := gtk_rc_get_theme_dir()
-
-   aDirectorys := Directory( s_cPathThemes + "/*." , "D" )
-   aEval( aDirectorys, {|aFile,x| if( x > 2,  AADD( aThemes, aFile[1] ), )  } )
+   
+   
+   aThemes = FillThemes()
+   
+   if Len( aThemes ) == 0
+      MsgStop( "NO hay temas instalados" )
+      return nil
+   endif
    
    Aplica_themes( aThemes[1] )  
    
@@ -36,14 +40,14 @@ FUNCTION Main()
 RETURN NIL
 
 STATIC FUNCTION APLICA_THEMES( cTheme )
-   Local cPathThemes := s_cPathThemes + "/" + cTheme  + "/gtk-2.0/gtkrc"
+   Local cPathThemes := s_cPathThemes + cTheme  + "/gtk-2.0/gtkrc"
    Local setting
    
-   // gtk_rc_parse( cPathThemes )
+ 
    CAMBIO_STYLE ()
 
-   *setting := gtk_settings_get_default()
-   *gtk_rc_reset_styles( setting )
+   gtk_rc_parse( cPathThemes )
+
    SysRefresh()
 
    if oWnd != NIL
@@ -51,3 +55,20 @@ STATIC FUNCTION APLICA_THEMES( cTheme )
    endif
 
 RETURN NIL
+
+function FillThemes()
+
+   local cSubPath, aDirectorys := {}, aFull, cDir
+   local aSubDir, aSubCon
+   
+   s_cPathThemes := gtk_rc_get_theme_dir() + "/"
+
+   aFull := Directory( s_cPathThemes, "D" )
+   for each cDir in aFull
+      cSubPath = s_cPathThemes + cDir[ 1 ]
+      if File( cSubPath + "/gtk-2.0/gtkrc" )
+         AAdd( aDirectorys, cDir[ 1 ] )
+      endif
+   next
+   
+return aDirectorys

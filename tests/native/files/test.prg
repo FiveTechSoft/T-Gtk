@@ -38,9 +38,11 @@ function SetFiles()
   hDlg := gtk_file_selection_new( "Directorio" )
 
   gtk_file_selection_hide_fileop_buttons( hDlg )
-  gtk_file_selection_set_select_multiple( hDlg, TRUE )
-
-  hb_gtk_file_selection_connect_ok_button( hDlg, "when_ok_button_called" )
+  gtk_file_selection_set_select_multiple( hDlg, .T. )
+  
+  gtk_file_selection_connect( hDlg, "ok_button", {| pButton | when_ok_button_called( pButton, hDlg ) } )
+  
+//  hb_gtk_file_selection_connect_ok_button( hDlg, "when_ok_button_called" )
 
   gtk_widget_show( hDlg )
 
@@ -48,13 +50,13 @@ return( .t. )
 
 //--------------------------------------------------------------------------//
 
-function when_ok_button_called()
+function when_ok_button_called( pButton, h )
 
-  local cFile := gtk_file_selection_get_filename( hDlg )
+  local cFile := gtk_file_selection_get_filename( h )
   local cMultiple := "", X
 
   msginfo( cFile, "Devuelve una sola seleccion" )
-  cFile := gtk_file_selection_get_selections( hDlg )
+  cFile := gtk_file_selection_get_selections( h )
 
   if Valtype( cFile ) == "A"
      for X := 1 TO Len( cFile )
@@ -63,6 +65,6 @@ function when_ok_button_called()
      msginfo( cMultiple, "Devuelve multiple seleccion -array-" )
   endif
 
-return( .t. )
+return( .T. )
 
 //--------------------------------------------------------------------------//

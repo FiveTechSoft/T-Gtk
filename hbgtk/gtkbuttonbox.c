@@ -26,14 +26,14 @@
 
 HB_FUNC( GTK_BUTTON_BOX_SET_LAYOUT ) // widget, enum GtkButtonBoxStyle -> void   
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );   
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );   
   gtk_button_box_set_layout( GTK_BUTTON_BOX( widget ),
                              hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_BUTTON_BOX_GET_LAYOUT ) // widget --> GtkButtonBoxStyle 
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );   
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );   
   GtkButtonBoxStyle style = gtk_button_box_get_layout( GTK_BUTTON_BOX( widget ) );
   hb_retni( (gint) style );
 }
@@ -41,13 +41,13 @@ HB_FUNC( GTK_BUTTON_BOX_GET_LAYOUT ) // widget --> GtkButtonBoxStyle
 HB_FUNC( GTK_HBUTTON_BOX_NEW ) // void --> widget
 {
   GtkWidget * widget = gtk_hbutton_box_new();
-  hb_retnl( (glong) widget );
+  hb_retptr( ( GtkWidget * ) widget );
 }
 
 HB_FUNC( GTK_VBUTTON_BOX_NEW ) // void --> widget
 {
   GtkWidget * widget = gtk_vbutton_box_new();
-  hb_retnl( (glong) widget );
+  hb_retptr( ( GtkWidget * ) widget );
 }
 
 

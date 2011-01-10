@@ -44,43 +44,57 @@ HB_FUNC( GDK_PIXBUF_NEW_FROM_FILE ) // cFilename -> pixbuf
      pixbuf = gdk_pixbuf_new( GDK_COLORSPACE_RGB, has_alpha, 
                               bits_per_sample, width, height);
   }
-  hb_retnl( (ULONG) pixbuf );
+  hb_retptr( (GdkPixbuf *) pixbuf );
 }
+
+//----------------------------------------------//
 
 HB_FUNC( GDK_PIXBUF_UNREF ) // nIcon -> void
 {
-  GdkPixbuf * pixbuf = GDK_PIXBUF( hb_parnl( 1 ) );
+  GdkPixbuf * pixbuf = GDK_PIXBUF( hb_parptr( 1 ) );
   gdk_pixbuf_unref( pixbuf );
 }
+
+//----------------------------------------------//
 
 HB_FUNC( GDK_PIXBUF_GET_TYPE ) //
 {
   hb_retni( gdk_pixbuf_get_type() );
 }
 
+//----------------------------------------------//
+
 HB_FUNC( GDK_PIXBUF_GET_WIDTH ) 
 {
-  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parnl( 1 ) );
+  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 1 ) );
   hb_retni( gdk_pixbuf_get_width( pixbuf ) );
 }
 
+//----------------------------------------------//
+
 HB_FUNC( GDK_PIXBUF_GET_HEIGHT ) 
 {
-  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parnl( 1 ) );
+  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 1 ) );
   hb_retni( gdk_pixbuf_get_height( pixbuf ) );
 }
 
+//----------------------------------------------//
+
 HB_FUNC( GDK_PIXBUF_GET_ROWSTRIDE ) 
 {
-  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parnl( 1 ) );
+  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 1 ) );
   hb_retni( gdk_pixbuf_get_rowstride( pixbuf ) );
 }
 
+//----------------------------------------------//
+
 HB_FUNC( GDK_PIXBUF_GET_PIXELS ) 
 {
-  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parnl( 1 ) );
+  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 1 ) );
   hb_retnl( (glong) gdk_pixbuf_get_pixels( pixbuf ) );
 }
+
+//----------------------------------------------//
 
 HB_FUNC( GDK_PIXBUF_NEW ) // color_space, balpha, ibits,iwidth,iheigth -> pixbuf
 {
@@ -96,13 +110,15 @@ HB_FUNC( GDK_PIXBUF_NEW ) // color_space, balpha, ibits,iwidth,iheigth -> pixbuf
                            bits_per_sample,
                            width,
                            height);
-  hb_retnl( (glong) pixbuf );
+  hb_retptr( (GdkPixbuf *) pixbuf );
 }
+
+//----------------------------------------------//
 
 HB_FUNC( GDK_DRAW_RGB_IMAGE_DITHALIGN )
 {
-     GdkDrawable *drawable = GDK_DRAWABLE( hb_parnl( 1 ) );
-     GdkGC * gc = ( GdkGC * ) hb_parnl( 2 );              
+     GdkDrawable *drawable = GDK_DRAWABLE( hb_parptr( 1 ) );
+     GdkGC * gc = ( GdkGC * ) hb_parptr( 2 );              
      gint x = hb_parni( 3 );                  
      gint y = hb_parni( 4 );                  
      gint width = hb_parni( 5 );              
@@ -126,14 +142,16 @@ HB_FUNC( GDK_DRAW_RGB_IMAGE_DITHALIGN )
                                     ydith);
 }
 
+//----------------------------------------------//
+
 HB_FUNC( GDK_PIXBUF_COPY_AREA ) 
 {
-   GdkPixbuf * pixbuf = GDK_PIXBUF( hb_parnl( 1 ) );
+   GdkPixbuf * pixbuf = GDK_PIXBUF( hb_parptr( 1 ) );
    int src_x = hb_parni( 2 );
    int src_y = hb_parni( 3 );                                                           
    int width = hb_parni( 4 );                                                           
    int height = hb_parni( 5 );
-   GdkPixbuf * dest_pixbuf = GDK_PIXBUF( hb_parnl( 6 ) );
+   GdkPixbuf * dest_pixbuf = GDK_PIXBUF( hb_parptr( 6 ) );
    int dest_x = hb_parni( 7 );                                                          
    int dest_y = hb_parni( 8 );                                                         
 
@@ -147,10 +165,12 @@ HB_FUNC( GDK_PIXBUF_COPY_AREA )
                          dest_y);
 }
 
+//----------------------------------------------//
+
 HB_FUNC( GDK_PIXBUF_COMPOSITE ) 
 {
-   GdkPixbuf * src = GDK_PIXBUF( hb_parnl( 1 ) );
-   GdkPixbuf * dest = GDK_PIXBUF( hb_parnl( 2 ) );
+   GdkPixbuf * src = GDK_PIXBUF( hb_parptr( 1 ) );
+   GdkPixbuf * dest = GDK_PIXBUF( hb_parptr( 2 ) );
    gint dest_x = hb_parni( 3 );                                                          
    gint dest_y = hb_parni( 4 );                                                         
    gint dest_width = hb_parni( 5 );                                                           
@@ -177,9 +197,11 @@ HB_FUNC( GDK_PIXBUF_COMPOSITE )
 
 }
 
+//----------------------------------------------//
+
 HB_FUNC( GDK_PIXBUF_ADD_ALPHA ) // pixbuf, bsubstitute_color, r,g,b
 {
-   GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parnl( 1 );
+   GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parptr( 1 );
    GdkPixbuf * pixbuf2;
    gboolean substitute_color = hb_parl( 2 );
    guchar r = ( guchar ) hb_parnl( 3 );         
@@ -187,35 +209,43 @@ HB_FUNC( GDK_PIXBUF_ADD_ALPHA ) // pixbuf, bsubstitute_color, r,g,b
    guchar b = ( guchar ) hb_parnl( 5 );         
 
    pixbuf2 = gdk_pixbuf_add_alpha( pixbuf, substitute_color, r,g,b );
-   hb_retnl( (glong) pixbuf2 );
+   hb_retptr( (GdkPixbuf *) pixbuf2 );
 }
+
+//----------------------------------------------//
 
 HB_FUNC( GDK_PIXBUF_ROTATE_SIMPLE ) // pixbuf, angle( 0,90,180,270 )
 {
-   GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parnl( 1 );
+   GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parptr( 1 );
    GdkPixbuf * pixbuf2;
 
    pixbuf2 = gdk_pixbuf_rotate_simple( pixbuf, hb_parni( 2 ) );
-   hb_retnl( (glong) pixbuf2 );
+   hb_retptr( (GdkPixbuf *) pixbuf2 );
 }
+
+//----------------------------------------------//
 
 HB_FUNC( GDK_PIXBUF_FLIP ) // pixbuf, bHorizontal
 {
-   GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parnl( 1 );
+   GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parptr( 1 );
    GdkPixbuf * pixbuf2;
 
    pixbuf2 = gdk_pixbuf_flip( pixbuf, hb_parl( 2 ) );
-   hb_retnl( (glong) pixbuf2 );
+   hb_retptr( (GdkPixbuf *) pixbuf2 );
 }
+
+//----------------------------------------------//
 
 HB_FUNC( GDK_PIXBUF_SCALE_SIMPLE ) // pPixbuf src, wifth,height, interp_type
 {
-   GdkPixbuf * pixbuf = GDK_PIXBUF( hb_parnl( 1 ) );
+   GdkPixbuf * pixbuf = GDK_PIXBUF( hb_parptr( 1 ) );
    GdkPixbuf * pixbuf2;
    gint dest_width  = hb_parni( 2 );
    gint dest_height = hb_parni( 3 );
    GdkInterpType interp_type = ISNIL( 4 ) ? GDK_INTERP_BILINEAR : hb_parni( 4 );
    
    pixbuf2 = gdk_pixbuf_scale_simple( pixbuf, dest_width, dest_height, interp_type );
-   hb_retnl( (glong) pixbuf2 );
+   hb_retptr( (GdkPixbuf *) pixbuf2 );
 }
+
+//----------------------------------------------//

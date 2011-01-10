@@ -76,8 +76,8 @@ FUNCTION DIBUJA( widget, event )
 
    color := { 0, 0XFFFF, 0XFFFF, 0XFFFF }
    gdk_colormap_alloc_color( gtk_widget_get_colormap( widget ), color,;
-                             FALSE,; /* slo lectura, para poder compartirlo */
-                             TRUE )  /* si no lo puede reservar, pide uno parecido */
+                             .F.,; /* slo lectura, para poder compartirlo */
+                             .T. )  /* si no lo puede reservar, pide uno parecido */
    gdk_gc_set_foreground( gc, color )
    gdk_draw_arc( widget,;
                gc, .F., 0, 0, 200,  200, 0, 18400 )
@@ -93,8 +93,8 @@ FUNCTION DIBUJA( widget, event )
    colormap := gtk_widget_get_colormap( widget )
    /* reservo el color (o pido uno cercano) */
    gdk_colormap_alloc_color( colormap, color,;
-                             FALSE,; /* slo lectura, para poder compartirlo */
-                             TRUE )  /* si no lo puede reservar, pide uno parecido */
+                             .F.,; /* slo lectura, para poder compartirlo */
+                             .T. )  /* si no lo puede reservar, pide uno parecido */
    gdk_gc_set_foreground( gc, color )
 
    gdk_draw_line( widget,; /* area en donde dibujar */
@@ -112,8 +112,8 @@ FUNCTION DIBUJA( widget, event )
   color := { 0, 0, 0XFFFF, 0XFFFF }
   colormap := gtk_widget_get_colormap( widget )
   gdk_colormap_alloc_color( colormap, color,;
-                             FALSE,; /* slo lectura, para poder compartirlo */
-                             TRUE )  /* si no lo puede reservar, pide uno parecido */
+                             .F.,; /* slo lectura, para poder compartirlo */
+                             .T. )  /* si no lo puede reservar, pide uno parecido */
   gdk_gc_set_foreground( gc, color )
   gdk_draw_line( widget,; /* area en donde dibujar */
                 gc,; /* contexto grafico a utilizar */
@@ -124,8 +124,8 @@ FUNCTION DIBUJA( widget, event )
   color := { 0, 0XFFFF, 0XFFFF, 0 }
   colormap := gtk_widget_get_colormap( widget )
   gdk_colormap_alloc_color( colormap, color,;
-                             FALSE,; /* slo lectura, para poder compartirlo */
-                             TRUE )  /* si no lo puede reservar, pide uno parecido */
+                             .F.,; /* slo lectura, para poder compartirlo */
+                             .T. )  /* si no lo puede reservar, pide uno parecido */
   gdk_gc_set_foreground( gc, color )
   gdk_draw_rectangle( widget,;
                       gc, .T., 40, 40, 30,  30 )
@@ -142,14 +142,14 @@ FUNCTION DIBUJA( widget, event )
                              GDK_JOIN_BEVEL) /* unin de trazos (redondeado en este caso) */
 
   gdk_draw_rectangle( widget,;
-                      gc, .FALSE, 90, 90, 140, 140 )
+                      gc, .F., 90, 90, 140, 140 )
 
 
 // Color AZUL
   color := { 0, 0, 0, 0XFFFF }
   gdk_colormap_alloc_color( gtk_widget_get_colormap( widget ), color,;
-                             FALSE,; /* slo lectura, para poder compartirlo */
-                             TRUE )  /* si no lo puede reservar, pide uno parecido */
+                             .F.,; /* slo lectura, para poder compartirlo */
+                             .T. )  /* si no lo puede reservar, pide uno parecido */
   gdk_gc_set_foreground( gc, color )
 
 
@@ -182,13 +182,4 @@ FUNCTION DIBUJA( widget, event )
 Return .T.
 
 **********************************************************************
-
-#pragma BEGINDUMP
-#include <gtk/gtk.h>
-#include "hbapi.h"
-
-PHB_ITEM Color2Array( GdkColor *color );
-BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );
-
-#pragma ENDDUMP
 

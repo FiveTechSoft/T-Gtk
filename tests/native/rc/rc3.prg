@@ -21,7 +21,8 @@ function Main()
 /*
  * Cambiando aspecto de la aplicacion desde un archivo definido en themes
  */
-   cPathThemes += "/Metal/gtk-2.0/gtkrc"
+   cPathThemes += "/Crux/gtk-2.0/gtkrc"
+
    gtk_rc_parse( cPathThemes )
 
    hWnd := gtk_window_new( GTK_WINDOW_TOPLEVEL )

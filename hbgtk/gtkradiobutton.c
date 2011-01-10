@@ -26,58 +26,58 @@
 
 HB_FUNC( GTK_RADIO_BUTTON_NEW ) // NULL o Group -->radio
 {
-   GtkWidget * radio = gtk_radio_button_new( ( GSList * ) hb_parnl( 1 )  );
-   hb_retnl( (glong) radio );
+   GtkWidget * radio = gtk_radio_button_new( ( GSList * ) hb_parptr( 1 )  );
+   hb_retptr( ( GtkWidget * ) radio );
 }
 
 HB_FUNC( GTK_RADIO_BUTTON_NEW_FROM_WIDGET ) //group-->radio
 {
-   GtkWidget * radio = gtk_radio_button_new_from_widget( GTK_RADIO_BUTTON( hb_parnl( 1 ) )) ;
-   hb_retnl( (glong) radio );
+   GtkWidget * radio = gtk_radio_button_new_from_widget( GTK_RADIO_BUTTON( hb_parptr( 1 ) )) ;
+   hb_retptr( ( GtkWidget * ) radio );
 }
   
 HB_FUNC( GTK_RADIO_BUTTON_NEW_WITH_LABEL ) // group, label-->radio
 {
    GtkWidget * radio ;
-   GSList * group = ( GSList * ) hb_parnl( 1 );
+   GSList * group = ( GSList * ) hb_parptr( 1 );
    radio = gtk_radio_button_new_with_label(  group, (gchar *) hb_parc( 2 ) ) ;
-   hb_retnl( (glong) radio );
+   hb_retptr( ( GtkWidget * ) radio );
 }
 
 HB_FUNC( GTK_RADIO_BUTTON_NEW_WITH_LABEL_FROM_WIDGET ) // radio, label
 {
    GtkWidget * radio ;
-   GtkWidget * radio_widget = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * radio_widget = GTK_WIDGET( hb_parptr( 1 ) );
    radio = gtk_radio_button_new_with_label_from_widget( GTK_RADIO_BUTTON( radio_widget ), (gchar *) hb_parc( 2 ) ) ;
-   hb_retnl( (glong) radio );
+   hb_retptr( ( GtkWidget * ) radio );
 }
 
 HB_FUNC( GTK_RADIO_BUTTON_NEW_WITH_MNEMONIC ) // group, label
 {
    GtkWidget * radio ;
-   GSList * group = ( GSList * ) hb_parnl( 1 );
+   GSList * group = ( GSList * ) hb_parptr( 1 );
    radio = gtk_radio_button_new_with_mnemonic (  group, (gchar *) hb_parc( 2 ) ) ;
-   hb_retnl( (glong) radio );
+   hb_retptr( ( GtkWidget * ) radio );
 }
 
 HB_FUNC( GTK_RADIO_BUTTON_NEW_WITH_MNEMONIC_FROM_WIDGET ) // radio, label
 {
    GtkWidget * radio ;
-   GtkWidget * radio_widget = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * radio_widget = GTK_WIDGET( hb_parptr( 1 ) );
    radio = gtk_radio_button_new_with_mnemonic_from_widget( GTK_RADIO_BUTTON( radio_widget ), (gchar *) hb_parc( 2 ) ) ;
-   hb_retnl( (glong) radio );
+   hb_retptr( ( GtkWidget * ) radio );
 }
 
 HB_FUNC( GTK_RADIO_BUTTON_SET_GROUP )
 {
-  GtkWidget * radio = GTK_WIDGET( hb_parnl( 1 ) );
-  GSList    * group = ( GSList * ) hb_parnl( 2 );
+  GtkWidget * radio = GTK_WIDGET( hb_parptr( 1 ) );
+  GSList    * group = ( GSList * ) hb_parptr( 2 );
   gtk_radio_button_set_group( GTK_RADIO_BUTTON( radio ), group );
 }
 
 HB_FUNC( GTK_RADIO_BUTTON_GET_GROUP )
 {
-  GtkWidget * radio = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * radio = GTK_WIDGET( hb_parptr( 1 ) );
   GSList*     group = gtk_radio_button_get_group( GTK_RADIO_BUTTON( radio ) );
-  hb_retnl( (glong) group );
+  hb_retptr( ( GtkWidget * ) group );
 }

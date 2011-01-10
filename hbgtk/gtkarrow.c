@@ -28,11 +28,11 @@
 HB_FUNC( GTK_ARROW_NEW ) /* nDirection, nShadow ->pWidget */
 {
    GtkWidget * arrow = gtk_arrow_new( hb_parni( 1 ), hb_parni( 2 ) );
-   hb_retnl( (glong) arrow );
+   hb_retptr( ( GtkWidget * ) arrow );
 }
 
 HB_FUNC( GTK_ARROW_SET ) /* pWidget, nDirection, nShadow */
 {
-   GtkWidget * arrow = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * arrow = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_arrow_set( GTK_ARROW( arrow ), hb_parni( 2 ), hb_parni( 3 ) );
 }

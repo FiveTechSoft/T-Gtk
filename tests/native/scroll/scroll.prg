@@ -31,17 +31,17 @@ function scrolled( scroll )
  local adjust := gtk_range_get_adjustment (scroll)
  local value  := gtk_adjustment_get_value (adjust)
  local orientation := gtk_range_get_orientation (scroll)
- 
+
   if orientation > 0
-     ? "vertical scroll "
+     ?. "vertical scroll "
   else
-     ? "horizontal scroll "
+     ?. "horizontal scroll "
   endif
         
   if value > skip
-     ? "go_down "
+     ?. "go_down "
   else
-     ? "go_up "
+     ?. "go_up "
   endif      
   skip = value
 
@@ -66,7 +66,7 @@ function main()
    gtk_signal_connect( hWnd, "destroy", {|| gtk_exit()} )
 
 /* Tabla de 'empaquetamiento' */
-   table = gtk_table_new( nRows, nCols, FALSE )
+   table = gtk_table_new( nRows, nCols, .F. )
    gtk_container_add( hWnd, table )
    
 /* 'Ajustes para scrolls' */

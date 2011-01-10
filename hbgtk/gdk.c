@@ -80,23 +80,23 @@ HB_FUNC( GDK_BEEP )
 HB_FUNC( GDK_DISPLAY_OPEN )
 {
   GdkDisplay * display = gdk_display_open( hb_parc( 1 ) );
-  hb_retnl( (glong) display);
+  hb_retptr( (GdkDisplay *) display);
 }
 
 HB_FUNC( GDK_DISPLAY_GET_DEFAULT )
 {
-  hb_retnl( (glong) gdk_display_get_default() );
+  hb_retptr( (GdkDisplay *) gdk_display_get_default() );
 }
 
 HB_FUNC( GDK_DISPLAY_GET_NAME )
 {
-  GdkDisplay * display = (GdkDisplay *) hb_parnl( 1 );
+  GdkDisplay * display = (GdkDisplay *) hb_parptr( 1 );
   hb_retc( (gchar*) gdk_display_get_name( display ) );
 }
 
 HB_FUNC( GDK_DISPLAY_GET_N_SCREENS )
 {
-  GdkDisplay * display = (GdkDisplay *) hb_parnl( 1 );
+  GdkDisplay * display = (GdkDisplay *) hb_parptr( 1 );
   hb_retni( gdk_display_get_n_screens( display ) );
 }
 
@@ -104,7 +104,7 @@ HB_FUNC( GDK_DISPLAY_GET_N_SCREENS )
 HB_FUNC( GTK_SETTINGS_GET_DEFAULT )
 {
    GtkSettings * set = gtk_settings_get_default ();
-   hb_retnl( (glong) set );
+   hb_retptr( (GtkSettings *) set );
 }
 
 HB_FUNC( CAMBIO_STYLE )
@@ -125,21 +125,21 @@ HB_FUNC( CAMBIO_STYLE )
 // Create a new graphics context with default values.
 HB_FUNC( GDK_GC_NEW )
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
   GdkGC * gc = gdk_gc_new( GDK_DRAWABLE( widget->window ) );
-  hb_retnl( (glong) gc );
+  hb_retptr( (GdkGC *)  gc );
 }
 
 HB_FUNC( GDK_GC_SET_LINE_ATTRIBUTES ) // gc, line_width, line_style, cap_style, join_style
 {
-  GdkGC * gc = GDK_GC( hb_parnl( 1 ) );
+  GdkGC * gc = GDK_GC( hb_parptr( 1 ) );
   gdk_gc_set_line_attributes( gc, hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ),hb_parni( 5 ) );
 }
 
 HB_FUNC( GDK_DRAW_LINE )
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
-  GdkGC * gc = GDK_GC( hb_parnl( 2 ) );
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+  GdkGC * gc = GDK_GC( hb_parptr( 2 ) );
   gdk_draw_line( GDK_DRAWABLE( widget->window ), /* �ea en donde dibujar */
                  gc,                             /* contexto gr�ico a utilizar */
                  hb_parni( 3 ), hb_parni( 4 ),   /* (x, y) inicial */
@@ -148,8 +148,8 @@ HB_FUNC( GDK_DRAW_LINE )
 
 HB_FUNC( GDK_DRAW_RECTANGLE )
 {
-    GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
-    GdkGC * gc = GDK_GC( hb_parnl( 2 ) );
+    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+    GdkGC * gc = GDK_GC( hb_parptr( 2 ) );
     gboolean filled = hb_parl( 3 );
     gint x      = hb_parni(4);
     gint y      = hb_parni(5);
@@ -162,9 +162,9 @@ HB_FUNC( GDK_DRAW_RECTANGLE )
 
 HB_FUNC( GDK_DRAW_PIXBUF )
 {
-    GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
-    GdkGC * gc = ISNIL(2) ? NULL : GDK_GC( hb_parnl( 2 ) );
-    GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parnl( 3 );
+    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+    GdkGC * gc = ISNIL(2) ? NULL : GDK_GC( hb_parptr( 2 ) );
+    GdkPixbuf * pixbuf = ( GdkPixbuf * ) hb_parptr( 3 );
     gint src_x  = ISNIL(4) ? 0 :hb_parni(4);
     gint src_y  = ISNIL(5) ? 0 :hb_parni(5);
     gint dest_x = hb_parni(6);
@@ -185,9 +185,9 @@ HB_FUNC( GDK_DRAW_PIXBUF )
 
 HB_FUNC( GDK_DRAW_LAYOUT )
 {
-    GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
-    GdkGC * gc = GDK_GC( hb_parnl( 2 ) );
-    PangoLayout * pango = ( PangoLayout * ) hb_parnl( 5 );
+    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+    GdkGC * gc = GDK_GC( hb_parptr( 2 ) );
+    PangoLayout * pango = ( PangoLayout * ) hb_parptr( 5 );
     gint x      = hb_parni(3);
     gint y      = hb_parni(4);
 
@@ -197,9 +197,9 @@ HB_FUNC( GDK_DRAW_LAYOUT )
 
 HB_FUNC( GDK_DRAW_LAYOUT_WITH_COLORS )
 {
-    GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
-    GdkGC * gc = GDK_GC( hb_parnl( 2 ) );
-    PangoLayout * pango = ( PangoLayout * ) hb_parnl( 5 );
+    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+    GdkGC * gc = GDK_GC( hb_parptr( 2 ) );
+    PangoLayout * pango = ( PangoLayout * ) hb_parptr( 5 );
     gint x      = hb_parni(3);
     gint y      = hb_parni(4);
     GdkColor foreground, background;
@@ -219,8 +219,8 @@ HB_FUNC( GDK_DRAW_LAYOUT_WITH_COLORS )
 
 HB_FUNC( GDK_DRAW_ARC )
 {
-    GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
-    GdkGC * gc = GDK_GC( hb_parnl( 2 ) );
+    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+    GdkGC * gc = GDK_GC( hb_parptr( 2 ) );
     gboolean filled = hb_parl( 3 );
     gint x      = hb_parni(4);
     gint y      = hb_parni(5);
@@ -237,7 +237,7 @@ HB_FUNC( GDK_DRAW_ARC )
 HB_FUNC( GDK_COLORMAP_ALLOC_COLOR ) // colormap, { colors }, writeable, best_match
 {
   GdkColor color;
-  GdkColormap *colormap = GDK_COLORMAP( hb_parnl( 1 ) );
+  GdkColormap *colormap = GDK_COLORMAP( hb_parptr( 1 ) );
   PHB_ITEM pColor = hb_param( 2, HB_IT_ARRAY );        // array
   gboolean bresult = FALSE;
 
@@ -256,7 +256,7 @@ HB_FUNC( GDK_COLORMAP_ALLOC_COLOR ) // colormap, { colors }, writeable, best_mat
 //Sets the foreground color for a graphics context.
 HB_FUNC( GDK_GC_SET_FOREGROUND ) // gc, { colors }
 {
-    GdkGC * gc = GDK_GC( hb_parnl( 1 ) );
+    GdkGC * gc = GDK_GC( hb_parptr( 1 ) );
     GdkColor color;
     PHB_ITEM pColor = hb_param( 2, HB_IT_ARRAY );        // array
     if ( Array2Color( pColor, &color ) )
@@ -272,7 +272,7 @@ HB_FUNC( GDK_GC_SET_FOREGROUND ) // gc, { colors }
 
 HB_FUNC( GDK_GC_SET_BACKGROUND ) // gc, { colors }
 {
-    GdkGC * gc = GDK_GC( hb_parnl( 1 ) );
+    GdkGC * gc = GDK_GC( hb_parptr( 1 ) );
     GdkColor color;
     PHB_ITEM pColor = hb_param( 2, HB_IT_ARRAY );        // array
     if ( Array2Color( pColor, &color ) )
@@ -296,10 +296,10 @@ HB_FUNC( GDK_RECTANGLE_INTERSECT )
     if ( Array2Rect( pSrc1, &rect1 ) &&  Array2Rect( pSrc2, &rect2 ) &&  Array2Rect( pDest, &dest ) )
        {
          bResult = gdk_rectangle_intersect( &rect1, &rect2, &dest );
-         hb_storni( (dest.x),  1);
-         hb_storni( (dest.y),  2);
-         hb_storni( (dest.width) , 3);
-         hb_storni( (dest.height) , 4);
+         hb_stornl( (dest.x),  1);
+         hb_stornl( (dest.y),  2);
+         hb_stornl( (dest.width) , 3);
+         hb_stornl( (dest.height) , 4);
        }
      hb_retl( bResult );
 }

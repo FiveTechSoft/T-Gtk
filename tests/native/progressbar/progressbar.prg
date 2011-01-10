@@ -24,7 +24,7 @@ Function Main( )
 
     button = gtk_button_new_with_label("Incrementando..")
     gtk_signal_connect( button, "clicked", {||Incre(@x)} )
-    gtk_box_pack_start( vbox, button, TRUE, TRUE, 2)
+    gtk_box_pack_start( vbox, button, .T., .T., 2)
     gtk_widget_show(button)
 
     // Standard
@@ -36,7 +36,7 @@ Function Main( )
     __GSTYLE( "yellow",progress, BGCOLOR  , STATE_PRELIGHT )
     __GSTYLE( "red"   ,progress, FGCOLOR  , STATE_PRELIGHT )
 
-    gtk_box_pack_start( vbox, progress, FALSE, TRUE, 2)
+    gtk_box_pack_start( vbox, progress, .F., .T., 2)
     gtk_widget_show( progress )
 
     // Dercha a Left
@@ -48,34 +48,34 @@ Function Main( )
     __GSTYLE( "black",progress2, BGCOLOR  , STATE_PRELIGHT )
     __GSTYLE( "blue"   ,progress2, FGCOLOR  , STATE_PRELIGHT )
     gtk_progress_bar_set_orientation(progress2, GTK_PROGRESS_RIGHT_TO_LEFT )
-    gtk_box_pack_start( vbox, progress2, FALSE, TRUE, 2)
+    gtk_box_pack_start( vbox, progress2, .F., .T., 2)
     gtk_widget_show( progress2 )
 
     // Abajo a Arriba
     progress3 = gtk_progress_bar_new()
-    gtk_progress_bar_set_text( progress3, "ProgressBar Bottom To Top..." )
+    gtk_progress_bar_set_text( progress3, "ProgressBar Bottom To Top ÑÑÑ..." )
     //Estableciendo estilo para esta progress
     __GSTYLE( "black"  ,progress3, BGCOLOR , STATE_NORMAL)   // Cuando esta normal, fondo azul
     __GSTYLE( "red"    ,progress3, FGCOLOR , STATE_NORMAL )  // Cuando esta normal, letras verdes
     __GSTYLE( "white"  ,progress3, BGCOLOR  , STATE_PRELIGHT )
     __GSTYLE( "orange" ,progress3, FGCOLOR  , STATE_PRELIGHT )
     gtk_progress_bar_set_orientation(progress3, GTK_PROGRESS_BOTTOM_TO_TOP)
-    gtk_box_pack_start( vbox, progress3, FALSE, TRUE, 2)
+    gtk_box_pack_start( vbox, progress3, .F., .T., 2)
     gtk_widget_show( progress3 )
 
     progress4 = gtk_progress_bar_new()
     gtk_progress_bar_set_text( progress4, "ProgressBar Top To Bottom..." )
     gtk_progress_bar_set_orientation(progress4, GTK_PROGRESS_TOP_TO_BOTTOM )
-    gtk_box_pack_start( vbox, progress4, FALSE, TRUE, 2)
+    gtk_box_pack_start( vbox, progress4, .F., .T., 2)
     gtk_widget_show( progress4 )
 
     button = gtk_button_new_with_label("Decrementando..")
     gtk_signal_connect( button, "clicked", {||Decre(@x)} )
-    gtk_box_pack_start( vbox, button, TRUE, TRUE, 2)
+    gtk_box_pack_start( vbox, button, .T., .T., 2)
     gtk_widget_show(button)
 
     status_bar = gtk_statusbar_new()
-    gtk_box_pack_start( vbox, status_bar, FALSE, TRUE, 0)
+    gtk_box_pack_start( vbox, status_bar, .F., .T., 0)
     gtk_widget_show (status_bar)
 
     gtk_widget_show(window)

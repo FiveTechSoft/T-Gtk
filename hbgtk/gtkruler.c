@@ -37,26 +37,26 @@
 HB_FUNC( GTK_HRULER_NEW ) // -> widget
 {
    GtkWidget * hruler = gtk_hruler_new();
-   hb_retnl( (glong) hruler );
+   hb_retptr( ( GtkWidget * ) hruler );
 }
 
 HB_FUNC( GTK_VRULER_NEW ) // -> widget
 {
    GtkWidget * vruler = gtk_vruler_new();
-   hb_retnl( (glong) vruler );
+   hb_retptr( ( GtkWidget * ) vruler );
 }
 
 HB_FUNC( GTK_RULER_GET_METRIC ) // -> GtkMetricType enum
 {
    gint GtkMetricType;
-   GtkWidget * ruler = GTK_WIDGET( hb_parnl( 1 ) );	
+   GtkWidget * ruler = GTK_WIDGET( hb_parptr( 1 ) );	
    GtkMetricType = gtk_ruler_get_metric( GTK_RULER (ruler) );
    hb_retni( (gint) GtkMetricType );
 }   
 
 HB_FUNC( GTK_RULER_SET_METRIC ) // widget, GtkMetricType --> void
 {
-   GtkWidget * ruler = GTK_WIDGET( hb_parnl( 1 ) );	
+   GtkWidget * ruler = GTK_WIDGET( hb_parptr( 1 ) );	
    gtk_ruler_set_metric( GTK_RULER (ruler), hb_parni( 2 ) );
 }   
 
@@ -66,7 +66,7 @@ HB_FUNC( GTK_RULER_SET_METRIC ) // widget, GtkMetricType --> void
  **/
 HB_FUNC( GTK_RULER_GET_RANGE ) // widget, --> hbarray values
 {
-   GtkWidget * ruler = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * ruler = GTK_WIDGET( hb_parptr( 1 ) );
    gdouble lower     = GTK_RULER (ruler)->lower;
    gdouble upper     = GTK_RULER (ruler)->upper;
    gdouble position  = GTK_RULER (ruler)->position;
@@ -82,7 +82,7 @@ HB_FUNC( GTK_RULER_GET_RANGE ) // widget, --> hbarray values
 
 HB_FUNC( GTK_RULER_SET_RANGE ) // widget, lower, upper, position, max_size --> void
 {
-   GtkWidget * ruler = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * ruler = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_ruler_set_range( GTK_RULER (ruler),
                         (gdouble) hb_parnl( 2 ),
                         (gdouble) hb_parnl( 3 ),

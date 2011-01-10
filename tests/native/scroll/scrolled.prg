@@ -59,10 +59,10 @@ function main()
                                     GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS )
                                     
     /* The dialog window is created with a vbox packed into it. */								
-    gtk_box_pack_start( HB_GTK_GET_DLG_BOX( window ), scrolled, TRUE, TRUE, 0 )
+    gtk_box_pack_start( HB_GTK_GET_DLG_BOX( window ), scrolled, .T., .T., 0 )
        
     /* create a table of 10 by 10 squares. */
-    table = gtk_table_new (10, 10, FALSE)
+    table = gtk_table_new (10, 10, .F.)
     
     /* set the spacing to 10 on x and 10 on y */
     gtk_table_set_row_spacings( table, 10 )
@@ -83,7 +83,7 @@ function main()
     button := gtk_button_new_with_label( "close" )
 
     gtk_signal_connect( button, "clicked", {|| g_signal_emit_by_name( window, "destroy" ) } )
-    gtk_box_pack_start( HB_GTK_GET_DLG_ACTION_AREA( window ), button, TRUE, TRUE, 0 )
+  //  gtk_box_pack_start( HB_GTK_GET_DLG_ACTION_AREA( window ), button, TRUE, TRUE, 0 )
     
     gtk_widget_show_all( window )
     gtk_main()

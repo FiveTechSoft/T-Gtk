@@ -30,117 +30,147 @@
 HB_FUNC( GTK_TREE_VIEW_NEW )
 {
    GtkWidget * tree = gtk_tree_view_new();
-   hb_retnl( ( glong ) tree );
+   hb_retptr( ( GtkWidget * ) tree );
 }
+
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_NEW_WITH_MODEL ) // model --> widget
 {
-   GtkWidget * tree =  gtk_tree_view_new_with_model ( GTK_TREE_MODEL( hb_parnl( 1 ) ) );
-   hb_retnl( ( glong ) tree );
+   GtkWidget * tree =  gtk_tree_view_new_with_model ( GTK_TREE_MODEL( hb_parptr( 1 ) ) );
+   hb_retptr( ( GtkWidget * ) tree );
 }
+
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_SET_MODEL ) // treeview, model -> void
 {
-   GtkTreeView * tree   = GTK_TREE_VIEW( hb_parnl( 1 ) );
-   GtkTreeModel * model = ISNIL(2) ? NULL : GTK_TREE_MODEL( hb_parnl( 2 )  );
+   GtkTreeView * tree   = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   GtkTreeModel * model = ISNIL( 2 ) ? NULL : GTK_TREE_MODEL( hb_parptr( 2 )  );
    gtk_tree_view_set_model( tree , model );
 }
 
+//------------------------------------------------------//
+
 HB_FUNC( GTK_TREE_VIEW_SET_RULES_HINT ) // treeview -> void
 {
-  gtk_tree_view_set_rules_hint(GTK_TREE_VIEW ( GTK_WIDGET( hb_parnl( 1 ) ) ), TRUE);
+  gtk_tree_view_set_rules_hint(GTK_TREE_VIEW ( GTK_WIDGET( hb_parptr( 1 ) ) ), TRUE);
 }
+
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_APPEND_COLUMN ) // treeview, column -> void
 {
-   gtk_tree_view_append_column( GTK_TREE_VIEW ( GTK_WIDGET( hb_parnl( 1 ) )),
-                                GTK_TREE_VIEW_COLUMN( ( GtkTreeViewColumn * ) hb_parnl( 2 )) );
+   gtk_tree_view_append_column( GTK_TREE_VIEW ( GTK_WIDGET( hb_parptr( 1 ) )),
+                                GTK_TREE_VIEW_COLUMN( ( GtkTreeViewColumn * ) hb_parptr( 2 )) );
 }
+
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_GET_COLUMN ) // treeview, nColumn -> column
 {
   GtkTreeViewColumn * column =
-      gtk_tree_view_get_column( GTK_TREE_VIEW( GTK_WIDGET( hb_parnl( 1 ) ) ),
+      gtk_tree_view_get_column( GTK_TREE_VIEW( GTK_WIDGET( hb_parptr( 1 ) ) ),
                                 ( gint ) hb_parni( 2 ) );
 
   if GTK_IS_TREE_VIEW_COLUMN( column )
-     hb_retnl( ( glong ) column );
+     hb_retptr( ( GtkTreeViewColumn * ) column );
   else
-     hb_retnl( ( glong ) 0 );
+     hb_retptr( ( GtkTreeViewColumn * ) 0 );
 }
+
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_REMOVE_COLUMN )
 {
-   GtkTreeView * tree   = GTK_TREE_VIEW( hb_parnl( 1 ) );
-   hb_retni( gtk_tree_view_remove_column( tree, GTK_TREE_VIEW_COLUMN( ( GtkTreeViewColumn * ) hb_parnl( 2 )) ) );
+   GtkTreeView * tree   = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   hb_retni( gtk_tree_view_remove_column( tree, GTK_TREE_VIEW_COLUMN( ( GtkTreeViewColumn * ) hb_parptr( 2 )) ) );
 }
     
+//------------------------------------------------------//
+
 HB_FUNC( GTK_TREE_VIEW_GET_SELECTION ) // treeview -> treeselection
 {
   GtkTreeSelection * selection = gtk_tree_view_get_selection(
-                                 GTK_TREE_VIEW( hb_parnl( 1 ) ) );
-  hb_retnl( ( glong ) selection );
+                                 GTK_TREE_VIEW( hb_parptr( 1 ) ) );
+  hb_retptr( ( GtkTreeSelection *) selection );
 }
+
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_GET_MODEL ) // treeview -> treemodel
 {
-  GtkTreeView * tree   = GTK_TREE_VIEW( hb_parnl( 1 ) );
+  GtkTreeView * tree   = GTK_TREE_VIEW( hb_parptr( 1 ) );
   GtkTreeModel * model = gtk_tree_view_get_model( tree );
-  hb_retnl( ( glong ) model );
+  hb_retptr( ( GtkTreeModel * ) model );
 }
+
+//------------------------------------------------------//
 
 // Por Carlos Mora, comprobarlo
 HB_FUNC( GTK_TREE_VIEW_SET_CURSOR_ON_CELL )
 {
-  GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
-  GtkTreePath * path = (GtkTreePath *) hb_parnl( 2 ) ;
+  GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
+  GtkTreePath * path = (GtkTreePath *) hb_parptr( 2 ) ;
   gtk_tree_view_set_cursor_on_cell( tree,
                                     path,
-                                    GTK_TREE_VIEW_COLUMN( hb_parnl( 3 ) ),
+                                    GTK_TREE_VIEW_COLUMN( hb_parptr( 3 ) ),
                                     NULL, TRUE );
 }
+
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_COLUMN_GET_EDITABLE_WIDGET )
 {
     GtkTreeViewColumn * column = (GtkTreeViewColumn *) hb_parnl( 1 );
-    hb_retnl( (glong) column->editable_widget );
+    hb_retptr( ( GtkTreeViewColumn * ) column->editable_widget );
 }
+
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_GET_CURSOR )
 {
     GtkTreePath * path;
-    GtkTreeViewColumn *focus_column;
+    GtkTreeViewColumn * focus_column;
 
-    gtk_tree_view_get_cursor( (GtkTreeView *) hb_parnl( 1 ) , &path, &focus_column);
+    gtk_tree_view_get_cursor( (GtkTreeView *) hb_parptr( 1 ) , &path, &focus_column);
 
-    hb_stornl( (long) path, 2 );
-    hb_stornl( (long) focus_column, 3 );
+    hb_storptr( ( GtkTreePath * ) path, 2 );
+    hb_storptr( ( GtkTreeViewColumn * ) focus_column, 3 );
 }
+
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_SET_ENABLE_SEARCH )
 {
-   GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+   GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
    gtk_tree_view_set_enable_search ( tree , (gboolean) hb_parl( 2 ) );
 }
 
+//------------------------------------------------------//
+
 HB_FUNC( GTK_TREE_VIEW_GET_SEARCH_COLUMN )
 {
-   GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+   GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
    hb_retni( gtk_tree_view_get_search_column( tree ) );
 }
 
+//------------------------------------------------------//
+
 HB_FUNC( GTK_TREE_VIEW_SET_SEARCH_COLUMN )
 {
-  GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+  GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
   gint column = hb_parni( 2 );
   gtk_tree_view_set_search_column( tree, column );
 }
 
+//------------------------------------------------------//
+
 HB_FUNC( GTK_TREE_VIEW_INSERT_COLUMN_WITH_ATTRIBUTES )
 {
    gint column;
-   GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
-   GtkCellRenderer * renderer = GTK_CELL_RENDERER( hb_parnl( 4 ) );
+   GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   GtkCellRenderer * renderer = GTK_CELL_RENDERER( hb_parptr( 4 ) );
 
    column = gtk_tree_view_insert_column_with_attributes( tree,
                                              (gint) hb_parni( 2 ),   // Position
@@ -149,34 +179,39 @@ HB_FUNC( GTK_TREE_VIEW_INSERT_COLUMN_WITH_ATTRIBUTES )
                                              (gchar *) hb_parc( 5 ), // Type
                                              (gint) hb_parni( 6 ),
                                              NULL);
-   hb_retnl( (glong) column );
+   hb_retni( column );
 }
+
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_EXPAND_ALL )
 {
-   GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+   GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
    gtk_tree_view_expand_all( tree );
 }
 
+//------------------------------------------------------//
+
 HB_FUNC( GTK_TREE_VIEW_SET_HEADERS_VISIBLE )
 {
-  GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+  GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
   gboolean bvisible = hb_parl( 2 );
   gtk_tree_view_set_headers_visible ( tree , bvisible );
 }
 
+//------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_COLUMNS_AUTOSIZE )
 {
-  GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+  GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
   gtk_tree_view_columns_autosize( tree );
 }
 
-
+//------------------------------------------------------//
 
 HB_FUNC( HB_GTK_TREE_VIEW_GET_TOTAL_COLUMNS ) // Treeview -->Total_Columns
 {
-  GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+  GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
   GList * list ;
   guint elements = 0;
   
@@ -188,9 +223,11 @@ HB_FUNC( HB_GTK_TREE_VIEW_GET_TOTAL_COLUMNS ) // Treeview -->Total_Columns
 
 }   
 
+//------------------------------------------------------//
+
 HB_FUNC( HB_GTK_TREE_VIEW_NEXT_ROW )
 {
-  GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+  GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
   GtkTreePath * path ;
   GtkTreeViewColumn *focus_column;
 
@@ -206,9 +243,11 @@ HB_FUNC( HB_GTK_TREE_VIEW_NEXT_ROW )
   }
 }  
 
+//------------------------------------------------------//
+
 HB_FUNC( HB_GTK_TREE_VIEW_PREV_ROW )
 {
-  GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+  GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
   GtkTreePath * path;
   GtkTreeViewColumn *focus_column;
 
@@ -225,18 +264,21 @@ HB_FUNC( HB_GTK_TREE_VIEW_PREV_ROW )
   }
 }  
 
+//------------------------------------------------------//
+
 HB_FUNC( HB_GTK_TREE_VIEW_UP_ROW )
 {
-  GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+  GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
   GtkTreePath * path;
   GtkTreeViewColumn *focus_column;
 
   gtk_tree_view_get_cursor( tree , &path, &focus_column);
-  if ( path )
+  if ( path  )
   {
     if ( gtk_tree_path_up( path ) ) {
+      if( gtk_tree_path_get_depth( path ) > 0 )
         gtk_tree_view_set_cursor( tree , path, focus_column, TRUE );
-        hb_retl( TRUE );
+      hb_retl( TRUE );     
     } else {
         hb_retl( FALSE );
     }    
@@ -245,9 +287,11 @@ HB_FUNC( HB_GTK_TREE_VIEW_UP_ROW )
   }
 }  
 
+//------------------------------------------------------//
+
 HB_FUNC( HB_GTK_TREE_VIEW_DOWN_ROW )
 {
-  GtkTreeView * tree = GTK_TREE_VIEW( hb_parnl( 1 ) );
+  GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
   GtkTreePath * path;
   GtkTreeViewColumn *focus_column;
 
@@ -262,6 +306,8 @@ HB_FUNC( HB_GTK_TREE_VIEW_DOWN_ROW )
       hb_retl( FALSE );
    }  
 }  
+
+//------------------------------------------------------//
 
 
 /*

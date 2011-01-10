@@ -5,6 +5,8 @@
 */
 #include "gclass.ch"
  
+REQUEST HB_CODEPAGE_ESISO
+ 
 function Main( )
    Local  oWnd
    Local oBox ,aFields , uData, x, oBrw, cType 
@@ -12,6 +14,8 @@ function Main( )
    USE ../../CUSTOMER.DBF NEW SHARED    
    DbfBrowse( uData ) */
    
+   HB_CDPSELECT( "ESISO" )
+   SET_AUTO_UTF8( .T. )
    DEFINE WINDOW oWnd TITLE "Browse dinamic" SIZE 800,600
     
         USE ../../CUSTOMER.DBF NEW SHARED 
@@ -29,21 +33,21 @@ function Main( )
                      uData := &( "{|| cValToChar( Field->" + aFields[X] +" )  }" )
                      ADD COLUMN  TO BROWSE oBrw ;
                           DATA uData ;
-                          HEADER UTF_8( aFields[X] ) ;
+                          HEADER aFields[X] ;
                           SIZE 150
 
                 CASE cType = "C"
-                     uData := &( "{|| UTF_8( Field->" + aFields[X] +" )  }" )
+                     uData := &( "{|| Field->" + aFields[X] +" }" )
                      ADD COLUMN  TO BROWSE oBrw ;
                           DATA uData ;
-                          HEADER UTF_8( aFields[X] ) ;
+                          HEADER aFields[X];
                           SIZE 150
 
                 CASE cType = "L"
                      uData := &( "{|| Field->" + aFields[X] +"  }" )
                      ADD COLUMN  TO BROWSE oBrw ;
                           DATA uData ;
-                          HEADER UTF_8( aFields[X] ) ;
+                          HEADER aFields[X] ;
                           TYPE COL_TYPE_RADIO ;
                           SIZE 50
              ENDCASE

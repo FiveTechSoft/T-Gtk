@@ -43,7 +43,7 @@ Function Main()
                                        G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_BOOLEAN }  )
 
    pixbuf := gdk_pixbuf_new_from_file( "../../images/glade.png" )
-   pixbuf2 := gdk_pixbuf_new_from_file( "../../images/Anieyes.gif" )
+   pixbuf2 := gdk_pixbuf_new_from_file( "../../images/anieyes.gif" )
    pixbuf3 := gdk_pixbuf_new_from_file( "../../images/gnome-logo.png" )
    pixbuf4 := gdk_pixbuf_new_from_file( "../../images/rafa.jpg" )
 

@@ -26,19 +26,19 @@ function main()
   window = gtk_window_new (GTK_WINDOW_TOPLEVEL)
   gtk_signal_connect (window, "delete-event", {|| Exit() } )
 
-  vbox = gtk_vbox_new (FALSE, 8)
+  vbox = gtk_vbox_new (.F., 8)
   gtk_container_set_border_width (vbox, 8)
   gtk_container_add (window, vbox)
   gtk_box_pack_start (vbox, ;
 		      gtk_label_new ("Planning Calendar"),;
-		      FALSE, FALSE, 0)
+		      .F., .F., 0)
 
   /* Scroll bar */
   sw = gtk_scrolled_window_new()
   gtk_scrolled_window_set_shadow_type (sw, GTK_SHADOW_ETCHED_IN)
   gtk_scrolled_window_set_policy( sw, GTK_POLICY_AUTOMATIC, ;
                                       GTK_POLICY_AUTOMATIC)
-  gtk_box_pack_start (vbox, sw, TRUE, TRUE, 0)
+  gtk_box_pack_start (vbox, sw, .T., .T., 0)
 
   /* create model */
   model = create_model ()
@@ -52,7 +52,7 @@ function main()
    * con doble-click en cualquier fila, arrastrar
    * y soltar en nueva posicion :-)
    */
-  g_object_set (treeview, "reorderable", TRUE)
+  g_object_set (treeview, "reorderable", .T.)
 
   /* create columns */
   add_columns (treeview)
@@ -130,10 +130,10 @@ static func add_columns (treeview)
 							    renderer, "text", 0 )
 
   column = gtk_tree_view_get_column (treeview, col_offset - 1)
-  gtk_tree_view_column_set_clickable (column, TRUE)
+  gtk_tree_view_column_set_clickable (column, .T.)
 
 /* Asignando una propiedad directamente al objeto */
-  g_object_set (column, "resizable", TRUE)
+  g_object_set (column, "resizable", .T.)
 
 /* Columna tipo 'checkbox' */
    renderer = gtk_cell_renderer_toggle_new()

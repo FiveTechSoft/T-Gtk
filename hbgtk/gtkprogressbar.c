@@ -27,47 +27,47 @@
 HB_FUNC( GTK_PROGRESS_BAR_NEW )
 {
    GtkWidget * progressbar = gtk_progress_bar_new();
-   hb_retnl( ( ULONG ) progressbar );
+   hb_retptr( ( GtkWidget * ) progressbar );
 }
 
 HB_FUNC( GTK_PROGRESS_BAR_PULSE ) //widget
 {
-   GtkWidget * progressbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_progress_bar_pulse( GTK_PROGRESS_BAR( progressbar ) );
 }
 
 HB_FUNC( GTK_PROGRESS_BAR_SET_TEXT ) //widget, ctext
 {
-   GtkWidget * progressbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_progress_bar_set_text( GTK_PROGRESS_BAR( progressbar ), hb_parc( 2 ) );
 }
 
 HB_FUNC( GTK_PROGRESS_BAR_SET_FRACTION ) // widget, fraction
 {
-   GtkWidget * progressbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_progress_bar_set_fraction( GTK_PROGRESS_BAR( progressbar ), ( gdouble ) hb_parnd( 2 ) );
 }
 
 HB_FUNC( GTK_PROGRESS_BAR_SET_PULSE_STEP ) // widget, fraction
 {
-   GtkWidget * progressbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_progress_bar_set_pulse_step( GTK_PROGRESS_BAR( progressbar ), ( gdouble ) hb_parnd( 2 ) );
 }
 
 HB_FUNC( GTK_PROGRESS_BAR_SET_ORIENTATION )  // widget, nOrientation.
 {
-   GtkWidget * progressbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_progress_bar_set_orientation( GTK_PROGRESS_BAR( progressbar ), hb_parni( 2 ) );
 }                                             
 
 HB_FUNC( GTK_PROGRESS_BAR_GET_TEXT ) // widget --> cText
 {
-   GtkWidget * progressbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retc( ( gchar * )gtk_progress_bar_get_text( GTK_PROGRESS_BAR( progressbar ) ));
 }
 
 HB_FUNC( GTK_PROGRESS_BAR_GET_ORIENTATION )
 {
-   GtkWidget * progressbar = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retni( (gint) gtk_progress_bar_get_orientation( GTK_PROGRESS_BAR( progressbar ) ) );
 }

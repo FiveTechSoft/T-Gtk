@@ -44,64 +44,64 @@ HB_FUNC( CONNECT_DESTROY_WIDGET )
 
 HB_FUNC( GTK_WINDOW )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_CONTAINER )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 HB_FUNC( GTK_BOX)
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_COMBO_BOX )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_TOOLBAR )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_TREE )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_SCROLLED_WINDOW )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_TREE_ITEM )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_ASSISTANT )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_ENTRY )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_MENU )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_MENU_SHELL )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_CHECK_MENU_ITEM )
 {
-  hb_retnl( (glong) hb_parnl( 1 ) );
+  hb_retptr( hb_parptr( 1 ) );
 }                 

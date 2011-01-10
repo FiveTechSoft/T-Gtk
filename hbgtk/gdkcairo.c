@@ -28,8 +28,8 @@
 #if GTK_CHECK_VERSION(2,8,0)
 HB_FUNC( GDK_CAIRO_SET_SOURCE_PIXBUF )
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
-  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parnl( 2 ) );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
+  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 2 ) );
   gdk_cairo_set_source_pixbuf( ctx, pixbuf,
                                hb_parnd( 3 ),
                                hb_parnd( 4 ) );

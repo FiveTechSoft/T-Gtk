@@ -75,8 +75,14 @@ METHOD New( bCancel, bClose, bPrepare, bApply, nWidth, nHeight, cId, uGlade ) CL
        ::Connect( "close" )
        ::Connect( "prepare" )
        ::Connect( "apply" )
-       ::Connect( "delete-event" )
+       // creo no es necesario activar delete-event
+       // al parecer OnClose hace el mismo trabajo
+//       ::Connect( "delete-event" )
        ::Connect( "destroy" )
+
+       if GetWndMain() == NIL 
+          SetWndMain( Self ) 
+       endif       
 
 RETURN Self
 

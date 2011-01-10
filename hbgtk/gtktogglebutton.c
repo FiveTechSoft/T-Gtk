@@ -23,66 +23,75 @@
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
+#include <t-gtk.h>
 
 HB_FUNC( GTK_TOGGLE_BUTTON_NEW ) // -> widget
 {
    GtkWidget * button = gtk_toggle_button_new( );
-   hb_retnl( (glong) button );
+   hb_retptr( (GtkWidget *) button );
 }
 
 HB_FUNC( GTK_TOGGLE_BUTTON_NEW_WITH_LABEL ) //cText -> widget
 {
    GtkWidget * button;
-   gchar *msg = g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
+   gchar *msg = str2utf8( ( gchar * ) hb_parc( 1 ) ); //g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
    button = gtk_toggle_button_new_with_label ( msg );
-   hb_retnl( (glong) button );
+   SAFE_RELEASE( msg );
+   hb_retptr( (GtkWidget *) button );
 }
 
 HB_FUNC( GTK_TOGGLE_BUTTON_NEW_WITH_MNEMONIC ) //cText -> widget
 {
-   GtkWidget * button = gtk_toggle_button_new_with_mnemonic( ( gchar *) hb_parc( 1 ) );
-   hb_retnl( (glong) button );
+   GtkWidget * button;
+   gchar *msg = str2utf8( ( gchar * ) hb_parc( 1 ) );//g_convert( hb_parc(1), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );
+
+   button = gtk_toggle_button_new_with_mnemonic( msg );
+   
+   SAFE_RELEASE( msg );
+
+   hb_retptr( (GtkWidget *) button );
+
 }
 
 /* Afecta solamente a Checks y radios.*/
 HB_FUNC( GTK_TOGGLE_BUTTON_SET_MODE )
 {
-  GtkWidget * button = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_toggle_button_set_mode( GTK_TOGGLE_BUTTON( button ), hb_parl( 2 ) );
 }
 
 HB_FUNC( GTK_TOGGLE_BUTTON_GET_MODE )
 {
-  GtkWidget * button = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
   hb_retl( gtk_toggle_button_get_mode( GTK_TOGGLE_BUTTON( button ) ) );
 }
 
 HB_FUNC( GTK_TOGGLE_BUTTON_TOGGLED ) // widget
 {
-  GtkWidget * button = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_toggle_button_toggled( GTK_TOGGLE_BUTTON( button ) );
 }
 
 HB_FUNC( GTK_TOGGLE_BUTTON_GET_ACTIVE ) //widget --> lActivo
 {
-  GtkWidget * button = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
   hb_retl( gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON( button ) ) );
 }
 
 HB_FUNC( GTK_TOGGLE_BUTTON_SET_STATE ) // widget, lstate
 {
-   GtkWidget * button = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( button ), hb_parl( 2 ) );
 }
 
 HB_FUNC( GTK_TOGGLE_BUTTON_GET_INCONSISTENT ) // widget --> linconsistent
 {
-   GtkWidget * button = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retl( gtk_toggle_button_get_inconsistent( GTK_TOGGLE_BUTTON( button ) ) );
 }
 
 HB_FUNC( GTK_TOGGLE_BUTTON_SET_INCONSISTENT ) // widget ,linconsistent
 {
-   GtkWidget * button = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_toggle_button_set_inconsistent( GTK_TOGGLE_BUTTON( button ), hb_parl( 2 ) );
 }

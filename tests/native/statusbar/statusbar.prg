@@ -21,23 +21,23 @@ Function Main( )
     gtk_window_set_title( window, "GTK Statusbar Example" )
     gtk_signal_connect( window, "delete-event", {||gtk_exit() })
 
-    vbox = gtk_vbox_new( FALSE, 1)
+    vbox = gtk_vbox_new( .F., 1)
     gtk_container_add( window, vbox)
     gtk_widget_show(vbox)
 
     button = gtk_button_new_with_label("push item")
     gtk_signal_connect( button, "clicked", {|w|push_item(w)} )
-    gtk_box_pack_start( vbox, button, TRUE, TRUE, 2)
+    gtk_box_pack_start( vbox, button, .T., .T., 2)
     gtk_widget_show(button)
 
     button = gtk_button_new_with_label("pop last item")
     gtk_signal_connect( button, "clicked", {|w|pop_item(w)} )
-    gtk_box_pack_start( vbox, button, TRUE, TRUE, 2)
+    gtk_box_pack_start( vbox, button, .T., .T., 2)
     gtk_widget_show(button)
 
 
     status_bar = gtk_statusbar_new()
-    gtk_box_pack_start( vbox, status_bar, FALSE, TRUE, 0)
+    gtk_box_pack_start( vbox, status_bar, .F., .T., 0)
     gtk_widget_show (status_bar)
 
     context_id = gtk_statusbar_get_context_id( status_bar, "Statusbar example")

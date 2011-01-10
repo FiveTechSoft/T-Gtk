@@ -25,7 +25,7 @@
 
 static oWndMain
 
-static function SetWndMain( oWnd ); oWndMain := oWnd; return nil
+function SetWndMain( oWnd ); oWndMain := oWnd; return nil
 function GetWndMain(); return oWndMain
 
 CLASS GWINDOW FROM GCONTAINER
@@ -106,7 +106,7 @@ METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint, ;
           ::SetIconName( cIconName )
        endif
 
-       if oParent != NIL
+       if oParent != NIL .and. oParent:pWidget != GetWndMain():pWidget
           gtk_window_set_transient_for( ::pWidget, oParent:pWidget )
        endif
 
@@ -137,7 +137,7 @@ METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
           ::Maximize()
        endif
 
-			 ::Register()
+       ::Register()
        ::Show()
 
        if lModal
@@ -159,8 +159,15 @@ METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
 
 RETURN NIL
 
+
 METHOD End() CLASS GWINDOW
-RETURN ::OnDelete_Event( Self )
+    
+    if ! ::OnDelete_Event( Self )
+       gtk_widget_destroy( ::pWidget )
+    endif
+
+return nil
+
 
 METHOD Register() CLASS GWINDOW
     Super:Register()

@@ -27,32 +27,32 @@
 HB_FUNC( GTK_EVENT_BOX_NEW )
 {
    GtkWidget * widget = gtk_event_box_new();
-   hb_retnl( ( glong ) widget );
+   hb_retptr( ( GtkWidget *  ) widget );
 }
 
 HB_FUNC( GTK_EVENT_BOX_SET_ABOVE_CHILD )
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    gboolean above_child = hb_parl( 2 );
    gtk_event_box_set_above_child( GTK_EVENT_BOX( widget ), above_child );
 }
 
 HB_FUNC( GTK_EVENT_BOX_GET_ABOVE_CHILD )
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retl( gtk_event_box_get_above_child( GTK_EVENT_BOX( widget ) ) );
 
 }
 
 HB_FUNC( GTK_EVENT_BOX_SET_VISIBLE_WINDOW )
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    gboolean visible= hb_parl( 2 );
    gtk_event_box_set_visible_window( GTK_EVENT_BOX( widget ), visible );
 }
 
 HB_FUNC( GTK_EVENT_BOX_GET_VISIBLE_WINDOW )
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retl( gtk_event_box_get_visible_window( GTK_EVENT_BOX( widget ) ) );
 }

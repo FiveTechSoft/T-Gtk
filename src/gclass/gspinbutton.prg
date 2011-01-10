@@ -58,7 +58,7 @@ METHOD New( bSetGet, nMin, nMax, nDecimals, nStep, oAdjust, bValid,;
 
        IF cId == NIL
           if Empty( oAdjust )
-             pAdjust := gtk_adjustment_new( nMin, nMax, nValue, nStep, 10, 10 )
+             pAdjust := gtk_adjustment_new( nMin, nMax, nValue, nStep, 10, 0 )
           else
              pAdjust := oAdjust:pWidget  // De momento no esta la clase Adjust
           endif

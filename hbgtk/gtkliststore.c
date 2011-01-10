@@ -49,6 +49,7 @@ void        gtk_list_store_move_after       (GtkListStore *store,
 #include "hbapiitm.h"
 #include "t-gtk.h"
 
+void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
 BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  );
 
@@ -60,15 +61,18 @@ HB_FUNC( HB_GTK_LIST_STORE_NEW ) // aItems -> pListStore
 {
   GtkListStore * store;
 
-  PHB_ITEM pArray2     = hb_param( 1, HB_IT_ARRAY );        // array
+  PHB_ITEM pArray2    = hb_param( 1, HB_IT_ARRAY );        // array
   PHB_ITEM pArray     = hb_arrayGetItemPtr( pArray2, 1 );   // 1 Array
   PHB_BASEARRAY pBase = pArray->item.asArray.value;        // base
   gint iCol;
+  gint iLenCols       = hb_arrayLen( pArray );
+  /*
   #ifdef __HARBOUR20__
      gint iLenCols = pBase->nLen;  // columnas
   #else
      gint iLenCols = pBase->ulLen;  // columnas
   #endif
+  */
   GType colTypes[ iLenCols ];    // array de tipos
 
    /* Determinando el tipo de datos para cada columna */
@@ -87,25 +91,22 @@ HB_FUNC( HB_GTK_LIST_STORE_NEW ) // aItems -> pListStore
    }
 
   store = gtk_list_store_newv( iLenCols, colTypes );
-  hb_retnl( (glong) store );
+  hb_retptr( ( GtkListStore * ) store );
 }
 /*--------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------*/
 HB_FUNC( HB_GTK_LIST_STORE_SET_LONG ) // liststore, column, item, data -> void
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   PHB_ITEM pIter = hb_param( 3, HB_IT_ARRAY );        // array
   GtkTreeIter iter;
 
   if ( Array2Iter( pIter, &iter ) )
-     {
+  {
      gtk_list_store_set( store, &iter, (gint) hb_parni( 2 ),
-                       ( glong ) hb_parnl( 4 ), -1 );
-     hb_storni( (gint) (iter.stamp)       ,3, 1);
-     hb_stornl( (glong) (iter.user_data)  ,3, 2);
-     hb_stornl( (glong) (iter.user_data2) ,3, 3);
-     hb_stornl( (glong) (iter.user_data3) ,3, 4);
-     }
+                    ( glong ) hb_parnl( 4 ), -1 );
+     FillArrayFromIter( &iter, pIter );
+  }
 }
 
 /*--------------------------------------------------------------------------*/
@@ -126,14 +127,14 @@ HB_FUNC( GTK_LIST_STORE_NEWV ) // iCantidad, { a_G_Types }-> pListStore
      colTypes[ iCol ] = hb_arrayGetNI( pArray, iCol+1 );
    }
   store = gtk_list_store_newv( iLenCols, colTypes );
-  hb_retnl( (glong) store );
+  hb_retptr( ( GtkListStore * ) store );
 }
 
 /*--------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_SET_COLUMN_TYPES ) // ListStore, n_columns, { a_G_Types }
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   PHB_ITEM pArray = hb_param( 3, HB_IT_ARRAY );        // array
   gint iCol;
   gint iLenCols = hb_arrayLen( pArray );  // columnas
@@ -155,7 +156,7 @@ HB_FUNC( GTK_LIST_STORE_SET_COLUMN_TYPES ) // ListStore, n_columns, { a_G_Types 
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_APPEND ) // liststore , aIter-> new Item
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   PHB_ITEM aIter = hb_param( 2, HB_IT_ARRAY ); // array
   GtkTreeIter iter;
 
@@ -168,12 +169,8 @@ HB_FUNC( GTK_LIST_STORE_APPEND ) // liststore , aIter-> new Item
  * if (HB_IS_ARRAY( aIter ) && hb_arrayLen( aIter ) == 4 )
  *
  */
-  if (ISARRAY( 2 ) && hb_arrayLen( aIter ) == 4 ) {
-     hb_storni( (gint) (iter.stamp)       ,2, 1);
-     hb_stornl( (glong) (iter.user_data)  ,2, 2);
-     hb_stornl( (glong) (iter.user_data2) ,2, 3);
-     hb_stornl( (glong) (iter.user_data3) ,2, 4);
-    }
+  if (ISARRAY( 2 ) && hb_arrayLen( aIter ) == 4 )
+     FillArrayFromIter( &iter, aIter );
   else
      g_warning ("GTK_LIST_STORE_APPEND : Se esperaba un array o longitud distinta a 4");
 }
@@ -182,28 +179,24 @@ HB_FUNC( GTK_LIST_STORE_APPEND ) // liststore , aIter-> new Item
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_PREPEND ) // liststore, aIter -> new Item
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   PHB_ITEM aIter = hb_param( 2, HB_IT_ARRAY ); // array
   GtkTreeIter iter;
 
   gtk_list_store_prepend( store, &iter );
 
-  if ( ISARRAY( 2 ) && hb_arrayLen( aIter ) == 4 ) {
-     hb_storni( (gint) (iter.stamp)       ,2, 1);
-     hb_stornl( (glong) (iter.user_data)  ,2, 2);
-     hb_stornl( (glong) (iter.user_data2) ,2, 3);
-     hb_stornl( (glong) (iter.user_data3) ,2, 4);
-    }
-  else {
+  if ( ISARRAY( 2 ) && hb_arrayLen( aIter ) == 4 ) 
+     FillArrayFromIter( &iter, aIter );
+  else
     g_print("Error: Se necesita un array de 4 elementos");
-    }
+   
 }
 
 /*--------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_CLEAR ) // liststore
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   gtk_list_store_clear( store );
 }
 
@@ -211,7 +204,8 @@ HB_FUNC( GTK_LIST_STORE_CLEAR ) // liststore
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_SET ) // liststore, column, item, data -> void
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   GtkTreeIter iter;
   PHB_ITEM pIter = hb_param( 3, HB_IT_ARRAY );
   PHB_ITEM pValue = hb_param( 4, HB_IT_ANY );
@@ -236,11 +230,11 @@ HB_FUNC( GTK_LIST_STORE_SET ) // liststore, column, item, data -> void
      else if( HB_IS_LOGICAL( pValue ) )
        gtk_list_store_set( store, &iter, (gint) hb_parni( 2 ),
                        hb_parl( 4 ), -1 );
+     else if( HB_IS_POINTER( pValue ) )
+       gtk_list_store_set( store, &iter, (gint) hb_parni( 2 ),
+                       hb_parptr( 4 ), -1 );                       
 
-     hb_storni( (gint) (iter.stamp)       ,3, 1);
-     hb_stornl( (glong) (iter.user_data)  ,3, 2);
-     hb_stornl( (glong) (iter.user_data2) ,3, 3);
-     hb_stornl( (glong) (iter.user_data3) ,3, 4);
+     FillArrayFromIter( &iter, pIter );
   }
 
 }
@@ -250,7 +244,7 @@ HB_FUNC( GTK_LIST_STORE_SET ) // liststore, column, item, data -> void
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_SET_VALUE ) // liststore, iter , column, GValue -> void
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   GtkTreeIter iter;
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
   gint column   = hb_parni( 3 );
@@ -268,25 +262,25 @@ HB_FUNC( GTK_LIST_STORE_SET_VALUE ) // liststore, iter , column, GValue -> void
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_REMOVE )
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   GtkTreeIter  iter;
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
+  BOOL bresult = FALSE;
 
   if ( Array2Iter( pIter, &iter ) )
   {
-     hb_retl( gtk_list_store_remove( store, &iter ) );
-     hb_storni( (gint) (iter.stamp)       ,2, 1);
-     hb_stornl( (glong) (iter.user_data)  ,2, 2);
-     hb_stornl( (glong) (iter.user_data2) ,2, 3);
-     hb_stornl( (glong) (iter.user_data3) ,2, 4);
+     bresult = gtk_list_store_remove( store, &iter );
+     FillArrayFromIter( &iter, pIter );
+     
   }
+  hb_retl( bresult );
 }
 
 /*--------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_INSERT )
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
   gint position = hb_parni( 3 );
   GtkTreeIter  iter;
@@ -294,10 +288,7 @@ HB_FUNC( GTK_LIST_STORE_INSERT )
   if ( Array2Iter( pIter, &iter ) )
   {
      gtk_list_store_insert( store, &iter, position );
-     hb_storni( (gint) (iter.stamp)       ,2, 1);
-     hb_stornl( (glong) (iter.user_data)  ,2, 2);
-     hb_stornl( (glong) (iter.user_data2) ,2, 3);
-     hb_stornl( (glong) (iter.user_data3) ,2, 4);
+     FillArrayFromIter( &iter, pIter );
   }
 }
 
@@ -305,9 +296,10 @@ HB_FUNC( GTK_LIST_STORE_INSERT )
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_INSERT_BEFORE )
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
   PHB_ITEM pSibling = hb_param( 3, HB_IT_ARRAY );
+  PHB_ITEM pSibling2 = hb_param( 4, HB_IT_ARRAY );
   GtkTreeIter  iter, sibling;
 
   if ( Array2Iter( pIter, &iter ) )
@@ -315,26 +307,15 @@ HB_FUNC( GTK_LIST_STORE_INSERT_BEFORE )
       if( ISNIL( 3 ) )
          {
           gtk_list_store_insert_before( store, &iter, NULL );
-          hb_storni( (gint) (iter.stamp)       ,2, 1);
-          hb_stornl( (glong) (iter.user_data)  ,2, 2);
-          hb_stornl( (glong) (iter.user_data2) ,2, 3);
-          hb_stornl( (glong) (iter.user_data3) ,2, 4);
-
+          FillArrayFromIter( &iter, pIter );
          }
       else
          {
           if ( Array2Iter( pSibling, &sibling ) )
              {
               gtk_list_store_insert_before( store, &iter, &sibling );
-              hb_storni( (gint) (iter.stamp)       ,3, 1);
-              hb_stornl( (glong) (iter.user_data)  ,3, 2);
-              hb_stornl( (glong) (iter.user_data2) ,3, 3);
-              hb_stornl( (glong) (iter.user_data3) ,3, 4);
-              hb_storni( (gint) (sibling.stamp)       ,4, 1);
-              hb_stornl( (glong) (sibling.user_data)  ,4, 2);
-              hb_stornl( (glong) (sibling.user_data2) ,4, 3);
-              hb_stornl( (glong) (sibling.user_data3) ,4, 4);
-
+              FillArrayFromIter( &iter, pSibling );
+              FillArrayFromIter( &sibling, pSibling2 );
               }
           }
      }
@@ -345,9 +326,10 @@ HB_FUNC( GTK_LIST_STORE_INSERT_BEFORE )
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_INSERT_AFTER )
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
   PHB_ITEM pSibling = hb_param( 3, HB_IT_ARRAY );
+  PHB_ITEM pSibling2 = hb_param( 4, HB_IT_ARRAY );
   GtkTreeIter  iter, sibling;
 
   if ( Array2Iter( pIter, &iter ) )
@@ -355,25 +337,15 @@ HB_FUNC( GTK_LIST_STORE_INSERT_AFTER )
       if( ISNIL( 3 ) )
          {
           gtk_list_store_insert_after( store, &iter, NULL );
-          hb_storni( (gint) (iter.stamp)       ,2, 1);
-          hb_stornl( (glong) (iter.user_data)  ,2, 2);
-          hb_stornl( (glong) (iter.user_data2) ,2, 3);
-          hb_stornl( (glong) (iter.user_data3) ,2, 4);
-
+          FillArrayFromIter( &iter, pIter );
          }
       else
          {
           if ( Array2Iter( pSibling, &sibling ) )
              {
               gtk_list_store_insert_after( store, &iter, &sibling );
-              hb_storni( (gint) (iter.stamp)       ,3, 1);
-              hb_stornl( (glong) (iter.user_data)  ,3, 2);
-              hb_stornl( (glong) (iter.user_data2) ,3, 3);
-              hb_stornl( (glong) (iter.user_data3) ,3, 4);
-              hb_storni( (gint) (sibling.stamp)       ,4, 1);
-              hb_stornl( (glong) (sibling.user_data)  ,4, 2);
-              hb_stornl( (glong) (sibling.user_data2) ,4, 3);
-              hb_stornl( (glong) (sibling.user_data3) ,4, 4);
+              FillArrayFromIter( &iter, pSibling );
+              FillArrayFromIter( &sibling, pSibling2 );
               }
           }
      }
@@ -385,7 +357,7 @@ HB_FUNC( GTK_LIST_STORE_INSERT_AFTER )
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_ITER_IS_VALID )
 {
-  GtkListStore * store = GTK_LIST_STORE( hb_parnl( 1 ) );
+  GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
   GtkTreeIter  iter;
   gboolean result = FALSE;
@@ -415,9 +387,9 @@ PHB_ITEM Iter2Array( GtkTreeIter *iter  )
    PHB_ITEM element = hb_itemNew( NULL );
 
    hb_arraySet( aIter, 1, hb_itemPutNI( element, (gint) iter->stamp ) );
-   hb_arraySet( aIter, 2, hb_itemPutNL( element, (glong) iter->user_data ) );
-   hb_arraySet( aIter, 3, hb_itemPutNL( element, (glong) iter->user_data2 ) );
-   hb_arraySet( aIter, 4, hb_itemPutNL( element, (glong) iter->user_data3 ) );
+   hb_arraySet( aIter, 2, hb_itemPutPtr( element, (gpointer) iter->user_data ) );
+   hb_arraySet( aIter, 3, hb_itemPutPtr( element, (gpointer) iter->user_data2 ) );
+   hb_arraySet( aIter, 4, hb_itemPutPtr( element, (gpointer) iter->user_data3 ) );
    hb_itemRelease(element);
    return aIter;
 }
@@ -430,12 +402,28 @@ BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  )
 {
    if (HB_IS_ARRAY( aIter ) && hb_arrayLen( aIter ) == 4) {
        iter->stamp      = (gint) hb_arrayGetNI( aIter, 1 );
-       iter->user_data  = (gpointer) hb_arrayGetNL( aIter, 2 );
-       iter->user_data2 = (gpointer) hb_arrayGetNL( aIter, 3 );
-       iter->user_data3 = (gpointer) hb_arrayGetNL( aIter, 4 );
+       iter->user_data  = (gpointer) hb_arrayGetPtr( aIter, 2 );
+       iter->user_data2 = (gpointer) hb_arrayGetPtr( aIter, 3 );
+       iter->user_data3 = (gpointer) hb_arrayGetPtr( aIter, 4 );
       return TRUE ;
    }
    return FALSE;
+}
+
+/*
+ * Fill harbour array with iter structure
+ *
+ */
+
+void  FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray  )
+{
+   PHB_ITEM element = hb_itemNew( NULL );
+
+   hb_arraySet( pArray, 1, hb_itemPutNI( element, (gint) iter->stamp ) );
+   hb_arraySet( pArray, 2, hb_itemPutPtr( element, (gpointer) iter->user_data ) );
+   hb_arraySet( pArray, 3, hb_itemPutPtr( element, (gpointer) iter->user_data2 ) );
+   hb_arraySet( pArray, 4, hb_itemPutPtr( element, (gpointer) iter->user_data3 ) );
+   hb_itemRelease(element);
 }
 
 /*-----------------21/01/2005 18:53-----------------

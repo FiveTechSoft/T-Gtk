@@ -22,7 +22,7 @@ Function Main()
          vPaned := gtk_hpaned_new()
          gtk_container_add (Window, vPaned)
 
-         table = gtk_table_new (2, 2, TRUE )
+         table = gtk_table_new (2, 2, .T. )
          gtk_paned_add1( vpaned, table )
 
          oFont := GFont():New( "Tahoma 18" )
@@ -77,11 +77,11 @@ Function Main()
          draw = gtk_drawing_area_new()
          gtk_widget_set_size_request( draw, 200, 200 )
          gtk_widget_show (draw)
-         Gtk_Signal_Connect( draw, "expose_event", {|w,e| dibuja( w,e )} )  // Procesa mensajes de dibujo
+//         Gtk_Signal_Connect( draw, "expose_event", {|w,e| dibuja( w,e )} )  // Procesa mensajes de dibujo
          Gtk_box_pack_start( vbox, draw, .T., .F.,10 )
 
          image = gtk_image_new()
-         gtk_image_set_from_file( image,"../../images/Anieyes.gif" )
+         gtk_image_set_from_file( image,"../../images/anieyes.gif" )
          Gtk_box_pack_start( vbox, image ,.t.,.t.,0 )
          gtk_widget_show (image)
 

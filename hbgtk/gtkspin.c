@@ -27,10 +27,10 @@
 HB_FUNC( GTK_SPIN_BUTTON_NEW )  //pAdjust, value, decimals -->pWidget
 {
    GtkWidget * spin_button = NULL;
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
 
    spin_button = gtk_spin_button_new( GTK_ADJUSTMENT(adjust), hb_parni( 2 ), hb_parni( 3 ) );
-   hb_retnl( (glong) spin_button );
+   hb_retptr( ( GtkWidget * ) spin_button );
 
 }
 
@@ -40,53 +40,53 @@ HB_FUNC( GTK_SPIN_BUTTON_NEW_WITH_RANGE ) // min,max, step -->pWidget
    spin_button =  gtk_spin_button_new_with_range( hb_parnd( 1 ),
 												  hb_parnd( 2 ),
                                                   hb_parnd( 3 ) );
-  hb_retnl( (glong) spin_button );
+  hb_retptr( ( GtkWidget * ) spin_button );
 }
 
 HB_FUNC( GTK_SPIN_BUTTON_GET_NUMERIC )
 {
-    GtkWidget * spin_button = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * spin_button = GTK_WIDGET( hb_parptr( 1 ) );
     hb_retni( gtk_spin_button_get_numeric( GTK_SPIN_BUTTON( spin_button ) ) );
 }
 
 HB_FUNC( GTK_SPIN_BUTTON_SET_NUMERIC )
 {
-    GtkWidget * spin_button = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * spin_button = GTK_WIDGET( hb_parptr( 1 ) );
     gtk_spin_button_set_numeric( GTK_SPIN_BUTTON( spin_button ), hb_parl( 2 ) ) ;
 }
 
 HB_FUNC( GTK_SPIN_BUTTON_GET_DIGITS )
 {
-    GtkWidget * spin_button = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * spin_button = GTK_WIDGET( hb_parptr( 1 ) );
     hb_retni( gtk_spin_button_get_digits( GTK_SPIN_BUTTON( spin_button ) ) );
 }
 
 HB_FUNC( GTK_SPIN_BUTTON_GET_VALUE )
 {
-    GtkWidget * spin_button = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * spin_button = GTK_WIDGET( hb_parptr( 1 ) );
     hb_retnd( gtk_spin_button_get_value( GTK_SPIN_BUTTON( spin_button ) ) );
 }
 
 HB_FUNC( GTK_SPIN_BUTTON_GET_VALUE_AS_INT )
 {
-    GtkWidget * spin_button = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * spin_button = GTK_WIDGET( hb_parptr( 1 ) );
     hb_retni( gtk_spin_button_get_value_as_int( GTK_SPIN_BUTTON( spin_button ) ) );
 }
 
 HB_FUNC( GTK_SPIN_BUTTON_SET_RANGE )
 {
-    GtkWidget * spin_button = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * spin_button = GTK_WIDGET( hb_parptr( 1 ) );
     gtk_spin_button_set_range( GTK_SPIN_BUTTON( spin_button ) , hb_parnd( 2 ), hb_parnd( 3 ) );
 }
 
 HB_FUNC( GTK_SPIN_BUTTON_SET_VALUE )
 {
-    GtkWidget * spin_button = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * spin_button = GTK_WIDGET( hb_parptr( 1 ) );
     gtk_spin_button_set_value( GTK_SPIN_BUTTON( spin_button ) , (gdouble) hb_parnd( 2 ) );
 }
 
 HB_FUNC( GTK_SPIN_BUTTON_UPDATE )
 {
-    GtkWidget * spin_button = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * spin_button = GTK_WIDGET( hb_parptr( 1 ) );
     gtk_spin_button_update( GTK_SPIN_BUTTON( spin_button ) );
 }

@@ -7,11 +7,16 @@
 */
 #include "gtkapi.ch"
 
+REQUEST HB_CODEPAGE_ESISO
+
 function Main()
 
   local hWnd, hDialog
   local nMessage, nButtons
   local iResponse
+  
+  HB_SETCODEPAGE( "ESISO" )
+  SET_AUTO_UTF8( .T. )
 
 /* Ventana */
   hWnd := gtk_window_new( GTK_WINDOW_TOPLEVEL )
@@ -22,12 +27,15 @@ function Main()
   gtk_widget_show( hWnd )
 
 /* Cuadros de mensaje predefinidos de FiveWin */
-  MsgInfo(  "Esto es MsgInfo()",  "Informaci¢n" )
+  
+
+  MsgInfo(  "Esto es MsgInfo()", "Información!" )
   MsgStop(  "Esto es MsgStop()",  "Aviso !    " )
-  MsgAlert( "Esto es MsgAlert()", "Atencion ! " )
-  MsgNoYes( "Esto es MsgNoYes()", "Cuestion ? " )
+  MsgAlert( "Esto es MsgAlert()", "Atención ! " )
+  MsgNoYes( "Esto es MsgNoYes()", "Cuestión ? " )
 
 /* Cuadros de mensaje directamente de GTK */
+
   nMessage := 0
   for nButtons := 1 to 6
       hDialog   := gtk_message_dialog_new( "Cuadros de mensaje directamente de GTK", ;

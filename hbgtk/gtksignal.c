@@ -26,26 +26,26 @@
 
 HB_FUNC( G_SIGNAL_EMIT_BY_NAME ) //pWidget, cSignal
 {
-   GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
    g_signal_emit_by_name( G_OBJECT( widget ), (gchar *) hb_parc( 2 ) );
 }
 
 HB_FUNC( G_SIGNAL_STOP_EMISSION_BY_NAME ) //pWidget, cSignal
 {
-   GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
+   GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
    g_signal_stop_emission_by_name( G_OBJECT( widget ), (gchar *) hb_parc( 2 ) );
 }
 
 HB_FUNC( G_SIGNAL_HANDLER_DISCONNECT )
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    gulong handler_id = hb_parnl( 2 );
    g_signal_handler_disconnect( G_OBJECT( widget ), handler_id );
 }
 
 HB_FUNC( HB_G_SIGNAL_HANDLER_DISCONNECT ) // widget, handler_id_signal, cName_Signal
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    gulong handler_id = hb_parnl( 2 );
    gchar *cSignal = (gchar *) hb_parc( 3 );
    

@@ -32,19 +32,19 @@
 
 HB_FUNC( GTK_MISC_SET_ALIGNMENT ) // widget, nPosH, nPosV
 {
-  GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
+  GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
   gtk_misc_set_alignment( GTK_MISC( widget ), hb_parnd(2), hb_parnd( 3 ) );
 }
 
 HB_FUNC( GTK_MISC_SET_PADDING ) // widget, nxpad, nypad
 {
-  GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
+  GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
   gtk_misc_set_padding( GTK_MISC( widget ), hb_parni(2), hb_parni( 3 ) );
 }
 
 HB_FUNC( GTK_MISC_GET_ALIGNMENT ) // widget, @nPosH, @nPosV
 {
-  GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
+  GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
   gfloat  x;
   gfloat  y;
   gtk_misc_get_alignment( GTK_MISC( widget ), &x, &y );
@@ -54,7 +54,7 @@ HB_FUNC( GTK_MISC_GET_ALIGNMENT ) // widget, @nPosH, @nPosV
 
 HB_FUNC( GTK_MISC_GET_PADDING ) // widget, @nxpad, @nypad
 {
-  GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
+  GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
   gint  xpad;
   gint  ypad;
   gtk_misc_get_padding( GTK_MISC( widget ), &xpad, &ypad );

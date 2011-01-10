@@ -27,7 +27,7 @@
 #if GTK_CHECK_VERSION(2,8,0)
 HB_FUNC( CAIRO_MOVE_TO ) // ctx, x, y
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
   cairo_move_to( ctx ,
                  hb_parnd( 2 ),
                  hb_parnd( 3 ) );
@@ -35,7 +35,7 @@ HB_FUNC( CAIRO_MOVE_TO ) // ctx, x, y
 
 HB_FUNC( CAIRO_RECTANGLE ) // ctx, x, y, width, height
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
   cairo_rectangle( ctx ,
                    hb_parnd( 2 ),
                    hb_parnd( 3 ),
@@ -46,7 +46,7 @@ HB_FUNC( CAIRO_RECTANGLE ) // ctx, x, y, width, height
 
 HB_FUNC( CAIRO_SET_SOURCE_RGB ) // ctx, red, greee, blue
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
   cairo_set_source_rgb( ctx ,
                    hb_parnd( 2 ),
                    hb_parnd( 3 ),
@@ -56,13 +56,13 @@ HB_FUNC( CAIRO_SET_SOURCE_RGB ) // ctx, red, greee, blue
 
 HB_FUNC( CAIRO_FILL ) // ctx
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
   cairo_fill( ctx );
 }
 
 HB_FUNC( CAIRO_REL_MOVE_TO ) // ctx, x, y
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
   cairo_rel_move_to( ctx ,
                  hb_parnd( 2 ),
                  hb_parnd( 3 ) );
@@ -70,31 +70,31 @@ HB_FUNC( CAIRO_REL_MOVE_TO ) // ctx, x, y
 
 HB_FUNC( CAIRO_SET_LINE_WIDTH ) // ctx, width
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
   cairo_set_line_width( ctx , hb_parnd( 2 ) );
 }
 
 HB_FUNC( CAIRO_STROKE_PRESERVE ) // ctx
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
   cairo_stroke_preserve( ctx );
 }
 
 HB_FUNC( CAIRO_STROKE ) // ctx
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
   cairo_stroke( ctx );
 }
 
 HB_FUNC( CAIRO_CLIP ) // ctx
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
   cairo_clip( ctx );
 }   
 
 HB_FUNC( CAIRO_PAINT ) // ctx
 {
-  cairo_t *ctx = ( cairo_t * ) hb_parnl( 1 );
+  cairo_t *ctx = ( cairo_t * ) hb_parptr( 1 );
   cairo_paint( ctx );
 }         
 #endif

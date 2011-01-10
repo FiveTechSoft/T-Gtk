@@ -34,71 +34,86 @@ HB_FUNC( GTK_SCROLLED_WINDOW_NEW )
    GtkAdjustment *hadjustment, *vadjustment;
 
    if ISNIL( 1 )
-      hadjustment = GTK_ADJUSTMENT( hb_parnl( 1 ) );
+      hadjustment = GTK_ADJUSTMENT( hb_parptr( 1 ) );
    else
       hadjustment = NULL;
    if ISNIL( 2 )
-      vadjustment = GTK_ADJUSTMENT( hb_parnl( 2 ) );
+      vadjustment = GTK_ADJUSTMENT( hb_parptr( 2 ) );
    else
       vadjustment = NULL;
            
    scroll = gtk_scrolled_window_new( hadjustment, vadjustment );
-   hb_retnl( ( glong ) scroll );
+   hb_retptr( ( GtkWidget * ) scroll );
 }
+
+//---------------------------------------------------//
 
 HB_FUNC( GTK_SCROLLED_WINDOW_SET_POLICY )
 {
-   GtkWidget * scroll = GTK_WIDGET( hb_parnl( 1 ) );
-   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW(scroll),
+   GtkWidget * scroll = GTK_WIDGET( hb_parptr( 1 ) );
+   gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW( scroll ),
                                    (gint) hb_parni(2), (gint) hb_parni(3) );
 }
 
+//---------------------------------------------------//
+
 HB_FUNC( GTK_SCROLLED_WINDOW_ADD_WITH_VIEWPORT )
 {
-   GtkWidget * scroll = GTK_WIDGET( hb_parnl( 1 ) );
-   GtkWidget * child  = GTK_WIDGET( hb_parnl( 2 ) );
+   GtkWidget * scroll = GTK_WIDGET( hb_parptr( 1 ) );
+   GtkWidget * child  = GTK_WIDGET( hb_parptr( 2 ) );
    gtk_scrolled_window_add_with_viewport( GTK_SCROLLED_WINDOW (scroll),
    				          child );
 }   
 
+//---------------------------------------------------//
+
 HB_FUNC( GTK_SCROLLED_WINDOW_SET_SHADOW_TYPE )
 {
-   GtkWidget * scroll = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * scroll = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_scrolled_window_set_shadow_type( GTK_SCROLLED_WINDOW (scroll),
                                         (gint) hb_parni(2) );
 }
 
+//---------------------------------------------------//
+
 HB_FUNC( GTK_SCROLLED_WINDOW_GET_SCROLL )
 {
-   GtkWidget *scroll     = GTK_WIDGET( hb_parnl(1) );
+   GtkWidget *scroll     = GTK_WIDGET( hb_parptr( 1 ) );
    GtkWidget *hscrollbar = GTK_SCROLLED_WINDOW (scroll)->hscrollbar;
    GtkWidget *vscrollbar = GTK_SCROLLED_WINDOW (scroll)->vscrollbar;
    if (hb_parni(2) == 0)
-      hb_retnl( ( glong ) hscrollbar );
+      hb_retptr( ( GtkWidget * ) hscrollbar );
    else
-      hb_retnl( ( glong ) vscrollbar );
+      hb_retptr( ( GtkWidget * ) vscrollbar );
 }
+
+//---------------------------------------------------//
 
 HB_FUNC( GTK_SCROLLED_WINDOW_SET_HADJUSTMENT )
 {
-   GtkScrolledWindow *scroll  = GTK_SCROLLED_WINDOW (hb_parnl( 1 ));
-   GtkAdjustment *hadjustment = GTK_ADJUSTMENT (hb_parnl( 2 ));
+   GtkScrolledWindow *scroll  = GTK_SCROLLED_WINDOW (hb_parptr( 1 ));
+   GtkAdjustment *hadjustment = GTK_ADJUSTMENT (hb_parptr( 2 ));
    
    gtk_scrolled_window_set_hadjustment( scroll, hadjustment);
 }
 
+//---------------------------------------------------//
+
 HB_FUNC( GTK_SCROLLED_WINDOW_SET_VADJUSTMENT )
 {
-   GtkScrolledWindow *scroll  = GTK_SCROLLED_WINDOW (hb_parnl( 1 ));
-   GtkAdjustment *vadjustment = GTK_ADJUSTMENT (hb_parnl( 2 ));
+   GtkScrolledWindow *scroll  = GTK_SCROLLED_WINDOW (hb_parptr( 1 ));
+   GtkAdjustment *vadjustment = GTK_ADJUSTMENT (hb_parptr( 2 ));
    
    gtk_scrolled_window_set_vadjustment( scroll, vadjustment);
 }
 
+//---------------------------------------------------//
+
 HB_FUNC( GTK_SCROLLED_WINDOW_GET_VADJUSTMENT )
 {
-   GtkScrolledWindow *scroll  = GTK_SCROLLED_WINDOW (hb_parnl( 1 ));
-   GtkAdjustment *vadjustment = gtk_scrolled_window_get_vadjustment( scroll );
-   hb_retnl( (glong) vadjustment );
+   GtkScrolledWindow *scroll  = GTK_SCROLLED_WINDOW (hb_parptr( 1 ));
+   GtkAdjustment * vadjustment = gtk_scrolled_window_get_vadjustment( scroll );
+   hb_retptr( ( GtkAdjustment * ) vadjustment );
 }
 
+//---------------------------------------------------//

@@ -13,21 +13,21 @@ function main()
   local n, nLen, aIter := Array( 4 )
   Local aTemp := { }
 
-   USE BROWSE.DBF NEW
+   USE browse.dbf NEW
    aStruct := dbstruct()
    aeval( aStruct, {|a| aadd( aFields, a[DBF_FIELD] ) } )
    nLen := len( aFields )
 
-/* Ventana */
+// Ventana 
    hWnd := gtk_window_new( GTK_WINDOW_TOPLEVEL )
    Gtk_Signal_Connect( hWnd, "delete-event", {|| Salida() } )  // Cuando se mata la aplicacion
 
-/* Scroll bar */
+// Scroll bar 
    hScroll = gtk_scrolled_window_new()
    gtk_widget_show ( hScroll )
    gtk_container_add( hWnd, hScroll )
 
-/* Modelo de datos */
+// Modelo de datos 
    hList = gtk_list_store_newv( 12 ,{ G_TYPE_STRING, G_TYPE_STRING,;
                                       G_TYPE_STRING, G_TYPE_STRING,;
                                       G_TYPE_STRING, G_TYPE_STRING,;
@@ -35,7 +35,7 @@ function main()
                                       G_TYPE_INT, G_TYPE_LONG,G_TYPE_STRING,;
                                       G_TYPE_LONG } )
 
-/* Browse/Tree */
+// Browse/Tree 
    hTree      := gtk_tree_view_new_with_model( hList )
    Gtk_signal_connect( hTree, "row-activated", {|Treeview, Path, Col| mira_valor( Treeview, Path, Col ) } )
 
@@ -48,19 +48,19 @@ function main()
       for n := 1 to nLen
           gtk_list_store_set( hList, n-1, aIter, fieldget( n ) )
       next
-      /* Introducimos el RECNO del registos*/
+      // Introducimos el RECNO del registos
       gtk_list_store_set( hList, nLen , aIter, Recno() )
       dbskip()
    enddo
 
-/* Method AddColumns */
+// Method AddColumns 
    for n:= 1 to nLen
        hRenderer = gtk_cell_renderer_text_new()
        hColumn = gtk_tree_view_column_new_with_attributes( aFields[n], hRenderer, {  "text", n-1  }  )
        gtk_tree_view_append_column( hTree, hColumn )
    next
 
-/* Method Activate */
+// Method Activate 
    gtk_window_set_title( hWnd, "Test Browse DBF Gtk for Harbour" )
    gtk_window_set_position( hWnd, GTK_WIN_POS_CENTER )
    gtk_window_set_default_size( hWnd, 600, 400 )

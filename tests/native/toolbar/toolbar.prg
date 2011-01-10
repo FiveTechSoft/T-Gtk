@@ -22,7 +22,7 @@ Function Main( )
 
     gtk_signal_connect( window, "delete-event", {||gtk_exit()} )
 
-    boxmenu := gtk_vbox_new (FALSE, 0)
+    boxmenu := gtk_vbox_new (.F., 0)
     gtk_container_add( window, boxmenu )
     gtk_widget_show( boxmenu )
 
@@ -32,27 +32,27 @@ Function Main( )
     Gtk_Widget_Show( hBox )
     gtk_container_add( boxmenu, hBox)
 
-    vbox = gtk_vbox_new( FALSE, 0)
+    vbox = gtk_vbox_new( .F., 0)
     gtk_container_add( hBox, vbox)
     gtk_widget_show(vbox)
 
 		// toolbars
     toolbar := gtk_toolbar_new()
     gtk_widget_show(toolbar)
-    gtk_box_pack_start( vbox, toolbar, FALSE, FALSE, 2)
+    gtk_box_pack_start( vbox, toolbar, .F., .F., 2)
 
     separator = gtk_separator_tool_item_new()
     gtk_toolbar_insert ( toolbar, separator, -1 )
     gtk_widget_show(separator)
 
     toolbutton := gtk_tool_button_new_from_stock( GTK_STOCK_OK )
-    gtk_tool_item_set_expand ( toolbutton , FALSE )
+    gtk_tool_item_set_expand ( toolbutton , .F. )
     gtk_toolbar_insert ( toolbar, toolbutton, -1 )
     gtk_widget_show(toolbutton)
 
 
     toolbutton := gtk_tool_button_new_from_stock( GTK_STOCK_OPEN )
-    gtk_tool_item_set_expand ( toolbutton , TRUE )
+    gtk_tool_item_set_expand ( toolbutton , .T. )
     gtk_widget_show(toolbutton)
     gtk_toolbar_insert ( toolbar, toolbutton, 0 )
 
@@ -69,7 +69,7 @@ Function Main( )
     gtk_widget_show(toolbutton)
 
     ToolTips := Gtk_ToolTips_New()
-    gtk_tool_item_set_tooltip( toolbutton, tooltips, "Hola. ToolTips Activados" )
+    gtk_tool_item_set_tooltip_text( toolbutton, "Hola. ToolTips Activados" )
 
     //Ejemplo de colocacion de Texto y Stock_ID
     toolbutton := gtk_tool_button_new()
@@ -103,11 +103,11 @@ Function Main( )
 
     image = gtk_image_new()
     gtk_image_set_from_file( image,"../../images/logo.png" )
-    Gtk_box_pack_start( vbox, image , TRUE, TRUE,0 )
+    Gtk_box_pack_start( vbox, image , .T., .T.,0 )
     gtk_widget_show (image)
 
     status_bar = gtk_statusbar_new()
-    gtk_box_pack_end( vbox, status_bar, FALSE, FALSE, 0)
+    gtk_box_pack_end( vbox, status_bar, .F., .F., 0)
     gtk_widget_show (status_bar)
 
     context_id = gtk_statusbar_get_context_id( status_bar, "Statusbar example")
@@ -140,7 +140,7 @@ FUNCTION Create_Menus( boxmenu )
     gtk_image_set_from_file( image,"../../images/gnome-logo.png" )
 
     menubar := gtk_menu_bar_new()
-    gtk_box_pack_start ( boxmenu, menubar, FALSE, TRUE, 0)
+    gtk_box_pack_start ( boxmenu, menubar, .F., .T., 0)
     gtk_widget_show( menubar )
 
     /* Creamos un menu */
@@ -152,7 +152,7 @@ FUNCTION Create_Menus( boxmenu )
     gtk_signal_connect( menuitem2, "activate", {|w| Menuitem2(w)} ) // Salta a la opcion 2
 
     menuitemcheck := gtk_check_menu_item_new_with_label( "Esto es check" )
-    gtk_check_menu_item_set_draw_as_radio( menuitemcheck, TRUE )
+    gtk_check_menu_item_set_draw_as_radio( menuitemcheck, .T. )
     gtk_signal_connect( menuitemcheck, "toggled", {|w|Menutoggle(w)} )
 
     separator = gtk_separator_menu_item_new()
@@ -250,7 +250,7 @@ Function MiMenuToolBar()
     separator = gtk_separator_menu_item_new()
      
     menuitemcheck := gtk_check_menu_item_new_with_label( "Esto es check" )
-    gtk_check_menu_item_set_draw_as_radio( menuitemcheck, TRUE )
+    gtk_check_menu_item_set_draw_as_radio( menuitemcheck, .T. )
     gtk_signal_connect( menuitemcheck, "toggled", {|w| Menutoggle(w)} )
 
     separator = gtk_separator_menu_item_new()

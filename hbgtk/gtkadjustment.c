@@ -65,65 +65,65 @@ HB_FUNC( GTK_ADJUSTMENT_NEW ) // -> nAdjustment
                                                page_increment,
                                                page_size );
   
-  hb_retnl( (glong) adjust );
+  hb_retptr( ( GtkObject * ) adjust );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_GET_VALUE ) // pAdjust-->nValue
 {
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
    hb_retnd( gtk_adjustment_get_value( GTK_ADJUSTMENT( adjust ) ) );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_SET_VALUE ) // pAdjust, nValue
 {
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
    gtk_adjustment_set_value( GTK_ADJUSTMENT( adjust ), hb_parnd( 2 ) );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_GET_STEP_INCREMENT ) // pAdjust-->step_increment
 {
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
    hb_retnd( GTK_ADJUSTMENT( adjust )->step_increment );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_GET_PAGE_INCREMENT ) // pAdjust-->page_increment
 {
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
    hb_retnd( GTK_ADJUSTMENT( adjust )->page_increment );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_GET_UPPER ) // pAdjust-->upper
 {
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
    hb_retnd( GTK_ADJUSTMENT( adjust )->upper );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_GET_LOWER ) // pAdjust-->lower
 {
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
    hb_retnd( GTK_ADJUSTMENT( adjust )->lower );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_GET_PAGE_SIZE ) // pAdjust-->page_size
 {
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
    hb_retnd( GTK_ADJUSTMENT( adjust )->page_size );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_CLAMP_PAGE ) // pAdjust, nlower, nUpper
 {
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
    gtk_adjustment_clamp_page( GTK_ADJUSTMENT( adjust ), hb_parnd( 2 ), hb_parnd( 3 ) );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_CHANGED ) // pAdjust
 {
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
    gtk_adjustment_changed( GTK_ADJUSTMENT( adjust ) );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_VALUE_CHANGED ) // pAdjust
 {
-   GtkObject * adjust = GTK_OBJECT(  hb_parnl( 1 )  );
+   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
    gtk_adjustment_value_changed( GTK_ADJUSTMENT( adjust ) );
 }

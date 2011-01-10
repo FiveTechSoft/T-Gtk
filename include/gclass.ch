@@ -1307,6 +1307,7 @@
                [ <lSecond: SECOND_PANED > ] ;
                [ <lResize: RESIZE > ] ;
                [ <lShrink: SHRINK > ] ;
+               [ <lAutoCol: AUTOCOL> ];
                [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ];
       => ;
          [ <oBrw> := ] gDbfGrid():New( [<oWnd>], <nRow>, <nCol>, ;
@@ -1316,7 +1317,7 @@
                            [<{uChange}>], <cFont>, <uClrFore>, <uClrBack>,;
                            <.lExpand.>, <.lFill.>, <nPadding> ,<.lContainer.>,;
                             <x>,<y>,<uLabelBook>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
-                           <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>,<yOptions_ta> )
+                           <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>,<yOptions_ta>, <.lAutoCol.> )
 
 // general data columns
 #command ADD [ COLUMN TO ] BROWSE  <oBrw> ;

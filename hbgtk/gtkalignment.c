@@ -35,6 +35,6 @@ HB_FUNC( GTK_ALIGNMENT_NEW )
   gfloat yscale = hb_parnd( 4 );
   align = gtk_alignment_new(  xalign, yalign, xscale, yscale );
 
-  hb_retnl( (glong) align );
+  hb_retptr( ( GtkWidget *  ) align );
 }
 

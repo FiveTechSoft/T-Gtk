@@ -31,12 +31,12 @@ HB_FUNC( GTK_PAPER_SIZE_NEW )
  GtkPaperSize * size;
  const gchar *name = hb_parc( 1 );
  size = gtk_paper_size_new( name); 
- hb_retnl( (glong) size );
+ hb_retptr( ( GtkPaperSize * ) size );
 }
 
 HB_FUNC( GTK_PAPER_SIZE_FREE )
 {
- GtkPaperSize * size = ( GtkPaperSize * ) hb_parnl( 1 );
+ GtkPaperSize * size = ( GtkPaperSize * ) hb_parptr( 1 );
  gtk_paper_size_free( size );
 }
 

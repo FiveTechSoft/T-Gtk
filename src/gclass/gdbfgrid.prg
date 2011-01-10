@@ -57,6 +57,7 @@ CLASS gDbfGrid FROM gWidget
    DATA   nFontSize  AS NUMERIC INIT 8
    DATA   nLineStyle AS NUMERIC INIT 1
    DATA   nDataType, uData
+   DATA   lAutoCol
 
 
    METHOD New( hParent, nRow, nCol, aHeaders, aColSizes, abFields, cAlias, ;
@@ -133,7 +134,7 @@ function DbfBrowse( uData )
    oWnd = gWindow():New( cTitle, , 640, 480 )
 
 
-   oBrw = gDbfGrid():New( oWnd, , , , , , uData, , , , , , , .T., .T., , .T., , , , , , , , , , , , ,  )
+   oBrw = gDbfGrid():New( oWnd, , , , , , uData, , , , , , , .T., .T., , .T., , , , , , , , , , , , , ,.T. )
 
    //center, ! maximized, modal
    oWnd:Activate(, .T., .F., .F., .T. )
@@ -145,8 +146,10 @@ return nil
 
 METHOD SetDataSrc( uDataSrc ) class gDbfGrid
 
+   local cDataSrc
    local cType
    local cClass
+   local n
 
    cType = ValType( uDataSrc )
 
@@ -192,6 +195,7 @@ METHOD SetDataSrc( uDataSrc ) class gDbfGrid
    endswitch
 
 
+
 return nil
 
 
@@ -201,10 +205,10 @@ METHOD New( uParent, nRow, nCol, aHeaders, aColSizes, abFields, cAlias, nWidth,;
             nHeight, bChange, cFont, uClrFore, uClrBack,;
             lExpand, lFill, nPadding ,lContainer,;
             x, y, uLabelTab , lEnd, lSecond, lResize, lShrink,;
-            left_ta,right_ta,top_ta,bottom_ta,xOptions_ta,yOptions_ta ) CLASS gDbfGrid
+            left_ta,right_ta,top_ta,bottom_ta,xOptions_ta,yOptions_ta, lAutoCol ) CLASS gDbfGrid
 
 
-   DEFAULT cAlias := NIL, nWidth := 200, nHeight := 200
+   DEFAULT cAlias := NIL, nWidth := 200, nHeight := 200, lAutoCol := .F.
 
    ::hParent := uParent:pWidget
 
@@ -234,6 +238,7 @@ METHOD New( uParent, nRow, nCol, aHeaders, aColSizes, abFields, cAlias, nWidth,;
    ::abFields   = CheckArray( abFields )
    ::aColSizes  = CheckArray( aColSizes )
    ::bChange    = bChange
+   ::lAutoCol   = lAutoCol
 
 
    ::oScroll := TScrolledBar():New()
@@ -383,6 +388,11 @@ return nil
 METHOD DrawRows() CLASS gDbfGrid
 
    local n := 1, nLines := ::nRowCount(), nSkipped := 1
+
+   if ::bLogicLen == NIL 
+      return nil 
+   endif
+     
 
    if ( ::nLen := Eval( ::bLogicLen, Self ) ) > 0
 
@@ -834,7 +844,7 @@ METHOD Paint( nPEvent, nWidth ) CLASS gDbfGrid
 
   ::nWidth = nWidth
   
-  if ::oScroll != NIL
+  if ::oScroll != NIL .and. ::bLogicLen != NIL
      ::oScroll:SetAdjustment( len( ::aColumns ), eval( ::bLogicLen ) )   
   endif
   
@@ -898,26 +908,29 @@ METHOD SetDbf( uDatabase ) CLASS gDbfGrid
       ::bGoBottom  = { || ( ::cAlias )->( DbGoBottom() ) }
       ::bGoTop     = { || ( ::cAlias )->( DbGoTop() ) }
       ::bLogicLen  = { || ( ::cAlias )->( OrdKeyCount() ) }   
-      if Len( ::aHeaders ) == 0
-         for n = 1 to Len( ::aDbfStruct ) 
-            AAdd( ::aHeaders, ::aDbfStruct[ n ][ DBS_NAME ] )
-         next
-      endif
-      if Len( ::abFields ) == 0
-         for n = 1 to Len( ::aHeaders )
-            AAdd( ::abFields, FieldWBlock( ::aDbfStruct[ n ][ DBS_NAME ] , ::nArea ) )                  
-         next
-      else 
-         aFlds = ::abFields[ 1 ]
-         if ValType( aFlds ) == "B"
-            aFlds = Eval( ::abFields[ 1 ] )
-            if ValType( aFlds ) == "A"
-               ::abFields = aFlds 
+       if Len( ::aHeaders ) == 0
+         if ::lAutoCol
+            for n = 1 to Len( ::aDbfStruct ) 
+               AAdd( ::aHeaders, ::aDbfStruct[ n ][ DBS_NAME ] )
+            next
+         
+            if Len( ::abFields ) == 0
+               for n = 1 to Len( ::aHeaders )
+                 AAdd( ::abFields, FieldWBlock( ::aDbfStruct[ n ][ DBS_NAME ] , ::nArea ) )                  
+               next
+            else 
+               aFlds = ::abFields[ 1 ]
+               if ValType( aFlds ) == "B"
+                  aFlds = Eval( ::abFields[ 1 ] )
+                  if ValType( aFlds ) == "A"
+                     ::abFields = aFlds 
+                  endif
+               endif
             endif
-         endif
+         endif     
       endif
-     
       ::uData = NIL
+      
    else
       ::SetoDBF( uDatabase ) 
    endif
@@ -942,6 +955,8 @@ return nil
 //------------------------------------------------------//
 
 METHOD SetDolphin( oRS ) CLASS gDbfGrid
+   
+   local n
 
    local n
 
@@ -958,8 +973,9 @@ METHOD SetDolphin( oRS ) CLASS gDbfGrid
    else
       ::bSkip     = {| n | oRS:Skip( n ) }
    endif
-
-   if Len( ::aHeaders ) == 0
+   
+   
+   if Len( ::aHeaders ) == 0 .and. ::lAutoCol
       for n = 1 to Len( oRS:aStructure ) 
          AAdd( ::aHeaders, oRS:aStructure[ n ][ 1 ] )
       next
@@ -992,7 +1008,8 @@ METHOD SetArray( aArray ) CLASS gDbfGrid
    ::bSkip     = { | nSkip, nOld | nOld := ::nAt, ::nAt += nSkip,;
                    ::nAt := Min( Max( ::nAt, 1 ), eval( ::bLogicLen, Self ) ),;
                    ::nAt - nOld }
-   if Len( ::aHeaders ) == 0
+                   
+   if Len( ::aHeaders ) == 0 .and. ::lAutoCol
       
       if ValType( aArray[ 1 ] ) != "C"
          nLen = Len( aArray[ 1 ] ) 

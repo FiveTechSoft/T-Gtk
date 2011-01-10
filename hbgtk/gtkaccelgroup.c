@@ -30,12 +30,12 @@
 HB_FUNC( GTK_ACCEL_GROUP_NEW )
 {
   GtkAccelGroup *accel = gtk_accel_group_new();
-  hb_retnl( (glong) accel );
+  hb_retptr( (GtkAccelGroup *) accel );
 }
 
 HB_FUNC( GTK_ACCEL_GROUPS_ACTIVATE )
 {
-  GObject *widget = G_OBJECT( hb_parnl( 1 ) );
+  GObject *widget = G_OBJECT( hb_parptr( 1 ) );
   guint accel_key = hb_parni( 2 );
   GdkModifierType mode = hb_parni( 3 );
   hb_retl( gtk_accel_groups_activate( widget, accel_key, mode ) );
@@ -43,13 +43,13 @@ HB_FUNC( GTK_ACCEL_GROUPS_ACTIVATE )
 
 HB_FUNC( GTK_ACCEL_GROUP_LOCK )
 {
-   GtkAccelGroup * accel_group = GTK_ACCEL_GROUP( hb_parnl( 1 ) );
+   GtkAccelGroup * accel_group = GTK_ACCEL_GROUP( hb_parptr( 1 ) );
   gtk_accel_group_lock( accel_group );
 }
 
 HB_FUNC( GTK_ACCEL_GROUP_UNLOCK )
 {
-  GtkAccelGroup * accel_group = GTK_ACCEL_GROUP( hb_parnl( 1 ) );
+  GtkAccelGroup * accel_group = GTK_ACCEL_GROUP( hb_parptr( 1 ) );
   gtk_accel_group_unlock( accel_group );
 }
 

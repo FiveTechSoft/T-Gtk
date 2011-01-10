@@ -45,7 +45,7 @@ METHOD New( cHeading, uData, nWidth, cfgColor, cbgColor, nColType, cBmpFile ) CL
    DEFAULT nColType := 0 
 
    ::nHeadWidth := len( cHeading ) *10
-   ::cHeading   := cHeading
+   ::cHeading   := str2utf8( cHeading )
    ::uData      := uData
    ::nWidth     := nWidth
    ::cfgColor   := cfgColor

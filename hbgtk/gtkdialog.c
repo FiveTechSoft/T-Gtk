@@ -24,6 +24,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+
 gint dialog_exit( GtkWidget *widget, gpointer data )
 {
   gtk_widget_destroy( widget );
@@ -33,12 +34,12 @@ gint dialog_exit( GtkWidget *widget, gpointer data )
 HB_FUNC( GTK_DIALOG_NEW )
 {
   GtkWidget * dialog = gtk_dialog_new();
-  hb_retnl( (glong) dialog );
+  hb_retptr( (GtkWidget *) dialog );
 }
 
 HB_FUNC( GTK_DIALOG_RUN ) // nDialog -> nResponse
 {
-  GtkWidget * dialog = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gint response = gtk_dialog_run( GTK_DIALOG( dialog ) );
   hb_retni( (UINT) response );
 }
@@ -46,11 +47,11 @@ HB_FUNC( GTK_DIALOG_RUN ) // nDialog -> nResponse
 HB_FUNC( GTK_DIALOG_ADD_BUTTON ) // dialog, label, response -> button
 {
   GtkWidget * button = NULL;
-  GtkWidget * dialog = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gchar * label      = (gchar *) hb_parc( 2 );
   gint response      = (gint ) hb_parnl( 3 );
   button = gtk_dialog_add_button( GTK_DIALOG(dialog), label, response );
-  hb_retnl( (ULONG) button );
+  hb_retptr( (GtkWidget *) button );
 }
 
 /*
@@ -91,7 +92,7 @@ HB_FUNC( GTK_DIALOG_NEW_WITH_BUTTONS ) // title, parent, flags, list params...
                                        // -> dialog
 {
   GtkWidget *dialog = NULL;
-  GtkWidget *parent = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkWidget *parent = GTK_WIDGET( hb_parptr( 2 ) );
   gint iParam;
   gint ipCount = hb_pcount();
   gint flags   = (gint) hb_parni( 3 );
@@ -119,33 +120,33 @@ HB_FUNC( GTK_DIALOG_NEW_WITH_BUTTONS ) // title, parent, flags, list params...
        response     = hb_parni(iParam+1);
        gtk_dialog_add_button( GTK_DIALOG(dialog), stock_button, response );
      }
-  hb_retnl( (ULONG) dialog );
+  hb_retptr( (GtkWidget *) dialog );
 }
 
 HB_FUNC( GTK_DIALOG_RESPONSE ) // dialog, response -> void
 {
-  GtkWidget * dialog = GTK_WIDGET( hb_parnl( 1 ) );
-  gint response      = (gint ) hb_parnl( 2 );
+  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
+  gint response      = (gint ) hb_parni( 2 );
   gtk_dialog_response( GTK_DIALOG(dialog), response );
 }
 
 HB_FUNC( GTK_DIALOG_GET_HAS_SEPARATOR ) // dialog -> lSeparator
 {
-  GtkWidget * dialog = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gboolean separator = gtk_dialog_get_has_separator( GTK_DIALOG(dialog) );
   hb_retl( separator );
 }
 
 HB_FUNC( GTK_DIALOG_SET_HAS_SEPARATOR ) // dialog, lSeparator -> void
 {
-  GtkWidget * dialog = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gboolean separator = (gboolean ) hb_parl( 2 );
   gtk_dialog_set_has_separator( GTK_DIALOG(dialog), separator );
 }
 
 HB_FUNC( GTK_DIALOG_SET_DEFAULT_RESPONSE ) // dialog, nResponse -> void
 {
-  GtkWidget * dialog = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gint response      = (gint) hb_parni( 2 );
   gtk_dialog_set_default_response( GTK_DIALOG(dialog), response );
 }
@@ -158,12 +159,12 @@ HB_FUNC( GTK_DIALOG_SET_DEFAULT_RESPONSE ) // dialog, nResponse -> void
 
 HB_FUNC( GTK_GRAB_ADD ) // nDialog -> void
 {
-  GtkWidget * dialog = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_grab_add( dialog );
 }
 
 HB_FUNC( GTK_GRAB_REMOVE ) // nDialog -> void
 {
-  GtkWidget * dialog = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_grab_remove( dialog );
 }

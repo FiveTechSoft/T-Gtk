@@ -30,49 +30,49 @@ BOOL Array2IterText(PHB_ITEM aIter, GtkTextIter *iter  );
 HB_FUNC( GTK_TEXT_VIEW_NEW ) //  void -> nWidget
 {
   GtkWidget * text = gtk_text_view_new();
-  hb_retnl( (glong) text );
+  hb_retptr( ( GtkWidget * ) text );
 }
 
 HB_FUNC( GTK_TEXT_VIEW_NEW_WITH_BUFFER ) //  void -> nWidget
 {
   GtkWidget * text;
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 1 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   text = gtk_text_view_new_with_buffer( buffer );
-  hb_retnl( (glong) text );
+  hb_retptr( ( GtkWidget * ) text );
 }
 
 HB_FUNC( GTK_TEXT_VIEW_GET_BUFFER ) //  nWidget -> nBuffer
 {
-  GtkWidget * view = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * view = GTK_WIDGET( hb_parptr( 1 ) );
   GtkTextBuffer * buffer = gtk_text_view_get_buffer( GTK_TEXT_VIEW(view) );
-  hb_retnl( (glong) buffer );
+  hb_retptr( ( GtkWidget * ) buffer );
 }
 
 HB_FUNC( GTK_TEXT_VIEW_SET_BUFFER ) //  pWidget , pBuffer
 {
-  GtkTextView * view = GTK_TEXT_VIEW( hb_parnl( 1 ) );
-  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parnl( 2 ) );
+  GtkTextView * view = GTK_TEXT_VIEW( hb_parptr( 1 ) );
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 2 ) );
   gtk_text_view_set_buffer( view, buffer );
 }
 
 HB_FUNC( GTK_TEXT_VIEW_SET_LEFT_MARGIN ) //  nWidget, nMargin -> void
 {
-  GtkWidget * view = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * view = GTK_WIDGET( hb_parptr( 1 ) );
   gint margin = (gint) hb_parni( 2 );
   gtk_text_view_set_left_margin( GTK_TEXT_VIEW(view), margin );
 }
 
 HB_FUNC( GTK_TEXT_VIEW_SET_RIGHT_MARGIN ) //  nWidget, nMargin -> void
 {
-  GtkWidget * view = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * view = GTK_WIDGET( hb_parptr( 1 ) );
   gint margin = (gint) hb_parni( 2 );
   gtk_text_view_set_right_margin( GTK_TEXT_VIEW(view), margin );
 }
 
 HB_FUNC( GTK_TEXT_VIEW_ADD_CHILD_IN_WINDOW )
 {
-  GtkTextView * view  = GTK_TEXT_VIEW( hb_parnl( 1 ) );
-  GtkWidget   * child = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkTextView * view  = GTK_TEXT_VIEW( hb_parptr( 1 ) );
+  GtkWidget   * child = GTK_WIDGET( hb_parptr( 2 ) );
   GtkTextWindowType window = hb_parni( 3 );
   gint xpos = hb_parni( 4 );
   gint ypos = hb_parni( 5 );
@@ -81,20 +81,20 @@ HB_FUNC( GTK_TEXT_VIEW_ADD_CHILD_IN_WINDOW )
 
 HB_FUNC( GTK_TEXT_VIEW_SET_EDITABLE ) //nWidget, bVisible -> void
 {
-  GtkTextView * view = GTK_TEXT_VIEW( hb_parnl( 1 ) );
+  GtkTextView * view = GTK_TEXT_VIEW( hb_parptr( 1 ) );
   gboolean bedited = hb_parl( 2 );
   gtk_text_view_set_editable( view, bedited ) ;
 }
 
 HB_FUNC( GTK_TEXT_VIEW_PLACE_CURSOR_ONSCREEN ) //nWidget-->bMove
 {
-  GtkTextView * view = GTK_TEXT_VIEW( hb_parnl( 1 ) );
+  GtkTextView * view = GTK_TEXT_VIEW( hb_parptr( 1 ) );
   hb_retl( gtk_text_view_place_cursor_onscreen( view ) ) ;
 }
  
 HB_FUNC( GTK_TEXT_VIEW_SCROLL_TO_ITER ) //nWidget-->bMove
 {
-  GtkTextView * view = GTK_TEXT_VIEW( hb_parnl( 1 ) );
+  GtkTextView * view = GTK_TEXT_VIEW( hb_parptr( 1 ) );
   GtkTextIter iter;
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
   

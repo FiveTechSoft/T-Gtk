@@ -31,8 +31,9 @@
 
 HB_FUNC( GTK_HSCALE_NEW ) // pAdjust -->pWidget
 {
-  GtkObject * adjust = GTK_OBJECT( hb_parnl( 1 ) );
-  hb_retnl( (glong) gtk_hscale_new( GTK_ADJUSTMENT( adjust ) ) );
+  GtkObject * adjust = GTK_OBJECT( hb_parptr( 1 ) );
+  GtkWidget * widget = gtk_hscale_new( GTK_ADJUSTMENT( adjust ) );
+  hb_retptr( ( GtkWidget * ) widget );
 }
 
 HB_FUNC( GTK_HSCALE_NEW_WITH_RANGE ) // dMin, dMan, dStep
@@ -40,13 +41,15 @@ HB_FUNC( GTK_HSCALE_NEW_WITH_RANGE ) // dMin, dMan, dStep
   gdouble min  = hb_parnd( 1 );
   gdouble max  = hb_parnd( 2 );
   gdouble step = hb_parnd( 3 );
-  hb_retnl( (glong) gtk_hscale_new_with_range( min, max, step ) );
+  GtkWidget * widget = gtk_hscale_new_with_range( min, max, step );
+  hb_retptr( ( GtkWidget * ) widget );
 }
 
 HB_FUNC( GTK_VSCALE_NEW ) // pAdjust -->pWidget
 {
-  GtkObject * adjust = GTK_OBJECT( hb_parnl( 1 ) );
-  hb_retnl( (glong) gtk_vscale_new( GTK_ADJUSTMENT( adjust ) ) );
+  GtkObject * adjust = GTK_OBJECT( hb_parptr( 1 ) );
+  GtkWidget * widget = gtk_vscale_new( GTK_ADJUSTMENT( adjust ) );
+  hb_retptr( ( GtkWidget * ) widget );
 }
 
 HB_FUNC( GTK_VSCALE_NEW_WITH_RANGE ) // dMin,dMan, dStep
@@ -54,55 +57,57 @@ HB_FUNC( GTK_VSCALE_NEW_WITH_RANGE ) // dMin,dMan, dStep
   gdouble min  = hb_parnd( 1 );
   gdouble max  = hb_parnd( 2 );
   gdouble step = hb_parnd( 3 );
-  hb_retnl( (glong) gtk_vscale_new_with_range( min, max, step ) );
+  GtkWidget * widget = gtk_vscale_new_with_range( min, max, step );
+  hb_retptr( ( GtkWidget * ) widget );
 }
 
 HB_FUNC( GTK_SCALE_SET_DIGITS ) // pWdiget, iDigits
 {
-    GtkWidget * scale = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * scale = GTK_WIDGET( hb_parptr( 1 ) );
 	gtk_scale_set_digits( GTK_SCALE( scale ), hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_SCALE_SET_DRAW_VALUE ) // pWdiget, bDraw_value
 {
-    GtkWidget * scale = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * scale = GTK_WIDGET( hb_parptr( 1 ) );
 	gtk_scale_set_draw_value( GTK_SCALE( scale ), hb_parl( 2 ) );
 }
 
 HB_FUNC( GTK_SCALE_SET_VALUE_POS ) // pWidget, iPositionType
 {
-    GtkWidget * scale = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * scale = GTK_WIDGET( hb_parptr( 1 ) );
     gtk_scale_set_value_pos( GTK_SCALE( scale ) , hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_SCALE_GET_DIGITS ) // pWidget --> iDigits
 {
-    GtkWidget * scale = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * scale = GTK_WIDGET( hb_parptr( 1 ) );
     hb_retni(  gtk_scale_get_digits( GTK_SCALE( scale ) ) );
 }
 
 HB_FUNC( GTK_SCALE_GET_DRAW_VALUE ) // pWdiget --> bDraw_value
 {
-    GtkWidget * scale = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * scale = GTK_WIDGET( hb_parptr( 1 ) );
 	hb_retl( gtk_scale_get_draw_value( GTK_SCALE( scale ) ) );
 }
 
 HB_FUNC( GTK_SCALE_GET_VALUE_POS ) // pWidget --> iPositionType
 {
-    GtkWidget * scale = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * scale = GTK_WIDGET( hb_parptr( 1 ) );
     hb_retni( gtk_scale_get_value_pos( GTK_SCALE( scale ) ) );
 }
 
 #if GTK_CHECK_VERSION( 2,4,0 )
 HB_FUNC( GTK_SCALE_GET_LAYOUT ) // pWidget --> pPango
 {
-    GtkWidget * scale = GTK_WIDGET( hb_parnl( 1 ) );
-    hb_retnl( (glong)  gtk_scale_get_layout( GTK_SCALE( scale ) ) );
+    GtkWidget * scale = GTK_WIDGET( hb_parptr( 1 ) );
+    PangoLayout * pango = gtk_scale_get_layout( GTK_SCALE( scale ) );
+    hb_retptr( ( PangoLayout * ) pango );
 }
 
 HB_FUNC( GTK_SCALE_GET_LAYOUT_OFFSETS ) // pWidget, iX, iY
 {
-    GtkWidget * scale = GTK_WIDGET( hb_parnl( 1 ) );
+    GtkWidget * scale = GTK_WIDGET( hb_parptr( 1 ) );
     gint * X = (gint *) hb_parni( 2 );
     gint * Y = (gint *) hb_parni( 3 );
     gtk_scale_get_layout_offsets( GTK_SCALE( scale ), X, Y );

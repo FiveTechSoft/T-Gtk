@@ -30,32 +30,32 @@
 HB_FUNC( GTK_COMBO_BOX_NEW )
 {
    GtkWidget * combo = gtk_combo_box_new();
-   hb_retnl( ( glong ) combo );
+   hb_retptr( ( GtkWidget * ) combo );
 }
 
 HB_FUNC( GTK_COMBO_BOX_NEW_WITH_MODEL )
 {
-   GtkWidget * combo = gtk_combo_box_new_with_model( GTK_TREE_MODEL( hb_parnl( 1 ) ) );
-   hb_retnl( ( glong ) combo );
+   GtkWidget * combo = gtk_combo_box_new_with_model( GTK_TREE_MODEL( hb_parptr( 1 ) ) );
+   hb_retptr( ( GtkWidget * ) combo );
 }
 
 HB_FUNC( GTK_COMBO_BOX_SET_WRAP_WIDTH )
 {
-   GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
    gint iWidth = hb_parni( 2 );
    gtk_combo_box_set_wrap_width( GTK_COMBO_BOX( combo ), iWidth );
 }
 
 HB_FUNC( GTK_COMBO_BOX_SET_ROW_SPAN_COLUMN )
 {
-   GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
    gint iRow_Span = hb_parni( 2 );
    gtk_combo_box_set_row_span_column( GTK_COMBO_BOX( combo ), iRow_Span );
 }
 
 HB_FUNC( GTK_COMBO_BOX_SET_COLUMN_SPAN_COLUMN )
 {
-   GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
    gint iCol_Span = hb_parni( 2 );
    gtk_combo_box_set_column_span_column( GTK_COMBO_BOX( combo ), iCol_Span );
 }
@@ -63,47 +63,47 @@ HB_FUNC( GTK_COMBO_BOX_SET_COLUMN_SPAN_COLUMN )
 HB_FUNC( GTK_COMBO_BOX_NEW_TEXT )
 {
    GtkWidget * combo = gtk_combo_box_new_text();
-   hb_retnl( ( glong ) combo );
+   hb_retptr( ( GtkWidget * ) combo );
 }
 
 HB_FUNC( GTK_COMBO_BOX_APPEND_TEXT )
 {
-  GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_combo_box_append_text ( GTK_COMBO_BOX (combo), (gchar *) hb_parc( 2 ) );
 }
 
 HB_FUNC( GTK_COMBO_BOX_INSERT_TEXT )
 {
-  GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
   gint position = hb_parni( 2 );
-  gchar *text = hb_parc( 3 );
+  gchar *text = ( gchar *) hb_parc( 3 );
   gtk_combo_box_insert_text( GTK_COMBO_BOX (combo), position ,text );
 }
 
 HB_FUNC( GTK_COMBO_BOX_PREPEND_TEXT )
 {
-  GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
-  gchar *text = hb_parc( 2 );
+  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
+  gchar *text = ( gchar * )hb_parc( 2 );
   gtk_combo_box_prepend_text ( GTK_COMBO_BOX (combo), text );
 }
 
 HB_FUNC( GTK_COMBO_BOX_REMOVE_TEXT )
 {
-  GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
   gint position = hb_parni( 2 );
   gtk_combo_box_remove_text( GTK_COMBO_BOX (combo), position );
 }
 
 HB_FUNC( GTK_COMBO_BOX_GET_ACTIVE )// iActive or -1 not Active
 {
-  GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
   gint iActive = gtk_combo_box_get_active( GTK_COMBO_BOX (combo) );
   hb_retni( iActive );
 }
 
 HB_FUNC( GTK_COMBO_BOX_SET_ACTIVE )// combo,index
 {
-  GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
   gint position = (gint)hb_parni( 2 );
   gtk_combo_box_set_active( GTK_COMBO_BOX (combo), position );
 }
@@ -117,13 +117,13 @@ HB_FUNC( GTK_COMBO_BOX_SET_ACTIVE )// combo,index
 
 HB_FUNC( GTK_COMBO_BOX_POPUP )
 {
-  GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_combo_box_popup( GTK_COMBO_BOX( combo ) );
 }
 
 HB_FUNC( GTK_COMBO_BOX_POPDOWN )
 {
-  GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_combo_box_popdown( GTK_COMBO_BOX( combo ) );
 }
 
@@ -131,39 +131,39 @@ HB_FUNC( GTK_COMBO_BOX_POPDOWN )
 HB_FUNC( GTK_COMBO_BOX_ENTRY_NEW )
 {
    GtkWidget * combo = gtk_combo_box_entry_new();
-   hb_retnl( ( glong ) combo );
+   hb_retptr( ( GtkWidget * ) combo );
 }
 
 HB_FUNC( GTK_COMBO_BOX_ENTRY_NEW_WITH_MODEL ) // TreeModel, iText_Column
 {
-   GtkWidget * combo = gtk_combo_box_entry_new_with_model( GTK_TREE_MODEL( hb_parnl( 1 ) ), (gint) hb_parni( 2 ) );
-   hb_retnl( ( glong ) combo );
+   GtkWidget * combo = gtk_combo_box_entry_new_with_model( GTK_TREE_MODEL( hb_parptr( 1 ) ), (gint) hb_parni( 2 ) );
+   hb_retptr( ( GtkWidget * ) combo );
 }
 
 HB_FUNC( GTK_COMBO_ENTRY_NEW_TEXT )
 {
    GtkWidget * combo = gtk_combo_box_entry_new_text ();
-   hb_retnl( ( glong ) combo );
+   hb_retptr( ( GtkWidget * ) combo );
 }
 
 HB_FUNC( GTK_COMBO_BOX_ENTRY_SET_TEXT_COLUMN )
 {
-   GtkWidget * entry_box = GTK_WIDGET( hb_parnl( 1 ) );
+   GtkWidget * entry_box = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_combo_box_entry_set_text_column( GTK_COMBO_BOX_ENTRY(entry_box), (gint)hb_parni( 2 ) );
 }
 
 HB_FUNC( TGTK_GET_TEXT_COMBO_ENTRY )
 {
- GtkWidget * combo_box = GTK_WIDGET( hb_parnl( 1 ) );
+ GtkWidget * combo_box = GTK_WIDGET( hb_parptr( 1 ) );
  GtkEntry * entry = GTK_ENTRY(GTK_BIN (combo_box)->child );
  hb_retc( gtk_entry_get_text( entry ) );
 }
 
 HB_FUNC( TGTK_GET_WIDGET_COMBO_ENTRY )
 {
- GtkWidget * combo_box = GTK_WIDGET( hb_parnl( 1 ) );
+ GtkWidget * combo_box = GTK_WIDGET( hb_parptr( 1 ) );
  GtkEntry * entry = GTK_ENTRY(GTK_BIN (combo_box)->child );
- hb_retnl( (glong) entry  );
+ hb_retptr( ( GtkWidget * ) entry  );
 }
 
 #endif

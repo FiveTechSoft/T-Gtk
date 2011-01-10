@@ -23,6 +23,7 @@
 */
 #include <hbapi.h>
 #include <gtk/gtk.h>
+#include <t-gtk.h>
 
 #if GTK_CHECK_VERSION(2,4,0)
 
@@ -33,73 +34,79 @@
 
 HB_FUNC( GTK_EXPANDER_NEW )//-->widget
 {
-    GtkWidget * expander = gtk_expander_new( (gchar *) hb_parc( 1 ) );
-    hb_retnl( ( glong ) expander );
+    gchar *msg = str2utf8( ( gchar * ) hb_parc( 1 ) );
+    GtkWidget * expander = gtk_expander_new( msg );
+    SAFE_RELEASE( msg );
+    hb_retptr( ( GtkWidget * ) expander );
 }
 
 HB_FUNC( GTK_EXPANDER_NEW_WITH_MNEMONIC ) //-->widget
 {
-    GtkWidget * expander = gtk_expander_new_with_mnemonic( (gchar *) hb_parc( 1 ) );
-    hb_retnl( ( glong ) expander );
+    gchar *msg = str2utf8( ( gchar * ) hb_parc( 1 ) );
+    GtkWidget * expander = gtk_expander_new_with_mnemonic( msg );
+    SAFE_RELEASE( msg );
+    hb_retptr( ( GtkWidget * ) expander );
 }
 
 HB_FUNC( GTK_EXPANDER_SET_EXPANDED ) // widget, bExpand
 {
-   GtkExpander * expander = ( GtkExpander * ) hb_parnl( 1 );
+   GtkExpander * expander = ( GtkExpander * ) hb_parptr( 1 );
    gtk_expander_set_expanded( expander , hb_parl( 2 ) );
 }
 
 HB_FUNC( GTK_EXPANDER_GET_EXPANDED ) // widget , -->bExpand
 {
-   GtkExpander * expander = ( GtkExpander * ) hb_parnl( 1 );
+   GtkExpander * expander = ( GtkExpander * ) hb_parptr( 1 );
    hb_retl( gtk_expander_get_expanded ( expander ) );
 }
 
 HB_FUNC( GTK_EXPANDER_SET_SPACING )
 {
-   GtkExpander * expander = ( GtkExpander * ) hb_parnl( 1 );
+   GtkExpander * expander = ( GtkExpander * ) hb_parptr( 1 );
    gtk_expander_set_spacing( expander, hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_EXPANDER_GET_SPACING ) // widget --> iSpacing
 {
-   GtkExpander * expander = ( GtkExpander * ) hb_parnl( 1 );
+   GtkExpander * expander = ( GtkExpander * ) hb_parptr( 1 );
    hb_retni( gtk_expander_get_spacing( expander ) );
 }
 
 HB_FUNC( GTK_EXPANDER_SET_LABEL ) // widget, cText
 {
-   GtkExpander * expander = ( GtkExpander * ) hb_parnl( 1 );
-   gtk_expander_set_label( expander, (gchar *) hb_parc( 2 ) );
+   GtkExpander * expander = ( GtkExpander * ) hb_parptr( 1 );
+   gchar *msg = str2utf8( ( gchar * ) hb_parc( 2 ) );   
+   gtk_expander_set_label( expander, msg );
+   SAFE_RELEASE( msg );
 }
 
 HB_FUNC( GTK_EXPANDER_GET_LABEL ) // widget --> cText
 {
-   GtkExpander * expander = GTK_EXPANDER( hb_parnl( 1 ) );
+   GtkExpander * expander = GTK_EXPANDER( hb_parptr( 1 ) );
    hb_retc( ( gchar* ) gtk_expander_get_label( expander ) );
 }
 
 HB_FUNC( GTK_EXPANDER_SET_USE_UNDERLINE ) // widget, bUser_underline
 {
-  GtkExpander * expander = ( GtkExpander * ) hb_parnl( 1 );
+  GtkExpander * expander = ( GtkExpander * ) hb_parptr( 1 );
   gtk_expander_set_use_underline( expander, hb_parl( 2 ) );
 }
 
 HB_FUNC( GTK_EXPANDER_GET_USE_UNDERLINE ) //widget--> bUnderLine
 {
-  GtkExpander * expander = ( GtkExpander * ) hb_parnl( 1 );
+  GtkExpander * expander = ( GtkExpander * ) hb_parptr( 1 );
   hb_retl(  gtk_expander_get_use_underline( expander ) );
 }
 
 HB_FUNC( GTK_EXPANDER_SET_USE_MARKUP ) // widget, bUse_markup
 {
-  GtkExpander * expander = ( GtkExpander * ) hb_parnl( 1 );
+  GtkExpander * expander = ( GtkExpander * ) hb_parptr( 1 );
   gtk_expander_set_use_markup( expander, hb_parl( 2 ) );
 }
 
 HB_FUNC( GTK_EXPANDER_GET_USE_MARKUP ) // widget -->bUse_markup
 {
-  GtkExpander * expander = ( GtkExpander * ) hb_parnl( 1 );
+  GtkExpander * expander = ( GtkExpander * ) hb_parptr( 1 );
   hb_retl( gtk_expander_get_use_markup( expander ) );
 }
 #endif

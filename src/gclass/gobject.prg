@@ -125,12 +125,12 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
     Local nWidget
     Local cClassName := oSender:ClassName()
 
-    if oSender:bDestroy != NIL
+   if oSender:bDestroy != NIL
        Eval( oSender:bDestroy, oSender )
     endif
 
     if oSender:oFont != NIL
-//           ? "Font destruida de : "+ oSender:ClassName() + " " // DEBUG
+       //? "Font destruida de : "+ oSender:ClassName() + " " // DEBUG
        oSender:oFont:End()  // Destruccion de la font asociado a un widget
     endif
 
@@ -140,7 +140,7 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
 
     if oSender:ISDERIVEDFROM( "GWINDOW" )//cClassName == "GDIALOG" .OR. cClassName == "GWINDOW"
        SysRefresh()       
-//       hb_gcAll()         // Garbage collector
+       hb_gcAll()         // Garbage collector
     endif
 
     if oSender:ISDERIVEDFROM( "GWINDOW" )  // cClassName == "GWINDOW" .OR. cClassName == "GDIALOG" .OR. cClassName == "GASSISTANT"
@@ -150,6 +150,7 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
        if cClassName == "GDIALOG" .OR. cClassName == "GASSISTANT"// Si es un dialogo, lo matamos
           gtk_widget_destroy( oSender:pWidget )
        endif
+
        if oSender:ldestroy_gtk_Main
           gtk_main_quit()
        endif
@@ -166,12 +167,21 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
        endif
     endif
 
-RETURN NIL
+
+RETURN .F.
 
 ******************************************************************************
 METHOD OnDelete_Event( oSender ) CLASS GOBJECT
-    Local lResult
+    Local lResult := .T.
 
+   if oSender:bEnd != NIL 
+      lResult = Eval( oSender:bEnd, oSender )
+      if ValType( lResult ) != "L" 
+         lResult = .F.
+      endif 
+   endif
+
+/*
     if oSender:bEnd = NIL
        // Emitimos nosotros directamente el destroy
        if oSender:ClassName() = "GDIALOG"
@@ -179,7 +189,8 @@ METHOD OnDelete_Event( oSender ) CLASS GOBJECT
              return .F.  
           endif
        endif
-       g_signal_emit_by_name( oSender:pWidget, "destroy" )
+     // Fix: Comentamos por que da error en gtk_style, pero ahora no recuerdo porque se emite esta señal
+     // g_signal_emit_by_name( oSender:pWidget, "destroy" )
        return .F. // Nos lleva irremediablemente a la perdicion ;-)
     endif
 
@@ -194,14 +205,16 @@ METHOD OnDelete_Event( oSender ) CLASS GOBJECT
           return .F.  
        endif
     endif
-    
     // Debugger
-    //g_print( "Destruyendo: "+ oSender:Classname() + CRLF )
+    // g_print( "Destruyendo: "+ oSender:Classname() + CRLF )
 
+    // ToFix: Comentamos por que da error en gtk_style, pero ahora no recuerdo porque se emite esta señal
+    // No hace falta emitir nada, se propaga a traves del retun .f. al destroy
     // Emitimos nosotros directamente el destroy
-    g_signal_emit_by_name( oSender:pWidget, "destroy" )
+    // g_signal_emit_by_name( oSender:pWidget, "destroy" )
+*/
 
-Return .F.
+Return ! lResult
 
 ******************************************************************************
 // Funciones de manejo de señales

@@ -27,38 +27,38 @@
 HB_FUNC( GTK_LIST_NEW ) //->widget
 {
    GtkWidget * hWnd = gtk_list_new( );
-   hb_retnl( ( glong ) hWnd );
+   hb_retptr( ( GtkWidget *  ) hWnd );
 }
 
 HB_FUNC( GTK_LIST_SET_SELECTION_MODE )
 {
-  GtkWidget * list = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * list = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_list_set_selection_mode( GTK_LIST( list) , hb_parni( 2 ) );
 
 }
 
 HB_FUNC( GTK_LIST_SELECT_ITEM )
 {
-  GtkWidget * list = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * list = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_list_select_item( GTK_LIST( list) , hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_LIST_ITEM_NEW_WITH_LABEL ) //->widget
 {
    GtkWidget * hWnd = gtk_list_item_new_with_label( hb_parc( 1 ) );
-   hb_retnl( ( glong ) hWnd );
+   hb_retptr( ( GtkWidget *  ) hWnd );
 }
 
 HB_FUNC( GTK_LIST_CHILD_POSITION )
 {
-  GtkWidget * list = GTK_WIDGET( hb_parnl( 1 ) );
-  GtkWidget * child = GTK_WIDGET( hb_parnl( 2 ) );
-	hb_retni(  gtk_list_child_position ( GTK_LIST(list), child ) );
+  GtkWidget * list = GTK_WIDGET( hb_parptr( 1 ) );
+  GtkWidget * child = GTK_WIDGET( hb_parptr( 2 ) );
+  hb_retni(  gtk_list_child_position ( GTK_LIST(list), child ) );
 }
 
 HB_FUNC( GTK_LIST_CLEAR_ITEMS )
 {
-  GtkWidget * list = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * list = GTK_WIDGET( hb_parptr( 1 ) );
   gint start = hb_parni( 2 );
   gint end =   hb_parni( 3 );
   gtk_list_clear_items( GTK_LIST(list), start, end ) ;

@@ -23,24 +23,28 @@
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
-
+#include <t-gtk.h>
 
 HB_FUNC( GTK_CHECK_BUTTON_NEW )
 {
    GtkWidget * checkbox = gtk_check_button_new();
-   hb_retnl( ( glong ) checkbox );
+   hb_retptr( ( GtkWidget *  ) checkbox );
 }
 
 HB_FUNC( GTK_CHECK_BUTTON_NEW_WITH_LABEL )
 {
-   GtkWidget * checkbox = gtk_check_button_new_with_label( hb_parc( 1 ) );
-   hb_retnl( ( glong ) checkbox );
+   gchar *msg = str2utf8( ( gchar * ) hb_parc( 1 ) );
+   GtkWidget * checkbox = gtk_check_button_new_with_label( msg );
+   SAFE_RELEASE( msg );
+   hb_retptr( ( GtkWidget *  ) checkbox );
 }
 
 HB_FUNC( GTK_CHECK_BUTTON_NEW_WITH_MNEMONIC )
 {
-   GtkWidget * checkbox = gtk_check_button_new_with_mnemonic( hb_parc( 1 ) );
-   hb_retnl( ( glong ) checkbox );
+   gchar *msg = str2utf8( ( gchar * ) hb_parc( 1 ) );
+   GtkWidget * checkbox = gtk_check_button_new_with_mnemonic( msg );
+   SAFE_RELEASE( msg );
+   hb_retptr( ( GtkWidget *  ) checkbox );
 }
 
 

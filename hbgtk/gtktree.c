@@ -34,40 +34,40 @@
 HB_FUNC( GTK_TREE_NEW )
 {
   GtkWidget *tree = gtk_tree_new();
-  hb_retnl( (glong) tree);
+  hb_retptr( ( GtkWidget * ) tree);
 }
 
 HB_FUNC( GTK_TREE_APPEND )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
-  GtkWidget * tree_item = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
+  GtkWidget * tree_item = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_tree_append( tree, tree_item );
 }
 
 HB_FUNC( GTK_TREE_PREPEND )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
-  GtkWidget * tree_item = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
+  GtkWidget * tree_item = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_tree_prepend( tree, tree_item );
 }
 
 HB_FUNC( GTK_TREE_INSERT )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
-  GtkWidget * tree_item = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
+  GtkWidget * tree_item = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_tree_insert( tree, tree_item, (gint) hb_parni( 3 ) );
 }
 
 HB_FUNC( GTK_TREE_REMOVE_ITEMS )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
-  GList * items =  ( GList * ) hb_parnl( 2 ) ;
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
+  GList * items =  ( GList * ) hb_parptr( 2 ) ;
   gtk_tree_remove_items( tree, items );
 }
 
 HB_FUNC( GTK_TREE_CLEAR_ITEMS )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
   gint start = hb_parni( 2 );
   gint end = hb_parni( 3 );
   gtk_tree_clear_items( tree, start, end);
@@ -75,61 +75,61 @@ HB_FUNC( GTK_TREE_CLEAR_ITEMS )
 
 HB_FUNC( GTK_TREE_SELECT_ITEM )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
   gint item = hb_parni( 2 );
   gtk_tree_select_item( tree, item);
 }
 
 HB_FUNC( GTK_TREE_UNSELECT_ITEM )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
   gint item = hb_parni( 2 );
   gtk_tree_unselect_item( tree, item);
 }
 
 HB_FUNC( GTK_TREE_SELECT_CHILD )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
   GtkWidget * tree_item = GTK_WIDGET( hb_parnl( 2 ) );
   gtk_tree_select_child( tree, tree_item );
 }
 
 HB_FUNC( GTK_TREE_UNSELECT_CHILD )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
-  GtkWidget * tree_item = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
+  GtkWidget * tree_item = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_tree_unselect_child( tree, tree_item );
 }
 
 HB_FUNC( GTK_TREE_CHILD_POSITION )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
-  GtkWidget * child = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
+  GtkWidget * child = GTK_WIDGET( hb_parptr( 2 ) );
   hb_retni( gtk_tree_child_position( tree, child ) );
 }
 
 HB_FUNC( GTK_TREE_SET_SELECTION_MODE )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
   gtk_tree_set_selection_mode( tree, hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_TREE_SET_VIEW_MODE )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
   gtk_tree_set_view_mode( tree, hb_parni( 2 ) );
 }
 
 HB_FUNC( GTK_TREE_SET_VIEW_LINE )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
   gtk_tree_set_view_mode( tree, hb_parl( 2 ) );
 }
 
 HB_FUNC( GTK_TREE_REMOVE_ITEM )
 {
-  GtkTree * tree = GTK_TREE( hb_parnl( 1 ) );
-  GtkWidget * child = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkTree * tree = GTK_TREE( hb_parptr( 1 ) );
+  GtkWidget * child = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_tree_remove_item( tree, child );
 }
 
@@ -139,20 +139,20 @@ HB_FUNC( GTK_TREE_REMOVE_ITEM )
  */
 HB_FUNC( GTK_TREE_ITEM_NEW )
 {
-  GtkWidget *tree_item = gtk_tree_item_new();
-  hb_retnl( (glong) tree_item );
+  GtkWidget * tree_item = gtk_tree_item_new();
+  hb_retptr( ( GtkWidget * ) tree_item );
 }
 
 HB_FUNC( GTK_TREE_ITEM_NEW_WITH_LABEL )
 {
   GtkWidget *tree_item = gtk_tree_item_new_with_label( (gchar *)hb_parc( 1 ) );
-  hb_retnl( (glong) tree_item );
+  hb_retptr( ( GtkWidget * ) tree_item );
 }
 
 HB_FUNC( GTK_TREE_ITEM_SET_SUBTREE )
 {
-  GtkTreeItem * tree_item = GTK_TREE_ITEM( hb_parnl( 1 ) );
-  GtkWidget * subtree = GTK_WIDGET( hb_parnl( 2 ) );
+  GtkTreeItem * tree_item = GTK_TREE_ITEM( hb_parptr( 1 ) );
+  GtkWidget * subtree = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_tree_item_set_subtree( tree_item, subtree );
 }
 
