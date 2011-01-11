@@ -958,8 +958,6 @@ METHOD SetDolphin( oRS ) CLASS gDbfGrid
    
    local n
 
-   local n
-
    ::uData = oRS
 
    ::bLogicLen = { || oRS:RecCount() }

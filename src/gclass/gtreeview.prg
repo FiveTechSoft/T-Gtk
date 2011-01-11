@@ -154,8 +154,10 @@ METHOD GetValue( nColumn, cType, path, aIter_Clone ) CLASS gTreeView
                cType := "Int"
           CASE ( nType = G_TYPE_BOOLEAN )
                cType := "Boolean"
-          CASE ( nType = G_TYPE_LONG .OR. nType = G_TYPE_ULONG .OR. nType = GDK_TYPE_PIXBUF )
+          CASE ( nType = G_TYPE_LONG .OR. nType = G_TYPE_ULONG )
                cType := "Long"
+          CASE ( nType = G_TYPE_POINTER .OR. nType = GDK_TYPE_PIXBUF )
+               cType := "Pointer"               
           CASE ( nType = G_TYPE_DOUBLE .OR. nType = G_TYPE_FLOAT )
                cType := "Double"
        END CASE
@@ -163,15 +165,17 @@ METHOD GetValue( nColumn, cType, path, aIter_Clone ) CLASS gTreeView
 
    IF( gtk_tree_model_get_iter( model, aIter, path ) )
       DO CASE
-         CASE cType = "String" .OR. cType = "Text" 
+         CASE Lower( cType ) = "string" .OR. Lower( cType ) = "text" 
               hb_gtk_tree_model_get_string( model, aIter, nColumn - 1, @uValue ) 
-         CASE cType = "Int"
+         CASE Lower( cType ) = "int"
               hb_gtk_tree_model_get_int( model, aIter,  nColumn - 1, @uValue ) 
-         CASE cType = "Boolean"
+         CASE Lower( cType ) = "boolean"
               hb_gtk_tree_model_get_boolean( model, aIter,  nColumn - 1, @uValue ) 
-         CASE cType = "Long"
-              hb_gtk_tree_model_get_long( model, aIter, nColumn - 1, @uValue ) 
-         CASE cType = "Double"
+         CASE Lower( cType ) = "long"
+              hb_gtk_tree_model_get_long( model, aIter, nColumn - 1, @uValue )
+         CASE Lower( cType ) = "pointer"
+              hb_gtk_tree_model_get_pointer( model, aIter, nColumn - 1, @uValue )                
+         CASE Lower( cType ) = "double"
               hb_gtk_tree_model_get_double( model, aIter, nColumn - 1, @uValue ) 
       END CASE
       aIter_Clone := aIter
@@ -205,10 +209,12 @@ METHOD GetAutoValue( nColumn, aIter, aIter_Clone ) CLASS gTreeView
               hb_gtk_tree_model_get_int( model, aIter,  nColumn - 1, @uValue ) 
          CASE ( nType = G_TYPE_BOOLEAN )
               hb_gtk_tree_model_get_boolean( model, aIter,  nColumn - 1, @uValue ) 
-         CASE ( nType = G_TYPE_LONG .OR. nType = G_TYPE_ULONG .OR. nType = GDK_TYPE_PIXBUF )
+         CASE ( nType = G_TYPE_LONG .OR. nType = G_TYPE_ULONG )
               hb_gtk_tree_model_get_long( model, aIter, nColumn - 1, @uValue ) 
          CASE ( nType = G_TYPE_DOUBLE .OR. nType = G_TYPE_FLOAT )
-              hb_gtk_tree_model_get_double( model, aIter, nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_double( model, aIter, nColumn - 1, @uValue )
+         CASE ( nType = G_TYPE_POINTER .OR. nType = GDK_TYPE_PIXBUF )
+              hb_gtk_tree_model_get_pointer( model, aIter, nColumn - 1, @uValue ) 
       END CASE
       aIter_Clone := aIter
    ENDIF

@@ -200,6 +200,23 @@ HB_FUNC( HB_GTK_TREE_MODEL_GET_LONG ) //  pModel, aIter, nColumn, Type LONG
       FillArrayFromIter( &iter, aIter );
 }
 
+HB_FUNC( HB_GTK_TREE_MODEL_GET_POINTER ) //  pModel, aIter, nColumn, Type POINTER
+{
+   GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 1 );
+   GtkTreeIter iter;
+   PHB_ITEM aIter = hb_param( 2, HB_IT_ARRAY );
+   glong value;
+
+  if ( Array2Iter( aIter, &iter ) ) {
+      gtk_tree_model_get( model, &iter , hb_parni( 3 ), &value, -1 );
+      hb_storptr( value, 4 );
+  }
+
+  
+  if( HB_IS_ARRAY( aIter ) && hb_arrayLen( aIter ) == 4 ) 
+      FillArrayFromIter( &iter, aIter );
+}
+
 HB_FUNC( HB_GTK_TREE_MODEL_GET_DOUBLE ) //  pModel, aIter, nColumn, Type DOUBLE
 {
    GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 1 );

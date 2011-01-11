@@ -49,7 +49,7 @@ Function Main()
                                    G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_BOOLEAN
 
       pixbuf := gdk_pixbuf_new_from_file( "../../images/glade.png" )
-      pixbuf2 := gdk_pixbuf_new_from_file( "../../images/Anieyes.gif" )
+      pixbuf2 := gdk_pixbuf_new_from_file( "../../images/anieyes.gif" )
       pixbuf3 := gdk_pixbuf_new_from_file( "../../images/gnome-logo.png" )
       pixbuf4 := gdk_pixbuf_new_from_file( "../../images/rafa.jpg" )
 
@@ -156,13 +156,13 @@ Static Function Comprueba( oTreeView, pPath, pTreeViewColumn  )
     Local oWnd , oImage, width, height, pImage
     
     // u := o:GetValue( nColumn, cType_data, pPath )
-    pImage := oTreeview:GetValue( 1, "Long" , pPath )
+    pImage := oTreeview:GetValue( 1, "pointer" , pPath )
     
-    if pImage != 0  // Si hay pixbuf
+    if pImage != NIL  // Si hay pixbuf
        width  = gdk_pixbuf_get_width ( pImage )
        height = gdk_pixbuf_get_height( pImage )
        DEFINE WINDOW oWnd TITLE "Imagen" SIZE width, height TYPE_HINT GDK_WINDOW_TYPE_HINT_MENU
-         oWnd:SetResizable( FALSE )
+         oWnd:SetResizable( .F. )
 
          DEFINE IMAGE oImage OF oWnd CONTAINER
           oImage:SetFromPixbuf( pImage ) // Metemos en la imagen el pixbuf
