@@ -109,3 +109,12 @@ HB_FUNC( GTK_TEXT_VIEW_SCROLL_TO_ITER ) //nWidget-->bMove
  */
     }
 } 
+
+
+HB_FUNC( GTK_TEXT_VIEW_SET_JUSTIFICATION )
+{
+  GtkWidget * text = GTK_WIDGET( hb_parptr( 1 ) );
+  gint iJust = hb_parni( 2 );
+  gtk_text_view_set_justification( GTK_TEXT_VIEW( text ), iJust );
+}
+

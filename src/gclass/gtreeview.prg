@@ -188,7 +188,7 @@ RETURN NIL
 
 METHOD aRow() CLASS gTreeView
 
-   local path, model
+   local model
    local aIter := Array( 4 ) 
    local nColumns := ::GetColumns()
    local aData := Array( nColumns )
@@ -196,14 +196,10 @@ METHOD aRow() CLASS gTreeView
    
    
    if ::IsGetSelected( aIter ) // Si fue posible seleccionarlo 
-      path  := ::GetPath( aIter ) 
       model = ::GetModel()
-      if gtk_tree_model_get_iter( model, aIter, path )
-         for n = 1 to nColumns
-            aData[ n ] = gtk_tree_model_get( model, aIter, n )
-         next   
-      endif
-      gtk_tree_path_free( Path )
+      for n = 1 to nColumns
+         aData[ n ] = gtk_tree_model_get( model, aIter, n )
+      next   
    endif
    
 return aData   

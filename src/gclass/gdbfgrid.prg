@@ -265,7 +265,7 @@ METHOD New( uParent, nRow, nCol, aHeaders, aColSizes, abFields, cAlias, nWidth,;
 
    if cFont != NIL
       ::SetFont( cFont )
-      ::nRowHeight( ::nFontSize * 2 ) // Acomodamos tamaño de la fuente
+      ::nRowHeight( ::nFontSize * 2 ) // Acomodamos tamaï¿½o de la fuente
    endif
 
    ::LoadColumns()
@@ -1029,7 +1029,7 @@ return nil
 
 //------------------------------------------------------//
 
-static function CheckArray( aArray )
+function CheckArray( aArray )
    
    if ValType( aArray ) == 'A' .and. ;
       Len( aArray ) == 1 .and. ;

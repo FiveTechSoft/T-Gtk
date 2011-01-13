@@ -53,12 +53,23 @@ GdkPixbuf *create_pixbuf( const gchar * filename )
 GtkWidget * get_win_parent()
 {
     GtkWidget *wParent = NULL;
+    guint uiElement;
 
     GList *tops = gtk_window_list_toplevels();
-
-    if ( tops )
-       wParent = tops->data;
     
+//buscamos la ventana con el foco
+    if ( tops ) {
+       uiElement = g_list_length( tops );
+       while( uiElement > 0 ){
+          uiElement--;
+          if( gtk_window_get_window_type( g_list_nth_data( tops, uiElement ) ) == GTK_WINDOW_TOPLEVEL )          	
+         	  if( gtk_window_has_toplevel_focus( g_list_nth_data( tops, uiElement ) ) ){
+         	  	wParent = ( g_list_nth( tops, uiElement ) )->data ;
+              uiElement = 0;
+             }
+       }
+    }
+    g_list_free( tops );
     return wParent;
 }
 
@@ -289,10 +300,7 @@ HB_FUNC( GTK_WINDOW_PRESENT )
 
 HB_FUNC( GETACTIVEWINDOW )
 {
-    GtkWidget * parent;
-    GList * toplevel = gtk_window_list_toplevels();
-    parent = toplevel->data;
-    hb_retptr( (GtkWidget *) parent );
+   hb_retptr( (GtkWidget *) get_win_parent() );
 }
 
 HB_FUNC( GTK_WINDOW_LIST_TOPLEVELS )

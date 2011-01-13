@@ -33,6 +33,7 @@ CLASS GLISTSTORE FROM GOBJECT
       METHOD Append( aValues )
       METHOD Insert( nRow, aValues )
       METHOD Set( aIter, nCol, uValue )
+      METHOD SetValues( aIter, aValues )
       METHOD Clear() INLINE gtk_list_store_clear( ::pWidget )
       METHOD Remove( aIter ) INLINE gtk_list_store_remove( ::pWidget, aIter ) 
 
@@ -72,6 +73,20 @@ RETURN aIter
 METHOD Set( aIter, nCol, uValue ) CLASS gListStore
 
        gtk_list_store_set( ::pWidget, nCol-1, aIter, uValue )
+
+RETURN NIL
+
+METHOD SetValues( aIter, aValues ) CLASS gListStore
+
+   local nCols
+   local n
+
+   aValues = CheckArray( aValues )
+   nCols   = Min( gtk_tree_model_get_n_columns( ::pWidget ), Len( aValues ) )
+   
+   for n = 1 to nCols
+      ::Set( aIter, n, aValues[ n ] )
+   next
 
 RETURN NIL
 

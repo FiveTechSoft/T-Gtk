@@ -1183,6 +1183,12 @@
        =>;
         <oLbx>:Set( <aIter>, <n>, <uValue> )
 
+#xcommand SET VALUES LIST_STORE <oLbx> ;
+              ITER <aIter> ;
+              VALUES <aValues,...>;
+       =>;
+        <oLbx>:SetValues( <aIter>, \{<aValues>\} )
+
 
 // TREEVIEW
 #xcommand DEFINE TREEVIEW [ <oTreeView> ]  ;
