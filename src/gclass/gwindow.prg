@@ -106,9 +106,14 @@ METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint, ;
           ::SetIconName( cIconName )
        endif
 
+// estas lineas probocan 
+// Gtk-CRITICAL **: IA__gtk_window_set_transient_for: assertion `window != parent' failed
+// no se que significa
+/* START:
        if oParent != NIL .and. oParent:pWidget != GetWndMain():pWidget
-          gtk_window_set_transient_for( ::pWidget, oParent:pWidget )
+           gtk_window_set_transient_for( ::pWidget, oParent:pWidget )
        endif
+*///FIN: 
 
        ::Connect( "delete-event" )
        ::Connect( "destroy" )

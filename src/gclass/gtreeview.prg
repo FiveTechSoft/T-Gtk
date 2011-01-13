@@ -42,10 +42,12 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GetAutoValueIter( nColumn, aIter, aIter_Clone )
 
       METHOD SetRules( lSetting ) INLINE gtk_tree_view_set_rules_hint( ::pWidget, lSetting )
+      METHOD GetColumns() INLINE gtk_tree_model_get_n_columns( ::GetModel() ) 
       METHOD GetColumn( nColumn ) INLINE gtk_tree_view_get_column( ::pWidget, nColumn ) 
       METHOD GetColumnType( nColumn )      INLINE gtk_list_store_get_col_type( ::GetModel(), nColumn )
       METHOD GetColumnTypeStr( nColumn )   
       METHOD RemoveColumn( nColumn ) 
+      METHOD RemoveRow( pSelection ) 
       METHOD AppendColumn( oTreeViewColumn ) INLINE gtk_tree_view_append_column( ::pWidget, oTreeViewColumn:pWidget )
       
       METHOD GetSearchColumn()          INLINE ( gtk_tree_view_get_search_column( ::pWidget ) + 1 )
@@ -64,6 +66,8 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GoNext() INLINE HB_GTK_TREE_VIEW_NEXT_ROW( ::pWidget )
       METHOD GoPrev() INLINE HB_GTK_TREE_VIEW_PREV_ROW( ::pWidget )
 
+      METHOD FillArray()
+      METHOD aRow()
       METHOD GetIterFirst( aIter ) INLINE gtk_tree_model_get_iter_first( ::GetModel(), aIter )
       METHOD GetIterNext( aIter )  INLINE gtk_tree_model_iter_next( ::GetModel(), aIter )  
       
@@ -92,6 +96,7 @@ METHOD NEW( oModel, oParent, lExpand,;
       endif
    ENDIF
    
+   ::oModel = oModel
    ::aCols := {}
    ::Register()
    ::AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y,;
@@ -136,15 +141,88 @@ METHOD RemoveColumn( nColumn ) CLASS gTreeView
 RETURN NIL
 
 
+
+METHOD RemoveRow( pSelection ) CLASS gTreeView
+   local aIter      := Array( 4 )
+   local path
+   local i
+   local model 
+   
+   DEFAULT pSelection := ::GetSelection()
+  
+   model = ::GetModel()
+   
+   if gtk_tree_selection_get_selected( pSelection, NIL, aIter ) 
+      path = gtk_tree_model_get_path( model, aiter )
+      i    = hb_gtk_tree_path_get_indices( path ) + 1 // Obtenemos la fila donde estamos
+      ::oModel:Remove( aIter )
+      gtk_tree_path_free( path )
+   endif
+   
+RETURN NIL
+
+
+METHOD FillArray( ) CLASS gTreeView
+
+   local nColumns := ::GetColumns()
+   local aIter    := Array( 4 )
+   local n, nRow
+   local aData    := {}
+   local pModel   := ::GetModel()
+   local lRet 
+   
+   lRet = ::GetIterFirst( aIter )
+   nRow = 1
+   do while lRet
+      AAdd( aData, {} )
+      for n = 1 to nColumns
+         AAdd( aData[ nRow ], gtk_tree_model_get( pModel, aIter, n ) )
+      next
+      nRow++
+      lRet = ::GetIterNext( aIter )
+   enddo
+   
+return aData
+
+RETURN NIL
+
+METHOD aRow() CLASS gTreeView
+
+   local path, model
+   local aIter := Array( 4 ) 
+   local nColumns := ::GetColumns()
+   local aData := Array( nColumns )
+   local n
+   
+   
+   if ::IsGetSelected( aIter ) // Si fue posible seleccionarlo 
+      path  := ::GetPath( aIter ) 
+      model = ::GetModel()
+      if gtk_tree_model_get_iter( model, aIter, path )
+         for n = 1 to nColumns
+            aData[ n ] = gtk_tree_model_get( model, aIter, n )
+         next   
+      endif
+      gtk_tree_path_free( Path )
+   endif
+   
+return aData   
+
+
 METHOD GetValue( nColumn, cType, path, aIter_Clone ) CLASS gTreeView
    Local model, aIter := Array( 4 ) 
    Local uValue, nType
    
-   DEFAULT nColumn := 1,;
-           cType := ""
+   DEFAULT nColumn := 1
    
-   model := ::GetModel() 
+   HB_SYMBOL_UNUSED( cType )
+   HB_SYMBOL_UNUSED( aIter_Clone )
    
+   model  = ::GetModel() 
+   gtk_tree_model_get_iter( model, aIter, path )
+   uValue = gtk_tree_model_get( model, aIter, nColumn )
+   
+  /* 
    IF Empty( cType ) // Si no se especifica tipo, averiguamos...
        nType := gtk_tree_model_get_column_type( model, nColumn - 1 )
        DO CASE
@@ -180,6 +258,8 @@ METHOD GetValue( nColumn, cType, path, aIter_Clone ) CLASS gTreeView
       END CASE
       aIter_Clone := aIter
    ENDIF
+*/
+
 
 RETURN uValue
 

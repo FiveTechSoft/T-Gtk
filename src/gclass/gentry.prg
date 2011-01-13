@@ -28,6 +28,7 @@ CLASS GENTRY FROM GWIDGET
       DATA bSetGet
       DATA char_iso INIT "ISO-8859-1"
       DATA lCompletion INIT .F.
+      DATA oJump
       
       METHOD New( bSetGet, cPicture, oParent )
       METHOD SetPos( nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
@@ -76,7 +77,7 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
        ENDIF
        
        cPicture := NIL /* TODO: QUITAMOS SOPORTE DE PICTURE, no podemos controlar caracters especiales 
-                         Asi que de momento, prefiero al BarÇa coñons que controlar un get de harbour */
+                         Asi que de momento, prefiero al Barï¿½a coï¿½ons que controlar un get de harbour */
                         
        ::Register()
        ::bSetGet := bSetGet
@@ -151,10 +152,14 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
 
    do case
       case nKey == GDK_Return .or. nKey == GDK_KP_Enter
-           if !::lCompletion
-              gtk_widget_child_focus( gtk_widget_get_toplevel( oSender:pWidget ) ,GTK_DIR_TAB_FORWARD )
-              return .T.
-       endif   
+         if !::lCompletion
+            if oSender:oJump != NIL
+               oSender:oJump:SetFocus()
+            else 
+               gtk_widget_child_focus( gtk_widget_get_toplevel( oSender:pWidget ) ,GTK_DIR_TAB_FORWARD )
+            endif
+            return .T.
+         endif   
    endcase
 
 Return .F.

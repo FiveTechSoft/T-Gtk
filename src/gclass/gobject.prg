@@ -166,7 +166,8 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
           //         ":"+ cvaltochar( Len(oSender:aWindows) ) + HB_OSNEWLINE() )
        endif
     endif
-
+    
+    oSender:pWidget = NIL
 
 RETURN .F.
 

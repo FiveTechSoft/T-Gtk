@@ -67,18 +67,52 @@ HB_FUNC( GTK_TREE_MODEL_GET_COLUMN_TYPE ) // pModel, nColumn --> Gtype
   hb_retnl( column_type );
 }
  
-HB_FUNC( GTK_TREE_MODEL_GET ) //  pModel, aIter, nColumn, TODO:Determinar typo llenado...
+HB_FUNC( GTK_TREE_MODEL_GET ) //  pModel, aIter, nColumn, 
 {
+	
    GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 1 );
    GtkTreeIter iter;
    PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
-   gchar *name;
-
-  if ( Array2Iter( pIter, &iter ) ) {
-      gtk_tree_model_get( model, &iter , hb_parni( 3 ), &name, -1 );
-      hb_retc( name );
-      g_free( name );
+   void * uVal;
+   double dVal;
+   gint iCol = hb_pcount() > 2 ? hb_parni( 3 ) : -1;
+   gint iType = hb_pcount() > 3 ? hb_parni( 4 ) : -1;;
+   
+   if( iCol > -1 || iType == - 1 )
+      iType = gtk_tree_model_get_column_type( model, iCol - 1 );
+  
+  if ( Array2Iter( pIter, &iter ) ) {      
+      switch( iType ){
+      	case G_TYPE_CHAR:
+      	case G_TYPE_UCHAR:
+        case G_TYPE_STRING:
+      		gtk_tree_model_get( model, &iter , iCol - 1, ( gchar * )&uVal, -1 );
+      		hb_retc( ( const char * ) uVal ); 
+      		g_free( ( gchar * ) uVal );
+      		break;
+        case G_TYPE_INT:
+        case G_TYPE_UINT:
+        	gtk_tree_model_get( model, &iter, iCol - 1, ( gint *)&uVal, -1 );
+        	hb_retni( ( gint )( void **) uVal ) ;
+        	break;
+        case G_TYPE_LONG:
+        case G_TYPE_ULONG:
+        	gtk_tree_model_get( model, &iter, iCol - 1, ( glong *)&uVal, -1 );
+        	hb_retnl( ( glong )( void **) uVal ) ;
+        	break;        	        	
+        case G_TYPE_DOUBLE:
+        case G_TYPE_FLOAT:
+        	gtk_tree_model_get( model, &iter, iCol - 1, &dVal, -1 );
+        	hb_retnd( dVal ) ;
+        	break;        	        	        	
+        case G_TYPE_POINTER:
+        default:
+        	gtk_tree_model_get( model, &iter, iCol - 1, ( gpointer ) &uVal, -1 );
+        	hb_retptr( uVal ) ;
+        	break;        	        	        	        	
+      }
   }
+  
 }
 
 HB_FUNC( GTK_TREE_MODEL_GET_PATH ) //  pModel, aIter
@@ -205,7 +239,7 @@ HB_FUNC( HB_GTK_TREE_MODEL_GET_POINTER ) //  pModel, aIter, nColumn, Type POINTE
    GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 1 );
    GtkTreeIter iter;
    PHB_ITEM aIter = hb_param( 2, HB_IT_ARRAY );
-   glong value;
+   gpointer value;
 
   if ( Array2Iter( aIter, &iter ) ) {
       gtk_tree_model_get( model, &iter , hb_parni( 3 ), &value, -1 );
@@ -309,3 +343,9 @@ HB_FUNC( GTK_COMBO_BOX_GET_ACTIVE_ITER )
   if( HB_IS_ARRAY( aIter ) && hb_arrayLen( aIter ) == 4 ) 
       FillArrayFromIter( &iter, aIter );
 }    
+
+HB_FUNC( GTK_TREE_MODEL_GET_N_COLUMNS )
+{
+	 GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 1 );
+   hb_retni( gtk_tree_model_get_n_columns( model ) );
+}
