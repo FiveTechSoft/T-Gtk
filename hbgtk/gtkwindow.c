@@ -273,7 +273,7 @@ HB_FUNC( GTK_WINDOW_SET_DEFAULT_ICON )
 
 HB_FUNC( GTK_WINDOW_SET_DEFAULT_ICON_FROM_FILE )
 {
-  gtk_window_set_default_icon_from_file( hb_parc( 1 ), NULL );
+  hb_retl( gtk_window_set_default_icon_from_file( hb_parc( 1 ), NULL ) );
 }
 
 HB_FUNC( GTK_WINDOW_SET_DEFAULT_ICON_NAME )

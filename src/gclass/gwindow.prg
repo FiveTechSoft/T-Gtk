@@ -98,7 +98,12 @@ METHOD NEW( cTitle, nType, nWidth, nHeight, cId, uGlade, nType_Hint, ;
 
        if cIconName = NIL
           if cIconFile = NIL
-             ::SetIconName( GTK_STOCK_PREFERENCES )
+             //::SetIconName( GTK_STOCK_PREFERENCES )
+             if GetWndMain() == NIL
+                SET_DEFAULT_TGTK_ICON()
+             elseif GET_DEFAULT_TGTK_ICON() == NIL
+                ::SetIconName( GTK_STOCK_PREFERENCES )
+             endif
           else
              ::SetIconFile( cIconFile )
           endif
@@ -226,3 +231,4 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS gWindow
    end case
 
 RETURN Super:OnKeyPressEvent( oSender, pGdkEventKey )
+
