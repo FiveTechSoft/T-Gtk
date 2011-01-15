@@ -61,6 +61,7 @@
          [ <lCenter: CENTER> ] ;
          [ <lNoModal: NOMODAL> ] ;
          [ <lResizable: RESIZABLE> ] ;
+         [ <lInitiate: INITIATE> ] ;
          [ <lys: ON_YES,    ON YES> <uYes> ] ;
          [ <lno: ON_NO,     ON NO > <uNo> ] ;
          [ <lOk: ON_OK,     ON OK> <uOk> ] ;
@@ -72,7 +73,7 @@
           <oDlg>:Activate( [ \{|o| <uYes> \} ],[ \{|o| <uNo> \} ],[ \{|o| <uOk> \} ],;
                            [ \{|o| <uCancel> \} ], [ \{|o| <uClose> \} ], [ \{|o| <uApply> \} ],;
                            [ \{|o| <uHelp> \} ] , [ \{|o| <uEnd> \} ], <.lCenter.>,;
-                           <.lResizable.> , <.lNoModal.>, <.lNoSeparator.>, <.lRun.> )
+                           <.lResizable.> , <.lNoModal.>, <.lNoSeparator.>, <.lRun.>, <.lInitiate.>  )
 
 /* Support Timers */
 #xcommand DEFINE TIMER <oTimer>;

@@ -7,7 +7,7 @@ Function Main()
                 ' size="xx-large" ><i>bonito!</i></span></b>!!!!</span>'
 
 
-   DEFINE WINDOW oWnd TITLE "Bonita etiqueta.Notebook" SIZE 300,300
+   DEFINE WINDOW oWnd TITLE "Bonita etiqueta.Notebook" SIZE 100,100
        DEFINE LABEL oLabel PROMPT cText MARKUP
        DEFINE NOTEBOOK oNote OF oWnd CONTAINER
               DEFINE BOX oBox OF oNote ;

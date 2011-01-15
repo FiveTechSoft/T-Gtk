@@ -3,7 +3,6 @@
 # pero para depurar, va de muerte que salgan mensajes en la consola
 ROOT = ../../
 TARGET = test
-SOURCES = ejemplo4.prg
-
+SOURCES = dialog9.prg
 include $(ROOT)Rules.make
 

@@ -19,12 +19,12 @@ Return NIL
 
 Static Function Modal_Yes()
    Local oWndModal
-      DEFINE DIALOG oWndModal TITLE "Soy Modal"
+      DEFINE DIALOG oWndModal TITLE "Soy Modal" SIZE 100,100
       ACTIVATE DIALOG oWndModal
 Return nil
 
 Static Function Modal_NO()
    Local oWndModal
-      DEFINE DIALOG oWndModal TITLE "SOY NOMODAL"
+      DEFINE DIALOG oWndModal TITLE "SOY NOMODAL" SIZE 100,100
       ACTIVATE DIALOG oWndModal NOMODAL
 Return nil

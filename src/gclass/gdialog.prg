@@ -92,13 +92,15 @@ METHOD NEW( cTitle, nWidth, nHeight, cId, uGlade, nType_Hint, ;
 RETURN Self
 
 METHOD Activate(  bYes, bNo, bOk, bCancel, bClose, bApply, bHelp, bEnd, lCenter,;
-                 lResizable , lNoModal, lNoSeparator, lRun ) CLASS GDIALOG
+                 lResizable , lNoModal, lNoSeparator, lRun,  lInitiate  ) CLASS GDIALOG
 
        DEFAULT lNoModal := .F.,;
                lCenter := .T.,;
                lResizable := .F.,;
-               lRun := .F. 
+               lRun := .F. ,;
+               lInitiate := .F.
 
+   
        if bEnd != NIL
           ::bEnd := bEnd
        endif
@@ -169,10 +171,13 @@ METHOD Activate(  bYes, bNo, bOk, bCancel, bClose, bApply, bHelp, bEnd, lCenter,
           endif
        endif
 
+       ::Register() 
        ::Show()
 
+       ::lInitiate := lInitiate
+
        /* Atencion, no es buena idea HACER un dialogo como ventana PRINCIPAL */
-       IF !::lInitiate
+       IF ::lInitiate .or. GetWndMain() == Self
           ::lInitiate := .T.
           ::ldestroy_Gtk_Main := .T.
           Gtk_Main()                
@@ -188,6 +193,7 @@ RETURN NIL
 METHOD OnResponse( oSender, nResponse ) CLASS GDIALOG
        Local uRes := 0
 
+     
        DO CASE
 
         CASE nResponse == GTK_RESPONSE_NONE  
@@ -235,7 +241,8 @@ METHOD OnResponse( oSender, nResponse ) CLASS GDIALOG
                   Eval( oSender:aResponse[ uRes, 2] )
                endif
        ENDCASE
-       
+     
+
        IF nResponse != 0
           oSender:nId := nResponse
           if ! Empty( oSender:pWidget )
