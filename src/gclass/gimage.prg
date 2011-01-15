@@ -93,15 +93,11 @@ METHOD SetFromBuffer( cType, cBuffer ) CLASS GIMAGE
    
    pLoad = gdk_pixbuf_loader_new_with_type( cType )
    
-   ?. pLoad, Len( cBuffer )
-   
    gdk_pixbuf_loader_write( pLoad, cBuffer )
    
    gdk_pixbuf_loader_close( pLoad )
 
    pPixBuf = gdk_pixbuf_loader_get_pixbuf( pLoad )
-   
-   ?. pPixbuf
    
    ::SetFromPixbuf( pPixBuf ) 
    
