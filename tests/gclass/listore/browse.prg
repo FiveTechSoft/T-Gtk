@@ -45,8 +45,9 @@ Function Main()
 
       DEFINE SCROLLEDWINDOW oScroll  OF oBox EXPAND FILL //Wnd CONTAINER
        /*Modelo de Datos */
-      DEFINE LIST_STORE oLbx TYPES GDK_TYPE_PIXBUF,  G_TYPE_STRING, G_TYPE_STRING,;
-                                   G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_BOOLEAN, G_TYPE_INT
+
+      DEFINE LIST_STORE oLbx TYPES { GDK_TYPE_PIXBUF,  G_TYPE_STRING, G_TYPE_STRING,;
+                                 G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_BOOLEAN, G_TYPE_INT }
 
       pixbuf := gdk_pixbuf_new_from_file( "../../images/glade.png" )
       pixbuf2 := gdk_pixbuf_new_from_file( "../../images/anieyes.gif" )

@@ -510,6 +510,11 @@
   	      => ;
 	      <uGlade> := glade_xml_new( <cFile>, <root> )
 
+#xcommand SET RESOURCES <uGlade> FROM BUFFER <cBuffer> [ ROOT <root> ];
+  	      => ;
+	      <uGlade> := glade_xml_new_from_buffer( <cBuffer>, <root> )	      
+	      
+
 // ToolBar
 #xcommand DEFINE TOOLBAR [<oToolBar>]  ;
                  [ <lVertical: VERTICAL> ] ;
@@ -1001,12 +1006,13 @@
                  [ <lResize: RESIZE > ] ;
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta> [,<xOptions_ta>, <yOptions_ta> ] ] ;
+                 [ <fil: FILTER, FILTERS> <cFilter> ];
       => ;
     [ <oBtn> := ] GFileChooserButton():New( <cText>, <nMode>, <cPath_Init>,;
                   <oParent>, <.lExpand.>, <.lFill.>, <nPadding> ,;
                   <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>, <nWidth>, <nHeight>,;
                  <oBar>,<cMsgBar>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
-                 <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
+                 <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>,[<cFilter>] )
 
 // MEMO / TEXTVIEW
 #xcommand DEFINE MEMO [ <oMemo> ];

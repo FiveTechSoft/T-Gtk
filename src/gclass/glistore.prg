@@ -41,6 +41,8 @@ ENDCLASS
 
 METHOD New( aTypes ) CLASS gListStore
 
+      aTypes = CheckArray( aTypes )
+
       ::aTypes := aTypes
       ::pWidget  := gtk_list_store_newv( Len( ::aTypes ) ,::aTypes  )
 

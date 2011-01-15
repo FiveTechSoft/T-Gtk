@@ -31,7 +31,7 @@ Function Main()
      
      DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Holiday" TYPE "text" OF oTreeView
      oCol:SetResizable( .T. )
-     // Esta columna, formará parte de "Holiday"
+     // Esta columna, formarï¿½ parte de "Holiday"
      DEFINE TREEVIEWCOLUMN oCol COLUMN 4  TYPE "progress" OF oCol EXPAND
 
      DEFINE TREEVIEWCOLUMN oCol COLUMN 2 TITLE "Check + FIESTA!!" TYPE "active" OF oTreeView 

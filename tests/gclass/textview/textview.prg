@@ -17,6 +17,8 @@ Function Main()
         
         DEFINE SCROLLEDWINDOW oScroll OF oBox CONTAINER
           DEFINE TEXTVIEW oTextView VAR cText OF oScroll CONTAINER
+           
+          gtk_text_view_set_justification( oTextView:pWidget, GTK_JUSTIFY_RIGHT )
         
     ACTIVATE WINDOW oWnd CENTER
 
@@ -121,3 +123,20 @@ STATIC FUNCTION Create_Text( oTextView , oScroll )
     //MsgInfo( cValtoChar( GTK_TEXT_BUFFER_GET_LINE_COUNT( oTextView:oBuffer:pWidget ) ) )
 Return nil 
 
+#define GTK_JUSTIFY_LEFT   0
+#define GTK_JUSTIFY_RIGHT  1
+#define GTK_JUSTIFY_CENTER 2
+#define GTK_JUSTIFY_FILL   3
+
+#pragma BEGINDUMP
+#include <gtk/gtk.h>
+#include "hbapi.h"
+
+HB_FUNC( GTK_TEXT_VIEW_SET_JUSTIFICATION )
+{
+  GtkWidget * text = GTK_WIDGET( hb_parptr( 1 ) );
+  gint iJust = hb_parni( 2 );
+  gtk_text_view_set_justification( GTK_TEXT_VIEW( text ), iJust );
+}
+
+#pragma ENDDUMP

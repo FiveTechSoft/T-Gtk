@@ -36,6 +36,18 @@ HB_FUNC( GLADE_XML_NEW ) //fname,root,domain
   hb_retptr( ( GladeXML * ) xml );
 }
 
+HB_FUNC( GLADE_XML_NEW_FROM_BUFFER ) //fname,root,domain
+{
+  GladeXML *xml;
+  const char * buffer = hb_parc( 1 );
+  const char * root  = ISNIL( 2 ) ? NULL : hb_parc( 2 );
+  const char * domain = ISNIL( 3 ) ? NULL : hb_parc( 3 );
+  xml = glade_xml_new_from_buffer( buffer, strlen(  buffer ), root, domain );
+  
+  hb_retptr( ( GladeXML * ) xml );
+}
+
+
 HB_FUNC( GLADE_XML_GET_WIDGET )
 {
   GtkWidget * widget;

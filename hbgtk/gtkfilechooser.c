@@ -72,6 +72,13 @@ HB_FUNC( GTK_FILE_CHOOSER_GET_ACTION ) // pWidget, folder --> bOk
   hb_retni( gtk_file_chooser_get_action( chooser ) );
 }
 
+HB_FUNC( GTK_FILE_CHOOSER_ADD_FILTER ) // pWidget, folder --> bOk
+{
+  GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parptr( 1 ) );
+  gtk_file_chooser_add_filter( chooser, ( GtkFileFilter * ) hb_parptr( 2 ) );
+}
+
+
 
 HB_FUNC( CHOOSEDIR ) // cTitle, cDir_Default, pParent_Window
 {

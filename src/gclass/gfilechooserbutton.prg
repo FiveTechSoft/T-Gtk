@@ -30,13 +30,14 @@ CLASS GFILECHOOSERBUTTON FROM GBOXVH
       METHOD GetFolder( )         INLINE gtk_file_chooser_get_current_folder( ::pWidget )
       METHOD SetFileName( cFile ) INLINE gtk_file_chooser_set_filename( ::pWidget, cFile )
       METHOD GetFileName( )       INLINE gtk_file_chooser_get_filename( ::pWidget )
+      METHOD SetFilter( aFilter )
 
 ENDCLASS
 
 METHOD New( cText, nMode , cFileName, oParent, lExpand,;
             lFill, nPadding , lContainer, x, y, cId, uGlade, nCursor,;
             uLabelTab, nWidth, nHeight, oBar, cMsgBar, lEnd, lSecond, lResize, lShrink,;
-            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta ) CLASS GFILECHOOSERBUTTON
+            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta, cFilter ) CLASS GFILECHOOSERBUTTON
 
        DEFAULT nMode := 0,;
                cText := ""  // GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER
@@ -48,7 +49,7 @@ METHOD New( cText, nMode , cFileName, oParent, lExpand,;
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
        ENDIF
-
+       
        ::Register()
 
        ::AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y,;
@@ -67,6 +68,29 @@ METHOD New( cText, nMode , cFileName, oParent, lExpand,;
           ::SetFileName( cFileName )/* Si fuese nMode =folder, se posiciona en el folder */
        endif
 
+       if ! Empty( cFilter )
+          ::SetFilter( cFilter ) 
+       endif 
+        
+
        ::Show()
 
 RETURN Self
+
+
+METHOD SetFilter( cFilter ) CLASS GFILECHOOSERBUTTON
+
+   local aFilter
+   local pFilter
+   
+   aFilter = HB_ATokens( cFilter, "|" )
+
+   if Len( aFilter ) > 0
+      pFilter = gtk_file_filter_new()
+      for each cFilter in aFilter
+         gtk_file_filter_add_pattern( pFilter, AllTrim( cFilter ) )
+      next
+      gtk_file_chooser_add_filter( ::pWidget, pFilter )
+   endif
+
+return nil
