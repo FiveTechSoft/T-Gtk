@@ -28,6 +28,9 @@ CLASS gTreeViewColumn FROM GOBJECT
       DATA nColumn
       DATA cType
       DATA oRenderer
+      DATA oTreeView
+      DATA uAction
+
 
       METHOD New(  )  CONSTRUCTOR
       METHOD Register()               INLINE harb_signal_connect( ::pWidget, "destroy", Self )
@@ -52,7 +55,7 @@ CLASS gTreeViewColumn FROM GOBJECT
 
 ENDCLASS
 
-METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort ) CLASS gTreeViewColumn
+METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction ) CLASS gTreeViewColumn
       DEFAULT lExpand := .T.
       
       ::pWidget := gtk_tree_view_column_new()
@@ -66,12 +69,14 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort ) CLASS gTree
       endif
    
       if cType != NIL   // Si tenemos el tipo 
+         ::uAction = uAction
          if Valtype( cType ) = "O" // Objeto pasado como parametro
             ::oRenderer := cType
             ::cType :=  ::oRenderer:cType
          else
             ::Renderer( cType )
          endif
+         
          if oTreeView:ClassName() == "GTREEVIEW" 
             gtk_tree_view_column_pack_start( ::pWidget, ::oRenderer:pWidget, lExpand )
             gtk_tree_view_column_add_attribute( ::pWidget, ::oRenderer:pWidget, ::cType, nPos-1 )
@@ -79,6 +84,7 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort ) CLASS gTree
             gtk_tree_view_column_pack_start( oTreeView:pWidget, ::oRenderer:pWidget, lExpand )
             gtk_tree_view_column_add_attribute( oTreeView:pWidget, ::oRenderer:pWidget, ::cType, nPos-1 )
          endif
+         
       endif
       
       if lSort .AND. ::nColumn != NIL
@@ -96,6 +102,7 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort ) CLASS gTree
             ::Register()                         //Solamente CUANDO sea un TreeView, no forme parte de una columna.
             AADD( oTreeView:aCols, {Self, ::nColumn} )  // Para tener el Nro de Columna a la mano...
          endif
+         ::oTreeView = oTreeView
       endif
 
 RETURN Self
@@ -113,12 +120,21 @@ METHOD Renderer( cType ) CLASS gTreeViewColumn
       CASE cType = "TEXT"
            ::oRenderer := gCellRendererText():New()
            ::cType := "text"
+            if ::uAction != NIL
+               ::oRenderer:SetEditable( .T. )
+               ::oRenderer:bEdited := ::uAction
+               ::oRenderer:SetColumn( Self ) 
+            endif           
       CASE cType = "PIXBUF"
            ::oRenderer := gCellRendererPixbuf():New()
            ::cType := "pixbuf"
       CASE cType = "ACTIVE" .OR. cType = "CHECK"
            ::oRenderer = gCellRendererToggle():New()
            ::cType := "active"
+            if ::uAction != NIL
+               ::oRenderer:bAction := ::uAction
+               ::oRenderer:SetColumn( Self ) 
+            endif                      
       CASE cType = "PROGRESS"
            ::oRenderer = gCellRendererProgress():New()
            ::cType := "value"

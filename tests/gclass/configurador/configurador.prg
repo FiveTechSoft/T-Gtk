@@ -350,9 +350,9 @@ STATIC FUNCTION Create_Page3( )
           DEFINE TREEVIEW oTreeView_Harbour MODEL oLbx_Harbour OF oScroll_Lib_Harbour CONTAINER
           oTreeView_Harbour:SetRules( .T. )
 
-          DEFINE TREEVIEWCOLUMN oCol1 COLUMN 1 TITLE "Select"   TYPE "active" OF oTreeView_Harbour
-          oCol1:oRenderer:bAction := {| o, cPath| select_lib( o, cPath, oTreeview_Harbour, oLbx_Harbour  ) }
-
+          DEFINE TREEVIEWCOLUMN oCol1 COLUMN 1 TITLE "Select"   TYPE "active" OF oTreeView_Harbour;
+                 TOOGLE select_lib( oSender, path, oTreeview_Harbour, oLbx_Harbour )
+                 
           DEFINE TREEVIEWCOLUMN oCol2 COLUMN 2 TITLE "Libreria" TYPE "text"   OF oTreeView_Harbour
           oCol2:oRenderer:Set_Valist( { "cell-background", "Orange", ;
                                        "cell-background-set", .t. } )
@@ -369,13 +369,14 @@ static function select_lib( oCellRendererToggle, cPath, oTreeView, oLbx)
   Local aIter := Array( 4 )
   Local path, nFila
   Local fixed
-  Local nColumn := 1 
+  Local nColumn
 
-  //nColumn := oCellRendererToggle:nColumn + 1  // Bug
+  nColumn := oCellRendererToggle:nColumn + 1  // Bug
 
   path := gtk_tree_path_new_from_string( cPath )
  /* get toggled iter */
   fixed := oTreeView:GetValue( nColumn, "Boolean", Path, @aIter )
+ 
 
   // do something with the value 
   fixed := !fixed
@@ -399,7 +400,7 @@ Static Function InstalarPaquete( oTreeView, pPath, pTreeViewColumn  )
     //pImage := oTreeview:GetValue( 4, "Long" , pPath )
     pImage := oTreeview:GetAutoValue( 4 )
 
-    if pImage = 0  // Si no esta en el sistema
+    if Empty( pImage )  // Si no esta en el sistema
        MsgInfo( "¿ Instalar el paquete " + oTreeview:GetAutoValue( 2 ) + " ?" )
     endif
 

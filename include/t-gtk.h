@@ -40,3 +40,7 @@ void Safe_GFree( gchar * );
 
 gchar * str2utf8( gchar * szString );
 gchar * utf82str( gchar * szString );
+
+#ifndef HB_SYMBOL_UNUSED
+   #define HB_SYMBOL_UNUSED( symbol )  ( symbol := ( symbol ) )
+#endif

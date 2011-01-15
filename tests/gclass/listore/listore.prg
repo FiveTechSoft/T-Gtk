@@ -45,9 +45,7 @@ Function Main()
 
     For x := 1 To Len( aItems )
         APPEND LIST_STORE oLbx ITER aIter
-        for n := 1 to Len( aItems[ x ] )
-            SET LIST_STORE oLbx ITER aIter POS n VALUE aItems[x,n]
-        next
+        SET values LIST_STORE oLbx ITER aIter VALUES aItems[x]
     Next
    
    DEFINE WINDOW oWnd TITLE "GtkListStore demo" SIZE 750,300

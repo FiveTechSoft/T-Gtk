@@ -1223,9 +1223,10 @@
               [ <lSort:   SORT> ] ;
               [ WIDTH <nWidth> ];
               [ OF <oTreeView> ] ;
+              [ <oper: EDITABLE, TOOGLE> <uAction> ];
        =>;
       [ <oCol> := ] gTreeViewColumn():New( <cTitle>, <cType>, <nPos>, <.lExpand.>,;
-                           <oTreeView>, <nWidth>, <.lSort.> ) 
+                           <oTreeView>, <nWidth>, <.lSort.>, [ \{| oSender, path, uVal, aIter | <uAction> \} ] ) 
 
 /* Soporte para Modelo de Datos TREESTORE */
 #xcommand DEFINE TREE_STORE <oLbx>  ;

@@ -67,7 +67,7 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GoPrev() INLINE HB_GTK_TREE_VIEW_PREV_ROW( ::pWidget )
 
       METHOD FillArray()
-      METHOD aRow()
+      METHOD aRow( aIter )
       METHOD GetIterFirst( aIter ) INLINE gtk_tree_model_get_iter_first( ::GetModel(), aIter )
       METHOD GetIterNext( aIter )  INLINE gtk_tree_model_iter_next( ::GetModel(), aIter )  
       
@@ -186,7 +186,7 @@ return aData
 
 RETURN NIL
 
-METHOD aRow() CLASS gTreeView
+METHOD aRow( aItr ) CLASS gTreeView
 
    local model
    local aIter := Array( 4 ) 
@@ -196,6 +196,7 @@ METHOD aRow() CLASS gTreeView
    
    
    if ::IsGetSelected( aIter ) // Si fue posible seleccionarlo 
+      aItr = aIter
       model = ::GetModel()
       for n = 1 to nColumns
          aData[ n ] = gtk_tree_model_get( model, aIter, n )
@@ -212,11 +213,11 @@ METHOD GetValue( nColumn, cType, path, aIter_Clone ) CLASS gTreeView
    DEFAULT nColumn := 1
    
    HB_SYMBOL_UNUSED( cType )
-   HB_SYMBOL_UNUSED( aIter_Clone )
    
    model  = ::GetModel() 
    gtk_tree_model_get_iter( model, aIter, path )
    uValue = gtk_tree_model_get( model, aIter, nColumn )
+   aIter_Clone = aIter
    
   /* 
    IF Empty( cType ) // Si no se especifica tipo, averiguamos...

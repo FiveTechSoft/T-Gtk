@@ -25,7 +25,7 @@
 
 CLASS gCellRenderer FROM GOBJECT
       DATA cType  // Tipo de CellRenderer
-      DATA nColumn  
+      DATA nColumn, oColumn
       DATA bOnEditing_Started
       DATA bOnEditing_Canceled
 
@@ -38,6 +38,9 @@ CLASS gCellRenderer FROM GOBJECT
       METHOD OnDestroy()
       METHOD OnEditing_started( oSender, pEditable, cPath )
       METHOD OnEditing_canceled( oSender )
+      METHOD SetColumn( oColumn ) INLINE ::oColumn := oColumn, ::nColumn := oColumn:nColumn
+      
+      
 ENDCLASS
 
 METHOD New() CLASS gCellRenderer

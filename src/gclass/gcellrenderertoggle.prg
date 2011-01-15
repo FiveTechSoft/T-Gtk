@@ -24,8 +24,10 @@
 #include "hbclass.ch"
 
 CLASS gCellRendererToggle FROM gCellRenderer
+
       METHOD New()
       METHOD OnCell_Toggled( oSender, cPath )
+      
 ENDCLASS
 
 METHOD New() CLASS gCellRendererToggle
@@ -37,8 +39,10 @@ RETURN Self
 
 METHOD OnCell_Toggled( oSender, cPath ) CLASS gCellRendererToggle
 
-   if oSender:bAction != NIL
-      Eval( oSender:bAction, oSender, cPath  )
-   endif
+    local aIter := Array( 4 )
+    
+    if oSender:bAction != NIL
+       Eval( oSender:bAction, oSender, cPath  )
+    endif
 
 RETURN .F.

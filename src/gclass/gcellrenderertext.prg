@@ -33,15 +33,23 @@ CLASS gCellRendererText FROM gCellRenderer
 ENDCLASS
 
 METHOD New() CLASS gCellRendererText
+
     ::pWidget := gtk_cell_renderer_text_new()
     ::cType   := "text"
     ::Connect( "edited" )
+    
 RETURN Self
 
 METHOD OnEdited( oSender , cPath, cTextNew ) CLASS gCellRendererText
     
+    local aIter := Array( 4 )
+    
     if oSender:bEdited != NIL
-       Eval( oSender:bEdited, oSender, cPath, cTextNew )
+       if oSender:oColumn:oTreeView:IsKindOf( "GTREEVIEW" )
+          oSender:oColumn:oTreeView:IsGetSelected( aIter )
+       endif
+       
+       Eval( oSender:bEdited, oSender, cPath, cTextNew, aIter )
     endif
 
 RETURN NIL

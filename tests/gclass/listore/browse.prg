@@ -7,23 +7,23 @@ Function Main()
 
   local hWnd, oScroll, oTreeView, oWnd, x, n, aIter := GtkTreeIter, oLbx
   local pixbuf, pixbuf2, pixbuf3, pixbuf4, oCol, oBox, oBox2
-  local aItems := { { "","uno",    "manual", "aristoteles", 1234.324, .t. },;
-                    { "","dos",    "manual", "red",         5678.324, .t. },;
-                    { "","tres",   "manual", "onasis",      9012.324, .f. },;
-                    { "","cuatro", "manual", "euripides",   3456.324, .t. },;
-                    { "","dos",    "manual", "euclicides",  5678.324, .f. },;
-                    { "","tres",   "manual", "onasis",      9012.324, .t. },;
-                    { "","uno",    "manual", "euclicides",  5678.324, .f. },;
-                    { "","tres",   "manual", "onasis",      9012.324, .t. },;
-                    { "","cuatro", "manual", "euripides",   3456.124, .t. },;
-                    { "","dos",    "Auto  ", "euclicides",  5678.324, .t. },;
-                    { "","tres",   "manual", "onasis",      9012.424, .f. },;
-                    { "","dos",    "manual", "euclicides",  5678.367, .t. },;
-                    { "","tres",   "manual", "onasis",      9012.324, .f. },;
-                    { "","cuatro", "manual", "euripides",   3456.324, .f. },;
-                    { "","dos",    "manual", "euclicides",  5678.324, .t. },;
-                    { "","Penun",   "manual", "onasis",      9012.324, .f. },;
-                    { "","ultima", "anual", "euripides",   3456.324, .t. } }
+  local aItems := { { "","uno",    "manual", "aristoteles", 1234.324, .t., 1  },;
+                    { "","dos",    "manual", "red",         5678.324, .t., 2  },;
+                    { "","tres",   "manual", "onasis",      9012.324, .f., 3  },;
+                    { "","cuatro", "manual", "euripides",   3456.324, .t., 4  },;
+                    { "","dos",    "manual", "euclicides",  5678.324, .f., 5  },;
+                    { "","tres",   "manual", "onasis",      9012.324, .t., 6  },;
+                    { "","uno",    "manual", "euclicides",  5678.324, .f., 7  },;
+                    { "","tres",   "manual", "onasis",      9012.324, .t., 8  },;
+                    { "","cuatro", "manual", "euripides",   3456.124, .t., 9  },;
+                    { "","dos",    "Auto  ", "euclicides",  5678.324, .t., 10 },;
+                    { "","tres",   "manual", "onasis",      9012.424, .f., 11 },;
+                    { "","dos",    "manual", "euclicides",  5678.367, .t., 12 },;
+                    { "","tres",   "manual", "onasis",      9012.324, .f., 13 },;
+                    { "","cuatro", "manual", "euripides",   3456.324, .f., 14 },;
+                    { "","dos",    "manual", "euclicides",  5678.324, .t., 15 },;
+                    { "","Penun",   "manual", "onasis",     9012.324, .f., 16 },;
+                    { "","ultima", "anual", "euripides",    3456.324, .t., 17 } }
 
    SET DECIMALS TO 3
 
@@ -46,7 +46,7 @@ Function Main()
       DEFINE SCROLLEDWINDOW oScroll  OF oBox EXPAND FILL //Wnd CONTAINER
        /*Modelo de Datos */
       DEFINE LIST_STORE oLbx TYPES GDK_TYPE_PIXBUF,  G_TYPE_STRING, G_TYPE_STRING,;
-                                   G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_BOOLEAN
+                                   G_TYPE_STRING, G_TYPE_DOUBLE, G_TYPE_BOOLEAN, G_TYPE_INT
 
       pixbuf := gdk_pixbuf_new_from_file( "../../images/glade.png" )
       pixbuf2 := gdk_pixbuf_new_from_file( "../../images/anieyes.gif" )
@@ -79,13 +79,14 @@ Function Main()
        SET LIST_STORE oLbx ITER aIter POS 4 VALUE "Manualmente" 
        SET LIST_STORE oLbx ITER aIter POS 5 VALUE 0123.23 
        SET LIST_STORE oLbx ITER aIter POS 6 VALUE .T. 
+       SET LIST_STORE oLbx ITER aIter POS 7 VALUE 99
      #else
        INSERT LIST_STORE oLbx ROW 2 VALUES pixbuf4 ,;
                                            "Fila",;  
                                            "INSERTADA",; 
                                            "Manualmente",;
                                            0123.23,; 
-                                           .T. 
+                                           .T., 100
      #endif
    
      gdk_pixbuf_unref( pixbuf )
@@ -108,28 +109,33 @@ Function Main()
             TITLE "Esta" ;
             TYPE "text";
             WIDTH 100;
-            OF oTreeView
+            OF oTreeView ;
+            EDITABLE Edita_Celda( oSender, oLbx, uVal, aIter )
+            
      oCol:SetResizable( .T. )
+     /*
      oCol:oRenderer:SetEditable( .T. )
      oCol:oRenderer:Connect( "edited" )
-     oCol:oRenderer:bEdited := {|o,path,text| Edita_Celda( oTreeView, oLbx, path, text )}
-
+     oCol:oRenderer:bEdited := {| oSender, path, text| Edita_Celda( oTreeView, oLbx, path, text )}
+     */
+     
      /* Columna de ancho fijo a 100 pixels, con propiedad 'clickable',y 'ordenable' */
      DEFINE TREEVIEWCOLUMN oCol COLUMN 4 ;
             TITLE "Hazme click y me ordenas" ;
             TYPE "text";
             SORT;
-            OF oTreeView
+            OF oTreeView;
+            EDITABLE Edita_Celda( oSender, oLbx, uVal, aIter )
      oCol:SetResizable( .T. )
-     oCol:SetClickable( .T. ) 
+//     oCol:SetClickable( .T. ) 
      /* Como podemos hacer que se ponga la columna de busqueda igual a la ordenada*/
-     oCol:Connect( "clicked" )
-     oCol:bAction := { |o| oTreeView:SetSearchColumn( o:GetSort() ) }
+  //   oCol:Connect( "clicked" )
+  //   oCol:bAction := { |o| oTreeView:SetSearchColumn( o:GetSort() ) }
                   
 
      /* Columna de ancho fijo a 100 pixels, con propiedad 'clickable' */
      DEFINE TREEVIEWCOLUMN oCol COLUMN 5 ;
-            TITLE UTF_8("Números Doubles") ;
+            TITLE UTF_8("Nï¿½meros Doubles") ;
             TYPE "text";
             SORT;
             OF oTreeView
@@ -139,6 +145,8 @@ Function Main()
     
      /* Columna tipo 'checkbox' */
      DEFINE TREEVIEWCOLUMN COLUMN 6 TITLE "Check" TYPE "active" OF oTreeView
+     
+     DEFINE TREEVIEWCOLUMN COLUMN 7 TITLE "Enteros" TYPE "text" OF oTreeView
    
      oTreeView:SetFocus()
 
@@ -154,8 +162,7 @@ return NIL
 
 Static Function Comprueba( oTreeView, pPath, pTreeViewColumn  )
     Local oWnd , oImage, width, height, pImage
-    
-    // u := o:GetValue( nColumn, cType_data, pPath )
+
     pImage := oTreeview:GetValue( 1, "pointer" , pPath )
     
     if pImage != NIL  // Si hay pixbuf
@@ -179,6 +186,8 @@ Static Function Actua( oTreeView, oLbx, lDelete )
     Local aIter := Array( 4 ), i, path 
     Local pSelection := oTreeView:GetSelection()
     Local pModel :=  oTreeView:GetModel()
+
+    
 
     IF gtk_tree_selection_get_selected( pSelection, NIL, aIter ) 
        path = gtk_tree_model_get_path( pModel, aiter )
@@ -229,17 +238,8 @@ STATIC FUNCTION APPEND_LIST( oLbx )
 
 RETURN NIL
 
-STATIC FUNCTION Edita_Celda( oTreeView ,oLbx, cPath, cNewText )
-  Local path, aIter := GtkTreeIter
-  path := gtk_tree_path_new_from_string( cPath )
-  
-  /* Obtenemos el camino a traves el aIter */
-  oTreeView:GetValue( 3, "Text", Path, @aIter )
-   
-   /* set new value, del valor introducido*/
-  oLbx:Set( aIter, 3, cNewText )
-  
-  /* clean up */
-  gtk_tree_path_free( path )
+STATIC FUNCTION Edita_Celda( oSender, oLbx, cNewText, aIter )
+
+  oLbx:Set( aIter, oSender:nColumn + 1, cNewText )
 
 RETURN NIL

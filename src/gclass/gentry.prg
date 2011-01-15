@@ -60,7 +60,7 @@ CLASS GENTRY FROM GWIDGET
       METHOD OnPaste_Clipboard( oSender ) VIRTUAL
       METHOD OnPopulate_Popup( oSender, pMenu ) VIRTUAL
       METHOD OnToggle_Overwrite( oSender ) VIRTUAL
-      METHOD OnChanged( oSender )                  VIRTUAL
+      METHOD OnChanged( oSender )      INLINE Eval( ::bSetGet, ::GetText() )
 
 ENDCLASS
 
@@ -89,7 +89,7 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
 
        ::bValid := bValid
        ::Connect( "key-press-event" )
-//       ::Connect( "changed" )
+       ::Connect( "changed" )
        ::Connect_After( "focus-out-event")
 
        if oFont != NIL
@@ -140,6 +140,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GENTRY
           endif
        Endif
 
+       Eval( ::bSetGet, oSender:oGet:buffer )
 
 RETURN Super:OnFocus_Out_Event( oSender )
 
@@ -161,6 +162,9 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
             return .T.
          endif   
    endcase
+   
+   //actualizamos la variable contenedora del get
+   Eval( ::bSetGet, oSender:oGet:buffer )
 
 Return .F.
 

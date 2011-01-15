@@ -136,3 +136,10 @@ HB_FUNC( GTK_ENTRY_SET_WIDTH_CHARS )
 }
 
 //--------------------------------------------------------//
+
+HB_FUNC( GTK_EDITABLE_DELETE_TEXT )
+{
+   GtkWidget * Entry = GTK_WIDGET( hb_parptr( 1 ) );
+   gtk_editable_delete_text( GTK_EDITABLE( Entry ), hb_parni( 2 ), hb_parni( 3 ) );   
+}
+//--------------------------------------------------------//

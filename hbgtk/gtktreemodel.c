@@ -104,6 +104,10 @@ HB_FUNC( GTK_TREE_MODEL_GET ) //  pModel, aIter, nColumn,
         case G_TYPE_FLOAT:
         	gtk_tree_model_get( model, &iter, iCol - 1, &dVal, -1 );
         	hb_retnd( dVal ) ;
+        	break;
+        case G_TYPE_BOOLEAN:    	
+        	gtk_tree_model_get( model, &iter, iCol - 1, ( gboolean *)&uVal, -1 );
+        	hb_retl( ( gboolean )( void **) uVal ) ;
         	break;        	        	        	
         case G_TYPE_POINTER:
         default:
