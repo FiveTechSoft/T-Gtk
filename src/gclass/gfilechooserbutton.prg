@@ -79,7 +79,6 @@ METHOD New( cText, nMode , cFileName, oParent, lExpand,;
        if bAction != NIL 
           ::bAction = bAction
           ::Connect( "file-set" )
-          ? "ok"
        endif
        
        ::Show()
