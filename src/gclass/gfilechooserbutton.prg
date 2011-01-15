@@ -25,19 +25,23 @@
 
 CLASS GFILECHOOSERBUTTON FROM GBOXVH
 
+      DATA bAction
+
       METHOD New( )
       METHOD SetFolder( cFolder ) INLINE gtk_file_chooser_set_current_folder( ::pWidget, cFolder )
       METHOD GetFolder( )         INLINE gtk_file_chooser_get_current_folder( ::pWidget )
       METHOD SetFileName( cFile ) INLINE gtk_file_chooser_set_filename( ::pWidget, cFile )
       METHOD GetFileName( )       INLINE gtk_file_chooser_get_filename( ::pWidget )
       METHOD SetFilter( aFilter )
+      METHOD Onfile_Set()
+      
 
 ENDCLASS
 
 METHOD New( cText, nMode , cFileName, oParent, lExpand,;
             lFill, nPadding , lContainer, x, y, cId, uGlade, nCursor,;
             uLabelTab, nWidth, nHeight, oBar, cMsgBar, lEnd, lSecond, lResize, lShrink,;
-            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta, cFilter ) CLASS GFILECHOOSERBUTTON
+            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta, cFilter, bAction ) CLASS GFILECHOOSERBUTTON
 
        DEFAULT nMode := 0,;
                cText := ""  // GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER
@@ -72,11 +76,22 @@ METHOD New( cText, nMode , cFileName, oParent, lExpand,;
           ::SetFilter( cFilter ) 
        endif 
         
-
+       if bAction != NIL 
+          ::bAction = bAction
+          ::Connect( "file-set" )
+          ? "ok"
+       endif
+       
        ::Show()
 
 RETURN Self
 
+
+METHOD OnFile_Set( oSender ) CLASS GFILECHOOSERBUTTON
+
+   Eval( ::bAction, oSender:GetFileName() )
+
+RETURN NIL
 
 METHOD SetFilter( cFilter ) CLASS GFILECHOOSERBUTTON
 

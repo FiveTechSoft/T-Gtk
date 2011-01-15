@@ -1007,12 +1007,14 @@
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta> [,<xOptions_ta>, <yOptions_ta> ] ] ;
                  [ <fil: FILTER, FILTERS> <cFilter> ];
+                 [ <onsel: ON_SELECT, ON SELECT><uSelect> ];
       => ;
     [ <oBtn> := ] GFileChooserButton():New( <cText>, <nMode>, <cPath_Init>,;
                   <oParent>, <.lExpand.>, <.lFill.>, <nPadding> ,;
                   <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>, <nWidth>, <nHeight>,;
                  <oBar>,<cMsgBar>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
-                 <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>,[<cFilter>] )
+                 <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>,[<cFilter>], [ \{|cFileName| <uSelect> \} ] )
+
 
 // MEMO / TEXTVIEW
 #xcommand DEFINE MEMO [ <oMemo> ];

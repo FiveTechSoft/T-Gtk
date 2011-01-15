@@ -26,6 +26,7 @@
 CLASS GIMAGE FROM GMISC
       METHOD New( )
       METHOD SetFile( cFileImage ) INLINE gtk_image_set_from_file( ::pWidget, cFileImage )
+      METHOD SetFromBuffer( cType, cBuffer )
       METHOD SetFromPixbuf( pPixbuf ) INLINE gtk_image_set_from_pixbuf( ::pWidget, pPixbuf )
       METHOD GetPixBuf( ) INLINE gtk_image_get_pixbuf( ::pWidget )
       METHOD GetPixMap( ) INLINE gtk_image_get_pixmap( ::pWidget )
@@ -40,9 +41,9 @@ ENDCLASS
 METHOD New( cImage , oParent, lExpand, lFill, nPadding , lContainer, x, y, cId, uGlade ,;
             uLabelTab, nWidth, nHeight, lEnd, lSecond, lResize, lShrink,;
             left_ta, right_ta, top_ta, bottom_ta, xOptions_ta, yOptions_ta, nHor, nVer,;
-            cFromStock, nIcon_Size, lLoad ) CLASS GIMAGE
+            cFromStock, nIcon_Size, lLoad, lBuffer ) CLASS GIMAGE
        
-       DEFAULT nIcon_Size := GTK_ICON_SIZE_INVALID, lLoad := .F., nHor := 0 , nVer := 0
+       DEFAULT nIcon_Size := GTK_ICON_SIZE_INVALID, lLoad := .F., nHor := 0 , nVer := 0, lBuffer := .f.
 
        IF cId == NIL
           IF cFromStock != NIL
@@ -56,7 +57,7 @@ METHOD New( cImage , oParent, lExpand, lFill, nPadding , lContainer, x, y, cId, 
        ENDIF
 
        if cImage != NIL
-         ::SetFile( cImage )
+          ::SetFile( cImage )
        endif
        
        If lLoad // Si simplemente queremos cargarla en memoria.
@@ -80,3 +81,30 @@ METHOD New( cImage , oParent, lExpand, lFill, nPadding , lContainer, x, y, cId, 
        ::Show()
 
 RETURN Self
+
+METHOD SetFromBuffer( cType, cBuffer ) CLASS GIMAGE
+
+   local pPixBuf
+   local pLoad
+   
+   if Empty( cType ) .or. Empty( cBuffer ) 
+      return nil
+   endif
+   
+   pLoad = gdk_pixbuf_loader_new_with_type( cType )
+   
+   ?. pLoad, Len( cBuffer )
+   
+   gdk_pixbuf_loader_write( pLoad, cBuffer )
+   
+   gdk_pixbuf_loader_close( pLoad )
+
+   pPixBuf = gdk_pixbuf_loader_get_pixbuf( pLoad )
+   
+   ?. pPixbuf
+   
+   ::SetFromPixbuf( pPixBuf ) 
+   
+   g_object_unref( pLoad );
+   
+return nil

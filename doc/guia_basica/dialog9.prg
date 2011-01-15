@@ -16,14 +16,14 @@ Function CreateDialog()
     DEFINE DIALOG oDlg TITLE "NOS PARAMOS"
 
            ADD DIALOG oDlg   ;  /* Dialogo a donde va el boton */
-               BUTTON "HOLA"  ;  /* Texto del botón */
+               BUTTON "HOLA"  ;  /* Texto del botï¿½n */
                ACTION oDlg:End() /* Accion a ejecutar */
 
     ACTIVATE DIALOG oDlg RUN ;
              ON_CANCEL .T.               
 
     DO CASE
-       CASE oDlg:nId == -4  // CANCELAMOS
+       CASE oDlg:nId == -6  // CANCELAMOS
              MsgInfo( "Atencion, que cancelamos")
        CASE oDlg:nId == 1 //Primer button introducido con ADD BUTTON
             MsgInfo( "Presionastes tu propio boton" )

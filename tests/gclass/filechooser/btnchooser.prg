@@ -28,7 +28,8 @@ Function Main()
                   TEXT "Fichero";
                   PATH_INIT cFile ;
                   MODE GTK_FILE_CHOOSER_ACTION_OPEN ;
-                  OF oBox
+                  OF oBox;
+                  ON SELECT Msginfo( cFileName )
 
            DEFINE BUTTON TEXT "Show paths" ;
                          ACTION MsgInfo( oBtn:GetFolder() + CRLF+;

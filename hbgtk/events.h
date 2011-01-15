@@ -32,7 +32,7 @@ static TGtkActionParce array[] = {
                {"key-release-event",         "OnKeyReleaseEvent",           G_CALLBACK( OnKeyPressEvent ),NULL},          /*27 -- GtkWidget    -- */
                {"group-changed",             "OnGroup_changed",             G_CALLBACK( OnGroup_changed ),NULL},          /*28 Pendiente, no logro que funcione! */
                {"row-activated",             "OnRow_Activated",             G_CALLBACK( OnRow_activated ),NULL},          /*29*/
-               {"toggled",                   "OnCell_toggled",              G_CALLBACK( OnCell_toggled ), "GtkCellRendererToggle" },           /*30 OJO! realmente la señal es toggled, para las cell.*/
+               {"toggled",                   "OnCell_toggled",              G_CALLBACK( OnCell_toggled ), "GtkCellRendererToggle" },           /*30 OJO! realmente la seï¿½al es toggled, para las cell.*/
                {"insert-at-cursor",          "OnInsert_At_Cursor",          G_CALLBACK( OnInsert_at_cursor ),NULL},       /*31*/
                {"show-menu",                 "OnShow_Menu",                 G_CALLBACK( OnEventos ),NULL},                /*32*/
                {"item-activated",            "OnItem_Activated",            G_CALLBACK( OnItem_Activated ),NULL},         /*33*/
@@ -135,8 +135,8 @@ static TGtkActionParce array[] = {
                {"insert-text",               "OnInsert_Text",               G_CALLBACK( On_Text ), NULL},                  /*125 -- GtkEntry  --  */
                {"delete-text",               "OnDelete_Text",               G_CALLBACK( OnDel_Text ), NULL},               /*126 -- GtkEntry  --  */
                {"editing-started",           "OnEditing_started",           G_CALLBACK( OnEditing_started ), NULL },       /*127 -- GtkCellRenderer*/
-               {"editing-canceled",          "OnEditing_canceled",          G_CALLBACK( OnEditing_canceled ), NULL }       /*128 -- GtkCellRenderer*/
-
+               {"editing-canceled",          "OnEditing_canceled",          G_CALLBACK( OnEditing_canceled ), NULL },      /*128 -- GtkCellRenderer*/
+               {"file-set",                  "OnFile_Set",                  G_CALLBACK( OnEventos ), NULL }
 
 };  /**/
 

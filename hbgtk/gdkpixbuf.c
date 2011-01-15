@@ -250,6 +250,57 @@ HB_FUNC( GDK_PIXBUF_SCALE_SIMPLE ) // pPixbuf src, wifth,height, interp_type
 
 //----------------------------------------------//
 
+HB_FUNC( GDK_PIXBUF_LOADER_NEW_WITH_TYPE )
+{
+	 GdkPixbufLoader * pl = gdk_pixbuf_loader_new_with_type( hb_parc( 1 ), NULL );
+   hb_retptr( ( GdkPixbufLoader * ) pl ) ;
+}
+
+//----------------------------------------------//
+
+HB_FUNC( GDK_PIXBUF_LOADER_WRITE )
+{
+	GError * err = NULL;
+	guchar * buffer = ( guchar * ) hb_parc( 2 );
+	GdkPixbufLoader * pl = ( GdkPixbufLoader * ) hb_parptr( 1 );
+	gdk_pixbuf_loader_write( pl, ( guchar *) buffer, hb_parclen( 2 ), &err );  
+	
+  if( err != NULL )
+  {
+  	  g_print( "error loading writting imagen in buffer" );
+  	  hb_retl( FALSE );
+  }	
+	hb_retl( TRUE );
+}
+
+//----------------------------------------------//
+
+HB_FUNC( GDK_PIXBUF_LOADER_CLOSE )
+{
+   GdkPixbufLoader * pl = ( GdkPixbufLoader * ) hb_parptr( 1 );
+   gdk_pixbuf_loader_close(pl, NULL);
+   	
+}
+
+//----------------------------------------------//
+
+HB_FUNC( GDK_PIXBUF_LOADER_GET_PIXBUF )
+{
+	 GdkPixbufLoader * pl = ( GdkPixbufLoader * ) hb_parptr( 1 );
+   GdkPixbuf *pixbuf;
+	 pixbuf = gdk_pixbuf_loader_get_pixbuf( pl );
+
+   if (GDK_IS_PIXBUF(pixbuf))
+      hb_retptr( ( GdkPixbuf * ) pixbuf );	
+   else   
+      hb_retptr( ( GdkPixbuf * ) 0 );
+	
+}
+
+  
+//----------------------------------------------//
+
+
 static GdkPixbufLoader * pl = NULL;
 static GdkPixbuf *pixbuf = NULL;
 

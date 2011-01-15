@@ -236,9 +236,11 @@ METHOD OnResponse( oSender, nResponse ) CLASS GDIALOG
                endif
        ENDCASE
        
-       IF oSender:nId != 0
+       IF nResponse != 0
           oSender:nId := nResponse
-          gtk_widget_destroy( oSender:pWidget )
+          if ! Empty( oSender:pWidget )
+             gtk_widget_destroy( oSender:pWidget )
+          endif
        ENDIF
 
 RETURN .F.
