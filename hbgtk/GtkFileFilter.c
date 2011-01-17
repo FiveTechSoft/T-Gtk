@@ -1,6 +1,6 @@
 /*
     LGPL Licence.
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -44,7 +44,7 @@ HB_FUNC( GTK_FILE_FILTER_SET_NAME )
 {
 	GtkFileFilter * pFilter = ( GtkFileFilter * ) hb_parptr( 1 ) ;
 	const char * szName = hb_parc( 2 );
-	gtk_file_filter_set_name( pFilter, szName );		
+	gtk_file_filter_set_name( pFilter, szName );
 }
 
 //-------------------------------------------------------//
@@ -52,7 +52,7 @@ HB_FUNC( GTK_FILE_FILTER_SET_NAME )
 HB_FUNC( GTK_FILE_FILTER_GET_NAME )
 {
 	GtkFileFilter * pFilter = ( GtkFileFilter * ) hb_parptr( 1 ) ;
-	hb_parc( gtk_file_filter_get_name( pFilter ) );	  	
+	hb_retc( gtk_file_filter_get_name( pFilter ) );
 }
 
 //-------------------------------------------------------//
