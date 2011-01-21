@@ -310,6 +310,22 @@ HB_FUNC( HB_GTK_TREE_VIEW_DOWN_ROW )
 //------------------------------------------------------//
 
 
+HB_FUNC( GTK_TREE_VIEW_SET_CURSOR )
+{
+
+   GtkTreeView * tree_view = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   GtkTreePath * path = ( GtkTreePath * ) hb_parptr( 2 );
+   GtkTreeViewColumn *focus_column = ( GtkTreeViewColumn * ) hb_parptr( 3 );
+	
+   gtk_tree_view_set_cursor( tree_view,
+                             path,
+                             focus_column,
+                             hb_parl( 4 ) );	
+	
+}
+
+
+
 /*
  * TODO: Seria interesante realizar WRAPPER
 void        gtk_tree_view_set_cursor        (GtkTreeView *tree_view,

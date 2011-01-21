@@ -56,9 +56,11 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD OnRow_Activated( oSender, pPath, pTreeViewColumn )
       METHOD IsGetSelected( aIter ) 
       METHOD GetPath( aIter ) INLINE gtk_tree_model_get_path( ::GetModel(), aIter )
-      METHOD GetPosRow( aIter )
       METHOD GetPosCol( cTitle )
       METHOD GetTotalColumns()  INLINE HB_GTK_TREE_VIEW_GET_TOTAL_COLUMNS( ::pWidget )
+
+      METHOD GetPosRow( aIter )
+      METHOD SetPosRow( aIter, nCol )
 
       METHOD GoUp()   INLINE HB_GTK_TREE_VIEW_UP_ROW( ::pWidget )
       METHOD GoDown() INLINE HB_GTK_TREE_VIEW_DOWN_ROW( ::pWidget )
@@ -316,6 +318,28 @@ METHOD GetPosRow( aIter ) CLASS gTreeView
    ENDIF
 
 RETURN nPos
+
+
+METHOD SetPosRow( aIter, nCol ) CLASS gTreeView
+   Local nPos := 0
+   Local pPath 
+   local pColumn
+   
+   default nCol := 1
+   
+   if aIter == NIL
+      aIter = Array( 4 ) 
+      ::IsGetSelected( aIter )
+   endif
+   
+   pColumn = ::GetColumn( nCol )
+   pPath   = ::GetPath( aIter )
+   gtk_tree_view_set_cursor( ::pWidget, pPath, pColumn, .F. ) 
+   
+   gtk_tree_path_free( pPath )
+
+RETURN nil
+
 
 
 METHOD GetPosCol( cTitle ) CLASS gTreeView
