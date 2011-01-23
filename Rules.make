@@ -3,7 +3,7 @@
 # Version para:
 # - GNU/Linux y Windows
 # - Harbour o xHarbour
-# (c)2004-05 Rafa Carmona.
+# (c)2004-11 Rafa Carmona.
 # 
 # Create: 11/28/05 # 15:47:14
 ##############################################
@@ -90,7 +90,7 @@ ifeq ($(HB_COMPILER),mingw32)
 else
    ifeq ($(XBASE_COMPILER),HARBOUR)
       #HARBOUR
-      GT_LIBS=-lgtstd 
+      GT_LIBS=-lgtstd -lgtcgi -lgtpca
    else
       #XHARBOUR
       GT_LIBS=-lgtstd -lgttrm
@@ -226,7 +226,13 @@ else
      else
         # HARBOUR
         # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
-        LIBFILES_ = -lhbrtl -lhblang -lhbrdd -lhbvm -lhbmacro -lhbpp -lrddntx -lrddcdx -lrddfpt -lhbsix -lhbcommon -lgttrm -lxhb -lhbxpp
+
+         LIBFILES_ = -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug -lhbvmmt \
+                     -lhbrtl -lhblang -lhbcpage -lgttrm -lhbrdd -lrddntx \
+                     -lrddnsx -lrddcdx -lrddfpt \
+                     -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl -lhbvmmt \
+                     -lhbmacro -lhbcplr -lhbpp -lhbcommon -lhbpcre $(GT_LIBS) \
+                     -lxhb -lhbxpp
      endif
    endif
 endif
@@ -243,7 +249,7 @@ ifeq ($(HB_COMPILER),mingw32)
     endif
    EXETYPE=.exe
 else
-   LIBFILES_ +=
+   LIBFILES_ += 
    EXETYPE=
 endif
 

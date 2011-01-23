@@ -4,17 +4,19 @@
 
 ROOT = ../../../
 
-#include $(ROOT)config/global.mk
+include $(ROOT)config/global.mk
 
 TARGET = testscript
 SOURCES = prgscrpt.prg xbscript.prg
 
-#ifndef __XHARBOUR__
+ifeq ($(XBASE_COMPILER),HARBOUR)
   SOURCES = hbrun.prg hbscript.prg 
   LIBS    =-lhbcplr -lhbpp -lhbcommon
-#else
-  LIBS += -lharbour-$(HB_VERSION)
-#endif
+else
+  ifeq ($(HB_MAKE_PLAT),win)
+     LIBS += -lharbour-$(HB_VERSION)
+  endif
+endif
 
 
 include $(ROOT)Rules.make

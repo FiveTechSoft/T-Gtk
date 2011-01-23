@@ -8,6 +8,12 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-01-23 12:28 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * /Rules.make
+    Modificaciones Harbour en GNU/Linux.
+  * /tests/gclass/xbscript/Makefile
+    Adaptacion para harbour en gnu/linux.
+
 2011-01-09 02:02 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * /tests/gclass/xbscript/hbrun.prg
     Implementada la posibilidad de enviar el nombre del archivo script o
