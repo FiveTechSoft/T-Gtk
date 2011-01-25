@@ -164,7 +164,7 @@ ifeq ($(MYSQL),yes)
     else
         #Flags para sistemas GNU/Linux
         CFLAGS+=-I../../include -I/usr/mysql/include
-        CFLAGS+=$(shell pkg-config --libs mysql-connector-net )
+        #CFLAGS+=$(shell pkg-config --libs mysql-connector-net )
     endif
 endif
 
@@ -336,7 +336,7 @@ endif
 
 install: all
 ifeq ($(HB_COMPILER),mingw32)
-	xcopy /Y *.a $(TGTK_INSTALL)
+	xcopy /Y *.a $(LIBDIR_TGTK)
 else
-	cp -f *.a $(TGTK_INSTALL)
+	cp -f *.a $(LIBDIR_TGTK)
 endif

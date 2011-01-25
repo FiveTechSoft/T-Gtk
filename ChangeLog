@@ -8,6 +8,16 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+
+2011-01-25 02:24 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  + /install.sh
+    script para preparar las condiciones necesarias para generar
+    las librerias de t-gtk en gnu/linux. (probado en ubuntu 10.10)
+    --- TODO: revisar y adaptar para otras distro y sabores gnu/linux.
+  * Rules.make 
+    correccion menor.
+
+
 2011-01-23 12:28 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * /Rules.make
     Modificaciones Harbour en GNU/Linux.
