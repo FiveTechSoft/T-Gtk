@@ -1530,5 +1530,27 @@
                    <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
                    <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
 
-extern errorsys
+// Spinner
+#xcommand DEFINE SPINNER [ <oDraw> ] [ OF <oParent> ] ;
+               [ <lStart: START> ] ;
+               [ <lExpand: EXPAND> ] ;
+               [ <lFill: FILL> ] ;
+               [ PADDING <nPadding> ];
+               [ <lContainer: CONTAINER> ] ;
+               [ POS <x>,<y>  ];
+               [ ID <cId> ;
+               [ RESOURCE <uGlade> ] ];
+               [ <lEnd: INSERT_END> ] ;
+               [ SIZE <nWidth>, <nHeight> ] ;
+               [ <lSecond: SECOND_PANED > ] ;
+               [ <lResize: RESIZE > ] ;
+               [ <lShrink: SHRINK > ] ;
+               [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
+       => ;
+[ <oDraw> := ] gSpinner():New( <.lStart.>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,;
+                           <.lContainer.>,<x>, <y>, <cId>, <uGlade>, <nWidth>, <nHeight> ,;
+                           <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
+                           <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
+
+ extern errorsys
 

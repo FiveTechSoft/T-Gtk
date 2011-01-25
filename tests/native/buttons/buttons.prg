@@ -14,7 +14,7 @@ function exit( widget ) ;  gtk_main_quit()  ; return .f.
 
 function Salimos( widget , event )
     
-  if MsgNoYes( UTF_8( "¿ Esta seguro de salir ?" ), "Atencion" )
+  if MsgNoYes( UTF_8( "Â¿ Esta seguro de salir ?" ), "Atencion" )
     return .F.
   endif
 
@@ -26,7 +26,8 @@ function main()
  local bBlock2, bBlock3
  local cVar := "hello !!"
  local accel, nId_Signal
-  
+ Local spinner
+ 
   window = gtk_window_new( GTK_WINDOW_TOPLEVEL )
   
   gtk_signal_connect( window, "delete-event", {|widget,event| Salimos( widget,event ) } )
@@ -36,20 +37,25 @@ function main()
 
   gtk_window_set_title ( window, "Test buttons & codeblocks" )
   gtk_container_set_border_width( window, 10 )
-
+  
   vbox = gtk_vbox_new (.F., 0)
   gtk_container_add ( window, vbox )
   gtk_widget_show( vbox )
-  ?. "vBox  es igual a ",  vbox
-
+  
   button1 := gtk_button_new_with_label( "Ejecuta codeblock local. Press F3" )
   // Pasando codeblock directamente 
 
   gtk_signal_connect( button1, "clicked", ;
-                               { |widget| paso( cVar, "ja", window, widget ) } )
+                               { |widget| gtk_spinner_stop (spinner),paso( cVar, "ja", window, widget ) } )
 
   gtk_box_pack_start( vbox, button1, .F.,.T.,0 )
   gtk_widget_show( button1 )
+  
+  spinner := gtk_spinner_new ()
+  gtk_spinner_start ( spinner )
+  gtk_widget_show( spinner )
+  gtk_box_pack_start( vbox, spinner, .F.,.T.,0 )
+  
 
   // Vamos a poner un accelerador por codigo
   // Si presionamos F3 , se ejecutara la accion del boton.
@@ -95,8 +101,8 @@ function main()
   g_object_unref( accel )
 return nil
 
-/* Podemos ver como desconectamos la señal clicked del button, y
-   volvemos a conectar la señal a otro codeblock. */
+/* Podemos ver como desconectamos la seÃ±al clicked del button, y
+   volvemos a conectar la seÃ±al a otro codeblock. */
 static func my_static_fun( widget, cVar, nId_Signal ) 
   cVar += "pepinillo :-)"
   msgalert( cVar ) 

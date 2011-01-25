@@ -34,7 +34,7 @@ Function Main()
             DEFINE BOX oBoxV OF oBtn2 VERTICAL CONTAINER 
                 DEFINE IMAGE FILE "../../images/rafa2.jpg" OF oBoxV 
                 DEFINE LABEL PROMPT "<b>The</b> power of <b>T-Gtk </b>" OF oBoxV MARKUP EXPAND FILL
-/*
+
          DEFINE BUTTON oBtn OF oBox EXPAND FILL 
             DEFINE BOX oBoxV OF oBtn CONTAINER 
                 DEFINE IMAGE FILE "../../images/anieyes.gif" OF oBoxV 
@@ -51,7 +51,7 @@ Function Main()
              ADD ACCELGROUP oAccel OF oBtn2      SIGNAL "clicked"  KEY "F2"
              ADD ACCELGROUP oAccel OF oBtn_Gordo SIGNAL "clicked"  KEY "F2" MODE GDK_SHIFT_MASK
            oWnd:bKeyPressEvent := { |o, pGdkEventKey| MyPress( pGdkEventKey ) }             
-*/
+
   ACTIVATE WINDOW oWnd CENTER 
 
 
