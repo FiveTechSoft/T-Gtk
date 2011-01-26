@@ -128,15 +128,3 @@ Return nil
 #define GTK_JUSTIFY_CENTER 2
 #define GTK_JUSTIFY_FILL   3
 
-#pragma BEGINDUMP
-#include <gtk/gtk.h>
-#include "hbapi.h"
-
-HB_FUNC( GTK_TEXT_VIEW_SET_JUSTIFICATION )
-{
-  GtkWidget * text = GTK_WIDGET( hb_parptr( 1 ) );
-  gint iJust = hb_parni( 2 );
-  gtk_text_view_set_justification( GTK_TEXT_VIEW( text ), iJust );
-}
-
-#pragma ENDDUMP
