@@ -44,7 +44,7 @@
  *  - MsgLogo() 
  *  - MsgMeter()
  *  - MsgRun()  
- *  - MsgYesNo()  // Ser¡a lo mismo que MsgNoYes() cambiando el foco del
+ *  - MsgYesNo()  // Serï¿½a lo mismo que MsgNoYes() cambiando el foco del
  */               // boton y devolviendo lo contrario
 
 #include <gtk/gtk.h>
@@ -53,9 +53,9 @@
 #include <hbdate.h>
 #include <hbset.h>
 #include <hbvm.h>
-#ifndef __HARBOUR__
+//#ifndef __HARBOUR__
   #include <hbapicls.h>
-#endif
+//#endif
 #include "t-gtk.h"
 
 /* Iconos en message_dialog() */

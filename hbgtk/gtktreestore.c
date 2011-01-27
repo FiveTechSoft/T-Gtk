@@ -195,7 +195,7 @@ HB_FUNC( GTK_TREE_STORE_CLEAR ) // treestore
 
 HB_FUNC( GTK_TREE_STORE_REMOVE )
 {
-  GtkListStore * store = GTK_TREE_STORE( hb_parptr( 1 ) );
+  GtkTreeStore * store = GTK_TREE_STORE( hb_parptr( 1 ) );
   GtkTreeIter  iter;
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
   BOOL bresult = FALSE;
