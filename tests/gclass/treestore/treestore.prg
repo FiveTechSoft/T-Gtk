@@ -26,7 +26,7 @@ Function Main()
      oLbx := Create_Model()
      
      DEFINE TREEVIEW oTreeView MODEL oLbx OF oScroll CONTAINER
-     oTreeView:SetRules( .T. )            
+     //oTreeView:SetRules( .T. )            
      
      
      DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Holiday" TYPE "text" OF oTreeView

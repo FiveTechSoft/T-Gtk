@@ -22,7 +22,7 @@
     (c)2003 Joaquim Ferrer <quim_ferrer@yahoo.es>
 */
 /*
- * GObject. Tipos GLib, Objetos, Parámetros y Señales --------------------
+ * GObject. Tipos GLib, Objetos, Parï¿½metros y Seï¿½ales --------------------
  */
 
 #include <gtk/gtk.h>
@@ -100,7 +100,9 @@ HB_FUNC( G_OBJECT_SET_VALIST )
 
 HB_FUNC( G_OBJECT_UNREF )
 {
-  g_object_unref( (gpointer) hb_parptr( 1 ) );
+	GObject * p = ( GObject * ) hb_parptr( 1 );
+  if( G_IS_OBJECT( p ) )
+     g_object_unref( (gpointer) hb_parptr( 1 ) );
 }
 
 HB_FUNC( G_OBJECT_SET_STRING )

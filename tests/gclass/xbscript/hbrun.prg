@@ -114,7 +114,7 @@ PROCEDURE RUNXBS( cFile, ... )
 
       If ( !File(cFile) .and. !File(hb_DirBase(cFile)) ) .and. Len(cFile)>5
 #ifdef __PLATFORM__UNIX
-         cTempFile := "/tmp/hbruntmp"+GetVar("RAMDOM")+".xbs"
+         cTempFile := "/tmp/hbruntmp"+GetEnv("RAMDOM")+".xbs"
 #else
          cTempFile := GetEnv("TEMP")+"\hbruntmp.xbs"
 #endif

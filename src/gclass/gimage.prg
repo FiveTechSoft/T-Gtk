@@ -91,18 +91,12 @@ METHOD SetFromBuffer( cType, cBuffer ) CLASS GIMAGE
    if Empty( cType ) .or. Empty( cBuffer ) 
       return nil
    endif
-   
-   pLoad = gdk_pixbuf_loader_new_with_type( cType )
-   
-   gdk_pixbuf_loader_write( pLoad, cBuffer )
-   
-   gdk_pixbuf_loader_close( pLoad )
 
-   pPixBuf = gdk_pixbuf_loader_get_pixbuf( pLoad )
+   pPixBuf  = GDK_PIXBUF_NEW_FROM_BUFFER( cType, cBuffer )
    
    ::SetFromPixbuf( pPixBuf ) 
    
-   g_object_unref( pLoad )
+   g_object_unref( pPixBuf )
    
 return nil
 
@@ -113,5 +107,7 @@ METHOD Adjust( nWidth, nHeight ) CLASS GIMAGE
    pPixBuf = gdk_pixbuf_scale_simple( ::GetPixBuf(), nWidth, nHeight )
    
    ::SetFromPixbuf( pPixBuf )
+   
+   g_object_unref( pPixBuf )
    
 return nil

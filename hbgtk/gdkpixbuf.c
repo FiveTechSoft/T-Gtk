@@ -49,6 +49,29 @@ HB_FUNC( GDK_PIXBUF_NEW_FROM_FILE ) // cFilename -> pixbuf
 
 //----------------------------------------------//
 
+HB_FUNC( GDK_PIXBUF_NEW_FROM_BUFFER ) // cType, Buffer -> pixbuf
+{
+   
+   gchar * cType = ( gchar * ) hb_parc( 1 );
+   guchar * cBuffer = ( guchar * ) hb_parc( 2 );
+   GError * err = NULL;
+   GdkPixbufLoader * pLoad;
+   GdkPixbuf * pPixBuf;
+   
+   pLoad = gdk_pixbuf_loader_new_with_type( cType, NULL );
+   
+   gdk_pixbuf_loader_write( pLoad, cBuffer, hb_parclen( 2 ), &err );
+   
+   gdk_pixbuf_loader_close( pLoad, NULL );
+
+   pPixBuf = gdk_pixbuf_loader_get_pixbuf( pLoad );
+   
+   hb_retptr( (GdkPixbuf *) pPixBuf );
+
+}
+
+//----------------------------------------------//
+
 HB_FUNC( GDK_PIXBUF_UNREF ) // nIcon -> void
 {
   GdkPixbuf * pixbuf = GDK_PIXBUF( hb_parptr( 1 ) );
@@ -239,12 +262,14 @@ HB_FUNC( GDK_PIXBUF_FLIP ) // pixbuf, bHorizontal
 HB_FUNC( GDK_PIXBUF_SCALE_SIMPLE ) // pPixbuf src, wifth,height, interp_type
 {
    GdkPixbuf * pixbuf = GDK_PIXBUF( hb_parptr( 1 ) );
-   GdkPixbuf * pixbuf2;
+   GdkPixbuf * pixbuf2 = ( GdkPixbuf * ) 0;
    gint dest_width  = hb_parni( 2 );
    gint dest_height = hb_parni( 3 );
    GdkInterpType interp_type = ISNIL( 4 ) ? GDK_INTERP_BILINEAR : hb_parni( 4 );
    
-   pixbuf2 = gdk_pixbuf_scale_simple( pixbuf, dest_width, dest_height, interp_type );
+   if( GDK_IS_PIXBUF(pixbuf) )
+      pixbuf2 = gdk_pixbuf_scale_simple( pixbuf, dest_width, dest_height, interp_type );
+      
    hb_retptr( (GdkPixbuf *) pixbuf2 );
 }
 

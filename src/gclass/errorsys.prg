@@ -133,7 +133,7 @@ FUNCTION DefError( oError )
    ENDDO
 
     DEFINE WINDOW oWnd TITLE "Errorsys T-Gtk MultiSystem"
-           oWnd:lInitiate := .F. //Fuerzo a entrar en otro bucles de procesos.
+          // oWnd:lInitiate := .F. //Fuerzo a entrar en otro bucles de procesos.
 
            DEFINE BOX oBox VERTICAL OF oWnd CONTAINER
                       cMessage := '<span foreground="green"><i>'+;
@@ -157,8 +157,7 @@ FUNCTION DefError( oError )
                DEFINE BOX oBoxH  OF oBox
 
                DEFINE BUTTON oBtn TEXT "_QUIT" MNEMONIC OF oBoxH EXPAND FILL ;
-                            ACTION __Salir( oWnd ) 
-
+                            ACTION ( lReturn := NIL, oWnd:End() )
 
                if oError:canRetry
                   DEFINE BUTTON oBtn TEXT "_Entry" MNEMONIC OF oBoxH EXPAND FILL;
@@ -179,8 +178,13 @@ FUNCTION DefError( oError )
                                  STYLE_CHILD aStyleChild ;
                                  OF oBoxH
 
-    ACTIVATE WINDOW oWnd CENTER MODAL
-
+    ACTIVATE WINDOW oWnd CENTER INITIATE
+    
+    if lReturn == NIL
+       GetWndMain():End()      
+       ErrorLevel( 1 )
+       QUIT
+    endif    
 
 RETURN lReturn
 
@@ -189,15 +193,17 @@ RETURN lReturn
 Static Function __Salir( oWnd )
        Local nLen := Len( oWnd:aWindows ) - 1
        Local X
-
+/*
        if nLen > 0
           FOR X := nLen To 1
              oWnd:aWindows[x]:bEnd := NIL
              oWnd:aWindows[x]:End()
           NEXT
        endif
-       oWnd:End()
-       gtk_main_quit()
+*/
+       oWnd:End()       
+       GetWndMain():End()
+       ErrorLevel( 1 )
        QUIT
 
 Return .F.

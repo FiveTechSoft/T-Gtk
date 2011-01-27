@@ -50,6 +50,11 @@ METHOD New( cText, bSetGet, bValid, oFont, lMnemonic, oParent, lExpand,;
         ENDIF
 
        ::Register()
+       
+       if !Empty( cText ) .AND. cId != NIL
+          ::SetText( cText )
+       endif
+              
 
        ::AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y, uLabelTab,;
                    lEnd , lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta,;

@@ -13,7 +13,7 @@ if [ $? -eq 0 ]; then
 
    if [ $? -eq 0 ]; then
       echo linking...
-      gcc $1.o -o$1 -L$TGTK_PATH/lib -L/usr/local/lib/harbour `pkg-config --libs gtk+-2.0` `pkg-config --libs libglade-2.0` `pkg-config --libs libgnomeprintui-2.2` -Wl,--start-group -lgclass -lhbgtk -lhbcommon -lhbvm -lhbrtl -lhbrdd -lhbmacro -lhblang -lhbcpage -lhbpp -lrddntx -lrddcdx -lrddfpt -lhbsix -lhbusrrdd -lhbct -lgttrm -lhbdebug -lxhb -Wl,--end-group
+      gcc $1.o -o$1 -L$TGTK_PATH/lib -L/usr/local/lib/harbour `pkg-config --libs gtk+-2.0` `pkg-config --libs libglade-2.0` `pkg-config --libs libgnomeprintui-2.2` -Wl,--start-group -lgclass -lhbgtk -lhbrtl -lhblang -lhbrdd -lhbvm -lhbmacro -lhbpp -lrddntx -lrddcdx -lrddfpt -lhbsix -lhbcommon -lgttrm -lxhb -lhbxpp -lgtcgi -lgtpca -lgtstd -lhbextern -lhbhsx -lrddnsx -lhbcplr -lhbcpage -Wl,--end-group
       if [ $? -eq 1 ]; then
          read -p "error linking" x
       else

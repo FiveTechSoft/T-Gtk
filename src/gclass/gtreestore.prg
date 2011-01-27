@@ -34,7 +34,10 @@ CLASS GTREESTORE FROM GOBJECT
       METHOD AppendChild( aValues , aParent )
       METHOD Insert( nRow, aValues , aParent )
       METHOD Set( aIter, nCol, uValue )
+      METHOD SetValues( aIter, aValues )
       METHOD Clear() INLINE gtk_tree_store_clear( ::pWidget )
+      METHOD Remove( aIter ) INLINE gtk_tree_store_remove( ::pWidget, aIter ) 
+
 
 ENDCLASS
 
@@ -80,6 +83,20 @@ METHOD AppendChild( aValues, aParent ) CLASS gTreeStore
        endif
 
 RETURN aChild
+
+METHOD SetValues( aIter, aValues ) CLASS gTreeStore
+
+   local nCols
+   local n
+
+   aValues = CheckArray( aValues )
+   nCols   = Min( gtk_tree_model_get_n_columns( ::pWidget ), Len( aValues ) )
+   
+   for n = 1 to nCols
+      ::Set( aIter, n, aValues[ n ] )
+   next
+
+RETURN NIL
 
 METHOD Set( aIter, nCol, uValue ) CLASS gTreeStore
 

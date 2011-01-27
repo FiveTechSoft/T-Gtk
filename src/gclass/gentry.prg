@@ -46,6 +46,7 @@ CLASS GENTRY FROM GWIDGET
       METHOD Refresh()
       METHOD Create_Completion( aCompletion )
       
+      METHOD Reset()            INLINE  Eval( ::bSetGet, "" ), ::SetText( "" )
       METHOD SetValue( uValue ) INLINE ::SetText( uValue )
       METHOD GetValue( )        INLINE ::GetText()
       
