@@ -412,12 +412,16 @@
                  [ <lResize: RESIZE > ] ;
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
+                 [ ACTION <bAction> ];
+                 [ LEFT BUTTON <ulButton> ];
+                 [ RIGHT BUTTON <urButton> ];
       => ;
   [ <oBtn> := ] GEntry():New( bSetGet( <uVar> ), <cPicture>, [ \{|o| <bValid> \} ],;
                    <aCompletion>, <oFont>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,<.lContainer.>,;
                    <x>,<y>, <cId>, <uGlade>, <uLabelBook>,<.lPassword.>,;
                    <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
-                   <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
+                   <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>,;
+                   [ \{| nPos | <bAction> \} ], <ulButton>, <urButton> )
 
 // Combobox
 #xcommand DEFINE COMBOBOX [ <oCombo> ]  ;
@@ -1217,11 +1221,16 @@
                  [ <lResize: RESIZE > ] ;
                  [ <lShrink: SHRINK > ] ;
                  [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ] ;
+                 [ ON ROW ACTIVATED <uRowActivated> ];
+                 [ ON MOVE <uCursorMove> ];
+                 [ ON CHANGE <uOnChange> ];
       => ;
     [ <oTreeView> := ] gTreeView():New( <oModel>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding> ,;
-                         <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <uLabelBook>, <nWidth>, <nHeight>,;
+                         <.lContainer.>, <x>, <y>, <cId>, <uGlade>, , <uLabelBook>, <nWidth>, <nHeight>, , ,;
                          <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
-                         <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
+                         <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>,;
+                         [ \{|  Path, TreeViewColumn | <uRowActivated> \} ], [ \{| nStep, nCount| <uCursorMove> \} ], ;
+                         [ \{| aIter, Path | <uOnChange> \} ], 2 )
 
 // TreeViewColumn
 #xcommand DEFINE TREEVIEWCOLUMN [ <oCol> ] ;

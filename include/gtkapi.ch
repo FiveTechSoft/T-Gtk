@@ -550,3 +550,9 @@
 #define GTK_ASSISTANT_PAGE_SUMMARY  3
 #define GTK_ASSISTANT_PAGE_PROGRESS 4
 
+/* 
+ * enum GtkEntryIconPosition
+ */
+#define GTK_ENTRY_ICON_PRIMARY      0
+#define GTK_ENTRY_ICON_SECONDARY    1
+

@@ -25,8 +25,12 @@ Function main( )
                        { "2" ,"DOS"},;
                        { "3", "TRES"},;
                        { "4", "CUATRO" } }
+    local pixbuf
+    
     
     SET DATE TO ITALIAN
+
+    pixbuf := gdk_pixbuf_new_from_file( "../../images/gnome-logo.png" )
 
 		SET RESOURCES cResource FROM FILE "example.glade"
 
@@ -40,7 +44,11 @@ Function main( )
              DEFINE BUTTON oBtn ID "button3" RESOURCE cResource ;
                     ACTION MsgInfo( cValtoChar( cCombo ), "Value Combo" )
 
-            DEFINE ENTRY oEntry VAR cPepe ID "entry1" RESOURCE cResource 
+            DEFINE ENTRY oEntry VAR cPepe ID "entry1" RESOURCE cResource;
+                   LEFT BUTTON pixbuf;  
+                   RIGHT BUTTON GTK_STOCK_EDIT;
+                   ACTION ( If( nPos == 0, MsgInfo( "Botton Izquierdo Presionado" ),  MsgInfo( "Botton Derecho Presionado" ) ) )
+                    
  
             DEFINE TOGGLE oBtn ID "togglebutton1" RESOURCE cResource ;
                    ACTION Estado( o )

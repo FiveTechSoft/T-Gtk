@@ -25,7 +25,7 @@
 
 CLASS GTREEVIEW FROM GCONTAINER
       DATA bRow_Activated, bColumns_Changed
-      DATA bMoveCursor,bCursorChanged
+      DATA bMoveCursor, bCursorChanged
       DATA oModel 
       DATA aCols
 
@@ -33,6 +33,7 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD SetModel( oModel )     
       METHOD GetModel() INLINE gtk_tree_view_get_model( ::pWidget )
       METHOD ClearModel( )           
+      
       
       METHOD SetAutoSize() INLINE gtk_tree_view_columns_autosize( ::pWidget ) 
 
@@ -53,7 +54,7 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GetSearchColumn()          INLINE ( gtk_tree_view_get_search_column( ::pWidget ) + 1 )
       METHOD SetSearchColumn( nColumn ) INLINE gtk_tree_view_set_search_column( ::pWidget, nColumn - 1 )
 
-      METHOD OnRow_Activated( oSender, pPath, pTreeViewColumn )
+      METHOD OnRow_Activated( oSender, pPath, pTreeViewColumn ) SETGET
       METHOD IsGetSelected( aIter ) 
       METHOD GetPath( aIter ) INLINE gtk_tree_model_get_path( ::GetModel(), aIter )
       METHOD GetPosCol( cTitle )
@@ -74,15 +75,20 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GetIterNext( aIter )  INLINE gtk_tree_model_iter_next( ::GetModel(), aIter )  
       
       METHOD OnColumns_changed ( oSender ) VIRTUAL
-      METHOD OnCursorChanged( oSender )   // cursor-changed
-      METHOD OnMoveCursor( oSender, arg1, arg2 ) 
+      METHOD OnCursorChanged( oSender )  SETGET // cursor-changed
+      METHOD OnMoveCursor( oSender, arg1, arg2 ) SETGET
 
 ENDCLASS
 
 METHOD NEW( oModel, oParent, lExpand,;
             lFill, nPadding , lContainer, x, y, cId, uGlade, nCursor,;
             uLabelTab, nWidth, nHeight, oBar, cMsgBar, lEnd, lSecond, lResize, lShrink,;
-            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta ) CLASS gTreeView
+            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta,;
+            bOnRow_Activate, bOnMove, bOnChange, n ) CLASS gTreeView
+            
+   HB_SYMBOL_UNUSED( nCursor )
+   HB_SYMBOL_UNUSED( oBar )
+   HB_SYMBOL_UNUSED( cMsgBar )
    
    IF cId == NIL
       if oModel != NIL
@@ -110,6 +116,18 @@ METHOD NEW( oModel, oParent, lExpand,;
    endif
    
    ::Connect( "row-activated" ) // Se activa para permitir el coger valores a traves de bRow_Activated
+   
+   if bOnRow_Activate != NIL
+      ::OnRow_Activated = bOnRow_Activate
+   endif
+   
+   if bOnMove != NIL
+      ::OnMoveCursor = bOnMove
+   endif
+   
+   if bOnChange != NIL
+      ::OnCursorChanged = bOnChange
+   endif
 
    ::Show()
      
@@ -403,32 +421,53 @@ METHOD GetColumnTypeStr( nColumn ) CLASS gTreeView
 Return cType       
 
 
-METHOD OnRow_Activated( oSender, pPath, pTreeViewColumn ) CLASS gTreeView
+METHOD OnRow_Activated( uParam, pPath, pTreeViewColumn ) CLASS gTreeView
      
-    if oSender:bRow_Activated != NIL
-       Eval( oSender:bRow_Activated, pPath, pTreeViewColumn )
-       //MsgInfo( gtk_tree_view_column_get_title( pTreeViewColumn ) )
-    endif
+   if hb_IsBlock( uParam )
+      ::bRow_Activated = uParam
+   elseif hb_IsObject( uParam ) 
+      if hb_IsBlock( ::bRow_Activated )
+         Eval( uParam:bRow_Activated, pPath, pTreeViewColumn )
+      endif
+   endif    
     
-    
 RETURN NIL
 
-METHOD OnMoveCursor( oSender, arg1, arg2 ) CLASS gTreeView
 
-    if oSender:bMoveCursor != NIL
-       Eval( oSender:bMoveCursor, arg1, arg2 )
-    endif
+METHOD OnMoveCursor( uParam, nStep, nCount ) CLASS gTreeView //move-cursor
+
+   if hb_IsBlock( uParam )
+      ::bMoveCursor = uParam
+      ::Connect( "move-cursor" )
+   elseif hb_IsObject( uParam ) 
+      if hb_IsBlock( ::bMoveCursor )
+         Eval( uParam:bMoveCursor, nStep, nCount )
+      endif
+   endif    
   
   
 RETURN NIL
 
-METHOD OnCursorChanged( oSender )  CLASS gTreeView // cursor-changed
-  
-    if oSender:bCursorChanged != NIL
-       Eval( oSender:bCursorChanged )
-    endif
+
+METHOD OnCursorChanged( uParam )  CLASS gTreeView // cursor-changed
+
+   local aIter := Array( 4 )
+   local pPath
+
+   if hb_IsBlock( uParam )
+      ::bCursorChanged = uParam
+      ::Connect( "cursor-changed" )
+   elseif hb_IsObject( uParam ) 
+      if hb_IsBlock( ::bCursorChanged )
+         ::IsGetSelected( aIter )
+         pPath   = ::GetPath( aIter )
+         Eval( uParam:bCursorChanged, aIter, pPath )
+         gtk_tree_path_free( pPath )
+      endif
+   endif    
 
 RETURN NIL
+
 
 /*
  METHOD OnColumns_Changed( oSender ) CLASS gTreeView

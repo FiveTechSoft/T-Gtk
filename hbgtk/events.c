@@ -396,6 +396,50 @@ gint OnKeyPressEvent( GtkWidget * widget, GdkEventKey * event, gpointer data )
 
 }
 
+
+void OnIconRelease( GtkWidget * widget, GtkEntryIconPosition icon_pos, GdkEventKey * event, gpointer data ){
+  PHB_ITEM pObj = NULL;
+  PHB_ITEM pBlock;
+  PHB_DYNS pMethod ;
+
+  // comprobamos que no exista definido un codeblock a la se�al.
+  pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
+
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( widget ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushInteger( icon_pos );
+            hb_vmSend( 2 );                               // LLamada por Send que pasa
+            return;
+         } else {
+           g_print( "Method doesn't %s exist en OnIcon_Release", (gchar *)data );
+         }
+      }
+  }
+
+  // Obtenemos el codeblock de la se�al, data, que debemos evaluar...
+  if( pObj == NULL ){
+     if( pBlock ) {
+        hb_vmPushSymbol( &hb_symEval );
+        hb_vmPush( pBlock );
+        hb_vmPushPointer( ( GtkWidget * ) widget );
+        hb_vmPushInteger( icon_pos );
+        hb_vmSend( 2 );
+        return;
+     }
+  }
+
+  return;	
+	
+}
+
+
+
 gint OnFocusEvent( GtkWidget *widget, GdkEventFocus * event, gpointer data )
 {
   PHB_ITEM pObj = NULL;

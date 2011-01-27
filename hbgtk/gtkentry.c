@@ -142,4 +142,40 @@ HB_FUNC( GTK_EDITABLE_DELETE_TEXT )
    GtkWidget * Entry = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_editable_delete_text( GTK_EDITABLE( Entry ), hb_parni( 2 ), hb_parni( 3 ) );   
 }
+
+//--------------------------------------------------------//
+
+HB_FUNC( GTK_ENTRY_SET_ICON_FROM_STOCK )
+{
+   GtkWidget * Entry = GTK_WIDGET( hb_parptr( 1 ) );
+   GtkEntryIconPosition icon_pos = ( GtkEntryIconPosition ) hb_parni( 2 );
+   const gchar *stock_id = ( const gchar * ) hb_parc( 3 );
+	
+   gtk_entry_set_icon_from_stock ( GTK_ENTRY( Entry ), icon_pos, stock_id);	
+   
+}
+//--------------------------------------------------------//
+
+HB_FUNC( GTK_ENTRY_SET_ICON_FROM_ICON_NAME )
+{
+   GtkWidget * Entry = GTK_WIDGET( hb_parptr( 1 ) );
+   GtkEntryIconPosition icon_pos = hb_parni( 2 );
+   const gchar *icon_name = ( const gchar * ) hb_parc( 3 );
+	
+   gtk_entry_set_icon_from_icon_name( GTK_ENTRY( Entry ), icon_pos, icon_name) ;	
+   
+}
+
+//--------------------------------------------------------//
+
+HB_FUNC( GTK_ENTRY_SET_ICON_FROM_PIXBUF )
+{
+   GtkWidget * Entry = GTK_WIDGET( hb_parptr( 1 ) );
+   GtkEntryIconPosition icon_pos = hb_parni( 2 );
+   GdkPixbuf *pixbuf = ( GdkPixbuf * ) hb_parptr( 3 );
+	
+   gtk_entry_set_icon_from_pixbuf( GTK_ENTRY( Entry ), icon_pos, pixbuf) ;	
+   
+}
+
 //--------------------------------------------------------//

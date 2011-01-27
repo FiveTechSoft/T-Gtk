@@ -29,6 +29,7 @@ CLASS GENTRY FROM GWIDGET
       DATA char_iso INIT "ISO-8859-1"
       DATA lCompletion INIT .F.
       DATA oJump
+      DATA bAction
       
       METHOD New( bSetGet, cPicture, oParent )
       METHOD SetPos( nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
@@ -50,6 +51,8 @@ CLASS GENTRY FROM GWIDGET
       METHOD SetValue( uValue ) INLINE ::SetText( uValue )
       METHOD GetValue( )        INLINE ::GetText()
       
+      METHOD SetButton( uImage, nPos )
+      
       METHOD OnFocus_out_event( oSender )
       METHOD OnKeyPressEvent( oSender,   pGdkEventKey  )
       METHOD OnBackspace( oSender ) VIRTUAL
@@ -62,13 +65,14 @@ CLASS GENTRY FROM GWIDGET
       METHOD OnPopulate_Popup( oSender, pMenu ) VIRTUAL
       METHOD OnToggle_Overwrite( oSender ) VIRTUAL
       METHOD OnChanged( oSender )      INLINE Eval( ::bSetGet, ::GetText() )
+      METHOD OnIcon_Release( oSelf, nPos ) SETGET
 
 ENDCLASS
 
 METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
             lFill, nPadding , lContainer, x, y, cId, uGlade, uLabelTab, lPassWord,;
             lEnd , lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta,;
-            xOptions_ta, yOptions_ta  ) CLASS GENTRY
+            xOptions_ta, yOptions_ta, bAction, ulButton, urButton ) CLASS GENTRY
 
        IF cId == NIL
           ::pWidget := gtk_entry_new()
@@ -111,6 +115,18 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
           ::SetText( alltrim( ::oGet:buffer ) )
        EndIf
        ::SetPos( ::oGet:pos - 1 )
+       
+       if bAction != NIL
+          ::OnIcon_Release = bAction
+       endif
+       
+       if ulButton != NIL
+          ::SetButton( ulButton, GTK_ENTRY_ICON_PRIMARY )
+       endif
+       
+       if urButton != NIL
+          ::SetButton( urButton, GTK_ENTRY_ICON_SECONDARY )
+       endif       
 
        ::Show()
 
@@ -183,3 +199,32 @@ METHOD Create_Completion( aCompletion ) CLASS GEntry
     oCompletion := gEntryCompletion():New( Self, oLbx, 1 )
  
 RETURN oCompletion
+
+METHOD OnIcon_Release( uParam, nPos ) CLASS GEntry
+
+   if hb_IsBlock( uParam )
+      ::bAction = uParam
+      ::Connect( "icon-release" )
+   elseif hb_IsObject( uParam ) 
+      if hb_IsBlock( ::bAction )
+         Eval( uParam:bAction, nPos )
+      endif
+   endif    
+
+RETURN NIL
+
+METHOD SetButton( uImage, nPos ) class GEntry
+   
+   local pixbuf
+   
+   if hb_isString( uImage )
+      gtk_entry_set_icon_from_stock( ::pWidget , nPos, uImage )
+   elseif hb_IsObject( uImage ) .and. uImage:IsKindOf( "GIMAGE" )
+      pixbuf = uImage:GetPixBuf()
+      gtk_entry_set_icon_from_pixbuf( ::pWidget , nPos, pixbuf ) 
+      g_object_unref( pixbuf )
+   elseif hb_IsPointer( uImage )
+      gtk_entry_set_icon_from_pixbuf( ::pWidget , nPos, uImage ) 
+   endif
+
+RETURN NIL

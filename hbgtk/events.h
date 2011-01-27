@@ -136,7 +136,8 @@ static TGtkActionParce array[] = {
                {"delete-text",               "OnDelete_Text",               G_CALLBACK( OnDel_Text ), NULL},               /*126 -- GtkEntry  --  */
                {"editing-started",           "OnEditing_started",           G_CALLBACK( OnEditing_started ), NULL },       /*127 -- GtkCellRenderer*/
                {"editing-canceled",          "OnEditing_canceled",          G_CALLBACK( OnEditing_canceled ), NULL },      /*128 -- GtkCellRenderer*/
-               {"file-set",                  "OnFile_Set",                  G_CALLBACK( OnEventos ), NULL }
+               {"file-set",                  "OnFile_Set",                  G_CALLBACK( OnEventos ), NULL },
+               {"icon-release",              "OnIcon_Release",              G_CALLBACK( OnIconRelease ), NULL }
 
 };  /**/
 
