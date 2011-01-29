@@ -34,12 +34,12 @@ GtkWidget * create_text_widget(const char * content_type);
 HB_FUNC( GTK_SOURCE_VIEW_NEW ) // -> widget
 {
    GtkWidget * view = gtk_source_view_new( );
-   hb_retnl( (glong) view );
+   hb_retptr( GTK_WIDGET( view ) );
 }
 
 HB_FUNC( GTK_SOURCE_VIEW_SET_SHOW_LINE_NUMBERS ) // -> widget
 {
-  GtkWidget * view = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * view =  GTK_WIDGET( hb_parptr( 1 ) );
   gtk_source_view_set_show_line_numbers( GTK_SOURCE_VIEW( view ), hb_parl( 2 ));
 }
 
@@ -48,7 +48,7 @@ HB_FUNC( HB_GTK_SOURCE_CREATE_NEW ) // -> widget
    GtkWidget * view; 
    const char * content_type = hb_parc( 1 );
    view = create_text_widget( content_type );
-   hb_retnl( (glong) view );
+   hb_retptr( GTK_WIDGET( view ) );
 }
 
 #include <gtksourceview/gtksourcebuffer.h>
