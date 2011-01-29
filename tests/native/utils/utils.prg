@@ -10,11 +10,18 @@
  * gutils de GLib, nos sirve para 'testear' la funcion [x]Harbour
  * HB_CLICK_CONNECT_BY_PARAM, que conecta la señal 'click' a un
  * widget, pasándole un parámetro de cualquier tipo [x]Harbour
+ *
+ * 2011 Rafa Carmona
+ * Se usa un define __INTERNAL_TGTK__ si queremos usar la funcion 
+ * HB_CLICK_CONNET_BY_PARAM, definida en /hbgtk/hbgtkextend.c
+ * pero actualmente no es necesario.
+ * Se modifica el ejemplo, para adaptarlo a la forma actual
  */
 
 #include "gtkapi.ch"
 
 static window
+static s_cProgram
 
 function exit() 
   gtk_main_quit()
@@ -31,45 +38,60 @@ function main()
   vbox = gtk_vbox_new (FALSE, 0)
   gtk_container_add ( window, vbox )
   gtk_widget_show( vbox )
-  
-  button := gtk_button_new_with_label( 'hb_g_find_program_in_path( "notepad.exe" )' )
-  HB_CLICK_CONNECT_BY_PARAM( button, "view", 1 )
+
+  if "WINDOWS" $  Upper( Os()  )
+     s_cProgram := "notepad.exe"
+  else
+     s_cProgram := "gedit"
+  endif
+
+  button := gtk_button_new_with_label( 'hb_g_find_program_in_path( '+ s_cProgram +' )' )
+  gtk_signal_connect( button, "clicked", { |widget| view( widget, 1 )  } )
+
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   
   button := gtk_button_new_with_label( "hb_g_get_current_dir()" )
-  HB_CLICK_CONNECT_BY_PARAM( button, "view", 2 )
+  gtk_signal_connect( button, "clicked", { |widget| view( widget, 2 )  } )
+  //HB_CLICK_CONNECT_BY_PARAM( button, "view", 2 )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   
   button := gtk_button_new_with_label( 'hb_g_getenv( "PATH" )' )
-  HB_CLICK_CONNECT_BY_PARAM( button, "view", 3 )
+  gtk_signal_connect( button, "clicked", { |widget| view( widget, 3 )  } )
+//  HB_CLICK_CONNECT_BY_PARAM( button, "view", 3 )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   
   button := gtk_button_new_with_label( "hb_g_get_home_dir()" )
-  HB_CLICK_CONNECT_BY_PARAM( button, "view", 4 )
+  gtk_signal_connect( button, "clicked", { |widget| view( widget, 4 )  } )
+//  HB_CLICK_CONNECT_BY_PARAM( button, "view", 4 )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   
   button := gtk_button_new_with_label( "hb_g_get_tmp_dir()" )
-  HB_CLICK_CONNECT_BY_PARAM( button, "view", 5 )
+  gtk_signal_connect( button, "clicked", { |widget| view( widget, 5 )  } )
+//  HB_CLICK_CONNECT_BY_PARAM( button, "view", 5 )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   
   button := gtk_button_new_with_label( "hb_g_get_user_name()" )
-  HB_CLICK_CONNECT_BY_PARAM( button, "view", 6 )
+  gtk_signal_connect( button, "clicked", { |widget| view( widget, 6 )  } )
+//  HB_CLICK_CONNECT_BY_PARAM( button, "view", 6 )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   
   button := gtk_button_new_with_label( "hb_g_get_real_name()" )
-  HB_CLICK_CONNECT_BY_PARAM( button, "view", 7 )
+  gtk_signal_connect( button, "clicked", { |widget| view( widget, 7 )  } )
+//  HB_CLICK_CONNECT_BY_PARAM( button, "view", 7 )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   
   button := gtk_button_new_with_label( "hb_g_get_prgname()" )
-  HB_CLICK_CONNECT_BY_PARAM( button, "view", 8 )
+  gtk_signal_connect( button, "clicked", { |widget| view( widget, 8 )  } )
+//  HB_CLICK_CONNECT_BY_PARAM( button, "view", 8 )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   
   button := gtk_button_new_with_label( "hb_g_get_application_name()" )
-  HB_CLICK_CONNECT_BY_PARAM( button, "view", 9 )
+  gtk_signal_connect( button, "clicked", { |widget| view( widget, 9 )  } )
+//  HB_CLICK_CONNECT_BY_PARAM( button, "view", 9 )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   
   button := gtk_button_new_with_label( "Salir" )
-  gtk_signal_connect( button, "clicked", {|| g_signal_emit_by_name( window, "destroy" )} )
+  gtk_signal_connect( button, "clicked", {|| gtk_main_quit() } )
   gtk_box_pack_start( vbox, button, .F.,.T.,0 )
 
   gtk_widget_show_all (window)
@@ -80,7 +102,7 @@ return nil
 function view( widget, param )
   do case
      case param == 1
-          msgalert( hb_g_find_program_in_path( "notepad.exe" ) )
+          msgalert( hb_g_find_program_in_path( s_cProgram ) )
      case param == 2
           msgalert( hb_g_get_current_dir() )
      case param == 3
