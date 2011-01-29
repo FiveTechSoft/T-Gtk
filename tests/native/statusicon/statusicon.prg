@@ -14,6 +14,8 @@ function main()
   local menu
   local window, icon, oTimer
 
+ MsgInfo( "Por favor, MIRAR en la bara de status del sistema. Estoy AHI! ;-) " )
+   
   icon := gtk_status_icon_new()
   update_icon(icon)
   g_signal_connect( icon, "popup-menu",{|w, button, activate_time | popup_menu( w, button, activate_time ) } )
