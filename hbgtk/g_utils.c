@@ -84,3 +84,25 @@ HB_FUNC( HB_G_GET_APPLICATION_NAME ) //-> human-readable application name
   hb_retc( g_strdup (valret) );
 }     
 
+HB_FUNC( HB_NOR )
+{
+   LONG lRet = 0;
+   LONG i = 0;
+
+   while( i < hb_pcount() )
+      lRet |= ( LONG ) hb_parnl( ++i );
+
+   hb_retnl( lRet );
+}
+
+//----------------------------------------------------------------------------//
+
+HB_FUNC( HB_NAND )
+{
+   LONG lRet = -1;
+   LONG i = 0;
+   while( i < hb_pcount() )
+        lRet &= hb_parnl( ++i );
+
+   hb_retnl( lRet );
+}

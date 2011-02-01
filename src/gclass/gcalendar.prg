@@ -36,14 +36,16 @@ CLASS gCalendar FROM GWIDGET
     METHOD SetDate( dDate )
     METHOD MarkDay( nDay ) INLINE gtk_calendar_mark_day( ::pWidget, nDay )
     METHOD SetStyle( nStyle )
-
-    METHOD OnDay_Selected( oSender )
-    METHOD OnDay_Selected_double_click( oSender )
-    METHOD OnMonth_changed( oSender )
-    METHOD OnNext_Month( oSender )
-    METHOD OnNext_Year( oSender )
-    METHOD OnPrev_Month( oSender )
-    METHOD OnPrev_Year( oSender )
+    
+    
+    METHOD OnKeyPressEvent( oSender,   pGdkEventKey  )
+    METHOD OnDay_Selected( oSender )  SETGET
+    METHOD OnDay_Selected_double_click( oSender ) SETGET
+    METHOD OnMonth_changed( oSender ) SETGET
+    METHOD OnNext_Month( oSender )    SETGET
+    METHOD OnNext_Year( oSender )     SETGET
+    METHOD OnPrev_Month( oSender )    SETGET
+    METHOD OnPrev_Year( oSender )     SETGET
 
 ENDCLASS
 
@@ -76,42 +78,18 @@ METHOD New( dDate, nStyle, lMarkDay, bDaySelected, bDayD, bPrevMonth, bNextMonth
        if lMarkDay
           ::MarkDay( day( dDate ) )
        endif
+       
+       ::Connect( "key-press-event" )
 
        // Conectamos señales a medida.
-       if !Empty( bDaySelected )
-          ::bDaySelected := bDaySelected
-          ::Connect( "day-selected" )
-       endif
 
-       if !Empty( bDayD )
-          ::bDayD := bDayD
-          ::Connect( "day-selected-double-click" )
-       endif
-
-       if !Empty( bPrevMonth )
-          ::bPrevMonth := bPrevMonth
-          ::Connect( "prev-month" )
-       endif
-
-       if !Empty( bNextMonth )
-          ::bNextMonth := bNextMonth
-          ::Connect( "next-month" )
-       endif
-
-       if !Empty( bMonthChanged  )
-          ::bMonthChanged := bMonthChanged
-          ::Connect( "month-changed" )
-       endif
-
-       if !Empty( bNextYear  )
-          ::bNextYear := bNextYear
-          ::Connect( "next-year" )
-       endif
-
-       if !Empty( bPrevYear)
-          ::bPrevYear := bPrevYear
-          ::Connect( "prev-year" )
-       endif
+       ::OnDay_Selected  = bDaySelected
+       ::OnDay_Selected_double_click = bDayD
+       ::OnMonth_changed = bMonthChanged
+       ::OnNext_Month    = bNextMonth
+       ::OnNext_Year     = bNextYear
+       ::OnPrev_Month    = bPrevMonth
+       ::OnPrev_Year     = bPrevYear
 
        ::Show()
 
@@ -136,32 +114,173 @@ METHOD SetDate( dDate ) CLASS GCALENDAR
 
 RETURN NIL
 
-METHOD OnDay_Selected( oSender )  CLASS GCALENDAR
-       EVAL( oSender:bDaySelected, oSender )
+METHOD OnKeyPressEvent( oSender,   pGdkEventKey  ) CLASS GCALENDAR
+
+   local nKey, nState
+   local dFirstDayWeek
+   local dLastDayWeek
+   local dLastDayMonth, dDate
+   local nDay, nMonth, nYear
+
+   nKey   = HB_GET_GDKEVENTKEY_KEYVAL( pGdkEventKey )// aGdkEventKey[ 6 ]
+   nState = HB_GET_GDKEVENTKEY_STATE( pGdkEventKey )  // aGdkEventKey[ 1 ]
+
+   dDate = ::GetDate()
+ 
+   switch nKey
+      case GDK_LEFT
+         dDate--
+         exit         
+      case GDK_RIGHT
+         dDate++
+         exit
+      case GDK_UP
+         dDate -= 7
+         exit
+      case GDK_DOWN
+         dDate += 7
+         exit
+      case GDK_HOME 
+         dFirstDayWeek = ::dDate - DoW( dDate ) + 1 
+         dDate = dFirstDayWeek
+         exit
+      case GDK_END 
+         dLastDayWeek = dDate - DoW( dDate ) + 7
+         dDate = dLastDayWeek
+         exit
+      case GDK_Page_Down
+         nMonth = Month( dDate )
+         nDay   = Day( dDate )
+         nYear  = Year( dDate )
+         if hb_nAnd( nState, GDK_CONTROL_MASK ) == GDK_CONTROL_MASK
+             nYear++
+         else      
+            if nMonth == 12
+               nMonth = 1 
+               nYear++
+            else 
+               nMonth++
+            endif 
+         endif
+         dDate = SToD( StrZero( nYear, 4 ) + StrZero( nMonth, 2 ) + StrZero( nDay, 2 ) ) 
+         
+         exit
+      case GDK_Page_Up
+         nMonth = Month( dDate )
+         nDay   = Day( dDate )
+         nYear  = Year( dDate )
+         if hb_nAnd( nState, GDK_CONTROL_MASK ) == GDK_CONTROL_MASK
+             nYear-- 
+         else
+            if nMonth == 1
+               nMonth = 12 
+               nYear--
+            else 
+               nMonth--
+            endif 
+         endif
+         dDate = SToD( StrZero( nYear, 4 ) + StrZero( nMonth, 2 ) + StrZero( nDay, 2 ) )
+         exit
+      case GDK_Return 
+      case GDK_KP_Enter
+         if hb_IsBlock( ::bDayD )
+            Eval( ::bDayD, Self )
+         endif         
+   end switch
+   
+   ::SetDate( dDate )
+
+RETURN NIL
+
+METHOD OnDay_Selected( uParam )  CLASS GCALENDAR
+
+   if hb_IsBlock( uParam )
+      ::bDaySelected = uParam
+      ::Connect( "day-selected" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( ::bDaySelected )
+         Eval( uParam:bDaySelected, uParam )
+      endif
+   endif    
+
 RETURN .F.
 
-METHOD OnDay_Selected_double_click( oSender ) CLASS GCALENDAR
-       EVAL( oSender:bDayD, oSender )
+METHOD OnDay_Selected_double_click( uParam ) CLASS GCALENDAR
+
+   if hb_IsBlock( uParam )
+      ::bDayD = uParam
+      ::Connect( "day-selected-double-click" )
+   elseif hb_IsObject( uParam ) 
+      if hb_IsBlock( ::bDayD )
+         Eval( uParam:bDayD, uParam )
+      endif
+   endif    
+
 RETURN .F.
 
-METHOD OnMonth_changed( oSender )     CLASS GCALENDAR
-       EVAL( oSender:bMonthChanged, oSender )
+METHOD OnMonth_changed( uParam )     CLASS GCALENDAR
+
+   if hb_IsBlock( uParam )
+      ::bMonthChanged = uParam
+      ::Connect( "month-changed" )
+   elseif hb_IsObject( uParam ) 
+      if hb_IsBlock( ::bMonthChanged )
+         Eval( uParam:bMonthChanged, uParam )
+      endif
+   endif    
+
 RETURN .F.
 
-METHOD OnNext_Month( oSender )        CLASS GCALENDAR
-       EVAL( oSender:bNextMonth, oSender )
+METHOD OnNext_Month( uParam )        CLASS GCALENDAR
+
+   if hb_IsBlock( uParam )
+      ::bNextMonth = uParam
+      ::Connect( "next-month" )
+   elseif hb_IsObject( uParam ) 
+      if hb_IsBlock( ::bNextMonth )
+         Eval( uParam:bNextMonth, uParam )
+      endif
+   endif    
+
 RETURN .F.
 
-METHOD OnNext_Year( oSender )         CLASS GCALENDAR
-       EVAL( oSender:bNextYear, oSender )
+METHOD OnNext_Year( uParam )         CLASS GCALENDAR
+
+   if hb_IsBlock( uParam )
+      ::bNextYear = uParam
+      ::Connect( "next-year" )
+   elseif hb_IsObject( uParam ) 
+      if hb_IsBlock( ::bNextYear )
+         Eval( uParam:bNextYear, uParam )
+      endif
+   endif    
+   
 RETURN .F.
 
-METHOD OnPrev_Month( oSender )        CLASS GCALENDAR
-       EVAL( oSender:bPrevMonth, oSender )
+METHOD OnPrev_Month( uParam )        CLASS GCALENDAR
+
+   if hb_IsBlock( uParam )
+      ::bPrevMonth = uParam
+      ::Connect( "prev-month" )
+   elseif hb_IsObject( uParam ) 
+      if hb_IsBlock( ::bPrevMonth )
+         Eval( uParam:bPrevMonth, uParam )
+      endif
+   endif    
+
 RETURN .F.
 
-METHOD OnPrev_Year( oSender )         CLASS GCALENDAR
-       EVAL( oSender:bPrevYear,oSender )
+METHOD OnPrev_Year( uParam )         CLASS GCALENDAR
+
+   if hb_IsBlock( uParam )
+      ::bPrevYear = uParam
+      ::Connect( "prev-year" )
+   elseif hb_IsObject( uParam ) 
+      if hb_IsBlock( ::bPrevYear )
+         Eval( uParam:bPrevYear, uParam )
+      endif
+   endif    
+
 RETURN .F.
 
 
