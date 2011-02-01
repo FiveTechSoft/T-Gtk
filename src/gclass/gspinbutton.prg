@@ -93,23 +93,25 @@ RETURN Self
 
 METHOD SetRange( nMin, nMax )   CLASS GSpinButton
 
-       gtk_spin_button_set_range( ::pWidget, nMin, nMax)
+   gtk_spin_button_set_range( ::pWidget, nMin, nMax)
 
 RETURN Nil
 
 METHOD Get() CLASS GSPINBUTTON
-       Local uResult
+   Local uResult
 
-       IF gtk_spin_button_get_digits( ::pWidget ) > 0
-          uResult := gtk_spin_button_get_value( ::pWidget )
-       ELSE
-          uResult := gtk_spin_button_get_value_as_int( ::pWidget )
-       ENDIF
+   IF gtk_spin_button_get_digits( ::pWidget ) > 0
+      uResult := gtk_spin_button_get_value( ::pWidget )
+   ELSE
+      gtk_spin_button_update( ::pWidget )
+      uResult := gtk_spin_button_get_value_as_int( ::pWidget )
+   ENDIF
 
 RETURN uResult
 
 METHOD OnChanged( oSender ) CLASS GSPINBUTTON
-       Eval( oSender:bSetGet, oSender:Get() )
+   Eval( oSender:bSetGet, oSender:Get() )
+   
 RETURN .F.
 
 METHOD OnFocus_Out_Event( oSender ) CLASS GSPINBUTTON
@@ -127,7 +129,7 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GSPINBUTTON
    nType:= HB_GET_GDKEVENTKEY_TYPE( pGdkEventKey )  // aGdkEventKey[ 1 ]
 
    do case
-      case nKey == GDK_Return
+      case nKey == GDK_Return .or. nKey == GDK_KP_Enter
            gtk_widget_child_focus( gtk_widget_get_toplevel( oSender:pWidget ) ,GTK_DIR_TAB_FORWARD )
            return .T.
    endcase

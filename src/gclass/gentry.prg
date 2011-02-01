@@ -134,7 +134,7 @@ RETURN Self
 
 METHOD Refresh() CLASS GENTRY
        ::oGet:UpdateBuffer()
-       ::SetText( ::oGet:buffer )
+       ::SetText( alltrim( ::oGet:buffer ) )
 *            if ::oGet:buffer != ::GetText()
 *          ::oGet:buffer = ::GetText()
 *       endif
