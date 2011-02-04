@@ -5,7 +5,7 @@
 ROOT = ../../../
 
 TARGET = test
-SOURCES = browse.prg
+SOURCES = browse.prg listore.prg
 #LIBS= -mwindows
 #PRGFLAGS=-p
 PRGFLAGS=-I$(ROOT)include

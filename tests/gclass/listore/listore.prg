@@ -2,14 +2,14 @@
   (c)2005 Rafa Carmona
 
   Ejemplo basado en el de ejemplo de GTK, excepto que activamos para mostrar el numero de BUG.
-  
+
   Nota:
   Este ejemplo muestra como conectamos la se�al toggled, tanto a un GtkToggleButton,
   como a un GtkCellRendererToggle, y como esta ya solucionado el tema en los eventos
   de la se�al con el mismo nombre , pero el salto a la callback diferente.
  */
- 
-/* 
+
+/*
  *  Algunos cambios incluidos para mejor manejo de columnas por Riztan Gutierrez
  *
  */
@@ -18,7 +18,7 @@
 
 #define GtkTreeIter  Array( 4 )
 
-Function Main()
+Function Listore()
 
   local hWnd, oScroll, oTreeView, oWnd, x, n, aIter := GtkTreeIter, oLbx
   local oCol,oBox, oCol2, oRenderer, oLabelBug
@@ -38,8 +38,8 @@ Function Main()
                     { .T., 50939, "Normal",     "Add shift clicking to GtkTextView" },;
                     { .F., 6112,  "Enhancement","netscape-like collapsable toolbars" },;
                     { .F., 1,     "Normal",     "First bug :=)" } }
-  
-  
+
+
     /*Modelo de Datos */
     DEFINE LIST_STORE oLbx TYPES G_TYPE_BOOLEAN, G_TYPE_UINT, G_TYPE_STRING, G_TYPE_STRING
 
@@ -47,28 +47,28 @@ Function Main()
         APPEND LIST_STORE oLbx ITER aIter
         SET values LIST_STORE oLbx ITER aIter VALUES aItems[x]
     Next
-   
+
    DEFINE WINDOW oWnd TITLE "GtkListStore demo" SIZE 750,300
-     
+
      oWnd:SetBorder( 8 )
 
      DEFINE BOX oBox VERTICAL OF oWnd  SPACING 8
-       DEFINE LABEL oLabelBug TEXT "This cLabelBug" OF oBox 
+       DEFINE LABEL oLabelBug TEXT "This cLabelBug" OF oBox
 
        DEFINE LABEL TEXT "This is the bug list (note: not based on real data,"+;
                          " it would be nice to have a nice ODBC interface to bugzilla or so, though)."  OF oBox
 
        DEFINE SCROLLEDWINDOW oScroll  OF oBox EXPAND FILL ;
-              SHADOW GTK_SHADOW_ETCHED_IN 
-              
+              SHADOW GTK_SHADOW_ETCHED_IN
+
               oScroll:SetPolicy( GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC )
-        
+
        /* Browse/Tree */
        DEFINE TREEVIEW oTreeView MODEL oLbx OF oScroll CONTAINER
-       oTreeView:SetRules( .T. )            
-       
+       oTreeView:SetRules( .T. )
+
        oTreeView:SetSearchColumn( 4 ) /*Determinamos por cual columna vamos a buscar */
-       
+
        // Vamos a coger los valores de las columnas, se pasa path y col desde el evento
       oTreeView:bRow_Activated := { |path,col| Comprueba( oTreeview, path, col ) }
 
@@ -96,18 +96,18 @@ Function Main()
        DEFINE TREEVIEWCOLUMN COLUMN 4 TITLE "Description" TYPE "text"  SORT  OF oTreeView
 
       // Segundo Treeview va a mostrar un array 'dinamico'
-      
+
         DEFINE SCROLLEDWINDOW oScroll2  OF oBox EXPAND ;
-              SHADOW GTK_SHADOW_ETCHED_IN 
-              
+              SHADOW GTK_SHADOW_ETCHED_IN
+
               oScroll2:SetPolicy( GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC )
-         
-         DEFINE LIST_STORE oLbx2 TYPES G_TYPE_STRING      
+
+         DEFINE LIST_STORE oLbx2 TYPES G_TYPE_STRING
          DEFINE TREEVIEW oTreeView2 MODEL oLbx2 OF oScroll2 CONTAINER
-         oTreeView2:SetRules( .T. )            
+         oTreeView2:SetRules( .T. )
          DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Columna"  WIDTH 50 TYPE "text" OF oTreeView2
- 
-       
+
+
    ACTIVATE WINDOW oWnd CENTER
 
 return NIL
@@ -123,9 +123,9 @@ Function PonModelo( oTreeView, cValor )
 
    APPEND LIST_STORE oLbx ITER aIter
    SET LIST_STORE oLbx ITER aIter POS 1 VALUE cValor
-  
+
    oTreeView:SetModel( oLbx )
-  
+
 
 return nil
 
@@ -133,22 +133,22 @@ return nil
 
 /* Ejemplo de como MODIFICAR un dato del modelo vista controlador. */
 STATIC FUNCTION fixed_toggled( oCellRendererToggle, cPath, oTreeView, oLbx )
-  Local aIter 
+  Local aIter
   Local path
   Local fixed
   Local nColumn := oCellRendererToggle:nColumn + 1
-  
+
   path := gtk_tree_path_new_from_string( cPath )
-  
+
   /* get toggled iter */
   fixed := oTreeView:GetValue( nColumn, "Boolean", Path, @aIter )
 
-  // do something with the value 
+  // do something with the value
   fixed := !fixed
-   
+
    /* set new value */
   oLbx:Set( aIter, nColumn, fixed )
-  
+
   /* clean up */
   gtk_tree_path_free( path )
 
@@ -168,11 +168,11 @@ Static Function Comprueba( oTreeView, pPath, pTreeViewColumn, oCol  )
     nColumn := oTreeView:GetPosCol( cTitle )
     cColumn := AllTrim( CStr(nColumn) )
     cType   := oTreeView:GetColumnTypeStr( nColumn )
-    
+
 //     u := o:GetValue( nColumn, cType_data, pPath )
 //    nBug := oTreeview:GetValue( 2, "Int" , pPath )
-    
-    
+
+
     Msg2Info( "The Type of Col <b>"+cColumn+"</b> is: <b>"+ cType +"</b>"+CRLF+ ;
               "The Value is <b>"+ CStr(oTreeView:GetValue( nColumn, cType, pPath ))+"</b>" )
 
@@ -181,10 +181,10 @@ Return nil
 /*
 Static Function Comprueba( oTreeView, pPath, pTreeViewColumn  )
     Local nBug
-    
+
     // u := o:GetValue( nColumn, cType_data, pPath )
     nBug := oTreeview:GetValue( 2, "Int" , pPath )
-    
+
     Msg2Info( "The number bug is: "+ cValtoChar( nBug ) )
 
 Return nil

@@ -4,6 +4,19 @@
 #define GtkTreeIter  Array( 4 )
 
 Function Main()
+   Local oWnd, oBox, oBtn
+
+    DEFINE WINDOW oWnd   TITLE "Ejemplos de Listores" SIZE 400,100
+
+        DEFINE BOX oBox OF oWnd HOMO
+          DEFINE BUTTON oBtn PROMPT "Test 1" ACTION Browse()  EXPAND FILL OF oBox
+          DEFINE BUTTON oBtn PROMPT "Test 2" ACTION Listore() EXPAND FILL OF oBox
+
+    ACTIVATE WINDOW oWnd CENTER
+
+return nil
+
+Function Browse()
 
   local hWnd, oScroll, oTreeView, oWnd, x, n, aIter := GtkTreeIter, oLbx
   local pixbuf, pixbuf2, pixbuf3, pixbuf4, oCol, oBox, oBox2
@@ -29,17 +42,17 @@ Function Main()
 
    DEFINE WINDOW oWnd TITLE "Model POO" SIZE 600,400
       DEFINE BOX oBox VERTICAL OF oWnd
-      
+
       DEFINE BOX oBox2 OF oBox HOMO
          DEFINE BUTTON TEXT "_APPEND ROW" EXPAND FILL OF oBox2  MNEMONIC;
                 ACTION ( APPEND_LIST( oLbx ), oTreeView:SetFocus() )
-         
+
          DEFINE BUTTON TEXT "_INSERT ROW" EXPAND FILL OF oBox2  MNEMONIC;
                 ACTION ( INSERT_LIST( oLbx ), oTreeView:SetFocus() )
 
          DEFINE BUTTON TEXT "_MODIFY ROW" EXPAND FILL OF oBox2  MNEMONIC;
                 ACTION ( Actua( oTreeView, oLbx, .F. ), oTreeView:SetFocus() )
-        
+
          DEFINE BUTTON TEXT "_DELETE ROW" EXPAND FILL  OF oBox2 MNEMONIC;
                 ACTION ( Actua( oTreeView, oLbx, .T. ), oTreeView:SetFocus() )
 
@@ -74,22 +87,22 @@ Function Main()
 
      #ifdef __IGUAL__
        INSERT LIST_STORE oLbx ROW 2 ITER aIter
-       SET LIST_STORE oLbx ITER aIter POS 1 VALUE pixbuf4 
-       SET LIST_STORE oLbx ITER aIter POS 2 VALUE "Fila"  
-       SET LIST_STORE oLbx ITER aIter POS 3 VALUE "INSERTADA" 
-       SET LIST_STORE oLbx ITER aIter POS 4 VALUE "Manualmente" 
-       SET LIST_STORE oLbx ITER aIter POS 5 VALUE 0123.23 
-       SET LIST_STORE oLbx ITER aIter POS 6 VALUE .T. 
+       SET LIST_STORE oLbx ITER aIter POS 1 VALUE pixbuf4
+       SET LIST_STORE oLbx ITER aIter POS 2 VALUE "Fila"
+       SET LIST_STORE oLbx ITER aIter POS 3 VALUE "INSERTADA"
+       SET LIST_STORE oLbx ITER aIter POS 4 VALUE "Manualmente"
+       SET LIST_STORE oLbx ITER aIter POS 5 VALUE 0123.23
+       SET LIST_STORE oLbx ITER aIter POS 6 VALUE .T.
        SET LIST_STORE oLbx ITER aIter POS 7 VALUE 99
      #else
        INSERT LIST_STORE oLbx ROW 2 VALUES pixbuf4 ,;
-                                           "Fila",;  
-                                           "INSERTADA",; 
+                                           "Fila",;
+                                           "INSERTADA",;
                                            "Manualmente",;
-                                           0123.23,; 
+                                           0123.23,;
                                            .T., 100
      #endif
-   
+
      gdk_pixbuf_unref( pixbuf )
      gdk_pixbuf_unref( pixbuf2 )
      gdk_pixbuf_unref( pixbuf3 )
@@ -97,8 +110,8 @@ Function Main()
 
      /* Browse/Tree */
      DEFINE TREEVIEW oTreeView MODEL oLbx OF oScroll CONTAINER
-     oTreeView:SetRules( .T. )            
-   
+     oTreeView:SetRules( .T. )
+
      // Vamos a coger los valores de las columnas, se pasa path y col desde el evento
      oTreeView:bRow_Activated := { |path,col| Comprueba( oTreeview, path, col ) }
 
@@ -112,14 +125,14 @@ Function Main()
             WIDTH 100;
             OF oTreeView ;
             EDITABLE Edita_Celda( oSender, oLbx, uVal, aIter )
-            
+
      oCol:SetResizable( .T. )
      /*
      oCol:oRenderer:SetEditable( .T. )
      oCol:oRenderer:Connect( "edited" )
      oCol:oRenderer:bEdited := {| oSender, path, text| Edita_Celda( oTreeView, oLbx, path, text )}
      */
-     
+
      /* Columna de ancho fijo a 100 pixels, con propiedad 'clickable',y 'ordenable' */
      DEFINE TREEVIEWCOLUMN oCol COLUMN 4 ;
             TITLE "Hazme click y me ordenas" ;
@@ -128,11 +141,11 @@ Function Main()
             OF oTreeView;
             EDITABLE Edita_Celda( oSender, oLbx, uVal, aIter )
      oCol:SetResizable( .T. )
-//     oCol:SetClickable( .T. ) 
+//     oCol:SetClickable( .T. )
      /* Como podemos hacer que se ponga la columna de busqueda igual a la ordenada*/
   //   oCol:Connect( "clicked" )
   //   oCol:bAction := { |o| oTreeView:SetSearchColumn( o:GetSort() ) }
-                  
+
 
      /* Columna de ancho fijo a 100 pixels, con propiedad 'clickable' */
      DEFINE TREEVIEWCOLUMN oCol COLUMN 5 ;
@@ -143,12 +156,12 @@ Function Main()
      /* Como podemos hacer que se ponga la columna de busqueda igual a la ordenada*/
      oCol:Connect( "clicked" )
      oCol:bAction := { |o| oTreeView:SetSearchColumn( o:GetSort() ) }
-    
+
      /* Columna tipo 'checkbox' */
      DEFINE TREEVIEWCOLUMN COLUMN 6 TITLE "Check" TYPE "active" OF oTreeView
-     
+
      DEFINE TREEVIEWCOLUMN COLUMN 7 TITLE "Enteros" TYPE "text" OF oTreeView
-   
+
      oTreeView:SetFocus()
 
    ACTIVATE WINDOW oWnd CENTER
@@ -165,7 +178,7 @@ Static Function Comprueba( oTreeView, pPath, pTreeViewColumn  )
     Local oWnd , oImage, width, height, pImage
 
     pImage := oTreeview:GetValue( 1, "pointer" , pPath )
-    
+
     if pImage != NIL  // Si hay pixbuf
        width  = gdk_pixbuf_get_width ( pImage )
        height = gdk_pixbuf_get_height( pImage )
@@ -174,7 +187,7 @@ Static Function Comprueba( oTreeView, pPath, pTreeViewColumn  )
 
          DEFINE IMAGE oImage OF oWnd CONTAINER
           oImage:SetFromPixbuf( pImage ) // Metemos en la imagen el pixbuf
-    
+
        ACTIVATE WINDOW oWnd MODAL CENTER
     endif
 
@@ -184,13 +197,13 @@ Return nil
  * Como podemos modificar o borrar en la fila actual
  */
 Static Function Actua( oTreeView, oLbx, lDelete )
-    Local aIter := Array( 4 ), i, path 
+    Local aIter := Array( 4 ), i, path
     Local pSelection := oTreeView:GetSelection()
     Local pModel :=  oTreeView:GetModel()
 
-    
 
-    IF gtk_tree_selection_get_selected( pSelection, NIL, aIter ) 
+
+    IF gtk_tree_selection_get_selected( pSelection, NIL, aIter )
        path = gtk_tree_model_get_path( pModel, aiter )
        i := hb_gtk_tree_path_get_indices( path ) + 1 // Obtenemos la fila donde estamos
        if lDelete
