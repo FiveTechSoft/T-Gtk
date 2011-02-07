@@ -9,10 +9,10 @@ include $(ROOT)config/global.mk
 TARGET = testscript
 SOURCES = prgscrpt.prg xbscript.prg
 
+LIBS    =-lhbcplr -lhbpp -lhbcommon
+
 ifeq ($(XBASE_COMPILER),HARBOUR)
   SOURCES = hbrun.prg hbscript.prg 
-  LIBS    =-lhbcplr -lhbpp -lhbcommon
-else
   ifeq ($(HB_MAKE_PLAT),win)
      LIBS += -lharbour-$(HB_VERSION)
   endif

@@ -1,0 +1,7 @@
+#tomado de: http://www.pygtk.org/pygtk2tutorial-es/ch-ContainerWidgets.html#sec-EventBox
+
+Caja de Eventos (EventBox)
+
+Algunos controles GTK no tienen ventanas X asociadas, por lo que simplemente se dibujan encima de sus padres. A causa de esto, no pueden recibir eventos y si se dimensionan incorrectamente, no pueden recortarse por lo que puedes ver partes mal, etc. Si se necesita más de estos controles, la EventBox (Caja de Eventos) es lo que se necesita.
+
+A primera vista, el control EventBox puede aparecer completamente inútil. No dibuja nada en la pantalla y no responde a ningún evento. Sin embargo, tiene una función - proporciona una ventana X a sus controles hijos. Esto es importante ya que muchos controles GTK no tienen una ventana X asociada. No tener una ventana X ahorra memoria y mejora el rendimiento, pero también tiene inconvenientes. Un control sin ventana X no puede recibir eventos, no realiza ningun recortado sobre sus contenidos y no puede establecer su color de fondo. Aunque el nombre EventBox enfatiza la función de manejador de eventos, el control también se puede usar para recorte.
