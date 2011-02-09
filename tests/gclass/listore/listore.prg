@@ -70,7 +70,7 @@ Function Listore()
        oTreeView:SetSearchColumn( 4 ) /*Determinamos por cual columna vamos a buscar */
 
        // Vamos a coger los valores de las columnas, se pasa path y col desde el evento
-      oTreeView:bRow_Activated := { |path,col| Comprueba( oTreeview, path, col ) }
+      oTreeView:bRow_Activated := { |path,col| Comprueba( oTreeview, path, col, oLbx ) }
 
        // Vamos a controlar cada cambio del cursor
 
@@ -87,10 +87,10 @@ Function Listore()
        DEFINE TREEVIEWCOLUMN oCol2 COLUMN 2 TITLE "Bug Number"  TYPE "text"  SORT  OF oTreeView
        oRenderer :=  oCol2:oRenderer           // Contiene el objeto de la clase GtkCellRendererText
        oRenderer:SetEditable( .t. )            // Va ser editable-
-       oRenderer:Connect( "editing-started" )  // Conecta señal que indica que se va a disparar ANTES de editar.
-       oRenderer:Connect( "editing-canceled" )  // Conecta señal que indica que se a cancelado con ESC
-       oRenderer:bOnEditing_Started := {|| MsgInfo("editing-started") }
-       oRenderer:bOnEditing_Canceled := {|| MsgInfo("SE CANCELA!") }
+       //oRenderer:Connect( "editing-started" )  // Conecta señal que indica que se va a disparar ANTES de editar.
+       //oRenderer:Connect( "editing-canceled" )  // Conecta señal que indica que se a cancelado con ESC
+       //oRenderer:bOnEditing_Started := {|| MsgInfo("editing-started") }
+       //oRenderer:bOnEditing_Canceled := {|| MsgInfo("SE CANCELA!") }
 
        DEFINE TREEVIEWCOLUMN COLUMN 3 TITLE "Severity"    TYPE "text"  SORT  OF oTreeView
        DEFINE TREEVIEWCOLUMN COLUMN 4 TITLE "Description" TYPE "text"  SORT  OF oTreeView
@@ -144,10 +144,11 @@ STATIC FUNCTION fixed_toggled( oCellRendererToggle, cPath, oTreeView, oLbx )
   fixed := oTreeView:GetValue( nColumn, "Boolean", Path, @aIter )
 
   // do something with the value
-  fixed := !fixed
+  //fixed := !fixed
+  // set new value //
+  //oLbx:Set( aIter, nColumn, fixed )
 
-   /* set new value */
-  oLbx:Set( aIter, nColumn, fixed )
+  oTreeView:SetValue(nColumn, !fixed ,path,oLbx)
 
   /* clean up */
   gtk_tree_path_free( path )
@@ -161,17 +162,19 @@ return cValtoChar( uValue )
 // Una manera facil de obtener el valor de las columnas
 // Easy get values from columns
 
-Static Function Comprueba( oTreeView, pPath, pTreeViewColumn, oCol  )
+Static Function Comprueba( oTreeView, pPath, pTreeViewColumn, oLbx  )
     Local nBug, nColumn, cColumn, cTitle, cType
+    Local oModel
 
     cTitle  := gtk_tree_view_column_get_title( pTreeViewColumn )
     nColumn := oTreeView:GetPosCol( cTitle )
     cColumn := AllTrim( CStr(nColumn) )
     cType   := oTreeView:GetColumnTypeStr( nColumn )
 
-//     u := o:GetValue( nColumn, cType_data, pPath )
+//     u := oTreeView:GetValue( nColumn, "text", pPath )
 //    nBug := oTreeview:GetValue( 2, "Int" , pPath )
 
+    //oTreeView:SetValue(nColumn, "Cambiado!!",pPath,oLbx)
 
     Msg2Info( "The Type of Col <b>"+cColumn+"</b> is: <b>"+ cType +"</b>"+CRLF+ ;
               "The Value is <b>"+ CStr(oTreeView:GetValue( nColumn, cType, pPath ))+"</b>" )

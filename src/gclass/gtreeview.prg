@@ -38,6 +38,7 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD SetAutoSize() INLINE gtk_tree_view_columns_autosize( ::pWidget ) 
 
       METHOD GetValue( nColumn, cType, path )
+      METHOD SetValue( nColumn, cValue, path, oLbx )
       METHOD GetAutoValue( nColumn, aIter, aIter_Clone )      
       METHOD GetSelection( ) INLINE gtk_tree_view_get_selection( ::pWidget )
       METHOD GetAutoValueIter( nColumn, aIter, aIter_Clone )
@@ -224,6 +225,25 @@ METHOD aRow( aItr ) CLASS gTreeView
    endif
    
 return aData   
+
+
+METHOD SetValue( nColumn, uValue, path, oLbx ) CLASS gTreeView
+   Local model, aIter := Array( 4 ), nType, cType
+  
+   IF nColumn < 0 ; RETURN .F. ; ENDIF 
+   IF oLbx:ClassName()!="GLISTSTORE" ; RETURN .F. ; ENDIF
+   
+   model  = ::GetModel()
+
+   nType := gtk_tree_model_get_column_type( model, nColumn - 1 )
+
+   if ValType(uValue)!="L" .AND. nType=G_TYPE_BOOLEAN
+      RETURN .F. 
+   endif
+   
+   gtk_tree_model_get_iter( model, aIter, path )
+   oLbx:Set(aIter,nColumn,uValue)
+RETURN .t.
 
 
 METHOD GetValue( nColumn, cType, path, aIter_Clone ) CLASS gTreeView

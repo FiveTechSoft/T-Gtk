@@ -9,6 +9,13 @@
 */
 
 
+2011-02-09 02:53 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * /src/gclass/gtreeview.prg
+    +SetValue() Asigna el valor indicado en el TreeView.
+  * /tests/gclass/listore.prg
+    ! Se modifica ejemplo para mostrar el uso de SetValue().
+
+
 2011-01-25 02:24 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   + /install.sh
     script para preparar las condiciones necesarias para generar
