@@ -173,7 +173,7 @@ ifeq ($(DOLPHIN),yes)
     ifeq ($(HB_COMPILER),mingw32)
         #Flags para sistemas WINDOWS
         LIBS +=-L$(LIBDIR_TGTK) -L./ -lmysql
-        CFLAGS += -I$(INCLUDE_TGTK_PRG)
+        CFLAGS += -I$(INCLUDE_TGTK_PRG) -D__WIN__
         PRGFLAGS += -DNOINTERNAL-DDEBUG
         ifeq ($(XBASE_COMPILER),HARBOUR)
            LIBS+= -lhbct -lharbour-$(HB_VERSION) -lhbwin -lhbnf -lole32 -loleaut32 -lwinspool -luuid
