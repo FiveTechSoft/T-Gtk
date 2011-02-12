@@ -35,9 +35,9 @@ CLASS gCellRenderer FROM GOBJECT
       METHOD SetPadX( nAlign )    INLINE g_object_set( ::pWidget, "xpad", nAlign  )
       METHOD SetPadY( nAlign )    INLINE g_object_set( ::pWidget, "ypad", nAlign  )
 
-      METHOD OnDestroy()
-      METHOD OnEditing_started( oSender, pEditable, cPath )
-      METHOD OnEditing_canceled( oSender )
+      METHOD OnDestroy() SETGET
+      METHOD OnEditing_started( oSender, pEditable, cPath ) SETGET
+      METHOD OnEditing_canceled( oSender ) SETGET
       METHOD SetColumn( oColumn ) INLINE ::oColumn := oColumn, ::nColumn := oColumn:nColumn
       
       
@@ -46,27 +46,44 @@ ENDCLASS
 METHOD New() CLASS gCellRenderer
 RETURN Self
 
-METHOD OnDestroy( oSender ) CLASS gCellRenderer
+METHOD OnDestroy( uParam ) CLASS gCellRenderer
 
-    if oSender:bDestroy != NIL
-       Eval( oSender:bDestroy, oSender )
-    endif
 
-RETURN NIL
-
-METHOD OnEditing_started( oSender, pEditable, cPath ) CLASS gCellRenderer
-
-    if oSender:bOnEditing_Started != NIL
-       Eval( oSender:bOnEditing_Started, oSender, pEditable, cPath )
-    endif
+   if hb_IsBlock( uParam )
+      ::bDestroy = uParam
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bDestroy )
+         Eval( uParam:bDestroy, uParam )
+      endif
+   endif    
 
 RETURN NIL
 
-METHOD OnEditing_Canceled( oSender ) CLASS gCellRenderer
 
-    if oSender:bOnEditing_Canceled != NIL
-       Eval( oSender:bOnEditing_Canceled, oSender )
-    endif
+METHOD OnEditing_started( uParam, pEditable, cPath )  CLASS gCellRenderer
+
+   if hb_IsBlock( uParam )
+      ::bOnEditing_Started = uParam
+      ::Connect( "editing-started" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bOnEditing_Started )
+         Eval( uParam:bOnEditing_Started, uParam, pEditable, cPath  )
+      endif
+   endif    
+
+RETURN .F.
+
+
+METHOD OnEditing_Canceled( uParam ) CLASS gCellRenderer
+
+   if hb_IsBlock( uParam )
+      ::bOnEditing_Canceled = uParam
+      ::Connect( "editing-canceled" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bOnEditing_Canceled )
+         Eval( uParam:bOnEditing_Canceled, uParam  )
+      endif
+   endif   
 
 RETURN NIL
 

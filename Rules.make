@@ -199,7 +199,7 @@ endif
 
 ifeq ($(XBASE_COMPILER),HARBOUR)
    CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF \
-             -D__COMPATIBLE_HARBOUR__ -D__HARBOUR20__
+             -D__COMPATIBLE_HARBOUR__ 
 endif
 
 #libraries for binary building

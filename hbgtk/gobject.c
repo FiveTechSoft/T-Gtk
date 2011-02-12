@@ -59,13 +59,7 @@ HB_FUNC( G_OBJECT_SET_VALIST )
    pBase = pArray->item.asArray.value;
    
    iLen = hb_arrayLen( pArray );
-   /*
-   #ifdef __HARBOUR20__
-     iLen  = pBase->nLen;
-   #else
-     iLen  = pBase->ulLen;
-   #endif
-*/
+
    for( item = 0; item < iLen; item += 2 )
      {
       if( HB_IS_STRING( pBase->pItems + item+1 ) )

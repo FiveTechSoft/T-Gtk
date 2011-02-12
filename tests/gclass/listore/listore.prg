@@ -87,10 +87,18 @@ Function Listore()
        DEFINE TREEVIEWCOLUMN oCol2 COLUMN 2 TITLE "Bug Number"  TYPE "text"  SORT  OF oTreeView
        oRenderer :=  oCol2:oRenderer           // Contiene el objeto de la clase GtkCellRendererText
        oRenderer:SetEditable( .t. )            // Va ser editable-
-       //oRenderer:Connect( "editing-started" )  // Conecta señal que indica que se va a disparar ANTES de editar.
-       //oRenderer:Connect( "editing-canceled" )  // Conecta señal que indica que se a cancelado con ESC
-       //oRenderer:bOnEditing_Started := {|| MsgInfo("editing-started") }
-       //oRenderer:bOnEditing_Canceled := {|| MsgInfo("SE CANCELA!") }
+       /*
+       // Forma Manual
+       oRenderer:Connect( "editing-started" )  // Conecta señal que indica que se va a disparar ANTES de editar.
+       oRenderer:Connect( "editing-canceled" )  // Conecta señal que indica que se a cancelado con ESC       
+       oRenderer:bOnEditing_Started := {|| MsgInfo("editing-started") }
+       oRenderer:bOnEditing_Canceled := {|| MsgInfo("SE CANCELA!") }
+       */
+       
+       //Forma Automatica
+       //Los metodos callback son tipo SETGET, que asignaran el codeblock y conectaran la señal automaticamnete
+       oRenderer:OnEditing_Started := {|| MsgInfo("editing-started") }
+       oRenderer:OnEditing_Canceled := {|| MsgInfo("SE CANCELA!") }
 
        DEFINE TREEVIEWCOLUMN COLUMN 3 TITLE "Severity"    TYPE "text"  SORT  OF oTreeView
        DEFINE TREEVIEWCOLUMN COLUMN 4 TITLE "Description" TYPE "text"  SORT  OF oTreeView
@@ -107,7 +115,7 @@ Function Listore()
          oTreeView2:SetRules( .T. )
          DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Columna"  WIDTH 50 TYPE "text" OF oTreeView2
 
-
+     
    ACTIVATE WINDOW oWnd CENTER
 
 return NIL

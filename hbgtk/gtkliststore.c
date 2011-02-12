@@ -66,13 +66,7 @@ HB_FUNC( HB_GTK_LIST_STORE_NEW ) // aItems -> pListStore
   PHB_BASEARRAY pBase = pArray->item.asArray.value;        // base
   gint iCol;
   gint iLenCols       = hb_arrayLen( pArray );
-  /*
-  #ifdef __HARBOUR20__
-     gint iLenCols = pBase->nLen;  // columnas
-  #else
-     gint iLenCols = pBase->ulLen;  // columnas
-  #endif
-  */
+
   GType colTypes[ iLenCols ];    // array de tipos
 
    /* Determinando el tipo de datos para cada columna */

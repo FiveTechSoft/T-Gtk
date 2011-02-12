@@ -44,7 +44,7 @@ CLASS GBUTTON FROM GBIN
       METHOD SetImage( uImage ) 
       
       //Signals
-      METHOD OnClicked( oSender )
+      METHOD OnClicked( oSender ) SETGET
 
 ENDCLASS
 
@@ -52,6 +52,8 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
             lFill, nPadding , lContainer, x, y, cId, uGlade, nCursor,;
             uLabelTab, nWidth, nHeight, oBar, cMsgBar, lEnd, lSecond, lResize, lShrink,;
             left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta, aStyles, aStylesChild, uImage ) CLASS GBUTTON
+
+       DEFAULT lMnemonic := .F.
 
        IF cId == NIL
           IF cFromStock != NIL
@@ -74,6 +76,11 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
              ::SetText( cText )
           endif
        ENDIF
+       
+       if !Empty( cText ) .AND. cId != NIL
+          gtk_button_set_use_underline( ::pWidget, lMnemonic )
+          ::SetText( cText )
+       endif       
 
        // La aplicacion del style es ANTES de aadir al padre
        // Lo dejamos como recordatorio
@@ -90,10 +97,8 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
                    uLabelTab, lEnd, lSecond, lResize, lShrink,;
                    left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta  )
 
-       IF bAction != NIL // Si hay una accion , conectamos seal
-          ::bAction := bAction
-          ::Connect( "clicked" )
-       ENDIF
+       
+       ::OnClicked = bAction
 
        if bValid != NIL
           ::bValid := bValid
@@ -133,8 +138,18 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
 RETURN Self
 
 ******************************************************************************
-METHOD OnClicked( oSender ) CLASS GBUTTON
-    Eval( oSender:bAction, oSender )
+
+METHOD OnClicked( uParam )  CLASS GBUTTON
+
+   if hb_IsBlock( uParam )
+      ::bAction = uParam
+      ::Connect( "clicked" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bAction )
+         Eval( uParam:bAction, uParam )
+      endif
+   endif    
+
 RETURN .F.
 
 ******************************************************************************

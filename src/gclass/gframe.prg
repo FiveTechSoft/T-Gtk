@@ -53,6 +53,15 @@ METHOD New( cText, nShadow, nHor, nVer, oParent, lExpand, lFill, nPadding, lCont
 
           ::Register()
 
+          if !Empty( cText ) .AND. cId != NIL
+             if Valtype( cText ) = "C" // Si es un texto
+                ::pWidget = gtk_frame_new( cText )
+             elseif Valtype( cText ) = "O" /* Es un objeto label */
+                ::pWidget = gtk_frame_new()
+                ::SetLabel( cText )
+             endif
+          endif
+
           ::AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y,;
                       uLabelTab, , lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta,;
                       xOptions_ta, yOptions_ta  )

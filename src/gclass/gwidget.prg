@@ -75,7 +75,7 @@ CLASS GWIDGET FROM GOBJECT
 
        /* Signals */
        METHOD OnAccelClosuresChanged( oSender )     VIRTUAL
-       METHOD OnButtonPressEvent( oSender, pGdkEventButton )  
+       METHOD OnButtonPressEvent( oSender, pGdkEventButton )  SETGET
        METHOD OnButtonReleaseEvent( oSender, pGdkEventButton ) INLINE .F.
        METHOD OnCanActivateAccel( oSender, nSignal_Id )        INLINE .F.
        METHOD OnChildNotify( oSender, pGParamSpec )  VIRTUAL
@@ -87,7 +87,7 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnEvent( oSender, pGdkEvent ) INLINE .F. 
        METHOD OnEventAfter( oSender, pGdkEvent ) VIRTUAL
        METHOD OnExpose_Event( oSender, pGdkEventExpose )
-       METHOD OnFocus( oSender, nGtkDirectionType ) 
+       METHOD OnFocus( oSender, nGtkDirectionType ) SETGET
        METHOD OnFocus_In_Event( oSender , pGdkEventFocus )
        METHOD OnFocus_Out_Event( oSender, pGdkEventFocus )
        METHOD OnGrabBrokenEvent( oSender, pGdkEvent ) INLINE .F.
@@ -95,7 +95,7 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnGrabNotify( oSender, lArg1 ) VIRTUAL
        METHOD OnHide( oSender ) VIRTUAL
        METHOD OnHierarchyChanged( oSender, pWidget2 ) VIRTUAL
-       METHOD OnKeyPressEvent( oSender,   pGdkEventKey  ) 
+       METHOD OnKeyPressEvent( oSender,   pGdkEventKey  ) SETGET
        METHOD OnKeyReleaseEvent( oSender, pGdkEventKey  ) INLINE .F.
        METHOD OnLeaveNotifyEvent( oSender,  pGdkEventCrossing )
        METHOD OnMap( oSender ) VIRTUAL
@@ -366,26 +366,44 @@ METHOD OnSizeAllocate( oSender, pGtkAllocation ) CLASS GWIDGET
 RETURN .F.
 
 ******************************************************************************
-METHOD OnFocus( oSender, nGtkDirectionType ) CLASS GWIDGET
+METHOD OnFocus( uParam, nGtkDirectionType ) CLASS GWIDGET
    
-   IF oSender:bFocus != NIL
-      return Eval( oSender:bFocus , oSender, nGtkDirectionType )
-   ENDIF
+   if hb_IsBlock( uParam )
+      ::bFocus = uParam
+      ::Connect( "focus" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bFocus )
+         Eval( uParam:bFocus, uParam, nGtkDirectionType )
+      endif
+   endif       
 
 RETURN .F.
 
 ******************************************************************************
-METHOD OnButtonPressEvent( oSender, pGdkEventButton )  CLASS GWIDGET
+METHOD OnButtonPressEvent( uParam, pGdkEventButton )  CLASS GWIDGET
    
-   IF oSender:bButtonPressEvent != NIL
-      return Eval( oSender:bButtonPressEvent , oSender, pGdkEventButton  )
-   ENDIF
+   if hb_IsBlock( uParam )
+      ::bButtonPressEvent = uParam
+      ::Connect( "button-press-event" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bButtonPressEvent )
+         Eval( uParam:bButtonPressEvent, uParam, nGtkDirectionType )
+      endif
+   endif       
 
 RETURN .F.
-METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GWIDGET
 
-   if oSender:bKeyPressEvent != nil
-      return Eval( ::bKeyPressEvent , oSender, pGdkEventKey )
-   endif 
+******************************************************************************
+
+METHOD OnKeyPressEvent( uParam, pGdkEventKey )  CLASS GWIDGET
+
+   if hb_IsBlock( uParam )
+      ::bKeyPressEvent = uParam
+      ::Connect( "key-press-event" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bKeyPressEvent )
+         Eval( uParam:bKeyPressEvent, uParam, pGdkEventKey )
+      endif
+   endif    
 
 RETURN .F.
