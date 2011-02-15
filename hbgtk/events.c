@@ -33,6 +33,13 @@
 #include "hbstack.h"
 #include "t-gtk.h"
 
+#ifdef __XHARBOUR__
+#include "hashapi.h"
+typedef ULONG GTKSIZE;
+#else
+typedef HB_SIZE GTKSIZE;
+#endif
+
 // Atencion esto esta para mantener compatibilidad con xHarbour anteriores
 // Deber� desaparecer , pero lo necesito ahora
 #ifdef __OLDHARBOUR__
@@ -3082,6 +3089,10 @@ gint liberate_block_memory( gpointer data )
   return FALSE;
 }
 
+static void LoadHashSignal();
+static long G_GetHashPos( PHB_ITEM pHash, const char * szcKey );
+
+
 /*
  * Gestion de Eventos general de T-Gtk a nivel de Clases.
  */                                                 //,  ->Codeblock
@@ -3090,113 +3101,164 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
     GtkWidget *widget = ( GtkWidget * ) hb_parptr( 1 );
     gchar *cStr =  (gchar *) hb_parc( 2 );
     gint iPos = -1;
-    gint x;
     gint iReturn;
-    PHB_ITEM pSelf, pBlock;
-    gint num_elements = sizeof( array )/ sizeof( TGtkActionParce );
-    gint num_predefine = sizeof( predefine )/ sizeof( TGtkPreDfnParce );
+    //PHB_ITEM pSelf, pBlock;
+    PHB_ITEM pValue;
     gint ConnectFlags = ISNIL( 5 ) ? (GConnectFlags) 0 :  (GConnectFlags) hb_parni( 5 );
     gchar *cMethod = "onInternalError"; // =  (gchar *) hb_parc( 4 );
-    const gchar *gtk_class_name = NULL;
-
-    // Check before seek in base array for possible signals, distints callbacks
-    for ( x = 0;  x < num_predefine; x++ ) {
-        if( g_strcasecmp( cStr, predefine[x].signalname ) == 0 ) {
-            gtk_class_name = GTK_OBJECT_TYPE_NAME( widget ); // get name class_gtk 
-            break;
-        }
+    long lPosDef, lPosAct;
+    TGtkActionParce * pActionParce;
+    
+    if( ! phActionParce )
+      LoadHashSignal();
+    
+    lPosAct = 0;
+    lPosDef = 0;
+    if( ISCHAR( 2 ) ){     
+       lPosDef = G_GetHashPos( phpredefine, cStr );
+       lPosAct = G_GetHashPos( phActionParce, cStr );
     }
-
-    // Find signal for process.
-    for ( x = 0;  x < num_elements; x++ ) {
-        // Si es encuentrada, y no tiene .gtkclassname y no hay existe signal en struct predefine
-        if( g_strcasecmp( cStr, array[x].name ) == 0 && ! array[x].gtkclassname && ! gtk_class_name )
-        {
-            //g_print( "pos  %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ) );
-            iPos = x;
-            break;
-        }
-
-        // Si existe se�al en la struct predefine, gtk_class_name vale ahora el nombre del widget ,y ademas esta en array[x].gtkclassname.
-        if( gtk_class_name && array[x].gtkclassname ){
-            if ( g_strcasecmp( gtk_class_name, array[x].gtkclassname ) == 0 && g_strcasecmp( cStr, array[x].name ) == 0  )  {
-                 //g_print( "pos class %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ));
-                 iPos = x;
-                 break;
-            }
-        }
-
-        // Si existe se�al en la struct predefine, , pero en el array  no existe, guardamos posicion PERO no salimos
-        if( gtk_class_name && ! array[x].gtkclassname ){
-            if( g_strcasecmp( cStr, array[x].name ) == 0 ) {
-                // g_print( "pos 3 %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ));
-                iPos = x;
-                  //break;
-            }
-        }
-    }
-
-    /* Si es Self, es el nombre del method, de lo contrario, puede ser un codeblock */
-    if( ISOBJECT( 3 ) )
-       cMethod = ISNIL( 4 ) ? array[ iPos ].method : (gchar *) hb_parc( 4 ); //This row is need for optimizations. when release a cmedhod in prg source is not work
-
-    // Si pasamos un bloque de codigo, entonces, cMethod es igual a la se�al encontrada.
-    // Asi, en el CALLBACK podemos seleccionar el codeblock de la se�al que nos interesa.
-    if( ISBLOCK( 4 ) )
-      cMethod = array[ iPos ].name;
-
+    
+    if( lPosAct > -1 && lPosDef >= 0 ) 
+      iPos = lPosAct;
+   
     if ( iPos != -1 ){
+    /* Si es Self, es el nombre del method, de lo contrario, puede ser un codeblock */
+       pValue = hb_hashGetValueAt( phActionParce, iPos );
+       pActionParce = ( TGtkActionParce * ) hb_itemGetPtr( pValue );
+      
+       
+       if( ISOBJECT( 3 ) )
+          cMethod = ISNIL( 4 ) ? pActionParce->method : (gchar *) hb_parc( 4 ); //This row is need for optimizations. when release a cmedhod in prg source is not work
+
+       // Si pasamos un bloque de codigo, entonces, cMethod es igual a la se�al encontrada.
+       // Asi, en el CALLBACK podemos seleccionar el codeblock de la se�al que nos interesa.
+       if( ISBLOCK( 4 ) )
+         cMethod = pActionParce->name;
       iReturn = g_signal_connect_data( G_OBJECT( widget ),
-                                       array[ iPos ].name,
-                                       array[ iPos ].callback,
+                                       pActionParce->name,
+                                       pActionParce->callback,
                                        cMethod,
                                        NULL, ConnectFlags );
+      
+      
       hb_retni( iReturn );
       }
    else
       g_print( "Attention, %s signal not support! Information method-%s, post-%i \n", cStr, cMethod, iPos);
 
-    if( ISOBJECT( 3 ) ) {
-       if( g_object_get_data( G_OBJECT( widget ), "Self" ) == NULL )
-         {
-          pSelf = hb_itemNew( hb_param( 3, HB_IT_OBJECT ) );
-         // pSelf = hb_gcGripGet( hb_param( 3, HB_IT_OBJECT ) );
-          g_object_set_data_full( G_OBJECT (widget), "Self", pSelf,
-                                  (GDestroyNotify) liberate_block_memory );
-          //Debug
-          //g_print("\nEn har_e %d %s classname %s \n", GPOINTER_TO_UINT( pSelf ), array[ iPos ] , hb_objGetClsName( pSelf ) );
-         }
-    }
-
-
-    /*Nota:
-     * A diferencia de cuando disponemos de Self, necesitamos guardar cada bloque
-     * por se�al, de lo contrario, solamente la primera declarada, funcionara...
-     * Para ello, aprovechamos el nombre de la se�al, contenido en el array,
-     * para guardar el codeblock segun la se�al.
-     * */
-    if( ISBLOCK( 4 ) ) {
-      if( g_object_get_data( G_OBJECT( widget ), array[ iPos ].name ) == NULL )
-        {
-         // g_print( "Es un bloque de codigo\n");
-         //pBlock = hb_gcGripGet( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ) );
-         //pBlock = hb_itemNew( hb_stackItemFromBase( 4 ) );
-         // hb_stackItemFromBase(), significa que te devuelva un ITEM,
-         // del STACK, partiendo de la BASE
-         // y por BASE se entiende la funci�n actual
-         pBlock = hb_itemNew( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ));
-         /**
-         * Atencion !
-         * Cualquier salida via gtk_main_quit() provocara que no se llame nunca
-         * a la 'callback' destroy. Hay que 'cerrar' los contenedores para que
-         * emitan la se�al 'destroy' y se pueda autollamar a la funcion de
-         * liberacion de memoria liberate_block_memory
-          **/
-          g_object_set_data_full( G_OBJECT (widget), array[ iPos ].name, pBlock,
-                                  (GDestroyNotify) liberate_block_memory );
-
-        }
-    }
+   
+//    if( ISOBJECT( 3 ) ) {
+//       if( g_object_get_data( G_OBJECT( widget ), "Self" ) == NULL )
+//         {
+//          pSelf = hb_itemNew( hb_param( 3, HB_IT_OBJECT ) );
+//         // pSelf = hb_gcGripGet( hb_param( 3, HB_IT_OBJECT ) );
+//          g_object_set_data_full( G_OBJECT (widget), "Self", pSelf,
+//                                  (GDestroyNotify) liberate_block_memory );
+//          //Debug
+//          //g_print("\nEn har_e %d %s classname %s \n", GPOINTER_TO_UINT( pSelf ), array[ iPos ] , hb_objGetClsName( pSelf ) );
+//	  
+//         }
+//    }
+//
+//
+//    /*Nota:
+//     * A diferencia de cuando disponemos de Self, necesitamos guardar cada bloque
+//     * por se�al, de lo contrario, solamente la primera declarada, funcionara...
+//     * Para ello, aprovechamos el nombre de la se�al, contenido en el array,
+//     * para guardar el codeblock segun la se�al.
+//     * */
+//    
+//    
+//    if( ISBLOCK( 4 ) ) {
+//      if( g_object_get_data( G_OBJECT( widget ), pActionParce->name ) == NULL )
+//        {
+//         // g_print( "Es un bloque de codigo\n");
+//         //pBlock = hb_gcGripGet( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ) );
+//         //pBlock = hb_itemNew( hb_stackItemFromBase( 4 ) );
+//         // hb_stackItemFromBase(), significa que te devuelva un ITEM,
+//         // del STACK, partiendo de la BASE
+//         // y por BASE se entiende la funci�n actual
+//         pBlock = hb_itemNew( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ));
+//         /**
+//         * Atencion !
+//         * Cualquier salida via gtk_main_quit() provocara que no se llame nunca
+//         * a la 'callback' destroy. Hay que 'cerrar' los contenedores para que
+//         * emitan la se�al 'destroy' y se pueda autollamar a la funcion de
+//         * liberacion de memoria liberate_block_memory
+//          **/
+//          g_object_set_data_full( G_OBJECT (widget), pActionParce->name, pBlock,
+//                                  (GDestroyNotify) liberate_block_memory );
+//
+//        }
+//    }
+    if( pValue )
+      hb_itemRelease( pValue );
 
 }
+
+static void LoadHashSignal()
+{
+   //Action
+   long lLen = sizeof( array ) / sizeof( TGtkActionParce );
+
+   phActionParce = hb_hashNew( NULL );
+      
+   hb_hashPreallocate( phActionParce, lLen );
+   
+   while( lLen-- )
+   {
+      char * pszKey;
+      PHB_ITEM pKey, pValue;
+      pszKey = ( char * ) hb_xgrab( strlen( array[ lLen ].name ) + 1);
+      hb_strncpyLower( pszKey, array[ lLen ].name, strlen( array[ lLen ].name ) );   
+      pKey   = hb_itemPutC( NULL, pszKey ); 
+      pValue = hb_itemPutPtr( NULL, &array[ lLen ] );
+      hb_hashAdd( phActionParce, pKey, pValue );
+      hb_itemRelease( pKey );
+      hb_itemRelease( pValue );
+      hb_xfree( ( void *) pszKey );
+   }
+   
+   lLen = sizeof( predefine ) / sizeof( TGtkPreDfnParce );   
+
+   if( ! phpredefine )
+      phpredefine = hb_hashNew( NULL );
+      
+   hb_hashPreallocate( phpredefine, lLen );
+
+   while( lLen-- )
+   {
+      char * pszKey;
+      PHB_ITEM pKey, pValue;
+      pszKey = ( char * ) hb_xgrab( strlen( predefine[ lLen ].signalname ) + 1 );
+      hb_strncpyLower( pszKey, array[ lLen ].name, strlen( array[ lLen ].name ) );
+      pKey   = hb_itemPutC( NULL, pszKey ); 
+      pValue = hb_itemPutPtr( NULL, &predefine[ lLen ] );
+      hb_hashAdd( phpredefine, pKey, pValue );
+      hb_itemRelease( pKey );
+      hb_itemRelease( pValue );
+      hb_xfree( ( void *) pszKey );
+   }   
+   
+}
+
+static long G_GetHashPos( PHB_ITEM pHash, const char * cStr )
+{
+   long lPos=-1;
+   
+   if( cStr ){
+
+     char * pszKey = ( char * ) hb_xgrab( strlen( cStr ) + 1 );
+     PHB_ITEM pKey; 
+     hb_strncpyLower( pszKey, cStr, strlen( cStr ) );
+     pKey = hb_itemPutC( NULL, pszKey );
+     hb_hashScan( pHash, pKey, ( GTKSIZE *) &lPos );
+     hb_itemRelease( pKey );
+     hb_xfree( pszKey );
+   }
+   
+   return lPos;
+
+}  
 

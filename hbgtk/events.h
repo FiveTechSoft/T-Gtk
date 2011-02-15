@@ -1,6 +1,9 @@
 /* $Id: events.h,v 1.15 2009-12-11 21:13:40 riztan Exp $*/
 // Statics vars , for events.c
 
+static PHB_ITEM phActionParce;
+static PHB_ITEM phpredefine;
+
 static TGtkActionParce array[] = {
                {"clicked",                   "OnClicked",                   G_CALLBACK( OnEventos ),NULL},                /* 0 -- GtkButton -- */
                {"pressed",                   "OnPressed",                   G_CALLBACK( OnEventos ),NULL},                /* 1 -- GtkButton -- */
