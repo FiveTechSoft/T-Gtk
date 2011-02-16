@@ -48,10 +48,14 @@ void        gtk_list_store_move_after       (GtkListStore *store,
 #include "hbapi.h"
 #include "hbapiitm.h"
 #include "t-gtk.h"
+#include "hbapierr.h"
 
 void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
 BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  );
+BOOL BuildIterArrayFromParam( int iParam );
+char * GetGErrorMsg( int iCode );
+
 
 /*
  * Hb_gtk_list_store_new( aItems ) , recibe un array bi-dimensional para montar
@@ -151,7 +155,7 @@ HB_FUNC( GTK_LIST_STORE_SET_COLUMN_TYPES ) // ListStore, n_columns, { a_G_Types 
 HB_FUNC( GTK_LIST_STORE_APPEND ) // liststore , aIter-> new Item
 {
   GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
-  PHB_ITEM aIter = hb_param( 2, HB_IT_ARRAY ); // array
+  PHB_ITEM aIter;// = hb_param( 2, HB_IT_ARRAY ); // array
   GtkTreeIter iter;
 
   gtk_list_store_append( store, &iter );
@@ -163,10 +167,14 @@ HB_FUNC( GTK_LIST_STORE_APPEND ) // liststore , aIter-> new Item
  * if (HB_IS_ARRAY( aIter ) && hb_arrayLen( aIter ) == 4 )
  *
  */
-  if (ISARRAY( 2 ) && hb_arrayLen( aIter ) == 4 )
+  
+  if( BuildIterArrayFromParam( 2 ) )  { 
+     aIter = hb_param( 2, HB_IT_ARRAY );
      FillArrayFromIter( &iter, aIter );
+  }
   else
-     g_warning ("GTK_LIST_STORE_APPEND : Se esperaba un array o longitud distinta a 4");
+    hb_errRT_BASE( EG_ARG, 5000, GetGErrorMsg( 5000 ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+
 }
 
 /*--------------------------------------------------------------------------*/
@@ -179,10 +187,12 @@ HB_FUNC( GTK_LIST_STORE_PREPEND ) // liststore, aIter -> new Item
 
   gtk_list_store_prepend( store, &iter );
 
-  if ( ISARRAY( 2 ) && hb_arrayLen( aIter ) == 4 ) 
+  if( BuildIterArrayFromParam( 2 ) )  { 
+     aIter = hb_param( 2, HB_IT_ARRAY );
      FillArrayFromIter( &iter, aIter );
+  }
   else
-    g_print("Error: Se necesita un array de 4 elementos");
+    hb_errRT_BASE( EG_ARG, 5000, GetGErrorMsg( 5000 ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
    
 }
 
@@ -275,15 +285,22 @@ HB_FUNC( GTK_LIST_STORE_REMOVE )
 HB_FUNC( GTK_LIST_STORE_INSERT )
 {
   GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
-  PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
+  PHB_ITEM pIter;
   gint position = hb_parni( 3 );
   GtkTreeIter  iter;
 
-  if ( Array2Iter( pIter, &iter ) )
-  {
-     gtk_list_store_insert( store, &iter, position );
-     FillArrayFromIter( &iter, pIter );
+  if( BuildIterArrayFromParam( 2 ) )  { 
+     pIter = hb_param( 2, HB_IT_ARRAY );
+     if ( Array2Iter( pIter, &iter ) )
+     {
+        gtk_list_store_insert( store, &iter, position );
+        FillArrayFromIter( &iter, pIter );
+     }
   }
+  else
+    hb_errRT_BASE( EG_ARG, 5000, GetGErrorMsg( 5000 ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );  
+  
+
 }
 
 /*--------------------------------------------------------------------------*/
@@ -321,28 +338,40 @@ HB_FUNC( GTK_LIST_STORE_INSERT_BEFORE )
 HB_FUNC( GTK_LIST_STORE_INSERT_AFTER )
 {
   GtkListStore * store = GTK_LIST_STORE( hb_parptr( 1 ) );
-  PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
-  PHB_ITEM pSibling = hb_param( 3, HB_IT_ARRAY );
+  PHB_ITEM pIter;
+  PHB_ITEM pSibling;
   PHB_ITEM pSibling2 = hb_param( 4, HB_IT_ARRAY );
   GtkTreeIter  iter, sibling;
 
-  if ( Array2Iter( pIter, &iter ) )
+  
+  if( BuildIterArrayFromParam( 2 ) )
+  {
+     pIter = hb_param( 2, HB_IT_ANY );
+     if ( Array2Iter( pIter, &iter ) )
      {
-      if( ISNIL( 3 ) )
+         if( ISNIL( 3 ) )
          {
-          gtk_list_store_insert_after( store, &iter, NULL );
-          FillArrayFromIter( &iter, pIter );
+             gtk_list_store_insert_after( store, &iter, NULL );
+             FillArrayFromIter( &iter, pIter );
          }
-      else
+         else
          {
-          if ( Array2Iter( pSibling, &sibling ) )
-             {
-              gtk_list_store_insert_after( store, &iter, &sibling );
-              FillArrayFromIter( &iter, pSibling );
-              FillArrayFromIter( &sibling, pSibling2 );
-              }
-          }
-     }
+	    if( BuildIterArrayFromParam( 3 ) )
+	    {
+	       pSibling = hb_param( 3, HB_IT_ANY );
+               if ( Array2Iter( pSibling, &sibling ) )
+               {
+                  gtk_list_store_insert_after( store, &iter, &sibling );
+                  FillArrayFromIter( &iter, pSibling );
+                  FillArrayFromIter( &sibling, pSibling2 );
+               }
+	    }else
+	      hb_errRT_BASE( EG_ARG, 5000, GetGErrorMsg( 5000 ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+         }
+      }
+   }
+   else
+      hb_errRT_BASE( EG_ARG, 5000, GetGErrorMsg( 5000 ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 
 }
 
@@ -418,6 +447,42 @@ void  FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray  )
    hb_arraySet( pArray, 3, hb_itemPutPtr( element, (gpointer) iter->user_data2 ) );
    hb_arraySet( pArray, 4, hb_itemPutPtr( element, (gpointer) iter->user_data3 ) );
    hb_itemRelease(element);
+}
+
+
+BOOL BuildIterArrayFromParam( int iParam )
+{
+   
+   BOOL bRet = TRUE;
+   PHB_ITEM pItem = hb_param( iParam, HB_IT_ANY );
+
+   if( ISARRAY( iParam) ){
+      if( hb_arrayLen( pItem )  != 4 ){
+         int i;
+         int iLen = hb_arrayLen( pItem );
+         for( i = 0; i < 4 - iLen; i++)
+         {
+            PHB_ITEM pPos = hb_itemNew( NULL );
+            hb_arrayAddForward( pItem, pPos );
+            hb_itemRelease( pPos );
+         }
+      }
+   }
+   else if( ISBYREF( iParam ) ){
+      int i;
+      PHB_ITEM pArray = hb_itemArrayNew( 0 );
+         for( i = 0; i < 4; i++)
+         {
+            PHB_ITEM pPos = hb_itemNew( NULL );
+            hb_arrayAddForward( pArray, pPos );
+            hb_itemRelease( pPos );
+         }               
+      hb_itemParamStoreForward( iParam, pArray );
+   }
+   else
+     bRet = FALSE;
+  
+   return bRet;
 }
 
 /*-----------------21/01/2005 18:53-----------------
