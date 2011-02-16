@@ -3100,9 +3100,9 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
 {
     GtkWidget *widget = ( GtkWidget * ) hb_parptr( 1 );
     gchar *cStr =  (gchar *) hb_parc( 2 );
-    gint iPos = -1;
+    gint iPos = 0;
     gint iReturn;
-    //PHB_ITEM pSelf, pBlock;
+    PHB_ITEM pSelf, pBlock;
     PHB_ITEM pValue;
     gint ConnectFlags = ISNIL( 5 ) ? (GConnectFlags) 0 :  (GConnectFlags) hb_parni( 5 );
     gchar *cMethod = "onInternalError"; // =  (gchar *) hb_parc( 4 );
@@ -3119,10 +3119,10 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
        lPosAct = G_GetHashPos( phActionParce, cStr );
     }
     
-    if( lPosAct > -1 && lPosDef >= 0 ) 
+    if( lPosAct > 0 && lPosDef >= 0 ) 
       iPos = lPosAct;
    
-    if ( iPos != -1 ){
+    if ( iPos > 0 ){
     /* Si es Self, es el nombre del method, de lo contrario, puede ser un codeblock */
        pValue = hb_hashGetValueAt( phActionParce, iPos );
        pActionParce = ( TGtkActionParce * ) hb_itemGetPtr( pValue );
@@ -3135,12 +3135,15 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
        // Asi, en el CALLBACK podemos seleccionar el codeblock de la se�al que nos interesa.
        if( ISBLOCK( 4 ) )
          cMethod = pActionParce->name;
+       
       iReturn = g_signal_connect_data( G_OBJECT( widget ),
                                        pActionParce->name,
                                        pActionParce->callback,
                                        cMethod,
                                        NULL, ConnectFlags );
       
+      if( pValue )
+         hb_itemRelease( pValue );
       
       hb_retni( iReturn );
       }
@@ -3148,55 +3151,55 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
       g_print( "Attention, %s signal not support! Information method-%s, post-%i \n", cStr, cMethod, iPos);
 
    
-//    if( ISOBJECT( 3 ) ) {
-//       if( g_object_get_data( G_OBJECT( widget ), "Self" ) == NULL )
-//         {
-//          pSelf = hb_itemNew( hb_param( 3, HB_IT_OBJECT ) );
-//         // pSelf = hb_gcGripGet( hb_param( 3, HB_IT_OBJECT ) );
-//          g_object_set_data_full( G_OBJECT (widget), "Self", pSelf,
-//                                  (GDestroyNotify) liberate_block_memory );
-//          //Debug
-//          //g_print("\nEn har_e %d %s classname %s \n", GPOINTER_TO_UINT( pSelf ), array[ iPos ] , hb_objGetClsName( pSelf ) );
-//	  
-//         }
-//    }
-//
-//
-//    /*Nota:
-//     * A diferencia de cuando disponemos de Self, necesitamos guardar cada bloque
-//     * por se�al, de lo contrario, solamente la primera declarada, funcionara...
-//     * Para ello, aprovechamos el nombre de la se�al, contenido en el array,
-//     * para guardar el codeblock segun la se�al.
-//     * */
-//    
-//    
-//    if( ISBLOCK( 4 ) ) {
-//      if( g_object_get_data( G_OBJECT( widget ), pActionParce->name ) == NULL )
-//        {
-//         // g_print( "Es un bloque de codigo\n");
-//         //pBlock = hb_gcGripGet( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ) );
-//         //pBlock = hb_itemNew( hb_stackItemFromBase( 4 ) );
-//         // hb_stackItemFromBase(), significa que te devuelva un ITEM,
-//         // del STACK, partiendo de la BASE
-//         // y por BASE se entiende la funci�n actual
-//         pBlock = hb_itemNew( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ));
-//         /**
-//         * Atencion !
-//         * Cualquier salida via gtk_main_quit() provocara que no se llame nunca
-//         * a la 'callback' destroy. Hay que 'cerrar' los contenedores para que
-//         * emitan la se�al 'destroy' y se pueda autollamar a la funcion de
-//         * liberacion de memoria liberate_block_memory
-//          **/
-//          g_object_set_data_full( G_OBJECT (widget), pActionParce->name, pBlock,
-//                                  (GDestroyNotify) liberate_block_memory );
-//
-//        }
-//    }
-    if( pValue )
-      hb_itemRelease( pValue );
+    if( ISOBJECT( 3 ) ) {
+       if( g_object_get_data( G_OBJECT( widget ), "Self" ) == NULL )
+         {
+          pSelf = hb_itemNew( hb_param( 3, HB_IT_OBJECT ) );
+         // pSelf = hb_gcGripGet( hb_param( 3, HB_IT_OBJECT ) );
+          g_object_set_data_full( G_OBJECT (widget), "Self", pSelf,
+                                  (GDestroyNotify) liberate_block_memory );
+          //Debug
+          //g_print("\nEn har_e %d %s classname %s \n", GPOINTER_TO_UINT( pSelf ), array[ iPos ] , hb_objGetClsName( pSelf ) );
+	  
+         }
+    }
+
+
+    /*Nota:
+     * A diferencia de cuando disponemos de Self, necesitamos guardar cada bloque
+     * por se�al, de lo contrario, solamente la primera declarada, funcionara...
+     * Para ello, aprovechamos el nombre de la se�al, contenido en el array,
+     * para guardar el codeblock segun la se�al.
+     * */
+    
+    
+    if( ISBLOCK( 4 ) ) {      
+      if( lPosAct > 0 && g_object_get_data( G_OBJECT( widget ), pActionParce->name ) == NULL )
+        {
+         // g_print( "Es un bloque de codigo\n");
+         //pBlock = hb_gcGripGet( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ) );
+         //pBlock = hb_itemNew( hb_stackItemFromBase( 4 ) );
+         // hb_stackItemFromBase(), significa que te devuelva un ITEM,
+         // del STACK, partiendo de la BASE
+         // y por BASE se entiende la funci�n actual
+         pBlock = hb_itemNew( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ));
+         /**
+         * Atencion !
+         * Cualquier salida via gtk_main_quit() provocara que no se llame nunca
+         * a la 'callback' destroy. Hay que 'cerrar' los contenedores para que
+         * emitan la se�al 'destroy' y se pueda autollamar a la funcion de
+         * liberacion de memoria liberate_block_memory
+          **/
+          g_object_set_data_full( G_OBJECT (widget), pActionParce->name, pBlock,
+                                  (GDestroyNotify) liberate_block_memory );
+
+        }
+    }
 
 }
 
+
+//Fill hash from signals array
 static void LoadHashSignal()
 {
    //Action
@@ -3205,7 +3208,7 @@ static void LoadHashSignal()
    phActionParce = hb_hashNew( NULL );
       
    hb_hashPreallocate( phActionParce, lLen );
-   
+
    while( lLen-- )
    {
       char * pszKey;
@@ -3239,7 +3242,7 @@ static void LoadHashSignal()
       hb_itemRelease( pKey );
       hb_itemRelease( pValue );
       hb_xfree( ( void *) pszKey );
-   }   
+   } 
    
 }
 
