@@ -1,25 +1,104 @@
+/*
+    LGPL Licence.
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this software; see the file COPYING.  If not, write to
+    the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+    Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
+
+    LGPL Licence.
+    (c)2011 danielgarciagil@gmail.com
+*/
+
+
 #include "hbapi.h"
+#include "hbapilng.h"
+#include "gerrapi.h"
+#include "hbapierr.h"
 
 #define STARTCODE 5000
 
-static char * ErrMessage[] = {
-  "Invalid iterator param", //5000
-  "Signal not support"      //5001
-}; 
-  
+char * GetGErrorMsg( HB_ERRCODE iCode );
 
+static G_LANG * pLangActive;
+
+static G_LANG LangInstalled[] = {
+  { "EN", &LoadMsgsEN, 0 },
+  { "ES", &LoadMsgsES, 0 }
+};
+
+static G_ERRMSG * pErrMessage = NULL;
   
-char * GetGErrorMsg( int iCode )
+static const char * sIDLang = NULL;
+
+//--------------------------------------------------------------//
+
+short g_errRT_BASE(  HB_ERRCODE errGenCode, HB_ERRCODE errSubCode, const char * szOperation, HB_ULONG ulArgCount )
 {
-  int iLen = sizeof( ErrMessage ) / sizeof( char * );
-  int iPos = iCode - STARTCODE;
+   return ( short ) hb_errRT_BASE( errGenCode, errSubCode, GetGErrorMsg( errSubCode ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+}
+
+//--------------------------------------------------------------//
+
+static void LoadMsgs()
+{
+  const char * sID = hb_langID();
+  
+  if( ! sIDLang || hb_stricmp( sIDLang, sID ) != 0 ){    
+    int iLen = sizeof( LangInstalled ) / sizeof( G_LANG );
+    int i;
+    sIDLang = sID;    
+
+    for( i=0; i < iLen; i++ )
+    {
+      if( hb_stricmp( LangInstalled[ i ].sLang, sID ) == 0 ){
+	int (*fp)();
+	pLangActive = &LangInstalled[ i ];
+	fp = pLangActive->pFuncLang;
+	pLangActive->lTotalMsgs = (*fp)();
+      }
+    }
+  }
+}
+
+//--------------------------------------------------------------//  
+  
+char * GetGErrorMsg( HB_ERRCODE iCode )
+{
+  int iPos = ( int ) iCode - STARTCODE;
   char * cMsg = NULL;
   
-  if( iPos >= 0 && iPos < iLen)
-     cMsg = ( char * ) ErrMessage[ iPos ];
-  
+  LoadMsgs();
+
+  if( iPos >= 0 && iPos < pLangActive->lTotalMsgs )
+     cMsg = ( char * ) pErrMessage[ iPos ].sDescription;
+
   return cMsg;
   
 }
+
+
+//--------------------------------------------------------------//
+
+void BuildErrMsg( G_ERRMSG *ErrMsg, int iSize )
+{
   
-     
+  if( pErrMessage )
+    hb_xfree( pErrMessage );
+  
+  pErrMessage = ( G_ERRMSG * ) hb_xgrab( iSize );
+  
+  memcpy( pErrMessage, ErrMsg, iSize );
+
+  return;
+}

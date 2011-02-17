@@ -3166,7 +3166,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
       hb_retni( iReturn );
       }
    else
-       hb_errRT_BASE( EG_ARG, 5001, GetGErrorMsg( 5001 ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+       g_errRT_BASE( EG_ARG, 5001, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 
    
     if( ISOBJECT( 3 ) ) {

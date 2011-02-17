@@ -70,6 +70,7 @@ METHOD Connect( cSignal, cMethod, pWidget, ConnectionFlags ) CLASS GOBJECT
        pWidget := ::pWidget
     endif
 	//TraceLog( pWidget, cEvento, ValToPrg(Self), cMethod, ConnectionFlags)
+
     nId_Signal := harb_signal_connect( pWidget, cSignal, Self, cMethod, ConnectionFlags )
 
     AADD( ::aSignals, { cSignal, nId_Signal } )
