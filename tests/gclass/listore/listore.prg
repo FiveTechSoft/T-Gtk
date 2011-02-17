@@ -18,6 +18,10 @@
 
 #define GtkTreeIter  Array( 4 )
 
+REQUEST HB_Lang_ES
+
+//HB_SetCodePage("ESWIN")
+
 Function Listore()
 
   local hWnd, oScroll, oTreeView, oWnd, x, n, aIter := GtkTreeIter, oLbx
@@ -42,7 +46,7 @@ Function Listore()
 
     /*Modelo de Datos */
     DEFINE LIST_STORE oLbx TYPES G_TYPE_BOOLEAN, G_TYPE_UINT, G_TYPE_STRING, G_TYPE_STRING
-
+    HB_LangSelect("ES")
     For x := 1 To Len( aItems )
         APPEND LIST_STORE oLbx ITER aIter
         SET values LIST_STORE oLbx ITER aIter VALUES aItems[x]
@@ -225,7 +229,7 @@ Static Function Msg2Info( cText, cTitle )
             DEFINE TOGGLE oToggle TEXT "_Comnutador" ACTION g_print( "First Example" ) OF oBox 
             
             oToggle:DisConnect( "toggled" )
-            oToggle:Connect( "toggled" )
+            oToggle:Connect( "toggled22" )
 
             DEFINE TOGGLE oToggle TEXT "_Comnutador" ACTION g_print( "Two example" ) OF oBox 
             oToggle:DisConnect( "toggled" )
