@@ -20,6 +20,7 @@ typedef struct {
 
 
 GtkWidget * get_win_parent(void);
+char * GetGErrorMsg( int iCode );
 
 #ifdef __COMPATIBLE_HARBOUR__
    #define hb_storni   hb_storvni

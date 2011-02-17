@@ -3,7 +3,8 @@
 #define STARTCODE 5000
 
 static char * ErrMessage[] = {
-  "Invalid iterator param" //5000
+  "Invalid iterator param", //5000
+  "Signal not support"      //5001
 }; 
   
 

@@ -54,7 +54,6 @@ void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
 BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  );
 BOOL BuildIterArrayFromParam( int iParam );
-char * GetGErrorMsg( int iCode );
 
 
 /*

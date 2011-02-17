@@ -32,6 +32,7 @@
 #include "hbapiitm.h"
 #include "hbstack.h"
 #include "t-gtk.h"
+#include "hbapierr.h"
 
 #ifdef __XHARBOUR__
 #include "hashapi.h"
@@ -3100,6 +3101,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
 {
     GtkWidget *widget = ( GtkWidget * ) hb_parptr( 1 );
     gchar *cStr =  (gchar *) hb_parc( 2 );
+    gchar *cStr2 = NULL;
     gint iPos = 0;
     gint iReturn;
     PHB_ITEM pSelf, pBlock;
@@ -3108,6 +3110,8 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
     gchar *cMethod = "onInternalError"; // =  (gchar *) hb_parc( 4 );
     long lPosDef, lPosAct;
     TGtkActionParce * pActionParce;
+    const gchar *gtk_class_name = NULL;
+    
     
     if( ! phActionParce )
       LoadHashSignal();
@@ -3116,11 +3120,25 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
     lPosDef = 0;
     if( ISCHAR( 2 ) ){     
        lPosDef = G_GetHashPos( phpredefine, cStr );
-       lPosAct = G_GetHashPos( phActionParce, cStr );
+       if( lPosDef > 0 )
+       {
+	 gtk_class_name = GTK_OBJECT_TYPE_NAME( widget );
+	 cStr2 = ( char * ) hb_xgrab( hb_parclen( 2 ) + 2 );
+	 memcpy( cStr2, hb_parc( 2 ), hb_parclen( 2 ) );
+	 memcpy( cStr2 + hb_parclen( 2 ), "-1", 3 );
+         lPosAct = G_GetHashPos( phActionParce, cStr2 );
+	 hb_xfree( cStr2 );
+	 pValue       = hb_hashGetValueAt( phActionParce, lPosAct );
+         pActionParce = ( TGtkActionParce * ) hb_itemGetPtr( pValue );
+	 if( !( g_strcasecmp( gtk_class_name, pActionParce->gtkclassname ) == 0 ) )
+	   lPosAct = G_GetHashPos( phActionParce, cStr );
+	 hb_itemRelease( pValue );
+       }else
+	 lPosAct = G_GetHashPos( phActionParce, cStr );
+
     }
     
-    if( lPosAct > 0 && lPosDef >= 0 ) 
-      iPos = lPosAct;
+    iPos = lPosAct;
    
     if ( iPos > 0 ){
     /* Si es Self, es el nombre del method, de lo contrario, puede ser un codeblock */
@@ -3148,7 +3166,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
       hb_retni( iReturn );
       }
    else
-      g_print( "Attention, %s signal not support! Information method-%s, post-%i \n", cStr, cMethod, iPos);
+       hb_errRT_BASE( EG_ARG, 5001, GetGErrorMsg( 5001 ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 
    
     if( ISOBJECT( 3 ) ) {
@@ -3202,28 +3220,8 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
 //Fill hash from signals array
 static void LoadHashSignal()
 {
-   //Action
-   long lLen = sizeof( array ) / sizeof( TGtkActionParce );
 
-   phActionParce = hb_hashNew( NULL );
-      
-   hb_hashPreallocate( phActionParce, lLen );
-
-   while( lLen-- )
-   {
-      char * pszKey;
-      PHB_ITEM pKey, pValue;
-      pszKey = ( char * ) hb_xgrab( strlen( array[ lLen ].name ) + 1);
-      hb_strncpyLower( pszKey, array[ lLen ].name, strlen( array[ lLen ].name ) );   
-      pKey   = hb_itemPutC( NULL, pszKey ); 
-      pValue = hb_itemPutPtr( NULL, &array[ lLen ] );
-      hb_hashAdd( phActionParce, pKey, pValue );
-      hb_itemRelease( pKey );
-      hb_itemRelease( pValue );
-      hb_xfree( ( void *) pszKey );
-   }
-   
-   lLen = sizeof( predefine ) / sizeof( TGtkPreDfnParce );   
+   long lLen = sizeof( predefine ) / sizeof( TGtkPreDfnParce );   
 
    if( ! phpredefine )
       phpredefine = hb_hashNew( NULL );
@@ -3235,23 +3233,56 @@ static void LoadHashSignal()
       char * pszKey;
       PHB_ITEM pKey, pValue;
       pszKey = ( char * ) hb_xgrab( strlen( predefine[ lLen ].signalname ) + 1 );
-      hb_strncpyLower( pszKey, array[ lLen ].name, strlen( array[ lLen ].name ) );
+      hb_strncpyLower( pszKey, predefine[ lLen ].signalname, strlen( predefine[ lLen ].signalname ) );
       pKey   = hb_itemPutC( NULL, pszKey ); 
       pValue = hb_itemPutPtr( NULL, &predefine[ lLen ] );
       hb_hashAdd( phpredefine, pKey, pValue );
       hb_itemRelease( pKey );
       hb_itemRelease( pValue );
       hb_xfree( ( void *) pszKey );
-   } 
+   }   
+  
+   //Action
+   lLen = sizeof( array ) / sizeof( TGtkActionParce );
+
+   phActionParce = hb_hashNew( NULL );
+      
+   hb_hashPreallocate( phActionParce, lLen );
+
+   while( lLen-- )
+   {
+      char * pszKey;
+      PHB_ITEM pKey, pValue;
+      
+      if( array[ lLen ].gtkclassname )
+      {
+         pszKey = ( char * ) hb_xgrab( strlen( array[ lLen ].name ) + 2);
+         hb_strncpyLower( pszKey, array[ lLen ].name, strlen( array[ lLen ].name ) );
+	 memcpy( pszKey+strlen( pszKey ), "-1", 3 );
+      }else
+      {
+         pszKey = ( char * ) hb_xgrab( strlen( array[ lLen ].name ) + 1);
+         hb_strncpyLower( pszKey, array[ lLen ].name, strlen( array[ lLen ].name ) );   
+      }
+      
+      pKey   = hb_itemPutC( NULL, pszKey );
+      pValue = hb_itemPutPtr( NULL, &array[ lLen ] );
+      hb_hashAdd( phActionParce, pKey, pValue );
+      hb_itemRelease( pKey );
+      hb_itemRelease( pValue );
+      hb_xfree( ( void *) pszKey );
+   }
    
 }
+
+  
+   
 
 static long G_GetHashPos( PHB_ITEM pHash, const char * cStr )
 {
    long lPos=-1;
    
    if( cStr ){
-
      char * pszKey = ( char * ) hb_xgrab( strlen( cStr ) + 1 );
      PHB_ITEM pKey; 
      hb_strncpyLower( pszKey, cStr, strlen( cStr ) );
