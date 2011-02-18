@@ -45,8 +45,7 @@ function main()
   button1 := gtk_button_new_with_label( "Ejecuta codeblock local. Press F3" )
   // Pasando codeblock directamente 
 
-  gtk_signal_connect( button1, "clicked", ;
-                               { |widget| gtk_spinner_stop (spinner),paso( cVar, "ja", window, widget ) } )
+  gtk_signal_connect( button1, "CLICKED", { |widget| gtk_spinner_stop (spinner),paso( cVar, "ja", window, widget ) } )
 
   gtk_box_pack_start( vbox, button1, .F.,.T.,0 )
   gtk_widget_show( button1 )
@@ -78,7 +77,7 @@ function main()
 
 
   button3 := gtk_button_new_with_label( "Salir - Codeblock a funcion publica GTK+" )
-  bBlock3 := {|| g_signal_emit_by_name( window, "destroy" ) }
+  bBlock3 := {| | gtk_widget_destroy( window:lll ) } //{|| g_signal_emit_by_name( window, "destroy" ) }
   gtk_signal_connect( button3, "clicked", bBlock3 ) 
   //gtk_signal_connect( button3, "clicked", {||exit()} ) 
   gtk_box_pack_start( vbox, button3, .F.,.T.,0 )

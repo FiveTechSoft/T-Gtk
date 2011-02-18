@@ -33,6 +33,7 @@
 #include "hbstack.h"
 #include "t-gtk.h"
 #include "hbapierr.h"
+#include "gerrapi.h"
 
 #ifdef __XHARBOUR__
 #include "hashapi.h"
@@ -72,7 +73,9 @@ typedef HB_SIZE GTKSIZE;
           hb_vmPushInteger( end );                      // Largo
           hb_vmSend( 3 );
         } else {
-          g_print( "Method doesn't %s exist en OnHierarchy_Changed", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnDel_Text" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );
+//	  g_print( "Method doesn't %s exist en OnHierarchy_Changed", (gchar *)data );
         }
       }
     }
@@ -83,7 +86,6 @@ typedef HB_SIZE GTKSIZE;
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // pWidget
         hb_vmPushInteger( ini );      // Texto
         hb_vmPushInteger( end );                   // Largo
         hb_vmSend( 3 );
@@ -117,7 +119,8 @@ typedef HB_SIZE GTKSIZE;
           hb_vmSend( 4 );
           *position =  hb_itemGetNI( hb_stackReturnItem() );
         } else {
-          g_print( "Method doesn't %s exist en OnHierarchy_Changed", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "On_Text" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );
         }
       }
     }
@@ -128,7 +131,6 @@ typedef HB_SIZE GTKSIZE;
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // pWidget
         hb_vmPushString( text, strlen( text ) );      // Texto
         hb_vmPushInteger( length );                   // Largo
         hb_vmPushInteger( *position );          // Posicion
@@ -163,7 +165,8 @@ gint OnEventos( GtkWidget * widget, gpointer data )
              hb_vmSend( 1 );                                    // LLamada por Send
              return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnEventos", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnEventos" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );
          }
       }
   }
@@ -174,13 +177,7 @@ gint OnEventos( GtkWidget * widget, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
         hb_vmSend( 1 );                               // LLamada por Send al codeblocks
-        // Esto es otra manera de ejecutar un codeblock
-        //PHB_ITEM h_widget;
-        //h_widget = hb_itemPutNL( NULL, GPOINTER_TO_UINT( widget ) ); // Dato a pasar al Codeblock
-        //hb_vmEvalBlockV( hb_itemUnRef( pBlock ), 1, h_widget );
-        //hb_itemRelease( h_widget );
         return( hb_parl( -1 ) );
      }
   }
@@ -210,7 +207,9 @@ void OnEventos_void( GtkWidget * widget, gpointer data )
             hb_vmPush( pObj );
             hb_vmSend( 1 );
          } else {
-           g_print( "Method doesn't %s exist en OnEventos_void", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnEventos_void" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );	   
+//           g_print( "Method doesn't %s exist en OnEventos_void", (gchar *)data );
          }
       }
   }
@@ -221,7 +220,6 @@ void OnEventos_void( GtkWidget * widget, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmSend( 1 );
      }
   }
@@ -253,7 +251,9 @@ gboolean OnDelete_Event( GtkWidget *widget, GdkEvent  *event, gpointer data )
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnDelete_Event", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnDelete_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   
+//           g_print( "Method doesn't %s exist en OnDelete_Event", (gchar *)data );
          }
       }
   }
@@ -265,8 +265,6 @@ gboolean OnDelete_Event( GtkWidget *widget, GdkEvent  *event, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEvent  *) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -296,7 +294,9 @@ void OnEvent_After( GtkWidget *widget, GdkEvent  *event, gpointer data )
 //            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnEventAfter", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnEventAfter" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );
+//           g_print( "Method doesn't %s exist en OnEventAfter", (gchar *)data );
          }
       }
   }
@@ -308,8 +308,6 @@ void OnEvent_After( GtkWidget *widget, GdkEvent  *event, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEvent  *) event );        
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
      }
   }
@@ -337,7 +335,9 @@ gint OnResponse( GtkDialog * widget, gint arg1, gpointer data )
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnResponse", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnResponse" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   
+//	   g_print( "Method doesn't %s exist en OnResponse", (gchar *)data );
          }
       }
   }
@@ -348,7 +348,6 @@ gint OnResponse( GtkDialog * widget, gint arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushInteger( arg1 );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -377,11 +376,12 @@ gint OnKeyPressEvent( GtkWidget * widget, GdkEventKey * event, gpointer data )
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventKey  *) event );            
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnKeyPressEvent", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnKeyPressEvent" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   
+//	   g_print( "Method doesn't %s exist en OnKeyPressEvent", (gchar *)data );
          }
       }
   }
@@ -393,8 +393,6 @@ gint OnKeyPressEvent( GtkWidget * widget, GdkEventKey * event, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventKey  *) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -425,7 +423,9 @@ void OnIconRelease( GtkWidget * widget, GtkEntryIconPosition icon_pos, GdkEventK
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return;
          } else {
-           g_print( "Method doesn't %s exist en OnIcon_Release", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnIcon_Release" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnIcon_Release", (gchar *)data );
          }
       }
   }
@@ -466,11 +466,12 @@ gint OnFocusEvent( GtkWidget *widget, GdkEventFocus * event, gpointer data )
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventFocus  *) event );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnFocusEvent", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnFocusEvent" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   
+//	   g_print( "Method doesn't %s exist en OnFocusEvent", (gchar *)data );
          }
       }
   }
@@ -482,8 +483,6 @@ gint OnFocusEvent( GtkWidget *widget, GdkEventFocus * event, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventFocus  *) event );        
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -512,7 +511,9 @@ void OnMove_slider( GtkWidget *widget, GtkScrollType arg1, gpointer data )
             hb_vmPushInteger( arg1 );                     // GtkScrollType
             hb_vmSend( 2 );
          } else {
-           g_print( "Method doesn't %s exist en OnMove_Slider", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnMove_Slider" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnMove_Slider", (gchar *)data );
          }
       }
   }
@@ -523,7 +524,6 @@ void OnMove_slider( GtkWidget *widget, GtkScrollType arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushInteger( arg1 );                     // GtkScrollType
         hb_vmSend( 2 );
      }
@@ -549,10 +549,11 @@ void OnSelect_child ( GtkList *list,  GtkWidget *widget, gpointer data )
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkWidget * ) widget );
-//            hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Pointer widget child
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnSelect_child", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnSelect_child" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   
+//	   g_print( "Method doesn't %s exist en OnSelect_child", (gchar *)data );
          }
       }
   }
@@ -564,8 +565,6 @@ void OnSelect_child ( GtkList *list,  GtkWidget *widget, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkList * ) list );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( list ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmSend( 2 );
      }
   }
@@ -591,7 +590,9 @@ void OnSelection_changed( GtkList *list, gpointer data )
             hb_vmPush( pObj );                            // oSender
             hb_vmSend( 1 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnSelection_changed", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnSelection_changed" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnSelection_changed", (gchar *)data );
          }
       }
   }
@@ -602,7 +603,6 @@ void OnSelection_changed( GtkList *list, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkList * ) list );
-//        hb_vmPushLong( GPOINTER_TO_UINT( list ) );
         hb_vmSend( 1 );
      }
   }
@@ -627,11 +627,12 @@ void OnSwitch_page( GtkNotebook *notebook, GtkNotebookPage *page, guint page_num
             hb_vmPush( pObj );                             // Coloca objeto en pila.
             hb_vmPush( pObj );                             // oSender
             hb_vmPushPointer( ( GtkNotebookPage * ) page );
-//            hb_vmPushLong( GPOINTER_TO_UINT( page ) );     // page
             hb_vmPushInteger( page_num );                  // actual page number 
             hb_vmSend( 3 );
          } else {
-           g_print( "Method doesn't %s exist en OnSwitch_page", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnSwitch_page" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnSwitch_page", (gchar *)data );
          }
       }
   }
@@ -643,8 +644,6 @@ void OnSwitch_page( GtkNotebook *notebook, GtkNotebookPage *page, guint page_num
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkNotebook * ) notebook );
         hb_vmPushPointer( ( GtkNotebookPage * ) page );
-//        hb_vmPushLong( GPOINTER_TO_UINT( notebook ) ); // notebook
-//        hb_vmPushLong( GPOINTER_TO_UINT( page ) );     // page
         hb_vmPushInteger( page_num );                  // numero de pagina actual
         hb_vmSend( 3 );
      }
@@ -671,7 +670,9 @@ void OnGroup_changed( GtkRadioButton *radiobutton, gpointer data )
             hb_vmPush( pObj );                            // oSender
             hb_vmSend( 1 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnGroup_changed", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnGroup_changed" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnGroup_changed", (gchar *)data );
          }
       }
   }
@@ -708,11 +709,11 @@ void OnRow_activated( GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColum
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkTreePath * ) path );
             hb_vmPushPointer( ( GtkTreeViewColumn *) col );
-//            hb_vmPushLong( GPOINTER_TO_UINT( path ) );
-//            hb_vmPushLong( GPOINTER_TO_UINT( col  ) );
             hb_vmSend( 3 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnRow_Activate", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnRow_Activate" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnRow_Activate", (gchar *)data );
          }
       }
   }
@@ -725,9 +726,6 @@ void OnRow_activated( GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColum
         hb_vmPushPointer( ( GtkTreeView * ) treeview );
         hb_vmPushPointer( ( GtkTreePath * ) path );
         hb_vmPushPointer( ( GtkTreeViewColumn *) col );        
-//        hb_vmPushLong( GPOINTER_TO_UINT( treeview ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( path ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( col  ) );
         hb_vmSend( 3 );
      }
   }
@@ -754,7 +752,9 @@ void OnCell_toggled( GtkCellRendererToggle *cell_renderer, gchar *path, gpointer
             hb_vmPushString( path, strlen( path) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnCell_toggled", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnCell_toggled" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnCell_toggled", (gchar *)data );
          }
       }
   }
@@ -765,7 +765,6 @@ void OnCell_toggled( GtkCellRendererToggle *cell_renderer, gchar *path, gpointer
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkCellRendererToggle * ) cell_renderer );
-//        hb_vmPushLong( GPOINTER_TO_UINT( cell_renderer ) );
         hb_vmPushString( path, strlen( path) );
         hb_vmSend( 2 );
      }
@@ -793,7 +792,9 @@ void OnInsert_at_cursor( GtkEntry *entry, gchar *arg1, gpointer data )
             hb_vmPushString( arg1, strlen( arg1 ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnInsert_At_Cursor", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnInsert_At_Cursor" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnInsert_At_Cursor", (gchar *)data );
          }
       }
   }
@@ -804,7 +805,6 @@ void OnInsert_at_cursor( GtkEntry *entry, gchar *arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkEntry * ) entry );
-//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmPushString( arg1, strlen( arg1 ) );
         hb_vmSend( 2 );
      }
@@ -830,10 +830,11 @@ void OnItem_Activated( GtkIconView *iconview, GtkTreePath *arg1, gpointer data )
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkTreePath * ) arg1 );        
-//            hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnItem_Activated", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnItem_Activated" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnItem_Activated", (gchar *)data );
          }
       }
   }
@@ -845,8 +846,6 @@ void OnItem_Activated( GtkIconView *iconview, GtkTreePath *arg1, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkIconView * ) iconview );      
         hb_vmPushPointer( ( GtkTreePath * ) arg1 );
-//        hb_vmPushLong( GPOINTER_TO_UINT( iconview ) );        
-//        hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
         hb_vmSend( 2 );
      }
   }
@@ -870,12 +869,13 @@ gboolean OnExpose_Event( GtkWidget *widget, GdkEventExpose *event, gpointer data
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmPushPointer( ( GdkEventExpose * )event  );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnExpose_Event", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnExpose_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnExpose_Event", (gchar *)data );
          }
       }
   }
@@ -885,8 +885,6 @@ gboolean OnExpose_Event( GtkWidget *widget, GdkEventExpose *event, gpointer data
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmPushPointer( ( GtkWidget * ) widget  );
         hb_vmPushPointer( ( GdkEventExpose * )event  );
         hb_vmSend( 2 );
@@ -915,11 +913,12 @@ gboolean OnConfigure_Event( GtkWidget  *widget, GdkEventConfigure *event, gpoint
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventConfigure * )event  );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnConfigure_Event", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnConfigure_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   
+//	   g_print( "Method doesn't %s exist en OnConfigure_Event", (gchar *)data );
          }
       }
   }
@@ -931,8 +930,6 @@ gboolean OnConfigure_Event( GtkWidget  *widget, GdkEventConfigure *event, gpoint
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget  );
         hb_vmPushPointer( ( GdkEventConfigure * )event  );        
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -960,7 +957,9 @@ void OnCursor_Changed( GtkTreeView *treeview, gpointer data  )
             hb_vmPush( pObj );                            // oSender
             hb_vmSend( 1 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnCursor_Changed", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnCursor_Changed" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnCursor_Changed", (gchar *)data );
          }
       }
   }
@@ -971,7 +970,6 @@ void OnCursor_Changed( GtkTreeView *treeview, gpointer data  )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkTreeView * ) treeview  );
-//        hb_vmPushLong( GPOINTER_TO_UINT( treeview ) );
         hb_vmSend( 1 );
      }
   }
@@ -999,7 +997,9 @@ void OnMove_Cursor_Tree( GtkTreeView *treeview, GtkMovementStep arg1, gint arg2,
             hb_vmPushInteger( (gint) arg2 );
             hb_vmSend( 3 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnMove_Cursor_Tree", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnMove_Cursor_Tree" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnMove_Cursor_Tree", (gchar *)data );
          }
       }
   }
@@ -1010,7 +1010,6 @@ void OnMove_Cursor_Tree( GtkTreeView *treeview, GtkMovementStep arg1, gint arg2,
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkTreeView * ) treeview  );
-//        hb_vmPushLong( GPOINTER_TO_UINT( treeview ) );
         hb_vmPushInteger( (gint) arg1 );
         hb_vmPushInteger( (gint) arg2 );
         hb_vmSend( 3 );
@@ -1039,7 +1038,9 @@ void OnEdited( GtkCellRendererText * cellrenderertext, gchar *arg1, gchar *arg2,
             hb_vmPushString( arg2, strlen( arg2) );
             hb_vmSend( 3 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnEdited", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnEdited" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnEdited", (gchar *)data );
          }
       }
   }
@@ -1050,7 +1051,6 @@ void OnEdited( GtkCellRendererText * cellrenderertext, gchar *arg1, gchar *arg2,
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkCellRendererText * ) cellrenderertext  );
-//        hb_vmPushLong( GPOINTER_TO_UINT( cellrenderertext ) );
         hb_vmPushString( arg1, strlen( arg1) );
         hb_vmPushString( arg2, strlen( arg2) );
         hb_vmSend( 3 );
@@ -1076,11 +1076,12 @@ void OnEditing_started( GtkCellRenderer *renderer, GtkCellEditable *editable,   
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkCellEditable * ) editable  );
-//            hb_vmPushLong( GPOINTER_TO_UINT( editable ) );
             hb_vmPushString( path, strlen( path ) );
             hb_vmSend( 3 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnEditing_started", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnEditing_started" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   
+//	   g_print( "Method doesn't %s exist en OnEditing_started", (gchar *)data );
          }
       }
   } 
@@ -1091,8 +1092,6 @@ void OnEditing_started( GtkCellRenderer *renderer, GtkCellEditable *editable,   
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkCellRenderer * ) renderer  );
         hb_vmPushPointer( ( GtkCellEditable * ) editable  );
-//        hb_vmPushLong( GPOINTER_TO_UINT( renderer ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( editable ) );
         hb_vmPushString( path, strlen( path ) );
         hb_vmSend( 3 );
      }
@@ -1117,7 +1116,9 @@ void OnEditing_canceled( GtkCellRenderer *renderer, gpointer data )
             hb_vmPush( pObj );                            // oSender
             hb_vmSend( 1 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnEditing_canceled", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnEditing_canceled" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnEditing_canceled", (gchar *)data );
          }
       }
   } 
@@ -1127,7 +1128,6 @@ void OnEditing_canceled( GtkCellRenderer *renderer, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkCellRenderer * ) renderer  );
-//        hb_vmPushLong( GPOINTER_TO_UINT( renderer ) );
         hb_vmSend( 1 );
      }
   }
@@ -1151,11 +1151,12 @@ gboolean OnEnter_Leave_NotifyEvent( GtkWidget *widget, GdkEventCrossing *event, 
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventCrossing * ) event );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnEnterLeaveNotifyEvent", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnEnter_Leave_NotifyEvent" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnEnterLeaveNotifyEvent", (gchar *)data );
          }
       }
   }
@@ -1167,8 +1168,6 @@ gboolean OnEnter_Leave_NotifyEvent( GtkWidget *widget, GdkEventCrossing *event, 
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventCrossing * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1196,11 +1195,12 @@ gboolean OnButton_Press_Event( GtkWidget *widget, GdkEventButton *event, gpointe
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventButton * ) event );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnButtonPress_ReleaseEvent", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnButton_Press_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnButtonPress_ReleaseEvent", (gchar *)data );
          }
       }
   }
@@ -1212,8 +1212,6 @@ gboolean OnButton_Press_Event( GtkWidget *widget, GdkEventButton *event, gpointe
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventButton * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1242,7 +1240,9 @@ gboolean OnCan_Activate_Accel( GtkWidget *widget, guint signal_id, gpointer data
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnCan_Activate_Accel", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnCan_Activate_Accel" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnCan_Activate_Accel", (gchar *)data );
          }
       }
   }
@@ -1253,7 +1253,6 @@ gboolean OnCan_Activate_Accel( GtkWidget *widget, guint signal_id, gpointer data
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushInteger( (guint) signal_id );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -1281,10 +1280,11 @@ void OnChild_Notify( GtkWidget *widget, GParamSpec *pspec, gpointer data )
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GParamSpec * ) pspec );
-//            hb_vmPushLong( GPOINTER_TO_UINT( pspec ) );  // Metemos puntero
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnChildNotify", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnChildNotify" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnChildNotify", (gchar *)data );
          }
       }
   }
@@ -1296,8 +1296,6 @@ void OnChild_Notify( GtkWidget *widget, GParamSpec *pspec, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GParamSpec * ) pspec );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( pspec ) );
         hb_vmSend( 2 );
      }
   }
@@ -1321,11 +1319,12 @@ gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventClient * ) event );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );  // Metemos puntero del widget
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnClientEvent", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnClient_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnClientEvent", (gchar *)data );
          }
       }
   }
@@ -1337,8 +1336,6 @@ gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventClient * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1366,7 +1363,9 @@ void OnDirection_Changed( GtkWidget *widget, GtkTextDirection arg1, gpointer dat
             hb_vmPushInteger( (gint) arg1 );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnDirection_Changed", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnDirection_Changed" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnDirection_Changed", (gchar *)data );
          }
       }
   }
@@ -1377,7 +1376,6 @@ void OnDirection_Changed( GtkWidget *widget, GtkTextDirection arg1, gpointer dat
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushInteger( (gint) arg1 );
         hb_vmSend( 2 );
      }
@@ -1406,7 +1404,9 @@ gboolean OnFocus( GtkWidget *widget, GtkDirectionType arg1, gpointer data )
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnFocus", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnFocus" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnFocus", (gchar *)data );
          }
       }
   }
@@ -1417,7 +1417,6 @@ gboolean OnFocus( GtkWidget *widget, GtkDirectionType arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushInteger( (gint) arg1 );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -1445,10 +1444,11 @@ void OnSignals_Container( GtkContainer *container, GtkWidget  *widget, gpointer 
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkWidget * ) widget );
-//            hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnSignals_Container", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnSignals_Container" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnSignals_Container", (gchar *)data );
          }
       }
   }
@@ -1460,8 +1460,6 @@ void OnSignals_Container( GtkContainer *container, GtkWidget  *widget, gpointer 
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkContainer * ) container );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( container ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmSend( 2 );
      }
   }
@@ -1487,7 +1485,9 @@ void OnCheck_Resize( GtkContainer *container, gpointer data )
             hb_vmPush( pObj );                            // oSender
             hb_vmSend( 1 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnCheck_Resize", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnCheck_Resize" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//            g_print( "Method doesn't %s exist en OnCheck_Resize", (gchar *)data );
          }
       }
   }
@@ -1498,7 +1498,6 @@ void OnCheck_Resize( GtkContainer *container, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkContainer * ) container );
-//        hb_vmPushLong( GPOINTER_TO_UINT( container ) );
         hb_vmSend( 1 );
      }
   }
@@ -1523,11 +1522,12 @@ gboolean OnGrab_Broken_Event( GtkWidget *widget, GdkEventGrabBroken *event, gpoi
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventGrabBroken * ) event );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist OnGrab_Broken_Event", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnGrab_Broken_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//            g_print( "Method doesn't %s exist OnGrab_Broken_Event", (gchar *)data );
          }
       }
   }
@@ -1539,8 +1539,6 @@ gboolean OnGrab_Broken_Event( GtkWidget *widget, GdkEventGrabBroken *event, gpoi
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventGrabBroken * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1570,7 +1568,9 @@ void OnGrab_Notify( GtkWidget *widget, gboolean arg1, gpointer data )
             hb_vmPushLogical( arg1 );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnGrab_Notify", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnGrab_Notify" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//            g_print( "Method doesn't %s exist en OnGrab_Notify", (gchar *)data );
          }
       }
   }
@@ -1581,7 +1581,6 @@ void OnGrab_Notify( GtkWidget *widget, gboolean arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmPushLogical( arg1 );
         hb_vmSend( 2 );
      }
@@ -1606,10 +1605,11 @@ void OnHierarchy_Changed( GtkWidget *widget, GtkWidget *widget2, gpointer data )
             hb_vmPush( pObj );                                 // Coloca objeto en pila.
             hb_vmPush( pObj );
             hb_vmPushPointer( ( GtkWidget * ) widget2 );
-//            hb_vmPushLong( GPOINTER_TO_UINT( widget2 ) );
             hb_vmSend( 2 );
          } else {
-           g_print( "Method doesn't %s exist en OnHierarchy_Changed", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnHierarchy_Changed" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnHierarchy_Changed", (gchar *)data );
          }
       }
   }
@@ -1621,8 +1621,6 @@ void OnHierarchy_Changed( GtkWidget *widget, GtkWidget *widget2, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GtkWidget * ) widget2 );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget2 ) );
         hb_vmSend( 2 );
      }
   }
@@ -1650,7 +1648,9 @@ gboolean OnMnemonic_Activate( GtkWidget *widget, gboolean arg1, gpointer data )
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnMnemonic_Activate", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnMnemonic_Activate" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnMnemonic_Activate", (gchar *)data );
          }
       }
   }
@@ -1661,7 +1661,6 @@ gboolean OnMnemonic_Activate( GtkWidget *widget, gboolean arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
         hb_vmPushLogical( arg1 );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -1688,11 +1687,12 @@ gboolean OnMotion_Notify_Event( GtkWidget *widget, GdkEventMotion *event, gpoint
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventMotion * ) event );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnMotion_Notify_Event", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnMotion_Notify_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnMotion_Notify_Event", (gchar *)data );
          }
       }
   }
@@ -1704,8 +1704,6 @@ gboolean OnMotion_Notify_Event( GtkWidget *widget, GdkEventMotion *event, gpoint
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );  
         hb_vmPushPointer( ( GdkEventMotion * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1732,11 +1730,12 @@ gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventNoExpose * ) event );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnNo_Expose_Event", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnNo_Expose_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnNo_Expose_Event", (gchar *)data );
          }
       }
   }
@@ -1748,8 +1747,6 @@ gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventMotion * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1776,10 +1773,11 @@ void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkObject * ) old_parent );
-//            hb_vmPushLong( GPOINTER_TO_UINT( old_parent ) );  // Metemos puntero
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnParent_Set", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnParent_Set" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//            g_print( "Method doesn't %s exist en OnParent_Set", (gchar *)data );
          }
       }
   }
@@ -1791,8 +1789,6 @@ void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GtkObject * ) old_parent );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( old_parent ) );
         hb_vmSend( 2 );
      }
   }
@@ -1816,11 +1812,12 @@ gboolean OnProperty_Notify_Event( GtkWidget *widget, GdkEventProperty *event, gp
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventProperty * ) event );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnProperty_Notify_Event", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnProperty_Notify_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//            g_print( "Method doesn't %s exist en OnProperty_Notify_Event", (gchar *)data );
          }
       }
   }
@@ -1832,8 +1829,6 @@ gboolean OnProperty_Notify_Event( GtkWidget *widget, GdkEventProperty *event, gp
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventProperty * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1859,11 +1854,12 @@ gboolean OnProximity_Event( GtkWidget *widget, GdkEventProximity *event, gpointe
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventProximity * ) event );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnProximity_Event", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnProximity_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//            g_print( "Method doesn't %s exist en OnProximity_Event", (gchar *)data );
          }
       }
   }
@@ -1875,8 +1871,6 @@ gboolean OnProximity_Event( GtkWidget *widget, GdkEventProximity *event, gpointe
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventProximity * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1902,10 +1896,11 @@ void OnScreen_Changed( GtkWidget *widget, GdkScreen *arg1, gpointer data )
             hb_vmPush( pObj );                                 // Coloca objeto en pila.
             hb_vmPush( pObj );                                 // oSender
             hb_vmPushPointer( ( GdkScreen * ) arg1 );
-//            hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
             hb_vmSend( 2 );
          } else {
-           g_print( "Method doesn't %s exist en OnScreen_Changed", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnScreen_Changed" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnScreen_Changed", (gchar *)data );
          }
       }
   }
@@ -1917,8 +1912,6 @@ void OnScreen_Changed( GtkWidget *widget, GdkScreen *arg1, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkScreen * ) arg1 );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( arg1 ) );
         hb_vmSend( 2 );
      }
   }
@@ -1946,7 +1939,9 @@ gboolean OnScroll_Event( GtkWidget *widget, GdkEventScroll *event, gpointer data
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnScroll_Event", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnScroll_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnScroll_Event", (gchar *)data );
          }
       }
   }
@@ -1958,8 +1953,6 @@ gboolean OnScroll_Event( GtkWidget *widget, GdkEventScroll *event, gpointer data
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventScroll * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -1985,11 +1978,12 @@ gboolean OnSelection_Event( GtkWidget *widget, GdkEventSelection *event, gpointe
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GdkEventSelection * ) event );
-//            hb_vmPushLong( GPOINTER_TO_UINT( event ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnSelection_Event", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnSelection_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//            g_print( "Method doesn't %s exist en OnSelection_Event", (gchar *)data );
          }
       }
   }
@@ -2001,8 +1995,6 @@ gboolean OnSelection_Event( GtkWidget *widget, GdkEventSelection *event, gpointe
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventSelection * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -2023,13 +2015,14 @@ gboolean OnSelection_Get( GtkWidget *widget, GtkSelectionData * selection_data, 
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
         hb_vmPushPointer( ( GtkSelectionData * ) selection_data );
-//        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
         hb_vmPushInteger( (gint) info );
         hb_vmPushInteger( (gint) time );
         hb_vmSend( 4 );                              // LLamada por Send
         return( hb_parl( -1 ) );
      } else {
-        g_print( "Method doesn't exist OnSelection_Event" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnSelection_Get" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't exist OnSelection_Event" );
      }
   }
 
@@ -2041,8 +2034,6 @@ gboolean OnSelection_Get( GtkWidget *widget, GtkSelectionData * selection_data, 
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GtkSelectionData * ) selection_data );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
         hb_vmPushInteger( (gint) info );
         hb_vmPushInteger( (gint) time );
         hb_vmSend( 4 );
@@ -2065,12 +2056,13 @@ gboolean OnSelection_Received( GtkWidget *widget, GtkSelectionData * selection_d
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
         hb_vmPushPointer( ( GtkSelectionData * ) selection_data );
-//        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
         hb_vmPushInteger( (gint) time );
         hb_vmSend( 3 );                              // LLamada por Send
         return( hb_parl( -1 ) );
      } else {
-        g_print( "Method doesn't exist OnSelection_Received" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnSelection_Received" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   
+//       g_print( "Method doesn't exist OnSelection_Received" );
      }
   }
 
@@ -2082,8 +2074,6 @@ gboolean OnSelection_Received( GtkWidget *widget, GtkSelectionData * selection_d
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GtkSelectionData * ) selection_data );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( selection_data ) );
         hb_vmPushInteger( (gint) time );
         hb_vmSend( 3 );
         return( hb_parl( -1 ) );
@@ -2108,7 +2098,9 @@ gboolean OnShow_Help( GtkWidget *widget, GtkWidgetHelpType arg1, gpointer data )
         hb_vmSend( 2 );                              // LLamada por Send
         return( hb_parl( -1 ) );
      } else {
-        g_print( "Method doesn't exist OnShow_Help" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnShow_Help" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't exist OnShow_Help" );
      }
   }
 
@@ -2119,7 +2111,6 @@ gboolean OnShow_Help( GtkWidget *widget, GtkWidgetHelpType arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmPushInteger( (gint) arg1 );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -2141,10 +2132,11 @@ void OnSize_Allocate( GtkWidget *widget, GtkAllocation *allocation, gpointer dat
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
         hb_vmPushPointer( ( GtkAllocation * ) allocation );
-//        hb_vmPushLong( GPOINTER_TO_UINT( allocation ) );
         hb_vmSend( 2 );                              // LLamada por Send
      } else {
-        g_print( "Method doesn't exist OnSize_Request" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnSize_Allocate" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't exist OnSize_Request" );
      }
   }
 
@@ -2156,8 +2148,6 @@ void OnSize_Allocate( GtkWidget *widget, GtkAllocation *allocation, gpointer dat
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GtkAllocation * ) allocation );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( allocation ) );
         hb_vmSend( 2 );
      }
   }
@@ -2176,10 +2166,11 @@ void OnSize_Request( GtkWidget *widget, GtkRequisition *requisition, gpointer da
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
         hb_vmPushPointer( ( GtkRequisition * ) requisition );
-//        hb_vmPushLong( GPOINTER_TO_UINT( requisition ) );
         hb_vmSend( 2 );                              // LLamada por Send
      } else {
-        g_print( "Method doesn't exist OnSize_Request" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnSize_Request" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't exist OnSize_Request" );
      }
   }
 
@@ -2191,8 +2182,6 @@ void OnSize_Request( GtkWidget *widget, GtkRequisition *requisition, gpointer da
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GtkRequisition * ) requisition );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( requisition ) );
         hb_vmSend( 2 );
      }
   }
@@ -2213,7 +2202,9 @@ void OnState_Changed( GtkWidget *widget, GtkStateType state, gpointer data )
         hb_vmPushInteger( (gint) state );
         hb_vmSend( 2 );                              // LLamada por Send
      } else {
-        g_print( "Method doesn't exist OnState_Changed" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnState_Changed" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't exist OnState_Changed" );
      }
   }
 
@@ -2224,7 +2215,6 @@ void OnState_Changed( GtkWidget *widget, GtkStateType state, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmPushInteger( (gint) state );
         hb_vmSend( 2 );
      }
@@ -2244,10 +2234,11 @@ void OnStyle_Set( GtkWidget *widget, GtkStyle *previous_style, gpointer data )
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
         hb_vmPushPointer( ( GtkStyle * ) previous_style );
-//        hb_vmPushLong( GPOINTER_TO_UINT( previous_style ) );
         hb_vmSend( 2 );                              // LLamada por Send
      } else {
-        g_print( "Method doesn't exist OnStyle_Set" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnStyle_Set" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't exist OnStyle_Set" );
      }
   }
 
@@ -2259,8 +2250,6 @@ void OnStyle_Set( GtkWidget *widget, GtkStyle *previous_style, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GtkStyle * ) previous_style );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( previous_style ) );
         hb_vmSend( 2 );
      }
   }
@@ -2279,11 +2268,12 @@ gboolean OnVisibility_Notify_Event( GtkWidget *widget, GdkEventVisibility *event
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
         hb_vmPushPointer( ( GdkEventVisibility * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );                              // LLamada por Send
         return( hb_parl( -1 ) );
      } else {
-        g_print( "Method doesn't exist OnVisibility_Notify_Event" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnVisibility_Notify_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't exist OnVisibility_Notify_Event" );
      }
   }
 
@@ -2295,8 +2285,6 @@ gboolean OnVisibility_Notify_Event( GtkWidget *widget, GdkEventVisibility *event
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventVisibility * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -2317,11 +2305,12 @@ gboolean OnWindow_State_Event( GtkWidget *widget, GdkEventWindowState *event, gp
         hb_vmPush( pObj );                       // Coloca objeto en pila.
         hb_vmPush( pObj );                       // Dato a pasar
         hb_vmPushPointer( ( GdkEventWindowState * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );                              // LLamada por Send
         return( hb_parl( -1 ) );
      } else {
-        g_print( "Method doesn't exist OnWindow_State_Event" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnWindow_State_Event" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//         g_print( "Method doesn't exist OnWindow_State_Event" );
      }
   }
 
@@ -2333,8 +2322,6 @@ gboolean OnWindow_State_Event( GtkWidget *widget, GdkEventWindowState *event, gp
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmPushPointer( ( GdkEventWindowState * ) event );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( event ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -2357,7 +2344,9 @@ void OnMove_Focus( GtkWidget *widget, GtkDirectionType arg1, gpointer data )
         hb_vmPushInteger( (gint) arg1 );
         hb_vmSend( 2 );
      } else {
-        g_print( "Method doesn't exist OnMove_Focus" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnMove_Focus" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't exist OnMove_Focus" );
      }
   }
 
@@ -2368,7 +2357,6 @@ void OnMove_Focus( GtkWidget *widget, GtkDirectionType arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmPushInteger( (gint) arg1 );
         hb_vmSend( 2 );
      }
@@ -2391,7 +2379,9 @@ gboolean OnCycle_Child_Focus( GtkWidget *widget, gboolean arg1, gpointer data )
         hb_vmSend( 2 );                              // LLamada por Send
         return( hb_parl( -1 ) );
      } else {
-        g_print( "Method doesn't exist OnCycle_Child_Focus" );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnCycle_Child_Focus" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't exist OnCycle_Child_Focus" );
      }
   }
 
@@ -2402,7 +2392,6 @@ gboolean OnCycle_Child_Focus( GtkWidget *widget, gboolean arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmPushLogical( arg1 );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
@@ -2427,7 +2416,9 @@ gboolean OnMove_Handle( GtkWidget *widget, GtkScrollType arg1, gpointer data )
         hb_vmSend( 2 );                          // LLamada por Send
         return( hb_parl( -1 ) );
      } else {
-        g_print( "Method doesn't %s exist en OnMove_Handle ", (gchar *)data ) ;
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnMove_Handle" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnMove_Handle ", (gchar *)data ) ;
      }
   }
   // Obtenemos el codeblock de la se�al, data, que debemos evaluar...
@@ -2437,7 +2428,6 @@ gboolean OnMove_Handle( GtkWidget *widget, GtkScrollType arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
         hb_vmPushInteger( arg1 );                     // GtkScrollType
         hb_vmSend( 2 );                               // LLamada por Send al codeblocks
         return( hb_parl( -1 ) );
@@ -2461,7 +2451,9 @@ void OnAdjust_Bounds( GtkWidget *widget, gdouble arg1, gpointer data )
         hb_vmPushDouble( arg1, 10 );             // Double con 10 decimales
         hb_vmSend( 2 );                          // LLamada por Send
      } else {
-        g_print( "Method doesn't %s exist en OnAdjust_Bounds", (gchar *)data ) ;
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnAdjust_Bounds" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnAdjust_Bounds", (gchar *)data ) ;
      }
   }
   // Obtenemos el codeblock de la se�al, data, que debemos evaluar...
@@ -2471,7 +2463,6 @@ void OnAdjust_Bounds( GtkWidget *widget, gdouble arg1, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
         hb_vmPushDouble( arg1, 10 );                  // Double con 10 decimales
         hb_vmSend( 2 );                               // LLamada por Send al codeblocks
      }
@@ -2494,7 +2485,9 @@ gboolean OnChange_Value( GtkWidget *widget, GtkScrollType arg1, gdouble value, g
         hb_vmSend( 3 );                          // LLamada por Send
         return( hb_parl( -1 ) );
      } else {
-        g_print( "Method doesn't %s exist en OnChange_Value", (gchar *)data ) ;
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnChange_Value" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnChange_Value", (gchar *)data ) ;
      }
   }
   // Obtenemos el codeblock de la se�al, data, que debemos evaluar...
@@ -2504,7 +2497,6 @@ gboolean OnChange_Value( GtkWidget *widget, GtkScrollType arg1, gdouble value, g
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
         hb_vmPushInteger( arg1 );                     // GtkScrollType
         hb_vmPushDouble( value, 10 );                 // Double con 10 decimales
         hb_vmSend( 3 );                               // LLamada por Send al codeblocks
@@ -2530,7 +2522,9 @@ void OnScroll_Child( GtkWidget *widget, GtkScrollType arg1, gboolean arg2, gpoin
         hb_vmPushLogical( arg2 );
         hb_vmSend( 3 );                          // LLamada por Send
      } else {
-        g_print( "Method doesn't %s exist en OnScroll_Child", (gchar *)data ) ;
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnScroll_Child" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnScroll_Child", (gchar *)data ) ;
      }
   }
   // Obtenemos el codeblock de la se�al, data, que debemos evaluar...
@@ -2540,7 +2534,6 @@ void OnScroll_Child( GtkWidget *widget, GtkScrollType arg1, gboolean arg2, gpoin
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );  // Metemos puntero del widget
         hb_vmPushInteger( arg1 );                     // GtkScrollType
         hb_vmPushLogical( arg2 );
         hb_vmSend( 3 );                               // LLamada por Send al codeblocks
@@ -2563,7 +2556,9 @@ void OnBackspace( GtkEntry *entry, gpointer data )
         hb_vmPush( pObj );                            // Dato a pasar
         hb_vmSend( 1 );                               // LLamada por Send
      } else {
-        g_print( "Method doesn't %s exist en OnBackspace ", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnBackspace" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnBackspace ", (gchar *)data );
      }
   }
 
@@ -2574,7 +2569,6 @@ void OnBackspace( GtkEntry *entry, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkEntry * ) entry );
-//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmSend( 1 );
      }
   }
@@ -2594,7 +2588,9 @@ void OnCopy_Clipboard( GtkEntry *entry, gpointer data )
         hb_vmPush( pObj );                            // Dato a pasar
         hb_vmSend( 1 );                               // LLamada por Send
      } else {
-        g_print( "Method doesn't %s exist en OnCopy_Clipboard ", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnCopy_Clipboard" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnCopy_Clipboard ", (gchar *)data );
      }
   }
 
@@ -2605,7 +2601,6 @@ void OnCopy_Clipboard( GtkEntry *entry, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkEntry * ) entry );
-//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmSend( 1 );
      }
   }
@@ -2625,7 +2620,9 @@ void OnCut_Clipboard( GtkEntry *entry, gpointer data )
         hb_vmPush( pObj );                            // Dato a pasar
         hb_vmSend( 1 );                               // LLamada por Send
      } else {
-        g_print( "Method doesn't %s exist en OnCut_Clipboard ", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnCut_Clipboard" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnCut_Clipboard ", (gchar *)data );
      }
   }
 
@@ -2636,7 +2633,6 @@ void OnCut_Clipboard( GtkEntry *entry, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkEntry * ) entry );
-//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmSend( 1 );
      }
   }
@@ -2658,7 +2654,9 @@ void OnDelete_From_Cursor( GtkEntry *entry, GtkDeleteType arg1, gint arg2, gpoin
         hb_vmPushInteger( (gint) arg2 );                   	   // none
         hb_vmSend( 3 );                               	   // LLamada por Send
      } else {
-        g_print( "Method doesn't %s exist en OnDelete_From_Cursor ", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnDelete_From_Cursor" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnDelete_From_Cursor ", (gchar *)data );
      }
   }
 
@@ -2669,7 +2667,6 @@ void OnDelete_From_Cursor( GtkEntry *entry, GtkDeleteType arg1, gint arg2, gpoin
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkEntry * ) entry );
-//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmPushInteger( (gint) arg1 );                   // GtkDeleteType
         hb_vmPushInteger( arg2 );                   	   // none
         hb_vmSend( 3 );                               	   // LLamada por Send
@@ -2694,7 +2691,9 @@ void OnMove_Cursor( GtkEntry *entry, GtkDeleteType arg1, gint arg2, gboolean arg
 	hb_vmPushLogical( arg3 );
         hb_vmSend( 4 );                               	   // LLamada por Send
      } else {
-        g_print( "Method doesn't %s exist en OnDelete_From_Cursor ", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnMove_Cursor" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnDelete_From_Cursor ", (gchar *)data );
      }
   }
 
@@ -2705,7 +2704,6 @@ void OnMove_Cursor( GtkEntry *entry, GtkDeleteType arg1, gint arg2, gboolean arg
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkEntry * ) entry );
-//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmPushInteger( (gint) arg1 );                   // GtkDeleteType
         hb_vmPushInteger( arg2 );
 		hb_vmPushLogical( arg3 );
@@ -2728,7 +2726,9 @@ void OnPaste_Clipboard( GtkEntry *entry, gpointer data )
         hb_vmPush( pObj );                            // Dato a pasar
         hb_vmSend( 1 );                               // LLamada por Send
      } else {
-        g_print( "Method doesn't %s exist en OnPaste_Clipboard ", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnPaste_Clipboard" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnPaste_Clipboard ", (gchar *)data );
      }
   }
 
@@ -2739,7 +2739,6 @@ void OnPaste_Clipboard( GtkEntry *entry, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkEntry * ) entry );
-//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmSend( 1 );
      }
   }
@@ -2758,10 +2757,11 @@ void OnPopulate_Popup( GtkEntry *entry, GtkMenu *arg1, gpointer data )
         hb_vmPush( pObj );                            	   // Coloca objeto en pila.
         hb_vmPush( pObj );                            	   // Dato a pasar
         hb_vmPushPointer( ( GtkMenu * ) arg1 );
-//        hb_vmPushInteger( GPOINTER_TO_UINT( arg1 ) );      // GtkMenu
         hb_vmSend( 2 );                               	   // LLamada por Send
      } else {
-        g_print( "Method doesn't %s exist en OnPopulate_Popup ", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnPopulate_Popup" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnPopulate_Popup ", (gchar *)data );
      }
   }
 
@@ -2773,8 +2773,6 @@ void OnPopulate_Popup( GtkEntry *entry, GtkMenu *arg1, gpointer data )
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkEntry * ) entry );
         hb_vmPushPointer( ( GtkMenu * ) arg1 );
-//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
-//        hb_vmPushInteger( GPOINTER_TO_UINT( arg1 ) );                   // GtkMenu
         hb_vmSend( 2 );                               	   // LLamada por Send
      }
   }
@@ -2794,7 +2792,9 @@ void OnToggle_Overwrite( GtkEntry *entry, gpointer data )
         hb_vmPush( pObj );                            // Dato a pasar
         hb_vmSend( 1 );                               // LLamada por Send
      } else {
-        g_print( "Method doesn't %s exist en OnToggle_Overwrite ", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnToggle_Overwrite" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );          
+//        g_print( "Method doesn't %s exist en OnToggle_Overwrite ", (gchar *)data );
      }
   }
 
@@ -2805,7 +2805,6 @@ void OnToggle_Overwrite( GtkEntry *entry, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkEntry * ) entry );
-//        hb_vmPushLong( GPOINTER_TO_UINT( entry ) );
         hb_vmSend( 1 );
      }
   }
@@ -2831,10 +2830,11 @@ void OnBegin_Print( GtkPrintOperation *operation, GtkPrintContext *context, gpoi
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkPrintContext * ) context );
-//            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnBegin_Print", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnBegin_Print" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnBegin_Print", (gchar *)data );
          }
       }
   }
@@ -2846,8 +2846,6 @@ void OnBegin_Print( GtkPrintOperation *operation, GtkPrintContext *context, gpoi
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkPrintOperation * ) operation );
         hb_vmPushPointer( ( GtkPrintContext * ) context );
-//        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
         hb_vmSend( 2 );
      }
   }
@@ -2871,11 +2869,12 @@ void OnDraw_Page( GtkPrintOperation *operation, GtkPrintContext *context, gint p
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkPrintContext * ) context );
-//            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
             hb_vmPushInteger( (gint) page_nr );
             hb_vmSend( 3 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnDraw_Page", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnDraw_Page" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnDraw_Page", (gchar *)data );
          }
       }
   }
@@ -2887,8 +2886,6 @@ void OnDraw_Page( GtkPrintOperation *operation, GtkPrintContext *context, gint p
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkPrintOperation * ) operation );
         hb_vmPushPointer( ( GtkPrintContext * ) context );
-//        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
         hb_vmPushInteger( (gint) page_nr );
         hb_vmSend( 3 );
      }
@@ -2913,13 +2910,13 @@ void OnRequest_Page_Setup(GtkPrintOperation *operation, GtkPrintContext *context
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkPrintContext * ) context );     
-//            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
             hb_vmPushInteger( (gint) page_nr );
             hb_vmPushPointer( ( GtkPageSetup * ) setup );
-//            hb_vmPushLong( GPOINTER_TO_UINT( setup ) );
             hb_vmSend( 4 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnRequest_Page_Setup", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnRequest_Page_Setup" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnRequest_Page_Setup", (gchar *)data );
          }
       }
   }
@@ -2931,11 +2928,8 @@ void OnRequest_Page_Setup(GtkPrintOperation *operation, GtkPrintContext *context
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkPrintOperation * ) operation );
         hb_vmPushPointer( ( GtkPrintContext * ) context );
-//        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
         hb_vmPushInteger( (gint) page_nr );
         hb_vmPushPointer( ( GtkPageSetup * ) setup );
-//        hb_vmPushLong( GPOINTER_TO_UINT( setup ) );
         hb_vmSend( 4 );
      }
   }
@@ -2959,11 +2953,12 @@ gboolean OnPaginate( GtkPrintOperation *operation, GtkPrintContext *context, gpo
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkPrintContext * ) context );            
-//            hb_vmPushLong( GPOINTER_TO_UINT( context ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
             return( hb_parl( -1 ) );
          } else {
-           g_print( "Method doesn't %s exist en OnPaginate", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnPaginate" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnPaginate", (gchar *)data );
          }
       }
   }
@@ -2975,8 +2970,6 @@ gboolean OnPaginate( GtkPrintOperation *operation, GtkPrintContext *context, gpo
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkPrintOperation * ) operation );
         hb_vmPushPointer( ( GtkPrintContext * ) context );            
-//        hb_vmPushLong( GPOINTER_TO_UINT( operation ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( context ) );
         hb_vmSend( 2 );
         return( hb_parl( -1 ) );
      }
@@ -3003,10 +2996,11 @@ void OnPrepare( GtkAssistant *assistant, GtkWidget * widget, gpointer data)
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkWidget * ) widget );            
-//            hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnPrepare", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnPrepare" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnPrepare", (gchar *)data );
          }
       }
   }
@@ -3018,8 +3012,6 @@ void OnPrepare( GtkAssistant *assistant, GtkWidget * widget, gpointer data)
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkAssistant * ) assistant );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-//        hb_vmPushLong( GPOINTER_TO_UINT( assistant ) );
-//        hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
         hb_vmSend( 2 );
      }
   }
@@ -3050,7 +3042,9 @@ void OnPopupMenu( GtkStatusIcon *status_icon,
             hb_vmPushInteger( (guint) activate_time );
             hb_vmSend( 3 );                               // LLamada por Send que pasa
          } else {
-           g_print( "Method doesn't %s exist en OnPopupMenu", (gchar *)data );
+	  HB_ERRCODE ErrCode = 5002;	  
+	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnPopupMenu" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnPopupMenu", (gchar *)data );
          }
       }
   }
@@ -3061,7 +3055,6 @@ void OnPopupMenu( GtkStatusIcon *status_icon,
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkStatusIcon * ) status_icon );
-//        hb_vmPushLong( GPOINTER_TO_UINT( status_icon ) );
         hb_vmPushInteger( (guint) button );
         hb_vmPushInteger( (guint) activate_time );
         hb_vmSend( 3 );
@@ -3166,7 +3159,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
       hb_retni( iReturn );
       }
    else
-       g_errRT_BASE( EG_ARG, 5001, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+       hb_errRT_BASE_Ext1( EG_ARG, 5001, GetGErrorMsg( 5001, NULL ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, 1, hb_paramError( 2 ) );
 
    
     if( ISOBJECT( 3 ) ) {
@@ -3180,39 +3173,38 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
           //g_print("\nEn har_e %d %s classname %s \n", GPOINTER_TO_UINT( pSelf ), array[ iPos ] , hb_objGetClsName( pSelf ) );
 	  
          }
-    }
-
-
-    /*Nota:
-     * A diferencia de cuando disponemos de Self, necesitamos guardar cada bloque
-     * por se�al, de lo contrario, solamente la primera declarada, funcionara...
-     * Para ello, aprovechamos el nombre de la se�al, contenido en el array,
-     * para guardar el codeblock segun la se�al.
-     * */
-    
-    
-    if( ISBLOCK( 4 ) ) {      
-      if( lPosAct > 0 && g_object_get_data( G_OBJECT( widget ), pActionParce->name ) == NULL )
-        {
-         // g_print( "Es un bloque de codigo\n");
-         //pBlock = hb_gcGripGet( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ) );
-         //pBlock = hb_itemNew( hb_stackItemFromBase( 4 ) );
-         // hb_stackItemFromBase(), significa que te devuelva un ITEM,
-         // del STACK, partiendo de la BASE
-         // y por BASE se entiende la funci�n actual
-         pBlock = hb_itemNew( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ));
-         /**
-         * Atencion !
-         * Cualquier salida via gtk_main_quit() provocara que no se llame nunca
-         * a la 'callback' destroy. Hay que 'cerrar' los contenedores para que
-         * emitan la se�al 'destroy' y se pueda autollamar a la funcion de
-         * liberacion de memoria liberate_block_memory
-          **/
-          g_object_set_data_full( G_OBJECT (widget), pActionParce->name, pBlock,
+    }else{
+        /*Nota:
+        * A diferencia de cuando disponemos de Self, necesitamos guardar cada bloque                       
+        * por se�al, de lo contrario, solamente la primera declarada, funcionara...
+        * Para ello, aprovechamos el nombre de la se�al, contenido en el array,
+        * para guardar el codeblock segun la se�al.
+        * */
+       if( ISBLOCK( 4 ) ) {      
+         if( lPosAct > 0 && g_object_get_data( G_OBJECT( widget ), pActionParce->name ) == NULL )
+         {
+            // g_print( "Es un bloque de codigo\n");
+            //pBlock = hb_gcGripGet( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ) );
+            //pBlock = hb_itemNew( hb_stackItemFromBase( 4 ) );
+            // hb_stackItemFromBase(), significa que te devuelva un ITEM,
+            // del STACK, partiendo de la BASE
+            // y por BASE se entiende la funci�n actual
+            pBlock = hb_itemNew( hb_param( 4, HB_IT_BLOCK | HB_IT_BYREF ));
+            /**
+            * Atencion !
+            * Cualquier salida via gtk_main_quit() provocara que no se llame nunca
+            * a la 'callback' destroy. Hay que 'cerrar' los contenedores para que
+            * emitan la se�al 'destroy' y se pueda autollamar a la funcion de
+            * liberacion de memoria liberate_block_memory
+            **/
+             g_object_set_data_full( G_OBJECT (widget), pActionParce->name, pBlock,
                                   (GDestroyNotify) liberate_block_memory );
 
         }
+    }else{
+       hb_errRT_BASE_Ext1( EG_ARG, 5003, GetGErrorMsg( 5003, NULL ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS ); 
     }
+  }
 
 }
 
@@ -3275,8 +3267,6 @@ static void LoadHashSignal()
    
 }
 
-  
-   
 
 static long G_GetHashPos( PHB_ITEM pHash, const char * cStr )
 {

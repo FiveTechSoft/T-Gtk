@@ -183,39 +183,6 @@ METHOD OnDelete_Event( oSender ) CLASS GOBJECT
       endif 
    endif
 
-/*
-    if oSender:bEnd = NIL
-       // Emitimos nosotros directamente el destroy
-       if oSender:ClassName() = "GDIALOG"
-          if oSender:nId != 0   // No debemos emitir el oDestroy cuando es RUN
-             return .F.  
-          endif
-       endif
-     // Fix: Comentamos por que da error en gtk_style, pero ahora no recuerdo porque se emite esta señal
-     // g_signal_emit_by_name( oSender:pWidget, "destroy" )
-       return .F. // Nos lleva irremediablemente a la perdicion ;-)
-    endif
-
-    // Se realiza de esta manera por ser mas comun a la forma de
-    // programar en Harbour.
-    if !Eval( oSender:bEnd, oSender )
-       Return .T.     // Nos quedamos
-    endif
-       
-    if oSender:ClassName() = "GDIALOG"
-       if oSender:nId != 0   // No debemos emitir el oDestroy cuando es RUN
-          return .F.  
-       endif
-    endif
-    // Debugger
-    // g_print( "Destruyendo: "+ oSender:Classname() + CRLF )
-
-    // ToFix: Comentamos por que da error en gtk_style, pero ahora no recuerdo porque se emite esta señal
-    // No hace falta emitir nada, se propaga a traves del retun .f. al destroy
-    // Emitimos nosotros directamente el destroy
-    // g_signal_emit_by_name( oSender:pWidget, "destroy" )
-*/
-
 Return ! lResult
 
 ******************************************************************************
@@ -223,11 +190,7 @@ Return ! lResult
 FUNCTION gtk_signal_connect( pWidget, cSignal, pBlock )
   Local iReturn := 0
   
-  IF ValType( pBlock ) == "B"
-     iReturn := HARB_SIGNAL_CONNECT( pWidget, cSignal, NIL, pBlock , 0 )
-  ELSE
-     MsgSTOP( "Sorry...Codeblock not pass at widget "+ cValToChar( pWidget ), "Caution..." )
-  ENDIF
+  iReturn := HARB_SIGNAL_CONNECT( pWidget, cSignal, NIL, pBlock , 0 )
 
 RETURN iReturn
       

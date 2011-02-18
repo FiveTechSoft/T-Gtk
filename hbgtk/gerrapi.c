@@ -28,8 +28,6 @@
 
 #define STARTCODE 5000
 
-char * GetGErrorMsg( HB_ERRCODE iCode );
-
 static G_LANG * pLangActive;
 
 static G_LANG LangInstalled[] = {
@@ -40,13 +38,6 @@ static G_LANG LangInstalled[] = {
 static G_ERRMSG * pErrMessage = NULL;
   
 static const char * sIDLang = NULL;
-
-//--------------------------------------------------------------//
-
-short g_errRT_BASE(  HB_ERRCODE errGenCode, HB_ERRCODE errSubCode, const char * szOperation, HB_ULONG ulArgCount )
-{
-   return ( short ) hb_errRT_BASE( errGenCode, errSubCode, GetGErrorMsg( errSubCode ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
-}
 
 //--------------------------------------------------------------//
 
@@ -73,17 +64,17 @@ static void LoadMsgs()
 
 //--------------------------------------------------------------//  
   
-char * GetGErrorMsg( HB_ERRCODE iCode )
+char * GetGErrorMsg( HB_ERRCODE iCode, const char * sAux )
 {
   int iPos = ( int ) iCode - STARTCODE;
-  char * cMsg = NULL;
+  char * cMsg = hb_xgrab( 128 );
   
   LoadMsgs();
 
   if( iPos >= 0 && iPos < pLangActive->lTotalMsgs )
-     cMsg = ( char * ) pErrMessage[ iPos ].sDescription;
+    sprintf( cMsg,  pErrMessage[ iPos ].sDescription, sAux );
 
-  return cMsg;
+  return ( char * )cMsg;
   
 }
 

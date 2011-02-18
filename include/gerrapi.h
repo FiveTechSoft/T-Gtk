@@ -46,5 +46,5 @@ typedef struct _G_LANG
 
 void BuildErrMsg( G_ERRMSG *ErrMsg, int iSize );
 
+char * GetGErrorMsg( HB_ERRCODE , const char * );
 
-short g_errRT_BASE(  HB_ERRCODE errGenCode, HB_ERRCODE errSubCode, const char * szOperation, HB_ULONG ulArgCount );

@@ -30,6 +30,8 @@ int LoadMsgsEN() {
   G_ERRMSG ErrMsg[] = { 
   { 5000, "Invalid iterator param" },
   { 5001, "Signal not support"     },
+  { 5002, "Method doesn't exits: %s" },
+  { 5003, "Codeblock not pass at widget" },
   };
   
   BuildErrMsg( ErrMsg, sizeof( ErrMsg ) );

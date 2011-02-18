@@ -30,7 +30,10 @@ int LoadMsgsES() {
   G_ERRMSG ErrMsg[] = { 
   { 5000, "Parametro Iterator inválido" },
   { 5001, "Señal no soportada"          },
+  { 5002, "Metodo no existe: %s" },
+  { 5003, "No se ha asignado Codeblock al Widget" },
   };
+  
   
   BuildErrMsg( ErrMsg, sizeof( ErrMsg ) );
   
