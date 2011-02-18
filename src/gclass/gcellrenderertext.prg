@@ -28,7 +28,7 @@ CLASS gCellRendererText FROM gCellRenderer
 
       METHOD New()
       METHOD SetEditable( lEdit ) INLINE g_object_set( ::pWidget, "editable", .T. )
-      METHOD OnEdited( oSender , cPath, cTextNew )
+      METHOD OnEdited( oSender , cPath, cTextNew ) SETGET
 
 ENDCLASS
 
@@ -42,14 +42,18 @@ RETURN Self
 
 METHOD OnEdited( oSender , cPath, cTextNew ) CLASS gCellRendererText
     
-    local aIter := Array( 4 )
-    
-    if oSender:bEdited != NIL
-       if oSender:oColumn:oTreeView:IsKindOf( "GTREEVIEW" )
-          oSender:oColumn:oTreeView:IsGetSelected( aIter )
+   local aIter := Array( 4 )
+   local uParam := oSender
+
+   if hb_IsBlock( uParam )
+      ::bEdited = uParam
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bEdited )
+         if oSender:oColumn:oTreeView:IsKindOf( "GTREEVIEW" )
+            oSender:oColumn:oTreeView:IsGetSelected( aIter )
+         endif
+         Eval( oSender:bEdited, oSender, cPath, cTextNew, aIter )
        endif
-       
-       Eval( oSender:bEdited, oSender, cPath, cTextNew, aIter )
-    endif
+   endif
 
 RETURN NIL
