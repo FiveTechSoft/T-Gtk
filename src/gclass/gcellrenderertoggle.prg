@@ -26,7 +26,7 @@
 CLASS gCellRendererToggle FROM gCellRenderer
 
       METHOD New()
-      METHOD OnCell_Toggled( oSender, cPath )
+      METHOD OnCell_Toggled( oSender, cPath ) SETGET
       
 ENDCLASS
 
@@ -39,10 +39,15 @@ RETURN Self
 
 METHOD OnCell_Toggled( oSender, cPath ) CLASS gCellRendererToggle
 
-    local aIter := Array( 4 )
-    
-    if oSender:bAction != NIL
-       Eval( oSender:bAction, oSender, cPath  )
-    endif
+   local aIter := Array( 4 )
+   local uParam := oSender
+
+   if hb_IsBlock( uParam )
+      ::bAction = uParam
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bAction )
+         Eval( oSender:bAction, oSender, cPath )
+       endif
+   endif
 
 RETURN .F.
