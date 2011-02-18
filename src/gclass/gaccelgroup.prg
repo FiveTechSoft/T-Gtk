@@ -61,16 +61,11 @@ METHOD Add( oWidget, cSignal , uKey, nMode, nFlags ) CLASS GACCELGROUP
       nKey := uKey
    endif
    
-
-  if ( nKey != GDK_VoidSymbol )
-     gtk_widget_add_accelerator( oWidget:pWidget,;      
+   gtk_widget_add_accelerator( oWidget:pWidget,;      
                                  cSignal,;
                                  ::pWidget,;
                                  nKey,;
                                  nMode, nFlags )
 
-  else
-     Msg_Alert( "The key name is not a valid key. ","Alert" )
-  endif
 
 RETURN NIL

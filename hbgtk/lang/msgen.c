@@ -32,6 +32,8 @@ int LoadMsgsEN() {
   { 5001, "Signal not support"     },
   { 5002, "Method doesn't exits: %s" },
   { 5003, "Codeblock not pass at widget" },
+  { 5004, "Invalid Pointer" },
+  { 5005, "The key name is not a valid key"}
   };
   
   BuildErrMsg( ErrMsg, sizeof( ErrMsg ) );

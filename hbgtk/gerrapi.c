@@ -78,6 +78,13 @@ char * GetGErrorMsg( HB_ERRCODE iCode, const char * sAux )
   
 }
 
+//--------------------------------------------------------------//  
+
+char * GetGErrorMsg1( HB_ERRCODE iCode )
+{
+  return GetGErrorMsg( iCode, NULL );
+}
+
 
 //--------------------------------------------------------------//
 

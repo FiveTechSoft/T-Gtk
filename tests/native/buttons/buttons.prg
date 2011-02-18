@@ -77,7 +77,7 @@ function main()
 
 
   button3 := gtk_button_new_with_label( "Salir - Codeblock a funcion publica GTK+" )
-  bBlock3 := {| | gtk_widget_destroy( window:lll ) } //{|| g_signal_emit_by_name( window, "destroy" ) }
+  bBlock3 := {| | gtk_widget_destroy( window ) } //{|| g_signal_emit_by_name( window, "destroy" ) }
   gtk_signal_connect( button3, "clicked", bBlock3 ) 
   //gtk_signal_connect( button3, "clicked", {||exit()} ) 
   gtk_box_pack_start( vbox, button3, .F.,.T.,0 )

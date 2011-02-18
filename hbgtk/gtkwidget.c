@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 #include "t-gtk.h"
+#include "hbapierr.h"
+#include "gerrapi.h"
 
 PHB_ITEM Color2Array( GdkColor *color );
 BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );
@@ -32,60 +34,81 @@ BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );
 #define BGCOLOR 2
 #define BASECOLOR 3
 #define TEXTCOLOR 4
+#define GDK_VoidSymbol       0xFFFFFF
+
+BOOL G_IsWidget( int iArg )
+{
+  BOOL bWidget = FALSE;
+  if( ISPOINTER( iArg ) )
+     bWidget = TRUE;
+  else
+    hb_errRT_BASE( EG_ARG, 5004, GetGErrorMsg1( 5004 ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );    
+  
+  return bWidget;
+}
 
 HB_FUNC( GTK_WIDGET_SHOW )
 {
-  gtk_widget_show( ( GtkWidget * ) hb_parptr( 1 ) );
+  if( G_IsWidget( 1 ) )
+     gtk_widget_show( ( GtkWidget * ) hb_parptr( 1 ) );
 }
 
 HB_FUNC( GTK_WIDGET_SHOW_ALL )
 {
-  gtk_widget_show_all( GTK_WIDGET( hb_parptr( 1 ) ) );
+  if( G_IsWidget( 1 ) )
+     gtk_widget_show_all( GTK_WIDGET( hb_parptr( 1 ) ) );
 }
 
 HB_FUNC( GTK_WIDGET_HIDE)
 {
-  gtk_widget_hide( ( GtkWidget * ) hb_parptr( 1 ) );
+  if( G_IsWidget( 1 ) )
+    gtk_widget_hide( ( GtkWidget * ) hb_parptr( 1 ) );
+  
 }
 
 HB_FUNC( GTK_WIDGET_DESTROY )
 {
-  gtk_widget_destroy( GTK_WIDGET( hb_parptr( 1 )  ) );
+  if( G_IsWidget( 1 ) )
+    gtk_widget_destroy( GTK_WIDGET( hb_parptr( 1 )  ) );
 }
 
 HB_FUNC( GTK_WIDGET_SET_FLAGS )
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
-  GTK_WIDGET_SET_FLAGS( widget , hb_parni( 2 )  );
+  if( G_IsWidget( 1 ) ){
+     GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+     GTK_WIDGET_SET_FLAGS( widget , hb_parni( 2 )  ); 
+  }
 }
 
 HB_FUNC( GTK_WIDGET_GRAB_DEFAULT )
 {
-  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
-  gtk_widget_grab_default( widget );
+  if( G_IsWidget( 1 ) )
+    gtk_widget_grab_default( GTK_WIDGET( hb_parptr( 1 )  ) );
 }
 
 HB_FUNC( GTK_WIDGET_SET_USIZE )
 {
-   GtkWidget * hWnd = ( GtkWidget * ) hb_parptr( 1 );
-   gtk_widget_set_usize ( hWnd, hb_parni( 2 ), hb_parni( 3 ) );
+   if( G_IsWidget( 1 ) )
+    gtk_widget_set_usize ( GTK_WIDGET( hb_parptr( 1 ) ), hb_parni( 2 ), hb_parni( 3 ) );
 }
 
 HB_FUNC( GTK_WIDGET_QUEUE_DRAW )
 {
-   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ));
-   gtk_widget_queue_draw (  widget );
+  if( G_IsWidget( 1 ) )
+    gtk_widget_queue_draw ( GTK_WIDGET( hb_parptr( 1 ) ) );
 }
 
 HB_FUNC( GTK_WIDGET_GRAB_FOCUS )
 {
-   gtk_widget_grab_focus( ( GTK_WIDGET( hb_parptr( 1 ) ) ) );
+  if( G_IsWidget( 1 ) )
+    gtk_widget_grab_focus( GTK_WIDGET( hb_parptr( 1 )  ) );
 }
 
 HB_FUNC( GTK_WIDGET_SET_UPOSITION )
 {
-   gtk_widget_set_uposition( GTK_WIDGET( hb_parptr( 1 ) ),
-                             hb_parnl( 3 ), hb_parnl( 2 ) );
+  if( G_IsWidget( 1 ) )
+     gtk_widget_set_uposition( GTK_WIDGET( hb_parptr( 1 ) ),
+                               hb_parnl( 3 ), hb_parnl( 2 ) );
 }
 
 HB_FUNC( GTK_WIDGET_SET_SENSITIVE ) // widget, boolean -> void
@@ -332,7 +355,13 @@ HB_FUNC( GTK_WIDGET_ADD_ACCELERATOR )// widget, accel_signal, accel_group, accel
    GdkModifierType mode = ISNIL( 5 ) ? 0 : hb_parni( 5 );
    //GdkModifierType mode = GDK_SHIFT_MASK; 
    GtkAccelFlags accel_flags = ISNIL( 6 ) ? GTK_ACCEL_VISIBLE : hb_parni( 6 );
-   gtk_widget_add_accelerator( widget, accel_signal, accel_group, accel_key, mode, accel_flags ); 
+   if( G_IsWidget( 1 )  && G_IsWidget( 3 ) )
+   {
+     if( accel_key != GDK_VoidSymbol )
+      gtk_widget_add_accelerator( widget, accel_signal, accel_group, accel_key, mode, accel_flags ); 
+     else
+      hb_errRT_BASE_Ext1( EG_ARG, 5005, GetGErrorMsg1( 5005 ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   
+   }
 }
 
 HB_FUNC( GTK_WIDGET_RENDER_ICON )
@@ -343,4 +372,9 @@ HB_FUNC( GTK_WIDGET_RENDER_ICON )
    const gchar * detail = hb_parc( 4 );
    GdkPixbuf * pixbuf = gtk_widget_render_icon( widget, stock_id, size, detail );
    hb_retptr( ( GdkPixbuf * ) pixbuf );
+}
+
+HB_FUNC( G_CHECKWIDGET )
+{
+  hb_retl( G_IsWidget( 1 ) ); 
 }
