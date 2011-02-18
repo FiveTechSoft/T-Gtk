@@ -47,11 +47,11 @@ CLASS GASSISTANT FROM GWINDOW
     METHOD RemoveWidget( oWidget ) INLINE gtk_assistant_remove_action_widget( ::pWidget, oWidget:pWidget )
     METHOD UpdateButtons() INLINE gtk_assistant_update_buttons_state( ::pWidget )
     METHOD GetChildWidget( nPage_Number ) INLINE gtk_assistant_get_nth_page( ::pWidget, nPage_Number - 1 )
-    METHOD OnApply( oSender ) 
-    METHOD OnClose( oSender ) 
-    METHOD OnCancel( oSender ) 
-    METHOD OnPrepare( oSender, pPage ) 
-
+    METHOD OnApply( oSender )  SETGET
+    METHOD OnClose( oSender )  SETGET
+    METHOD OnCancel( oSender ) SETGET
+    METHOD OnPrepare( oSender, pPage ) SETGET
+    
 ENDCLASS
 
 METHOD New( bCancel, bClose, bPrepare, bApply, nWidth, nHeight, cId, uGlade ) CLASS GASSISTANT
@@ -70,14 +70,17 @@ METHOD New( bCancel, bClose, bPrepare, bApply, nWidth, nHeight, cId, uGlade ) CL
        if nWidth != NIL
           ::Size( nWidth, nHeight )
        endif
-
-       ::Connect( "cancel" )
-       ::Connect( "close" )
-       ::Connect( "prepare" )
-       ::Connect( "apply" )
+       
+       
+       //solo conectamos la señal si existe el codeblock
+       ::OnCancel  = bCancel
+       ::OnClose   = bClose
+       ::OnPrepare = bPrepare
+       ::OnApply   = bApply
+       
        // creo no es necesario activar delete-event
        // al parecer OnClose hace el mismo trabajo
-//       ::Connect( "delete-event" )
+       // ::Connect( "delete-event" )
        ::Connect( "destroy" )
 
        if GetWndMain() == NIL 
@@ -136,37 +139,58 @@ METHOD SetPageSideImage( uImage, oWidget )  CLASS GASSISTANT
 
 RETURN NIL
 
-            
 
-METHOD OnApply( oSender ) CLASS GASSISTANT
+
+METHOD OnApply( uParam )  CLASS GASSISTANT
+
+   if hb_IsBlock( uParam )
+      ::bApply = uParam
+      ::Connect( "apply" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bApply )
+         Eval( uParam:bApply, uParam )
+      endif
+   endif    
+
+RETURN .F.
+
+METHOD OnClose( uParam ) CLASS GASSISTANT
    
-   IF oSender:bApply != NIL
-      return Eval( oSender:bApply , oSender )
-   ENDIF
+   if hb_IsBlock( uParam )
+      ::bClose = uParam
+      ::Connect( "close" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bClose )
+         Eval( uParam:bClose, uParam )
+      endif
+   endif       
 
 RETURN NIL
 
-METHOD OnClose( oSender ) CLASS GASSISTANT
+
+METHOD OnCancel( uParam ) CLASS GASSISTANT
    
-   IF oSender:bClose != NIL
-      return Eval( oSender:bClose , oSender )
-   ENDIF
+   if hb_IsBlock( uParam )
+      ::bCancel = uParam
+      ::Connect( "cancel" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bCancel )
+         Eval( uParam:bCancel, uParam )
+      endif
+   endif          
 
 RETURN NIL
 
-METHOD OnCancel( oSender ) CLASS GASSISTANT
+METHOD OnPrepare( uParam, pPage ) CLASS GASSISTANT
    
-   IF oSender:bCancel != NIL
-      return Eval( oSender:bCancel , oSender )
-   ENDIF
-
-RETURN NIL
-
-METHOD OnPrepare( oSender, pPage ) CLASS GASSISTANT
-   
-   IF oSender:bPrepare != NIL
-      return Eval( oSender:bPrepare , oSender, pPage )
-   ENDIF
+   if hb_IsBlock( uParam )
+      ::bPrepare = uParam
+      ::Connect( "prepare" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( uParam:bPrepare )
+         Eval( uParam:bPrepare, uParam, nPage )
+      endif
+   endif             
 
 RETURN NIL
 
