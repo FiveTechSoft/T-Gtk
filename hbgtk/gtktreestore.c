@@ -132,6 +132,9 @@ HB_FUNC( GTK_TREE_STORE_SET ) // Treestore, column, item, data -> void
      else if( HB_IS_LONG( pValue ) )
        gtk_tree_store_set( store, &iter, (gint) hb_parni( 2 ),
                        hb_parnl( 4 ), -1 );
+     else if( HB_IS_POINTER( pValue ) )
+       gtk_tree_store_set( store, &iter, (gint) hb_parni( 2 ),
+                       hb_parptr( 4 ), -1 );
      else if( HB_IS_DATE( pValue ) )
        gtk_tree_store_set( store, &iter, (gint) hb_parni( 2 ),
                        hb_pards( 4 ), -1 );

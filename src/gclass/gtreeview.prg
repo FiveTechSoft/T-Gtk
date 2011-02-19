@@ -412,6 +412,8 @@ METHOD GetAutoValueIter( nColumn, aIter, aIter_Clone ) CLASS gTreeView
               hb_gtk_tree_model_get_long( model, aIter, nColumn - 1, @uValue ) 
          CASE ( nType = G_TYPE_DOUBLE .OR. nType = G_TYPE_FLOAT )
               hb_gtk_tree_model_get_double( model, aIter, nColumn - 1, @uValue ) 
+         CASE ( nType = G_TYPE_POINTER .OR. nType = GDK_TYPE_PIXBUF )
+              hb_gtk_tree_model_get_pointer( model, aIter, nColumn - 1, @uValue ) 
       END CASE
       aIter_Clone := aIter
    ENDIF
@@ -436,6 +438,8 @@ METHOD GetColumnTypeStr( nColumn ) CLASS gTreeView
            cType := "Long"
       CASE ( nType = G_TYPE_DOUBLE .OR. nType = G_TYPE_FLOAT )
            cType := "Double"
+      CASE ( nType = G_TYPE_POINTER .OR. nType = GDK_TYPE_PIXBUF )
+           cType := "Pointer"
    END CASE
        
 Return cType       

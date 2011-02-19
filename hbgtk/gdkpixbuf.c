@@ -36,7 +36,7 @@ HB_FUNC( GDK_PIXBUF_NEW_FROM_FILE ) // cFilename -> pixbuf
   int width = 1;
   int height = 1;
 
-  pixbuf = gdk_pixbuf_new_from_file( (gchar *) hb_parc( 1 ), &error );
+  pixbuf = gdk_pixbuf_new_from_file( (const gchar *) hb_parc( 1 ), &error );
   if (!pixbuf)
   {
      g_print( "Error de apertura : %s", error->message );

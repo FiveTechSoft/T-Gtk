@@ -318,6 +318,13 @@ HB_FUNC( GTK_TREE_MODEL_GET_ITER_FROM_STRING ) //  model, iter, cPath --> bool
       FillArrayFromIter( &iter, aIter );
 }    
 
+//gint                gtk_tree_path_get_depth             (GtkTreePath *path);
+
+HB_FUNC( GTK_TREE_PATH_GET_DEPTH ) //  model, iter, cPath --> bool
+{
+  GtkTreePath *path  = (GtkTreePath *) hb_parptr( 1 );
+  hb_retni(  gtk_tree_path_get_depth( path ) ); 
+}
 // Combo_box de ITER
 
 HB_FUNC( GTK_COMBO_BOX_SET_ACTIVE_ITER )
