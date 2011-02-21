@@ -149,7 +149,7 @@ METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
 
        ::Register()
        ::Show()
-
+       
        if lModal
           ::Modal( .T. )
        endif

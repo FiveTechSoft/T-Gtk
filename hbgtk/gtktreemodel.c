@@ -144,6 +144,12 @@ HB_FUNC( GTK_TREE_PATH_NEW_FROM_STRING )
   hb_retptr( (GtkTreePath * ) path );
 }
 
+HB_FUNC( GTK_TREE_PATH_TO_STRING )
+{
+  GtkTreePath * path =   ( GtkTreePath *) hb_parptr( 1 ) ;
+  hb_retc( (gchar * ) gtk_tree_path_to_string( path ) );
+}
+
 HB_FUNC( GTK_TREE_PATH_FREE )
 {
   GtkTreePath * path  = (GtkTreePath *)  hb_parptr( 1 );

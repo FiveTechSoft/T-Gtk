@@ -64,6 +64,8 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GetPosRow( aIter )
       METHOD SetPosRow( aIter, nCol )
 
+      METHOD GetDepth( path ) 
+
       METHOD GoUp()   INLINE HB_GTK_TREE_VIEW_UP_ROW( ::pWidget )
       METHOD GoDown() INLINE HB_GTK_TREE_VIEW_DOWN_ROW( ::pWidget )
       
@@ -443,6 +445,22 @@ METHOD GetColumnTypeStr( nColumn ) CLASS gTreeView
    END CASE
        
 Return cType       
+
+METHOD GetDepth( path ) CLASS gTreeView
+  Local aIter := Array( 4 ) , nDepth := 0
+ 
+  if !empty( path )
+      nDepth := gtk_tree_path_get_depth( path )
+  else
+     if ::IsGetSelected( aIter )
+        path  := ::GetPath( aIter ) 
+        nDepth := gtk_tree_path_get_depth( path )
+        gtk_tree_path_free( Path )
+     endif
+  endif
+
+return nDepth
+
 
 
 METHOD OnRow_Activated( uParam, pPath, pTreeViewColumn ) CLASS gTreeView
