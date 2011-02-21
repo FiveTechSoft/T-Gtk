@@ -33,13 +33,13 @@ function main()
 
     oServer := Autentificacion()
 
-   
     if oServer != NIL    
  
        SET RESOURCES cGlade FROM FILE "dolphin.glade" ROOT "consultas" 
           
        DEFINE WINDOW oWnd ID "consultas" RESOURCE cGlade 
-              DEFINE STATUSBAR oBar TEXT "Database en uso:"+oServer:cDBName ID "statusbar" RESOURCE cGlade
+             
+         DEFINE STATUSBAR oBar TEXT "Database en uso:"+oServer:cDBName ID "statusbar" RESOURCE cGlade
 
               DEFINE TREEVIEW oTreeView_Consulta ID "treeview_consulta" RESOURCE cGlade EXPAND FILL
               oTreeView_Consulta:SetRules( .T. )
@@ -82,6 +82,7 @@ function main()
              DEFINE ACCEL_GROUP oAccel OF oWnd
                     ADD ACCELGROUP oAccel OF otool SIGNAL "clicked"  KEY "F5"
 
+       
        ACTIVATE WINDOW oWnd INITIATE CENTER
        
        gdk_pixbuf_unref( pToday )
@@ -97,11 +98,13 @@ return nil
        sin tener que desplazarnos por la vista.
 */
 static function Activa( Path, TreeViewColumn , oTextView, oServer, oBar, oTreeView )
-  Local aIter := array( 4 ) 
+  Local aIter := array( 4 ) , aChild, oLbx, cField, cSelect_DB
   Local cSql := "SELECT * FROM ", cSelect_Table
   Local nNivel := oTreeView:GetDepth( path )
-  Local pPath := Path
+  Local pPath := Path, oError
+  Local pBd_Field
 
+try
   do case
      case nNivel = 1  // Nivel de BD
           oServer:SelectDB( oTreeView:GetAutoValue( 2 ) )
@@ -110,7 +113,8 @@ static function Activa( Path, TreeViewColumn , oTextView, oServer, oBar, oTreeVi
           // Comprobamos que la BD donde estamos en igual a la que seleccionamos
           cSelect_Table := oTreeView:GetAutoValue( 2 ) 
           oTreeView:GoUp()        // Vamos al nivel de la BD
-          if oTreeView:GetAutoValue( 2 ) = oServer:cDBName
+          cSelect_DB    := oTreeView:GetAutoValue( 2 )
+          if cSelect_DB = oServer:cDBName
              gtk_tree_view_set_cursor( oTreeview:pWidget, pPath, 1, .F. )  // Nos posicionamos donde estabamos
              oTextView:SetText( cSql + cSelect_Table + " LIMIT 0,1000")
           else
@@ -118,11 +122,29 @@ static function Activa( Path, TreeViewColumn , oTextView, oServer, oBar, oTreeVi
              gtk_tree_view_set_cursor( oTreeview:pWidget, pPath, 1, .F. )  // Nos posicionamos donde estabamos
              oTextView:SetText( cSql + cSelect_Table + " LIMIT 0,1000" )
           endif
+          if oTreeview:IsGetSelected( aIter )  // Obtenemos el Iter de donde estamos
+             oLbx  := oTreeView:oModel
+             if empty( gtk_tree_model_iter_n_children ( oTreeview:GetModel(), aiter )  ) // ¿ Tienes hijos ?
+                pBd_Field  := gdk_pixbuf_new_from_file( "../../images/field.png" )
+                cSelect_DB := oServer:cDBName                                 // Guarda en la BD que estamos
+                oTreeView:GoUp()                                              // Vamos al nivel de la BD
+                oServer:SelectDB( oTreeView:GetAutoValue( 2 ) )               // Selecciona DB 
+                gtk_tree_view_set_cursor( oTreeview:pWidget, pPath, 1, .F. )  // Nos posicionamos donde estabamos
+                for each cField in oServer:TableStructure( cSelect_Table )    // Coloca la estructura en el modelo de datos
+                    APPEND TREE_STORE oLbx PARENT aIter  ITER aChild  VALUES pBd_Field, cField[1]
+                next
+                oServer:SelectDB( cSelect_DB )                                 // Selecciona DB que teniamos
+                gdk_pixbuf_unref( pBd_Field )
+             endif
+          endif
+
      case nNivel = 3  // Nivel de Field
           oTextView:Insert( " " + oTreeView:GetAutoValue( 2 ) + "," )  // Insertamos el nombre del campo
 
   endcase 
-
+catch oError
+ ? oError:Description
+end
 
 return nil
 
@@ -144,6 +166,10 @@ return nil
 
 /*
  Carga el modelo de datos de las BD.
+ NOTA: Candidata a usar threads
+ TODO: 
+  Mejoras en la velocidad, solo carga valores de bd y tablas,
+  la estructura, la cargaremos bajo peticion
 */
 static function ShowDatabases( oServer )
      Local oLbx , oQry, cDb, aParent, aChild, cTable, aSubChild, cField
@@ -161,11 +187,13 @@ static function ShowDatabases( oServer )
               APPEND TREE_STORE oLbx PARENT aParent ;
                     ITER aChild ;
                     VALUES pBd_Table,cTable
+             /*
               for each cField in oServer:TableStructure( cTable )
                   APPEND TREE_STORE oLbx PARENT aChild ;
                     ITER aSubChild ;
                     VALUES pBd_Field, cField[1]
               next
+              */
           next
      next
      
@@ -207,6 +235,7 @@ function Autentificacion()
             
             
     ACTIVATE WINDOW oWnd 
+
 
 RETURN oServer
 
@@ -334,4 +363,26 @@ STATIC FUNCTION QUERY_VIEW( oTreeView, cQuery, oServer )
   oQry:End()
 
 return nil
+
+FUNCTION Loading_Datas( )
+  Local oBox,oSpinner
+  static oWnd
+
+  if empty( oWnd )
+
+          DEFINE WINDOW oWnd SIZE 100, 100
+
+             DEFINE BOX oBox VERTICAL OF oWnd
+                 DEFINE LABEL TEXT "Loading...." EXPAND FILL OF oBOX
+                 DEFINE SPINNER oSpinner START   EXPAND FILL OF oBOX
+
+             SysRefresh()
+
+          ACTIVATE WINDOW oWnd CENTER MODAL
+  else
+     oWnd:End()
+     oWnd := NIL
+  endif
+RETURN NIL
+
 
