@@ -187,13 +187,11 @@ static function ShowDatabases( oServer )
               APPEND TREE_STORE oLbx PARENT aParent ;
                     ITER aChild ;
                     VALUES pBd_Table,cTable
-             /*
-              for each cField in oServer:TableStructure( cTable )
-                  APPEND TREE_STORE oLbx PARENT aChild ;
-                    ITER aSubChild ;
-                    VALUES pBd_Field, cField[1]
-              next
-              */
+               if s_cServer = "localhost" .or. s_cServer = "127.0.0.1"
+                  for each cField in oServer:TableStructure( cTable )
+                      APPEND TREE_STORE oLbx PARENT aChild ITER aSubChild  VALUES pBd_Field, cField[1]
+                  next
+              endif
           next
      next
      
