@@ -153,6 +153,24 @@ HB_FUNC( GTK_TREE_MODEL_ITER_N_CHILDREN ) //  pModel, aIter
    hb_retni( children );
 }
 
+HB_FUNC( GTK_TREE_MODEL_ITER_HAS_CHILD ) //  pModel, aIter
+{
+   GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 1 );
+   gboolean child;
+   GtkTreeIter iter;
+   PHB_ITEM aIter = hb_param( 2, HB_IT_ARRAY );
+   
+   if ( Array2Iter( aIter, &iter ) ) 
+       child = gtk_tree_model_iter_has_child( model, &iter );
+   
+   if( HB_IS_ARRAY( aIter ) && hb_arrayLen( aIter ) == 4 ) 
+      FillArrayFromIter( &iter, aIter );
+
+   hb_retl( child );
+}
+
+
+
 HB_FUNC( GTK_TREE_PATH_NEW_FROM_STRING )
 {
   GtkTreePath * path =  gtk_tree_path_new_from_string( (gchar*) hb_parc( 1 ) );

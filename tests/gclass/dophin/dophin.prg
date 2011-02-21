@@ -124,7 +124,7 @@ try
           endif
           if oTreeview:IsGetSelected( aIter )  // Obtenemos el Iter de donde estamos
              oLbx  := oTreeView:oModel
-             if empty( gtk_tree_model_iter_n_children ( oTreeview:GetModel(), aiter )  ) // ¿ Tienes hijos ?
+             if !gtk_tree_model_iter_has_child( oTreeview:GetModel(), aiter ) // ¿ Tienes hijos ?
                 pBd_Field  := gdk_pixbuf_new_from_file( "../../images/field.png" )
                 cSelect_DB := oServer:cDBName                                 // Guarda en la BD que estamos
                 oTreeView:GoUp()                                              // Vamos al nivel de la BD
