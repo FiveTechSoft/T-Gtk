@@ -28,13 +28,13 @@ CLASS GTREEVIEW FROM GCONTAINER
       DATA bMoveCursor, bCursorChanged
       DATA oModel 
       DATA aCols
+      DATA aoMenuPopup  // Arrays de Menus { oMenu_Nivel1, oMenu_Nivel2,...}
 
       METHOD New( )
       METHOD SetModel( oModel )     
       METHOD GetModel() INLINE gtk_tree_view_get_model( ::pWidget )
       METHOD ClearModel( )           
-      
-      
+     
       METHOD SetAutoSize() INLINE gtk_tree_view_columns_autosize( ::pWidget ) 
 
       METHOD GetValue( nColumn, cType, path )
@@ -76,10 +76,14 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD aRow( aIter )
       METHOD GetIterFirst( aIter ) INLINE gtk_tree_model_get_iter_first( ::GetModel(), aIter )
       METHOD GetIterNext( aIter )  INLINE gtk_tree_model_iter_next( ::GetModel(), aIter )  
+
+      METHOD SetMenuPopup( aoMenuPopup )
+
       
       METHOD OnColumns_changed ( oSender ) VIRTUAL
       METHOD OnCursorChanged( oSender )  SETGET // cursor-changed
       METHOD OnMoveCursor( oSender, arg1, arg2 ) SETGET
+      METHOD OnEvent( oSender, pGdkEvent )
 
 ENDCLASS
 
@@ -131,9 +135,9 @@ METHOD NEW( oModel, oParent, lExpand,;
    if bOnChange != NIL
       ::OnCursorChanged = bOnChange
    endif
-
+  
    ::Show()
-     
+   
 RETURN Self
 
 METHOD SetModel( oModel ) CLASS gTreeView    
@@ -461,6 +465,55 @@ METHOD GetDepth( path ) CLASS gTreeView
 
 return nDepth
 
+METHOD SetMenuPopup( aoMenuPopup ) CLASS gTreeView
+
+  ::aoMenuPopup := aoMenuPopup
+  ::Connect( "event" )
+  ::SetEvents( GDK_BUTTON_PRESS_MASK  )
+
+RETURN NIL
+
+METHOD OnEvent( oSender, pGdkEvent ) CLASS gTreeView
+   Local nEvent_Type, nEvent_Button_Button, nEvent_Button_Time
+   Local selection, path, nDepth := 0, oMenu
+
+   if ::aoMenuPopup != NIL // Si habiamos definido un MenuPopup
+      nEvent_Type := HB_GET_GDKEVENT_TYPE( pGdkevent )
+      if ( nEvent_Type == GDK_BUTTON_PRESS )        // Event_Type
+          nEvent_Button_Button := HB_GET_GDKEVENT_BUTTON_BUTTON( pGdkevent )
+          if ( nEvent_Button_Button == 3)                    // Event->Button.Button
+               selection = ::GetSelection( )
+               // Note: gtk_tree_selection_count_selected_rows() does not
+               //   exist in gtk+-2.0, only in gtk+ >= v2.2 ! 
+               // Esta rutina nos permite seleccionar una fila y obtener el path hacia ella con el cursor del mouse.
+               if gtk_tree_selection_count_selected_rows( selection )  <= 1
+                  // Get tree path for row that was clicked 
+                   if gtk_tree_view_get_path_at_pos( ::pWidget, HB_GET_GDKEVENTBUTTON_x(pGdkevent),;
+                                                                HB_GET_GDKEVENTBUTTON_Y(pGdkevent),;
+                                                                 @path, NIL, NIL ,NIL ) 
+                      gtk_tree_selection_unselect_all(selection)
+                      gtk_tree_selection_select_path(selection, path)
+                      nDepth := ::GetDepth( path )
+                      gtk_tree_path_free(path)
+                   endif 
+              endif
+
+             if nDepth <= len( ::aoMenuPopup )
+                oMenu := ::aoMenuPopup[ nDepth ]
+             else
+                oMenu := ::aoMenuPopup[ 1 ]      // El primer menu definido será el común a todos
+             endif
+             
+             nEvent_Button_Time := HB_GET_GDKEVENT_BUTTON_TIME( pGdkevent )
+             gtk_menu_popup( oMenu:pWidget, NIL, NIL, NIL, NIL,;
+                                nEvent_Button_Button, nEvent_Button_Time ) // event->button.time
+
+          RETURN .T.
+       endif
+    endif
+   endif
+
+RETURN .F.
 
 
 METHOD OnRow_Activated( uParam, pPath, pTreeViewColumn ) CLASS gTreeView

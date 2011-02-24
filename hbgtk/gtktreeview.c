@@ -324,15 +324,30 @@ HB_FUNC( GTK_TREE_VIEW_SET_CURSOR )
 	
 }
 
+HB_FUNC( GTK_TREE_VIEW_GET_PATH_AT_POS )
+{
+   GtkTreeView * tree_view = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   gint x = hb_parni( 2 );
+   gint y = hb_parni( 3 );
+   GtkTreePath * path = ( GtkTreePath * ) hb_parptr( 4 );
+   GtkTreeViewColumn *focus_column = ISNIL( 5 ) ? NULL : ( GtkTreeViewColumn * ) hb_parptr( 5 );
+//   gint cell_x = ISNIL( 6 ) ? NULL : hb_parni( 6 );
+ //  gint cell_y = ISNIL( 7 ) ? NULL : hb_parni( 7 );
+  
+   hb_retl( gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW( tree_view ),
+                                           (gint) x, 
+                                           (gint) y,
+                                            &path, &focus_column, NULL, NULL ) );
+//                                            ( ISNIL( 6 ) ? NULL : (gint) hb_parni( 6 ) ),
+//                                            ( ISNIL( 7 ) ? NULL : (gint)hb_parni( 7 ) ) ) );
+   hb_storptr( (GtkTreePath * ) path, 4 );
+   hb_storptr( (GtkTreeViewColumn * ) focus_column, 5 );
+
+}
 
 
 /*
  * TODO: Seria interesante realizar WRAPPER
-void        gtk_tree_view_set_cursor        (GtkTreeView *tree_view,
-                                             GtkTreePath *path,
-                                             GtkTreeViewColumn *focus_column,
-                                             gboolean start_editing);
-
 
 void        gtk_tree_view_get_cursor        (GtkTreeView *tree_view,
                                              GtkTreePath **path,

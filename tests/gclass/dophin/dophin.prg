@@ -38,7 +38,7 @@ function main()
        SET RESOURCES cGlade FROM FILE "dolphin.glade" ROOT "consultas" 
           
        DEFINE WINDOW oWnd ID "consultas" RESOURCE cGlade 
-             
+       
          DEFINE STATUSBAR oBar TEXT "Database en uso:"+oServer:cDBName ID "statusbar" RESOURCE cGlade
 
               DEFINE TREEVIEW oTreeView_Consulta ID "treeview_consulta" RESOURCE cGlade EXPAND FILL
@@ -68,8 +68,11 @@ function main()
 
               /*----------------- -----------------------------------------------------------------------------*/              
               DEFINE TREEVIEW oTreeView MODEL ShowDatabases( oServer ) ID "treeview_tables" RESOURCE cGlade ;
-                     ON ROW ACTIVATED Activa( path, TreeViewColumn, oTextView, oServer, oBar,  oTreeView )
+                     ON ROW ACTIVATED Activa( path, TreeViewColumn, oTextView, oServer, oBar,  oTreeView ) 
 
+                      DEFINE MENU MenuPopup( oTreeView ), MenuPopup2( oTreeView ) OF TREEVIEW oTreeView
+
+                      //oTreeView:SetMenuPopup( { MenuPopup( oTreeView ), MenuPopup2( oTreeView ) } )
 
                       DEFINE TREEVIEWCOLUMN oCol  COLUMN 1 TITLE "BD"  TYPE "pixbuf" OF oTreeView 
                       oCol:oRenderer:Set_Valist( {"xalign", 0.0 } )
@@ -91,6 +94,23 @@ function main()
     endif
            
 return nil
+
+STATIC FUNCTION MenuPopup( oTreeView )
+    Local oMenu
+
+    DEFINE MENU oMenu 
+        MENUITEM TITLE "Valor DB y Field" ACTION MsgInfo( oTreeView:GetAutoValue( 2 ) ) OF oMenu
+
+RETURN oMenu
+
+STATIC FUNCTION MenuPopup2( oTreeView )
+    Local oMenu
+  
+    DEFINE MENU oMenu 
+        MENUITEM TITLE "Items para Tablas" ACTION MsgInfo( oTreeView:GetAutoValue( 2 ) ) OF oMenu
+
+RETURN oMenu
+
 
 /*
  Averigua en que nivel estamos y permite seleccionar la DB de trabajo, o insertar la SELECT automaticamente.
@@ -187,7 +207,7 @@ static function ShowDatabases( oServer )
               APPEND TREE_STORE oLbx PARENT aParent ;
                     ITER aChild ;
                     VALUES pBd_Table,cTable
-               if s_cServer = "localhost" .or. s_cServer = "127.0.0.1"
+               if s_cServer = "localhost" .or. s_cServer = "127.0.0.1"  // Si estamos en local, podemos cargarlo
                   for each cField in oServer:TableStructure( cTable )
                       APPEND TREE_STORE oLbx PARENT aChild ITER aSubChild  VALUES pBd_Field, cField[1]
                   next

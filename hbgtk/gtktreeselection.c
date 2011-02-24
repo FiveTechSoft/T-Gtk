@@ -61,4 +61,18 @@ HB_FUNC( GTK_TREE_SELECTION_GET_SELECTED ) // treeSelection , model, iter --> bo
      FillArrayFromIter( &iter, aIter );
   }
 }    
-    
+
+HB_FUNC( GTK_TREE_SELECTION_UNSELECT_ALL ) 
+{
+  GtkTreeSelection * selection = GTK_TREE_SELECTION( hb_parptr( 1 ) );
+  gtk_tree_selection_unselect_all( selection );
+}    
+
+HB_FUNC( GTK_TREE_SELECTION_SELECT_PATH ) 
+{
+  GtkTreeSelection * selection = GTK_TREE_SELECTION( hb_parptr( 1 ) );
+  GtkTreePath * path = ( GtkTreePath * ) hb_parptr( 2 );
+  gtk_tree_selection_select_path( selection, path );
+}    
+
+

@@ -94,6 +94,7 @@ HB_FUNC( HB_GET_GDKEVENT_BUTTON_TIME )
   hb_retni( (gint) event->button.time );
 }
 
+
 /*
  *  Miembros de la structura GDKEVENTKEY 
  */
@@ -156,3 +157,17 @@ HB_FUNC( HB_GET_GDKEVENTKEY_GROUP )
   GdkEventKey * event = ( GdkEventKey * ) hb_parptr( 1 ) ;
   hb_retni( (gint) event->group );
 }
+
+HB_FUNC( HB_GET_GDKEVENTBUTTON_X )
+{
+  GdkEvent * event = ( GdkEvent * ) hb_parptr( 1 ) ;
+  hb_retni( (gint)((GdkEventButton*)event)->x );
+}
+
+HB_FUNC( HB_GET_GDKEVENTBUTTON_Y )
+{
+  GdkEvent * event = ( GdkEvent * ) hb_parptr( 1 ) ;
+  hb_retni( (gint)((GdkEventButton*)event)->y );
+}
+
+

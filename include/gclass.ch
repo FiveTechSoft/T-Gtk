@@ -1246,6 +1246,12 @@
       [ <oCol> := ] gTreeViewColumn():New( <cTitle>, <cType>, <nPos>, <.lExpand.>,;
                            <oTreeView>, <nWidth>, <.lSort.>, [ \{| oSender, path, uVal, aIter | <uAction> \} ] ) 
 
+// Comando para poner un MENUPOPUP a un treeview
+#xcommand DEFINE MENU <aMenus,...> OF TREEVIEW <oTreeView>  ;
+       	      => ;
+	      <oTreeView>:SetMenuPopup( \{<aMenus>\}) 
+
+
 /* Soporte para Modelo de Datos TREESTORE */
 #xcommand DEFINE TREE_STORE <oLbx>  ;
                  TYPES <aTypes,...> ;
