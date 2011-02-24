@@ -27,7 +27,8 @@ Function Main()
      
      DEFINE TREEVIEW oTreeView MODEL oLbx OF oScroll CONTAINER
      //oTreeView:SetRules( .T. )            
-     
+     DEFINE MENU MenuPopup( oTreeView ), MenuPopup2( oTreeView ) OF TREEVIEW oTreeView
+
      
      DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Holiday" TYPE "text" OF oTreeView
      oCol:SetResizable( .T. )
@@ -62,7 +63,9 @@ STATIC FUNCTION Create_Model()
 
   DEFINE TREE_STORE oLbx TYPES G_TYPE_STRING, G_TYPE_BOOLEAN, GDK_TYPE_PIXBUF , G_TYPE_INT
 
-  pixbuf := gdk_pixbuf_new_from_file( "../../images/gnome-gsame.png" )
+  // TODO: Error de carga
+   pixbuf := gdk_pixbuf_new_from_file( "../../images/gnome-gsame.png" )
+
 
   for nMonth := 1 to len( aMonths )
       
@@ -110,3 +113,24 @@ STATIC FUNCTION Create_Model()
                  VALUES "SubHijo",.F.,,50 // Hijo con valores directamente
 
  Return oLbx
+
+STATIC FUNCTION MenuPopup( oTreeView )
+    Local oMenu
+
+    DEFINE MENU oMenu 
+        MENUITEM TITLE "Menu 1" ACTION MsgInfo( oTreeView:GetAutoValue( 1 ) ) OF oMenu
+        MENUITEM TITLE "Menu 2" ACTION MsgInfo( oTreeView:GetAutoValue( 2 ) ) OF oMenu
+        MENUITEM TITLE "Menu 3" ACTION MsgInfo( oTreeView:GetAutoValue( 3 ) ) OF oMenu
+        MENUITEM TITLE "Menu 4" ACTION MsgInfo( oTreeView:GetAutoValue( 4 ) ) OF oMenu
+
+RETURN oMenu
+
+STATIC FUNCTION MenuPopup2( oTreeView )
+    Local oMenu
+  
+    DEFINE MENU oMenu 
+        MENUITEM TITLE "Menu 2" ACTION MsgInfo( "Hola, menu de 2 nivel" ) OF oMenu
+
+RETURN oMenu
+
+
