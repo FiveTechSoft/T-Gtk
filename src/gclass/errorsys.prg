@@ -1,7 +1,7 @@
 /* $Id: errorsys.prg,v 1.2 2008-12-02 21:37:48 riztan Exp $*/
 /*
     LGPL Licence.
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -46,7 +46,7 @@ FUNCTION DefError( oError )
    Local cTextExpand := '<span foreground="orange" size="large"><b>Pulse for view <span foreground="red"'+;
                         ' size="large" ><i> details</i></span></b>!</span>'
    Local aStyle := { { "red" ,    BGCOLOR , STATE_NORMAL },;
-                     { "yellow" , BGCOLOR , STATE_PRELIGHT },; 
+                     { "yellow" , BGCOLOR , STATE_PRELIGHT },;
                      { "white"  , FGCOLOR , STATE_NORMAL } }
    Local aStyleChild := { { "white", FGCOLOR , STATE_NORMAL },;
                           { "red",   FGCOLOR , STATE_PRELIGHT }}
@@ -151,9 +151,9 @@ FUNCTION DefError( oError )
                              SIZE 400,400 OF oExpand CONTAINER
 
                       DEFINE MEMO oMemo VAR cText OF oScrool CONTAINER
-                          oMemo:SetLeft( 10 ) 
+                          oMemo:SetLeft( 10 )
                           oMemo:SetRight( 20 )
-               
+
                DEFINE BOX oBoxH  OF oBox
 
                DEFINE BUTTON oBtn TEXT "_QUIT" MNEMONIC OF oBoxH EXPAND FILL ;
@@ -169,8 +169,8 @@ FUNCTION DefError( oError )
                          ACTION ( lReturn := .F., oWnd:End() )
                endif
 
-               DEFINE FONT oFont NAME "Sans italic bold 13" 
-               
+               DEFINE FONT oFont NAME "Sans italic bold 13"
+
                DEFINE BUTTON oBtn TEXT "_Save error.log" MNEMONIC;
                                  ACTION Memowrit( "error.log", cText ) ;
                                  FONT oFont ;
@@ -179,12 +179,14 @@ FUNCTION DefError( oError )
                                  OF oBoxH
 
     ACTIVATE WINDOW oWnd CENTER INITIATE
-    
+
     if lReturn == NIL
-       GetWndMain():End()      
+       if GetWndMain():pWidget != NIL
+          GetWndMain():End()
+       endif
        ErrorLevel( 1 )
        QUIT
-    endif    
+    endif
 
 RETURN lReturn
 
@@ -201,7 +203,7 @@ Static Function __Salir( oWnd )
           NEXT
        endif
 */
-       oWnd:End()       
+       oWnd:End()
        GetWndMain():End()
        ErrorLevel( 1 )
        QUIT
@@ -213,13 +215,13 @@ FUNCTION ErrorMessage( oError )
 
    cMessage := iif( oError:severity > ES_WARNING, "Error", "Warning" ) + " "
 
-   IF Valtype( oError:subsystem ) = "C" 
+   IF Valtype( oError:subsystem ) = "C"
       cMessage += oError:subsystem()
    ELSE
       cMessage += "???"
    ENDIF
 
-   IF Valtype( oError:subCode) = "N" 
+   IF Valtype( oError:subCode) = "N"
       cMessage += "/" + LTrim( Str( oError:subCode ) )
    ELSE
       cMessage += "/???"
@@ -322,7 +324,7 @@ PROCEDURE InitProfiler( lInfo, lShowTime ,lShowCall, lShowName )
          !! "Todos los metodos y funciones llamados una o mas veces, ordenados por TIEMPO"
          !! HBProfileReportToString():new( oProfile:timeSort() ):generate( {|o| ValType( o:nTicks ) == 'N' .AND. o:nTicks > 0 } )
       endif
-                  
+
       // Some closing stats
       !!  "## Totals ######"
       !! "    Total Calls  : " + str( oProfile:totalCalls() )
