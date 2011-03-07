@@ -75,4 +75,27 @@ HB_FUNC( GTK_TREE_SELECTION_SELECT_PATH )
   gtk_tree_selection_select_path( selection, path );
 }    
 
+HB_FUNC( GTK_TREE_PATH_UP )
+{
+  GtkTreePath * path = ( GtkTreePath * ) hb_parptr( 1 );
+  hb_retl( gtk_tree_path_up( path ) );
+}
+
+HB_FUNC( GTK_TREE_PATH_DOWN )
+{
+  GtkTreePath * path = ( GtkTreePath * ) hb_parptr( 1 );
+  gtk_tree_path_down( path );
+}
+
+HB_FUNC( GTK_TREE_PATH_NEXT )
+{
+  GtkTreePath * path = ( GtkTreePath * ) hb_parptr( 1 );
+  gtk_tree_path_next( path );
+}
+
+HB_FUNC( GTK_TREE_PATH_PREV)
+{
+  GtkTreePath * path = ( GtkTreePath * ) hb_parptr( 1 );
+  hb_retl( gtk_tree_path_prev( path ) );
+}
 
