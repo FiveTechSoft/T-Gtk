@@ -1,7 +1,7 @@
 /* $Id: gwidget.prg,v 1.7 2010-12-24 01:06:17 dgarciagil Exp $*/
 /*
     LGPL Licence.
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -80,11 +80,11 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnCanActivateAccel( oSender, nSignal_Id )        INLINE .F.
        METHOD OnChildNotify( oSender, pGParamSpec )  VIRTUAL
        METHOD OnClientEvent( oSender, pGdkEventClient ) INLINE .F.
-       METHOD OnConfigure_Event( oSender, pGdkEventConfigure ) 
+       METHOD OnConfigure_Event( oSender, pGdkEventConfigure )
        METHOD OnDestroyEvent( oSender, pGdkEvent )      INLINE .F.
        METHOD OnDirectionChanged( oSender, nGtkTextDirection )  VIRTUAL
        METHOD OnEnterNotifyEvent( oSender,  pGdkEventCrossing )
-       METHOD OnEvent( oSender, pGdkEvent ) INLINE .F. 
+       METHOD OnEvent( oSender, pGdkEvent ) INLINE .F.
        METHOD OnEventAfter( oSender, pGdkEvent ) VIRTUAL
        METHOD OnExpose_Event( oSender, pGdkEventExpose )
        METHOD OnFocus( oSender, nGtkDirectionType ) SETGET
@@ -107,10 +107,10 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnPopupMenu( oSender ) INLINE .F.
        METHOD OnRealize( oSender )   VIRTUAL
        METHOD OnPropertyNotifyEvent( oSender, pGdkEventProperty ) INLINE .F.
-       METHOD OnProximityInEvent( oSender, pGdkEventProximity  )  INLINE .F. 
-       METHOD OnProximityOutEvent( oSender, pGdkEventProximity )  INLINE .F. 
+       METHOD OnProximityInEvent( oSender, pGdkEventProximity  )  INLINE .F.
+       METHOD OnProximityOutEvent( oSender, pGdkEventProximity )  INLINE .F.
        METHOD OnScreenChanged( oSender, pGdkScreen ) VIRTUAL
-       METHOD OnScrollEvent( oSender, pGdkEventScroll )  INLINE .F. 
+       METHOD OnScrollEvent( oSender, pGdkEventScroll )  INLINE .F.
        METHOD OnSelectionClearEvent( oSender, pGdkEventSelection )       INLINE .F.
        METHOD OnSelectionGet( oSender, pGtkSelectionData, nInfo, nTime ) INLINE .F.
        METHOD OnSelectionNotifyEvent( oSender, pGdkEventSelection )      INLINE .F.
@@ -118,7 +118,7 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnSelectionRequestEvent( oSender, pGdkEventSelection )     INLINE .F.
        METHOD OnShow( oSender ) VIRTUAL
        METHOD OnShowHelp( oSender, nGtkWidgetHelpType ) INLINE .F.
-       METHOD OnSizeAllocate( oSender, GtkAllocation )  
+       METHOD OnSizeAllocate( oSender, GtkAllocation )
        METHOD OnSizeRequest( oSender, pGtkRequisition ) VIRTUAL
        METHOD OnStateChanged( oSender, nGtkStateType )  VIRTUAL
        METHOD OnStyleSet( oSender, pGtkStyle_previous_style  ) VIRTUAL
@@ -128,7 +128,7 @@ CLASS GWIDGET FROM GOBJECT
        METHOD OnVisibilityNotifyEvent( oSender, pGdkEventVisibility ) INLINE .F.
        METHOD OnWindowStateEvent( oSender, pGdkEventWindowState ) INLINE .F.
 	   //METHOD OnDelete_From_Cursor( oSender, nDeleteType, nMode ) VIRTUAL
-	   
+
 ENDCLASS
 
 
@@ -214,7 +214,7 @@ RETURN nil
 METHOD CheckGlade( cId ) CLASS GWIDGET
      IF empty( ::pWidget )
         MsgStop( "No existe widget: " + cId ,  "PARADA CRITICA!!" )
-        gtk_widget_destroy( GetWndMain():pWidget ) 
+        gtk_widget_destroy( GetWndMain():pWidget )
      ENDIF
 RETURN .F.
 
@@ -309,16 +309,16 @@ RETURN NIL
 METHOD OnFocus_out_event( oSender, pGdkEventFocus ) CLASS GWIDGET
 
     oSender:MsgLeave()  // Limpiamos mensaje en Status Bar
-    
+
     IF oSender:bValid != nil
        IF ! Eval( oSender:bValid, oSender )
           oSender:SetFocus()
           RETURN .T.
        ENDIF
     ENDIF
-    
+
     gtk_widget_queue_draw( oSender:pWidget ) // Redibujo el widget
-   
+
     if oSender:bLostFocus != nil
        Eval( oSender:bLostFocus, oSender )
     endif
@@ -349,16 +349,16 @@ RETURN .F.
 
 ******************************************************************************
 METHOD OnExpose_Event( oSender, pGdkEventExpose ) CLASS GWIDGET
-  
+
    IF oSender:bExpose_Event != NIL
       return Eval( oSender:bExpose_Event , oSender, pGdkEventExpose )
    ENDIF
 
-RETURN .F.      
+RETURN .F.
 
 ******************************************************************************
 METHOD OnSizeAllocate( oSender, pGtkAllocation ) CLASS GWIDGET
-   
+
    IF oSender:bSizeAllocate != NIL
       return Eval( oSender:bSizeAllocate , oSender, pGtkAllocation )
    ENDIF
@@ -367,7 +367,7 @@ RETURN .F.
 
 ******************************************************************************
 METHOD OnFocus( uParam, nGtkDirectionType ) CLASS GWIDGET
-   
+
    if hb_IsBlock( uParam )
       ::bFocus = uParam
       ::Connect( "focus" )
@@ -375,21 +375,21 @@ METHOD OnFocus( uParam, nGtkDirectionType ) CLASS GWIDGET
       if hb_IsBlock( uParam:bFocus )
          Eval( uParam:bFocus, uParam, nGtkDirectionType )
       endif
-   endif       
+   endif
 
 RETURN .F.
 
 ******************************************************************************
 METHOD OnButtonPressEvent( uParam, pGdkEventButton )  CLASS GWIDGET
-   
+
    if hb_IsBlock( uParam )
       ::bButtonPressEvent = uParam
       ::Connect( "button-press-event" )
    elseif hb_IsObject( uParam )
       if hb_IsBlock( uParam:bButtonPressEvent )
-         Eval( uParam:bButtonPressEvent, uParam, nGtkDirectionType )
+         Eval( uParam:bButtonPressEvent, uParam, pGdkEventButton )
       endif
-   endif       
+   endif
 
 RETURN .F.
 
@@ -404,6 +404,6 @@ METHOD OnKeyPressEvent( uParam, pGdkEventKey )  CLASS GWIDGET
       if hb_IsBlock( uParam:bKeyPressEvent )
          Eval( uParam:bKeyPressEvent, uParam, pGdkEventKey )
       endif
-   endif    
+   endif
 
 RETURN .F.
