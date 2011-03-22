@@ -86,7 +86,7 @@ LIBRARIAN = ranlib
 
 #Definition GT driver
 ifeq ($(HB_COMPILER),mingw32)
-   GT_LIBS=-lgtwin
+   GT_LIBS=-lgtwvt
 else
    ifeq ($(XBASE_COMPILER),HARBOUR)
       #HARBOUR
@@ -202,39 +202,54 @@ ifeq ($(XBASE_COMPILER),HARBOUR)
              -D__COMPATIBLE_HARBOUR__ 
 endif
 
-#libraries for binary building
-ifeq ($(HB_MT),MT)
-   LIBFILES_ = -ldebug -lvmmt -lrtlmt $(GT_LIBS) -lrddmt -lrtlmt -lvmmt -lmacro -lppmt -ldbfntxmt -ldbfcdx -ldbfdbt -lcommon -lm -lpthread
-else
-   ifeq ($(HB_COMPILER),mingw32)
-     ifeq ($(XBASE_COMPILER),XHARBOUR)
-         # XHARBOUR  . tenemos para 0.99.51(dbfdbt) y 0.99.60
-         #LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -ldbffpt -lrtl -lcommon -lm -lgtwin $(GT_LIBS) -lgtnul -lgtwin 
-         LIBFILES_ = -lvm -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lhbsix -lhsx -lpcrepos -lcommon -lm -lgtwin -lgtnul $(GT_LIBS) -lstdc++ -lhbzip 
-     else
-         # HARBOUR
-         #LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm -lgtwin $(GT_LIBS) -lgtwin
-         LIBFILES_ = -lhbvm -lhbrtl -lhblang -lhbrdd -lhbmacro -lhbpp -lhbxpp \
-                     -lhbsix -lhbdebug -lhbcommon -lrddntx -lrddfpt -lrddcdx \
-                     -lhbsix -lxhb -lhbpp -lhbcpage -lhbwin -lhbpcre $(GT_LIBS) 
-     endif
-   else
-     ifeq ($(XBASE_COMPILER),XHARBOUR)
-        # XHARBOUR
-        #LIBFILES_ = -ldebug -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lrtl -lcommon -lm
-        LIBFILES_ = -lvm -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lcommon -lm -lhbsix -lpcrepos $(GT_LIBS) -lcodepage -lct -ltip
-     else
-        # HARBOUR
-        # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
 
-         LIBFILES_ = -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug -lhbvmmt \
-                     -lhbrtl -lhblang -lhbcpage -lgttrm -lhbrdd -lrddntx \
-                     -lrddnsx -lrddcdx -lrddfpt \
-                     -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl -lhbvmmt \
-                     -lhbmacro -lhbcplr -lhbpp -lhbcommon -lhbpcre $(GT_LIBS) \
-                     -lxhb -lhbxpp
-     endif
+#
+# Libraries for binary building
+#
+ifeq ($(HB_MT),MT)
+   ifeq ($(XBASE_COMPILER),XHARBOUR)
+      LIBMT=-ldebug -lvmmt -lrtlmt -lrddmt -lrtlmt -lvmmt \
+            -lmacro -lppmt -ldbfntxmt -ldbfcdx -ldbfdbt -lcommon -lm -lpthread 
+   else
+      LIBMT =-lhbvmmt
    endif
+else
+   ifeq ($(XBASE_COMPILER),XHARBOUR)
+      LIBMT=-ldebug -lvmmt -lrtlmt -lrddmt -lrtlmt -lvmmt -lmacro \
+            -lppmt -ldbfntxmt -ldbfcdx -ldbfdbt -lcommon -lm -lpthread
+   else
+      LIBMT =-lhbvm
+   endif
+endif
+
+ifeq ($(HB_COMPILER),mingw32)
+  ifeq ($(XBASE_COMPILER),XHARBOUR)
+      # XHARBOUR  . tenemos para 0.99.51(dbfdbt) y 0.99.60
+      #LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -ldbffpt -lrtl -lcommon -lm -lgtwin $(GT_LIBS) -lgtnul -lgtwin 
+      LIBFILES_ = $(LIBMT) -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lhbsix -lhsx -lpcrepos -lcommon -lm -lgtwin -lgtnul $(GT_LIBS) -lstdc++ -lhbzip 
+  else
+      # HARBOUR
+      #LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm -lgtwin $(GT_LIBS) -lgtwin
+      LIBFILES_ = $(LIBMT) -lhbrtl -lhblang -lhbrdd -lhbmacro -lhbpp -lhbxpp \
+                  -lhbsix -lhbdebug -lhbcommon -lrddntx -lrddfpt -lrddcdx \
+                  -lhbsix -lxhb -lhbpp -lhbcpage -lhbwin -lhbpcre $(GT_LIBS) 
+  endif
+else
+  ifeq ($(XBASE_COMPILER),XHARBOUR)
+     # XHARBOUR
+     #LIBFILES_ = -ldebug -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lrtl -lcommon -lm
+     LIBFILES_ = $(LIBMT) -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lcommon -lm -lhbsix -lpcrepos $(GT_LIBS) -lcodepage -lct -ltip
+  else
+     # HARBOUR
+     # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
+
+      LIBFILES_ = -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug $(LIBMT) \
+                  -lhbrtl -lhblang -lhbcpage -lgttrm -lhbrdd -lrddntx \
+                  -lrddnsx -lrddcdx -lrddfpt \
+                  -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl \
+                  -lhbmacro -lhbcplr -lhbpp -lhbcommon -lhbpcre $(GT_LIBS) \
+                  -lxhb -lhbxpp
+  endif
 endif
 
 ifeq ($(HB_COMPILER),mingw32)

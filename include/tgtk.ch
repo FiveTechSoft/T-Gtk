@@ -42,3 +42,9 @@
 
 #command ?. [ <list,...> ] => gQout( [ \{ <list> \} ] )
 
+
+/* Se define WVT por defecto en Windows para Evitar que aparezca la consola */
+#ifdef __PLATFORM__WINDOWS
+   REQUEST HB_GT_WVT_DEFAULT
+#endif
+
