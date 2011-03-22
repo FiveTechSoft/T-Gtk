@@ -86,7 +86,7 @@ LIBRARIAN = ranlib
 
 #Definition GT driver
 ifeq ($(HB_COMPILER),mingw32)
-   GT_LIBS=-lgtwvt
+   GT_LIBS=-lgtwvt -lgtwin
 else
    ifeq ($(XBASE_COMPILER),HARBOUR)
       #HARBOUR
