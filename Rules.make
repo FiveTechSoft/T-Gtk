@@ -254,7 +254,8 @@ endif
 
 ifeq ($(HB_COMPILER),mingw32)
    LIBFILES_ += -luser32 -lwinspool -lole32 -loleaut32 -luuid -lgdi32 -lcomctl32 \
-                -lcomdlg32 -lodbc32 -lwininet -lwsock32 -lodbc32 
+                -lcomdlg32 -lodbc32 -lwininet -lwsock32 -lodbc32 \
+                -Wl,-subsystem,windows -mwindows -mconsole
     ifeq ($(XBASE_COMPILER),XHARBOUR)
         # XHARBOUR
         LIBFILES_ += -lhbodbc -luser32 -lwinspool -lole32 -loleaut32 -luuid -lgdi32 -lcomctl32 -lcomdlg32 -lodbc32 -lwininet -lwsock32
