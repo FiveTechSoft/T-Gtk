@@ -396,6 +396,48 @@ HB_FUNC( GTK_COMBO_BOX_GET_ACTIVE_ITER )
 
 HB_FUNC( GTK_TREE_MODEL_GET_N_COLUMNS )
 {
-	 GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 1 );
+   GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 1 );
    hb_retni( gtk_tree_model_get_n_columns( model ) );
+}
+
+
+HB_FUNC( GTK_TREE_ROW_REFERENCE_NEW )
+{
+  GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 1 );
+  GtkTreePath  *path  = (GtkTreePath *)  hb_parptr( 2 );
+  GtkTreeRowReference * row = gtk_tree_row_reference_new( model, path );
+  hb_retptr( (GtkTreeRowReference * ) row );
+}
+
+
+HB_FUNC( GTK_TREE_ROW_REFERENCE_GET_PATH )
+{
+  GtkTreeRowReference * reference = (GtkTreeRowReference *) hb_parptr( 1 );
+  GtkTreePath *  path = gtk_tree_row_reference_get_path ( reference );
+  hb_retptr( (GtkTreePath *) path );
+}
+
+HB_FUNC( GTK_TREE_ROW_REFERENCE_FREE )
+{
+  GtkTreeRowReference * reference = (GtkTreeRowReference *) hb_parptr( 1 );
+  gtk_tree_row_reference_free( reference );
+
+}
+
+HB_FUNC( GTK_TREE_ROW_REFERENCE_VALID)
+{
+  GtkTreeRowReference * reference = (GtkTreeRowReference *) hb_parptr( 1 );
+  hb_retl( gtk_tree_row_reference_valid( reference ) );
+}
+
+HB_FUNC( GTK_TREE_ROW_REFERENCE_GET_MODEL )
+{
+ GtkTreeModel * model =  gtk_tree_row_reference_get_model ( (GtkTreeRowReference *)  hb_parptr( 1 ) );
+ hb_retptr( (GtkTreeModel *) model );
+}
+
+HB_FUNC( GTK_TREE_ROW_REFERENCE_COPY )
+{
+ GtkTreeRowReference * row = gtk_tree_row_reference_copy( (GtkTreeRowReference *) hb_parptr( 1 ) );
+ hb_retptr( (GtkTreeRowReference * ) row );
 }
