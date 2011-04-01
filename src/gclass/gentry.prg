@@ -1,7 +1,7 @@
 /* $Id: gentry.prg,v 1.13 2010-12-28 18:52:20 dgarciagil Exp $*/
 /*
     LGPL Licence.
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -30,14 +30,14 @@ CLASS GENTRY FROM GWIDGET
       DATA lCompletion INIT .F.
       DATA oJump
       DATA bAction
-      
+
       METHOD New( bSetGet, cPicture, oParent )
       METHOD SetPos( nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
       METHOD SetText( cText ) INLINE ( ;
                                       ::Connect( "focus-out-event"), ;
                                       ::Connect( "activate"),;
                                       gtk_entry_set_text( ::pWidget,  cText ) )
-      METHOD GetText()        INLINE gtk_entry_get_text( ::pWidget ) 
+      METHOD GetText()        INLINE gtk_entry_get_text( ::pWidget )
       METHOD GetPos()         INLINE gtk_editable_get_position( ::pWidget )
       METHOD Justify (nType ) INLINE gtk_entry_set_alignment( ::pWidget, nType )
       METHOD SetVisible( lVisible )  INLINE gtk_entry_set_visibility( ::pWidget, lVisible )
@@ -46,13 +46,13 @@ CLASS GENTRY FROM GWIDGET
 
       METHOD Refresh()
       METHOD Create_Completion( aCompletion )
-      
+
       METHOD Reset()            INLINE  Eval( ::bSetGet, "" ), ::SetText( "" )
       METHOD SetValue( uValue ) INLINE ::SetText( uValue )
       METHOD GetValue( )        INLINE ::GetText()
-      
+
       METHOD SetButton( uImage, nPos )
-      
+
       METHOD OnFocus_out_event( oSender )
       METHOD OnKeyPressEvent( oSender,   pGdkEventKey  )
       METHOD OnBackspace( oSender ) VIRTUAL
@@ -80,10 +80,10 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
        ENDIF
-       
-       cPicture := NIL /* TODO: QUITAMOS SOPORTE DE PICTURE, no podemos controlar caracters especiales 
+
+       cPicture := NIL /* TODO: QUITAMOS SOPORTE DE PICTURE, no podemos controlar caracters especiales
                          Asi que de momento, prefiero al Bar�a co�ons que controlar un get de harbour */
-                        
+
        ::Register()
        ::bSetGet := bSetGet
        ::oGet    := GetNew( -1, -1, bSetGet, "", cPicture )
@@ -104,29 +104,29 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
        if lPassWord
           ::SetVisible( .F. )
        endif
-       
+
        if !Empty( aCompletion )
           ::lCompletion := .T.
           ::Create_Completion( aCompletion )
        endif
-       
+
        ::oGet:SetFocus()
        If !Empty( ::oGet:buffer )
           ::SetText( alltrim( ::oGet:buffer ) )
        EndIf
        ::SetPos( ::oGet:pos - 1 )
-       
+
        if bAction != NIL
           ::OnIcon_Release = bAction
        endif
-       
+
        if ulButton != NIL
           ::SetButton( ulButton, GTK_ENTRY_ICON_PRIMARY )
        endif
-       
+
        if urButton != NIL
           ::SetButton( urButton, GTK_ENTRY_ICON_SECONDARY )
-       endif       
+       endif
 
        ::Show()
 
@@ -173,31 +173,33 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
          if !::lCompletion
             if oSender:oJump != NIL
                oSender:oJump:SetFocus()
-            else 
+            else
                gtk_widget_child_focus( gtk_widget_get_toplevel( oSender:pWidget ) ,GTK_DIR_TAB_FORWARD )
             endif
             return .T.
-         endif   
+         endif
    endcase
-   
+
    //actualizamos la variable contenedora del get
-   Eval( ::bSetGet, oSender:oGet:buffer )
+   if oSender:oGet:buffer != nil
+      Eval( ::bSetGet, oSender:oGet:buffer )
+   endif
 
 Return .F.
 
 METHOD Create_Completion( aCompletion ) CLASS GEntry
     Local oLbx, x, n, oCompletion
     Local nLen := Len( aCompletion )
- 
+
     /*Modelo de Datos */
     DEFINE LIST_STORE oLbx TYPES G_TYPE_STRING
 
     For x := 1 To nLen
         INSERT LIST_STORE oLbx ROW x VALUES aCompletion[ x ]
     Next
- 
+
     oCompletion := gEntryCompletion():New( Self, oLbx, 1 )
- 
+
 RETURN oCompletion
 
 METHOD OnIcon_Release( uParam, nPos ) CLASS GEntry
@@ -205,26 +207,26 @@ METHOD OnIcon_Release( uParam, nPos ) CLASS GEntry
    if hb_IsBlock( uParam )
       ::bAction = uParam
       ::Connect( "icon-release" )
-   elseif hb_IsObject( uParam ) 
+   elseif hb_IsObject( uParam )
       if hb_IsBlock( ::bAction )
          Eval( uParam:bAction, nPos )
       endif
-   endif    
+   endif
 
 RETURN NIL
 
 METHOD SetButton( uImage, nPos ) class GEntry
-   
+
    local pixbuf
-   
+
    if hb_isString( uImage )
       gtk_entry_set_icon_from_stock( ::pWidget , nPos, uImage )
    elseif hb_IsObject( uImage ) .and. uImage:IsKindOf( "GIMAGE" )
       pixbuf = uImage:GetPixBuf()
-      gtk_entry_set_icon_from_pixbuf( ::pWidget , nPos, pixbuf ) 
+      gtk_entry_set_icon_from_pixbuf( ::pWidget , nPos, pixbuf )
       g_object_unref( pixbuf )
    elseif hb_IsPointer( uImage )
-      gtk_entry_set_icon_from_pixbuf( ::pWidget , nPos, uImage ) 
+      gtk_entry_set_icon_from_pixbuf( ::pWidget , nPos, uImage )
    endif
 
 RETURN NIL

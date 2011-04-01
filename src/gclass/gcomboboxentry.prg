@@ -17,7 +17,7 @@ ENDCLASS
 METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nPadding, lContainer, x, y,;
             cId, uGlade, uLabelTab, nWidth, nHeight, lEnd, lSecond, lResize, lShrink,;
             left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta ) CLASS GCOMBOBOXENTRY
-       Local aIter 
+       Local aIter
        //New( bSetget,aItems, , ,,oBox,.F.,.F.,,.F.,,,"comboboxentry1",cResource,,,,.F.,.F.,.F.,.F.,,,,,,)
 
        ::bSetGet = bSetGet
@@ -28,7 +28,7 @@ METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nP
              ::pWidget = gtk_combo_entry_new_text()
           else
              ::pWidget = gtk_combo_box_entry_new_with_model( oModel:pWidget, 0 )
-          endif  
+          endif
        ELSE
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
@@ -43,10 +43,10 @@ METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nP
           ::SetFont( oFont )
        endif
 
-       if oModel == NIL 
+       if oModel == NIL
           ::SetItems( aItems )
        else
-         // TODO: De momento, solamente se admite un modelo de una columna simple, no compuesta. 
+         // TODO: De momento, solamente se admite un modelo de una columna simple, no compuesta.
           ::oRenderer := gCellRendererText():New()
          gtk_cell_layout_pack_start( ::pWidget , ::oRenderer:pWidget, .T. )
          gtk_cell_layout_add_attribute( ::pWidget , ::oRenderer:pWidget, "text", 0 )
@@ -62,15 +62,16 @@ METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nP
 
        ::bChange := bChange
        ::Connect( "changed" )
-       
+
        // Obtenemos el entry como un simple objeto, para manipularlo como queramos
-       ::oEntry    := gEntry():Object_Empty()
+       ::oEntry         := gEntry():Object_Empty()
        ::oEntry:pWidget := ::Get_Widget_Entry( )
+       ::oEntry:oGet    := GetNew( -1, -1, bSetGet, "" )
        ::oEntry:Connect( "key-press-event" )
 
        // Asignamos a la variable pasada, el valor inicial.
        Eval( ::bSetGet, ::GetText() )
-       
+
        ::Show()
 
 RETURN Self
