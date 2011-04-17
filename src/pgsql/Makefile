@@ -2,7 +2,7 @@
 #
 # Makefile para librerias PgSql de Contrib en T-Gtk
 #
-
+ROOT = ../../
 include ../../config/global.mk
 
 TARGET = libhbpg.a
@@ -13,7 +13,7 @@ else
 endif
 SOURCES  = $(SOURCEDIR)/tpostgre.prg $(SOURCEDIR)/pgrdd.prg
 CSOURCES = $(SOURCEDIR)/postgres.c
-PRGFLAGS=-I../../include
+PRGFLAGS=-I$(ROOT)include
 
 ifeq ($(HB_MAKE_PLAT),win)
   #Flags para sistemas WINDOWS
@@ -23,7 +23,7 @@ ifeq ($(HB_MAKE_PLAT),win)
 
 else
   #Flags para sistemas GNU/Linux
-  CFLAGS=-I../../../include -I/usr/include -I/usr/include/libpq \
+  CFLAGS=-I$(ROOT)include -I/usr/include -I/usr/include/libpq \
 	  -I/usr/include/pgsql/server/libpq -I/usr/include/postgresql
 endif
 

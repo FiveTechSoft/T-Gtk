@@ -2,9 +2,10 @@
 #
 # Makefile for Sqlite3 source code C from T-Gtk
 #
+ROOT=../../
 TARGET=libsqlite3.a
 
 SOURCE_TYPE=c
-TGTK_INSTALL=../../lib
+TGTK_INSTALL=$(ROOT)lib
 
-include ../../Rules.make
+include $(ROOT)Rules.make

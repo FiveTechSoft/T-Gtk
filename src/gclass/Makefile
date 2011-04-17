@@ -10,7 +10,7 @@ ROOT = ../../
 PRGFLAGS=-I$(ROOT)include 
 CFLAGS+=-I$(ROOT)include
 TGTK_INSTALL=$(ROOT)lib
-TARGET=$(TGTK_INSTALL)$(DIRSEP)libgclass.a
+TARGET=libgclass.a
 
 #CSOURCES= si tenemos ficheros C definirlos aqui
 

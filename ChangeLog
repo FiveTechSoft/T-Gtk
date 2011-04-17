@@ -8,6 +8,30 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-04-16 18:27 UTC-430 Riztan Gutierrez <riztan at gmail.com>53
+  * config/global.mk
+    + Variable SQLITE
+
+  * Rules.make
+    + Configuracion para compilar con SQLite
+
+  * Makefile
+    + Configuracion para generar las librerias seteadas en global.mk
+
+  * install.sh 
+    +Cambios para instalar paquete de SQLite3
+
+  * src/sqlite3/Makefile
+  * src/mysql/Makefile
+  * src/pgsql/Makefile
+    + Variable ROOT.
+
+  * hbgtk/Makefile
+  * gclass/Makefile
+    Se modifica para que no genere la libreria en t-gtk/lib ya que luego genera error y el proceso del make se detiene.
+    Las librerias pasan a t-gtk/lib con "make install"
+    en Makefile de hbgtk, se agregan los msges.c y msgen.c para que puedan incluirse en libhgtk.a
+
 
 2011-02-09 02:53 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * /src/gclass/gtreeview.prg

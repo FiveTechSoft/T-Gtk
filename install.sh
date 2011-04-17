@@ -5,7 +5,7 @@ echo "*                              *"
 echo "* Install t-gtk on GNU/Linux   *"
 echo "*                              *"
 echo "*------------------------------*"
-echo.
+echo
 global=./config/global.mk
 tgtkPKG=/usr/lib/pkgconfig/tgtk.pc
 
@@ -42,9 +42,9 @@ scview=0
 cmd=`cat $global | grep "export GTKSOURCEVIEW " | cut -d= -f2 `
 if [ $cmd =  "yes" ] ; then
    echo "detecting package gtksourceview for development"
-   dpkg --get-selections | grep "libgtksourceview-dev" && scview=1 || scview=0
+   dpkg --get-selections | grep "libgtksourceview2.0-dev" && scview=1 || scview=0
    if [ $scview -eq 0 ] ; then
-      apt-get install libgtksourceview-dev
+      apt-get install libgtksourceview2.0-dev
    fi
 else
    echo "GTKSOURCEVIEW Set with value 'NO' in config/global.mk"
@@ -62,6 +62,20 @@ if [ $cmd =  "yes" ] ; then
    fi
 else
    echo "CURL Set with value 'NO' in config/global.mk"
+fi
+
+
+#--- SQLite ---
+sqlite=0
+cmd=`cat $global | grep "export SQLITE" | cut -d= -f2`
+if [ $cmd =  "yes" ] ; then
+   echo "detecting package libsqlite3 for development"
+   dpkg --get-selections | grep "libsqlite3-dev" | grep dev && sqlite=1 || sqlite=0
+   if [ $sqlite -eq 0 ] ; then
+      apt-get install libsqlite3-dev 
+   fi
+else
+   echo "SQLite Set with value 'NO' in config/global.mk"
 fi
 
 #--- MySQL ---

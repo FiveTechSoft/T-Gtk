@@ -45,6 +45,7 @@ $(info * CURL          = $(CURL)                             )
 ifneq ($(HB_MAKE_PLAT),win)
    $(info * WebKitGTK+    = $(WEBKIT) )
 endif
+$(info * SQLite        = $(SQLITE)                           )
 $(info * MySQL         = $(MYSQL)                            )
 ifeq ($(MYSQL),yes)
   $(info *    Dolphin    = $(DOLPHIN)                          )
@@ -154,6 +155,14 @@ ifeq ($(WEBKIT),yes)
     CFLAGS += $(shell pkg-config --cflags webkit-1.0)
     LIBS += $(shell pkg-config --libs webkit-1.0 )
 endif
+endif
+
+ifeq ($(SQLITE),yes)
+  ifeq ($(HB_COMPILER),mingw32)
+  else
+     CFLAGS += $(shell pkg-config --cflags sqlite3)
+     LIBS += $(shell pkg-config --libs sqlite3 ) 
+  endif 
 endif
 
 ifeq ($(MYSQL),yes)

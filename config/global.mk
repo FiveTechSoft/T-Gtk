@@ -99,6 +99,9 @@ export CURL           =no
 #Soporte para WebKit (por los momentos solo para GNU/Linux)
 export WEBKIT         =no
 
+#Soporte SQLite
+export SQLITE         =no
+
 #Soporte MySQL
 export MYSQL          =no
 export DOLPHIN        =no
