@@ -58,7 +58,7 @@ ifeq ($(HB_MAKE_PLAT),win)
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)\include
 else
   # Ruta en GNU/Linux
-  export TGTK_DIR         =/opt/t-gtk
+  export TGTK_DIR         =$(HOME)/tgtk
   export LIBDIR_TGTK      =$(TGTK_DIR)/lib
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)/include
 endif
