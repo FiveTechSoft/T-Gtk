@@ -41,7 +41,7 @@ return NIL
 #pragma BEGINDUMP
 
  #include <gtk/gtk.h>
- #include <windows.h>
+// #include <windows.h>
  #include "hbapi.h"
  #include "hbvm.h"
 
@@ -49,7 +49,7 @@ HB_FUNC( GTK_CLIST_NEW_WITH_TITLES )
 {
   gchar *szTitles[] = { "uno", "dos", "tres" };
   GtkWidget * clist = gtk_clist_new_with_titles( 3, szTitles );
-  hb_retnl( (ULONG) clist );
+  hb_retptr( ( GtkWidget * ) clist );
 }
 
 HB_FUNC( GTK_CLIST_APPEND )

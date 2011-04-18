@@ -9,6 +9,12 @@
 */
 
 2011-04-16 18:27 UTC-430 Riztan Gutierrez <riztan at gmail.com>53
+  * hbgtk/webkit.c
+  * tests/native/list.prg
+    * Correccion, retornando puntero.
+  
+
+2011-04-16 18:27 UTC-430 Riztan Gutierrez <riztan at gmail.com>53
   * config/global.mk
     + Variable SQLITE
 

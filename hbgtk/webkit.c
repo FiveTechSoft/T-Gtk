@@ -7,7 +7,7 @@
 
 HB_FUNC( WEBKIT_WEB_VIEW )
 {
- hb_retnl( hb_parnl( 1 ) );
+ hb_retptr( hb_parptr( 1 ) );
 }
 
 HB_FUNC( WEBKIT_WEB_VIEW_NEW )
@@ -18,7 +18,6 @@ HB_FUNC( WEBKIT_WEB_VIEW_NEW )
 
 HB_FUNC( WEBKIT_WEB_VIEW_OPEN )
 {
-
    webkit_web_view_open( WEBKIT_WEB_VIEW ( hb_parptr( 1 ) ), hb_parc( 2 ) );
 }
 

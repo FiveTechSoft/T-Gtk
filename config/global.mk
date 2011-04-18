@@ -58,7 +58,7 @@ ifeq ($(HB_MAKE_PLAT),win)
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)\include
 else
   # Ruta en GNU/Linux
-  export TGTK_DIR         =$(HOME)/repos/tgtk/trunk
+  export TGTK_DIR         =/opt/t-gtk
   export LIBDIR_TGTK      =$(TGTK_DIR)/lib
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)/include
 endif
@@ -85,7 +85,7 @@ export SUPPORT_PRINT_WIN32=no
 
 
 #Soporte para GTKSourceView
-export GTKSOURCEVIEW  =no
+export GTKSOURCEVIEW  =yes
 
 #Soporte para Bonobo
 export BONOBO         =no
@@ -94,22 +94,22 @@ export BONOBO         =no
 export GNOMEDB        =no
 
 #Soporte para CURL
-export CURL           =no
+export CURL           =yes
 
 #Soporte para WebKit (por los momentos solo para GNU/Linux)
-export WEBKIT         =no
+export WEBKIT         =yes
 
-#Soporte SQLite
-export SQLITE         =no
+#Soporte para SQLite 
+export SQLITE         =yes
 
 #Soporte MySQL
-export MYSQL          =no
-export DOLPHIN        =no
+export MYSQL          =yes
+export DOLPHIN        =yes
 export MYSQL_VERSION  =5.0
 export MYSQL_PATH     ="$(PROGRAMFILES)\MySQL\MySQL Server $(MYSQL_VERSION)\include"
 
 #Soporte PostgreSQL
-export POSTGRE        =no
+export POSTGRE        =yes
 export POSTGRE_VERSION=9.0
 export POSTGRE_PATH   ="$(PROGRAMFILES)\PostgreSQL\$(POSTGRE_VERSION)\include"
 

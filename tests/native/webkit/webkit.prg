@@ -24,7 +24,7 @@ Function Main()
     gtk_container_add (GTK_CONTAINER (vbox), scrolled_window)
 
     /* Open a webpage */
-    webkit_web_view_open (WEBKIT_WEB_VIEW (web_view), "http://www.gnome.org")
+    webkit_web_view_open (WEBKIT_WEB_VIEW (web_view), "http://www.t-gtk.org")
 
     status_bar = gtk_statusbar_new()
     gtk_box_pack_start( vbox, status_bar, FALSE, TRUE, 0)
