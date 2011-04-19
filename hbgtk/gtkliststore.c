@@ -476,7 +476,12 @@ BOOL BuildIterArrayFromParam( int iParam )
             hb_arrayAddForward( pArray, pPos );
             hb_itemRelease( pPos );
          }               
+#ifdef __XHARBOUR__
+      // TODO: buscar sustituto para esta funcion  (RIGC) 
+      //hb_itemParamStoreForward( iParam, pArray );
+#else
       hb_itemParamStoreForward( iParam, pArray );
+#endif
    }
    else
      bRet = FALSE;

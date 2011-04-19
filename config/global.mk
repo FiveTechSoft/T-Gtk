@@ -15,34 +15,27 @@ include $(ROOT)config/detect.mk
 #Ruta de PROGRAMFILES (solo Windows)
 export PROGRAMFILES =\Archivos de Programa
 
-
 ##############################################
 # Indicar COMPILADOR XBASE. 
 # Opciones ( HARBOUR | XHARBOUR )
-export XBASE_COMPILER =HARBOUR
+ifeq ($(XBASE_COMPILER),)
+   export XBASE_COMPILER =HARBOUR
+endif
 ##############################################
 
 ##############################################
 # INDICAR RUTA DEL COMPILADOR XBASE
-ifeq ($(HB_MAKE_PLAT),win)
-# Ruta en Windows:
-  HARBOUR_PATH  =\hb-mingw
-
-  export HB_BIN_INSTALL =$(HARBOUR_PATH)\bin
-  export HB_INC_INSTALL =$(HARBOUR_PATH)\include
-  export HB_LIB_INSTALL =$(HARBOUR_PATH)\lib\win\mingw
-  # -- Version = [ 2.0 | 2.1 ]
-  export HB_VERSION =2.1
-else
-# Ruta en GNU/Linux:
-  HARBOUR_PATH  =/usr/local
-
-  export HB_BIN_INSTALL =$(HARBOUR_PATH)/bin
-  export HB_INC_INSTALL =$(HARBOUR_PATH)/include/harbour
-  export HB_LIB_INSTALL =$(HARBOUR_PATH)/lib/harbour
-  # -- Version = [ 2.0 | 2.1 ]
-  export HB_VERSION =2.1
+ifeq ($(XBASE_COMPILER),ALL)
+   include $(ROOT)config/harbour.mk
+   include $(ROOT)config/xharbour.mk
 endif
+ifeq ($(XBASE_COMPILER),HARBOUR)
+   include $(ROOT)config/harbour.mk
+endif
+ifeq ($(XBASE_COMPILER),XHARBOUR)
+   include $(ROOT)config/xharbour.mk
+endif
+
 ##############################################
 
 
@@ -58,7 +51,7 @@ ifeq ($(HB_MAKE_PLAT),win)
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)\include
 else
   # Ruta en GNU/Linux
-  export TGTK_DIR         =$(HOME)/tgtk
+  export TGTK_DIR         =/opt/t-gtk
   export LIBDIR_TGTK      =$(TGTK_DIR)/lib
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)/include
 endif
@@ -85,7 +78,7 @@ export SUPPORT_PRINT_WIN32=no
 
 
 #Soporte para GTKSourceView
-export GTKSOURCEVIEW  =yes
+export GTKSOURCEVIEW  =no
 
 #Soporte para Bonobo
 export BONOBO         =no
@@ -94,22 +87,22 @@ export BONOBO         =no
 export GNOMEDB        =no
 
 #Soporte para CURL
-export CURL           =yes
+export CURL           =no
 
 #Soporte para WebKit (por los momentos solo para GNU/Linux)
-export WEBKIT         =yes
+export WEBKIT         =no
 
 #Soporte para SQLite 
-export SQLITE         =yes
+export SQLITE         =no
 
 #Soporte MySQL
-export MYSQL          =yes
-export DOLPHIN        =yes
+export MYSQL          =no
+export DOLPHIN        =no
 export MYSQL_VERSION  =5.0
 export MYSQL_PATH     ="$(PROGRAMFILES)\MySQL\MySQL Server $(MYSQL_VERSION)\include"
 
 #Soporte PostgreSQL
-export POSTGRE        =yes
+export POSTGRE        =no
 export POSTGRE_VERSION=9.0
 export POSTGRE_PATH   ="$(PROGRAMFILES)\PostgreSQL\$(POSTGRE_VERSION)\include"
 

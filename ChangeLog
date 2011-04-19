@@ -8,13 +8,35 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
-2011-04-16 18:27 UTC-430 Riztan Gutierrez <riztan at gmail.com>53
+2011-04-18 23:02 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  + config/harbour.mk
+  + config/xharbour.mk
+  * config/global.mk
+  * Rules.make
+    ! Se realizan cambios para facilitar uso de t-gtk con Harbour/xHarbour
+    ! Ahora, se generan las librerias en lib/hb o lib/xhb de acuerdo al compilador xbase en uso.
+    ! Se puede configurar usar Harbour o xHarbour mediante la variable de entorno 
+    ! XBASE_COMPILER =(HARBOUR | XHARBOUR)
+    ! Probado en GNU/Linux.. ahora a revisar en Windows...
+
+  * src/gclass/gtreeview.prg
+  * src/gclass/gdbfgrid.prg
+  * hbgtk/hbgtkextend.c
+  * hbgtk/events.c
+  * hbgtk/gtkmessagedialog.c
+  * hbgtk/gtkliststore.c
+    ! Cambios para hacer compatible el codigo con Harbour/xHarbour
+    ! Para revisar, buscar __XHARBOUR__ en el codigo.
+    ! TODO: No esta funcionando correctamente con xHarbour (probado en GNU/Linux)
+
+
+2011-04-16 18:27 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * hbgtk/webkit.c
   * tests/native/list.prg
     * Correccion, retornando puntero.
   
 
-2011-04-16 18:27 UTC-430 Riztan Gutierrez <riztan at gmail.com>53
+2011-04-16 18:27 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * config/global.mk
     + Variable SQLITE
 

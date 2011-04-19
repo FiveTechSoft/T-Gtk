@@ -27,6 +27,14 @@ else
   export HB_COMPILER =gcc
 endif
 
+ifeq ($(XBASE_COMPILER),HARBOUR)
+  LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)hb
+endif
+ifeq ($(XBASE_COMPILER),XHARBOUR)
+  LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)xhb
+endif
+$(shell mkdir $(LIBDIR_TGTK_))
+
 ##############################################
 
 $(info *************************************************** )
@@ -66,37 +74,10 @@ $(info *************************************************** )
 # Esqueleto para todas las plataformas
 ############################################## 
 
-#Determinar version de Harbour.
-ifneq ($(HB_VERSION),)
-   ifeq ($(HB_VERSION),2.0)
-      HB_VERSION=20
-   else
-      ifeq ($(HB_VERSION),2.1)
-         HB_VERSION=21
-      endif
-   endif
-else
-   HB_VERSION=21
-endif
-
-
 #Generic make options
 LINKER = ar
 CC = gcc
 LIBRARIAN = ranlib
-
-#Definition GT driver
-ifeq ($(HB_COMPILER),mingw32)
-   GT_LIBS=-lgtwvt -lgtwin
-else
-   ifeq ($(XBASE_COMPILER),HARBOUR)
-      #HARBOUR
-      GT_LIBS=-lgtstd -lgtcgi -lgtpca
-   else
-      #XHARBOUR
-      GT_LIBS=-lgtstd -lgttrm
-   endif
-endif
 
 
 ifeq ($(HB_COMPILER),mingw32)
@@ -181,7 +162,7 @@ ifeq ($(MYSQL),yes)
 ifeq ($(DOLPHIN),yes)
     ifeq ($(HB_COMPILER),mingw32)
         #Flags para sistemas WINDOWS
-        LIBS +=-L$(LIBDIR_TGTK) -L./ -lmysql
+        LIBS +=-L$(LIBDIR_TGTK_) -L./ -lmysql
         CFLAGS += -I$(INCLUDE_TGTK_PRG) -D__WIN__
         PRGFLAGS += -DNOINTERNAL-DDEBUG
         ifeq ($(XBASE_COMPILER),HARBOUR)
@@ -206,72 +187,15 @@ ifeq ($(POSTGRE),yes)
 endif
 
 
-ifeq ($(XBASE_COMPILER),HARBOUR)
-   CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF \
-             -D__COMPATIBLE_HARBOUR__ 
-endif
-
 
 #
 # Libraries for binary building
 #
-ifeq ($(HB_MT),MT)
-   ifeq ($(XBASE_COMPILER),XHARBOUR)
-      LIBMT=-ldebug -lvmmt -lrtlmt -lrddmt -lrtlmt -lvmmt \
-            -lmacro -lppmt -ldbfntxmt -ldbfcdx -ldbfdbt -lcommon -lm -lpthread 
-   else
-      LIBMT =-lhbvmmt
-   endif
-else
-   ifeq ($(XBASE_COMPILER),XHARBOUR)
-      LIBMT=-ldebug -lvmmt -lrtlmt -lrddmt -lrtlmt -lvmmt -lmacro \
-            -lppmt -ldbfntxmt -ldbfcdx -ldbfdbt -lcommon -lm -lpthread
-   else
-      LIBMT =-lhbvm
-   endif
-endif
-
-ifeq ($(HB_COMPILER),mingw32)
-  ifeq ($(XBASE_COMPILER),XHARBOUR)
-      # XHARBOUR  . tenemos para 0.99.51(dbfdbt) y 0.99.60
-      #LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -ldbffpt -lrtl -lcommon -lm -lgtwin $(GT_LIBS) -lgtnul -lgtwin 
-      LIBFILES_ = $(LIBMT) -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lhbsix -lhsx -lpcrepos -lcommon -lm -lgtwin -lgtnul $(GT_LIBS) -lstdc++ -lhbzip 
-  else
-      # HARBOUR
-      #LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm -lgtwin $(GT_LIBS) -lgtwin
-      LIBFILES_ = $(LIBMT) -lhbrtl -lhblang -lhbrdd -lhbmacro -lhbpp -lhbxpp \
-                  -lhbsix -lhbdebug -lhbcommon -lrddntx -lrddfpt -lrddcdx \
-                  -lhbsix -lxhb -lhbpp -lhbcpage -lhbwin -lhbpcre $(GT_LIBS) 
-  endif
-else
-  ifeq ($(XBASE_COMPILER),XHARBOUR)
-     # XHARBOUR
-     #LIBFILES_ = -ldebug -lvm -lrtl -lgtnul -lgtcrs -lncurses -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfdbt -ldbfcdx -lrtl -lcommon -lm
-     LIBFILES_ = $(LIBMT) -lrtl -llang -lrdd -lmacro -lpp -ldbfntx -ldbfcdx -ldbffpt -lcommon -lm -lhbsix -lpcrepos $(GT_LIBS) -lcodepage -lct -ltip
-  else
-     # HARBOUR
-     # LIBFILES_ =  -ldebug -lvm -lrtl $(GT_LIBS) -llang -lrdd -lrtl -lvm -lmacro -lpp -ldbfntx -ldbfcdx -ldbfdbt -lcommon -lm  $(GT_LIBS)
-
-      LIBFILES_ = -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug $(LIBMT) \
-                  -lhbrtl -lhblang -lhbcpage -lgttrm -lhbrdd -lrddntx \
-                  -lrddnsx -lrddcdx -lrddfpt \
-                  -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl \
-                  -lhbmacro -lhbcplr -lhbpp -lhbcommon -lhbpcre $(GT_LIBS) \
-                  -lxhb -lhbxpp
-  endif
-endif
 
 ifeq ($(HB_COMPILER),mingw32)
    LIBFILES_ += -luser32 -lwinspool -lole32 -loleaut32 -luuid -lgdi32 -lcomctl32 \
                 -lcomdlg32 -lodbc32 -lwininet -lwsock32 -lodbc32 \
                 -Wl,-subsystem,windows -mwindows -mconsole
-    ifeq ($(XBASE_COMPILER),XHARBOUR)
-        # XHARBOUR
-        LIBFILES_ += -lhbodbc -luser32 -lwinspool -lole32 -loleaut32 -luuid -lgdi32 -lcomctl32 -lcomdlg32 -lodbc32 -lwininet -lwsock32
-    else
-       # HARBOUR
-       LIBFILES_ += -luser32 -lwinspool -lole32 -loleaut32 -luuid -lgdi32 -lcomctl32 -lcomdlg32 -lodbc32 -lwininet -lwsock32
-    endif
    EXETYPE=.exe
 else
    LIBFILES_ += 
@@ -279,7 +203,7 @@ else
 endif
 
 #librerias usadas por Tgtk las definimos aqui. GTK y GLADE
-LIBS += -L$(LIBDIR_TGTK) $(shell pkg-config --libs tgtk ) 
+LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk ) 
 PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 # By Quim -->
@@ -295,8 +219,13 @@ ifeq ($(HB_COMPILER),gcc)
    PRGFLAGS += -DHB_OS_LINUX
 endif   
 
-LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
-LIBS_= -L$(LIBDIR_TGTK) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) $(LIBFILES_) -Wl,--end-group $(LIBS)
+HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
+#XHB_LIBDIR_ = $(LIBDIR) -L$(XHB_LIB_INSTALL)
+
+HB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
+        $(HB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)
+#XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
+#        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)
 
 ifeq ($(strip $(SOURCE_TYPE)),)
 SOURCE_TYPE=prg
@@ -327,13 +256,13 @@ linux:$(TARGET) $(TARGETS)
 .PHONY: clean install
 
 %$(EXETYPE):%.o
-	$(CC) -o$@ $< $(LIBDIR_) $(LIBS_)
+	$(CC) -o$@ $< $(HB_LIBDIR_) $(HB_LIBS_)
 
 %.o: %.c
-	$(CC) -c -o$@ $(CFLAGS) -I$(HB_INC_INSTALL) $<
+	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $<
 
 %.o: %.cpp
-	$(CC) -c -o$@ $(CFLAGS) -I$(HB_INC_INSTALL) $<
+	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $<
 
 %.c: %.prg
 	$(HB_BIN_INSTALL)/harbour -w -q0 -gc0 -n -p  $(PRGFLAGS) -I$(HB_INC_INSTALL)  -o$@ $<
@@ -343,8 +272,9 @@ ifeq ( lib , $(patsubst %.a, lib, $(TARGET)))
 	$(LINKER) -r $(TARGET) $(OBJECTS)
 	$(LIBRARIAN) $(TARGET)
 else
-	$(CC) -o $(TARGET) $(OBJECTS) $(LIBDIR_) $(LIBS_)
+	$(CC) -o $(TARGET) $(OBJECTS) $(HB_LIBDIR_) $(HB_LIBS_)
 endif
+
 
 clean:
 ifeq ($(HB_COMPILER),mingw32)
@@ -361,7 +291,8 @@ endif
 
 install: all
 ifeq ($(HB_COMPILER),mingw32)
-	xcopy /Y *.a $(LIBDIR_TGTK)
+	xcopy /Y *.a $(LIBDIR_TGTK_)
 else
-	cp -f *.a $(LIBDIR_TGTK)
+	cp -f *.a $(LIBDIR_TGTK_)
 endif
+

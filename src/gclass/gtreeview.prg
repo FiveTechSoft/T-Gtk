@@ -23,6 +23,10 @@
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
+#ifdef __XHARBOUR__
+#define HB_SYMBOL_UNUSED( symbol )  ( symbol := ( symbol ) )
+#endif
+
 CLASS GTREEVIEW FROM GCONTAINER
       DATA bRow_Activated, bColumns_Changed
       DATA bMoveCursor, bCursorChanged

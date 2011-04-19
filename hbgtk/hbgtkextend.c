@@ -66,7 +66,7 @@ hb_gtk_call_block( GtkWidget * widget, gpointer data )
 {
    PHB_ITEM pItem  = g_object_get_data( G_OBJECT( widget ), "Codeblock" );
 
-  if( HB_IS_BLOCK(pItem) )
+  if( IS_BLOCK(pItem) )
     {
 	  // hb_vmEvalBlockV( pItem, nLong, PHB_ITEM );
 	  hb_vmEvalBlock( pItem );
@@ -103,20 +103,20 @@ click_connect_by_param( GtkWidget * widget, gpointer data )
     hb_vmPushNil();
     hb_vmPushLong( GPOINTER_TO_UINT( widget ) );
     
-    if( HB_IS_STRING( pSelf ) ){
+    if( IS_STRING( pSelf ) ){
          value = ( gchar *) pSelf->item.asString.value;
          hb_vmPushString( value, strlen( value ) );
         }
-    else if( HB_IS_INTEGER( pSelf ) ){
+    else if( IS_INTEGER( pSelf ) ){
          hb_vmPushInteger( pSelf->item.asInteger.value );
         }
-    else if( HB_IS_LOGICAL( pSelf ) ){
+    else if( IS_LOGICAL( pSelf ) ){
          hb_vmPushLogical( pSelf->item.asLogical.value );
         }
-    else if( HB_IS_DATE( pSelf ) ){
+    else if( IS_DATE( pSelf ) ){
          hb_vmPushDate( pSelf->item.asDate.value );
         } 
-    else if( HB_IS_DOUBLE( pSelf ) ){
+    else if( IS_DOUBLE( pSelf ) ){
          hb_vmPushDouble( pSelf->item.asDouble.value, 10 );
         }
 
@@ -267,7 +267,7 @@ HB_FUNC( STR2UTF8 )
    gchar * src;
    gchar * szDest;
  
-   if( HB_ISNIL( 1 ) )
+   if( ISNIL( 1 ) )
       src = "";
    else 
       src = ( gchar * ) hb_parc( 1 );
@@ -309,7 +309,7 @@ HB_FUNC( UTF82STR )
    gchar * szDest;
    
    
-   if( HB_ISNIL( 1 ) )
+   if( ISNIL( 1 ) )
       src = "";
    else 
       src = ( gchar * ) hb_parc( 1 );
@@ -359,7 +359,7 @@ void Safe_GFree( void * x )
 
 HB_FUNC( SET_AUTO_UTF8 )
 {
-   hb_retl( HB_ISLOG( 1 ) ? Set_Auto_Utf8( hb_parl( 1 ) ) : bStatus ) ;
+   hb_retl( ISLOG( 1 ) ? Set_Auto_Utf8( hb_parl( 1 ) ) : bStatus ) ;
 }
 
 //--------------------------------------------------------//

@@ -176,9 +176,11 @@ METHOD SetDataSrc( uDataSrc ) class gDbfGrid
          ::SetArray( uDataSrc )
          exit
 
+#ifndef __XHARBOUR__
       case "O"
 
          cClass = uDataSrc:ClassName()
+
          switch cClass
             case "TDATABASE"
                ::nDataType = DATATYPE_ODBF
@@ -191,7 +193,7 @@ METHOD SetDataSrc( uDataSrc ) class gDbfGrid
                eval( ::bGoTop )
                exit
          endswitch
-
+#endif
    endswitch
 
 

@@ -38,12 +38,13 @@
 #ifdef __XHARBOUR__
 #include "hashapi.h"
 typedef ULONG GTKSIZE;
+#define hb_strncpyLower( X, Y , Z) )   hb_strncpy( X, Y, Z ) ;
 #else
 typedef HB_SIZE GTKSIZE;
 #endif
 
 // Atencion esto esta para mantener compatibilidad con xHarbour anteriores
-// Deber� desaparecer , pero lo necesito ahora
+// Debe desaparecer , pero lo necesito ahora
 #ifdef __OLDHARBOUR__
   HB_EXPORT PHB_SYMB hb_dynsymSymbol( PHB_DYNS pDynSym )
   {
@@ -3225,10 +3226,18 @@ static void LoadHashSignal()
       char * pszKey;
       PHB_ITEM pKey, pValue;
       pszKey = ( char * ) hb_xgrab( strlen( predefine[ lLen ].signalname ) + 1 );
+#ifdef __XHARBOUR__
+      hb_strncpy( pszKey, predefine[ lLen ].signalname, strlen( predefine[ lLen ].signalname ) );
+#else
       hb_strncpyLower( pszKey, predefine[ lLen ].signalname, strlen( predefine[ lLen ].signalname ) );
+#endif
       pKey   = hb_itemPutC( NULL, pszKey ); 
       pValue = hb_itemPutPtr( NULL, &predefine[ lLen ] );
+#ifdef __XHARBOUR__
+      hb_hashAdd( phpredefine, ULONG_MAX , pKey, pValue );
+#else
       hb_hashAdd( phpredefine, pKey, pValue );
+#endif
       hb_itemRelease( pKey );
       hb_itemRelease( pValue );
       hb_xfree( ( void *) pszKey );
@@ -3249,17 +3258,29 @@ static void LoadHashSignal()
       if( array[ lLen ].gtkclassname )
       {
          pszKey = ( char * ) hb_xgrab( strlen( array[ lLen ].name ) + 2);
+#ifdef __XHARBOUR__
+         hb_strncpy( pszKey, array[ lLen ].name, strlen( array[ lLen ].name ) );
+#else
          hb_strncpyLower( pszKey, array[ lLen ].name, strlen( array[ lLen ].name ) );
+#endif
 	 memcpy( pszKey+strlen( pszKey ), "-1", 3 );
       }else
       {
          pszKey = ( char * ) hb_xgrab( strlen( array[ lLen ].name ) + 1);
+#ifdef __XHARBOUR__
+         hb_strncpy( pszKey, array[ lLen ].name, strlen( array[ lLen ].name ) );   
+#else
          hb_strncpyLower( pszKey, array[ lLen ].name, strlen( array[ lLen ].name ) );   
+#endif
       }
       
       pKey   = hb_itemPutC( NULL, pszKey );
       pValue = hb_itemPutPtr( NULL, &array[ lLen ] );
+#ifdef __XHARBOUR__
+      hb_hashAdd( phActionParce, ULONG_MAX, pKey, pValue );
+#else
       hb_hashAdd( phActionParce, pKey, pValue );
+#endif
       hb_itemRelease( pKey );
       hb_itemRelease( pValue );
       hb_xfree( ( void *) pszKey );
@@ -3275,7 +3296,11 @@ static long G_GetHashPos( PHB_ITEM pHash, const char * cStr )
    if( cStr ){
      char * pszKey = ( char * ) hb_xgrab( strlen( cStr ) + 1 );
      PHB_ITEM pKey; 
+#ifdef __XHARBOUR__
+     hb_strncpy( pszKey, cStr, strlen( cStr ) );
+#else
      hb_strncpyLower( pszKey, cStr, strlen( cStr ) );
+#endif
      pKey = hb_itemPutC( NULL, pszKey );
      hb_hashScan( pHash, pKey, ( GTKSIZE *) &lPos );
      hb_itemRelease( pKey );

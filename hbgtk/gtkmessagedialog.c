@@ -53,9 +53,9 @@
 #include <hbdate.h>
 #include <hbset.h>
 #include <hbvm.h>
-//#ifndef __HARBOUR__
+#ifndef __HARBOUR__
   #include <hbapicls.h>
-//#endif
+#endif
 #include "t-gtk.h"
 
 /* Iconos en message_dialog() */
