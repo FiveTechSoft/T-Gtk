@@ -33,7 +33,12 @@ endif
 ifeq ($(XBASE_COMPILER),XHARBOUR)
   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)xhb
 endif
-$(shell mkdir $(LIBDIR_TGTK_))
+
+ifeq ($(HB_MAKE_PLAT),win)
+   $(shell mkdir $(LIBDIR_TGTK_))
+else
+   $(shell mkdir -p -m 755 $(LIBDIR_TGTK_))
+endif
 
 ##############################################
 
@@ -280,6 +285,7 @@ clean:
 ifeq ($(HB_COMPILER),mingw32)
 	del *.o
 	del *.ppo
+	del $(TARGET)
 	del $(TARGET).exe
 else
 	rm -f *.o
