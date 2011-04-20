@@ -14,9 +14,9 @@
 # INDICAR RUTA DEL COMPILADOR XBASE
 ifeq ($(HB_MAKE_PLAT),win)
 # Ruta en Windows:
-  HARBOUR_PATH  =\hb-mingw
+  HARBOUR_PATH  =\harbour-project
 
-  export HB_BIN_INSTALL =$(HARBOUR_PATH)\bin
+  export HB_BIN_INSTALL =$(HARBOUR_PATH)\bin\win\mingw
   export HB_INC_INSTALL =$(HARBOUR_PATH)\include
   export HB_LIB_INSTALL =$(HARBOUR_PATH)\lib\win\mingw
   # -- Version = [ 2.0 | 2.1 ]
@@ -58,11 +58,10 @@ else
    export HB_LIBS_MT = -lhbvm
 endif
 
-
 # Windows:
-ifeq ($(HB_COMPILER),mingw32)
+ifeq ($(HB_MAKE_PLAT),win)
 # GT Driver:
-  HB_GT_LIBS=-lgtwin
+  HB_GT_LIBS=-lgtwin -lgtwvt
 
   export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbrtl -lhblang -lhbrdd -lhbmacro -lhbpp -lhbxpp \
                  -lhbsix -lhbdebug -lhbcommon -lrddntx -lrddfpt -lrddcdx \
@@ -74,7 +73,7 @@ else
   HB_GT_LIBS=-lgtstd -lgtcgi -lgtpca
 
   export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug -lhbvm \
-                 -lhbrtl -lhblang -lhbcpage -lgttrm -lhbrdd -lrddntx \
+                 -lhbrtl -lhblang -lhbcpage -lhbrdd -lrddntx \
                  -lrddnsx -lrddcdx -lrddfpt \
                  -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl \
                  -lhbmacro -lhbcplr -lhbpp -lhbcommon -lhbpcre $(HB_GT_LIBS) \

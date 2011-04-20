@@ -45,7 +45,7 @@ endif
 
 
 # Windows:
-ifeq ($(HB_COMPILER),mingw32)
+ifeq ($(HB_MAKE_PLAT),win)
 # GT Driver:
   XHB_GT_LIBS=-lgtwvt -lgtwin
 

@@ -20,7 +20,7 @@ endif
 # Directory separator default
 ifeq ($(DIRSEP),)
    DIRSEP := /
-   ifeq ($(HB_COMPILER),mingw32)
+   ifeq ($(HB_MAKE_PLAT),win)
       DIRSEP := $(subst /,\,\)
    endif
 endif
