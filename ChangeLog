@@ -8,6 +8,14 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-04-21 02:45 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * config/detect.mk
+  * Rules.make
+    ! Modificaciones para verificar que los componentes necesarios y
+    ! adicionales estan disponibles.
+    ! TODO: install.bat para obtener los paquetes de forma automatica en win.
+
+
 2011-04-18 23:02 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   + config/harbour.mk
   + config/xharbour.mk

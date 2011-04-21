@@ -107,6 +107,14 @@ endif
 
 
 ifeq ($(GTKSOURCEVIEW),yes)
+
+   ifeq ($(findstring gtksourceview-2.0,$(PACKAGES)),)
+      $(info ----------------------------------------)
+      $(info *  ERROR GtkSourceView No Encontrado!  *)
+      $(info ----------------------------------------)
+      $(warning Error, aparentemente no existe o no localiza GtkSourceView )
+   endif
+
    CFLAGS += -D_HAVEGTKSOURCEVIEW_
    CFLAGS += $(shell pkg-config --cflags gtksourceview-2.0)
    LIBS += $(shell pkg-config --libs gtksourceview-2.0 ) 
@@ -121,6 +129,12 @@ endif
 
 
 ifeq ($(CURL),yes)
+    ifeq ($(findstring libcurl,$(PACKAGES)),)
+       $(info ----------------------------------------)
+       $(info *  ERROR libcURL  No Encontrado!       *)
+       $(info ----------------------------------------)
+       $(error Error, aparentemente no existe o no localiza libcURL )
+    endif
     ifeq ($(HB_COMPILER),mingw32)
         ifeq ($(XBASE_COMPILER),XHARBOUR)
             CFLAGS += -D_CURL_
@@ -137,6 +151,12 @@ endif
 
 ifneq ($(HB_MAKE_PLAT),win)
 ifeq ($(WEBKIT),yes)
+    ifeq ($(findstring webkit,$(PACKAGES)),)
+      $(info ----------------------------------------)
+      $(info *  ERROR WebKit  No Encontrado!       *)
+      $(info ----------------------------------------)
+      $(error Error, aparentemente no existe o no localiza WebKit )
+    endif
     CFLAGS += -D_WEBKIT_
     CFLAGS += $(shell pkg-config --cflags webkit-1.0)
     LIBS += $(shell pkg-config --libs webkit-1.0 )
@@ -146,6 +166,12 @@ endif
 ifeq ($(SQLITE),yes)
   ifeq ($(HB_COMPILER),mingw32)
   else
+     ifeq ($(findstring sqlite3,$(PACKAGES)),)
+       $(info ----------------------------------------)
+       $(info *  ERROR SQLite3  No Encontrado!       *)
+       $(info ----------------------------------------)
+       $(error Error, aparentemente no existe o no localiza SQLite )
+     endif
      CFLAGS += $(shell pkg-config --cflags sqlite3)
      LIBS += $(shell pkg-config --libs sqlite3 ) 
   endif 
@@ -258,7 +284,7 @@ all:$(TARGET) $(TARGETS)
 win:$(TARGET) $(TARGETS)
 linux:$(TARGET) $(TARGETS)
 
-.PHONY: clean install
+.PHONY: clean install err
 
 %$(EXETYPE):%.o
 	$(CC) -o$@ $< $(HB_LIBDIR_) $(HB_LIBS_)

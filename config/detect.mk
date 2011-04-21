@@ -38,3 +38,26 @@ endif
 export HB_MAKE_PLAT
 export DIRSEP
 
+export PACKAGES :=$(shell pkg-config --list-all  )
+
+ifeq ($(findstring tgtk,$(PACKAGES)),)
+   $(info -------------)
+   $(info     ERROR
+   $(info -------------)
+   $(error Error, aparentemente no existe tgtk.pc en la ruta de pkgconfig )
+endif
+
+ifeq ($(findstring gtk+,$(PACKAGES)),)
+   $(info -------------)
+   $(info     ERROR
+   $(info -------------)
+   $(error Error, aparentemente no existe o no localiza GTK+ )
+endif
+
+ifeq ($(findstring libglade-2.0,$(PACKAGES)),)
+   $(info -------------)
+   $(info     ERROR
+   $(info -------------)
+   $(error Error, aparentemente no existe o no localiza LibGlade )
+endif
+
