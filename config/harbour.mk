@@ -70,7 +70,7 @@ ifeq ($(HB_MAKE_PLAT),win)
 # GNU/Linux:
 else
 # GT Driver:
-  HB_GT_LIBS=-lgtstd -lgtcgi -lgtpca
+  HB_GT_LIBS=-lgtstd -lgtcgi -lgtpca -lgttrm
 
   export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug -lhbvm \
                  -lhbrtl -lhblang -lhbcpage -lhbrdd -lrddntx \
