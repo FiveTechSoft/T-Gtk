@@ -258,6 +258,20 @@ HB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTAL
 #XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
 #        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)
 
+#FLAGS a Pasar a Harbour
+ifeq ($(HB_FLAGS),)
+   HB_FLAGS = -w$(HB_WL) -q$(HB_QUIET) -gc0 -n \
+              $(subst no,,$(subst yes,-gh,$(HB_HRB_OUT)))  \
+              $(subst no,,$(subst yes,-p,$(HB_GEN_PPO)))  \
+              $(subst no,,$(subst yes,-p+,$(HB_GEN_PPT)))  \
+              $(subst no,,$(subst yes,-l,$(HB_LINES)))  \
+              $(subst no,,$(subst yes,-v,$(HB_ASSUME_VARS)))  \
+              $(subst no,,$(subst yes,-b,$(HB_DEBUG_INFO))) 
+   ifneq ($(HB_DEFINE),)
+      HB_FLAGS += -d$(HB_DEFINE)
+   endif
+endif
+
 ifeq ($(strip $(SOURCE_TYPE)),)
 SOURCE_TYPE=prg
 endif
@@ -284,7 +298,7 @@ all:$(TARGET) $(TARGETS)
 win:$(TARGET) $(TARGETS)
 linux:$(TARGET) $(TARGETS)
 
-.PHONY: clean install err
+.PHONY: clean install 
 
 %$(EXETYPE):%.o
 	$(CC) -o$@ $< $(HB_LIBDIR_) $(HB_LIBS_)
@@ -296,7 +310,7 @@ linux:$(TARGET) $(TARGETS)
 	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $<
 
 %.c: %.prg
-	$(HB_BIN_INSTALL)/harbour -w -q0 -gc0 -n -p  $(PRGFLAGS) -I$(HB_INC_INSTALL)  -o$@ $<
+	$(HB_BIN_INSTALL)/harbour $(strip $(HB_FLAGS)) $(PRGFLAGS) -I$(HB_INC_INSTALL)  -o$@ $<
 
 $(TARGET): $(OBJECTS)
 ifeq ( lib , $(patsubst %.a, lib, $(TARGET)))

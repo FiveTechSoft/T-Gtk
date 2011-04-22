@@ -8,7 +8,14 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
-2011-04-21 02:45 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+2011-04-22 02:22 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * config/global.mk
+  * Rules.make
+    Cambios para manipular los flags para harbour desde variables de entorno.
+    Los valores predeterminados se defines en global.mk
+
+
+2011-04-21 16:22 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * config/detect.mk
   * Rules.make
     ! Se agrega variable OS_GT_LIBS para alojar cadena de librerias

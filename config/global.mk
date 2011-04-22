@@ -51,7 +51,7 @@ ifeq ($(HB_MAKE_PLAT),win)
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)\include
 else
   # Ruta en GNU/Linux
-  export TGTK_DIR         =/usr/local/t-gtk
+  export TGTK_DIR         =$(HOME)/t-gtk-cvs/t-gtk-cvs
   export LIBDIR_TGTK      =$(TGTK_DIR)/lib
   export INCLUDE_TGTK_PRG =$(TGTK_DIR)/include
 endif
@@ -105,6 +105,62 @@ export MYSQL_PATH     ="$(PROGRAMFILES)\MySQL\MySQL Server $(MYSQL_VERSION)\incl
 export POSTGRE        =no
 export POSTGRE_VERSION=9.0
 export POSTGRE_PATH   ="$(PROGRAMFILES)\PostgreSQL\$(POSTGRE_VERSION)\include"
+
+
+
+#Adicionales para el compilador xBase
+
+#FLAGS para harbour predefinido
+#-- solo para predefinir una cadena fija en los flags para harbour.
+ifeq ($(HB_FLAGS),)
+  export HB_FLAGS :=
+endif
+
+# -l
+ifeq ($(HB_LINES),)
+  export HB_LINES :=no
+endif
+
+# -gh
+ifeq ($(HB_HRB_OUT),)
+  export HB_HRB_OUT :=no
+endif
+
+# -d<id>[=<val>]
+ifeq ($(HB_DEFINE),)
+  export HB_DEFINE :=
+endif
+
+# -v
+ifeq ($(HB_ASSUME_VARS),)
+  export HB_ASSUME_VARS :=no
+endif
+
+# -p
+ifeq ($(HB_GEN_PPO),)
+  export HB_GEN_PPO :=yes
+endif
+
+# -p+
+ifeq ($(HB_GEN_PPT),)
+  export HB_GEN_PPT :=no
+endif
+
+# -b
+ifeq ($(HB_DEBUG_INFO),)
+  export HB_DEBUG_INFO :=no
+endif
+
+# -w[level]  Warning Level [1..3]
+ifeq ($(HB_WL),)
+  export HB_WL :=1
+endif
+
+# -q[,0,2]  
+ifeq ($(HB_QUIET),)
+  export HB_QUIET :=0
+endif
+
 
 # HASTA AQUI. EL Resto es detectable o se deduce...
 
