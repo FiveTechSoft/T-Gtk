@@ -61,3 +61,11 @@ ifeq ($(findstring libglade-2.0,$(PACKAGES)),)
    $(error Error, aparentemente no existe o no localiza LibGlade )
 endif
 
+# Intentamos detectar dependencias a algunas GT... 
+# ejemplo libgttrm puede depender de libgpm (soporte de mouse)
+ifneq ($(HB_MAKE_PLAT),win)
+   ifneq ($(findstring libgpm,$(shell dpkg --get-selections | grep "libgpm-dev" )),)
+      export OS_GT_LIBS := -lgpm
+   endif
+endif
+
