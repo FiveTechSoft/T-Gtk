@@ -11,9 +11,8 @@
 ##############################################
 ifneq ($(TGTK_GLOBAL),yes)
    $(info ejecutando global.mk )
-   include $(TOP)$(ROOT)config/global.mk
+   include $(ROOT)config/global.mk
 endif
-
 
 ##############################################
 # Compilador de Lenguaje C. 
@@ -34,11 +33,17 @@ ifeq ($(XBASE_COMPILER),XHARBOUR)
   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)xhb
 endif
 
-ifeq ($(HB_MAKE_PLAT),win)
-   $(shell mkdir $(LIBDIR_TGTK_))
-else
-   $(shell mkdir -p -m 755 $(LIBDIR_TGTK_))
-endif
+# Verificamos PKG_CONFIG_PATH
+include $(ROOT)config/pkgconfig.mk
+
+# Revisamos las Rutas y Creamos los directorios si es necesario... (miquel)
+include $(ROOT)config/dirs.mk
+
+# Verificamos algunos binarios
+include $(ROOT)config/check_bin.mk
+
+# Verificamos Paquetes Disponibles
+include $(ROOT)config/packages.mk 
 
 ##############################################
 
@@ -250,11 +255,16 @@ ifeq ($(HB_COMPILER),gcc)
    PRGFLAGS += -DHB_OS_LINUX
 endif   
 
+ifneq ($(HB_MAKE_PLAT),win)
+   OS_LIBS += -ldl -lz
+endif
+
+
 HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
 #XHB_LIBDIR_ = $(LIBDIR) -L$(XHB_LIB_INSTALL)
 
 HB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
-        $(HB_LIBFILES_)$(OS_GT_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS)
+        $(HB_LIBFILES_)$(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS)
 #XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
 #        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)
 

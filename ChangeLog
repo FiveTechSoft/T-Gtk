@@ -8,18 +8,37 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
-2011-04-22 02:22 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+2011-04-24 01:36 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  + setenv.mk
+    ! Archivo para setear variables personalizadas
+      Con este archivo, no es necesario manipular config/global.mk
+  + config/check_bin.bat
+    ! Verifica existencia de archivos en Windows (Nombres con Espacio)
+  + config/check_bin-mk
+    ! Verifica la existencia de algunos binarios. (windows)
+  + config/dirs.mk
+    ! Rutina para crear directorios
+  + config/download.mk
+    ! Rutina para descargar paquetes (windows)
+  + config/unzip.mk
+    ! Rutina para descomprimir paquetes descargados (windows)
+  + config/links.mk
+    ! Rutina que almacena las rutas de paquetes externos necesarios (windows)
+  + config/packages.mk
+    ! Verifica los paquetes externos.
+  + config/pkgconfig.mk
+    ! Revisa y confirma la ruta y ejecutable de pkgconfig (windows)
   * config/global.mk
-  * Rules.make
-    Cambios para manipular los flags para harbour desde variables de entorno.
-    Los valores predeterminados se defines en global.mk
-
-
-2011-04-21 16:22 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+    ! Modificaciones a fin de utilizar ahora tambien setenv.mk
   * config/detect.mk
+    ! Modificaciones varias.
   * Rules.make
     ! Se agrega variable OS_GT_LIBS para alojar cadena de librerias
       dependientes de alguna GT... 
+    ! Modificaciones a fin de realizar revision de dependencias.
+  * utils/config_system/tgtk_gnu.pc
+  * utils/config_system/tgtk_win.pc
+    ! Se coloca Version 2.0
 
 
 2011-04-21 02:45 UTC-430 Riztan Gutierrez <riztan at gmail.com>

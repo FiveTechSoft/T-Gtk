@@ -2,6 +2,9 @@
 #  T-Gtk  #  Initial Detection   #
 ##################################
 
+$(info )
+$(info * Ejecutando config/detect.mk )
+
 # Make platform detection
 ifneq ($(findstring COMMAND,$(SHELL)),)
    HB_MAKE_PLAT := dos
@@ -38,34 +41,26 @@ endif
 export HB_MAKE_PLAT
 export DIRSEP
 
-export PACKAGES :=$(shell pkg-config --list-all  )
 
-ifeq ($(findstring tgtk,$(PACKAGES)),)
-   $(info ----------------------------------------)
-   $(info *  ERROR T-GTK No Encontrado!          *)
-   $(info ----------------------------------------)
-   $(error Error, aparentemente no existe tgtk.pc en la ruta de pkgconfig )
+#Detectando %PROGRAMFILES% en Windows.
+ifeq ($(HB_MAKE_PLAT),win)
+  ifeq ($(PROGRAMFILES),)
+     export PROGRAMFILES :=$(shell echo %PROGRAMFILES%)
+  endif
 endif
 
-ifeq ($(findstring gtk+,$(PACKAGES)),)
-   $(info ----------------------------------------)
-   $(info *  ERROR GTK+ No Encontrado!           *)
-   $(info ----------------------------------------)
-   $(error Error, aparentemente no existe o no localiza GTK+ )
-endif
 
-ifeq ($(findstring libglade-2.0,$(PACKAGES)),)
-   $(info ----------------------------------------)
-   $(info *  ERROR LibGlade No Encontrado!       *)
-   $(info ----------------------------------------)
-   $(error Error, aparentemente no existe o no localiza LibGlade )
-endif
-
-# Intentamos detectar dependencias a algunas GT... 
+# Intentamos detectar dependencias varias...
 # ejemplo libgttrm puede depender de libgpm (soporte de mouse)
 ifneq ($(HB_MAKE_PLAT),win)
    ifneq ($(findstring libgpm,$(shell dpkg --get-selections | grep "libgpm-dev" )),)
-      export OS_GT_LIBS := -lgpm
+      export OS_LIBS := -lgpm
    endif
+
+   ifneq ($(findstring libssl,$(shell dpkg --get-selections | grep "libssl-dev" )),)
+      export OS_LIBS += -lssl
+   endif
+
 endif
+
 

@@ -10,10 +10,13 @@
 # 
 ##############################################
 
+$(info )
+$(info Ejecutando gonfig/global.mk)
+
+include $(ROOT)setenv.mk
 include $(ROOT)config/detect.mk
 
-#Ruta de PROGRAMFILES (solo Windows)
-export PROGRAMFILES =\Archivos de Programa
+export TGTK_VERSION :=2.0
 
 ##############################################
 # Indicar COMPILADOR XBASE. 
@@ -25,10 +28,10 @@ endif
 
 ##############################################
 # INDICAR RUTA DEL COMPILADOR XBASE
-ifeq ($(XBASE_COMPILER),ALL)
-   include $(ROOT)config/harbour.mk
-   include $(ROOT)config/xharbour.mk
-endif
+#ifeq ($(XBASE_COMPILER),ALL)
+#   include $(ROOT)config/harbour.mk
+#   include $(ROOT)config/xharbour.mk
+#endif
 ifeq ($(XBASE_COMPILER),HARBOUR)
    include $(ROOT)config/harbour.mk
 endif
@@ -46,20 +49,46 @@ endif
 ##############################################
 ifeq ($(HB_MAKE_PLAT),win)
   # Ruta en Windows:
-  export TGTK_DIR         =\t-gtk
-  export LIBDIR_TGTK      =$(TGTK_DIR)\lib
-  export INCLUDE_TGTK_PRG =$(TGTK_DIR)\include
+  ifeq ($(TGTK_DIR),)
+    export TGTK_DIR         =\t-gtk-$(TGTK_VERSION)
+  endif
+  ifeq ($(LIBDIR_TGTK),)
+    export LIBDIR_TGTK      =$(TGTK_DIR)\lib
+  endif
+  ifeq ($(INCLUDE_TGTK_PRG),)
+    export INCLUDE_TGTK_PRG =$(TGTK_DIR)\include
+  endif
 else
   # Ruta en GNU/Linux
-  export TGTK_DIR         =$(HOME)/t-gtk-cvs/t-gtk-cvs
-  export LIBDIR_TGTK      =$(TGTK_DIR)/lib
-  export INCLUDE_TGTK_PRG =$(TGTK_DIR)/include
+  ifeq ($(TGTK_DIR),)
+    export TGTK_DIR         =$(HOME)/t-gtk-$(TGTK_VERSION)
+  endif
+  ifeq ($(LIBDIR_TGTK),)
+    export LIBDIR_TGTK      =$(TGTK_DIR)/lib
+  endif
+  ifeq ($(INCLUDE_TGTK_PRG),)
+    export INCLUDE_TGTK_PRG =$(TGTK_DIR)/include
+  endif
 endif
 
 # Se usa DIRSEP para el buen
 # funcionamiento xcopy al utilizar "make install"
+ifeq ($(TGTK_INST),)
+  export TGTK_INST     =$(TGTK_DIR)$(DIRSEP)
+endif
 
-export TGTK_INSTALL     =$(TGTK_DIR)$(DIRSEP)
+# Uso solo en Windows.
+# bin - para colocar herramientas
+# run - binarios (RunTime) para distribuir 
+ifeq ($(TGTK_BIN),)
+  export TGTK_BIN  =\gnu
+endif
+ifeq ($(TGTK_RUN),)
+  export TGTK_RUN  =$(TGTK_DIR)\runtime
+endif
+ifeq ($(DIR_DOWN),)
+  export DIR_DOWN :=$(TGTK_DIR)\downloads
+endif
 
 ##############################################
 
@@ -72,40 +101,79 @@ export TGTK_INSTALL     =$(TGTK_DIR)$(DIRSEP)
 #                                            #
 ##############################################
 
+ifeq ($(HB_MAKE_PLAT),win)
+  ifeq ($(GTK_PATH),)
+    export GTK_PATH        :=\mingw
+  endif
+  ifeq ($(PKG_CONFIG_PATH),)
+    export PKG_CONFIG_PATH :=$(GTK_PATH)\lib\pkgconfig
+  endif
+endif
+
+
 #Soporte de Impresion
-export SUPPORT_PRINT_LINUX=no
-export SUPPORT_PRINT_WIN32=no
+ifeq ($(SUPPORT_PRINT_LINUX),)
+  export SUPPORT_PRINT_LINUX=no
+endif
+ifeq ($(SUPPORT_PRINT_WIN32),)
+  export SUPPORT_PRINT_WIN32=no
+endif
 
 
 #Soporte para GTKSourceView
-export GTKSOURCEVIEW  =no
+ifeq ($(GTKSOURCEVIEW),)
+  export GTKSOURCEVIEW  =no
+endif
 
 #Soporte para Bonobo
-export BONOBO         =no
+ifeq ($(BONOBO),)
+  export BONOBO         =no
+endif
 
 #Alpha. Soporte para GNOMEDB y LIBGDA
-export GNOMEDB        =no
+ifeq ($(GNOMEDB),)
+  export GNOMEDB        =no
+endif
 
 #Soporte para CURL
-export CURL           =no
+ifeq ($(CURL),)
+  export CURL           =no
+endif
 
 #Soporte para WebKit (por los momentos solo para GNU/Linux)
-export WEBKIT         =no
+ifeq ($(WEBKIT),)
+  export WEBKIT         =no
+endif
 
 #Soporte para SQLite 
-export SQLITE         =no
+ifeq ($(SQLITE),)
+  export SQLITE         =no
+endif
 
 #Soporte MySQL
-export MYSQL          =no
-export DOLPHIN        =no
-export MYSQL_VERSION  =5.0
-export MYSQL_PATH     ="$(PROGRAMFILES)\MySQL\MySQL Server $(MYSQL_VERSION)\include"
+ifeq ($(MYSQL),)
+  export MYSQL          =no
+endif
+ifeq ($(DOLPHIN),)
+  export DOLPHIN        =no
+endif
+ifeq ($(MYSQL_VERSION),)
+  export MYSQL_VERSION  =5.0
+endif
+ifeq ($(MYSQL_PATH),)
+  export MYSQL_PATH     ="$(PROGRAMFILES)\MySQL\MySQL Server $(MYSQL_VERSION)\include"
+endif
 
 #Soporte PostgreSQL
-export POSTGRE        =no
-export POSTGRE_VERSION=9.0
-export POSTGRE_PATH   ="$(PROGRAMFILES)\PostgreSQL\$(POSTGRE_VERSION)\include"
-
+ifeq ($(POSTGRE),)
+  export POSTGRE        =no
+endif
+ifeq ($(POSTGRE_VERSION),)
+  export POSTGRE_VERSION=9.0
+endif
+ifeq ($(POSTGRE_PATH),)
+  export POSTGRE_PATH   ="$(PROGRAMFILES)\PostgreSQL\$(POSTGRE_VERSION)\include"
+endif
 
 
 #Adicionales para el compilador xBase
@@ -163,6 +231,5 @@ endif
 
 
 # HASTA AQUI. EL Resto es detectable o se deduce...
-
 
 export TGTK_GLOBAL=yes
