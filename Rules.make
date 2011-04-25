@@ -45,6 +45,9 @@ include $(ROOT)config/check_bin.mk
 # Verificamos Paquetes Disponibles
 include $(ROOT)config/packages.mk 
 
+# Generar setenv.mk
+include $(ROOT)config/gensetenv.mk
+
 ##############################################
 
 $(info *************************************************** )

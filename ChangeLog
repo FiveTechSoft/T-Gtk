@@ -9,6 +9,14 @@
 */
 
 2011-04-24 01:36 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * Rules.make
+  + config/gensetenv.mk
+    ! Rutinas para generar archivo de variables personalizadas. (setenv.mk)
+  - setenv.mk
+    ! Se elimina para evitar se actualice por subversion.
+
+
+2011-04-24 01:36 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   + setenv.mk
     ! Archivo para setear variables personalizadas
       Con este archivo, no es necesario manipular config/global.mk
