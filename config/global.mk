@@ -13,7 +13,7 @@
 $(info )
 $(info Ejecutando gonfig/global.mk)
 
-ifeq ($(notdir $(wildcard $(subst \,/,$(TGTK_DIR)/setenv.mk))),)
+ifeq ($(notdir $(wildcard $(subst \,/,$(TGTK_DIR)/setenv.mk))),setenv.mk)
   include $(ROOT)setenv.mk
 endif
 

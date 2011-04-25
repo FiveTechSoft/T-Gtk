@@ -33,6 +33,9 @@ ifeq ($(XBASE_COMPILER),XHARBOUR)
   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)xhb
 endif
 
+# Generar setenv.mk
+include $(ROOT)config/gensetenv.mk
+
 # Verificamos PKG_CONFIG_PATH
 include $(ROOT)config/pkgconfig.mk
 
@@ -44,9 +47,6 @@ include $(ROOT)config/check_bin.mk
 
 # Verificamos Paquetes Disponibles
 include $(ROOT)config/packages.mk 
-
-# Generar setenv.mk
-include $(ROOT)config/gensetenv.mk
 
 ##############################################
 

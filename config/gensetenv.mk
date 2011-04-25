@@ -6,13 +6,12 @@ $(info )
 $(info Ejecutando config/gensetenv.mk )
 
 ifeq ($(HB_MAKE_PLAT),win)
-ifeq ($(notdir $(wildcard $(subst \,/,$(TGTK_DIR)/setenv.mk))),)
+ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/setenv.mk))),)
 
-
+$(info * Generando setenv.mk )
 N:=\#
-INI:=> $(TGTK_DIR)\setenv.mk 
-ADD:=>> $(TGTK_DIR)\setenv.mk 
-
+INI:=> $(ROOT)\setenv.mk 
+ADD:=>> $(ROOT)\setenv.mk 
 $(shell echo $(N)--------------------------------------------- $(INI))
 $(shell echo $(N) System Configure of T-Gtk.                   $(ADD))
 $(shell echo $(N) (c)2004-11 gTXBASE Team.                     $(ADD))
@@ -20,7 +19,7 @@ $(shell echo $(N)                                              $(ADD))
 $(shell echo $(N)--------------------------------------------- $(ADD))
 $(shell echo. $(ADD))
 $(shell echo $(N)-------------------- $(ADD))
-$(shell echo $(N) Compilador xBase. Opciones (HARBOUR|XHARBOUR) $(ADD))
+$(shell echo $(N) Compilador xBase. Opciones [HARBOUR o XHARBOUR] $(ADD))
 $(shell echo export XBASE_COMPILER =$(XBASE_COMPILER) $(ADD))
 $(shell echo. $(ADD))
 $(shell echo $(N)-------------------- $(ADD))
@@ -81,7 +80,7 @@ $(shell echo $(N) -l $(ADD))
 $(shell echo export HB_LINES :=$(HB_LINES) $(ADD))
 $(shell echo $(N) -gh $(ADD))
 $(shell echo export HB_HRB_OUT :=$(HB_HRB_OUT) $(ADD))
-$(shell echo $(N) -d<id>[=<val>] $(ADD))
+$(shell echo $(N) -d $(ADD))
 $(shell echo export HB_DEFINE :=$(HB_DEFINE) $(ADD))
 $(shell echo $(N) -v $(ADD))
 $(shell echo export HB_ASSUME_VARS :=$(HB_ASSUME_VARS) $(ADD))
@@ -98,6 +97,7 @@ $(shell echo export HB_QUIET :=$(HB_QUIET) $(ADD))
 $(shell echo. $(ADD))
 $(shell echo. $(ADD))
 
+$(info * Finalizada la contruccion de setenv.mk )
 
 endif
 endif
