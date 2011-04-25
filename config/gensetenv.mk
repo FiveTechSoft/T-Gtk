@@ -6,7 +6,7 @@ $(info )
 $(info Ejecutando config/gensetenv.mk )
 
 ifeq ($(HB_MAKE_PLAT),win)
-ifeq ($(notdir $(wildcard $(subst \,/,$(TGTK_DIR)/prueba.txt))),)
+ifeq ($(notdir $(wildcard $(subst \,/,$(TGTK_DIR)/setenv.mk))),)
 
 
 N:=\#

@@ -13,7 +13,10 @@
 $(info )
 $(info Ejecutando gonfig/global.mk)
 
-include $(ROOT)setenv.mk
+ifeq ($(notdir $(wildcard $(subst \,/,$(TGTK_DIR)/setenv.mk))),)
+  include $(ROOT)setenv.mk
+endif
+
 include $(ROOT)config/detect.mk
 
 export TGTK_VERSION :=2.0
