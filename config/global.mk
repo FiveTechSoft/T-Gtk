@@ -11,9 +11,10 @@
 ##############################################
 
 $(info )
-$(info Ejecutando gonfig/global.mk)
+$(info Ejecutando config/global.mk)
 
-ifeq ($(notdir $(wildcard $(subst \,/,$(TGTK_DIR)/setenv.mk))),setenv.mk)
+ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/setenv.mk))),setenv.mk)
+  $(info Ejecutando setenv.mk )
   include $(ROOT)setenv.mk
 endif
 
