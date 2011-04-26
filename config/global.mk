@@ -28,6 +28,7 @@ export TGTK_VERSION :=2.0
 ifeq ($(XBASE_COMPILER),)
    export XBASE_COMPILER =HARBOUR
 endif
+export XBASE_COMPILER:=$(strip $(XBASE_COMPILER))
 ##############################################
 
 ##############################################
@@ -38,8 +39,7 @@ endif
 #endif
 ifeq ($(XBASE_COMPILER),HARBOUR)
    include $(ROOT)config/harbour.mk
-endif
-ifeq ($(XBASE_COMPILER),XHARBOUR)
+else
    include $(ROOT)config/xharbour.mk
 endif
 
@@ -85,7 +85,7 @@ endif
 # bin - para colocar herramientas
 # run - binarios (RunTime) para distribuir 
 ifeq ($(TGTK_BIN),)
-  export TGTK_BIN  =\gnu
+  export TGTK_BIN  =\mingw
 endif
 ifeq ($(TGTK_RUN),)
   export TGTK_RUN  =$(TGTK_DIR)\runtime

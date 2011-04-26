@@ -2,6 +2,7 @@
 #  T-Gtk makefile principal
 ##################################
 export ROOT := ./
+export TGTK_DIR :=$(shell pwd)
 
 include $(ROOT)/config/global.mk
 

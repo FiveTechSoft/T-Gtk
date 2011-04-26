@@ -16,20 +16,36 @@ ifeq ($(HB_MAKE_PLAT),win)
 # Ruta en Windows:
   HARBOUR_PATH  =\harbour-project
 
-  export HB_BIN_INSTALL =$(HARBOUR_PATH)\bin\win\mingw
-  export HB_INC_INSTALL =$(HARBOUR_PATH)\include
-  export HB_LIB_INSTALL =$(HARBOUR_PATH)\lib\win\mingw
+  ifeq ($(HB_BIN_INSTALL),)
+    export HB_BIN_INSTALL =$(HARBOUR_PATH)\bin\win\mingw
+  endif
+  ifeq ($(HB_INC_INSTALL),)
+    export HB_INC_INSTALL =$(HARBOUR_PATH)\include
+  endif
+  ifeq ($(HB_LIB_INSTALL),)
+    export HB_LIB_INSTALL =$(HARBOUR_PATH)\lib\win\mingw
+  endif
   # -- Version = [ 2.0 | 2.1 ]
-  export HB_VERSION =2.1
+  ifeq ($(HB_VERSION),)
+    export HB_VERSION =2.1
+  endif
 else
 # Ruta en GNU/Linux:
   HARBOUR_PATH  =/usr/local
 
-  export HB_BIN_INSTALL =$(HARBOUR_PATH)/bin
-  export HB_INC_INSTALL =$(HARBOUR_PATH)/include/harbour
-  export HB_LIB_INSTALL =$(HARBOUR_PATH)/lib/harbour
+  ifeq ($(HB_BIN_INSTALL),)
+    export HB_BIN_INSTALL =$(HARBOUR_PATH)/bin
+  endif
+  ifeq ($(HB_INC_INSTALL),)
+    export HB_INC_INSTALL =$(HARBOUR_PATH)/include/harbour
+  endif
+  ifeq ($(HB_LIB_INSTALL),)
+    export HB_LIB_INSTALL =$(HARBOUR_PATH)/lib/harbour
+  endif
   # -- Version = [ 2.0 | 2.1 ]
-  export HB_VERSION =2.1
+  ifeq ($(HB_VERSION),)
+    export HB_VERSION =2.1
+  endif
 endif
 ##############################################
 
@@ -61,23 +77,31 @@ endif
 # Windows:
 ifeq ($(HB_MAKE_PLAT),win)
 # GT Driver:
-  HB_GT_LIBS=-lgtwin -lgtwvt
+  ifeq ($(HB_GT_LIBS),)
+    HB_GT_LIBS=-lgtwin -lgtwvt
+  endif
 
-  export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbrtl -lhblang -lhbrdd -lhbmacro -lhbpp -lhbxpp \
+  ifeq ($(HB_LIBFILES_),)
+    export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbrtl -lhblang -lhbrdd -lhbmacro -lhbpp -lhbxpp \
                  -lhbsix -lhbdebug -lhbcommon -lrddntx -lrddfpt -lrddcdx \
                  -lhbsix -lxhb -lhbpp -lhbcpage -lhbwin -lhbpcre $(HB_GT_LIBS)
+  endif
 
 # GNU/Linux:
 else
 # GT Driver:
-  HB_GT_LIBS=-lgtstd -lgtcgi -lgtpca -lgttrm
+  ifeq ($(HB_GT_LIBS),)
+    HB_GT_LIBS=-lgtstd -lgtcgi -lgtpca -lgttrm
+  endif
 
-  export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug -lhbvm \
+  ifeq ($(HB_LIBFILES_),)
+    export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug -lhbvm \
                  -lhbrtl -lhblang -lhbcpage -lhbrdd -lrddntx \
                  -lrddnsx -lrddcdx -lrddfpt \
                  -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl \
                  -lhbmacro -lhbcplr -lhbpp -lhbcommon -lhbpcre $(HB_GT_LIBS) \
                  -lxhb -lhbxpp -lhbssl -lhbtipssl
+  endif
 
 endif
 

@@ -9,6 +9,19 @@
 */
 
 2011-04-24 01:36 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * config/gensetenv.mk
+  * config/global.mk
+  * config/harbour.mk
+  * config/xharbour.mk
+  * config/download.mk
+  * Makefile
+    ! Modificaciones varias a fin de mejorar el proceso.
+      Faltaba crear algunas lineas importantes al generar el setenv.mk
+      Se permite colocar en setenv.mk la ruta a harbour y xharbour para
+      mantener la posibilidad de compilar con cualquiera en cualquier momento.
+
+
+2011-04-24 01:36 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * Rules.make
   + config/gensetenv.mk
     ! Rutinas para generar archivo de variables personalizadas. (setenv.mk)
