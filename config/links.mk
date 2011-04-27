@@ -152,7 +152,9 @@ export GETTEXT_BIN_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependenc
 GETTEXT_DEV_FILE :=gettext-runtime-dev_0.18.1.1-2_win32
 export GETTEXT_DEV_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/$(GETTEXT_DEV_FILE).zip
 
-
+#OpenSSL for Windows
+OPENSSL_INST_FILE=Win32OpenSSL_Light-1_0_0d.exe
+OPENSSL_INST_LNK=http://www.slproweb.com/download/$(OPENSSL_INST_FILE)
 
 endif
 #/eof

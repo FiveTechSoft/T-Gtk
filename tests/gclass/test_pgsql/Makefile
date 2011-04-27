@@ -2,9 +2,9 @@
 # -mwindows al enlazar no sale ventana consola.
 # pero para depurar, va de muerte que salgan mensajes en la consola
 
-ROOT = ../../../
+ROOT =../../../
 
-TARGET = test
+TARGET =test
 SOURCES = main.prg test.prg
 
 include $(ROOT)config/global.mk
@@ -17,7 +17,9 @@ ifneq ($(HB_MAKE_PLAT),win)
 	   -I/usr/include/libpq -I/usr/include/pgsql/server/libpq
 else
 # Para sistemas Windows
-   LIBS=-lhbpg -L'$(PROGRAMFILES)/PostgreSQL/8.1/lib' -lpq 
+   LIBS=-lhbpg -L$(POSTGRE_PATH) -lpq 
+   $(info $(LIBS) )
+   exit
 endif
 
 include $(ROOT)Rules.make 

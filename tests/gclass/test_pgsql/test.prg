@@ -24,9 +24,11 @@ Function Login(cHost,cDB,cUser,cPass,nPort)
     Default cDb   := 'postgres'
     Default cUser := 'postgres'
     Default cPass := '1234'
-	 Default nPort := 5432
+    Default nPort := 5432
 
-    conn := PQsetdbLogin( cHost, STR(nPort), NIL, NIL, cDB, cUser, cPass)
+    IF Valtype(nPort)="N"; nPort:=STR(nPort) ; END
+
+    conn := PQsetdbLogin( cHost, nPort, NIL, NIL, cDB, cUser, cPass)
 
     conn := PQConnect(cDB, cHost, cUser, cPass, nPort)
 

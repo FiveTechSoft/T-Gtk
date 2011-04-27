@@ -110,6 +110,9 @@ ifneq ($(notdir $(wildcard $(DIR_DOWN)/*)),)
     $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(GETTEXT_BIN_FILE).zip )
     $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(GETTEXT_DEV_FILE).zip )
 
+    $(info Ejecutando Instalador de OpenSSQL for Windows ... )
+    $(shell $(DIR_DOWN)\$(OPENSSL_INST_FILE) )
+
     export TGTK_UNZIP :=no
     $(shell echo yes > $(TGTK_DIR)\config\unziped.log)
   endif

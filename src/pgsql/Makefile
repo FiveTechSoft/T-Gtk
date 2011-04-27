@@ -3,10 +3,10 @@
 # Makefile para librerias PgSql de Contrib en T-Gtk
 #
 ROOT = ../../
-include ../../config/global.mk
+include $(ROOT)setenv.mk
 
 TARGET = libhbpg.a
-ifeq ($(XBASE_COMPILER),HARBOUR)
+ifeq ($(strip $(XBASE_COMPILER)),HARBOUR)
    SOURCEDIR=hb
 else
    SOURCEDIR=xhb
@@ -17,10 +17,7 @@ PRGFLAGS=-I$(ROOT)include
 
 ifeq ($(HB_MAKE_PLAT),win)
   #Flags para sistemas WINDOWS
-  INCLUDE_PQ= '$(PROGRAMFILES)/PostgreSQL/9.0/include'
-  #Flags para sistemas WINDOWS
-  CFLAGS=-I$(INCLUDE_PQ) -DHB_OS_WIN_32_USED
-
+  CFLAGS=-I$(POSTGRE_PATH) -DHB_OS_WIN_32_USED
 else
   #Flags para sistemas GNU/Linux
   CFLAGS=-I$(ROOT)include -I/usr/include -I/usr/include/libpq \

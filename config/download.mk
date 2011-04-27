@@ -82,6 +82,10 @@ $(info Ejecutando config/download.mk)
     $(shell wget $(GETTEXT_BIN_LNK) -c -nd -P $(DIR_DOWN))
     $(shell wget $(GETTEXT_DEV_LNK) -c -nd -P $(DIR_DOWN))
 
+    $(info )
+    $(info Descargando OpenSSL. )
+    $(shell wget $(OPENSSL_INST_LNK) -c -nd -P $(DIR_DOWN))
+
     export TGTK_DOWN :=no
     $(shell echo yes > $(TGTK_DIR)\config\downloaded.log)
   endif

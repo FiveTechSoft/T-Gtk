@@ -9,6 +9,22 @@
 */
 
 2011-04-26 23:59 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * src/pgsql/Makefile
+  + src/pgsql/genlibpq.bat
+    ! Cambios para generar la libpq.a y adaptaciones a los cambios
+      recientes para Windows.
+  * test/gclass/test_pgsql/test.prg
+    ! Correccion menor (por revisar). En Harbour nPort esta como tipo cadena.
+  * test/gclass/test_pgsql/Makefile
+    ! Adaptacion a cambios recientes.
+  * config/links.mk
+  * config/unzip.mk
+  * config/download.mk
+    ! Incluida dependencia de OpenSSL Necesaria al contruir con 
+      PostgreSQL y/o cURL.
+
+
+2011-04-26 23:59 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * config/packages.mk
   * config/links.mk
   * config/unzip.mk
