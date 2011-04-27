@@ -95,12 +95,14 @@ ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
   ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
     $(info No Encontrado... )
 
-    ifeq ($(AUTO_INST),yes)
-      $(info Debe descargar y descomprimir wget en una ruta como $(TGTK_BIN) )
+    ifeq ($(shell wget --version ),)
+      ifeq ($(AUTO_INST),yes)
+        $(info Debe descargar y descomprimir wget en una ruta como $(TGTK_BIN) )
 
-      $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip)
-      $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip)
+        $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip)
+        $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip)
 
+      endif
     endif
 
   endif
