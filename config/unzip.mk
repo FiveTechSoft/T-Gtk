@@ -93,6 +93,10 @@ ifneq ($(notdir $(wildcard $(DIR_DOWN)/*)),)
     $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(XML_DEV_FILE).zip )
     $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(XML_BIN_FILE).zip )
 
+    $(info Descomprimiendo LibXML2-2 for Windows ... )
+    $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(XML2_DEV_FILE).zip )
+    $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(XML2_BIN_FILE).zip )
+
     $(info Descomprimiendo Glade for Windows ... )
     $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(LIBGLADE_DEV_FILE).zip )
     $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(LIBGLADE_BIN_FILE).zip )
@@ -101,6 +105,10 @@ ifneq ($(notdir $(wildcard $(DIR_DOWN)/*)),)
     $(info Descomprimiendo ZLIB for Windows ... )
     $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(ZLIB_DEV_FILE).zip )
     $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(ZLIB_BIN_FILE).zip )
+
+    $(info Descomprimiendo GetText for Windows ... )
+    $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(GETTEXT_BIN_FILE).zip )
+    $(shell $(EXECUTE)$(TGTK_BIN) $(DIR_DOWN)\$(GETTEXT_DEV_FILE).zip )
 
     export TGTK_UNZIP :=no
     $(shell echo yes > $(TGTK_DIR)\config\unziped.log)

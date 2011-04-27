@@ -120,6 +120,14 @@ export XML_DEV_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/
 XML_BIN_FILE :=libxml2-2.6.27
 export XML_BIN_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/old/$(XML_BIN_FILE).zip
 
+# LibXML2-2 for Windows
+XML2_DEV_FILE :=libxml2-dev_2.7.7-1_win32
+export XML2_DEV_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/$(XML2_DEV_FILE).zip
+
+XML2_BIN_FILE :=libxml2_2.7.7-1_win32
+export XML2_BIN_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/$(XML2_BIN_FILE).zip
+
+
 # Glade for Windows
 LIBGLADE_DEV_FILE :=libglade-dev_2.6.4-1_win32
 export LIBGLADE_DEV_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/$(LIBGLADE_DEV_FILE).zip
@@ -136,6 +144,13 @@ export ZLIB_DEV_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies
 
 ZLIB_BIN_FILE :=zlib_1.2.5-2_win32
 export ZLIB_BIN_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/$(ZLIB_BIN_FILE).zip
+
+# GetText Win32
+GETTEXT_BIN_FILE :=gettext-runtime_0.18.1.1-2_win32
+export GETTEXT_BIN_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/$(GETTEXT_BIN_FILE).zip
+
+GETTEXT_DEV_FILE :=gettext-runtime-dev_0.18.1.1-2_win32
+export GETTEXT_DEV_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/$(GETTEXT_DEV_FILE).zip
 
 
 

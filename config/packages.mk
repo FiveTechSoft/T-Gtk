@@ -17,15 +17,14 @@ ifeq ($(notdir $(wildcard $(PKG_CONFIG_PATH)/tgtk.pc)),)
 endif
 
 export PACKAGES :=$(shell pkg-config --list-all  )
-
 ifeq ($(findstring tgtk,$(PACKAGES)),)
    ifeq ($(HB_MAKE_PLAT),win)
       ifeq ($(findstring PKG_CONFIG_PATH,$(shell set)),)
          $(info ------------------------------------------------)
          $(info *  ERROR Variable de Entorno PKG_CONFIG_PATH   *)
-	 $(info *        No Definida!                          *)
+         $(info *        No Definida!                          *)
          $(info ------------------------------------------------)
-	 $(error PKG_CONFIG_PATH not found.)
+         $(error PKG_CONFIG_PATH not found.)
       endif
    endif
    $(info ----------------------------------------)

@@ -8,6 +8,14 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-04-26 23:59 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * config/packages.mk
+  * config/links.mk
+  * config/unzip.mk
+  * config/download.mk
+    ! Otros enlaces de dependencias..
+
+
 2011-04-24 01:36 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * config/gensetenv.mk
   * config/global.mk
