@@ -8,6 +8,19 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-05-04 02:57 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * src/gclass/gtreeview.prg
+    + Method HasChild(aIter,path)
+      ! Retorna .t. si hay hijos...
+    + Method GetChildNum(aIter,path)
+      ! Retorna Numero de Hijos.
+  Util cuando queremos "marcar" todos los hijos al marcar el padre en un
+  treestore.
+
+  * include/tgtkext.ch
+    Agregados algunas funciones...
+
+
 2011-04-26 23:59 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * src/pgsql/Makefile
   + src/pgsql/genlibpq.bat

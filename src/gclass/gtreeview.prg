@@ -41,6 +41,9 @@ CLASS GTREEVIEW FROM GCONTAINER
      
       METHOD SetAutoSize() INLINE gtk_tree_view_columns_autosize( ::pWidget ) 
 
+      METHOD GetChildNum(path)
+      METHOD HasChild(path)
+
       METHOD GetValue( nColumn, cType, path )
       METHOD SetValue( nColumn, cValue, path, oLbx )
       METHOD GetAutoValue( nColumn, aIter, aIter_Clone )      
@@ -216,6 +219,26 @@ METHOD FillArray( ) CLASS gTreeView
 return aData
 
 RETURN NIL
+
+METHOD HasChild( aIter, path )
+   local model := ::GetModel()
+
+   if gtk_tree_model_get_iter( model, aIter, path )
+      Return gtk_tree_model_iter_has_child( model, aIter ) 
+   endif
+
+Return .f.
+
+
+METHOD GetChildNum( aIter, path )
+   local model := ::GetModel()
+
+   if gtk_tree_model_get_iter( model, aIter, path )
+      Return gtk_tree_model_iter_n_children( model, aIter ) 
+   endif
+
+Return 0
+
 
 METHOD aRow( aItr ) CLASS gTreeView
 
