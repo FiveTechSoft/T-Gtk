@@ -8,6 +8,16 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-05-04 06:07 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * hbgtk/gtreeview.c
+    + gtk_tree_view_expand_row
+    + gtk_tree_view_collapse_row
+
+  * src/gclass/gtreeview.prg
+    + method Expand(path,lAll) 
+    + method Collapse(path)
+    
+
 2011-05-04 02:57 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * src/gclass/gtreeview.prg
     + Method HasChild(aIter,path)

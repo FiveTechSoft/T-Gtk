@@ -192,6 +192,25 @@ HB_FUNC( GTK_TREE_VIEW_EXPAND_ALL )
 
 //------------------------------------------------------//
 
+HB_FUNC( GTK_TREE_VIEW_EXPAND_ROW )
+{
+   GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   GtkTreePath * path = (GtkTreePath *) hb_parptr( 2 ) ;
+   gboolean open_all = hb_parl( 3 ); 
+   hb_retl( gtk_tree_view_expand_row( tree, path, open_all ) );
+}
+
+//------------------------------------------------------//
+
+HB_FUNC( GTK_TREE_VIEW_COLLAPSE_ROW )
+{
+   GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   GtkTreePath * path = (GtkTreePath *) hb_parptr( 2 ) ;
+   hb_retl( gtk_tree_view_collapse_row( tree, path ) );
+}
+
+//------------------------------------------------------//
+
 HB_FUNC( GTK_TREE_VIEW_SET_HEADERS_VISIBLE )
 {
   GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );

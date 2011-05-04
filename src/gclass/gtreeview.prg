@@ -41,8 +41,13 @@ CLASS GTREEVIEW FROM GCONTAINER
      
       METHOD SetAutoSize() INLINE gtk_tree_view_columns_autosize( ::pWidget ) 
 
-      METHOD GetChildNum(path)
-      METHOD HasChild(path)
+      METHOD GetChildNum(aIter,path)
+      METHOD HasChild(aIter,path)
+
+      METHOD Expand(path,lAll) INLINE ;
+                               gtk_tree_view_expand_row(::pWidget,path,lAll) 
+      METHOD Collapse(path) INLINE ;
+                               gtk_tree_view_collapse_row(::pWidget,path) 
 
       METHOD GetValue( nColumn, cType, path )
       METHOD SetValue( nColumn, cValue, path, oLbx )
