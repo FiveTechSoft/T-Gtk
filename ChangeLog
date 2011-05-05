@@ -8,6 +8,19 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-05-05 02:46 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * src/gclass/gcalendar.prg
+    + Method UnMarkDay()
+    + Method ClearMarks()
+    * Method OnKeyPressEvent()
+      * Tecla Delete ahora desmarca el dia --> UnMarkDay()
+      * Tecla Space  ahora tambien marca el dia --> MarkDay()
+
+  * src/gclass/gtreeview.prg
+    * Method AROW() Modificacion menor para generar el array usando el path.
+      TODO: Detectar hijos en los items e incluir en el array.
+
+
 2011-05-04 06:07 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * hbgtk/gtreeview.c
     + gtk_tree_view_expand_row

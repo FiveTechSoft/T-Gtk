@@ -85,7 +85,7 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GoPrev() INLINE HB_GTK_TREE_VIEW_PREV_ROW( ::pWidget )
 
       METHOD FillArray()
-      METHOD aRow( aIter )
+      METHOD aRow( aIter,path )
       METHOD GetIterFirst( aIter ) INLINE gtk_tree_model_get_iter_first( ::GetModel(), aIter )
       METHOD GetIterNext( aIter )  INLINE gtk_tree_model_iter_next( ::GetModel(), aIter )  
 
@@ -208,18 +208,21 @@ METHOD FillArray( ) CLASS gTreeView
    local n, nRow
    local aData    := {}
    local pModel   := ::GetModel()
-   local lRet 
+   local lRet,path
+
    
    lRet = ::GetIterFirst( aIter )
+   path = gtk_tree_model_get_path( pModel, aIter )
+
    nRow = 1
    do while lRet
-      AAdd( aData, {} )
-      for n = 1 to nColumns
-         AAdd( aData[ nRow ], gtk_tree_model_get( pModel, aIter, n ) )
-      next
+      AAdd( aData, ::aRow(aIter,path) )
       nRow++
       lRet = ::GetIterNext( aIter )
    enddo
+
+//TO DO: Falta hacer que genere los datos de items con hijos.
+//       Hacer igual que FillArray un FILLXML
    
 return aData
 
@@ -245,18 +248,24 @@ METHOD GetChildNum( aIter, path )
 Return 0
 
 
-METHOD aRow( aItr ) CLASS gTreeView
+METHOD aRow( aItr, path ) CLASS gTreeView
 
-   local model
+   local model:=::GetModel()
    local aIter := Array( 4 ) 
    local nColumns := ::GetColumns()
    local aData := Array( nColumns )
    local n
    
+   if HB_ISPOINTER(path)
+      gtk_tree_model_get_iter( model, @aIter, path )
+      for n = 1 to nColumns
+         aData[ n ] = gtk_tree_model_get( model, aIter, n )
+      next   
+      return aData
+   endif
    
    if ::IsGetSelected( aIter ) // Si fue posible seleccionarlo 
       aItr = aIter
-      model = ::GetModel()
       for n = 1 to nColumns
          aData[ n ] = gtk_tree_model_get( model, aIter, n )
       next   

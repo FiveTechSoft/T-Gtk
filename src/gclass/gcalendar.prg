@@ -35,6 +35,8 @@ CLASS gCalendar FROM GWIDGET
     METHOD GetDate() INLINE gtk_calendar_get_date( ::pWidget )
     METHOD SetDate( dDate )
     METHOD MarkDay( nDay ) INLINE gtk_calendar_mark_day( ::pWidget, nDay )
+    METHOD UnMarkDay( nDay ) INLINE gtk_calendar_unmark_day( ::pWidget, nDay )
+    METHOD ClearMarks( nDay ) INLINE gtk_calendar_clear_marks( ::pWidget )
     METHOD SetStyle( nStyle )
     
     
@@ -128,6 +130,9 @@ METHOD OnKeyPressEvent( oSender,   pGdkEventKey  ) CLASS GCALENDAR
    dDate = ::GetDate()
  
    switch nKey
+      case GDK_Delete
+         ::UnMarkDay( DAY( dDate ) )
+         exit         
       case GDK_LEFT
          dDate--
          exit         
@@ -183,6 +188,7 @@ METHOD OnKeyPressEvent( oSender,   pGdkEventKey  ) CLASS GCALENDAR
          exit
       case GDK_Return 
       case GDK_KP_Enter
+      case GDK_space 
          if hb_IsBlock( ::bDayD )
             Eval( ::bDayD, Self )
          endif         
