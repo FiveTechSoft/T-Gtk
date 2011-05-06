@@ -27,15 +27,16 @@ CLASS gCalendar FROM GWIDGET
 
     DATA dDate INIT date()
     DATA nStyle
-    DATA bDaySelected, bDayD
+    DATA bDaySelected, bDayD, bDelete
     DATA bPrevMonth, bNextMonth, bMonthChanged
     DATA bPrevYear, bNextYear
+    DATA bOnMarkDay,bOnUnMarkDay
 
     METHOD New()
     METHOD GetDate() INLINE gtk_calendar_get_date( ::pWidget )
     METHOD SetDate( dDate )
-    METHOD MarkDay( nDay ) INLINE gtk_calendar_mark_day( ::pWidget, nDay )
-    METHOD UnMarkDay( nDay ) INLINE gtk_calendar_unmark_day( ::pWidget, nDay )
+    METHOD MarkDay( nDay ) 
+    METHOD UnMarkDay( nDay ) 
     METHOD ClearMarks( nDay ) INLINE gtk_calendar_clear_marks( ::pWidget )
     METHOD SetStyle( nStyle )
     
@@ -54,7 +55,8 @@ ENDCLASS
 METHOD New( dDate, nStyle, lMarkDay, bDaySelected, bDayD, bPrevMonth, bNextMonth, bMonthChanged,;
             bPrevYear, bNextYear, oParent, lExpand, lFill, nPadding, lContainer, x, y,;
             cId, uGlade, uLabelTab, nWidth, nHeight, lSecond, lResize, lShrink,;
-            left_ta, right_ta, top_ta, bottom_ta,xOptions_ta, yOptions_ta ) CLASS GCALENDAR
+            left_ta, right_ta, top_ta, bottom_ta,xOptions_ta, yOptions_ta,;
+            bOnMarkDay,bOnUnMarkDay,bDelete ) CLASS GCALENDAR
 
        IF cId == NIL
           ::pWidget = gtk_calendar_new( )
@@ -80,6 +82,11 @@ METHOD New( dDate, nStyle, lMarkDay, bDaySelected, bDayD, bPrevMonth, bNextMonth
        if lMarkDay
           ::MarkDay( day( dDate ) )
        endif
+
+       if hb_IsBlock(bOnMarkDay)   ; ::bOnMarkDay   := bOnMarkDay   ; endif
+       if hb_IsBlock(bOnUnMarkDay) ; ::bOnUnMarkDay := bOnUnMarkDay ; endif
+
+       if hb_IsBlock(bDelete) ; ::bDelete := bDelete ; endif
        
        ::Connect( "key-press-event" )
 
@@ -116,6 +123,28 @@ METHOD SetDate( dDate ) CLASS GCALENDAR
 
 RETURN NIL
 
+METHOD MarkDay( nDay ) CLASS GCALENDAR
+   
+   if hb_IsNil(nDay) ; nDay:= DAY( ::GetDate() ) ; endif
+
+   gtk_calendar_mark_day( ::pWidget, nDay )
+   if hb_IsBlock( ::bOnMarkDay )
+      Eval( ::bOnMarkDay, Self )
+   endif
+RETURN NIL
+
+
+METHOD UnMarkDay( nDay ) CLASS GCALENDAR
+
+   if hb_IsNil(nDay) ; nDay:= DAY( ::GetDate() ) ; endif
+
+   gtk_calendar_unmark_day( ::pWidget, nDay )
+   if hb_IsBlock( ::bOnUnMarkDay )
+      Eval( ::bOnUnMarkDay, Self )
+   endif
+RETURN NIL
+
+
 METHOD OnKeyPressEvent( oSender,   pGdkEventKey  ) CLASS GCALENDAR
 
    local nKey, nState
@@ -131,7 +160,10 @@ METHOD OnKeyPressEvent( oSender,   pGdkEventKey  ) CLASS GCALENDAR
  
    switch nKey
       case GDK_Delete
-         ::UnMarkDay( DAY( dDate ) )
+         if hb_IsBlock( ::bDelete )
+            Eval( ::bDelete, Self )
+         endif
+         //::UnMarkDay( DAY( dDate ) )
          exit         
       case GDK_LEFT
          dDate--

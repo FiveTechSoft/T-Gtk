@@ -678,6 +678,9 @@
                [ STYLE <nStyle> ];
                [ <lMark: MARKDAY> ] ;
                [ ON_SELECTED <uDaySelected> ] ;
+               [ ON_DELETE <uDelete> ] ;
+               [ ON_MARKDAY <bOnMarkDay> ] ;
+               [ ON_UNMARKDAY <bOnUnMarkDay> ] ;
                [ ON_DCLICK <uDayDClick> ] ;
                [ ON_PREV_MONTH <uPrevMonth> ] ;
                [ ON_NEXT_MONTH <uNextMonth> ] ;
@@ -705,7 +708,8 @@
                      <oParent>, <.lExpand.>, <.lFill.>, <nPadding>, <.lContainer.>,;
                      <x>, <y>, <cId>, <uGlade>, <uLabelBook>, <nWidth>, <nHeight>, <.lSecond.>,;
                      <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
-                     <xOptions_ta>, <yOptions_ta> )
+                     <xOptions_ta>, <yOptions_ta>,[ \{|o| <bOnMarkDay> \} ],[ \{|o| <bOnUnMarkDay> \} ],;
+		    [ \{|o| <uDelete> \} ] )
 
 
 //Arrow

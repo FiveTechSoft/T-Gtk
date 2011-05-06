@@ -8,6 +8,27 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-05-06 02:00 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * include/gclass.ch
+    ! Agregado en DEFINE CALENDAR:
+       [ ON_MARKDAY <bOnMarkDay> ] 
+       [ ON_UNMARKDAY <bOnUnMarkDay> ] 
+       [ ON_DELETE <uDelete> ] 
+
+  * src/gclass/gcalendar.prg
+    * Method UnMarkDay()
+        Modificado para ejecutar bOnUnMarkDay
+        Si no se indica numero del dia.. toma dia de ::GetDate()
+
+    * Method Markday()
+        Modificado para ejecutar bOnMarkDay
+        Si no se indica numero del dia.. toma dia de ::GetDate()
+
+    * Method OnKeyPressEvent()
+      * Tecla Delete ahora ejecuta codebloc bDelete
+
+
+
 2011-05-05 02:46 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * src/gclass/gcalendar.prg
     + Method UnMarkDay()
