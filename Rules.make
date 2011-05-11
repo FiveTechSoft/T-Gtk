@@ -120,7 +120,7 @@ ifeq ($(GTKSOURCEVIEW),yes)
       $(info ----------------------------------------)
       $(info *  ERROR GtkSourceView No Encontrado!  *)
       $(info ----------------------------------------)
-      $(warning Error, aparentemente no existe o no localiza GtkSourceView )
+      $(error Error, aparentemente no existe o no localiza GtkSourceView )
    endif
 
    CFLAGS += -D_HAVEGTKSOURCEVIEW_

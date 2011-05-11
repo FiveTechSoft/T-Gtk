@@ -113,7 +113,7 @@ Function Main()
                   DEFINE BUTTON oBtn2 ;
                          TEXT "Cancelar" ;
                          FROM STOCK GTK_STOCK_CANCEL;
-                         ACTION Prueba( oDlg );
+                         ACTION oDlg:End();
                          OF oBoxV_2  ;
                          SIZE 170,0
                      DEFINE TOOLTIP ;

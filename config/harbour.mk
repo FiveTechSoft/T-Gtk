@@ -100,7 +100,7 @@ else
                  -lrddnsx -lrddcdx -lrddfpt \
                  -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl \
                  -lhbmacro -lhbcplr -lhbpp -lhbcommon -lhbpcre $(HB_GT_LIBS) \
-                 -lxhb -lhbxpp -lhbssl -lhbtipssl
+                 -lxhb -lhbxpp -lhbssl -lhbtipssl 
   endif
 
 endif

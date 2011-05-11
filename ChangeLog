@@ -8,6 +8,20 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-05-11 04:18 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * Rules.make
+  * config/harbour.mk
+    Correccion menor.
+  * src/pgsql/Makefile
+    + instrucciones para generar libpq.a si no es encontrado.
+  * tests/gclass/test_pgsql/Makefile
+  * tests/gclass/test_pgsql/main.prg
+    Correccion menor.
+  * tests/gclass/test_pgsql/README
+    Comentario correspondiente a error generado por: 
+    zlib1.dll version 1.2.3 --> debe sustituirse por 1.2.5
+
+
 2011-05-06 02:00 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * include/gclass.ch
     ! Agregado en DEFINE CALENDAR:

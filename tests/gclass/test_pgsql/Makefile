@@ -19,7 +19,6 @@ else
 # Para sistemas Windows
    LIBS=-lhbpg -L$(POSTGRE_PATH) -lpq 
    $(info $(LIBS) )
-   exit
 endif
 
 include $(ROOT)Rules.make 

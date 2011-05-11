@@ -1,5 +1,18 @@
 
 * En Harbour/Windows, se requiere de lipq.dll, ssleay32.dll y libeay32.dll
 
+*----------------------------------------------------------------------*
+Algunos Errores Conocidos (windows):
+
+Fecha: Mayo 11, 2011.
+- Cuando en la ruta de libpq se encuentra igualmente zlib.dll version 1.2.3(incluida en instalador de postgresql 9.x), presenta el siguiente mensaje:
+"No se encuentra el punto de entrada del procedimiento deflateSetHeader en la biblioteca de vinculos dinamicos zlib.dll"
+
+Solucion.
+He observado que al no apuntar path a /bin de la carpeta de postgresql evita que la aparicion del mensaje y todo funciona aparentemente bien.
+
+Y, tambien se soluciona sustituyendo la zlib1.dll por una version mas reciente, ejemplo 1.2.5
+*----------------------------------------------------------------------*
+
 Saludos,
 Riztan
