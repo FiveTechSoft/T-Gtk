@@ -80,7 +80,6 @@ endif
 
 
 # Buscamos wget
-
 EXECUTE :=cmd /C start /MIN /WAIT $(TGTK_DIR)\config\check_bin.bat $(TGTK_DIR) 
 
 $(info * Buscando wget.exe en GTK_PATH ->$(GTK_PATH)\bin)
@@ -99,8 +98,9 @@ ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
       ifeq ($(AUTO_INST),yes)
         $(info Debe descargar y descomprimir wget en una ruta como $(TGTK_BIN) )
 
-        $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip)
-        $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip)
+        $(shell cmd /C start http://users.ugent.be/~bpuype/cgi-bin/fetch.pl?dl=wget/wget.exe)
+#        $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip)
+#        $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip)
 
       endif
     endif
