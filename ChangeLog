@@ -1,4 +1,4 @@
-/*
+﻿/*
  * $Id: ChangeLog,v 1.98 2010-12-28 18:52:21 dgarciagil Exp $
  */
 
@@ -7,6 +7,18 @@
    For example:
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
+
+2011-05-12 09:05 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  + pkg_install
+    + pkg_install/miscelan_bin  (binarios para descargar y descomprimir)
+      + gwet.exe  programa libre para descargar archivos de internet.
+      + 7z.exe    programa libre para descomprimir archivos.
+    + gmoork.bmp   (imagen de presentacion en instalador)
+    + license.txt
+    + Makefile     (usamos make para generar instalador)  
+    + t-gtk.nsi    Script de Instalacion.
+    + SetVarUpdate.nsh
+
 
 2011-05-11 04:18 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * Rules.make

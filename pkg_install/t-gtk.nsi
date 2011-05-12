@@ -1,6 +1,7 @@
 ;NSIS Modern User Interface
 ;Welcome/Finish Page Example Script
 ;Written by Joost Verburg
+;Adapted by Riztan Gutierrez for t-gtk
 
 ;--------------------------------
 ;Include Modern UI
@@ -8,6 +9,7 @@
   !include "MUI2.nsh"
 ;  !include "MUI.nsh"
   !include "WordFunc.nsh"
+  !include "EnvVarUpdate.nsh"
 ;  !insertmacro MUI_DEFAULT MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
 ;  !insertmacro MUI_DEFAULT MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 ;  !define MUI_ICON "t-gtk.ico"
@@ -167,6 +169,9 @@ Section "t-gtk" SecTgtk
   ;ADD YOUR OWN FILES HERE...
   File /nonfatal /r /x CVS preinstall\*.*
 
+  SetOutPath "$INSTDIR\lib\hb"
+  File /nonfatal ..\lib\hb\libhbgtk.a
+  File /nonfatal ..\lib\hb\libgclass.a
 
   ;Store installation folder
   WriteRegStr HKCU "Software\t-gtk" "" $INSTDIR
@@ -184,10 +189,27 @@ Section "t-gtk" SecTgtk
 ;  StrCpy $SRC_GEDIT       "\gedit"
 
   ;File Destination
-  StrCpy $DEST_MINGWDIR "$INSTDIR\MinGW"
-  StrCpy $DEST_GTKDIR   "$INSTDIR\GTK+"
-  StrCpy $DEST_HBDIR    "$INSTDIR\hb-mingw"
-  StrCpy $DEST_GEDIT    "$INSTDIR\gedit"
+  
+  ; Define Destino de componentes
+  ; En caso de ser instalador full, pregunta si colocar todo en MinGW
+;  !include "question.nsh"
+!ifdef QUESTION
+   MessageBox MB_YESNO "¿Desea colocar todos los componentes externos en $INSTDIR\MinGW ?" IDYES true IDNO false
+   true:
+     DetailPrint "Todo a MinGW"
+     StrCpy $DEST_MINGWDIR $INSTDIR\MinGW
+     StrCpy $DEST_GTKDIR $INSTDIR\MinGW
+     StrCpy $DEST_HBDIR $INSTDIR\hb-mingw
+     StrCpy $DEST_GEDIT $INSTDIR\MinGW
+     Goto next
+   false:
+     DetailPrint "Separados!"
+     StrCpy $DEST_MINGWDIR $INSTDIR\MinGW
+     StrCpy $DEST_GTKDIR $INSTDIR\GTK+
+     StrCpy $DEST_HBDIR $INSTDIR\hb-mingw
+     StrCpy $DEST_GEDIT $INSTDIR\gedit
+   next:
+!endif
 
   StrCpy $source "preinstall"
 
@@ -314,11 +336,11 @@ Section "Otros Binarios" SecOther
 ;------------------------------------
   SetOutPath "$INSTDIR\MinGW\bin"
   File /nonfatal miscelan_bin\wget.exe
-  File /nonfatal miscelan_bin\7zip.exe
+  File /nonfatal miscelan_bin\7z.exe
 
   SetOutPath "$INSTDIR\pkg_install\miscelan_bin"
   File /nonfatal miscelan_bin\wget.exe
-  File /nonfatal miscelan_bin\7zip.exe
+  File /nonfatal miscelan_bin\7z.exe
 
 SectionEnd
 
@@ -341,6 +363,12 @@ StrCpy $RULES_MYSQL   "$RULES_MYSQL$\r$\n"
   ; DOLPHIN
   !include "dolphin.nsh"
 
+  SetOutPath "$INSTDIR\lib\hb"
+  File /nonfatal ..\lib\hb\libmysql.a
+  File /nonfatal ..\lib\hb\libhbmysql.a
+  File /nonfatal ..\lib\hb\libtdolphin.a
+
+
 SectionEnd
 
 ;------------------------------------
@@ -356,6 +384,10 @@ StrCpy $RULES_PGSQL   "$RULES_PGSQL$\r$\n"
   ;SetOutPath "$INSTDIR\PgSQLClient"
   ;ADD YOUR OWN FILES HERE...
   ;File /nonfatal /r "$SRC_PGSQL\*.*"
+
+  SetOutPath "$INSTDIR\lib\hb"
+  File /nonfatal ..\lib\hb\libpq.a
+  File /nonfatal ..\lib\hb\libhbpg.a
 
 SectionEnd
 
@@ -373,6 +405,10 @@ StrCpy $RULES_CURL   "${RULES_CURL}$\r$\n"
   ;ADD YOUR OWN FILES HERE...
 ;  File /nonfatal /r "$SRC_CURL\*.*"
 
+  SetOutPath "$INSTDIR\lib\hb"
+  File /nonfatal ..\lib\hb\libcurl.a
+  File /nonfatal ..\lib\hb\libcurl-hb.a
+
 SectionEnd
 */
 
@@ -384,10 +420,11 @@ SectionGroupEnd
   ;------------------------------------
   Section "MinGW" SecMinGW
   ;------------------------------------
-    SetOutPath "$INSTDIR\MinGW"
-
+  
+    !include "mingw.nsh"
+    ;SetOutPath "$INSTDIR\MinGW"
     ;ADD YOUR OWN FILES HERE...
-    File /nonfatal /r \$SRC_MINGW\*.*
+    ;File /nonfatal /r $SRC_MINGWDIR\*.*
 
 ;    SetOutPath "$INSTDIR\MinGW-Utils"
 ;    File /nonfatal /r $DRIVE\MinGW-UTILS\*.*
@@ -400,10 +437,10 @@ SectionGroupEnd
   ;------------------------------------
   Section "Harbour (Binarios)" SecHarbour
 
-    SetOutPath "$DEST_HBDIR"
-
+    !include "harbour.nsh"
+    ;SetOutPath "$DEST_HBDIR"
     ;ADD YOUR OWN FILES HERE...
-    File /nonfatal /r \$SRC_HBDIR\*.*
+    ;File /nonfatal /r $SRC_HBDIR\*.*
 
 
     CreateShortCut "$DESKTOP\Harbour Project.lnk" "$DEST_HBDIR" "" "$DEST_HBDIR" 0
@@ -439,21 +476,21 @@ SectionGroupEnd
   ;------------------------------------
   Section "GTK+" SecGTK+
   ;------------------------------------
-    SetOutPath "$INSTDIR\GTK+"
+  
+    !include "gtk.nsh"
 
+    ;SetOutPath "$INSTDIR\GTK+"
     ;ADD YOUR OWN FILES HERE...
-    File /nonfatal /r \GTK+\*.*
-
-
+    ;File /nonfatal /r \GTK+\*.*
     ;SetOverwrite off
-    SetOutPath $SYSDIR
+    ;SetOutPath $SYSDIR
 ;    File /nonfatal /r "\GTK+\bin\*.dll"
 ;    ---CopyFiles $GTKDIR\bin\*.dll $SYSDIR
 
 
   SectionEnd
 
-
+/*
   ;------------------------------------
   Section "gedit" SecGEDIT
   ;------------------------------------
@@ -468,7 +505,7 @@ SectionGroupEnd
     File /nonfatal /r \gedit\.gconf\*.*
 
   SectionEnd
-
+*/
 !endif
 
 
@@ -496,7 +533,7 @@ SectionGroupEnd
 
   LangString DESC_SecGTK+ ${LANG_SPANISH} "GTK+ 2.24, Componentes para desarrollar con GTK+ y Glade."
 
-  LangString DESC_SecGEDIT ${LANG_SPANISH} "gedit. Editor de texto de gnome."
+;  LangString DESC_SecGEDIT ${LANG_SPANISH} "gedit. Editor de texto de gnome."
 !endif
 
   ;Assign language strings to sections
@@ -511,7 +548,7 @@ SectionGroupEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecMinGW} $(DESC_SecMinGW)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecHarbour} $(DESC_SecHarbour)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecGTK+}  $(DESC_SecGTK+)
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecGEDIT}  $(DESC_SecGEDIT)
+;    !insertmacro MUI_DESCRIPTION_TEXT ${SecGEDIT}  $(DESC_SecGEDIT)
 !endif
 
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
@@ -540,7 +577,6 @@ FileWrite $0 "$RULES_PGSQL"
 
 FileWrite $0  "# eof $\r$\n"
 
-
 FileClose $0
 
 
@@ -552,9 +588,10 @@ FileClose $0
   WriteINIStr     "$SMPROGRAMS\t-gtk\Foro.url"                   "InternetShortcut" "URL" "http://www.gtxbase.org/forums"
   WriteINIStr     "$SMPROGRAMS\t-gtk\subversion.url"                   "InternetShortcut" "URL" "http://www.gtxbase.org/devel"
 
-
+; Append 
+;${EnvVarUpdate} $0 "PATH" "A" "HKLM" "${DEST_MINGWDIR}\bin;${DEST_HBDIR}\bin" 
+!insertmacro SET_ENV
 SectionEnd
-
 
 
 ;--------------------------------
@@ -581,6 +618,7 @@ Section "Uninstall"
 
   DeleteRegKey /ifempty HKCU "Software\t-gtk"
 
-
+;  ${un.EnvVarUpdate} $0 "PATH" "R" "HKLM" "$DEST_MINGWDIR\bin" 
+!insertmacro UNSET_ENV
 SectionEnd
 

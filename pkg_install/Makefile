@@ -10,21 +10,33 @@ include $(ROOT)config/global.mk
 $(info Ejecutando Makefile en $(ROOT)pkg_install)
 
 TGTK_VERSION=2.0
+INSTALL_DIR=C:\t-gtk_$(TGTK_VERSION)
+
+DEST_MINGWDIR=$(INSTALL_DIR)\MinGW
 
 MYSQL_PATH=\MySQlClient
 PGSQL_PATH=\pgsql
 
-$(shell cmd /C start svn export --force ../ ./preinstall/ )
+#-- RUTA DE FUENTES DE HARBOUR
+HB_SOURCE_PATH:=\harbour-svn
+
+HB_PATH:=$(dir $(HB_BIN_INSTALL))
+
+#$(shell cmd /C start svn export --force ../ ./preinstall/ )
+$(shell cmd /C start svn export ../ ./preinstall/ )
 
 $(info * ------------------------------------- * )
 $(info Ruta GTK a utilizar: $(GTK_PATH) )
-$(info Ruta Harbour a utilizar: $(HB_BIN_INSTALL) )
+$(info Ruta Harbour a utilizar: $(HB_PATH) )
 $(info Ruta MinGW a utilizar: $(TGTK_BIN) )
 $(info Ruta MySQL a utilizar: $(MYSQL_PATH) )
 $(info Ruta PgSQL a utilizar: $(PGSQL_PATH) )
 $(info * ------------------------------------- * )
 
 
+# --------------------------------------
+# Inicializa Archivos .nsh
+# --------------------------------------
 $(info Inicializando dolphin.nsh )
 $(shell echo.   > dolphin.nsh )
 
@@ -34,14 +46,31 @@ $(shell echo.   > mysql.nsh )
 $(info Inicializando pgsql.nsh )
 $(shell echo.   > pgsql.nsh )
 
+$(info Inicializando gtk.nsh )
+$(shell echo.   > gtk.nsh )
 
+$(info Inicializando question.nsh )
+$(shell echo.   > question.nsh )
+$(shell echo    StrCpy $$DEST_MINGWDIR "$(DEST_MINGWDIR)"    >> question.nsh )
+$(shell echo    StrCpy $$DEST_GTKDIR "$$INSTDIR\GTK+"    >> question.nsh )
+$(shell echo    StrCpy $$DEST_HBDIR "$$INSTDIR\hb-mingw"    >> question.nsh )
+$(shell echo    StrCpy $$DEST_GEDIT "$$INSTDIR\gedit"    >> question.nsh )
+
+
+# --------------------------------------
+# Genera Instalador Basico
+# --------------------------------------
 $(info Generando Instalador Basico o Minimo (Solo t-gtk) )
 
 $(shell echo   Name "t-gtk $(TGTK_VERSION)"         > install_name.nsh )
-$(shell echo   InstallDir "C:\t-gtk_$(TGTK_VERSION)" >> install_name.nsh )
+$(shell echo   InstallDir "$(INSTALL_DIR)" >> install_name.nsh )
 $(shell echo   OutFile "t-gtk_setup.exe"        >> install_name.nsh )
 $(shell echo.  >> install_name.nsh )
 
+
+# --------------------------------------
+# Definicion de parameters.nsh
+# --------------------------------------
 $(shell echo   StrCpy $$SRC_MINGWDIR "$(TGTK_BIN)" >  parameters.nsh)
 $(shell echo   StrCpy $$SRC_GTKDIR   "$(GTK_PATH)" >> parameters.nsh)
 $(shell echo   StrCpy $$SRC_HBDIR    "$(HB_BIN_INSTALL)" >> parameters.nsh)
@@ -51,19 +80,38 @@ $(shell echo   StrCpy $$SRC_GEDIT    "$$INSTDIR\gedit" >> parameters.nsh)
 
 $(shell echo   !define FULL >> parameters.nsh)
 $(shell echo   !undef FULL >> parameters.nsh)
+$(shell echo   !define QUESTION >> parameters.nsh)
+$(shell echo   !undef QUESTION >> parameters.nsh)
 
+$(shell echo   !macro SET_ENV >> parameters.nsh )
+$(shell echo   $${EnvVarUpdate} $$0 "PATH" "A" "HKLM"\
+               "$(DEST_MINGWDIR)\bin" >> parameters.nsh )
+$(shell echo   !macroend >> parameters.nsh)
+
+$(shell echo   !macro UNSET_ENV >> parameters.nsh)
+$(shell echo   $${un.EnvVarUpdate} $$0 "PATH" "R" "HKLM" \
+               "$(DEST_MINGWDIR)\bin" >> parameters.nsh )
+$(shell echo   !macroend >> parameters.nsh)
+
+
+# --------------------------------------
+# Crea Instalador Basico
+# --------------------------------------
 ifeq ($(NSIS_PATH),)
    NSIS_PATH =$(PROGRAMFILES)\NSIS
 endif
 $(info Puede tardar varios minutos, por favor espere. )
 $(shell "$(NSIS_PATH)\makensis.exe" /Onsis.log t-gtk.nsi )
-$(shell notepad nsis.log )
+$(shell cmd /C start nsis.log )
 
 
-#-----------------------------------------
-
+# --------------------------------------
+# Verifica existencia de componentes externos
+# --------------------------------------
  EXECUTE :=cmd /C start /MIN /WAIT $(TGTK_DIR)\config\check_bin.bat \
 	 $(TGTK_DIR)
+
+#-- TDOLPHIN
 
  $(info * Verificando existencia de tdolphin )
  $(shell $(EXECUTE) $(TGTK_DIR)\tdolphin\function.c)
@@ -78,6 +126,7 @@ $(shell notepad nsis.log )
  endif
 
 
+#-- MySQL
 
  $(info * Verificando existencia de Cliente MySQL )
  $(shell $(EXECUTE) $(MYSQL_PATH)\lib\libmysql.dll)
@@ -92,23 +141,95 @@ $(shell notepad nsis.log )
  endif
 
 
-
+#-- PostgreSQL
 
  $(info * Verificando existencia de Cliente PostgreSQL )
- $(shell $(EXECUTE) $(MYSQL_PATH)\lib\libpq.dll)
+ $(shell $(EXECUTE) $(PGSQL_PATH)\lib\libpq.dll)
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
    $(info -------------------------------------------------------- )
    $(info *  No se incluye PostgreSQL Client - No ha sido localizado en: )
    $(info * $(PGSQL_PATH) )
    $(info -------------------------------------------------------- )
  else
-   $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient"       > pgsql.nsh )
-   $(shell echo   File /nonfatal /r "$(PGSQL_PATH)\*.*"  >> pgsql.nsh )
+   $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient\lib"       > pgsql.nsh )
+   $(shell echo   File /nonfatal "$(PGSQL_PATH)\lib\libpq.*"  >> pgsql.nsh )
+   $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient\include"     >> pgsql.nsh )
+   $(shell echo   File /nonfatal "$(PGSQL_PATH)\include\*.*"  >> pgsql.nsh )
+ endif
+
+
+#-- GTK+
+
+ $(info * Verificando existencia de GTK+ )
+ $(shell $(EXECUTE) $(GTK_PATH)\bin\libgtk-win32-2.0-0.dll)
+ ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
+   $(info -------------------------------------------------------- )
+   $(info *  No se incluye GTK+ - No ha sido localizado en: )
+   $(info * $(GTK_PATH) )
+   $(info -------------------------------------------------------- )
+ else
+   $(shell echo   SetOutPath "$$DEST_GTKDIR"       > gtk.nsh )
+   $(shell echo   File /nonfatal /r "$(GTK_PATH)\*.*"  >> gtk.nsh )
+ endif
+
+#-- MinGW
+
+ $(info * Verificando existencia de MinGW )
+ $(shell $(EXECUTE) $(TGTK_BIN)\bin\gcc.exe)
+ ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
+   $(info -------------------------------------------------------- )
+   $(info *  No se incluye MinGW - No ha sido localizado en: )
+   $(info * $(TGTK_BIN) )
+   $(info -------------------------------------------------------- )
+ else
+   $(shell echo   SetOutPath "$$DEST_MINGWDIR"       > mingw.nsh )
+   $(shell echo   File /nonfatal /r "$(TGTK_BIN)\*.*"  >> mingw.nsh )
+ endif
+
+
+#-- Harbour
+
+ $(info * Verificando existencia de Harbour )
+ $(shell $(EXECUTE) $(HB_PATH)bin\harbour.exe)
+ ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
+   $(info -------------------------------------------------------- )
+   $(info *  No se incluye Harbour - No ha sido localizado en: )
+   $(info * $(HB_PATH) )
+   $(info -------------------------------------------------------- )
+ else
+   $(shell echo   SetOutPath "$$DEST_HBDIR"       > harbour.nsh )
+   $(shell echo   File /nonfatal /r "$(HB_PATH)*.*"  >> harbour.nsh )
  endif
 
 
 
 
+# --------------------------------------
+# Unidos o Separados (question.nsh)
+# --------------------------------------
+ $(shell echo MessageBox MB_YESNO \
+              "¿Desea colocar todos los componentes externos en \
+	      $$INSTDIR\MinGW ?" > question.nsh )
+ $(shell echo   InstallDir "C:\t-gtk_$(TGTK_VERSION)" >> install_name.nsh )
+ $(shell echo true:        >> question.nsh )
+ $(shell echo    DetailPrint "Todo a MinGW"    >> question.nsh )
+ $(shell echo    StrCpy $$DEST_MINGWDIR "$$INSTDIR\MinGW"    >> question.nsh )
+ $(shell echo    StrCpy $$DEST_GTKDIR "$$INSTDIR\MinGW"    >> question.nsh )
+ $(shell echo    StrCpy $$DEST_HBDIR "$$INSTDIR\hb-mingw"    >> question.nsh )
+ $(shell echo    StrCpy $$DEST_GEDIT "$$INSTDIR\MinGW"    >> question.nsh )
+ $(shell echo    Goto next    >> question.nsh )
+ $(shell echo false:        >> question.nsh )
+ $(shell echo    DetailPrint "Separados!"    >> question.nsh )
+ $(shell echo    StrCpy $$DEST_MINGWDIR "$$INSTDIR\MinGW"    >> question.nsh )
+ $(shell echo    StrCpy $$DEST_GTKDIR "$$INSTDIR\GTK+"    >> question.nsh )
+ $(shell echo    StrCpy $$DEST_HBDIR "$$INSTDIR\hb-mingw"    >> question.nsh )
+ $(shell echo    StrCpy $$DEST_GEDIT "$$INSTDIR\gedit"    >> question.nsh )
+ $(shell echo next:        >> question.nsh )
+
+
+# --------------------------------------
+# GENERA INSTALADOR FULL
+# --------------------------------------
 $(info Generando Instalador Full )
 
 $(shell echo   Name "t-gtk $(TGTK_VERSION)"         > install_name.nsh )
@@ -117,7 +238,7 @@ $(shell echo   OutFile "t-gtk_setup_full.exe"        >> install_name.nsh )
 $(shell echo.  >> install_name.nsh )
 
 $(shell echo   !define FULL >> parameters.nsh)
-#$(shell echo   !undef FULL >> parameters.nsh)
+$(shell echo   !define QUESTION >> parameters.nsh)
 
 ifeq ($(NSIS_PATH),)
    NSIS_PATH =$(PROGRAMFILES)\NSIS
