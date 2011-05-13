@@ -8,6 +8,14 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-05-12 21:55 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  + pkg_install/miscelan_bin/7z.dll
+    Necesario para descomprimir
+  * config/unzip.mk
+    Se cambia ruta para descomprimir en GTK_PATH
+    Se crea gtkrc con tema de Windows.
+
+
 2011-05-12 09:05 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   + pkg_install/README.txt
   * pkg_install/t-gtk.nsi
