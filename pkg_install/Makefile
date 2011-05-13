@@ -14,8 +14,8 @@ INSTALL_DIR=C:\t-gtk_$(TGTK_VERSION)
 
 DEST_MINGWDIR=$(INSTALL_DIR)\MinGW
 
-MYSQL_PATH=\MySQlClient
-PGSQL_PATH=\pgsql
+MSQL_PATH=$(subst ",,$(dir $(MYSQL_PATH)))
+PSQL_PATH=$(subst ",,$(dir $(POSTGRE_PATH)))
 
 #-- RUTA DE FUENTES DE HARBOUR
 HB_SOURCE_PATH:=\harbour-svn
@@ -29,8 +29,8 @@ $(info * ------------------------------------- * )
 $(info Ruta GTK a utilizar: $(GTK_PATH) )
 $(info Ruta Harbour a utilizar: $(HB_PATH) )
 $(info Ruta MinGW a utilizar: $(TGTK_BIN) )
-$(info Ruta MySQL a utilizar: $(MYSQL_PATH) )
-$(info Ruta PgSQL a utilizar: $(PGSQL_PATH) )
+$(info Ruta MySQL a utilizar: $(MSQL_PATH) )
+$(info Ruta PgSQL a utilizar: $(PSQL_PATH) )
 $(info * ------------------------------------- * )
 
 
@@ -71,12 +71,12 @@ $(shell echo.  >> install_name.nsh )
 # --------------------------------------
 # Definicion de parameters.nsh
 # --------------------------------------
-$(shell echo   StrCpy $$SRC_MINGWDIR "$(TGTK_BIN)" >  parameters.nsh)
-$(shell echo   StrCpy $$SRC_GTKDIR   "$(GTK_PATH)" >> parameters.nsh)
+$(shell echo   StrCpy $$SRC_MINGWDIR "$(TGTK_BIN)"       >  parameters.nsh)
+$(shell echo   StrCpy $$SRC_GTKDIR   "$(GTK_PATH)"       >> parameters.nsh)
 $(shell echo   StrCpy $$SRC_HBDIR    "$(HB_BIN_INSTALL)" >> parameters.nsh)
-$(shell echo   StrCpy $$SRC_MYSQL    "$(MYSQL_PATH)" >> parameters.nsh)
-$(shell echo   StrCpy $$SRC_PGSQL    "$(PGSQL_PATH)" >> parameters.nsh)
-$(shell echo   StrCpy $$SRC_GEDIT    "$$INSTDIR\gedit" >> parameters.nsh)
+$(shell echo   StrCpy $$SRC_MYSQL    "$(MSQL_PATH)"      >> parameters.nsh)
+$(shell echo   StrCpy $$SRC_PGSQL    "$(PSQL_PATH)"      >> parameters.nsh)
+$(shell echo   StrCpy $$SRC_GEDIT    "$$INSTDIR\gedit"   >> parameters.nsh)
 
 $(shell echo   !define FULL >> parameters.nsh)
 $(shell echo   !undef FULL >> parameters.nsh)
@@ -84,14 +84,23 @@ $(shell echo   !define QUESTION >> parameters.nsh)
 $(shell echo   !undef QUESTION >> parameters.nsh)
 
 $(shell echo   !macro SET_ENV >> parameters.nsh )
-$(shell echo   $${EnvVarUpdate} $$0 "PATH" "A" "HKLM"\
+$(shell echo     $${EnvVarUpdate} $$0 "PATH" "A" "HKLM"\
                "$(DEST_MINGWDIR)\bin" >> parameters.nsh )
 $(shell echo   !macroend >> parameters.nsh)
 
 $(shell echo   !macro UNSET_ENV >> parameters.nsh)
-$(shell echo   $${un.EnvVarUpdate} $$0 "PATH" "R" "HKLM" \
+$(shell echo     $${un.EnvVarUpdate} $$0 "PATH" "R" "HKLM" \
                "$(DEST_MINGWDIR)\bin" >> parameters.nsh )
 $(shell echo   !macroend >> parameters.nsh)
+
+$(shell echo   !macro MYSQL_PATH >> parameters.nsh )
+$(shell echo     StrCpy $$RULES_MYSQL    "$$RULES_MYSQLMYSQL_PATH=$(MYSQL_PATH)$$\r$$\n" >> parameters.nsh )
+$(shell echo   !macroend >> parameters.nsh)
+
+$(shell echo   !macro PGSQL_PATH >> parameters.nsh )
+$(shell echo     StrCpy $$RULES_PGSQL    "$$RULES_PGSQLPOSTGRE_PATH=$(POSTGRE_PATH)$$\r$$\n" >> parameters.nsh )
+$(shell echo   !macroend >> parameters.nsh)
+
 
 
 # --------------------------------------
@@ -129,7 +138,7 @@ $(shell cmd /C start nsis.log )
 #-- MySQL
 
  $(info * Verificando existencia de Cliente MySQL )
- $(shell $(EXECUTE) $(MYSQL_PATH)\lib\libmysql.dll)
+ $(shell $(EXECUTE) $(MSQL_PATH)\lib\libmysql.dll)
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
    $(info -------------------------------------------------------- )
    $(info *  No se incluye MySQL Client - No ha sido localizado en: )
@@ -137,14 +146,14 @@ $(shell cmd /C start nsis.log )
    $(info -------------------------------------------------------- )
  else
    $(shell echo   SetOutPath "$$INSTDIR\MySQLClient"       > mysql.nsh )
-   $(shell echo   File /nonfatal /r "$(MYSQL_PATH)\*.*"  >> mysql.nsh )
+   $(shell echo   File /nonfatal /r "$(MSQL_PATH)*.*"  >> mysql.nsh )
  endif
 
 
 #-- PostgreSQL
 
  $(info * Verificando existencia de Cliente PostgreSQL )
- $(shell $(EXECUTE) $(PGSQL_PATH)\lib\libpq.dll)
+ $(shell $(EXECUTE) $(PSQL_PATH)\lib\libpq.dll)
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
    $(info -------------------------------------------------------- )
    $(info *  No se incluye PostgreSQL Client - No ha sido localizado en: )
@@ -152,9 +161,9 @@ $(shell cmd /C start nsis.log )
    $(info -------------------------------------------------------- )
  else
    $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient\lib"       > pgsql.nsh )
-   $(shell echo   File /nonfatal "$(PGSQL_PATH)\lib\libpq.*"  >> pgsql.nsh )
+   $(shell echo   File /nonfatal "$(PSQL_PATH)lib\libpq.*"  >> pgsql.nsh )
    $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient\include"     >> pgsql.nsh )
-   $(shell echo   File /nonfatal "$(PGSQL_PATH)\include\*.*"  >> pgsql.nsh )
+   $(shell echo   File /nonfatal "$(PSQL_PATH)include\*.*"  >> pgsql.nsh )
  endif
 
 

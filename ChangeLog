@@ -9,6 +9,16 @@
 */
 
 2011-05-12 09:05 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  + pkg_install/README.txt
+  * pkg_install/t-gtk.nsi
+  * config/check_bin.mk
+  * config/dirs.mk
+  * config/packages.mk
+  * config/pkgconfig.mk
+    Ajustes varios luego de probar instalador...
+
+
+2011-05-12 09:05 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   + pkg_install
     + pkg_install/miscelan_bin  (binarios para descargar y descomprimir)
       + gwet.exe  programa libre para descargar archivos de internet.

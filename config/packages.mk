@@ -28,8 +28,14 @@ ifeq ($(findstring tgtk,$(PACKAGES)),)
       endif
    endif
    $(info ----------------------------------------)
-   $(info *  ERROR T-GTK No Encontrado!          *)
+   $(info *  ERROR pkg-config No Ejecuta!        *)
    $(info ----------------------------------------)
+   $(info *  posiblemente no esta en el PATH     *)
+   $(info *  la ruta a PKG_CONFIG o              *)
+   $(info *  No hay lista de paquetes            *)
+   $(info ----------------------------------------)
+   $(info PKG_CONFIG_PATH --> $(PKG_CONFIG_PATH) )
+   $(info PACKAGES --> $(PACKAGES) )
    $(error Error, aparentemente no existe tgtk.pc en la ruta de pkgconfig )
 endif
 

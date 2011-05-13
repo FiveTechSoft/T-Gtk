@@ -261,7 +261,7 @@ FileWrite $0  "#-------------------- $\r$\n"
 FileWrite $0  "# Componentes Adicionales. $\r$\n"
 FileWrite $0  "export GTK_PATH =$DEST_GTKDIR$\r$\n"
 FileWrite $0  "export TGTK_BIN =$DEST_MINGWDIR$\r$\n"
-FileWrite $0  "export PKG_CONFIG_PATH =$DEST_GTKDIR\lib\pkg-config$\r$\n"
+FileWrite $0  "export PKG_CONFIG_PATH =$DEST_GTKDIR\lib\pkgconfig$\r$\n"
 FileWrite $0  " $\r$\n"
 FileWrite $0  "# Soporte de Impresion. $\r$\n"
 FileWrite $0  "export SUPPORT_PRINT_WIN32 =no$\r$\n"
@@ -317,12 +317,14 @@ StrCpy $RULES_WEBKIT   "$RULES_WEBKIT$\r$\n"
 StrCpy $RULES_MYSQL    "#Soporte MySQL$\r$\n"
 StrCpy $RULES_MYSQL    "$RULES_MYSQLMYSQL=no$\r$\n"
 StrCpy $RULES_MYSQL    "$RULES_MYSQLDOLPHIN=no$\r$\n"
-StrCpy $RULES_MYSQL    "$RULES_MYSQLMYSQL_PATH='C:/Archivos de programa/MySQL/MySQL Server 5.0/include'$\r$\n"
+;StrCpy $RULES_MYSQL    "$RULES_MYSQLMYSQL_PATH='C:/Archivos de programa/MySQL/MySQL Server 5.0/include'$\r$\n"
+!insertmacro MYSQL_PATH
 StrCpy $RULES_MYSQL    "$RULES_MYSQL$\r$\n"
 
 StrCpy $RULES_PGSQL    "#Soporte PostgreSQL$\r$\n"
 StrCpy $RULES_PGSQL    "$RULES_PGSQLPOSTGRE=no$\r$\n"
-StrCpy $RULES_PGSQL    "$RULES_PGSQLPOSTGRE_PATH='C:/Archivos de programa/PostgreSQL/9.0/include'$\r$\n"
+;StrCpy $RULES_PGSQL    "$RULES_PGSQLPOSTGRE_PATH='C:/Archivos de programa/PostgreSQL/9.0/include'$\r$\n"
+!insertmacro PGSQL_PATH
 StrCpy $RULES_PGSQL    "$RULES_PGSQL$\r$\n"
 
 

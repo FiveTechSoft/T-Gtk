@@ -11,25 +11,36 @@ $(info * Ejecutando config/check_bin.mk)
 $(info * Buscando GTK_PATH ($(GTK_PATH)\bin) en la Variable de Entorno PATH.)
 ifeq ($(findstring $(GTK_PATH)\bin,$(PATH)),)
   $(info ** No Encontrado valor de GTK_PATH en path.)
-
-  # Ahora Buscamos la Ruta TGTK_BIN
-  $(info * Buscando TGTK_BIN ($(TGTK_BIN)\bin) en la Variable de Entorno PATH.)
-  ifeq ($(findstring $(TGTK_BIN)\bin,$(PATH)),)
-     $(info ** No Encontrado valor de TGTK_BIN en path. )
-     $(info -------------- )
-     $(info *  ATENCION  * )
-     $(info -------------- )
-     $(info * No coinciden las rutas GTK_PATH o TGTK_BIN )
-     $(info * definidas en config/global.mk              )
-     $(info * No sera posible localizar pkg-config.exe   )
-     $(info * Por favor, revise las rutas y variables.   )
-     $(info -------------- )
-     $(error )
-  else
-     $(info * Encontrada $(TGTK_BIN)\bin en el path!)
-  endif
+   $(info -------------- )
+   $(info *  ATENCION  * )
+   $(info -------------- )
+   $(info * Es Necesario tener en el path la ruta de   )
+   $(info * GTK+ "$(GTK_PATH)\bin"                     )
+   $(info * Ejecute: SET PATH=%PATH%;$(GTK_PATH)\bin   )
+   $(info * definida en setenv.mk                      )
+   $(info * No sera posible localizar pkg-config.exe   )
+   $(info * Por favor, revise variables PATH.          )
+   $(info -------------- )
+   $(error )
 else
   $(info * Encontrada $(GTK_PATH)\bin en el path!)
+endif
+
+# Ahora Buscamos la Ruta TGTK_BIN
+$(info * Buscando TGTK_BIN ($(TGTK_BIN)\bin) en la Variable de Entorno PATH.)
+ifeq ($(findstring $(TGTK_BIN)\bin,$(PATH)),)
+   $(info ** No Encontrado valor de TGTK_BIN en path. )
+   $(info -------------- )
+   $(info *  ATENCION  * )
+   $(info -------------- )
+   $(info * Es importante tener en la variable PATH    )
+   $(info * la ruta $(TGTK_BIN) definida en setenv.mk  )
+   $(info * Por favor, revise las rutas y variables.   )
+   $(info -------------- )
+   $(shell notepad $(TGTK_DIR)\setenv.mk )
+   $(error )
+else
+   $(info * Encontrada $(TGTK_BIN)\bin en el path!)
 endif
 
 
@@ -102,6 +113,12 @@ ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
 #        $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip)
 #        $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip)
 
+      else
+        $(info ***************************************************** )
+	$(info   Por favor, debe setear la variable AUTO_INST=yes 
+	$(info   para intentar obtener las dependencias necesarias. 
+        $(info ***************************************************** )
+	$(error )
       endif
     endif
 

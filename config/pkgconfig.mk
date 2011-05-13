@@ -13,7 +13,7 @@ ifeq ($(PKG_CONFIG_PATH),)
   $(info -------------- )
   $(info * No existe PKG_CONFIG_PATH como Variable de Entorno )
   $(info *                                                    )
-  $(info * Se Asume TGTK_BIN+/lib/pkgconfig ->$(TGTK_BIN)/lib/pkgconfig )
+  $(info * Se Asume TGTK_BIN/lib/pkgconfig ->$(TGTK_BIN)/lib/pkgconfig )
   $(info -------------- )
 
   export PKG_CONFIG_PATH :=$(TGTK_BIN)/lib/pkgconfig
