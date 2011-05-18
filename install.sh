@@ -1,4 +1,11 @@
 #!/bin/bash
+
+function setenv
+{
+  make
+  nano setenv.mk
+}
+
 clear
 echo "*------------------------------*"
 echo "*                              *"
@@ -8,6 +15,8 @@ echo "*------------------------------*"
 echo
 global=./setenv.mk
 tgtkPKG=/usr/lib/pkgconfig/tgtk.pc
+
+test -f $global || setenv
 
 tgtk_pc=0
 test -f $tgtkPKG && tgtk_pc=1
@@ -47,7 +56,7 @@ if [ $cmd =  "yes" ] ; then
       apt-get install libgtksourceview2.0-dev
    fi
 else
-   echo "GTKSOURCEVIEW Set with value 'NO' in config/global.mk"
+   echo "GTKSOURCEVIEW Set with value 'NO' in $global"
 fi
 
 
@@ -61,7 +70,7 @@ if [ $cmd =  "yes" ] ; then
       apt-get install libcurl4-openssl-dev
    fi
 else
-   echo "CURL Set with value 'NO' in config/global.mk"
+   echo "CURL Set with value 'NO' in $global"
 fi
 
 
@@ -75,7 +84,7 @@ if [ $cmd =  "yes" ] ; then
       apt-get install libsqlite3-dev 
    fi
 else
-   echo "SQLite Set with value 'NO' in config/global.mk"
+   echo "SQLite Set with value 'NO' in $global"
 fi
 
 #--- MySQL ---
@@ -88,7 +97,7 @@ if [ $cmd =  "yes" ] ; then
       apt-get install libmysqlclient-dev mysql-gui-tools-common 
    fi
 else
-   echo "MySQL Set with value 'NO' in config/global.mk"
+   echo "MySQL Set with value 'NO' in $global"
 fi
 
 #--- PostgreSQL ---
@@ -101,7 +110,7 @@ if [ $cmd =  "yes" ] ; then
       apt-get install libpq-dev
    fi
 else
-   echo "PostgreSQL Set with value 'NO' in config/global.mk"
+   echo "PostgreSQL Set with value 'NO' in $global"
 fi
 
 
@@ -115,7 +124,7 @@ if [ $cmd =  "yes" ] ; then
       apt-get install libgda-4.0-dev
    fi
 else
-   echo "gnomedb Set with value 'NO' in config/global.mk"
+   echo "gnomedb Set with value 'NO' in $global"
 fi
 
 
@@ -129,7 +138,7 @@ if [ $cmd =  "yes" ] ; then
       apt-get install libwebkit-dev
    fi
 else
-   echo "WEBKIT Set with value 'NO' in config/global.mk"
+   echo "WEBKIT Set with value 'NO' in $global"
 fi
 
 
