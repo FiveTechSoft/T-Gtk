@@ -6,7 +6,7 @@ echo "* Install t-gtk on GNU/Linux   *"
 echo "*                              *"
 echo "*------------------------------*"
 echo
-global=./config/global.mk
+global=./setenv.mk
 tgtkPKG=/usr/lib/pkgconfig/tgtk.pc
 
 tgtk_pc=0
