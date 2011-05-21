@@ -8,10 +8,22 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-05-20 21:53 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * tests/gclass/test_pgsql/test.prg
+    Correcciones menores.. 
+  - tests/gclass/test_pgsql/test.new (No necesario)
+
+
 2011-05-17 23:37 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * config/gensetenv.mk
   * install.sh
     Modificaciones para generar setenv.mk en GNU/Linux
+
+
+2011-05-12 21:55 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * tests/gclass/test_pgsql/test.prg
+    Correcciones menores.. 
+  - tests/gclass/test_pgsql/test.new (No necesario)
 
 
 2011-05-12 21:55 UTC-430 Riztan Gutierrez <riztan at gmail.com>

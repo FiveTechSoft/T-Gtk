@@ -26,7 +26,7 @@ Function Login(cHost,cDB,cUser,cPass,nPort)
     Default cPass := '1234'
     Default nPort := 5432
 
-    IF Valtype(nPort)="N"; nPort:=STR(nPort) ; END
+    IF Valtype(nPort)="C"; nPort:=VAL(nPort) ; END
 
     conn := PQsetdbLogin( cHost, nPort, NIL, NIL, cDB, cUser, cPass)
 
@@ -97,7 +97,6 @@ Function Login(cHost,cDB,cUser,cPass,nPort)
     res   := PQexec(conn, 'create table customer ( '+;
                           'FIRST    varchar(20),   '+;
                           'LAST     varchar(20),   '+;
-                          'SET      boolean,       '+;
                           'STREET   varchar(30),   '+;
                           'CITY     varchar(30),   '+;
                           'STATE    varchar(2),    '+;
@@ -128,7 +127,6 @@ Function Login(cHost,cDB,cUser,cPass,nPort)
        res := PQExec(conn, 'insert into customer values ('+;
                            xToSQL(A->FIRST)   +','+;    
                            xToSQL(A->LAST)    +','+;    
-                           xToSQL(A->SET)     +','+;    
                            xToSQL(A->STREET)  +','+;    
                            xToSQL(A->CITY)    +','+;    
                            xToSQL(A->STATE)   +','+;    
@@ -141,6 +139,7 @@ Function Login(cHost,cDB,cUser,cPass,nPort)
 
        SKIP
     ENDDO
+
     cTime := AllTrim(Str( SECONDS()-nTime ))
     
     USE
