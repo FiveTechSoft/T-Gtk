@@ -8,6 +8,20 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-05-21 06:00 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  Modificaciones para evitar problemas en la configuracion por:
+    - Mayusculas/minusculas en nombres de rutas del PATH.
+    - ubicacion de wget y 7z en rutas de path.
+  Ahora busca los binarios basicos en pkg_install/miscelan_bin
+  * config/check_bin.mk
+  * config/detect.mk
+  * config/dirs.mk
+  * config/download.mk
+  * config/gensetenv.mk
+  * config/links.mk
+  * config/unzip.mk
+
+
 2011-05-20 21:53 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * tests/gclass/test_pgsql/test.prg
     Correcciones menores.. 

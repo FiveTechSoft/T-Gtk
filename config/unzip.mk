@@ -12,11 +12,13 @@ $(info Ejecutando config/unzip.mk)
  EXECUTE :=cmd /C start /MIN /WAIT $(TGTK_DIR)\config\check_bin.bat \
 	 $(TGTK_DIR)
 
+ 7z := $(TGTK_DIR)\pkg_install\miscelan_bin\7z.exe
+
  $(info * Verificando existencia de descompresor )
  #$(info $(EXECUTE) $(TGTK_BIN)\bin)
- $(shell $(EXECUTE) $(TGTK_BIN)\bin\7z.exe)
+ $(shell $(EXECUTE) $(7z))
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
-   ifeq ($(shell 7z),)
+   ifeq ($(shell $(7z)),)
      $(info --------------- )
      $(info *  ATENCION   * )
      $(info --------------- )
@@ -41,7 +43,7 @@ ifneq ($(notdir $(wildcard $(DIR_DOWN)/*)),)
     $(info * Actividad ya realizada.. )
   endif
 
-  EXECUTE :=cmd /C start 7z x -y -o
+  EXECUTE :=cmd /C start $(7z) x -y -o
 
   ifeq ($(TGTK_UNZIP),yes)
     $(info Descomprimiendo gLib for Windows ... )

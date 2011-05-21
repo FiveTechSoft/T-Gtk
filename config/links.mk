@@ -8,7 +8,8 @@ $(info )
 $(info Ejecutando config/links.mk)
 
 # WGET for Windows
-export WGET_BIN_LNK :=http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip
+#export WGET_BIN_LNK :=http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip
+export WGET_BIN_LNK :=http://users.ugent.be/~bpuype/cgi-bin/fetch.pl?dl=wget/wget.exe
 # WGet - Dependencias
 export WGET_DEP_LNK :=http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip
 
@@ -16,7 +17,7 @@ export WGET_DEP_LNK :=http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-de
 export 7Z_LNK :=http://downloads.sourceforge.net/sevenzip/7z920.msi
 
 # Verificamos o intentamos obtener...
-ifeq ($(shell wget --version),)
+ifeq ($(shell $(TGTK_DIR)\pkg_install\miscelan_bin\wget --version),)
   ifeq ($(notdir $(wildcard $(TGTK_BIN)/wget.exe)),)
     $(info ------------ )
     $(info * ATENCION * )
@@ -26,11 +27,11 @@ ifeq ($(shell wget --version),)
     $(info * Intentando obtenerlo desde:      )
     $(info * $(WGET_BIN_LNK) )
     $(info )
-    $(info * Igualmente la dependencia correspondiente:)
-    $(info * $(WGET_DEP_LNK) )
+    #$(info * Igualmente la dependencia correspondiente:)
+    #$(info * $(WGET_DEP_LNK) )
     $(info )
     $(shell cmd /C start $(WGET_BIN_LNK))
-    $(shell cmd /C start $(WGET_DEP_LNK))
+    #$(shell cmd /C start $(WGET_DEP_LNK))
     $(info Presione una tecla para continuar... )
     $(shell pause)
   endif

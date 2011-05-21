@@ -5,7 +5,6 @@ $(info )
 $(info Ejecutando config/dirs.mk)
 ifeq ($(notdir $(wildcard $(subst \,/,$(TGTK_INST))/*)),)
    $(info * Creando Directorio TGTK_INST --> $(TGTK_INST) )
-   exit
    ifeq ($(HB_MAKE_PLAT),win)
       $(shell mkdir $(TGTK_INST))
    else

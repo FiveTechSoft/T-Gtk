@@ -7,9 +7,16 @@ ifeq ($(HB_MAKE_PLAT),win)
 $(info )
 $(info * Ejecutando config/check_bin.mk)
 
+# lc -> lowercase 
+lc = $(strip $(subst /,\,$(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst E,e,$(subst F,f,\
+     $(subst G,g,$(subst H,h,$(subst I,i,$(subst J,j,$(subst K,k,$(subst L,l,\
+     $(subst M,m,$(subst N,n,$(subst O,o,$(subst P,p,$(subst Q,q,$(subst R,r,\
+     $(subst S,s,$(subst T,t,$(subst U,u,$(subst V,v,$(subst W,w,$(subst X,x,\
+     $(subst Y,y,$(subst Z,z,$(subst Ñ,ñ,$1)))))))))))))))))))))))))))))
+
 # Verificamos que la ruta GTK_PATH o TGTK_BIN estan en el PATH
 $(info * Buscando GTK_PATH ($(GTK_PATH)\bin) en la Variable de Entorno PATH.)
-ifeq ($(findstring $(GTK_PATH)\bin,$(PATH)),)
+ifeq ($(findstring $(call lc,$(GTK_PATH)\bin),$(call lc,$(PATH))),)
   $(info ** No Encontrado valor de GTK_PATH en path.)
    $(info -------------- )
    $(info *  ATENCION  * )
@@ -28,7 +35,7 @@ endif
 
 # Ahora Buscamos la Ruta TGTK_BIN
 $(info * Buscando TGTK_BIN ($(TGTK_BIN)\bin) en la Variable de Entorno PATH.)
-ifeq ($(findstring $(TGTK_BIN)\bin,$(PATH)),)
+ifeq ($(findstring $(call lc,$(TGTK_BIN)\bin),$(call lc,$(PATH))),)
    $(info ** No Encontrado valor de TGTK_BIN en path. )
    $(info -------------- )
    $(info *  ATENCION  * )
@@ -75,6 +82,12 @@ ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
         endif
       endif
     else
+      $(info -------------- )
+      $(info *  ATENCION  * )
+      $(info -------------- )
+      $(info * Es importante disponer del programa pkg-config  )
+      $(info * es posible intentar obtenerlo desde internet.  )
+      $(info -------------- )
       $(info Para intentar descargar, se debe setear las variables:) 
       $(info .   SET AUTO_INST=yes )
       $(info .   SET TGTK_DOWN=yes )
@@ -93,14 +106,14 @@ endif
 # Buscamos wget
 EXECUTE :=cmd /C start /MIN /WAIT $(TGTK_DIR)\config\check_bin.bat $(TGTK_DIR) 
 
-$(info * Buscando wget.exe en GTK_PATH ->$(GTK_PATH)\bin)
-$(shell $(EXECUTE) $(GTK_PATH)\bin\wget.exe)
+$(info * Buscando wget.exe en TGTK_BIN ->$(TGTK_BIN))
+$(shell $(EXECUTE) $(TGTK_BIN)\bin\wget.exe)
 
 ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
   $(info * No encontrado... )
 
-  $(info * Buscando wget.exe en TGTK_BIN ->$(TGTK_BIN)\bin)
-  $(shell $(EXECUTE) $(TGTK_BIN)\bin\wget.exe)
+  $(info * Buscando wget.exe en TGTK_DIR\pkg_install\miscelan_bin ->$(TGTK_DIR)\pkg_install\miscelan_bin)
+  $(shell $(EXECUTE) $(TGTK_DIR)\pkg_install\miscelan_bin\wget.exe)
 
   ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
     $(info No Encontrado... )
