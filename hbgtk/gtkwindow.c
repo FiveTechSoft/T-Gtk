@@ -329,6 +329,20 @@ HB_FUNC( GTK_WINDOW_ADD_ACCEL_GROUP ) // pWindow, pAccel_Group --> void
 }
 
 
+HB_FUNC( GTK_WINDOW_SET_OPACITY ) 
+{
+  GtkWidget * window = GTK_WIDGET( hb_parptr( 1 ) );
+  gtk_window_set_opacity( GTK_WINDOW( window ),  hb_parnd( 2 ) );
+}
+
+
+HB_FUNC( GTK_WINDOW_GET_OPACITY ) 
+{
+  GtkWidget * window = GTK_WIDGET( hb_parptr( 1 ) );
+  hb_retnd( gtk_window_get_opacity( GTK_WINDOW( window ) ) );
+}
+
+
 /*
 HB_FUNC( CREATE_PIXBUF ) // cFilename
 {

@@ -8,6 +8,20 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-05-30 03:35 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * hbgtk/gtkwindow.c 
+    + gtk_window_get_opacity( window )
+    + gtk_window_set_opacity( window, double )
+  * src/gclass/gwindow.prg
+    + Method GetOpacity()
+    + Method SetOpacity( double )
+    + Method GetTransparency()
+    + Method SetTransparency( double )
+
+  * tests/gclass/demoppo/demoppo.prg 
+    se incluye transparencia.
+
+
 2011-05-21 06:00 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   Modificaciones para evitar problemas en la configuracion por:
     - Mayusculas/minusculas en nombres de rutas del PATH.

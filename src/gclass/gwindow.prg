@@ -55,6 +55,10 @@ CLASS GWINDOW FROM GCONTAINER
       METHOD SetDecorated( lDecorated ) INLINE gtk_window_set_decorated( ::pWidget , lDecorated )
       METHOD SetSkipTaskBar( lHide )    INLINE gtk_window_set_skip_taskbar_hint( ::pWidget , lHide )
       METHOD SetTypeHint( nType )       INLINE gtk_window_set_type_hint( ::pWidget , nType )
+      METHOD GetOpacity()               INLINE gtk_window_get_opacity( ::pWidget )
+      METHOD SetOpacity( nOpacity )     INLINE gtk_window_set_opacity( ::pWidget, nOpacity )
+      METHOD GetTransparency()          INLINE 1-::GetOpacity()
+      METHOD SetTransparency( nTransparency )      INLINE ::SetOpacity( 1-nTransparency )
       METHOD SetFocus()                 INLINE gtk_window_present( ::pWidget )
       METHOD SetMenuPopup( oMenu )
 

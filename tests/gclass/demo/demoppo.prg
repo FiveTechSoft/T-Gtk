@@ -32,6 +32,9 @@ Function Main( )
   DEFINE WINDOW oWindow TITLE "GUI T-Gtk for Harbour by Rafa Carmona"
        oWindow:SetMenuPopup( MenuPopup() )
 
+  //gtk_window_set_opacity(oWindow:pWidget, .8)
+  oWindow:SetTransparency(.1)
+
        DEFINE BOX oBoxMenu VERTICAL OF oWindow
               DEFINE STATUSBAR oBar OF oBoxMenu ;
                      TEXT "Example" ;
