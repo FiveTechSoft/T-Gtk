@@ -142,3 +142,17 @@ else
 fi
 
 
+#--- VTE ---  Terminal Widget
+vte=0
+cmd=`cat $global | grep "export VTE " | cut -d= -f2`
+if [ $cmd =  "yes" ] ; then
+   echo "detecting package libvte for development"
+   dpkg --get-selections | grep "libvte-dev" && vte=1 || vte=0
+   if [ $vte -eq 0 ] ; then
+      apt-get install libvte-dev
+   fi
+else
+   echo "VTE Set with value 'NO' in $global"
+fi
+
+

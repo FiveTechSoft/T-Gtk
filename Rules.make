@@ -59,25 +59,26 @@ $(info * lib: $(HB_LIB_INSTALL)                              )
 $(info * include: $(HB_INC_INSTALL)                          )
 $(info *************************************************** )
 $(info * Soporte.                                            )
-$(info * GtkSourceView = $(GTKSOURCEVIEW)                    )
-$(info * Bonobo        = $(BONOBO)                           )
-$(info * gnomeDB       = $(GNOMEDB)                          )
-$(info * CURL          = $(CURL)                             )
+$(info * GtkSourceView    = $(GTKSOURCEVIEW)                    )
+$(info * Bonobo           = $(BONOBO)                           )
+$(info * gnomeDB          = $(GNOMEDB)                          )
+$(info * CURL             = $(CURL)                             )
 ifneq ($(HB_MAKE_PLAT),win)
-   $(info * WebKitGTK+    = $(WEBKIT) )
+   $(info * WebKitGTK+       = $(WEBKIT) )
+   $(info * Terminal Widget  = $(VTE) )
 endif
-$(info * SQLite        = $(SQLITE)                           )
-$(info * MySQL         = $(MYSQL)                            )
+$(info * SQLite           = $(SQLITE)                           )
+$(info * MySQL            = $(MYSQL)                            )
 ifeq ($(MYSQL),yes)
-  $(info *    Dolphin    = $(DOLPHIN)                          )
+  $(info *    Dolphin       = $(DOLPHIN)                          )
   ifeq ($(HB_MAKE_PLAT),win)
-     $(info *    PATH    = $(MYSQL_PATH))
+     $(info *    PATH       = $(MYSQL_PATH))
   endif
 endif
-$(info * PostgreSQL    = $(POSTGRE)                            )
+$(info * PostgreSQL       = $(POSTGRE)                            )
 ifeq ($(POSTGRE),yes)
   ifeq ($(HB_MAKE_PLAT),win)
-     $(info *    PATH    = $(POSTGRE_PATH))
+     $(info *    PATH       = $(POSTGRE_PATH))
   endif
 endif
 $(info *************************************************** )
@@ -158,7 +159,7 @@ ifeq ($(CURL),yes)
 endif
 
 ifneq ($(HB_MAKE_PLAT),win)
-ifeq ($(WEBKIT),yes)
+  ifeq ($(WEBKIT),yes)
     ifeq ($(findstring webkit,$(PACKAGES)),)
       $(info ----------------------------------------)
       $(info *  ERROR WebKit  No Encontrado!       *)
@@ -168,8 +169,13 @@ ifeq ($(WEBKIT),yes)
     CFLAGS += -D_WEBKIT_
     CFLAGS += $(shell pkg-config --cflags webkit-1.0)
     LIBS += $(shell pkg-config --libs webkit-1.0 )
+  endif
+  #-- Terminal Widget
+  ifeq ($(VTE),yes)
+    LIBS +=-L$(LIBDIR_TGTK_) -lhbvte $(shell pkg-config --libs vte)
+  endif
 endif
-endif
+
 
 ifeq ($(SQLITE),yes)
   ifeq ($(HB_COMPILER),mingw32)

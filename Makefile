@@ -10,6 +10,9 @@ all:
 	make -C src/gclass
 	make -C hbgtk
 #	make -C hbgtk/lang
+ifeq ($(VTE),yes)
+	make -C src/vte
+endif
 ifeq ($(GNOMEDB),yes)
 	make -C gnomedb
 endif
@@ -29,6 +32,9 @@ clean:
 	make -C hbgtk clean
 #	make -C hbgtk/lang clean
 #	make -C tests clean
+ifeq ($(VTE),yes)
+	make -C src/vte clean
+endif
 ifeq ($(GNOMEDB),yes)
 	make -C gnomedb clean
 endif
@@ -47,6 +53,9 @@ install: all
 	make -C src/gclass install
 	make -C hbgtk install
 #	make -C hbgtk/lang install
+ifeq ($(VTE),yes)
+	make -C src/vte install
+endif
 ifeq ($(GNOMEDB),yes)
 	make -C gnomedb install
 endif

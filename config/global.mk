@@ -125,6 +125,11 @@ endif
 
 
 #Soporte para GTKSourceView
+ifeq ($(VTE),)
+  export VTE  =no
+endif
+
+#Soporte para GTKSourceView
 ifeq ($(GTKSOURCEVIEW),)
   export GTKSOURCEVIEW  =no
 endif

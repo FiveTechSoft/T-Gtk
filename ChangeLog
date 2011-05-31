@@ -8,6 +8,20 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-05-31 01:30 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * install.sh
+  * config/harbour.mk
+  * config/gensetenv.mk
+  * config/global.mk
+    !Incluida generacion de libvte si esta la variable VTE=yes en setenv.mk
+
+  * src/vte/Makefile
+    !Utilizacion de $(ROOT)
+
+  * src/vte/cvte.c
+    !Cambios para retornar puntero en cvte.c
+
+
 2011-05-30 03:35 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * hbgtk/gtkwindow.c 
     + gtk_window_get_opacity( window )

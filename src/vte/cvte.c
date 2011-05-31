@@ -34,19 +34,19 @@ HB_FUNC( VTE_TERMINAL_NEW )
 {
  VteTerminal *term;
  term = VTE_TERMINAL( vte_terminal_new() );
- hb_retnl( ( ULONG ) term );
+ hb_retptr( term );
 }
 
 
 HB_FUNC( HB_VTE_CONSOLE_USER ) 
 { 
- VteTerminal *term = VTE_TERMINAL( hb_parnl( 1 ) );
+ VteTerminal *term = VTE_TERMINAL( hb_parptr( 1 ) );
  hb_retni( vte_terminal_fork_command( term, NULL,NULL,NULL,NULL,FALSE,TRUE, TRUE ) );
 }
 
 HB_FUNC( HB_VTE_COMMAND ) 
 { 
- VteTerminal *term = VTE_TERMINAL( hb_parnl( 1 ) );
+ VteTerminal *term = VTE_TERMINAL( hb_parptr( 1 ) );
  const char *command = hb_parc( 2 );
  
  hb_retni( vte_terminal_fork_command( term, command ,NULL,NULL,NULL,FALSE,TRUE, TRUE ) );
@@ -55,7 +55,7 @@ HB_FUNC( HB_VTE_COMMAND )
 
 HB_FUNC( VTE_TERMINAL_SET_SIZE )
 { 
- VteTerminal *term = VTE_TERMINAL( hb_parnl( 1 ) );
+ VteTerminal *term = VTE_TERMINAL( hb_parptr( 1 ) );
  glong columns = hb_parnl( 2 );
  glong rows    = hb_parnl( 3 );
  vte_terminal_set_size( term, columns, rows );
@@ -63,14 +63,14 @@ HB_FUNC( VTE_TERMINAL_SET_SIZE )
 
 HB_FUNC( VTE_TERMINAL_SET_FONT )
 { 
- VteTerminal *term = VTE_TERMINAL( hb_parnl( 1 ) );
+ VteTerminal *term = VTE_TERMINAL( hb_parptr( 1 ) );
  PangoFontDescription * font = ( PangoFontDescription * ) hb_parnl( 2 );
  vte_terminal_set_font( term, font );
 } 
 
 HB_FUNC( VTE_TERMINAL_SET_BACKGROUND_TRANSPARENT ) 
 { 
- VteTerminal *term = VTE_TERMINAL( hb_parnl( 1 ) );
+ VteTerminal *term = VTE_TERMINAL( hb_parptr( 1 ) );
  gboolean btransparent = hb_parl( 2 );
  
  vte_terminal_set_background_transparent( term, btransparent );
@@ -79,7 +79,7 @@ HB_FUNC( VTE_TERMINAL_SET_BACKGROUND_TRANSPARENT )
 
 HB_FUNC( VTE_TERMINAL_SET_COLOR_CURSOR )
 {
-  VteTerminal *term = VTE_TERMINAL( hb_parnl( 1 ) );
+  VteTerminal *term = VTE_TERMINAL( hb_parptr( 1 ) );
   GdkColor cursor_background;
   PHB_ITEM pColor = hb_param( 2, HB_IT_ARRAY );        // array
 
@@ -92,7 +92,7 @@ HB_FUNC( VTE_TERMINAL_SET_COLOR_CURSOR )
 
 HB_FUNC( VTE_TERMINAL_SET_COLOR_HIGHLIGHT )
 {
-  VteTerminal *term = VTE_TERMINAL( hb_parnl( 1 ) );
+  VteTerminal *term = VTE_TERMINAL( hb_parptr( 1 ) );
   GdkColor color;
   PHB_ITEM pColor = hb_param( 2, HB_IT_ARRAY );        // array
 
@@ -104,7 +104,7 @@ HB_FUNC( VTE_TERMINAL_SET_COLOR_HIGHLIGHT )
 
 HB_FUNC( VTE_TERMINAL_SET_COLOR_FOREGROUND )
 {
-  VteTerminal *term = VTE_TERMINAL( hb_parnl( 1 ) );
+  VteTerminal *term = VTE_TERMINAL( hb_parptr( 1 ) );
   GdkColor color;
   PHB_ITEM pColor = hb_param( 2, HB_IT_ARRAY );        // array
 
@@ -116,7 +116,7 @@ HB_FUNC( VTE_TERMINAL_SET_COLOR_FOREGROUND )
 
 HB_FUNC( VTE_TERMINAL_SET_COLOR_BACKGROUND )
 {
-  VteTerminal *term = VTE_TERMINAL( hb_parnl( 1 ) );
+  VteTerminal *term = VTE_TERMINAL( hb_parptr( 1 ) );
   GdkColor color;
   PHB_ITEM pColor = hb_param( 2, HB_IT_ARRAY );        // array
 

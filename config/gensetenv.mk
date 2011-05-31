@@ -69,6 +69,9 @@ ifeq ($(HB_MAKE_PLAT),win)
 $(shell $(strip $(ECHO) export SUPPORT_PRINT_WIN32 =$(SUPPORT_PRINT_WIN32)$(ADD)))
 else
 $(shell $(strip $(ECHO) export SUPPORT_PRINT_LINUX =$(SUPPORT_PRINT_LINUX)$(ADD)))
+$(shell $(strip $(SPACE) $(ADD)))
+$(shell $(strip $(ECHO) $(N) Soporte para Terminal. $(ADD)))
+$(shell $(strip $(ECHO) $(N)export VTE =$(VTE)$(ADD)))
 endif
 $(shell $(strip $(SPACE) $(ADD)))
 $(shell $(strip $(ECHO) $(N) Soporte para GTKSourceView. $(ADD)))
