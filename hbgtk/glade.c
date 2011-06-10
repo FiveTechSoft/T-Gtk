@@ -29,12 +29,31 @@
 #include <glade/glade.h>
 #include "hbapi.h"
 
+
+//prototypes
+GtkBuilder  * _gtk_builder_new();
+BOOL _gtk_builder_add_from_file( GtkBuilder * pBuilder, const gchar * filename );
+GtkWidget * _gtk_builder_get_object ( GtkBuilder * pBuilder, const gchar *name );
+BOOL GetGtkBuilderSts();
+
 HB_FUNC( GLADE_XML_NEW ) //fname,root,domain
 {
-  GladeXML *xml;
-  xml = glade_xml_new( hb_parc( 1 ), ISNIL( 2 ) ? NULL : hb_parc( 2 ), ISNIL( 3 ) ? NULL : hb_parc( 3 ) );
-  hb_retptr( ( GladeXML * ) xml );
+  
+  if( GetGtkBuilderSts() )
+  {
+     GtkBuilder  * pBuilder =  _gtk_builder_new();
+     const char * filename = hb_parc( 1 );
+     if( _gtk_builder_add_from_file( pBuilder, ( const gchar *) filename ) )
+        hb_retptr( pBuilder );
+     
+  }else
+  {
+     GladeXML *xml;     
+     xml = glade_xml_new( hb_parc( 1 ), ISNIL( 2 ) ? NULL : hb_parc( 2 ), ISNIL( 3 ) ? NULL : hb_parc( 3 ) );
+     hb_retptr( ( GladeXML * ) xml );
+  }
 }
+
 
 HB_FUNC( GLADE_XML_NEW_FROM_BUFFER ) //fname,root,domain
 {
@@ -51,8 +70,16 @@ HB_FUNC( GLADE_XML_NEW_FROM_BUFFER ) //fname,root,domain
 HB_FUNC( GLADE_XML_GET_WIDGET )
 {
   GtkWidget * widget;
-  widget = glade_xml_get_widget( (GladeXML *) hb_parptr( 1 ), (gchar *) hb_parc( 2 ) );
+  if( GetGtkBuilderSts() )
+  {
+     widget = _gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) );  
+  }else
+  {
+     widget = glade_xml_get_widget( (GladeXML *) hb_parptr( 1 ), (gchar *) hb_parc( 2 ) );
+  }
+  
   hb_retptr( ( GtkWidget * ) widget );
+
 }
 
 HB_FUNC( GLADE_GET_WIDGET_NAME )

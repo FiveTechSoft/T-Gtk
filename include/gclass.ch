@@ -1571,5 +1571,13 @@
                            <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
                            <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
 
+#xcommand SET GTKBUILDER  ON;
+           =>;
+           SetGtkBuilder( .T. )
+
+#xcommand SET GTKBUILDER  OFF;
+           =>;
+           SetGtkBuilder( .F. )
+
  extern errorsys
 
