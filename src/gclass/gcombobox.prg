@@ -73,6 +73,9 @@ METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nP
           // <property name="items" translatable="yes"></property>
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
+          if oModel != NIL
+             gtk_combo_box_set_model ( ::pWidget, oModel:pWidget )
+          endif  
           //TODO: Seria interesante recuperar los valores metidos desde Glade
           // y asociarlos al array aItems , si estuviese vacio.
           // o Borrar los definidos en Glade si le hemos pasado elementos.

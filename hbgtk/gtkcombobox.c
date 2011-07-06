@@ -108,12 +108,21 @@ HB_FUNC( GTK_COMBO_BOX_SET_ACTIVE )// combo,index
   gtk_combo_box_set_active( GTK_COMBO_BOX (combo), position );
 }
 
-// Todo:
-/* gtk_combo_box_get_active_iter ()
-   gtk_combo_box_set_active_iter ()
- * gtk_combo_box_get_model ()
- * gtk_combo_box_set_model ()
- */
+HB_FUNC( GTK_COMBO_BOX_SET_MODEL )
+{
+  GtkWidget    * combo = GTK_WIDGET( hb_parptr( 1 ) );
+  GtkTreeModel * model = ISNIL( 2 ) ? NULL : GTK_TREE_MODEL( hb_parptr( 2 ) ) ;
+
+  gtk_combo_box_set_model( GTK_COMBO_BOX( combo ),  model );
+}
+
+HB_FUNC( GTK_COMBO_BOX_GET_MODEL )
+{
+  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
+  GtkTreeModel * model = gtk_combo_box_get_model( GTK_COMBO_BOX( combo ) );
+  hb_retptr( GTK_TREE_MODEL( model ) );
+}
+
 
 HB_FUNC( GTK_COMBO_BOX_POPUP )
 {

@@ -32,6 +32,9 @@ METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nP
        ELSE
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
+          if oModel != NIL
+             gtk_combo_box_set_model ( ::pWidget, oModel:pWidget )
+          endif  
        ENDIF
 
        ::Register()
