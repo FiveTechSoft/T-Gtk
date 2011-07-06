@@ -173,7 +173,6 @@ METHOD Activate( bEnd, lCenter, lMaximize, lModal, lInitiate ) CLASS GWINDOW
 
 RETURN NIL
 
-
 METHOD End() CLASS GWINDOW
     
     if ! ::OnDelete_Event( Self )
@@ -181,7 +180,6 @@ METHOD End() CLASS GWINDOW
     endif
 
 return nil
-
 
 METHOD Register() CLASS GWINDOW
     Super:Register()

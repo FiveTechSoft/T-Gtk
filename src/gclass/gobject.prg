@@ -173,6 +173,7 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
 RETURN .F.
 
 ******************************************************************************
+
 METHOD OnDelete_Event( oSender ) CLASS GOBJECT
     Local lResult := .T.
 
@@ -186,7 +187,7 @@ METHOD OnDelete_Event( oSender ) CLASS GOBJECT
 Return ! lResult
 
 ******************************************************************************
-// Funciones de manejo de señales
+// Funciones de manejo de seÃ±ales
 FUNCTION gtk_signal_connect( pWidget, cSignal, pBlock )
   Local iReturn := 0
   

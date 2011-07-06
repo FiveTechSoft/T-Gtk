@@ -29,7 +29,7 @@ CLASS GENTRY FROM GWIDGET
       DATA char_iso INIT "ISO-8859-1"
       DATA lCompletion INIT .F.
       DATA oJump
-      DATA bAction
+      DATA bActionBtn
 
       METHOD New( bSetGet, cPicture, oParent )
       METHOD SetPos( nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
@@ -205,11 +205,11 @@ RETURN oCompletion
 METHOD OnIcon_Release( uParam, nPos ) CLASS GEntry
 
    if hb_IsBlock( uParam )
-      ::bAction = uParam
+      ::bActionBtn = uParam
       ::Connect( "icon-release" )
    elseif hb_IsObject( uParam )
-      if hb_IsBlock( ::bAction )
-         Eval( uParam:bAction, nPos )
+      if hb_IsBlock( ::bActionBtn )
+         Eval( uParam:bActionBtn, Self, nPos )
       endif
    endif
 

@@ -421,7 +421,7 @@
                    <x>,<y>, <cId>, <uGlade>, <uLabelBook>,<.lPassword.>,;
                    <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
                    <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>,;
-                   [ \{| nPos | <bAction> \} ], <ulButton>, <urButton> )
+                   [ \{| this,nPos | <bAction> \} ], <ulButton>, <urButton> )
 
 // Combobox
 #xcommand DEFINE COMBOBOX [ <oCombo> ]  ;
