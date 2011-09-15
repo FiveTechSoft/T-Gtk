@@ -107,6 +107,8 @@ endif
 
 # Otros:
 export HB_CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF \
-                    -D__COMPATIBLE_HARBOUR__
+                    -D__COMPATIBLE_HARBOUR__ \
+                    -DHB_LEGACY_TYPES_ON 
+#                    -DHB_LEGACY_ON 
 
 

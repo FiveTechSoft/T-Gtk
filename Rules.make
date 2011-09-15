@@ -95,7 +95,7 @@ LIBRARIAN = ranlib
 
 
 ifeq ($(HB_COMPILER),mingw32)
-   CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_
+   CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_ 
    ifeq ($(SUPPORT_PRINT_WIN32),yes)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
@@ -273,7 +273,7 @@ HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
 #XHB_LIBDIR_ = $(LIBDIR) -L$(XHB_LIB_INSTALL)
 
 HB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
-        $(HB_LIBFILES_)$(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS)
+        $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS)
 #XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
 #        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)
 
