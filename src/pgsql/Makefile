@@ -9,10 +9,11 @@ include $(ROOT)config/global.mk
 TARGET = libhbpg.a
 ifeq ($(strip $(XBASE_COMPILER)),HARBOUR)
    SOURCEDIR=hb
+   SOURCES  = $(SOURCEDIR)/tpostgre.prg $(SOURCEDIR)/pgrdd.prg
 else
    SOURCEDIR=xhb
+   SOURCES  = $(SOURCEDIR)/tpostgre.prg 
 endif
-SOURCES  = $(SOURCEDIR)/tpostgre.prg $(SOURCEDIR)/pgrdd.prg
 CSOURCES = $(SOURCEDIR)/postgres.c
 PRGFLAGS=-I$(ROOT)include
 
