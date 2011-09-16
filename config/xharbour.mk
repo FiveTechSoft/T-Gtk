@@ -90,4 +90,7 @@ ifeq ($(XBASE_COMPILER),XHARBOUR)
   export HB_LIBFILES_ =$(XHB_LIBFILES_)
 endif
 
+#Switches no validos en xHarbour
+HB_MACROTEXT_SUBS:=no
+
 #/eof

@@ -277,9 +277,10 @@ HB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTAL
 #XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
 #        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)
 
-#FLAGS a Pasar a Harbour
+#FLAGS a Pasar a Harbour o xHarbour
 ifeq ($(HB_FLAGS),)
    HB_FLAGS = -w$(HB_WL) -q$(HB_QUIET) -gc0 -n \
+              $(subst no,,$(subst yes,-kM,$(HB_MACROTEXT_SUBS)))  \
               $(subst no,,$(subst yes,-gh,$(HB_HRB_OUT)))  \
               $(subst no,,$(subst yes,-p,$(HB_GEN_PPO)))  \
               $(subst no,,$(subst yes,-p+,$(HB_GEN_PPT)))  \

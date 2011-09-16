@@ -238,6 +238,11 @@ ifeq ($(HB_QUIET),)
   export HB_QUIET :=0
 endif
 
+# -kM  Turn Off macrotext substitution
+ifeq ($(HB_MACROTEXT_SUBS),)
+  export HB_MACROTEXT_SUBS :=no
+endif
+
 
 # HASTA AQUI. EL Resto es detectable o se deduce...
 
