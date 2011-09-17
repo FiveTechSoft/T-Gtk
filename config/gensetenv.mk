@@ -128,6 +128,8 @@ $(shell $(strip $(ECHO) $(N) -w[level] Warning Level [1..3]$(ADD)))
 $(shell $(strip $(ECHO) export HB_WL :=$(HB_WL) $(ADD)))
 $(shell $(strip $(ECHO) $(N) -q[,0,2] $(ADD)))
 $(shell $(strip $(ECHO) export HB_QUIET :=$(HB_QUIET) $(ADD)))
+$(shell $(strip $(ECHO) $(N) -kM turn off macrotext substitution $(ADD)))
+$(shell $(strip $(ECHO) export HB_MACROTEXT_SUBS :=$(HB_MACROTEXT_SUBS) $(ADD)))
 $(shell $(strip $(SPACE) $(ADD)))
 $(shell $(strip $(SPACE) $(ADD)))
 
