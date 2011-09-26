@@ -1,0 +1,13 @@
+Este proyecto está en un estado alpha, pero completamente funcional.
+
+Está todo en el mismo ejemplo.prg.
++ Se divide en el ejemplo en si.
++ Comandos preprocesados.
++ Las clases TimprimePDF y TUtilPdf.
+
+Llegará el día que tendré que separarlo en librerías aparte, pero me
+es más practico de esta manera.
+Si alguien lo realiza, tendrá mi agradecimiento absoluto ;-)
+
+Cualquier mejora es bienvenida.
+Rafa Carmona
