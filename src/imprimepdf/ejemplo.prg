@@ -1,9 +1,3 @@
-/*
-  Impresión en PDF usando Hairu.
-  Usaremos cms para ser más productivos a la hora de diseñar nuestros reportes.
-  (c)2011 Rafa Carmona
-  Licencia: GPL with exception Harbour.
- */
 // T:\harboursvn\contrib\hbhpdf\tests>t:\harboursvn\bin\win\bcc\hbmk2.exe ejemplo.prg -w1
 #include "hbclass.ch"
 #include "harupdf.ch"
@@ -28,14 +22,15 @@ PROCEDURE Main(  )
                         "ZapfDingbats"              ;
                       }
 
+   EjemploFacturaPdf()
 /*
-   oHairu := TIMPRIMEPDF():New( "pepe.pdf" )                                  // Creamos documento
+   oHairu := TIMPRIMEPDFPdf():New()                                  // Creamos documento
 
    oHairu:PageSetSize( HPDF_PAGE_SIZE_A4, HPDF_PAGE_LANDSCAPE ) // Page format
 
    oHairu:SetFont( font_list[1], 10)
    nLinea := 1
-   oHairu:CmSay( nLinea, 1, "HARBOUR" )
+   oHairu:CmsSay( nLinea, 1, "HARBOUR" )
 
    nLinea += 0.5
    oHairu:SetFont( font_list[1], 12 )
@@ -61,19 +56,21 @@ PROCEDURE Main(  )
       nLinea += 0.6
 
    NEXT
+   oHairu:End( "test.pdf", .t. )
 
-   oHairu:End( .T. )
 */
 
+RETURN
+
+Function EjemploFacturaPdf()
+   Local oFact
 
    oFact := TFacturaPDF():New( "factura.pdf" )
    oFact:Print()
    oFact:End( )
 
 
-
-RETURN
-
+return nil
 
 //  ------------------------------------------------------------------------------------
 #xcommand DEFINE UTILPDF  <oUtil>  ;
@@ -96,13 +93,19 @@ RETURN
          =>;
            ::Separator( <nSpace> , <.lBody.>)
 
-
+//TODO: BRUSH, PEN, ROUND
+#xcommand UTILPDF <oUtil> ;
+          BOX <nX>,<nY> TO <nX2>,<nY2> ;
+          [ BORDE [ SIZE <nWitdh>] [ COLOR [ RED <nRed>] [GREEN <nGreen>] [BLUE <nBlue>] ] ];
+         =>;
+           <oUtil>:Box( <nX>,<nY>,<nX2>,<nY2>,<nWitdh>,<nRed>,<nGreen>,<nBlue> )
 
 /*
  Ejemplo de impresion de una factura.
  */
 
 CLASS TFacturaPDF FROM TIMPRIMEPDF
+      DATA nEndBody INIT 22   // Limite donde tiene que llegar las lineas de la factura
 
       METHOD New( cFile ) INLINE Super:New( cFile )
       METHOD Print()
@@ -121,16 +124,22 @@ METHOD Print() CLASS TFacturaPDF
 
        ::AddPage()
 
-       UTILPDF ::oUtil 1, 1 SAY  "Que grande que vinistes..." COLOR RED 1 GREEN 0.5
-       UTILPDF ::oUtil 1, 5 SAY  "Segundo en 5x5."            FONT ::aFonts[4] SIZE 15 ROTATE 270 COLOR BLUE 1
+       UTILPDF ::oUtil 1, 1 SAY  "Que grande que vinistes..."
 
 RETURN NIL
 
 METHOD Headers() CLASS TFacturaPDF
 
-       ::Rectangle( 0.5, 0.5, 5, 1 )
-       UTILPDF ::oUtil 1, 1 SAY  "Número Albaran" COLOR RED 1
 
+       UTILPDF ::oUtil ;
+               BOX 3,0.75 TO 4, 4.25 ;
+               BORDE SIZE 2 COLOR BLUE 1
+
+       UTILPDF ::oUtil 3.5, 1 SAY  "Numero Albaran"
+
+//       ::Rectangle( 3, 4.25, 15, 4 )
+        UTILPDF ::oUtil BOX 3, 4.25 TO 4, 15
+        UTILPDF ::oUtil 3.5, 5 SAY  "Concepto" FONT ::aFonts[2] SIZE 15
 
 RETURN NIL
 
@@ -138,18 +147,21 @@ METHOD Body() CLASS TFacturaPDF
       Local X, nValue := 10
       Local nRandom
 
-      ::nLinea := 5
+      ::nLinea := 5                      // En cuerpo empieza en los 5 cms
 
       for x := 1 to 40
+
+          UTILPDF ::oUtil Self:nLinea, 1.5 SAY "1233231" FONT ::aFonts[3] SIZE 10
           if mod( nValue, 2 ) = 0
              nvalue := 15
           else
               nvalue := 10
           endif
           nRandom := int( HB_Random(1,14) )
-          UTILPDF ::oUtil Self:nLinea, 1 SAY  "HAHAHHA"+ Alltrim( Str( ::nLinea ) ) FONT ::aFonts[nRandom] SIZE nValue
+          UTILPDF ::oUtil Self:nLinea, 4.35 SAY  "Conceptos:"+ Alltrim( Str( ::nLinea ) ) FONT ::aFonts[nRandom] SIZE nValue
           ISEPARATOR
       Next
+
 
 RETURN Nil
 
@@ -157,9 +169,14 @@ RETURN Nil
 **********************************************************************************
 METHOD Separator( nSpace, lBody ) CLASS TFacturaPDF
 
-   IF Super:Separator( nSpace )
-      //::Headers()
-      // ::Footers()
+   IF ::nLinea >= ::nEndBody
+      ::Eject()
+      ::nLinea := 5   // En cuerpo empieza en los 5 cms
+      ::Headers()
+      ::Footers()
+   ELSEIF Super:Separator( nSpace )
+       ::Headers()
+       ::Footers()
    ENDIF
 
 Return NIL
@@ -207,6 +224,9 @@ CLASS TIMPRIMEPDF
     METHOD CMS2POINTS( nCms )
     METHOD POINTS2CMS( nPoints )
     METHOD Rectangle( nTop, nLeft, nRight, nBottom )
+    METHOD SetRgbStroke( nRed, nGreen, nBlue ) INLINE HPDF_Page_SetRGBStroke( ::page_active, nRed, nGreen, nBlue)
+    METHOD SetRgbFill( nRed, nGreen, nBlue  )  INLINE HPDF_Page_SetRGBFill( ::Page_Active, nRed, nGreen, nBlue) // 0 ... 1
+    METHOD PageFill()                          INLINE HPDF_Page_Fill( ::Page_Active )
 
     METHOD Separator( nJump )
     METHOD CompLinea( nSuma )
@@ -221,6 +241,12 @@ CLASS TIMPRIMEPDF
 
     METHOD PageCount()
     MESSAGE Eject     METHOD __Eject()
+    METHOD SetLineWidth( nWidth ) INLINE HPDF_Page_SetLineWidth( ::Page_Active, nWidth )
+
+    METHOD GSave()    INLINE  HPDF_Page_GSave( ::Page_Active )      /* Save the current graphic state */
+    METHOD GRestore() INLINE  HPDF_Page_GRestore( ::Page_Active )   /* Restore graphic state */
+
+
 
 END CLASS
 
@@ -259,7 +285,6 @@ METHOD End( lPageCount ) CLASS TIMPRIMEPDF
   if lPageCount
      ::PageCount(  )
   endif
-  ? ::cFileName
 
   ::SaveAs( ::cFileName ) // Save File
 
@@ -283,37 +308,30 @@ METHOD CMSAY( nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle
    Local nRad1
 
    DEFAULT nRed TO 0 , nGreen TO 0 , nBlue TO 0
-
-   // TODO: Creo que hay un Save / Restore del contexto grafico.. pendiente de mirar.
-
+   ::GSave()
    HPDF_Page_BeginText( ::Page_Active )
 
    if !empty( cFont  ) .OR. !empty( nSize )
       ::SetFont( cFont, nSize )
    endif
-
     if !empty( nAngle  )
        nRad1 := nAngle / 180 * 3.141592 /* Calcurate the radian value. */
        HPDF_Page_SetTextMatrix( ::Page_Active, cos(nRad1), sin(nRad1), -sin(nRad1), cos(nRad1), ::CMS2POINTS( nColCms ), ::GetPageHeight() - ::CMS2POINTS( nRowCms ) )
     else
        HPDF_Page_MoveTextPos(::Page_Active , ::CMS2POINTS( nColCms ), ::GetPageHeight() - ::CMS2POINTS( nRowCms ))
     endif
-
     HPDF_Page_SetRGBFill( ::Page_Active, nRed, nGreen, nBlue) // 0 ... 1
     HPDF_Page_ShowText(::Page_Active, cText )
 
   // HPDF_Page_TextOut( ::Page_Active, ::CMS2POINTS( nColCms ), ::GetPageHeight() - ::CMS2POINTS( nRowCms ), cText )
 
-   if !empty( cFont  ) .OR. !empty( nSize )
-      ::SetFont( uFont, uSize )
-   endif
-
    HPDF_Page_EndText( ::Page_Active )
-
+   ::GRestore()
 
 RETURN NIL
+
 //HPDF_Page_Rectangle( hPage, nX, nY, nWidth, nHeight )
-METHOD Rectangle( nTop, nLeft, nRight, nBottom ) CLASS TIMPRIMEPDF
+METHOD Rectangle( nTop, nLeft, nBottom, nRight ) CLASS TIMPRIMEPDF
    Local rect := Array( 4 )
    #define rLEFT   1
    #define rTOP    2
@@ -328,10 +346,8 @@ METHOD Rectangle( nTop, nLeft, nRight, nBottom ) CLASS TIMPRIMEPDF
    HPDF_Page_SetLineCap( ::Page_Active, HPDF_ROUND_END)
    HPDF_Page_Rectangle( ::Page_Active, rect[ rLEFT ], rect[ rBOTTOM ], rect[ rRIGHT ] - rect[ rLEFT ], ;
                                        rect[ rTOP ] - rect[ rBOTTOM ] )
-   HPDF_Page_Stroke( ::Page_Active )
 
 RETURN NIL
-
 *******************************************************************************
 METHOD SetFont( cFontName, nSize, cEncoding  ) CLASS TIMPRIMEPDF
 
@@ -437,6 +453,7 @@ CLASS TUtilPdf
       EXPORT:
       METHOD New( oPrinter ) CONSTRUCTOR
       METHOD Text()
+      METHOD Box( nArriba, nIzq, nAbajo, nDerecha , oBrush, oPen, lRound, nZ, nZ2 )
 
 END CLASS
 
@@ -456,3 +473,27 @@ METHOD Text( cText,nRow,nCol, cFont, nSize, nRed,nGreen,nBlue,  nAngle ) CLASS T
 
 Return Nil
 
+// TODO: Colores de Border
+//       Colores de Relleno
+METHOD Box( nArriba, nIzq, nAbajo, nDerecha, nWitdh, nRed, nGreen, nBlue ) CLASS TUtilPDF
+
+   DEFAULT nRed TO 0 , nGreen TO 0 , nBlue TO 0
+
+   ::oPrinter:GSave()
+   if !empty( nWitdh )
+      ::oPrinter:SetLineWidth( nWitdh )
+   endif
+
+   ::oPrinter:SetRGBStroke( nRed, nGreen, nBlue)
+   ::oPrinter:SetRgbFill( 0 , 1, 0  )  // QUITAR : Pruebas
+
+
+   ::oPrinter:Rectangle( nArriba, nIzq, nAbajo, nDerecha )
+
+   //HPDF_Page_Stroke( ::Page_Active )                     // Pinta el borde
+   //HPDF_Page_Fill( ::Page_Active )                       // Pinta el contenido
+   HPDF_Page_FillStroke( ::oPrinter:Page_Active )          // Pinta borde y contenido
+
+   ::oPrinter:GRestore()
+
+Return nil
