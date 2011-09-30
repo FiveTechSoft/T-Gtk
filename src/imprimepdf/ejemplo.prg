@@ -4,6 +4,12 @@
 #include "common.ch"
 
 PROCEDURE Main(  )
+
+   EjemploFacturaPdf()
+
+RETURN
+
+Function EjemploRaw()
    Local oHairu, nLinea, samp_text, i, oFact
    LOCAL font_list  := { ;
                         "Courier",                  ;
@@ -22,9 +28,7 @@ PROCEDURE Main(  )
                         "ZapfDingbats"              ;
                       }
 
-   EjemploFacturaPdf()
-/*
-   oHairu := TIMPRIMEPDFPdf():New()                                  // Creamos documento
+   oHairu := TIMPRIMEPDf():New()                                  // Creamos documento
 
    oHairu:PageSetSize( HPDF_PAGE_SIZE_A4, HPDF_PAGE_LANDSCAPE ) // Page format
 
@@ -38,6 +42,7 @@ PROCEDURE Main(  )
 
    nLinea += 1
    oHairu:SetFont( font_list[5], 24 )
+
    oHairu:CMSAY( nLinea, 1, "(c)2011 by Rafa Carmona" )
 
    //Second Page
@@ -58,16 +63,14 @@ PROCEDURE Main(  )
    NEXT
    oHairu:End( "test.pdf", .t. )
 
-*/
-
-RETURN
+Return nil
 
 Function EjemploFacturaPdf()
    Local oFact
 
    oFact := TFacturaPDF():New( "factura.pdf" )
    oFact:Print()
-   oFact:End( )
+   oFact:End( .T. )
 
 
 return nil
@@ -80,12 +83,11 @@ return nil
          =>;
          [ <oUtil> := ] TUtilPdf():New( <oPrinter>,<oBrush>,<oPen> )
 
-// TODO: Deberiamos poner establecer un color de una manera mas sencilla
 #xcommand UTILPDF <oUtil> ;
           [ <nRow>,<nCol> SAY <cText> ];
           [ FONT <cFont> ] [SIZE <nSize> ];
+          [ COLOR RGB <nRed>,<nGreen>,<nBlue> ];
           [ ROTATE <nAngle>];
-          [ COLOR [ RED <nRed>] [GREEN <nGreen>] [BLUE <nBlue>] ];
          =>;
            <oUtil>:Text( <cText>,<nRow>,<nCol>,<cFont>,<nSize>, <nRed>,<nGreen>,<nBlue>, <nAngle>)
 
@@ -93,12 +95,12 @@ return nil
          =>;
            ::Separator( <nSpace> , <.lBody.>)
 
-//TODO: BRUSH, PEN, ROUND
 #xcommand UTILPDF <oUtil> ;
           BOX <nX>,<nY> TO <nX2>,<nY2> ;
-          [ BORDE [ SIZE <nWitdh>] [ COLOR [ RED <nRed>] [GREEN <nGreen>] [BLUE <nBlue>] ] ];
+          [  <lStroke: STROKE> [ SIZE <nWitdh>] [ COLOR <nRed>,<nGreen>,<nBlue> ] ];
+          [  <lFill: FILLRGB> <nRed2>,<nGreen2>,<nBlue2>  ];
          =>;
-           <oUtil>:Box( <nX>,<nY>,<nX2>,<nY2>,<nWitdh>,<nRed>,<nGreen>,<nBlue> )
+           <oUtil>:Box( <nX>,<nY>,<nX2>,<nY2>,<nWitdh>,<.lStroke.>,<nRed>,<nGreen>,<nBlue>,<.lFill.>,<nRed2>,<nGreen2>,<nBlue2> )
 
 /*
  Ejemplo de impresion de una factura.
@@ -113,6 +115,7 @@ CLASS TFacturaPDF FROM TIMPRIMEPDF
       METHOD Separator( nSpace, lBody )
       METHOD Headers()
       METHOD Footers() VIRTUAL
+      METHOD UnaMas()
 
 ENDCLASS
 
@@ -122,24 +125,47 @@ METHOD Print() CLASS TFacturaPDF
        ::Body()
        ::Footers()
 
-       ::AddPage()
+       ::UnaMas()
 
-       UTILPDF ::oUtil 1, 1 SAY  "Que grande que vinistes..."
+
+RETURN NIL
+
+METHOD UnaMas() CLASS TFacturaPDF
+
+       ::AddPage()
+       ::SetLandScape() 
+       UTILPDF ::oUtil 1, 1 SAY  "IMPRIMEPDF Que grande que vinistes..." FONT ::aFonts[4] SIZE 34 COLOR RGB 1,0.25,.5
 
 RETURN NIL
 
 METHOD Headers() CLASS TFacturaPDF
 
+       UTILPDF ::oUtil BOX 1,10 TO 6, 20
+       UTILPDF ::oUtil 1.5, 11 SAY  "Nombre:"    ;  UTILPDF ::oUtil 1.5, 15 SAY  "El primer cliente" FONT ::aFonts[2] SIZE 10
+       UTILPDF ::oUtil 2.5, 11 SAY  "Dirección:" ;  UTILPDF ::oUtil 2.5, 15 SAY  "No Importa"        FONT ::aFonts[2] SIZE 10
+       UTILPDF ::oUtil 3.5, 11 SAY  "Provincia:" ;  UTILPDF ::oUtil 3.5, 15 SAY  "Barcelona"         FONT ::aFonts[2] SIZE 10
+       UTILPDF ::oUtil 4.5, 11 SAY  "Ciudad:"    ;  UTILPDF ::oUtil 4.5, 15 SAY  "Bigues i Riells"   FONT ::aFonts[2] SIZE 10
+       UTILPDF ::oUtil 5.5, 11 SAY  "Pais:"      ;  UTILPDF ::oUtil 5.5, 15 SAY  "El mundo mundial"  FONT ::aFonts[2] SIZE 10
+
+       
 
        UTILPDF ::oUtil ;
-               BOX 3,0.75 TO 4, 4.25 ;
-               BORDE SIZE 2 COLOR BLUE 1
+               BOX 7,0.75 TO 8, 4.25 ;
+               STROKE SIZE 2 COLOR 0,0,1 ;
+               FILLRGB 0,0.85,0
 
-       UTILPDF ::oUtil 3.5, 1 SAY  "Numero Albaran"
+       UTILPDF ::oUtil 7.75, 1 SAY  "Numero Albaran"
 
-//       ::Rectangle( 3, 4.25, 15, 4 )
-        UTILPDF ::oUtil BOX 3, 4.25 TO 4, 15
-        UTILPDF ::oUtil 3.5, 5 SAY  "Concepto" FONT ::aFonts[2] SIZE 15
+       UTILPDF ::oUtil BOX 7, 4.25 TO 8, 15 ;
+                STROKE SIZE 2 ;
+                FILLRGB 0.5,.8,.8
+       UTILPDF ::oUtil 7.75, 6.5 SAY  "Concepto" FONT ::aFonts[2] SIZE 15
+
+       UTILPDF ::oUtil BOX 7, 15.1 TO 8, 21 ;
+                STROKE SIZE 5 COLOR 0,.8,1;
+
+       UTILPDF ::oUtil 7.75, 17 SAY  "Tiempo" FONT "Times-BoldItalic" SIZE 14 COLOR RGB 1,0,0
+
 
 RETURN NIL
 
@@ -147,7 +173,7 @@ METHOD Body() CLASS TFacturaPDF
       Local X, nValue := 10
       Local nRandom
 
-      ::nLinea := 5                      // En cuerpo empieza en los 5 cms
+      ::nLinea := 9                      // En cuerpo empieza en los 9 cms
 
       for x := 1 to 40
 
@@ -159,8 +185,12 @@ METHOD Body() CLASS TFacturaPDF
           endif
           nRandom := int( HB_Random(1,14) )
           UTILPDF ::oUtil Self:nLinea, 4.35 SAY  "Conceptos:"+ Alltrim( Str( ::nLinea ) ) FONT ::aFonts[nRandom] SIZE nValue
+
+          UTILPDF ::oUtil Self:nLinea, 17.2 SAY Time() FONT ::aFonts[4] SIZE 12
+
           ISEPARATOR
-      Next
+
+      next
 
 
 RETURN Nil
@@ -171,7 +201,7 @@ METHOD Separator( nSpace, lBody ) CLASS TFacturaPDF
 
    IF ::nLinea >= ::nEndBody
       ::Eject()
-      ::nLinea := 5   // En cuerpo empieza en los 5 cms
+      ::nLinea := 9   // En cuerpo empieza en los 5 cms
       ::Headers()
       ::Footers()
    ELSEIF Super:Separator( nSpace )
@@ -227,6 +257,9 @@ CLASS TIMPRIMEPDF
     METHOD SetRgbStroke( nRed, nGreen, nBlue ) INLINE HPDF_Page_SetRGBStroke( ::page_active, nRed, nGreen, nBlue)
     METHOD SetRgbFill( nRed, nGreen, nBlue  )  INLINE HPDF_Page_SetRGBFill( ::Page_Active, nRed, nGreen, nBlue) // 0 ... 1
     METHOD PageFill()                          INLINE HPDF_Page_Fill( ::Page_Active )
+    METHOD PageFillStroke()                    INLINE HPDF_Page_FillStroke( ::Page_Active ) 
+    METHOD PageStroke()                        INLINE HPDF_Page_Stroke( ::Page_Active )
+
 
     METHOD Separator( nJump )
     METHOD CompLinea( nSuma )
@@ -307,7 +340,7 @@ METHOD CMSAY( nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle
    Local uSize := ::GetFontSize()
    Local nRad1
 
-   DEFAULT nRed TO 0 , nGreen TO 0 , nBlue TO 0
+   DEFAULT nRed TO 0 , nGreen TO 0 , nBlue TO 0 
    ::GSave()
    HPDF_Page_BeginText( ::Page_Active )
 
@@ -330,7 +363,6 @@ METHOD CMSAY( nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle
 
 RETURN NIL
 
-//HPDF_Page_Rectangle( hPage, nX, nY, nWidth, nHeight )
 METHOD Rectangle( nTop, nLeft, nBottom, nRight ) CLASS TIMPRIMEPDF
    Local rect := Array( 4 )
    #define rLEFT   1
@@ -473,26 +505,23 @@ METHOD Text( cText,nRow,nCol, cFont, nSize, nRed,nGreen,nBlue,  nAngle ) CLASS T
 
 Return Nil
 
-// TODO: Colores de Border
-//       Colores de Relleno
-METHOD Box( nArriba, nIzq, nAbajo, nDerecha, nWitdh, nRed, nGreen, nBlue ) CLASS TUtilPDF
+METHOD Box( nArriba, nIzq, nAbajo, nDerecha, nWitdh, lStroke, nRed, nGreen, nBlue, lFill, nRed2, nGreen2, nBlue2 ) CLASS TUtilPDF
 
-   DEFAULT nRed TO 0 , nGreen TO 0 , nBlue TO 0
-
+   DEFAULT nRed  TO 0 , nGreen  TO 0 , nBlue  TO 0,;
+           nRed2 TO 1 , nGreen2 TO 1 , nBlue2 TO 1
+   
+  
    ::oPrinter:GSave()
    if !empty( nWitdh )
       ::oPrinter:SetLineWidth( nWitdh )
    endif
 
-   ::oPrinter:SetRGBStroke( nRed, nGreen, nBlue)
-   ::oPrinter:SetRgbFill( 0 , 1, 0  )  // QUITAR : Pruebas
-
+   ::oPrinter:SetRGBStroke( nRed, nGreen, nBlue )
+   ::oPrinter:SetRgbFill( nRed2 , nGreen2, nBlue2  )  
 
    ::oPrinter:Rectangle( nArriba, nIzq, nAbajo, nDerecha )
 
-   //HPDF_Page_Stroke( ::Page_Active )                     // Pinta el borde
-   //HPDF_Page_Fill( ::Page_Active )                       // Pinta el contenido
-   HPDF_Page_FillStroke( ::oPrinter:Page_Active )          // Pinta borde y contenido
+   ::oPrinter:PageFillStroke( ) // Pinta borde y contenido
 
    ::oPrinter:GRestore()
 
