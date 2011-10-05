@@ -140,6 +140,10 @@ RETURN NIL
 
 METHOD Headers() CLASS TFacturaPDF
 
+        // Poner una imagen. OJO JPEG o PNG, algunos pngs parecen no funcionar.                
+//       ::oUtil:SayBitmap( 0, 0, cImagePath+"gmoork.jpeg" )
+//       ::oUtil:SayBitmap( 3, 2, cImagePath+"basn2c16.png" )
+
        UTILPDF ::oUtil BOX 1,10 TO 6, 20
        UTILPDF ::oUtil 1.5, 11 SAY  "Nombre:"    ;  UTILPDF ::oUtil 1.5, 15 SAY  "El primer cliente" FONT ::aFonts[2] SIZE 10
        UTILPDF ::oUtil 2.5, 11 SAY  "Dirección:" ;  UTILPDF ::oUtil 2.5, 15 SAY  "No Importa"        FONT ::aFonts[2] SIZE 10
@@ -175,7 +179,7 @@ METHOD Body() CLASS TFacturaPDF
 
       ::nLinea := 9                      // En cuerpo empieza en los 9 cms
 
-      for x := 1 to 40
+      for x := 1 to 2
 
           UTILPDF ::oUtil Self:nLinea, 1.5 SAY "1233231" FONT ::aFonts[3] SIZE 10
           if mod( nValue, 2 ) = 0
@@ -279,6 +283,11 @@ CLASS TIMPRIMEPDF
     METHOD GSave()    INLINE  HPDF_Page_GSave( ::Page_Active )      /* Save the current graphic state */
     METHOD GRestore() INLINE  HPDF_Page_GRestore( ::Page_Active )   /* Restore graphic state */
 
+    METHOD LoadImagePng( cFileImage ) INLINE HPDF_LoadPngImageFromFile( ::pPdf, cFileImage )
+    METHOD LoadImageJpg( cFileImage ) INLINE HPDF_LoadJpegImageFromFile( ::pPdf, cFileImage )   
+    METHOD ImageGetWidth( pImage )  INLINE HPDF_Image_GetWidth( pImage )
+    METHOD ImageGetHeight( pImage ) INLINE HPDF_Image_GetHeight( pImage )
+    METHOD DrawImage( pImage, x, y, nWidth, nHeight )  
 
 
 END CLASS
@@ -363,6 +372,7 @@ METHOD CMSAY( nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle
 
 RETURN NIL
 
+*******************************************************************************
 METHOD Rectangle( nTop, nLeft, nBottom, nRight ) CLASS TIMPRIMEPDF
    Local rect := Array( 4 )
    #define rLEFT   1
@@ -380,6 +390,32 @@ METHOD Rectangle( nTop, nLeft, nBottom, nRight ) CLASS TIMPRIMEPDF
                                        rect[ rTOP ] - rect[ rBOTTOM ] )
 
 RETURN NIL
+
+*******************************************************************************
+METHOD DrawImage( pImage, x, y, nWidth, nHeight )  CLASS TIMPRIMEPDF
+
+   x := ::GetPageHeight() - ::CMS2POINTS( x )
+   y := ::CMS2POINTS( y )
+   
+   if empty( nWidth )
+      nWidth := ::ImageGetWidth( pImage ) 
+   else
+      nWidth := ::CMS2POINTS( nWidth )
+   endif
+
+   if empty( nHeight )
+      nHeight := ::ImageGetHeight( pImage )
+   else
+      nHeight := ::CMS2POINTS( nHeight  )
+   endif 
+
+   //Nota: Restamos la mitad del alto para obtener la posicion real de X 
+   x -= nHeight 
+
+   HPDF_Page_DrawImage( ::Page_Active, pImage, y, x, nWidth, nHeight )
+
+RETURN NIL
+
 *******************************************************************************
 METHOD SetFont( cFontName, nSize, cEncoding  ) CLASS TIMPRIMEPDF
 
@@ -461,13 +497,15 @@ METHOD PageCount( )  CLASS TIMPRIMEPDF
 
 Return NIl
 
+******************************************************************************
+******************************************************************************
 METHOD __Eject() CLASS TIMPRIMEPDF
      ::AddPage()
 RETURN NIL
 
 
- ******************************************************************************
- ******************************************************************************
+******************************************************************************
+******************************************************************************
 CLASS TUtilPdf
 
       DATA oPrinter  // Objeto Hairu en el que trabajar
@@ -486,6 +524,7 @@ CLASS TUtilPdf
       METHOD New( oPrinter ) CONSTRUCTOR
       METHOD Text()
       METHOD Box( nArriba, nIzq, nAbajo, nDerecha , oBrush, oPen, lRound, nZ, nZ2 )
+      METHOD SayBitmap( cFileImage, x, y, nWidth, nHeight ) 
 
 END CLASS
 
@@ -526,3 +565,18 @@ METHOD Box( nArriba, nIzq, nAbajo, nDerecha, nWitdh, lStroke, nRed, nGreen, nBlu
    ::oPrinter:GRestore()
 
 Return nil
+
+METHOD SayBitmap( x, y, cFileImage, nWidth, nHeight ) CLASS TUtilPDF
+   Local pImage
+
+    if "png" $ cFileImage
+      pImage := ::oPrinter:LoadImagePng( cFileImage )  
+    else
+      pImage := ::oPrinter:LoadImageJpg( cFileImage )  
+    endif
+
+   if !empty( pImage )
+       ::oPrinter:DrawImage( pImage, x, y, nWidth, nHeight )
+   endif
+
+RETURN NIL
