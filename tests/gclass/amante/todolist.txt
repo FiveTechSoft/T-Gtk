@@ -1,0 +1,55 @@
+Ultimo apunte :03/06/2010
+
+TODO LIST: HELPDESK
+
+Para hacerlo GENERICO a todo comercio, quitar
+
+REVISION : a NIVEL BD , codigo y glade
+Cambiar TODA referencia de HOTEL a Establecimiento ( SQL y PRG Listo )
+
+
++ Mantenimiento especial en cual gira todo, INCIDENCIAS 
+  + [OK] VISTA PRINCIPAL
+
+EN PROGRESO
+
+  Siguientes pasos: 
+  1) En esta revision, tendrá que guardar los datos básicos que vemos en pantalla.
+  2) Lo primero que vamos a hacer es la edicion de las incidencias, ahora que tenemos una base de mantenimientos.
+  3) Despues, poco a poco, iremos poniendo conexion, maquinas, programas, etc..
+  4) La gestión del usuario hay que pensar como realizarla. 
+
+
+  + Implementar integridad referencia a traves de INNODB.
+       + [OK] No se puede borrar una cadena si esta definida en un hotel. 
+       + [OK] No se puede borrar una hotel si esta en una incidencia. 
+       + [OK] No se puede borrar un status si esta en una incidencia
+       + [OK] No se puede borrar un departamento si esta en una incidencia
+
+
++ Mantenimientos básicos, esqueleto común a todos;
+   + [OK] HOTELES ( BASICO PERFECTO ) Falta limite de texto 
+   + [OK] STATUS                      Falta limite de texto 
+   + [OK] CADENA                      Falta limite de texto 
+   + [OK] DEPARTAMENTOS               Falta limite de texto 
+   + [OK] TIPOS CONEXION              Falta limite de texto 
+   + [OK] CATEGORIAS                  Falta limite de texto 
+
+   TODO: Por hacer  
+   + PRIORIDADES
+   + CONEXION
+   + MAQUINA
+   + PROGRAMAS
+   + CONTACTOS
+   + USUARIOS
+   + GRUPOS
+   
+ 
++ USUARIOS: Crear un MENU / Barra por el cual el usuario puede acceder.
++ Auditoria de TODO lo que se hace referente a una incidencia, notas, cambios de estado, de prioridad, de cualquier cambio
+  de la incidencia que sea diferente a lo que hay ahora.
+
++ Relaciones entre tablas;
+  + rel_maquina_programas
+  + usuarios_grupo
+      

@@ -1,0 +1,21 @@
+CREATE TABLE `incidencias` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID de la incidencia',
+  `id_departamento` smallint(5) unsigned NOT NULL COMMENT 'De que departamento',
+  `asunto` varchar(100) COLLATE utf8_spanish_ci NOT NULL COMMENT 'Texto que infome de la incidencia rapidamente',
+  `id_hotel` int(10) unsigned NOT NULL COMMENT 'De que hotel es la incidencia',
+  `id_status` smallint(5) unsigned NOT NULL COMMENT 'En que estado se encuentra la incidencia',
+  `id_prioridad` tinyint(3) unsigned NOT NULL COMMENT 'Establece prioridad ',
+  `id_usuario` int(10) unsigned NOT NULL COMMENT 'Quien abre la incidencia',
+  `id_user_asignado` int(10) unsigned NOT NULL COMMENT 'Quien esta llevando la incidencia actualmente.',
+  `fecha` datetime NOT NULL COMMENT 'Fecha de la incidencia.',
+  `fecha_cierre` datetime NOT NULL COMMENT 'Cuando se cerró la incidencia.',
+  PRIMARY KEY (`id`),
+  KEY `hotel` (`id_hotel`),
+  KEY `status` (`id_status`),
+  KEY `prioridad` (`id_prioridad`),
+  KEY `departamento` (`id_departamento`),
+  CONSTRAINT `fk_departamentos_incidencias` FOREIGN KEY (`id_departamento`) REFERENCES `departamentos` (`id`),
+  CONSTRAINT `fk_hotel_incidencia` FOREIGN KEY (`id_hotel`) REFERENCES `hoteles` (`id`),
+  CONSTRAINT `fk_prioridad_incidencias` FOREIGN KEY (`id_prioridad`) REFERENCES `prioridad` (`id`),
+  CONSTRAINT `fk_status_incidencias` FOREIGN KEY (`id_status`) REFERENCES `status` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='incidencias '
