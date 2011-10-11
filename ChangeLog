@@ -8,6 +8,43 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-10-10 22:46 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * Rules.make
+  + tests/gclass/hbnetio
+    Se incorpora ejemplo de harbour (cliente netio).
+
+
+2011-09-16 19:28 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * config/gensetenv.mk
+  * config/xharbour.mk
+  * config/global.mk
+  * Rules.make
+    Modificacion para evitar declaracion de parametros no validos
+    al compilar.
+    Se incluye posibilidad de colocar switch -kM de Harbour
+    variable HB_MACROTEXT_SUBS
+    -kM - turn off macrotext substitution
+
+  * config/habour.mk
+  * Rules.make
+    Incluida directiva HB_LEGACY_TYPES_ON para compatibilidad con 
+    Harbour 3.1
+    
+  * src/pgsql/Makefile
+    Correccion menor. 
+
+  * hbgtk/events.c
+  * hbgtk/events.h
+  + hbgtk/events_hb_signal_connect.h
+  + hbgtk/events_xhb_signal_connect.h
+    Modificacion para permitir compilar y ejecutar con xHarbour
+    Se mueve HARB_SIGNAL_CONNECT a los archivos .h
+    TODO. Revisar los [x]hb_signal_connect.h para crear funcion
+    compatible con Harbour y xHarbour
+    Se incluye condicion en events.h para evitar declaracion de tipos
+    no usados.
+
+
 2011-05-31 01:30 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * install.sh
   * config/harbour.mk
