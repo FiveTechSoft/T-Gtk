@@ -43,7 +43,7 @@ HB_FUNC( GLADE_XML_NEW ) //fname,root,domain
   {
      GtkBuilder  * pBuilder =  _gtk_builder_new();
      const char * filename = hb_parc( 1 );
-     if( _gtk_builder_add_from_file( pBuilder, ( const gchar *) filename ) )
+     if( _gtk_builder_add_from_file( pBuilder, ( const gchar *) filename )  == 0)
         hb_retptr( pBuilder );
      
   }else
