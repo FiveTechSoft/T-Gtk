@@ -43,8 +43,11 @@ HB_FUNC( GLADE_XML_NEW ) //fname,root,domain
   {
      GtkBuilder  * pBuilder =  _gtk_builder_new();
      const char * filename = hb_parc( 1 );
-     if( _gtk_builder_add_from_file( pBuilder, ( const gchar *) filename )  == 0)
+     if( _gtk_builder_add_from_file( pBuilder, ( const gchar *) filename ) ){
         hb_retptr( pBuilder );
+     } else {
+	g_print( "Carga de gtkbuilder no es correcta\n");
+     }
      
   }else
   {
@@ -73,13 +76,14 @@ HB_FUNC( GLADE_XML_GET_WIDGET )
   if( GetGtkBuilderSts() )
   {
      widget = _gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) );  
-  }else
+     hb_retptr( widget );
+}else
   {
      widget = glade_xml_get_widget( (GladeXML *) hb_parptr( 1 ), (gchar *) hb_parc( 2 ) );
-  }
+    hb_retptr( ( GtkWidget * ) widget );
+}
   
-  hb_retptr( ( GtkWidget * ) widget );
-
+  
 }
 
 HB_FUNC( GLADE_GET_WIDGET_NAME )
