@@ -85,7 +85,7 @@ ifeq ($(HB_MAKE_PLAT),win)
     export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbrtl -lhblang -lhbrdd -lhbmacro -lhbpp -lhbxpp \
                  -lhbsix -lhbdebug -lhbcommon -lrddntx -lrddfpt -lrddcdx \
                  -lhbsix -lxhb -lhbpp -lhbcpage -lhbwin -lhbpcre \
-                 -lhbnetio $(HB_GT_LIBS)
+                 -lhbzlib -lhbnetio $(HB_GT_LIBS)
   endif
 
 # GNU/Linux:
