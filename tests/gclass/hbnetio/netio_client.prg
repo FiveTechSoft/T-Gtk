@@ -48,7 +48,7 @@
 /* address of computer executing netiosrv,
  * change it if it's not the same machine
  */
-#define NETSERVER  "riztan.dyndns.org" //"190.202.185.229" //"riztan.dyndns.org" //"127.0.0.1"
+#define NETSERVER  "127.0.0.1" 
 #define NETPORT    2941
 #define NETPASSWD  "topsecret"
 
@@ -56,7 +56,7 @@ memvar oFixed
 
 proc main()
 
-   LOCAL oWnd //,oFixed
+   LOCAL oWnd
 
    SET DATE ANSI
    SET CENTURY ON
@@ -87,7 +87,16 @@ proc main()
 return
 
 
-proc Connect()
+function Connect()
+
+   Local lConnect:=.f.
+
+   lConnect := netio_connect( NETSERVER, NETPORT,, NETPASSWD )
+
+   If !lConnect
+      MsgAlert("No logro conectar con "+NETSERVER)
+      Return lConnect
+   EndIf
 
    //? "NETIO_CONNECT():", netio_connect( NETSERVER, NETPORT,, NETPASSWD )
    DEFINE LABEL POS 280,50 ;
@@ -137,4 +146,4 @@ proc Connect()
    DEFINE LABEL POS 40,210 ;
           TEXT "NETIO_DISCONNECT(): "+CStr(netio_disconnect( NETSERVER, NETPORT) ) OF oFixed
 
-return
+return .t.
