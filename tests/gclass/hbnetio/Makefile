@@ -6,16 +6,6 @@ ROOT = ../../../
 
 TARGET = client
 SOURCES = netio_client.prg 
-#hbnetio.prg
-
-#PRGFLAGS=-I$(ROOT)include
-ifeq ( $(HB_PLAT),win )
-   LIBFILES_=-lhbnetio 
-#-lws2_32
-else
-   LIBFILES_=-lhbnetio 
-#-lhbrtl -lwininet -lwsock32 
-endif
 
 include $(ROOT)Rules.make
 

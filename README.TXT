@@ -1,8 +1,8 @@
-Please CREATE or MODIFY file setenv.mk, with paths corrects.
+Please create or edit the file setenv.mk with the correct paths.
 
-Execute tool make. 
-Please , under Windows, modify file Makefile, change make by mingw32-make.
+Please, on Windows, modify file Makefile, change make by mingw32-make.
 
+Run the tool make. 
 
 *******************************************************************************
                            Uso del CVS. / Using CVS

@@ -16,6 +16,7 @@ Function Hola( uPar1 )
   Local lEstado := .T., x, y , oLabel, oExpander, oBoxV_E
   Local oEntry, cEntry := SPACE( 10 )
   Local oSpin, nSpin := 10
+  LOCAL cPrueba := "DTOS(DATE())"
 
   DEFAULT uPar1 := ""
 
@@ -24,7 +25,7 @@ Function Hola( uPar1 )
                 HB_OSNEWLINE()+;
                 '<span foreground="red" size="23000"><b><i>T-Gtk power!!</i></b> </span>' +;
                 HB_OSNEWLINE()+;
-                'Parametro pasado al Script: <b>'+uPar1+'</b>.'
+                'Parametro pasado al Script: <b>'+uPar1+'</b>. &cPrueba'
 
   cTextExpand := '<span foreground="yellow" size="large"><b>Esto es <span foreground="cyan"'+;
                 ' size="xx-large" ><i>EXPAND</i></span></b>!!!!</span>'

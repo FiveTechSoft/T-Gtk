@@ -5,6 +5,7 @@
 */
 #include "gclass.ch"
 
+
 Function Main()
    Local oWnd, oBox,oBtn,oBoxV, oFont, oAccel, oBtn2, oBtn_Gordo
    Local aStyleChild := { { "yellow", FGCOLOR  , STATE_NORMAL },;

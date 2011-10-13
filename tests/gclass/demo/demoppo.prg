@@ -16,13 +16,17 @@ Function Main( )
   Local lEstado := .T., x, y , oLabel, oExpander, oBoxV_E
   Local oEntry, cEntry := SPACE( 10 )
   Local oSpin, nSpin := 10
+  Local cPrueba := "DTOC(date())"
 
   cTextLabel := '<span foreground="blue" size="large"><b>Esto es <span foreground="yellow"'+;
                 ' size="xx-large" background="black" ><i>fabuloso</i></span></b>!!!!</span>'+;
                 HB_OSNEWLINE()+;
                 '<span foreground="red" size="23000"><b><i>T-Gtk power!!</i></b> </span>' +;
                 HB_OSNEWLINE()+;
-                'Usando un lenguaje de <b>marcas</b> para mostrar textos'
+                'Usandome un lenguaje de <b>marcas</b> para mostrar textos '
+
+  @10,10 SAY "Prueba &cPrueba"
+  inkey(0)
 
   cTextExpand := '<span foreground="yellow" size="large"><b>Esto es <span foreground="cyan"'+;
                 ' size="xx-large" ><i>EXPAND</i></span></b>!!!!</span>'
