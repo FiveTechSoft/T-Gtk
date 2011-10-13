@@ -16,23 +16,19 @@ Function Main( )
   Local lEstado := .T., x, y , oLabel, oExpander, oBoxV_E
   Local oEntry, cEntry := SPACE( 10 )
   Local oSpin, nSpin := 10
-  Local cPrueba := "DTOC(date())"
 
   cTextLabel := '<span foreground="blue" size="large"><b>Esto es <span foreground="yellow"'+;
                 ' size="xx-large" background="black" ><i>fabuloso</i></span></b>!!!!</span>'+;
                 HB_OSNEWLINE()+;
                 '<span foreground="red" size="23000"><b><i>T-Gtk power!!</i></b> </span>' +;
                 HB_OSNEWLINE()+;
-                'Usandome un lenguaje de <b>marcas</b> para mostrar textos '
-
-  @10,10 SAY "Prueba &cPrueba"
-  inkey(0)
+                'Usando un lenguaje de <b>marcas</b> para mostrar textos'
 
   cTextExpand := '<span foreground="yellow" size="large"><b>Esto es <span foreground="cyan"'+;
                 ' size="xx-large" ><i>EXPAND</i></span></b>!!!!</span>'
 
-  DEFINE FONT oFont NAME "Tahoma 18"   
-  
+  DEFINE FONT oFont NAME "Tahoma 18"  
+ 
   DEFINE WINDOW oWindow TITLE "GUI T-Gtk for Harbour by Rafa Carmona"
        oWindow:SetMenuPopup( MenuPopup() )
 
@@ -63,7 +59,7 @@ Function Main( )
                       BAR oBar MSG "Texto del Button 1"
                       /* Asignamos un Tooltip al Boton */
                       DEFINE TOOLTIP ;
-                            WIDGET oBtn1 TEXT "Soporte de ToolTips" +CRLF+"Tambien soporta multilinea..." 
+                            WIDGET oBtn1 TEXT "Soporte de ToolTips" +CRLF+"Tambien soporta multilinea..."
 
                DEFINE TOGGLE oToggle TEXT "_Comnutador" OF oBoxV ;
                       MNEMONIC ;
@@ -84,20 +80,20 @@ Function Main( )
                
                DEFINE ENTRY oEntry;
                       VAR cEntry ;
-                      OF oBoxV 
+                      OF oBoxV
 
                oEntry:SetMsg( "Entry tiene tambien", oBar )      
                
                DEFINE SPIN oSpin;
                       VAR nSpin ;
-                      OF oBoxV 
+                      OF oBoxV
                
                    DEFINE MESSAGE "Spin tiene tambien" BAR oBar OF oSpin
 
                 DEFINE BOX oBoxV2 VERTICAL OF oBoxH
                       DEFINE IMAGE oImage FILE "../../images/nena.jpg" OF oBoxv2 EXPAND FILL
                       DEFINE EXPANDER oExpander  PROMPT cTextExpand MARKUP OF oBoxV  EXPAND FILL
-                             DEFINE TOOLTIP WIDGET oExpander TEXT "Expande y veras mas cosas ;-)" 
+                             DEFINE TOOLTIP WIDGET oExpander TEXT "Expande y veras mas cosas ;-)"
                
                       oExpander:SetMsg( "Expander.... tiene tambien", oBar )      
 
@@ -109,7 +105,7 @@ Function Main( )
                              Browse( oBoxV_E )
 
 
-	ACTIVATE WINDOW oWindow CENTER
+        ACTIVATE WINDOW oWindow CENTER
 
 return NIL
 
@@ -131,7 +127,7 @@ RETURN NIL
 //--- Funciones para el calendario ------------//
 Static Function EstadoCom( o )
 
-	? "Pues ahora estoy.." , o:GetActive()
+        ? "Pues ahora estoy.." , o:GetActive()
 
 return nil
 
@@ -149,7 +145,7 @@ return nil
 
 static function MYENTER( Self )
    ::SetLabel( "Estoy en el botón" )
-	 ? "El Texto es: " + ::GetLabel()
+         ? "El Texto es: " + ::GetLabel()
 Return nil
 
 
@@ -167,7 +163,7 @@ FUNCTION Create_Menus( oBoxMenu )
     Local oMenuBar, oMenu, oMenuitem, oSubMenu, oMenuItem2, Tearoff
     Local oImage, oFont, oMi,oMiMenu
 
-    DEFINE FONT oFont NAME "Arial 12" 
+    DEFINE FONT oFont NAME "Arial 12"
 
     DEFINE IMAGE oImage FILE "../../images/gnome-logo.png"
 
@@ -301,7 +297,7 @@ Function Browse( oWidget )
           SORT ;
           WIDTH 100 OF oTreeView
    oCol:SetResizable( .T. )
-   oCol:SetClickable( .T. )           
+   oCol:SetClickable( .T. )          
    
 /* Columna tipo 'checkbox' */
    DEFINE TREEVIEWCOLUMN COLUMN 5 TITLE "Check" TYPE "active" OF oTreeView
@@ -311,15 +307,16 @@ return NIL
 STATIC FUNCTION MenuPopup()
     Local oMenu, oMenuItem, oImage, oSubMenu, oMenuItem2, oMi, oMiMenu
 
-    DEFINE MENU oMenu 
+    DEFINE MENU oMenu
         MENUITEM oMenuItem2 TITLE "Un Item"  OF oMenu
         SUBMENU oSubMenu OF oMenuItem2
             MENUITEM oMi TITLE "Item 1.1" OF oSubMenu
              SUBMENU oMiMenu OF oMi
-                MENUITEM oMi TITLE "Item 1.1.1" OF oMiMenu 
-                MENU SEPARATOR OF oSubMenu 
+                MENUITEM oMi TITLE "Item 1.1.1" OF oMiMenu
+                MENU SEPARATOR OF oSubMenu
                 MENUITEM TITLE "Item 1.2" OF oSubMenu
                 MENUITEM TITLE "Item 2" OF oMenu
                 MENUITEM TITLE "Action" ACTION MsgInfo( "ACTION!!" ) OF oMenu
 
 RETURN oMenu
+
