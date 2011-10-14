@@ -8,6 +8,15 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-10-13 21:32 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * include/tgtkext.ch
+  * tests/gclass/xbscript/hbscript.prg
+  - tests/gclass/xbscript/hola.prg
+  + tests/gclass/xbscript/demoppo.xbs
+  + tests/gclass/xbscript/netio_client.xbs
+    Agregado ejemplo de script con NetIO
+
+
 2011-10-10 22:46 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * Rules.make
   + tests/gclass/hbnetio
