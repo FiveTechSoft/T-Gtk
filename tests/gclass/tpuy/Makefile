@@ -19,11 +19,11 @@ SOURCES  = main.prg        \
            xml.prg 
 
 
-LIBS =-ltdolphin -lhbct -lmysqlclient
+LIBS =-ltdolphin -lhbct 
 
 ifeq ($(HB_MAKE_PLAT),win)
 #   LIBS    =-lhbcplr -lhbpp -lhbcommon -lhbnetio -lhbrtl -lwininet -lwsock32 -lws2_32
-#    LIBS +=-lhbtip -ltdolphin
+    LIBS +=-lhbcplr -lhbtip
 else
    LIBS +=-lmysqlclient
 endif
