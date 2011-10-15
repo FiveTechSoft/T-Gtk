@@ -22,8 +22,7 @@ SOURCES  = main.prg        \
 LIBS =-ltdolphin -lhbct 
 
 ifeq ($(HB_MAKE_PLAT),win)
-#   LIBS    =-lhbcplr -lhbpp -lhbcommon -lhbnetio -lhbrtl -lwininet -lwsock32 -lws2_32
-    LIBS +=-lhbcplr -lhbtip
+   LIBS  +=-lhbcplr -lhbpp -lhbcommon -lhbnetio -lhbrtl -lhbtip
 else
    LIBS +=-lmysqlclient
 endif
@@ -36,9 +35,6 @@ ifeq ($(XBASE_COMPILER),HARBOUR)
 endif
 
 PRGFLAGS=-I./include 
-
-
-
 
 include $(ROOT)Rules.make
 
