@@ -1,0 +1,83 @@
+#include "gclass.ch"
+
+PROCEDURE MSExcel()
+   LOCAL oExcel, oWorkBook, oWorkSheet, oAS
+   LOCAL nI, nCount
+
+   IF ( oExcel := win_oleCreateObject( "Excel.Application" ) ) != NIL
+
+      oWorkBook := oExcel:WorkBooks:Add()
+
+      // Enumerator test
+      FOR EACH oWorkSheet IN oWorkBook:WorkSheets
+         ? oWorkSheet:Name
+      NEXT
+
+      // oWorkBook:WorkSheets is a collection
+      nCount := oWorkBook:WorkSheets:Count()
+
+      // Elements of collection can be accessed using :Item() method
+      FOR nI := 1 TO nCount
+         ? oWorkBook:WorkSheets:Item( nI ):Name
+      NEXT
+
+      // OLE also allows to access collection elements by passing
+      // indices to :Worksheets property
+      FOR nI := 1 TO nCount
+         ? oWorkBook:WorkSheets(nI):Name
+      NEXT
+
+      oAS := oExcel:ActiveSheet()
+
+      // Set font for all cells
+      oAS:Cells:Font:Name := "Arial"
+      oAS:Cells:Font:Size := 12
+
+      oAS:Cells( 1, 1 ):Value := "OLE from Harbour"
+      oAS:Cells( 1, 1 ):Font:Size := 16
+
+      // oAS:Cells( 1, 1 ) is object, but oAS:Cells( 1, 1 ):Value has value of the cell
+      ? "Object valtype:", ValType( oAS:Cells( 1, 1 ) ), "Value:", oAS:Cells( 1, 1 ):Value
+
+      oAS:Cells( 3, 1 ):Value := "String:"
+      oAS:Cells( 3, 2 ):Value := "Hello, World!"
+
+      oAS:Cells( 4, 1 ):Value := "Numeric:"
+      oAS:Cells( 4, 2 ):Value := 1234.56
+      oAS:Cells( 4, 3 ):Value := oAS:Cells( 4, 2 ):Value
+      oAS:Cells( 4, 4 ):Value := oAS:Cells( 4, 2 ):Value
+      oAS:Cells( 4, 3 ):Value *= 2
+      oAS:Cells( 4, 2 ):Value++
+
+      oAS:Cells( 5, 1 ):Value := "Logical:"
+      oAS:Cells( 5, 2 ):Value := .T.
+
+      oAS:Cells( 6, 1 ):Value := "Date:"
+      oAS:Cells( 6, 2 ):Value := DATE()
+
+      oAS:Cells( 7, 1 ):Value := "Timestamp:"
+      oAS:Cells( 7, 2 ):Value := HB_DATETIME()
+
+      // Some formatting
+      oAS:Columns( 1 ):Font:Bold := .T.
+      oAS:Columns( 2 ):HorizontalAlignment := -4152  // xlRight
+
+      oAS:Columns( 1 ):AutoFit()
+      oAS:Columns( 2 ):AutoFit()
+      oAS:Columns( 3 ):AutoFit()
+      oAS:Columns( 4 ):AutoFit()
+
+      oAS:Cells( 3, 2 ):Font:ColorIndex := 3  // red
+
+      oAS:Range( "A1:B1" ):HorizontalAlignment := 7
+      oAS:Range( "A3:A7" ):Select()
+
+      oExcel:Visible := .T.
+
+      oExcel:Quit()
+   ELSE
+      ? "Error: MS Excel not available. [" + win_oleErrorText()+ "]"
+   ENDIF
+
+RETURN
+

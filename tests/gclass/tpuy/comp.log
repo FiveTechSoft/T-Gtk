@@ -1,0 +1,4 @@
+
+(tpuy:16270): Gtk-CRITICAL **: IA__gtk_image_get_pixbuf: assertion `image->storage_type == GTK_IMAGE_PIXBUF || image->storage_type == GTK_IMAGE_EMPTY' failed
+
+(tpuy:16270): Gtk-CRITICAL **: IA__gtk_image_get_pixbuf: assertion `image->storage_type == GTK_IMAGE_PIXBUF || image->storage_type == GTK_IMAGE_EMPTY' failed

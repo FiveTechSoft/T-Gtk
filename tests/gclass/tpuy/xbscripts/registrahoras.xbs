@@ -1,0 +1,186 @@
+/*
+ *  Registro de Horas Mediante GUI
+ *  Por: Riztan Gutierrez   riztan at gmail dot com
+ */
+
+#include "proandsys.ch"
+#include "gclass.ch"
+
+#xtranslate  ::  =>  oRegistro:
+
+/*
+ * Procedimiento que Crea el Formulario para Registrar 
+ * Los Valores necesarios para analizar y generar los 
+ * registros en la base de datos.
+ */
+PROCEDURE registrahoras( oRegistro )
+
+   Local oFont
+   Local oCancelar
+   Local cResources
+   Local aHoras := TraeHoras()
+
+   ::cHDesde:="07:00am"
+   ::cHHasta:="08:00am"
+   ::lTrab:=.t.
+
+   cSupName := Alltrim(::cSupName)+" "+Alltrim(::cSupApel)
+   //cSupName := '<span foreground="blue">'+cSupName+'</span>'
+
+   ::aDias := {}
+
+   DEFINE FONT oFont NAME "Tahoma 10 Bold"
+
+   SET RESOURCES cResources FROM FILE oTpuy:cResources+"roraima-01.glade"
+
+   DEFINE WINDOW ::oRegGUI TITLE "Registro de Horas" ;
+          SIZE 470,550 ;
+          OF oTpuy:oWnd ID "window1" RESOURCE cResources
+
+      DEFINE LABEL oSupervisor TEXT cSupName MARKUP ;
+             ID "supervisor_name" RESOURCE cResources
+
+      oSupervisor:SetFont(oFont)
+
+
+       DEFINE SCROLLEDWINDOW oScroll ID "scroll2" RESOURCE cResources
+
+       ::oLbx := oTpuy:RunXBS("lbxtrabajador",oRegistro) //Create_Model(oRegistro)
+
+       DEFINE TREEVIEW ::oTreeView MODEL ::oLbx OF oScroll CONTAINER
+       ::oTreeView:bRow_Activated := { |path,col| ;
+                     oTpuy:RunXBS("lbxgetcol", ::oTreeview, path, col, ::oLbx,oRegistro) }
+
+       DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Grupo / Trabajador " TYPE "text" OF ::oTreeView
+       oCol:SetResizable( .T. )
+
+       // Esta columna, formara parte de Grupo (Muestra porcentaje)
+       DEFINE TREEVIEWCOLUMN oCol COLUMN 4  TYPE "progress" OF oCol EXPAND
+
+
+       DEFINE TREEVIEWCOLUMN oCol COLUMN 2 TITLE "Seleccionado" TYPE "active" OF ::oTreeView 
+       oCol:oRenderer:bAction := {| o, cPath| oTpuy:RunXBS("lbxsetlogical",o,cPath,::oTreeview,::oLbx,oRegistro ) }
+
+       DEFINE TREEVIEWCOLUMN oCol COLUMN 5 TITLE "Codigo" TYPE "text" OF ::oTreeView 
+       oCol:SetVisible(.f.)
+
+       ::oTreeView:SetFocus()
+
+/*
+      DEFINE ENTRY ::oAfected VAR ::cAfected ;
+             ACTION oTpuy:RunXBS("lbxtrabajador",oRegistro,.T.) ;
+             ID "afected" RESOURCE cResources
+
+//             ACTION oTpuy:RunXBS("lbxtrabajador",oRegistro,.F.) ;
+//             VALID oTpuy:RunXBS("lbxtrabajador",oRegistro,.T.) ID "afected" RESOURCE cResources 
+
+      DEFINE RADIO ::oLTrab ACTION (::lTrab:=.t.,;
+                                  ::oAfected:SetText("")) ;
+             ID "ltrab" RESOURCE cResources 
+
+      DEFINE RADIO ::oLGrup ACTION (::lTrab:=.f.,;
+                                  ::oAfected:SetText("")) ;
+             ID "lgrupo" RESOURCE cResources 
+	
+//             ACTION MsgInfo("hola") ;
+*/
+      DEFINE ENTRY ::oAct_Descri VAR ::cDescri;
+             VALID !Empty(::cDescri) ;
+             ID "act_descri" RESOURCE cResources
+
+      DEFINE CALENDAR ::oCalendar ;
+             DATE date() ;
+             ON_DELETE o:UnMarkDay() ;
+             ON_UNMARKDAY oTpuy:RunXBS("calendar_check",oRegistro,o,.f.) ;
+             ID "calendar" RESOURCE cResources
+
+      /* En Windows no esta funcionando el doble click 
+         Definimos entonces el Bloque de codigo correspondiente */
+      ::oCalendar:bDayD := {|o| oTpuy:RunXBS("calendar_check",oRegistro,o,.t.) }
+
+
+      DEFINE LABEL oLabFecha TEXT "<b>"+DTOC(date())+"</b>" MARKUP ;
+             ID "label_fecha" RESOURCE cRESOURCES
+            
+
+      DEFINE ENTRY ::oHHasta VAR ::cHHasta ;
+             COMPLETION aHoras ;
+             ID "h_hasta" RESOURCE cResources
+
+      DEFINE ENTRY ::oHDesde VAR ::cHDesde ;
+             COMPLETION aHoras ;
+             ID "h_desde" RESOURCE cResources
+
+/* botones de guardar y cancelar */       
+
+      DEFINE BUTTON oGuardar ACTION oTpuy:RunXBS("lbxguardar",oRegistro);
+             ID "guardar" RESOURCE cResources
+
+      DEFINE BUTTON oCancelar ACTION ::oRegGUI:End();
+             ID "cancelar" RESOURCE cResources
+
+   /* ocultamos la ventana de login */
+   ::oLogin:Hide()
+
+   ACTIVATE WINDOW ::oRegGUI INITIATE CENTER
+
+RETURN
+
+/* 
+ * Genera Arreglo con Horas para autocompletado 
+ */
+STATIC FUNCTION TRAEHORAS()
+
+   Local aHoras := {;
+             "05:00am",;
+             "05:30am",;
+             "06:00am",;
+             "06:30am",;
+             "07:00am",;
+             "07:30am",;
+             "08:00am",;
+             "08:30am",;
+             "09:00am",;
+             "09:30am",;
+             "10:00am",;
+             "10:30am",;
+             "11:00am",;
+             "11:30am",;
+             "12:00pm",;
+             "12:30pm",;
+             "01:00pm",;
+             "01:30pm",;
+             "02:00pm",;
+             "02:30pm",;
+             "03:00pm",;
+             "03:30pm",;
+             "04:00pm",;
+             "04:30pm",;
+             "05:00pm",;
+             "05:30pm",;
+             "06:00pm",;
+             "06:30pm",;
+             "07:00pm",;
+             "07:30pm",;
+             "08:00pm",;
+             "08:30pm",;
+             "09:00pm",;
+             "09:30pm",;
+             "10:00pm",;
+             "10:30pm",;
+             "11:00pm",;
+             "11:30pm",;
+             "12:00am",;
+             "12:30am",;
+             "01:00am",;
+             "01:30am",;
+             "02:00am",;
+             "02:30am",;
+             "03:00am",;
+             "03:30am",;
+             "04:00am",;
+             "04:30am"}
+RETURN aHoras
+
+
+//eof

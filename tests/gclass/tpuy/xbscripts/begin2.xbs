@@ -1,0 +1,31 @@
+/*
+ *  Proyecto tpuy.
+ *  Fuente a Interpretar y ejecutar.
+ */
+
+#include "gclass.ch"
+#include "proandsys.ch"
+
+Function Begin()
+
+   LOCAL cResource
+   LOCAL hConn
+   
+   hIni      := HB_ReadIni( "connect.ini" )
+
+Msginfo( LEN(hIni)-1)
+
+
+   hConn := hIni["nmconfig"]
+
+? hConn["host"], hConn["user"], hConn["dbname"]
+
+   hConn := hIni["dpnmwin"]
+
+? hConn["host"], hConn["user"], hConn["dbname"]
+
+MsgInfo("fino")
+
+RETURN .F.
+
+

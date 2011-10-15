@@ -1,0 +1,88 @@
+/*
+ *  Verificar codigo del trabajador 
+ */
+
+#include "proandsys.ch"
+#include "tdolphin.ch"
+#include "gclass.ch"
+
+#xcommand SET QUERY <cQuery> ;
+         <label: COLUMNS,FIELDS> <aColumns,...> ;
+         TABLES <aTables> ;
+         [WHERE <cWhere> ] ;
+         [GROUP <cGroup> ] ;
+         [HAVING <cHaving> ] ;
+         [ORDER <cOrder> ] ;
+         [LIMIT <nLimit> ] ;
+         [<lWithRool: WITHROOL> ] ;
+       => ;
+          <cQuery> := BuildQuery( \{<aColumns>\},\{<aTables>\},[<cWhere>],[<cGroup>],[<cHaving>],[<cOrder>],[<nLimit>],<.lWithRool.> )
+
+#xtranslate 2SQL(<cCondition>) => ClipValue2SQL(<cCondition>)
+
+
+
+FUNCTION trabajador_check(cCodigo,cClave,oRegistro)
+
+   IF Empty(cCodigo)
+      MsgStop( UTF_8("No se suministró Código del trabajador"))
+      RETURN .F.
+   ENDIF
+   IF Empty(cClave)
+      MsgStop( UTF_8("No se suministró contraseña"))
+      RETURN .F.
+   ENDIF
+
+RETURN CHECKIN_BD(cCodigo,cClave,oRegistro)
+
+
+
+FUNCTION CHECKIN_BD(cCodigo, cClave,oRegistro)
+
+   Local oServer:=oTpuy:oConn
+   Local oQry, cQry,aTable,aFields,lRes:=.F.
+
+   /* Colocar el grupo por el cual filtrar */
+   Local cGrupo := "RESIDE"
+
+   D_SetCaseSensitive( .T. )
+/*
+   aTable  := {"NMTRABAJADOR"}
+   aFields := {"CODIGO","GRUPO","NOMBRE","APELLIDO"}
+*/
+   cWhere  := "CODIGO="+2SQL(cCodigo)
+   cWhere  += " and CLAVE="+2SQL(cClave)
+   cWhere  += " and GRUPO="+2SQL(cGrupo)
+
+   SET QUERY cQry ;
+       COLUMNS "CODIGO","GRUPO","NOMBRE","APELLIDO" ;
+       TABLES "NMTRABAJADOR" ;
+       WHERE cWhere 
+
+   oQry := TDolphinQry():New(cQry,oServer)
+
+   If oQry:RecCount()=0
+      MsgStop("Consulta vacia")
+   Else
+      IF oQry:RecCount()=1
+         
+         IF HB_ISOBJECT(oRegistro)
+            oRegistro:cSupName := oQry:NOMBRE
+            oRegistro:cSupApel := oQry:APELLIDO
+         ENDIF
+         lRes := .T.
+      ENDIF
+   EndIf
+
+/*
+   oQry:GoTop()
+   MsgInfo( oQry:CODIGO )
+*/
+
+   oQry:End()
+
+RETURN lRes
+
+
+//eof
+

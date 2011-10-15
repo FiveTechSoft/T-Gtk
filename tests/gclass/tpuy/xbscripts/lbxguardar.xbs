@@ -1,0 +1,402 @@
+/*
+ *  Revisa Valores en Registro de Horas y
+ *  Genera movimientos en Adaptapro.
+ *
+ *  Por: Riztan Gutierrez   riztan at gmail dot com
+ */
+
+#include "proandsys.ch"
+#include "gclass.ch"
+
+#xtranslate  ::  =>  oRegistro:
+
+PROCEDURE guardar( oRegistro )
+
+  local aIter := array(4)
+
+  /* -- por si la conexion se cayo...  */
+  oTpuy:RunXBS('autologin')
+
+  /* verificamos que al menos un trabajador esta marcado */
+  If !TRAB_SELECT(oRegistro)
+     MsgStop("No hay trabajador seleccionado...")
+     RETURN .F.
+  ENDIF
+
+  /* validamos descripcion */
+  If Empty(::oAct_Descri:GetText())
+     MsgStop( UTF_8("No hay información que describa la Actividad.") )
+     ::oAct_Descri:SetFocus()
+     Return .F.
+  EndIf
+
+
+  /* Verificamos fechas */
+  If Empty( ::aDias )
+     MsgStop("No se a indicado fecha para procesar..")
+     ::oCalendar:SetFocus()
+     Return .F.
+  EndIf
+
+
+  /* Verificamos Horas */
+  If Empty( ::oHDesde:GetText() ) .OR. ;
+     Empty( ::oHHasta:GetText() )
+
+     MsgStop( UTF_8("Periodo de Horas Inválido") )
+     Return .F.
+  ElseIf !ValidaHoras(oRegistro)
+     MsgInfo( UTF_8("Error en Valores de Horas. Verifique por favor. ") )
+     Return .F.
+  EndIf
+
+  /* Generamos arreglo aResult (resultados) */
+  GenResult(oRegistro)
+
+  /* A guardar en la BD */
+  Save(oRegistro)
+
+  If ::lSalir
+     ::oRegGUI:End()
+  EndIf
+ 
+RETURN 
+
+
+
+/*
+ * Genera Arreglo de Resultados en oRegistro
+ */
+PROCEDURE GenResult(oRegistro)
+
+   Local aTrabajador, aDia, aHora
+   Local tFecha := ::aDias[1,3]
+
+   ::aResult:={}
+
+   FOR EACH aTrabajador IN ::aData
+
+     IF aTrabajador[4]
+
+        FOR EACH aDia IN ::aRangos
+
+           FOR EACH aHora IN ::aRangHoras
+
+              AAdd( ::aResult,{aTrabajador[2],aTrabajador[3],aTrabajador[5],;
+                               aDia[1],aDia[2],aHora[2],aHora[3],aHora[5]})
+
+           NEXT
+
+        NEXT
+
+      ENDIF
+
+   NEXT
+
+//View(::aResult)
+
+RETURN
+
+
+/* 
+ * Valida que los datos de horas son correctas y
+ * e Invoca procedimiento para generar arreglo con rango de horas.
+ */
+FUNCTION ValidaHoras(oRegistro)
+
+   ::cHoraD := HB_TTOC( hb_DateTime(), "YYYY-MM-DD", "" )
+   ::cHoraD := ::cHoraD+UPPER(::oHDesde:GetText())
+
+   ::tHoraD := HB_STRTOTS( ::cHoraD )
+
+/* -------------------- */
+
+   ::cHoraH := HB_TTOC( hb_DateTime(), "YYYY-MM-DD", "" )
+   ::cHoraH := ::cHoraH+UPPER(::oHHasta:GetText())
+
+   ::tHoraH := HB_STRTOTS( ::cHoraH )
+
+//? HB_HOUR( ::tHoraH ) - HB_HOUR( ::tHoraD )
+
+   ::nDiffHoras := hb_TTON( ::tHoraH ) - hb_TTON( ::tHoraD )
+   ::tDiffHoras := hb_NTOT( ::nDiffHoras )
+
+   GenRangHoras(oRegistro)
+
+   if ::nDiffHoras > 0
+      Detect_Rango(oRegistro)
+      return .t.
+   endif   
+
+RETURN .f.
+
+
+/* 
+ * Genera Rango de Horas de acuerdo al arreglo aHoras en oRegistro
+ * Necesario para determinar el concepto a aplicar de acuerdo a las horas
+ */
+procedure GenRangHoras(oRegistro)
+
+   Local aItem, cAux, aTimeAux:=array(2)
+   Local nCuenta,nValor, lContinue:=.f.
+
+   // Hora Inicial, Hora Final, Descripcion, Concepto
+   ::aHoras := {{"05:00AM","05:59PM","DIA","A005"},;
+                {"12:00AM","04:59AM","MADRUGADA","A005"},;
+                {"06:00PM","11:59PM","NOCHE","A005"}}
+
+   ::atHoras := {}
+
+   ::aRangHoras:={}
+
+   FOR EACH aItem IN ::aHoras
+
+      cAux  := HB_TTOC( hb_DateTime(), "YYYY-MM-DD", "" )
+
+      aTimeAux[1] := HB_STRTOTS( cAux+UPPER(aItem[1]) )     
+      aTimeAux[2] := HB_STRTOTS( cAux+UPPER(aItem[2]) )
+      AADD( ::atHoras, {aTimeAux[1],aTimeAux[2],aItem[3],aItem[4]} )
+
+   NEXT
+
+   FOR EACH aItem IN ::atHoras
+
+      lContinue:= .f.
+
+      IF ::tHoraD >= aItem[1] .AND. ::tHoraD <= aItem[2]
+         //? ::cHoraD, " esta en el rango ",aItem[3] 
+
+         nCuenta := hb_TTON( aItem[2] ) - hb_TTON( ::tHoraD )
+         
+         // revisamos hora final a ver si esta en mismo rango 
+         IF ::tHoraH >= aItem[1] .AND. ::tHoraH <= aItem[2]
+            //? ::cHoraH," Tambien esta en el rango ",aItem[3]
+            nCuenta := hb_TTON( ::tHoraH ) - hb_TTON( ::tHoraD )
+            lContinue:=.t.
+         ENDIF
+
+         AADD( ::aRangHoras,{nCuenta,NHORA2DEC(nCuenta),;
+                             hb_TTOC(hb_NTOT(nCuenta),"","HH:MM"),;
+                             aItem[3],aItem[4]} )
+
+      ENDIF
+
+      IF ::tHoraH >= aItem[1] .AND. ::tHoraH <= aItem[2] .AND. !lContinue
+
+         nCuenta := hb_TTON( ::tHoraH ) - hb_TTON( aItem[1] )
+
+         AADD( ::aRangHoras,{nCuenta,NHORA2DEC(nCuenta),;
+                             hb_TTOC(hb_NTOT(nCuenta),"","HH:MM"),;
+                             aItem[3],aItem[4]} )
+
+      ENDIF
+
+      IF ::tHoraD < aItem[1] .AND. ::tHoraH > aItem[2]
+//? "turno completo"
+         nCuenta := hb_TTON( aItem[2] ) - hb_TTON( aItem[1] )
+
+         AADD( ::aRangHoras,{nCuenta,NHORA2DEC(nCuenta),;
+                             hb_TTOC(hb_NTOT(nCuenta),"","HH:MM"),;
+                             aItem[3],aItem[4]} )
+
+      ENDIF
+
+
+
+   NEXT
+//View( ::aRangHoras )
+
+Return 
+
+
+/* Transforma una Hora tipo Numero a Hora Numerica (decimal)
+ * Ejemplo   valor numerico de "10:30"  => 10,5
+ */
+FUNCTION NHORA2DEC( nHora )
+   Local nValor
+   Local tHora := hb_NTOT(nHora)
+
+   nValor := hb_MINUTE( tHora )
+   nValor := hb_HOUR( tHora )+IIF(nValor>0,nValor/60,0)
+   nValor := ROUND(nValor/10,2)*10
+
+RETURN nValor
+
+
+
+PROCEDURE Detect_Rango(oRegistro)
+
+  Local tFecha, aItem
+  Local tIni,tFin,lFinRango:=.f.,nControl
+
+  ::lRango  := .f.
+  ::aRangos := {}
+
+  ASort( ::aDias,,,{|x,y| x[1] < y[1] } )
+     
+  If LEN(::aDias)==2
+     If MsgYesNo( UTF_8("Ha Marcado dos días, ¿corresponde a un rango de fechas?") )
+        ::lRango:=.t.
+           tIni := ::aDias[1,3]
+           tFin := ::aDias[2,3]
+
+           AADD( ::aRangos, { hb_TTOC(tIni,"YYYY-MM-DD",""), ;
+                              hb_TTOC(tFin,"YYYY-MM-DD","")} )
+
+        Return
+     EndIf
+  ENDIF
+
+  /* Determinamos otros rangos */
+
+  FOR EACH aItem IN ::aDias
+     IF tIni = NIL ; tIni := aItem[3] ; ENDIF
+     IF tFin = NIL ; tFin := aItem[3] ; ENDIF
+
+     IF tFin < aItem[3]
+
+        nControl := (aItem[3] - tFin)
+
+        IF nControl = 1
+           tFin := aItem[3]
+//           ? aItem[1]," es el nuevo valor para fin de rango.. "
+        ENDIF
+
+        IF nControl > 1
+
+           AADD( ::aRangos, { hb_TTOC(tIni,"YYYY-MM-DD",""), ;
+                              hb_TTOC(tFin,"YYYY-MM-DD","")} )
+           tIni:=aItem[3]
+           tFin:=aItem[3]
+        ENDIF
+
+     ENDIF
+
+  NEXT
+
+  AADD( ::aRangos, { hb_TTOC(tIni,"YYYY-MM-DD",""), ;
+                     hb_TTOC(tFin,"YYYY-MM-DD","")} )
+
+//View(::aRangos)
+
+RETURN
+
+
+
+
+FUNCTION TRAB_SELECT(oRegistro)
+
+   local aItem
+   local lReturn:=.f.
+
+   FOR EACH aItem IN ::aData
+
+      IF aItem[4]
+         lReturn := .T.
+         EXIT 
+      ENDIF
+   NEXT
+
+RETURN lReturn
+
+
+
+#xcommand SET QUERY <cQuery> ;
+         <label: COLUMNS,FIELDS> <aColumns,...> ;
+         TABLES <aTables> ;
+         [WHERE <cWhere> ] ;
+         [GROUP <cGroup> ] ;
+         [HAVING <cHaving> ] ;
+         [ORDER <cOrder> ] ;
+         [LIMIT <nLimit> ] ;
+         [<lWithRool: WITHROOL> ] ;
+       => ;
+          <cQuery> := BuildQuery( \{<aColumns>\},\{<aTables>\},[<cWhere>],[<cGroup>],[<cHaving>],[<cOrder>],[<nLimit>],<.lWithRool.> )
+
+#xtranslate 2SQL(<cCondition>) => ClipValue2SQL(<cCondition>)
+
+
+/* Guarda la informacion del arreglo oRegistro:aResult en 
+ * la Base de datos de Adaptapro.
+ */ 
+FUNCTION SAVE(oRegistro)
+   Local aItem, aFinal:={}
+   Local oServer:=oTpuy:oConn
+   Local oQry, cQry,aTable,aFields,lRes:=.F.
+   Local cWhere
+
+   FOR EACH aItem IN ::aResult
+
+      cWhere  := "VAR_CODTRA="+2SQL(aItem[1])
+      cWhere  += " and VAR_TIPNOM="+2SQL(aItem[3])
+      cWhere  += " and VAR_DESDE="+2SQL(aItem[4])
+      cWhere  += " and VAR_HASTA="+2SQL(aItem[5])
+
+      SET QUERY cQry ;
+          COLUMNS "VAR_AJUSTE","VAR_CODCON","VAR_CANTID","VAR_OTRNOM",;
+                  "VAR_HASTA","VAR_CODTRA","VAR_OBSERV","VAR_TIPNOM",;
+                  "VAR_DESDE" ;
+          TABLES "NMVARIAC" ;
+          WHERE cWhere 
+
+      oQry := TDolphinQry():New(cQry,oServer)
+
+      If oQry:RecCount()=0
+
+/*
+Esto no me funciono... revisar.
+         oServer:Insert( "NMVARIAC", oQry:aColumns, { ;
+                 '0',2SQL(aItem[8]),2SQL(aItem[6]),'',2SQL(aItem[5]),;
+                 2SQL(aItem[1]),'yo lo hice...',2SQL(aItem[3]),2SQL(aItem[4])} )
+*/
+         
+         cQry := "INSERT INTO NMVARIAC ("
+         cQry += "VAR_AJUSTE,VAR_CODCON,VAR_CANTID,VAR_OTRNOM,"
+         cQry += "VAR_HASTA,VAR_CODTRA,VAR_OBSERV,VAR_TIPNOM,"
+         cQry += "VAR_DESDE,VAR_NUMMEM) VALUES ("
+         cQry += "NULL,"
+         cQry += 2SQL(aItem[8])+","+2SQL(aItem[6])+","
+         cQry += "'',"+2SQL(aItem[5])+","+2SQL(aItem[1])+","
+         cQry += 2SQL("Realizado por: "+Alltrim(::cSupName)+;
+                                      " "+Alltrim(::cSupApel)+" "+;
+                                      "("+TTOS(DateTime())+")")+","
+         cQry += 2SQL(aItem[3])+","+2SQL(aItem[4])+",'0')"
+//? cQry 
+      Else
+
+         cQry := "UPDATE NMVARIAC SET "
+         cQry += "VAR_CODCON="+2SQL(aItem[8])+", "
+         cQry += "VAR_CANTID="+2SQL(aItem[6])+", "
+         cQry += "VAR_OBSERV="+2SQL("Realizado por: "+Alltrim(::cSupName)+;
+                                      " "+Alltrim(::cSupApel)+" "+;
+                                      "("+TTOS(DateTime())+")")+" "
+         cQry += "WHERE "+cWhere
+//? cQry 
+      EndIf
+
+      If oServer:Execute( cQry )
+
+//         MsgInfo("Registros generados correctamente...")
+
+      Else
+
+         MsgAlert("Registros no generados....")
+
+      EndIf
+
+      oQry:End()
+
+   NEXT
+
+   MsgInfo("Proceso Finalizado.")
+
+
+   IF MsgYesNo( "Desea Cerrar la Aplicacion ? ")
+
+      ::lSalir := .t.
+
+   ENDIF
+
+RETURN lRes
+
+//eof

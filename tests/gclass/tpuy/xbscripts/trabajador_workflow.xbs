@@ -1,0 +1,46 @@
+/*
+ *  WorkFlow para Registro de Tiempo Extra
+ *  Por: Riztan Gutierrez   riztan at gmail dot com
+ */
+
+#include "proandsys.ch"
+#include "gclass.ch"
+
+/*
+ * Procedimiento inicialmente creado para controlar el flujo de 
+ * trabajo...  (no se realizo de esa forma)
+ */
+PROCEDURE wfl_init( cCodigo, cClave, oWnd )
+
+   Local lControl := .T.
+   Local oRegistro
+
+   oRegistro := TPublic():New()
+
+   oRegistro:lSalir := .F.
+
+   /* incluimos la ventana de login dentro de oRegistro */
+   oRegistro:oLogin := oWnd
+
+   /* si todo esta bien... ivoca al formulario de registro */
+   IF !oTpuy:RunXBS("trabajador_check",cCodigo,cClave,oRegistro)
+      MsgStop("No puede continuar el flujo del programa...")
+      oRegistro:Release()
+      Salida(.t.)
+      Quit
+   ENDIF
+
+
+   oTpuy:RunXBS("registrahoras",oRegistro)
+
+   If oRegistro:lSalir
+      oRegistro:Release()
+   EndIf
+
+RETURN
+
+
+
+
+//eof
+

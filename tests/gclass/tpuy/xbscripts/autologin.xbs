@@ -1,0 +1,50 @@
+/*
+ *  Proyecto Tepuy.
+ *  Fuente a Interpretar y ejecutar.
+ *  Autor: Riztan Gutiérrez.  riztan@gmail.com
+ *  Licencia: GPL-3. Visite: http://www.gnu.org/  
+ */
+
+#include "gclass.ch"
+#include "proandsys.ch"
+#include "tepuy.ch"
+
+/* cabeceras para gnomedb y libgda */
+#include "gnomedb.ch"
+
+#define  POSTGRESQL    0
+#define  LIBGDA        1
+
+Function Init()
+
+   Local hConn := hb_ReadIni("connect.ini")
+   Local hItem,cConnName
+   Local oConn
+
+   
+   oTpuy:oConn        := NIL
+   oTpuy:hConnections := NIL
+   oTpuy:hConnections := {=>}
+
+
+   FOR EACH hItem IN hConn
+      IF hItem:__EnumIndex()>1
+         cConnName := hItem:__EnumKey()
+         oConn := ConnectTo(cConnName)
+         IF !HB_ISNIL(oConn)
+            HSet( oTpuy:hConnections, cConnName, oConn )
+            IF lower(hItem["default"])=="yes"
+               oTpuy:oConn := oConn
+            ENDIF
+         ELSE
+            MsgStop("No se pudo realizar la conexion a "+cConnName)
+         ENDIF
+      ENDIF
+   NEXT
+
+
+//? ValToPrg(oTpuy:oConn)
+
+Return .T.
+
+

@@ -1,0 +1,60 @@
+/*
+ *  Interface grafica de login del trabajador
+ *  Por: Riztan Gutierrez   riztan at gmail dot com
+ */
+
+#include "proandsys.ch"
+#include "gclass.ch"
+
+/* 
+ * Login para que el trabajador inicie el programa
+ * se evalua contra la tabla de trabajadores...
+ */
+PROCEDURE logintra_gui()
+
+   Local oWnd,oBox,oBoxV1,oBoxV2,oBoxV3
+   Local oLabCodigo,cLabCodigo:="Codigo: "
+   Local oCodigo,cCodigo:=""
+   Local oLabClave,cLabClave:="Clave: "
+   Local oClave,cClave:=""
+   Local oEnter,cEnter:="Continuar"
+   Local oCancel,cCancel:="Cancelar"
+   Local bLogin
+
+
+   bLogin := {|codigo,clave,oWnd|;
+             oTpuy:RunXBS("trabajador_workflow",codigo,clave,oWnd)}
+
+   DEFINE WINDOW oWnd  TITLE "Login Supervisor" OF oTpuy:oWnd //SIZE 200,200
+
+      DEFINE BOX oBox VERTICAL OF oWnd SPACING 5 PADDING 10
+
+      DEFINE BOX oBoxV1 OF oBox HOMO;
+         SPACING 5 PADDING 5
+
+         DEFINE LABEL oLabCodigo TEXT cLabCodigo OF oBoxV1
+         DEFINE ENTRY oCodigo    VAR cCodigo OF oBoxV1
+
+
+      DEFINE BOX oBoxV2 OF oBox HOMO ;
+         SPACING 5
+         DEFINE LABEL oLabClave  TEXT cLabClave OF oBoxV2
+         DEFINE ENTRY oClave VAR cClave PASSWORD OF oBoxV2
+
+
+      DEFINE BOX oBoxV3 HOMO OF oBox;
+
+         DEFINE BUTTON oEnter TEXT cEnter ;
+                ACTION (EVAL(bLogin,oCodigo:GetText(),oClave:GetText(),oWnd),;
+                        oWnd:End()) ;
+                OF oBoxV3
+
+         DEFINE BUTTON oCancel TEXT cCancel ;
+                ACTION oWnd:End() OF oBoxV3
+
+   ACTIVATE WINDOW oWnd 
+
+
+RETURN
+
+

@@ -1,0 +1,114 @@
+/*
+ *  Proyecto Tepuy.
+ *
+ *  Programa Inicial. Genera Menu, Fondo de Pantalla y un 
+ *  Expander para colocar algunos logs.
+ */
+
+#include "gclass.ch"
+#include "proandsys.ch"
+
+#define TPY_CONN    oTpuy:aConnection[1]
+
+Function Begin()
+
+   LOCAL oWnd , oConn
+   LOCAL cResFile := oTpuy:cResources+"proandsys.glade"
+   LOCAL cResource, pixbuf, oDraw, oSender
+
+   pixbuf := gdk_pixbuf_new_from_file( oTpuy:cImages+"tepuy_800x600.png" )
+
+//oTpuy:about()
+//acerca_de()
+
+   //oConn := TPY_CONN   
+   //oConn:SetSchema("tepuy")
+
+   DEFINE WINDOW oTpuy:oWnd;
+          TITLE oTpuy:cSystem_Name ;
+          ICON_FILE oTpuy:cIconMain ;
+          SIZE 750,630
+
+      oWnd:= oTpuy:oWnd
+
+      DEFINE BOX oBox VERTICAL OF oWnd
+
+      DEFINE BOX oTpuy:oBoxMenu VERTICAL OF oBox
+
+      DEFINE BARMENU oTpuy:oMenuBar OF oTpuy:oBoxMenu
+
+      //Create_Menus( oBoxMenu ) 
+      oTpuy:RunXBS('menu',oTpuy:oMenuBar)
+      
+      DEFINE DRAWINGAREA oDraw ;
+             EXPOSE EVENT  dibuja( oSender, "Sistema de Gestión Tributaria" );
+             SIZE 100,500;
+             OF oBox CONTAINER
+
+
+      DEFINE EXPANDER oExpander  PROMPT "Estado" MARKUP OF oBox  EXPAND FILL
+             DEFINE TOOLTIP WIDGET oExpander ;
+                    TEXT "Pulse para desplegar detalles del Estado del Sistema" 
+
+             DEFINE BOX oBoxV_E OF oExpander VERTICAL CONTAINER
+/*
+             DEFINE LABEL TEXT "Probando Sonido.." OF oBoxV_E
+
+             DEFINE BUTTON TEXT "Conectar" OF oBoxV_E ; 
+                           ACTION dolphin( )
+*/
+             DEFINE BUTTON TEXT "Ejecutar Script" OF oBoxV_E ; 
+                           ACTION oTpuy:RunXBS('runscript')
+
+      // Hasta aqui objetos del Expander
+
+
+      DEFINE STATUSBAR oBar OF oBox ;
+             TEXT "Example" ;
+             INSERT_END
+
+
+   ACTIVATE WINDOW oWnd CENTER;
+           VALID Salida() 
+            
+   
+
+Return .T.
+
+
+
+
+/** Creación del Fondo de Pantalla.
+ *
+ */
+FUNCTION Dibuja( oSender, cMsg )
+ Local gc
+ Local pango
+ Local widget
+
+ Local pixbuf := gdk_pixbuf_new_from_file( oTpuy:cImages+"tepuy_800x600.png" )
+
+  widget := oSender:pWidget
+
+  gc = gdk_gc_new( widget  )   // cambio propiedades del contexto gráfico gc
+
+  gdk_draw_pixbuf( widget, gc, pixbuf, 0, 0, 0, 0 )
+
+  If !Empty( cMsg )
+  
+     cMsg := '<span  size="11000"><b><i>'+cMsg
+     cMsg += '</i></b> </span>'
+     
+     pango :=  gtk_widget_create_pango_layout( widget )
+     pango_layout_set_markup( pango, cMsg )
+     gdk_draw_layout( widget, gc, 10, 15, pango )
+     
+  EndIf
+ 
+  g_object_unref( gc )
+
+
+Return .T.
+
+
+//eof

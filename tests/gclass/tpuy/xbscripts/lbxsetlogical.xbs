@@ -1,0 +1,60 @@
+/*
+ *  Cambiar Valor a Columna tipo logico en un LBX
+ *  Por: Riztan Gutierrez   riztan at gmail dot com
+ */
+
+#include "proandsys.ch"
+#include "gclass.ch"
+
+#xtranslate :: => oRegistro:
+
+/* Ejemplo de como MODIFICAR un dato del modelo vista controlador. */
+FUNCTION fixed_toggled( oCellRendererToggle, cPath, oTreeView, oLbx, oRegistro )
+  Local aIter
+  Local path
+  Local lValue,cCodigo
+  Local nColumn := oCellRendererToggle:nColumn + 1
+  Local nHijos,nItem,aItem
+
+  path := gtk_tree_path_new_from_string( cPath )
+
+  lValue := oTreeView:GetValue( nColumn, "active", Path, @aIter )
+
+//? oTreeView:GetValue( 1, "active", Path, @aIter )
+//? gtk_tree_model_get_iter( oTreeView:GetModel(), @aiter, path )
+//? oTreeView:GetValue( 5,, path )
+//View( oTreeView:aRow( aIter,path ) )
+//View( ValToPRG(oTreeView:FillArray() ))
+
+  if !oTreeView:HasChild( aIter,path )
+    oLbx:Set(aIter,nColumn,!lValue)
+    cCodigo := oTreeView:GetValue( 5, "text", Path, @aIter )
+//    ? cCodigo
+
+    ::aData[AScan(::aData,{|x,y| x[2]=cCodigo}), 4 ]:=!lValue
+
+  else
+
+    nHijos := oTreeView:GetChildNum(aIter,path)
+
+    oTreeView:Expand(path)
+    oLbx:Set(aIter,nColumn,!lValue)
+    oTreeView:GoDown()
+
+    FOR nItem:=1 TO nHijos
+       oTreeView:GoNext()
+    NEXT
+
+    oLbx:Set(aIter,nColumn,!lValue)
+
+    if lValue=.t.
+       oTreeView:Collapse(path)
+    endif
+
+  endif
+
+  /* clean up */
+  gtk_tree_path_free( path )
+
+Return .T.
+

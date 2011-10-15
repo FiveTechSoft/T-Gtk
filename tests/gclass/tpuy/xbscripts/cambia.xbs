@@ -1,0 +1,10 @@
+#include "gclass.ch"
+
+Function Cambia(oScript)
+
+   oScript:oLabel1:SetText("Cambiado")
+   oScript:oImage1:SetFile(oTepuy:cImages+"logo_proandsys_64x64.png")
+
+oTepuy:RunXBS('ivan-preba')
+
+return .t.

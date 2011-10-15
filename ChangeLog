@@ -8,6 +8,18 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-10-15 03:50 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  *  tests/gclass/amante/Makefile
+  *  tests/gclass/dophin/Makefile
+     Ajustados a la nueva ruta de tdolphin
+
+  *  include/gtkkeys.ch
+     Se comentan teclas que tienen conflicto con inkey.ch de harbour
+
+  +  test/gclass/tpuy
+     agregado preliminar de core tpuy. (desarrollo con scripts)
+
+
 2011-10-14 23:56 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   *  hbgtk/main.c
   *  hbgtk/gtkmain.c

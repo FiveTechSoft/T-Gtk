@@ -1,0 +1,193 @@
+/*
+ *  Registro de Horas Mediante GUI
+ *  Por: Riztan Gutierrez   riztan at gmail dot com
+ */
+
+#include "proandsys.ch"
+#include "gclass.ch"
+
+#xcommand SET QUERY <cQuery> ;
+         <label: COLUMNS,FIELDS> <aColumns,...> ;
+         TABLES <aTables> ;
+         [WHERE <cWhere> ] ;
+         [GROUP <cGroup> ] ;
+         [HAVING <cHaving> ] ;
+         [ORDER <cOrder> ] ;
+         [LIMIT <nLimit> ] ;
+         [<lWithRool: WITHROOL> ] ;
+       => ;
+          <cQuery> := BuildQuery( \{<aColumns>\},\{<aTables>\},[<cWhere>],[<cGroup>],[<cHaving>],[<cOrder>],[<nLimit>],<.lWithRool.> )
+
+#xtranslate 2SQL(<cCondition>) => ClipValue2SQL(<cCondition>)
+
+
+#xtranslate :: => oRegistro:
+
+
+/* Parametros: registro, validar */
+/*
+FUNCTION lbxtrabajador(oRegistro,lValid)
+
+   Local oScroll, oCol
+   Local oTBContinuar,oTBCancelar
+
+   RetLista(oRegistro)
+
+   SET RESOURCES cResources FROM FILE oTpuy:cResources+"roraima-01.glade"
+   DEFINE WINDOW ::oListBox TITLE "Trabajadores por Grupo" SIZE 470,250 ;
+          ID "listbox" RESOURCE cResources OF ::oRegGUI
+
+       DEFINE TOOLBUTTON oTBContinuar ACTION ::oListBox:End() ;
+              ID "tb_continuar" RESOURCE cResources
+
+       DEFINE TOOLBUTTON oTBCancelar ACTION ::oListBox:End() ;
+              ID "tb_cancelar"  RESOURCE cResources
+     
+
+       DEFINE SCROLLEDWINDOW oScroll ID "scroll1" RESOURCE cResources
+//           oScroll:SetShadow( GTK_SHADOW_ETCHED_IN )
+//           oScroll:SetPolicy( GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC)
+
+       ::oLbx := Create_Model(oRegistro)
+
+       DEFINE TREEVIEW ::oTreeView MODEL ::oLbx OF oScroll CONTAINER
+       ::oTreeView:bRow_Activated := { |path,col| ;
+                     oTpuy:RunXBS("lbxgetcol", ::oTreeview, path, col, ;
+                                  ::oLbx,oRegistro) }
+
+       DEFINE TREEVIEWCOLUMN oCol COLUMN 1 TITLE "Grupo / Trabajador " ;
+              TYPE "text" OF ::oTreeView
+       oCol:SetResizable( .T. )
+
+       // Esta columna, formara parte de Grupo (Muestra porcentaje)
+       DEFINE TREEVIEWCOLUMN oCol COLUMN 4  ;
+              TYPE "progress" OF oCol EXPAND
+
+
+       DEFINE TREEVIEWCOLUMN oCol COLUMN 2 TITLE "Seleccionado" ;
+              TYPE "active" OF ::oTreeView 
+
+       oCol:oRenderer:bAction := {| o, cPath| oTpuy:RunXBS("lbxsetlogical",o,;
+                                    cPath,::oTreeview,::oLbx,oRegistro ) }
+
+       DEFINE TREEVIEWCOLUMN oCol COLUMN 5 TITLE "Codigo" ;
+              TYPE "text" OF ::oTreeView 
+       oCol:SetVisible(.f.)
+
+       ::oTreeView:SetFocus()
+
+   ACTIVATE WINDOW ::oListBox //CENTER
+
+RETURN .T.
+*/
+
+
+
+#define GtkTreeIter  Array( 4 )
+
+FUNCTION Create_Model(oRegistro)
+  local oLbx
+  local aParent, aChild , aIter
+  local nGrupo, aGrupo, nTotGrup
+  local aGrupos
+  local oQry,cQry,nTraPorGrup,oLabel
+
+  RetLista(oRegistro)
+
+  ::aData := {}
+  
+  aGrupos := ::aGrupos
+
+  DEFINE TREE_STORE oLbx TYPES ;
+         G_TYPE_STRING, ;
+         G_TYPE_BOOLEAN, ;
+         GDK_TYPE_PIXBUF , G_TYPE_INT, G_TYPE_STRING
+
+  nTotGrup:=LEN(aGrupos)
+//View(::aGrupos)
+
+  FOR EACH aGrupo IN ::aGrupos
+
+     APPEND TREE_STORE oLbx ITER aParent VALUES aGrupo[2]
+
+        AAdd(::aData, {.f.,aGrupo[1],aGrupo[2],.f.})
+
+        SET QUERY cQry ;
+            COLUMNS "CODIGO","NOMBRE","APELLIDO","TIPO_NOM" ;
+            TABLES "NMTRABAJADOR" ;
+            WHERE "GRUPO="+2SQL(aGrupo[1])
+
+        oQry := TDolphinQry():New(cQry,oTpuy:oConn)
+        nTraPorGrup := oQry:nRecCount()
+
+        SET TREE_STORE oLbx ITER aParent POS 4 VALUE nTraPorGrup
+
+        SET TREE_STORE oLbx ITER aParent POS 5 VALUE aGrupo[1]
+
+        If oQry:nRecCount()>0
+           oQry:GoTop()
+           While !oQry:Eof()
+
+              SET TREE_STORE oLbx ITER aParent POS 2 VALUE .F.
+
+              APPEND TREE_STORE oLbx PARENT aParent ;
+                     ITER aChild ;
+                     VALUES UTF_8(ALLTRIM(oQry:CODIGO)+" - "+;
+                            ALLTRIM(oQry:NOMBRE)+" "+ALLTRIM(oQry:APELLIDO))
+
+              SET TREE_STORE oLbx ITER aChild POS 5 VALUE oQry:CODIGO
+
+                  AAdd(::aData, {.t.,oQry:CODIGO,ALLTRIM(oQry:NOMBRE)+" "+;
+                                                 ALLTRIM(oQry:APELLIDO),;
+                                 .f.,oQry:TIPO_NOM})
+
+              oQry:Skip()
+           EndDo
+        EndIf
+
+        oQry:End()
+
+  NEXT
+
+Return oLbx
+
+
+
+FUNCTION RetLista(oRegistro)
+
+   //Local oQryGrup,oQryTrab
+   Local cQry,cWhere:=''
+   Local cTabla:="NMTRABAJADOR"
+
+   IF ::lIni=NIL
+      ::lIni:=.t.
+   ELSE
+      RETURN NIL
+   ENDIF
+
+   IF !::lTrab
+      cTabla := "NMGRUPO"
+   ENDIF
+
+   SET QUERY cQry ;
+       COLUMNS "CODIGO","NOMBRE","APELLIDO","GRUPO","TIPO_NOM" ;
+       TABLES "NMTRABAJADOR" ;
+       WHERE cWhere 
+
+   ::oQryTrab := TDolphinQry():New(cQry,oTpuy:oConn)
+
+   SET QUERY cQry ;
+       COLUMNS "GTR_CODIGO","GTR_DESCRI" ;
+       TABLES "NMGRUPO" 
+
+   ::oQryGrup := TDolphinQry():New(cQry,oTpuy:oConn)
+
+   ::aGrupos := ::oQryGrup:FillArray()
+
+RETURN NIL
+
+
+
+
+
+//eof

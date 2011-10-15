@@ -70,7 +70,9 @@
 #define GDK_L1  0xFFC8
 #define GDK_F12 0xFFC9
 
-
+/*
+  -- estas teclas chocan con hbrun de harbour --
+  
 #define K_ESC       65307
 #define K_HOME      65360
 #define K_END       65367
@@ -87,6 +89,7 @@
 #define K_CTRL      65507
 #define K_UPPER     65509
 #define K_ENTER     65293
+*/
 
 /* Por definir
 

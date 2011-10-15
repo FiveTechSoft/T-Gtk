@@ -1,0 +1,46 @@
+/*
+ *  Ejecutar Script
+ */
+
+#include "proandsys.ch"
+#include "gclass.ch"
+
+PROCEDURE RunScript( cScript )
+
+   Local oWnd,oBox,oLabel
+   Local oScript
+
+   DEFAULT cScript:=""
+
+   IF !Empty(cScript)
+
+      RETURN oTpuy:RunXBS(cScript)
+
+   ELSE
+
+     DEFINE WINDOW oWnd  TITLE "Ejecucion de Script" 
+
+       DEFINE BOX oBox OF oWnd
+
+       DEFINE LABEL oLabel TEXT "Script a Ejecutar " OF oBox
+
+       DEFINE ENTRY oScript VAR cScript ;
+              VALID (oTpuy:RunXBS("runscript",cScript),.t.) OF oBox
+
+
+
+     ACTIVATE WINDOW oWnd
+
+   ENDIF
+
+RETURN
+
+
+
+/*
+     IF !File(oTpuy:cXBScripts+cScript+".xbs")
+        MsgStop( "No existe el script "+cScript )
+        RETURN .F.
+     ENDIF
+
+ */

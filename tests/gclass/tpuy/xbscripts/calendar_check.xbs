@@ -1,0 +1,38 @@
+/*
+ *  Genera registro de dias del calendario para guardar en BD.
+ *
+ *  Por: Riztan Gutierrez   riztan at gmail dot com
+ */
+
+#include "proandsys.ch"
+#include "gclass.ch"
+
+#xtranslate  ::  =>  oRegistro:
+
+FUNCTION calendar_check( oRegistro, oCal, lAction )
+
+   Local dFecha:=oCal:GetDate(),tFecha
+   Local nPosition := AScan(::aDias,{|x,y| x[1]=DTOC(dFecha)})
+
+   tFecha :=  hb_CTOT( DTOC(dFecha), "DD/MM/YYYY","" )
+
+   If lAction
+//? "marcando el dia del calendario"
+      oCal:MarkDay()
+
+      If nPosition=0
+         AAdd( ::aDias, {DTOC(dFecha),dFecha,tFecha} )
+      EndIf
+      
+   Else
+      /* Al desmarcar... sacamos la fecha del array */
+      If nPosition>0
+         hb_ADel( ::aDias, nPosition, .t. )
+      EndIf
+
+   EndIf
+
+RETURN NIL
+
+
+//eof
