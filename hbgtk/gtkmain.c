@@ -31,6 +31,9 @@
 HB_FUNC( GTK_MAIN )
 {
   gtk_main();
+#ifdef _GTK_THREAD_
+  gdk_threads_leave();
+#endif
 }
 
 HB_FUNC( GTK_MAIN_QUIT )

@@ -124,7 +124,13 @@ ifeq ($(SUPPORT_PRINT_WIN32),)
 endif
 
 
-#Soporte para GTKSourceView
+#Soporte para MultiThread
+ifeq ($(GTK_THREAD),)
+  export GTK_THREAD =no
+endif
+
+
+#Soporte para VTE
 ifeq ($(VTE),)
   export VTE  =no
 endif

@@ -59,6 +59,7 @@ $(info * lib: $(HB_LIB_INSTALL)                              )
 $(info * include: $(HB_INC_INSTALL)                          )
 $(info *************************************************** )
 $(info * Soporte.                                            )
+$(info * Gtk MultiThread  = $(GTK_THREAD)                    )
 $(info * GtkSourceView    = $(GTKSOURCEVIEW)                    )
 $(info * Bonobo           = $(BONOBO)                           )
 $(info * gnomeDB          = $(GNOMEDB)                          )
@@ -112,6 +113,12 @@ ifeq ($(BONOBO),yes)
     CFLAGS += -D_HAVEBONOBO_
     CFLAGS += $(shell pkg-config --cflags libbonobo-2.0 ) $(shell pkg-config --cflags libbonoboui-2.0 )
     LIBS += $(shell pkg-config --libs libbonobo-2.0 ) $(shell pkg-config --libs libbonoboui-2.0 )
+endif
+
+
+ifeq ($(GTK_THREAD),yes)
+    CFLAGS += -D_GTK_THREAD_
+    LIBS += $(shell pkg-config --libs gthread-2.0 )
 endif
 
 

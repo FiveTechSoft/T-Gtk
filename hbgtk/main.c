@@ -39,6 +39,15 @@ int _CRT_glob = 0;
 int main( int argc, char * argv[] )
 {
 
+#ifdef _GTK_THREAD_
+   if( ! g_thread_supported() )
+         g_thread_init( NULL );
+
+   gdk_threads_init();
+   gdk_threads_enter();
+   g_print("activado soporte multitarea.. \n");
+#endif
+
    gtk_set_locale();
 
    if( gtk_init_check( &argc, &argv ) )
@@ -54,6 +63,7 @@ int main( int argc, char * argv[] )
          g_warning( "Activate BONOBO" );
       #endif
        */
+
       hb_cmdargInit( argc, argv );
       hb_vmInit( TRUE );
       hb_vmQuit();
