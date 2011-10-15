@@ -1,5 +1,6 @@
 # Atención, la ruta include/lib de tdolphin tiene que estar definida, aqui o en rules.make
 ROOT = ../../../
+include $(ROOT)config/global.mk
 
 TARGET = helpdesk
 SOURCES = helpdesk.prg \
@@ -16,7 +17,10 @@ SOURCES = helpdesk.prg \
 
 PRGFLAGS=-I$(TGTK_DIR)/tdolphin/include
 #LIBS=-L/home/rafa/repositorios/subversion/tdolphindevel/lib/HARBOUR/gcc/dolphin -ldolphin
-LIBFILES_ =-L./ -ltdolphin -lmysqlclient -lhbct
+ifneq ($(HB_MAKE_PLAT),win)
+   LIBFILES_ =-lmysqlclient
+endif
+LIBFILES_ +=-L./ -ltdolphin -lhbct
 
 include $(ROOT)Rules.make
 
