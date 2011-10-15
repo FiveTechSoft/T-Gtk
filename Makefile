@@ -22,6 +22,12 @@ endif
 ifeq ($(SQLITE),yes)
 	make -C src/sqlite3
 endif
+ifeq ($(MYSQL),yes)
+	make -C src/mysql
+endif
+ifeq ($(DOLPHIN),yes)
+	make -C tdolphin
+endif
 ifeq ($(POSTGRE),yes)
 	make -C src/pgsql
 endif
@@ -44,6 +50,12 @@ endif
 ifeq ($(SQLITE),yes)
 	make -C src/sqlite3 clean
 endif
+ifeq ($(MYSQL),yes)
+	make -C src/mysql clean
+endif
+ifeq ($(DOLPHIN),yes)
+	make -C tdolphin clean
+endif
 ifeq ($(POSTGRE),yes)
 	make -C src/pgsql clean
 endif
@@ -64,6 +76,12 @@ ifeq ($(CURL),yes)
 endif
 ifeq ($(SQLITE),yes)
 	make -C src/sqlite3 install
+endif
+ifeq ($(MYSQL),yes)
+	make -C src/mysql install
+endif
+ifeq ($(DOLPHIN),yes)
+	make -C tdolphin install
 endif
 ifeq ($(POSTGRE),yes)
 	make -C src/pgsql install

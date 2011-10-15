@@ -8,7 +8,7 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
-2011-10-14 19:56 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+2011-10-14 23:56 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   *  hbgtk/main.c
   *  hbgtk/gtkmain.c
   *  config/gensetenv.mk
@@ -16,6 +16,15 @@
   *  Rules.make
   !Incorporado lo minimo necesario para compilar GTK con multitarea. (testing)
    para activar, colocar export GTK_THREAD=yes en setenv.mk
+
+  *  src/mysql
+     Organizado igual que la carpeta de postgres.. fuentes de las contrib de 
+     Harbour y xHarbour
+  *  Makefile
+     Agregadas lineas para compilar src/mysql y tdolphin.
+  +  tdolphin...
+     Anexados fuentes de dolphin para facilitar la compilacion junto a t-gtk.
+     (no modificar... en lo posible solo actualizar con el SVN de dolphin)
 
 
 2011-10-13 21:32 UTC-430 Riztan Gutierrez <riztan at gmail.com>
