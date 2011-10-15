@@ -4,8 +4,8 @@ ROOT = ../../../
 TARGET = test
 SOURCES = dophin.prg
 
-#PRGFLAGS=-I/home/rafa/repositorios/subversion/tdolphindevel/include
-#LIBS=-L/home/rafa/repositorios/subversion/tdolphindevel/lib/HARBOUR/gcc/dolphin -ldolphin
+PRGFLAGS=-I$(TGTK_DIR)/tdolphin/include
+LIBFILES_=-ltdolphin -lmysqlclient -lhbct
 #LIBS =-L./ -ldolphin 
 
 include $(ROOT)Rules.make

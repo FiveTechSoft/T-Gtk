@@ -14,9 +14,9 @@ SOURCES = helpdesk.prg \
           funciones.prg \
           add_incidencia.prg \
 
-PRGFLAGS=-I/home/rafa/repositorios/subversion/tdolphindevel/include
+PRGFLAGS=-I$(TGTK_DIR)/tdolphin/include
 #LIBS=-L/home/rafa/repositorios/subversion/tdolphindevel/lib/HARBOUR/gcc/dolphin -ldolphin
-LIBS =-L./ -ldolphin 
+LIBFILES_ =-L./ -ltdolphin -lmysqlclient -lhbct
 
 include $(ROOT)Rules.make
 
