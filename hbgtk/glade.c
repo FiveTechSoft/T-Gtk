@@ -75,7 +75,7 @@ HB_FUNC( GLADE_XML_GET_WIDGET )
   GtkWidget * widget;
   if( GetGtkBuilderSts() )
   {
-     widget = _gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) );  
+     widget = GTK_WIDGET( gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) ) );  
      hb_retptr( widget );
 }else
   {

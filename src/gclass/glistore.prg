@@ -24,7 +24,7 @@
 #include "hbclass.ch"
 
 #define GtkTreeIter  Array( 4 )
-
+ 
 CLASS GLISTSTORE FROM GOBJECT
       DATA aTypes
 
@@ -36,6 +36,7 @@ CLASS GLISTSTORE FROM GOBJECT
       METHOD SetValues( aIter, aValues )
       METHOD Clear() INLINE gtk_list_store_clear( ::pWidget )
       METHOD Remove( aIter ) INLINE gtk_list_store_remove( ::pWidget, aIter ) 
+      METHOD Create() 
 
 ENDCLASS
 
@@ -54,6 +55,10 @@ METHOD NewAuto( aItems ) CLASS gListStore
       ::pWidget  := hb_gtk_list_store_new( aItems )
 
 RETURN Self
+
+METHOD Create( pModel )  CLASS gListStore
+      ::pWidget := pModel
+RETURN  Self
 
 
 /*El iter tenemos que devolverlo, opcional, si despues queremos emplearlo con el

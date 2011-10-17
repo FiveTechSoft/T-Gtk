@@ -169,3 +169,10 @@ HB_FUNC( G_OBJECT_SET_PROPERTY )
   }
 }
 
+HB_FUNC( GTK_LIST_STORE )
+{
+ GObject * object = hb_parptr( 1 );
+ hb_retptr(  GTK_LIST_STORE( object ) );
+}
+
+

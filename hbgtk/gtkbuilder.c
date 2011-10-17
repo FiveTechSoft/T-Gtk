@@ -36,28 +36,20 @@ HB_FUNC( GTK_BUILDER_ADD_FROM_FILE )
 }
 
 
+
 //-------------
-
-GtkWidget * _gtk_builder_get_object ( GtkBuilder * pBuilder, const gchar *name )
-{
-  return GTK_WIDGET ( gtk_builder_get_object (pBuilder, name));
-}
-
 
 HB_FUNC( GTK_BUILDER_GET_OBJECT )
 {
-  GtkWidget * widget;
-  GtkBuilder * pBuilder    = hb_parptr( 1 );
+  GObject * object;
+  GtkBuilder * pBuilder = hb_parptr( 1 );
   const gchar *name = ( const gchar * ) hb_parc( 2 );
   
-  widget = _gtk_builder_get_object (pBuilder, name);
+  object = gtk_builder_get_object (pBuilder, name);
   
-  hb_retptr( ( GtkWidget * ) widget );
+  hb_retptr( object );
 
 }
-
-
-//-------------
 
 
 BOOL SetGtkBuilder( BOOL l )
