@@ -1181,6 +1181,12 @@
        =>;
          <oLbx> :=  gListStore():NewAuto( <aItems> )
 
+#xcommand DEFINE LIST_STORE <oLbx>  ;
+                 MODEL <cModel> ;
+                 RESOURCE <pGlade> ;
+       =>;
+         <oLbx> :=  gListStore():Create( <cModel>,<pGlade> )
+
 #xcommand APPEND LIST_STORE <oLbx> ;
                  [ ITER <aIter> ];
                  [ VALUES <aValues,...> ];

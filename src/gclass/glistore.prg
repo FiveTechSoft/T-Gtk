@@ -36,7 +36,7 @@ CLASS GLISTSTORE FROM GOBJECT
       METHOD SetValues( aIter, aValues )
       METHOD Clear() INLINE gtk_list_store_clear( ::pWidget )
       METHOD Remove( aIter ) INLINE gtk_list_store_remove( ::pWidget, aIter ) 
-      METHOD Create() 
+      METHOD Create( pModel, pGlade ) 
 
 ENDCLASS
 
@@ -56,8 +56,10 @@ METHOD NewAuto( aItems ) CLASS gListStore
 
 RETURN Self
 
-METHOD Create( pModel )  CLASS gListStore
-      ::pWidget := pModel
+METHOD Create( cModel, pGlade )  CLASS gListStore
+
+      ::pWidget := GTK_LIST_STORE( GTK_BUILDER_GET_OBJECT( pGlade, cModel )  )
+
 RETURN  Self
 
 

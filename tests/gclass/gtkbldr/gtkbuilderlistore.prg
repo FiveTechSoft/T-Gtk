@@ -21,10 +21,7 @@ Function main( )
     modelodatos( )
 
     DEFINE WINDOW oWnd ID "window1" RESOURCE cResource
-
-        DEFINE TREEVIEW oTreeView ID "treeview1"  RESOURCE cResource
-
-      
+   
     ACTIVATE WINDOW oWnd
 
 RETURN NIL
@@ -46,10 +43,9 @@ function modelodatos(  )
                     { .F., 6112,  "Enhancement","netscape-like collapsable toolbars" },;
                     { .F., 1,     "Normal",     "First bug :=)" } }
 
-   pListore := GTK_LIST_STORE( GTK_BUILDER_GET_OBJECT( cResource, "liststore1" )  )
-
-   oLbx := GLISTSTORE():Create( pListore )
-
+   
+   DEFINE LIST_STORE oLbx MODEL "liststore1" RESOURCE cResource
+   
    For x := 1 To Len( aItems )
         APPEND LIST_STORE oLbx ITER aIter
         SET values LIST_STORE oLbx ITER aIter VALUES aItems[x]
