@@ -239,7 +239,7 @@
                  [ <label: TEXT,LABEL,PROMPT> <cText> ];
                  [ <lMarkup: MARKUP> ] ;
                  [ <lExpand: EXPAND> ] ;
-                 [ <lMnemonic: MNEMONIC> ];                 
+                 [ <lMnemonic: MNEMONIC> ];
                  [ FONT <oFont> ];
                  [ <lFill: FILL> ] ;
                  [ PADDING <nPadding> ];
@@ -517,8 +517,8 @@
 
 #xcommand SET RESOURCES <uGlade> FROM BUFFER <cBuffer> [ ROOT <root> ];
   	      => ;
-	      <uGlade> := glade_xml_new_from_buffer( <cBuffer>, <root> )	      
-	      
+	      <uGlade> := glade_xml_new_from_buffer( <cBuffer>, <root> )
+
 
 // ToolBar
 #xcommand DEFINE TOOLBAR [<oToolBar>]  ;
@@ -1254,12 +1254,12 @@
               [ <oper: EDITABLE, TOOGLE> <uAction> ];
        =>;
       [ <oCol> := ] gTreeViewColumn():New( <cTitle>, <cType>, <nPos>, <.lExpand.>,;
-                           <oTreeView>, <nWidth>, <.lSort.>, [ \{| oSender, path, uVal, aIter | <uAction> \} ] ) 
+                           <oTreeView>, <nWidth>, <.lSort.>, [ \{| oSender, path, uVal, aIter | <uAction> \} ] )
 
 // Comando para poner un MENUPOPUP a un treeview
 #xcommand DEFINE MENU <aMenus,...> OF TREEVIEW <oTreeView>  ;
        	      => ;
-	      <oTreeView>:SetMenuPopup( \{<aMenus>\}) 
+	      <oTreeView>:SetMenuPopup( \{<aMenus>\})
 
 
 /* Soporte para Modelo de Datos TREESTORE */
@@ -1324,7 +1324,7 @@
 #define COL_TYPE_BOX     3
 #define COL_TYPE_RADIO   4
 #define COL_TYPE_BITMAP  5
- 
+
 //------------------------------------------------------------------------//
 
 #xcommand DEFINE BROWSE [ <oBrw> ] ;
@@ -1373,7 +1373,7 @@
              <cHead>,;
             [ If( ValType(<uData>)== "B", <uData>, <{uData}> ) ],;
              <nWidth>, <uClrFore>, <uClrBack> ,;
-             <nType>, <cBmpFile> ) )     	
+             <nType>, <cBmpFile> ) )
 
 
 /* Soporte para AccelGroup */
@@ -1584,6 +1584,13 @@
 #xcommand SET GTKBUILDER  OFF;
            =>;
            SetGtkBuilder( .F. )
+
+#xcommand DEFINE TABORDER [ <oTab> ];
+                 WIDGETS <aWidgets,...> ;
+                 OF <oParent> ;
+       =>;
+        [ <oTab> := ] gTabOrder():Create( \{<aWidgets>\}, <oParent> )
+
 
  extern errorsys
 
