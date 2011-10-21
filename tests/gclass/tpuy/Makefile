@@ -7,13 +7,18 @@ ROOT = ../../../
 include $(ROOT)config/global.mk
 
 TARGET = tpuy
-SOURCES  = main.prg        \
-           tpublic.prg     \
-           hbrun.prg       \
-	   connto.prg      \
-           tools01.prg     \
-           testqry1.prg    \
-           Tpostgres.prg    \
+SOURCES  = main.prg          \
+           tpublic.prg       \
+           hbrun.prg         \
+	   connto.prg        \
+           tools01.prg       \
+           testqry1.prg      \
+           Tpostgres.prg     \
+           datamodel.prg     \
+           tpy_selector.prg  \
+           pcget.prg         \
+           gpctoolbutton.prg \
+           utf.prg           \
            about.prg
 
 #	   filechooser.prg \

@@ -32,12 +32,12 @@ memvar oTpuy
  */
 Function AppAbout()
    
-   Local oAbout
+//   Local oAbout
 
 //   MsgInfo( CStr(oTpuy:cResource) )
 
-   SET RESOURCES oTpuy:cResource FROM FILE oTpuy:cRsrcMain 
-   DEFINE ABOUT oAbout ID "acercade" RESOURCE oTpuy:cResource
+//   SET RESOURCES oTpuy:cResource FROM FILE oTpuy:cRsrcMain 
+//   DEFINE ABOUT oAbout ID "acercade" RESOURCE oTpuy:cResource
 
 Return NIL
 
@@ -47,20 +47,19 @@ Return TpuyAbout()
 
 
 Function TpuyAbout()
-   Local oWnd, oBoxH, oBoxV, oBox2, oImage, oBook
-   Local cText, cText2, oFont
+   Local oWnd, oBoxH, oBoxV, oBox2, oBook //,oImage
+   Local cText, cText2 //, oFont
    Local oScroll, oTextView, oTextViewA, oTextView2, oTitu
    Local oImageAR, oImageVE
-   Local nWhere := 1
    Local aStart := Array( 14 )
 
-   DEFINE FONT oFont NAME "Arial italic 9"
+   //DEFINE FONT oFont NAME "Arial italic 9"
    DEFINE IMAGE oImageAR FILE oTpuy:cImages+"ar.gif" LOAD
    DEFINE IMAGE oImageVE FILE oTpuy:cImages+"ve.gif" LOAD
 
    cText := ""
 
-   DEFINE WINDOW oWnd TITLE "Acerca de " + TEPUY_NAME  SIZE 600,300 ;
+   DEFINE WINDOW oWnd TITLE "Acerca de " + TPUY_NAME  SIZE 600,300 ;
           ICON_FILE oTpuy:cIconMain
 
 //   -----  Con respecto al ICON, por ahi vi en la documentacion de GTK
@@ -91,17 +90,17 @@ Function TpuyAbout()
                                     "style", PANGO_STYLE_ITALIC } )
 
    
-   cText := "Versión " + TEPUY_VERSION + CRLF + CRLF + ;
+   cText := "Versión " + TPUY_VERSION + CRLF + CRLF + ;
             "(c) 2008 - 2011 tpuy.org  "+ CRLF + ;
             "Desarrolladores: " 
 
-   oTextView2:Insert_Tag( TEPUY_NAME+CRLF, "title"   , aStart )
+   oTextView2:Insert_Tag( TPUY_NAME+CRLF, "title"   , aStart )
 
    oTextView2:Insert_Tag( cText, "text", aStart )
-   oTextView2:Insert_Tag( TEPUY_TEAM+CRLF, "link", aStart )
+   oTextView2:Insert_Tag( TPUY_TEAM+CRLF, "link", aStart )
 
    oTextView2:Insert_Tag( "e-mail: ", "text", aStart )
-   oTextView2:Insert_Tag( TEPUY_MAIL+CRLF+CRLF, "link", aStart )
+   oTextView2:Insert_Tag( TPUY_MAIL+CRLF+CRLF, "link", aStart )
 
    oTextView2:Insert_Tag( "contacto: "+CRLF, "title", aStart )
 
@@ -114,7 +113,7 @@ Function TpuyAbout()
    oTextView2:Insert_Tag( " ", "text" , aStart )
    oTextView2:Insert_Pixbuf( aStart, oImageVE )
    oTextView2:Insert_Tag( "   Caracas. Venezuela"+CRLF, "text" , aStart )
-   oTextView2:Insert_Tag( "   Teléfono: +58 (212) 761.95.20 / 761.52.30 / 761.18.39 " + CRLF, "text" , aStart )
+   oTextView2:Insert_Tag( "      Teléfono: +58 (412) 756.30.82 " + CRLF, "text" , aStart )
 
       DEFINE BOX oBoxV VERTICAL EXPAND FILL
       DEFINE LABEL oTitu PROMPT "Licencia Traducida"

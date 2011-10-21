@@ -110,7 +110,7 @@ Function Main( uPar1, uPar2, uPar3, uPar4)
 //Function Main(  )
 
    Local cVersion:="0.1 (Alfa)"
-   Local cSystem_Name:=TEPUY_NAME+" v"+cVersion
+   Local cSystem_Name:=TPUY_NAME+" v"+cVersion
 
    Local nValor := ROUND(SECONDS()+50,0)
 
@@ -173,7 +173,7 @@ Function Main( uPar1, uPar2, uPar3, uPar4)
 */
 
    oTpuy:aTabs_Main := { TP_TABLE_MAIN, TP_TABLE_ENTITY }
-   oTpuy:cMainSchema:= Alltrim(TEPUY_SCHEMA)+"."
+   oTpuy:cMainSchema:= Alltrim(TPUY_SCHEMA)+"."
    oTpuy:cImages    := "./images/"
    oTpuy:cResources := "./resources/"
    oTpuy:cTablas    := "./tables/"

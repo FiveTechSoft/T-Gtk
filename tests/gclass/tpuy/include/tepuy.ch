@@ -21,14 +21,17 @@
  */
 
 #include "xhb.ch"
+#include "common.ch"
+#include "proandsys_lang_es_ve.ch"
+
 //#translate  <exp1> IN <exp2>     =>  <exp1> $ <exp2> 
 
-#define TEPUY_VERSION            "Alfa 0.1"
-#define TEPUY_NAME               "tepuy"
-#define TEPUY_WWW                "http://code.google.com/p/tepuysoft/"
-#define TEPUY_TEAM               "http://code.google.com/p/tepuysoft/people/list"
-#define TEPUY_MAIL               "desarrollo@tepuy.org"
-#define TEPUY_SCHEMA             "tepuy"
+#define TPUY_VERSION            "Alfa 0.1"
+#define TPUY_NAME               "Tpuy"
+#define TPUY_WWW                "http://code.google.com/p/tepuysoft/"
+#define TPUY_TEAM               "http://code.google.com/p/tepuysoft/people/list"
+#define TPUY_MAIL               "tpuy@t-gtk.org"
+#define TPUY_SCHEMA             "tepuy"
 
 #define TPY_DATEFORMAT  "dd/mm/yyyy"
 
@@ -46,8 +49,9 @@
                                 IF <v1> == NIL ; <v1> := <x1> ; END ;
                                 [; IF <vn> == NIL ; <vn> := <xn> ; END ]
 */
-#define YES                     .T.
-#define NO                      .F.
+
+//#define YES                     .T.
+//#define NO                      .F.
 
 //Fin
 
