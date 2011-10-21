@@ -90,7 +90,7 @@ Function Login(cHost,cDB,cUser,cPass,nPort)
 
 //    MsgInfo( "ErrorMessage "+PQErrorMessage(res) )
 
-    PQclear(res)
+    //PQclear(res)
 
 
     nTime := SECONDS()
@@ -150,7 +150,7 @@ Function Login(cHost,cDB,cUser,cPass,nPort)
              "Resultado" )
 
 
-    PQclear(res)
+    //PQclear(res)
 
     res := PQexec(conn,'select * from customer;')
 
@@ -170,7 +170,7 @@ Function Login(cHost,cDB,cUser,cPass,nPort)
 
 
     // Cerrando la conexion
-    PQClose(conn)
+    //PQClose(conn)
 
 
 Return .T.

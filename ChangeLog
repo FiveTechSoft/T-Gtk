@@ -8,6 +8,20 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-10-20 21:47 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  *  Rules.make
+     + regla cuando se compila con postgresql.
+
+  *  include/gclass.ch
+     + GFONT
+
+  *  src/errorsys.prg
+     * Correcciones menores por mensajes emitidos al compilar.
+
+  *  tests/gclass/tpuy
+     * Mejorando el ejemplo.
+
+
 2011-10-15 03:50 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   *  tests/gclass/amante/Makefile
   *  tests/gclass/dophin/Makefile

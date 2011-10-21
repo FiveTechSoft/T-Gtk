@@ -55,25 +55,23 @@ PROCEDURE ErrorSys
 RETURN
 
 STATIC FUNCTION DefError( oError )
-   LOCAL cMessage
-   LOCAL cDOSError
-   LOCAL aStart := Array( 14 )
-   LOCAL aOptions
-   LOCAL nChoice
+   Local cMessage,cLineTmp
+   Local aStart := Array( 14 )
+   Local nChoice
    Local cTextclean := ""
-   LOCAL n
-   LOCAL aRDDS, j, nTarget, e, naux
-   LOCAL nArea
+   Local n,x
+   Local aRDDS, j, nTarget, nAux, nLines
    Local lReturn := .F.
-
-   Local cText := "", cText1, oWnd, oScrool,hView, hBuffer, oBox, oBtn, oBoxH, expand, oFont, oExpand, oMemo
+   Local cText := "", cText1, oWnd, oScrool, oBox, oBtn, oBoxH, oMemo, oExpand
    Local cTextExpand := '<span foreground="orange" size="large"><b>Pulse for view <span foreground="red"'+;
                         ' size="large" ><i> details</i></span></b>!</span>'
+/*
    Local aStyle := { { "red" ,    BGCOLOR , STATE_NORMAL },;
                      { "yellow" , BGCOLOR , STATE_PRELIGHT },;
                      { "white"  , FGCOLOR , STATE_NORMAL } }
    Local aStyleChild := { { "white", FGCOLOR , STATE_NORMAL },;
                           { "red",   FGCOLOR , STATE_PRELIGHT }}
+*/
    Local acSet:={                                                     ;
           'Exact      :','Fixed      :','Decimals   :','Dateformat :',;
           'Epoch      :','Path       :','Default    :','Exclusive  :',;
@@ -191,7 +189,7 @@ cDescripcion( oError )
 
    cText += "   Multi Threading   : " + If( Hb_MultiThread(),"Si","No" )  + CRLF
    cText += "   VM Optimizacion   : " + Alltrim( str( Hb_VmMode() ) ) + CRLF + CRLF
-
+ 
    // Error object analysis
    cMessage   = ErrorMessage( oError ) + CRLF
    cText += "Descripción del error producido" + CRLF+;
@@ -412,13 +410,9 @@ Return .F.
 
 Static Function __Grabar( cText )
 
-   local nManip                                                      ,;
-         cCadena := ''                                               ,;
-         nAux                                                        ,;
-         nAux1                                                       ,;
-         oErr                                                        ,;
-         lSw                                                         ,;
-         cNumero := Space( 6 )                                       ,;
+   local nManip               ,;
+         oErr                 ,;
+         cNumero              ,;
          nNumero
 
    errorblock({|e| Break(e)})
@@ -861,7 +855,7 @@ Return aDev
 
 Static function FLocate( nManipu, cPalabra )
 local nPosChar:=0               ,;
-      nT      :=0               ,;
+      nT                        ,;
       cBuffer :=Space( BUFFER ) ,;
       lFound  := .F.
 

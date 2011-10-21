@@ -12,10 +12,12 @@ SOURCES  = main.prg        \
            hbrun.prg       \
 	   connto.prg      \
            tools01.prg     \
+           testqry1.prg    \
+           Tpostgres.prg    \
+           about.prg
 
 #	   filechooser.prg \
            about.prg       \
-           testqry1.prg    \
            xml.prg 
 
 

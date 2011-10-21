@@ -43,10 +43,10 @@ Return NIL
 
 /*  por los momentos dejo la funcion con el nombre para evitar algun problema */
 Function Acerca_de()   
-Return TepuyAbout()
+Return TpuyAbout()
 
 
-Function TepuyAbout()
+Function TpuyAbout()
    Local oWnd, oBoxH, oBoxV, oBox2, oImage, oBook
    Local cText, cText2, oFont
    Local oScroll, oTextView, oTextViewA, oTextView2, oTitu
@@ -92,7 +92,7 @@ Function TepuyAbout()
 
    
    cText := "Versión " + TEPUY_VERSION + CRLF + CRLF + ;
-            "(c) 2008 - 2009 tepuy.org  "+ CRLF + ;
+            "(c) 2008 - 2011 tpuy.org  "+ CRLF + ;
             "Desarrolladores: " 
 
    oTextView2:Insert_Tag( TEPUY_NAME+CRLF, "title"   , aStart )
@@ -126,7 +126,7 @@ Function TepuyAbout()
 
    oTextView:Insert( "     "+ CRLF )
    oTextView:Insert( "     "+ CRLF )
-   oTextView:Insert( "      Copyright (C) 2007"+ CRLF )
+   oTextView:Insert( "      Copyright (C) 2011"+ CRLF )
    oTextView:Insert( "     "+ CRLF )
    oTextView:Insert( "      Licencia LGPL."+ CRLF )
    oTextView:Insert( "     "+ CRLF )

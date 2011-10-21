@@ -8,7 +8,7 @@ SOURCES = dophin.prg
 PRGFLAGS=-I$(TGTK_DIR)/tdolphin/include
 LIBFILES_=-ltdolphin -lhbct
 ifneq ($(HB_MAKE_PLAT),win)
-   LIBFILES += -lmysqlclient
+   LIBFILES_+= -lmysqlclient
 endif
 #LIBS =-L./ -ldolphin 
 

@@ -235,6 +235,7 @@ ifeq ($(POSTGRE),yes)
         #Flags para sistemas GNU/Linux
         CFLAGS+=-I../../include -I/usr/include -I/usr/include/libpq \
                 -I/us/include/pgsql/server/libpq -I/usr/include/postgresql
+        LIBS+=-lhbpg -L/usr/lib -lpq -lpgport -lkrb5 -lssl -lcrypt
     endif
 endif
 
