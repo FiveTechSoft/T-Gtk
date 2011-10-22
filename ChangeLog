@@ -11,8 +11,8 @@
 2011-10-20 21:47 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   *  Rules.make
      + regla cuando se compila con postgresql.
-  *  include/gclass.ch
-     + GFONT
+  *  include/tgtkext.ch
+     + Agregadas multiples funciones de t-gtk.
   *  src/errorsys.prg
      * Correcciones menores por mensajes emitidos al compilar.
   *  tests/gclass/tpuy
