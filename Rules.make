@@ -229,6 +229,7 @@ ifeq ($(POSTGRE),yes)
 #    PRGFLAGS=-I../../include
     ifeq ($(HB_COMPILER),mingw32)
         #Flags para sistemas WINDOWS
+        LIBS+=-lhbpg -L$(POSTGRE_PATH) -lpq
         CFLAGS+=-I$(POSTGRE_PATH) -DHB_OS_WIN_32_USED -DWIN32 -D_WIN32 \
                 -D__WIN32__ 
     else
