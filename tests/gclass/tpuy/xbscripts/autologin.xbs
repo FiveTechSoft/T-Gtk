@@ -10,40 +10,62 @@
 #include "tepuy.ch"
 
 /* cabeceras para gnomedb y libgda */
+/*
 #include "gnomedb.ch"
 
 #define  POSTGRESQL    0
 #define  LIBGDA        1
+*/
 
-Function Init()
+Function Init( lSilence )
 
    Local hConn := hb_ReadIni("connect.ini")
    Local hItem,cConnName
-   Local oConn
+   Local oConn, lConnect
 
+   Default lSilence := .f.
    
    oTpuy:oConn        := NIL
-   oTpuy:hConnections := NIL
-   oTpuy:hConnections := {=>}
+//   oTpuy:hConnections := NIL
+
+   oTpuy:hConnections := hb_Hash() 
 
 
    FOR EACH hItem IN hConn
+
       IF hItem:__EnumIndex()>1
          cConnName := hItem:__EnumKey()
-         oConn := ConnectTo(cConnName)
-         IF !HB_ISNIL(oConn)
-            HSet( oTpuy:hConnections, cConnName, oConn )
-            IF lower(hItem["default"])=="yes"
+
+         oConn := NIL
+
+         lConnect := IIF(lower(hItem["autoconn"])="no", .f., .t.)
+
+         If lConnect
+            If lSilence
+               oConn := ConnectTo(cConnName, hConn )
+            Else
+               oConn := MsgRun(MESSAGE_CONNECTING+" "+;
+                        cConnName,{|hItem| ConnectTo(cConnName, hConn ) })
+            EndIf
+         Else
+            IF oTpuy:lDebug ; MsgAlert("No conecta "+cConnName) ; ENDIF
+         EndIf
+
+         IF !HB_ISNIL(oConn) .or. !lConnect
+
+            HSet( oTpuy:hConnections, cConnName, hConn[ cConnName ])
+            IF lConnect .and. ;
+               ( lower(hItem["default"])=="yes" .or. ;
+                 hItem:__EnumIndex() = 2 )
+
                oTpuy:oConn := oConn
+
             ENDIF
          ELSE
             MsgStop("No se pudo realizar la conexion a "+cConnName)
          ENDIF
       ENDIF
    NEXT
-
-
-//? ValToPrg(oTpuy:oConn)
 
 Return .T.
 

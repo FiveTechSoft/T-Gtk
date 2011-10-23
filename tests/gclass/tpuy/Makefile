@@ -11,6 +11,7 @@ SOURCES  = main.prg          \
            tpublic.prg       \
            hbrun.prg         \
 	   connto.prg        \
+	   connsave.prg        \
            tools01.prg       \
            testqry1.prg      \
            Tpostgres.prg     \
@@ -19,11 +20,10 @@ SOURCES  = main.prg          \
            pcget.prg         \
            gpctoolbutton.prg \
            utf.prg           \
+           xml.prg           \
+	   filechooser.prg   \
            about.prg
 
-#	   filechooser.prg \
-           about.prg       \
-           xml.prg 
 
 
 LIBS =-ltdolphin -lhbct 

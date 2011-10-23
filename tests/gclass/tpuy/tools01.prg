@@ -133,17 +133,10 @@ Return oMsgRun
  *  \par cMsg
  */
 STATIC FUNCTION MsgRunDraw( oSender, event,  pixbuf, cMsg )
- Local gc
- Local pango
- Local color := { 0, 0XF, 25500, 34534 }
- Local widget
-
- Local cTextMark := '<span foreground="blue" size="large"><b>Esto es <span foreground="yellow"'+;
-                ' size="xx-large" background="black" ><i>fabuloso</i></span></b>!!!!</span>'+;
-                HB_OSNEWLINE()+;
-                '<span foreground="red" size="23000"><b><i>T-Gtk power!!</i></b> </span>' +;
-                HB_OSNEWLINE()+;
-                'Usando un lenguaje de <b>marcas</b> para mostrar textos'
+  LOCAL gc
+  LOCAL pango
+  LOCAL color := { 0, 0XF, 25500, 34534 }
+  LOCAL widget
 
   widget := oSender:pWidget
 
@@ -187,28 +180,49 @@ Return IIF( oMsgRun!=NIL , oMsgRun:End(), NIL)
 */
 /** \brief Lectura de Archivo .ini
  */
-Function LoadIni()
+Function LoadIni(cFileIni)
 
    Local hFile 
 
-   If !File( oTpuy:cMainIni )
-      Return .F.
+   Default cFileIni := oTpuy:cMainIni
+
+   If !File( cFileIni )
+      MsgAlert("No es posible localizar el archivo [<b>"+cFileIni+"</b>]" MARKUP )
+      Return nil
    EndIf
 
-   hFile:= HB_ReadIni( oTpuy:cMainIni )
+   hFile:= HB_ReadIni( cFileIni )
 
-
-Return .T.
+Return hFile
 
 
 /*
   Cargar archivo .ini
 */
 /** \brief Almacenar archivo .ini
+ *  \par hIni.  Hash con la iformación a almacenar.
+ *  \par cFileIni. Nombre del archivo donde se almacenaran los datos.
+ *  \par cHead. Comentario para el encabezado. Debe contener ";" o "#" al inicio.
+ *  \par cFoot. Comentario al pie del fichero ini. Debe contener ";" o "#" al inicio.
  */
-Function SaveIni()
-  /*Local cFile*/
+Function SaveIni( hIni,cFileIni,cHead,cFoot )
+   local hInitemp,hItem
+
+   DEFAULT cFileIni := "temp.ini"
+
+   hInitemp := hb_IniRead( "" )
+
+   FOR EACH hItem IN hIni
+      HSet( hInitemp, hItem:__EnumKey(), hItem )
+   NEXT
+
+   if !hb_IniWrite( cFileIni, hInitemp, cHead, cFoot )
+      MsgAlert("No se generó el archivo")
+      RETURN .F.
+   endif
+
 Return .T.
+
 
 
 /** \brief Verifica
@@ -228,8 +242,8 @@ RETURN .F.
 Function View( uValue  )
 
    Local oWnd,oBox
-   Local cVal:="",nCols,nLins,i,j,lConvertir
-   Local aData,cCadena,aConverted
+   Local nCols,nLins,i,j,lConvertir
+   Local aData,cCadena //,aConverted
    Local oScroll,oLbx,oTreeView, aIter
    
    IF !oTpuy:lDebug
@@ -245,7 +259,7 @@ Function View( uValue  )
          Return NIL
       EndIf
 
-      aConverted := uValue
+      //aConverted := uValue
 
       lConvertir := IIF( ValType(uValue[1])!="A", .T. , .F. )
 
@@ -258,7 +272,7 @@ Function View( uValue  )
       ENDIF
       
       aData := ARRAY( nLins, nCols )
-      aIter := ARRAY(nCols)
+      //aIter := ARRAY(nCols)
 
       For i = 1 to nLins
          aData[i,1]   := Alltrim(STRZERO(i,2))
@@ -511,10 +525,10 @@ Return .F.
  *  \par lRemcomillar  Valor logico que indica si debe remover las comillas
  *  \ret Arreglo con el contenido del CSV.
  */ 
-FUNCTION CSV2ARRAY(cFile,cDelimiter,lRemComillas)
+FUNCTION CSV2Array(cFile,cDelimiter,lRemComillas)
 
-   Local aItems := {}
-   Local aLines  := {}
+   Local aItems 
+   Local aLines  
    Local cText, nItems
    Local myDelimiter := "|"
 

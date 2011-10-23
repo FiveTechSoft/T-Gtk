@@ -22,7 +22,8 @@
 */
 
 #include "gclass.ch"
-#include "proandsys.ch"
+//#include "proandsys.ch"
+#include "hbxml.ch"
 
 // GLOBAL EXTERNAL oTpuy /** \var GLOBAL oTpuy. Objeto Principal oTpuy. */
 memvar oTpuy
@@ -54,7 +55,7 @@ RETURN oXmlNode
 FUNCTION MemoToXML()
 
    LOCAL nFileHandle
-   LOCAL oXmlDoc, oXmlConnection, oXmlDatabase,oXmlLogin
+   LOCAL oXmlDoc, oXmlConnection, oXmlLogin
    LOCAL cPass := oTpuy:cPass
    
    IF oTpuy:cSavePass != "T"
@@ -93,7 +94,6 @@ RETURN NIL
 FUNCTION LoadXML( cFile )
 
    LOCAL oXmlDoc := TXmlDocument():New()
-   LOCAL oXmlNode
 //   LOCAL cFile := oTpuy:cTemps+"login.xml"
 
    If !File( cFile )

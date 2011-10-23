@@ -169,7 +169,7 @@ METHOD New( cHost, cDatabase, cUser, cPass, nPort, Schema ) CLASS TPQserver
                 ::Schema := PQgetvalue( res, 1, 1 )
             endif
             //PQclear(res)
-            res := PQexec(::pDD,"select oid from pg_namespace where nspname = "+;
+            res := PQexec(::pDB,"select oid from pg_namespace where nspname = "+;
                                 DataToSql(::Schema) )
             if PQresultStatus(res) == PGRES_TUPLES_OK
                 ::OID := PQgetvalue( res, 1, 1 )

@@ -15,14 +15,16 @@
    http://www.gnu.org/licenses/
 */
 
-#include "proandsys.ch"
+//#include "proandsys.ch"
 #include "gclass.ch"
+#include "tepuy.ch"
 
+memvar oTpuy
 
 Function FileChooser(nMode, cType )
 
    Local oFileChooser, cFile, cDialog
-   Local cPath, cAction
+   Local cPath//, cAction
    
    Default nMode := GTK_FILE_CHOOSER_ACTION_OPEN
    Default cType := "XBS"
@@ -30,10 +32,10 @@ Function FileChooser(nMode, cType )
    DO CASE 
       CASE cType = "XBS"
          cPath   := "/xbscripts/*.xbs"
-         cAction := "oTpuy:OpenXBS(cFile)"
+         //cAction := "oTpuy:OpenXBS(cFile)"
       CASE cType = "SQL"
          cPath   := "/sql/*.sql"
-         cAction := "OpenSQL(cFile)"
+         //cAction := "OpenSQL(cFile)"
    ENDCASE
    
    SET RESOURCES oTpuy:cResource FROM FILE oTpuy:cRsrcMain 
@@ -65,14 +67,14 @@ Return .T.
 
 Function ChooserExec(nMode, cType )
 
-   Local oFileChooser, cFile, cFileName, cDialog
+   Local oFileChooser, cFile, cDialog
    Local cPath, cAction
 
    Default nMode := GTK_FILE_CHOOSER_ACTION_OPEN
    Default cType := "PPO"
 
    cPath   := "/xbscripts/*.ppo"
-   cAction := "oTpuy:RunXBS(cFile)"
+   //cAction := "oTpuy:RunXBS(cFile)"
 
    
 

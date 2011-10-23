@@ -18,6 +18,7 @@
 #define MSG_ALERTA                    "Alerta!"
 #define MSG_CONNECTED                 "Conectado"
 
+#define MESSAGE_INFO                  "Información"
 #define MESSAGE_PROCESSING            "Procesando..."
 #define MESSAGE_CONNECTING            "Conectando..."
 #define MESSAGE_STOP                  "Detenido"

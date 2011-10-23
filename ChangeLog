@@ -8,6 +8,18 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-10-23 01:51 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  *  config/gensetenv.mk
+     * corregido bug al generar las rutas lib e include de t-gtk
+       en GNU/Linux
+  *  tests/gclass/tpuy
+     * continua estabilizacion del ejemplo.
+       + Manipulación de conexiones. 
+         (autoconexion y guardar parametros de conexiones)
+         TODO: Posibilidad de agregar conexiones.(crear login).
+       + Posibilidad de conectar a postgresql.
+
+
 2011-10-20 21:47 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   *  Rules.make
      + regla cuando se compila con postgresql.

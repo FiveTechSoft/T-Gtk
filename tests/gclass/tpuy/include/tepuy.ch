@@ -22,7 +22,7 @@
 
 #include "xhb.ch"
 #include "common.ch"
-#include "proandsys_lang_es_ve.ch"
+//#include "proandsys_lang_es_ve.ch"
 
 //#translate  <exp1> IN <exp2>     =>  <exp1> $ <exp2> 
 

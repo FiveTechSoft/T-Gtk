@@ -145,7 +145,7 @@ CLASS TPublic2
    METHOD Release()        INLINE ::hVars := Hash()
 
 
-   ERROR HANDLER OnError( cMsg, nError )
+   ERROR HANDLER OnError( uValue )
 
 ENDCLASS
 
@@ -159,18 +159,18 @@ ENDCLASS
  *  para definir si permite la creacion de variables y si admite 
  *  sensibilidad a las mayusculas respectivamente.
 */
-METHOD New( lAutomatic, lSensitive ) CLASS TPublic2
+METHOD New( lAutoAdd, lSensitive ) CLASS TPublic2
 
    ::hVars := Hash()
 
-   DEFAULT lAutomatic:=.T., lSensitive:=.F.
+   DEFAULT lAutoAdd:=.T., lSensitive:=.F.
 
-   HSetAutoAdd( ::hVars, lAutomatic )
+   HSetAutoAdd( ::hVars, lAutoAdd )
 
    HSetCaseMatch( ::hVars, lSensitive )
 
    ::cName:=""
-   ::lAutoAdd  :=lAutomatic
+   ::lAutoAdd  :=lAutoAdd
    ::lSensitive:=lSensitive
 
 RETURN Self
