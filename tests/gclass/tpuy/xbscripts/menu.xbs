@@ -19,7 +19,7 @@
 
 #include "gclass.ch"
 #include "proandsys.ch"
-#include "hbclass.ch"
+#include "xhb.ch"
 
 
 Procedure Menu(oMenuBar)

@@ -151,7 +151,7 @@ ifeq ($(CURL),yes)
        $(info ----------------------------------------)
        $(error Error, aparentemente no existe o no localiza libcURL )
     endif
-    CFLAGS += $(shell pkg-config --cflags libcurl)/curl
+    CFLAGS += $(shell pkg-config --cflags libcurl)
     LIBS += $(shell pkg-config --libs libcurl )
 endif
 
