@@ -151,18 +151,8 @@ ifeq ($(CURL),yes)
        $(info ----------------------------------------)
        $(error Error, aparentemente no existe o no localiza libcURL )
     endif
-    ifeq ($(HB_COMPILER),mingw32)
-        ifeq ($(XBASE_COMPILER),XHARBOUR)
-            CFLAGS += -D_CURL_
-            CFLAGS +=-Ic:/curl/include -DHB_OS_WIN_32_USED
-        else
-            LIBFILES_ +=-lhbcurl
-        endif
-    else
-        CFLAGS += -D_CURL_
-        CFLAGS += $(shell pkg-config --cflags libcurl)
-        LIBS += $(shell pkg-config --libs libcurl )
-    endif
+    CFLAGS += $(shell pkg-config --cflags libcurl)/curl
+    LIBS += $(shell pkg-config --libs libcurl )
 endif
 
 ifneq ($(HB_MAKE_PLAT),win)
@@ -203,6 +193,7 @@ ifeq ($(MYSQL),yes)
     ifeq ($(HB_COMPILER),mingw32)
         #Flags para sistemas WINDOWS
         CFLAGS+=-I../../include -I$(MYSQL_PATH) -DHB_OS_WIN_32_USED -DWIN32 -D_WIN32 -D__WIN32__ 
+        LIBS +=-L$(MYSQL_PATH)/lib -lmysql
     else
         #Flags para sistemas GNU/Linux
         CFLAGS+=-I../../include -I/usr/mysql/include
@@ -214,7 +205,7 @@ ifeq ($(MYSQL),yes)
 ifeq ($(DOLPHIN),yes)
     ifeq ($(HB_COMPILER),mingw32)
         #Flags para sistemas WINDOWS
-        LIBS +=-L$(LIBDIR_TGTK_) -L./ -lmysql
+        LIBS +=-L$(LIBDIR_TGTK_)/lib -lmysql
         CFLAGS += -I$(INCLUDE_TGTK_PRG) -D__WIN__
         PRGFLAGS += -DNOINTERNAL-DDEBUG
         ifeq ($(XBASE_COMPILER),HARBOUR)

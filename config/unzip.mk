@@ -112,8 +112,29 @@ ifneq ($(notdir $(wildcard $(DIR_DOWN)/*)),)
     $(shell $(EXECUTE)$(GTK_PATH) $(DIR_DOWN)\$(GETTEXT_BIN_FILE).zip )
     $(shell $(EXECUTE)$(GTK_PATH) $(DIR_DOWN)\$(GETTEXT_DEV_FILE).zip )
 
+ifeq ($(GTKSOURCEVIEW),yes)
+    $(info Descomprimiendo GTK SourceView for Windows ... )
+    $(shell $(EXECUTE)$(GTK_PATH) $(DIR_DOWN)\$(SRCVIEW_BIN_FILE).zip )
+    $(shell $(EXECUTE)$(GTK_PATH) $(DIR_DOWN)\$(SRCVIEW_DEV_FILE).zip )
+endif
+
+ifeq ($(CURL),yes)
+    $(info Descomprimiendo LibCURL for Windows ... )
+    #$(shell $(EXECUTE)$(GTK_PATH) $(DIR_DOWN)\$(LIBCURL_BIN_FILE).zip )
+    $(shell $(EXECUTE)$(GTK_PATH) $(DIR_DOWN)\$(LIBCURL_INST_FILE).zip )
+    # No he podido hacer que 7z descomprima a partir de un directorio
+    # especifico. Por tanto, luego de descomprimir, se hace un xcopy para
+    # trasladar los archivos junto a nuestro Minimal GNU.
+    EXECUTE :=cmd /C start xcopy /E
+    $(info Copiando LibCURL a $(GTK_PATH) ... )
+    EXECUTE :=cmd /C start xcopy /E/Y
+    #$(info $(EXECUTE) $(GTK_PATH)\$(LIBCURL_INST_FILE) $(GTK_PATH) )
+    $(shell $(EXECUTE) $(GTK_PATH)\$(LIBCURL_INST_FILE) $(GTK_PATH) )
+endif
+
     $(info Ejecutando Instalador de OpenSSQL for Windows ... )
     $(shell $(DIR_DOWN)\$(OPENSSL_INST_FILE) )
+
 
     export TGTK_UNZIP :=no
     $(shell echo yes > $(TGTK_DIR)\config\unziped.log)

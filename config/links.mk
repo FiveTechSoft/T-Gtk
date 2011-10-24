@@ -153,9 +153,20 @@ export GETTEXT_BIN_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependenc
 GETTEXT_DEV_FILE :=gettext-runtime-dev_0.18.1.1-2_win32
 export GETTEXT_DEV_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/dependencies/$(GETTEXT_DEV_FILE).zip
 
+# GtkSourceView Win32
+SRCVIEW_BIN_FILE :=gtksourceview-2.10.0
+export SRCVIEW_BIN_LNK :=http://ftp.gnome.org/pub/gnome/binaries/win32/gtksourceview/2.10/$(SRCVIEW_BIN_FILE).zip
+
+SRCVIEW_DEV_FILE :=gtksourceview-dev-2.10.0
+export SRCVIEW_DEV_LNK :=http://ftp.gnome.org/pub/gnome/binaries/win32/gtksourceview/2.10/$(SRCVIEW_DEV_FILE).zip
+
 #OpenSSL for Windows
 OPENSSL_INST_FILE=Win32OpenSSL_Light-1_0_0d.exe
 OPENSSL_INST_LNK=http://www.slproweb.com/download/$(OPENSSL_INST_FILE)
+
+#LibCURL for Windows
+LIBCURL_INST_FILE=curl-7.22.0-devel-mingw32
+LIBCURL_INST_LNK=http://www.gknw.net/mirror/curl/win32/$(LIBCURL_INST_FILE).zip
 
 endif
 #/eof

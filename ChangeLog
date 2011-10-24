@@ -8,6 +8,20 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-10-23 20:41 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * curl-hb/Makefile
+    Modificacion menor.
+  * config/gensetenv.mk
+    Correccion menor.
+  * config/links.mk
+  * config/unzip.mk
+  * config/download.mk
+    Incorporado poder descargar y descomprimir libCURL en Windows
+    si esta marcado en setenv.mk (CURL=yes)
+  * Rules.make
+    Optimizado para incluir libCURL
+
+
 2011-10-23 01:51 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   *  config/gensetenv.mk
      * corregido bug al generar las rutas lib e include de t-gtk

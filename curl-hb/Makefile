@@ -4,7 +4,8 @@
 #
 ROOT = ../
 TARGET=libcurl-hb.a
-CFLAGS+=-I. -I$(ROOT)include $(shell pkg-config --cflags libgnomedb-3.0)
+
+CFLAGS+=-I. -I$(ROOT)include $(shell pkg-config --cflags libcurl)
 
 SOURCE_TYPE=c
 TGTK_INSTALL=$(ROOT)lib

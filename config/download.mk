@@ -83,9 +83,22 @@ $(info Ejecutando config/download.mk)
     $(shell $(EXECUTE) $(GETTEXT_BIN_LNK) -c -nd -P $(DIR_DOWN))
     $(shell $(EXECUTE) $(GETTEXT_DEV_LNK) -c -nd -P $(DIR_DOWN))
 
+ifeq ($(GTKSOURCEVIEW),yes)
+    $(info )
+    $(info Descargando GTK SourceView. )
+    $(shell $(EXECUTE) $(SRCVIEW_BIN_LNK) -c -nd -P $(DIR_DOWN))
+    $(shell $(EXECUTE) $(SRCVIEW_DEV_LNK) -c -nd -P $(DIR_DOWN))
+endif
+
     $(info )
     $(info Descargando OpenSSL. )
     $(shell $(EXECUTE) $(OPENSSL_INST_LNK) -c -nd -P $(DIR_DOWN))
+
+ifeq ($(CURL),yes)
+    $(info )
+    $(info Descargando LibCURL. )
+    $(shell $(EXECUTE) $(LIBCURL_INST_LNK) -c -nd -P $(DIR_DOWN))
+endif
 
     export TGTK_DOWN :=no
     $(shell echo yes > $(TGTK_DIR)\config\downloaded.log)
