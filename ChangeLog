@@ -8,6 +8,20 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-10-24 20:56 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * tests/gclass/tpuy/datamodel.prg
+    Algunas correcciones por adaptación a harbour, etc.
+  * tests/gclass/tpuy/xbscripts/autologin.xbs
+    Mensaje explicativo cuando una conexión no se realiza por
+    estar indicado en connect.ini 
+    (solo si la variable oTpuy:lDebug=.t.)
+  + tests/gclass/tpuy/xbscripts/dm_test1.xbs
+    Ejemplo del uso de la clase tpy_data_model indicando arreglos
+    de estructura y datos.
+  * menu/admin.ini 
+    Se coloca la opcion para llamar el ejemplo dm_test1.xbs
+
+
 2011-10-23 20:41 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * curl-hb/Makefile
     Modificacion menor.

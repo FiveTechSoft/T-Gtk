@@ -48,7 +48,11 @@ Function Init( lSilence )
                         cConnName,{|hItem| ConnectTo(cConnName, hConn ) })
             EndIf
          Else
-            IF oTpuy:lDebug ; MsgAlert("No conecta "+cConnName) ; ENDIF
+            IF oTpuy:lDebug
+               MsgAlert("No se realiza la conexión <b>"+cConnName+"</b>."+CRLF+;
+                        "Está marcada <b>NO</b> autoconectar en [connect.ini] ",;
+                        "Debug Activado..(oTpuy:lDebug) " MARKUP )
+            ENDIF
          EndIf
 
          IF !HB_ISNIL(oConn) .or. !lConnect

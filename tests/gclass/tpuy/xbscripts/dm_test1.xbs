@@ -1,0 +1,44 @@
+
+
+#include "gclass.ch"
+#include "proandsys.ch"
+#include "tepuy.ch"
+
+func prueba()
+
+   local aStruct
+   local aItems
+   local oModel
+   local oListBox
+
+
+   aItems  := {;
+              {"Riztan" , "Gutierrez"  ,.f.,date()   },;
+              {"Maria"  , "Rodriguez"  ,.t.,date()-15},;
+              {"Waleska", "Gutierrez"  ,.f.,date()-30};
+              }
+
+   aStruct := {{"Nombre"  , "C" , 20 , 0},;
+               {"Apellido", "C" , 20 , 0},;
+               {"Estatus" , "L" , 01 , 0},;
+               {"Fecha"   , "D" , 10 , 0}}
+
+
+   //oModel :=  tpy_data_model():New(,,aStruct,aItems) 
+   DEFINE MODEL  oModel  ;
+          STRUCT aStruct ;
+          DATA   aItems
+  
+
+   //oListBox := tpy_listbox():New(,oModel,"listbox",,350,500)
+   DEFINE LISTBOX oListBox ;
+          MODEL   oModel   ;
+          TITLE   "Listado";
+          SIZE    350,400 
+   
+
+   oListBox:Active()
+
+   oModel:Destroy()
+
+return nil

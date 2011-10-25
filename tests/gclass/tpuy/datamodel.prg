@@ -35,11 +35,12 @@
  * un modelo de datos.
  */
 
-#include "tepuy.ch"
-#include "common.ch"
+//#include "tepuy.ch"
+#include "proandsys.ch"
+#include "xhb.ch"
+//#include "common.ch"
 #include "gclass.ch"
 #include "hbclass.ch"
-//#include "common.ch"
 #include "pc-soft.ch"
 
 //#define GTK_STOCK_EDIT      "gtk-edit"
@@ -143,48 +144,47 @@ METHOD New( oConn, xQuery, aStruct, aItems, aActions, aValiders ) CLASS TPY_DATA
 //      ::hModel := hModel
 //      ::pWidget  := gtk_list_store_newv( Len( ::aTypes ) ,::aTypes  )
 
-    Local cBaseFields, nFields, nLenStru
-    Local y, nColumn, cWhere, cQuery //, oConsul,aDMStru
-    Local aField
+   Local cBaseFields, nFields, nLenStru
+   Local y, nColumn, cWhere, cQuery //, oConsul,aDMStru
+   Local aField
 
-    Default aItems   := {}
-    Default aStruct  := {}
-    Default aActions := {}
-    Default aValiders:= {}
+   Default aItems   := {}
+   Default aStruct  := {}
+   Default aActions := {}
+   Default aValiders:= {}
 
-    ::aStruct  := aStruct
-    ::aItems   := aItems
-    ::aActions := aActions
-    ::aValiders:= aValiders
+   ::aStruct  := aStruct
+   ::aItems   := aItems
+   ::aActions := aActions
+   ::aValiders:= aValiders
 //    ::aIter    := GtkTreeIter
 
-    ::hVars := Hash()
+   ::hVars := Hash()
 
-    If HB_ISNIL( oConn ) .AND. HB_ISOBJECT( oTpuy:aConnection[1] )
-//View("Estableciendo conexion por defecto...")
+   If HB_ISNIL( oConn ) .AND. HB_ISOBJECT( oTpuy:oConn )
+//? "Estableciendo conexion por defecto..."
 // Deberia registrar en un log en este momento...
-       oConn := oTpuy:aConnection[1]
-    Endif
+      oConn := oTpuy:oConn
+   Endif
 
-    If HB_ISOBJECT( xQuery )
-       ::oConn  := oConn
-       ::oQuery := xQuery
-       ::lQuery := .T.
-       //::aDMStru:= AClone(::aStruct)   (no es necesaria esta linea por ahora)
-       ::aItems := xQuery:aData
-       ::aStruct:= xQuery:aStruct
+   If HB_ISOBJECT( xQuery )
+      ::oConn  := oConn
+      ::oQuery := xQuery
+      ::lQuery := .T.
+      //::aDMStru:= AClone(::aStruct)   (no es necesaria esta linea por ahora)
+      ::aItems := xQuery:aData
+      ::aStruct:= xQuery:aStruct
 
-    ElseIf  HB_ISOBJECT( oConn ) .AND. ValType(xQuery)=="C"
-       ::oConn  := oConn
-       ::oQuery := oConn:Query(xQuery)
-       ::lQuery := .T.
-       ::aItems := ::oQuery:aData
-       ::aStruct:= ::oQuery:aStruct
+   ElseIf  HB_ISOBJECT( oConn ) .AND. ValType(xQuery)=="C"
+      ::oConn  := oConn
+      ::oQuery := oConn:Query(xQuery)
+      ::lQuery := .T.
+      ::aItems := ::oQuery:aData
+      ::aStruct:= ::oQuery:aStruct
 
-    EndIf
+   EndIf
     
-    ::aIter := ARRAY( LEN(::aItems) )
-
+   ::aIter := ARRAY( LEN(::aItems) )
 
    If ::lQuery .AND. HB_ISOBJECT(::oQuery)
 
@@ -248,8 +248,13 @@ METHOD New( oConn, xQuery, aStruct, aItems, aActions, aValiders ) CLASS TPY_DATA
 
       EndIf
 
-   EndIf
+   Else
 
+      nLenStru  := Len(::aStruct)
+      //nFields := ::oConn:Query("select * from "+cBaseFields+" limit 1" ):nFields
+      ::aDMStru := ARRAY( nLenStru, Len(::aStruct[1]) )
+
+   EndIf
 
 RETURN Self
 
@@ -406,40 +411,63 @@ METHOD Listore( oBox, oListBox ) CLASS TPY_DATA_MODEL
 
    aTypes  := ARRAY( LEN( aStruct ) )
    
-   If ValType( aStruct[1] ) = "A"
+   If HB_ISARRAY( aStruct[1] )
       Aeval( aStruct , { | row, n | aTypes[n] := StruToGType(row) }  )
    EndIf
-   
+
    /*Modelo de Datos */
-   DEFINE TREE_STORE ::oLbx ARRAY aTypes
+   //DEFINE TREE_STORE ::oLbx ARRAY aTypes
+   DEFINE LIST_STORE ::oLbx TYPES aTypes
 
    For nColumn := 1 To Len( aItems )
        APPEND LIST_STORE ::oLbx ITER ::aIter
+
        for n := 1 to Len( aItems[ nColumn ] )
           If aStruct[n,2] == "D"
              //-- Transformamos a Formato definido en tepuy.ch
-             cValTmp := TPY_DATEFORMAT   
-             cValTmp := strtran( cValTmp, 'dd', substr(aItems[nColumn,n], 9, 2) )
-             cValTmp := strtran( cValTmp, 'mm', substr(aItems[nColumn,n], 6, 2) )
-             cValTmp := strtran( cValTmp, 'yyyy', left(aItems[nColumn,n], 4) )
+             If HB_ISDATE(aItems[nColumn,n])
+                cValTmp := DTOC(aItems[nColumn,n])
+             Else
+                cValTmp := TPY_DATEFORMAT   
+                cValTmp := strtran( cValTmp, 'dd', substr(CStr(aItems[nColumn,n]), 9, 2) )
+                cValTmp := strtran( cValTmp, 'mm', substr(CStr(aItems[nColumn,n]), 6, 2) )
+                cValTmp := strtran( cValTmp, 'yyyy', left(CStr(aItems[nColumn,n]), 4) )
+             EndIf
           Else
              cValTmp := aItems[nColumn,n]
 
-             If !HB_ISNIL(::aDMStru[n,6])
-
-                If LEN(::aDMStru[n,6])==1
-                   If aStruct[n,2]== "C" .OR. aStruct[n,2]=="N"
-
-                     cValTmp := TRANSFORM( aItems[nColumn,n],;
-                                Repl(::aDMStru[n,6], aStruct[n,3]) )
-                   EndIf
- 
-                Else
-                   cValTmp := TRANSFORM( Val(aItems[nColumn,n]), ::aDMStru[n,6] )
+             If LEN( ::aDMStru[n] ) < 6
+                //cValTmp := TRANSFORM(  )
+                If aStruct[n,2]== "C" 
+                   cValTmp := aItems[nColumn,n]
+                ElseIf aStruct[n,2] == "N"
+                   cValTmp := CStr(aItems[nColumn,n])
+                ElseIf aStruct[n,2] == "L"
+                   //cValTmp := IIF(aItems[nColumn,n],"true","false")
+                   cValTmp := aItems[nColumn,n]
                 EndIf
+//? aStruct[n,2],"  ",cValTmp 
+             Else
+                If !HB_ISNIL(::aDMStru[n,6])
+
+                   If LEN(::aDMStru[n,6])==1
+                      If aStruct[n,2]== "C" .OR. aStruct[n,2]=="N"
+
+                        cValTmp := TRANSFORM( aItems[nColumn,n],;
+                                   Repl(::aDMStru[n,6], aStruct[n,3]) )
+                      EndIf
+ 
+                   Else
+                      cValTmp := TRANSFORM( Val(aItems[nColumn,n]), ::aDMStru[n,6] )
+                   EndIf
+                
+                EndIf
+
              EndIf
+
           EndIf
           SET LIST_STORE ::oLbx ITER ::aIter POS n VALUE cValTmp
+          //SET VALUES LIST_STORE ::oLbx ITER ::aIter VALUES aItems[nColumn]
        next
    Next
    
@@ -462,6 +490,28 @@ METHOD Listore( oBox, oListBox ) CLASS TPY_DATA_MODEL
 
    For nColumn=1 to nLenStru
    
+     if LEN( ::aDMStru[nColumn] ) < 6
+         If aStruct[nColumn,2] == "L"
+            cType := "active"
+         Else
+            cType := "text"       
+         EndIf
+
+         oTemp := oCol[nColumn]
+//? aStruct[nColumn,1]
+         DEFINE TREEVIEWCOLUMN oTemp COLUMN nColumn TITLE aStruct[nColumn,1] ;
+                TYPE cType SORT OF ::oTreeView
+         if aStruct[nColumn,2] == "L"
+               /* Indicamos la accion a ejecutar al click de la fila.*/
+               oTemp:oRenderer:bAction := {| o, cPath| fixed_toggled( o, cPath, ::oTreeview, ::oLbx ) }
+         endif
+
+         oTemp:SetResizable( .T. )
+
+         ::oTreeView:bRow_Activated := oListBox:bEdit
+         oCol[nColumn] := oTemp
+
+     else
       IF !HB_ISNIL(::aDMStru[nColumn,5])
          If aStruct[nColumn,2] == "L"
             cType := "active"
@@ -547,6 +597,7 @@ METHOD Listore( oBox, oListBox ) CLASS TPY_DATA_MODEL
          oCol[nColumn] := oTemp
 
       ENDIF       
+     endif
    Next nColumn
 
 //   ::aDMStru := aDMStru
@@ -849,7 +900,6 @@ METHOD Insert( aItems ) CLASS TPY_DATA_MODEL
          IF oExecute:lError
             MsgStop( oExecute:cError, " DataBase " + MSG_ALERTA )
             Return .F.
-            View(cQuery)
          EndIf
       
       Else
@@ -883,17 +933,27 @@ STATIC FUNCTION fixed_toggled( oCellRendererToggle, cPath, oTreeView, oLbx )
   fixed := oTreeView:GetValue( nColumn, "Boolean", Path, @aIter )
 
   // do something with the value
-  fixed := !fixed
+  //fixed := !fixed
 
   // aqui ejecutamos la validación.
-  If !Eval(oCellRendererToggle:bValid, oCellRendererToggle, fixed )
-     MsgInfo( "funcion fixed_toggled en listore.prg", "No Pasa" )
-     return .F.
-  EndIf
+  if HB_ISBLOCK(oCellRendererToggle:bValid)
+    If !Eval(oCellRendererToggle:bValid, oCellRendererToggle, !fixed )
+       MsgInfo( "funcion fixed_toggled en listore.prg", "No Pasa" )
+       return .F.
+    EndIf
+  endif
    
-   /* set new value */
-  oLbx:Set( aIter, nColumn, fixed )
-  
+  /* set new value */
+? oLbx:ClassName()
+  If UPPER(oLbx:ClassName())=="GLISTSTORE"
+     oTreeView:SetValue(nColumn, !fixed ,path,oLbx)
+
+  ElseIf UPPER(oLbx:ClassName())=="GTREESTORE"
+     oLbx:Set( aIter, nColumn, !fixed )
+
+  EndIf
+
+
   /* clean up */
   gtk_tree_path_free( path )
 
@@ -1232,11 +1292,11 @@ CLASS TPY_ABM FROM TPUBLIC
    METHOD Active( bAction, bInit )
    METHOD ACantGet()
    METHOD UpdateBuffer()
-   METHOD Enable()  INLINE (aEval( ::aGet, { |o,y| o:Enable() } ),;
-                            aEval( ::oBtn, { |o,y| o:Enable() } ), ::lEnable := .t.)
-   METHOD Disable() INLINE (aEval( ::aGet, { |o,y| o:Disable() } ),;
-                            aEval( ::oBtn, { |o,y| o:Disable() } ) , ::lEnable := .f.)
-   METHOD Refresh() INLINE aEval( ::aGet, { |o,y| o:Refresh() } )
+   METHOD Enable()  INLINE (aEval( ::aGet, { |o| o:Enable() } ),;
+                            aEval( ::oBtn, { |o| o:Enable() } ), ::lEnable := .t.)
+   METHOD Disable() INLINE (aEval( ::aGet, { |o| o:Disable() } ),;
+                            aEval( ::oBtn, { |o| o:Disable() } ) , ::lEnable := .f.)
+   METHOD Refresh() INLINE aEval( ::aGet, { |o| o:Refresh() } )
    METHOD nLen(n)   INLINE ::nLenGet := n
 
    METHOD Save()
@@ -2227,11 +2287,17 @@ METHOD New( oParent, oModel, cTitle, oIcon, nWidth, nHeight, cId, uGlade ) CLASS
 
       If ::lBotons //.AND. !Empty(::oBtns:hVars)
 
-         HSet( ::oBtns:hVars, "oTBtnNew"  , NIL )
-         HSet( ::oBtns:hVars, "oTBtnEdit" , NIL )
-         HSet( ::oBtns:hVars, "oTBtnDel"  , NIL )
-         HSet( ::oBtns:hVars, "oTBtnPrint", NIL )
-         HSet( ::oBtns:hVars, "oTBtnQuit" , NIL )
+         //HSet( ::oBtns:hVars, "oTBtnNew"  , NIL )
+         //HSet( ::oBtns:hVars, "oTBtnEdit" , NIL )
+         //HSet( ::oBtns:hVars, "oTBtnDel"  , NIL )
+         //HSet( ::oBtns:hVars, "oTBtnPrint", NIL )
+         //HSet( ::oBtns:hVars, "oTBtnQuit" , NIL )
+
+         ::oBtns:oTBtnNew   := NIL 
+         ::oBtns:oTBtnEdit  := NIL 
+         ::oBtns:oTBtnDel   := NIL 
+         ::oBtns:oTBtnPrint := NIL 
+         ::oBtns:oTBtnQuit  := NIL 
 
          IF ISNIL(::uGlade)
 
