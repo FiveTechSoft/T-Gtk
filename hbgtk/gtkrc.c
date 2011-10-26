@@ -52,13 +52,13 @@ HB_FUNC( GTK_RC_REPARSE_ALL) // void-->boolean
 
 HB_FUNC( GTK_RC_RESET_STYLES ) // pSetting;
 {
-  GtkSettings * settings = GTK_SETTINGS( hb_parnl( 1 ) );
+  GtkSettings * settings = GTK_SETTINGS( hb_parptr( 1 ) );
   gtk_rc_reset_styles(settings);
 }
 
 HB_FUNC( GTK_RC_REPARSE_ALL_FOR_SETTINGS ) // void-->boolean
 {
-  GtkSettings * settings = GTK_SETTINGS( hb_parnl( 1 ) );
+  GtkSettings * settings = GTK_SETTINGS( hb_parptr( 1 ) );
   gboolean force_load = ISNIL( 2 ) ? TRUE : hb_parl( 2 );
 
   hb_retl( gtk_rc_reparse_all_for_settings( settings, force_load ) );
