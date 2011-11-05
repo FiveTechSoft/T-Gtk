@@ -5,7 +5,7 @@
 
 ROOT = ../
 
-CFLAGS +=-I. -I$(ROOT)include $(shell pkg-config --cflags gtk+-2.0)$(shell pkg-config --cflags libglade-2.0)
+CFLAGS +=-I. -I$(ROOT)include #$(shell pkg-config --cflags gtk+-2.0)$(shell pkg-config --cflags libglade-2.0)
 
 SOURCE_TYPE=c
 

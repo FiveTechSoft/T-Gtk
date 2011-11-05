@@ -44,7 +44,7 @@ else
   endif
   # -- Version = [ 2.0 | 2.1 ]
   ifeq ($(HB_VERSION),)
-    export HB_VERSION =2.1
+    #export HB_VERSION =2.1
   endif
 endif
 ##############################################
@@ -63,8 +63,14 @@ ifneq ($(HB_VERSION),)
       endif
    endif
 else
-   export HB_VERSION=21
+   export HB_VERSION=31
 endif
+
+ifeq ($(HB_MAKE_PLAT),linux)
+  $(shell echo `harbour -build` | cut -c9-11 > $(ROOT)config/hbversion )
+  export HB_VERSION =$(subst .,,$(shell cat $(ROOT)config/hbversion))
+endif
+
 
 
 # Librerias para Multihilo:

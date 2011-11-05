@@ -167,7 +167,7 @@ HB_FUNC( GTK_TOOL_BUTTON_GET_STOCK_ID ) // toolbutton
 HB_FUNC( GTK_TOOL_BUTTON_SET_ICON_WIDGET ) // toolbutton, icon_widget
 {
    GtkToolButton * button  = GTK_TOOL_BUTTON( hb_parptr( 1 ) );
-   GtkWidget * icon_widget = GTK_WIDGET( hb_parnl( 2 )  );
+   GtkWidget * icon_widget = GTK_WIDGET( hb_parptr( 2 )  );
    gtk_tool_button_set_icon_widget( button, icon_widget );
 }
 
@@ -180,7 +180,7 @@ HB_FUNC( GTK_TOOL_BUTTON_GET_ICON_WIDGET ) // toolbutton --> icon_widget
 HB_FUNC( GTK_TOOL_BUTTON_SET_LABEL_WIDGET ) // button, label_widget
 {
   GtkToolButton * button  = GTK_TOOL_BUTTON( hb_parptr( 1 ) );	
-  GtkWidget * label = GTK_WIDGET( hb_parnl( 2 )  );
+  GtkWidget * label = GTK_WIDGET( hb_parptr( 2 )  );
   gtk_tool_button_set_label_widget( button, label );
 }
 

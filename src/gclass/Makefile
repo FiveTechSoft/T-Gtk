@@ -6,7 +6,6 @@
 ROOT = ../../
 
 
-
 PRGFLAGS=-I$(ROOT)include 
 CFLAGS+=-I$(ROOT)include
 TGTK_INSTALL=$(ROOT)lib

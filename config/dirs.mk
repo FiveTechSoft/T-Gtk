@@ -42,3 +42,29 @@ ifeq ($(HB_MAKE_PLAT),win)
   endif
 endif
 
+
+#ifeq ($(DIR_OBJ),)
+  #export DIR_OBJ =$(DIRSEP)$(HB_MAKE_PLAT)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)
+#  export DIR_OBJ =./
+#endif
+
+ifeq ($(strip $(SOURCE_TYPE)),)
+  SOURCE_TYPE=prg
+endif
+#Sources / object determination rule
+#subidr might override this file by providing a makefile.sources
+ifeq ($(strip $(SOURCES)),)
+  SOURCES=$(wildcard *.$(SOURCE_TYPE))
+endif
+
+OBJECTS_II=$(patsubst %.$(SOURCE_TYPE),$(DIR_OBJ)%.o,$(SOURCES))
+ifneq ($(strip $(CSOURCES)),)
+  OBJECTS_II+=$(patsubst %.c,$(DIR_OBJ)%.o,$(CSOURCES))
+endif
+ifneq ($(strip $(CPPSOURCES)),)
+  OBJECTS_II+=$(patsubst %.cpp,$(DIR_OBJ)%.o,$(CPPSOURCES))
+endif
+OBJECTS_I=$(dir $(OBJECTS_II))
+O_DIR = $(sort $(OBJECTS_I))
+$(info * Creando Directorio para los OBJ - $(O_DIR))
+$(shell mkdir -p $(O_DIR))

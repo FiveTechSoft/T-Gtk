@@ -7,8 +7,8 @@ Se recomienda colocar en el path la ruta include de t-gtk y harbour.
 
 
 Ejemplo:
-
-PATH=$PATH:/home/*usuario*/t-gtk/include
+GNU/Linux:
+export PATH=$PATH:$HOME/t-gtk/include
 
 En Windows:
 PATH=%PATH%;c:\t-gtk\include;c:\harbour\include

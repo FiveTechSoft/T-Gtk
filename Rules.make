@@ -27,11 +27,13 @@ else
 endif
 
 ifeq ($(XBASE_COMPILER),HARBOUR)
-  LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)hb
+  HB_SHORTNAME=hb$(HB_VERSION)
 endif
 ifeq ($(XBASE_COMPILER),XHARBOUR)
-  LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)xhb
+  HB_SHORTNAME=xhb$(HB_VERSION)
 endif
+LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_SHORTNAME)
+
 
 # Generar setenv.mk
 include $(ROOT)config/gensetenv.mk
@@ -40,6 +42,12 @@ include $(ROOT)config/gensetenv.mk
 include $(ROOT)config/pkgconfig.mk
 
 # Revisamos las Rutas y Creamos los directorios si es necesario... (miquel)
+ifeq ($(DIR_OBJ),)
+  export DIR_OBJ =.$(DIRSEP)$(HB_MAKE_PLAT)-$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)
+  ifeq ($(HB_MAKE_PLAT),linux)
+     export DIR_OBJ =.$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)
+  endif
+endif
 include $(ROOT)config/dirs.mk
 
 # Verificamos algunos binarios
@@ -96,7 +104,7 @@ LIBRARIAN = ranlib
 
 
 ifeq ($(HB_COMPILER),mingw32)
-   CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_ 
+   CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_
    ifeq ($(SUPPORT_PRINT_WIN32),yes)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
@@ -303,15 +311,14 @@ SOURCES=$(wildcard *.$(SOURCE_TYPE))
 endif
 
 ifeq ($(strip $(OBJECTS)),)
-OBJECTS=$(patsubst %.$(SOURCE_TYPE),%.o,$(SOURCES))
+ OBJECTS=$(patsubst %.$(SOURCE_TYPE),$(DIR_OBJ)%.o,$(SOURCES))
 ifneq ($(strip $(CSOURCES)),)
-OBJECTS+=$(patsubst %.c,%.o,$(CSOURCES))
+ OBJECTS+=$(patsubst %.c,$(DIR_OBJ)%.o,$(CSOURCES))
 endif
 ifneq ($(strip $(CPPSOURCES)),)
-   OBJECTS+=$(patsubst %.cpp,%.o,$(CPPSOURCES))
+   OBJECTS+=$(patsubst %.cpp,$(DIR_OBJ)%.o,$(CPPSOURCES))
 endif
 endif
-
 
 #COMMANDS
 all:$(TARGET) $(TARGETS)
@@ -320,13 +327,13 @@ linux:$(TARGET) $(TARGETS)
 
 .PHONY: clean install 
 
-%$(EXETYPE):%.o
+%$(EXETYPE):$(DIR_OBJ)%.o
 	$(CC) -o$@ $< $(HB_LIBDIR_) $(HB_LIBS_)
 
-%.o: %.c
+$(DIR_OBJ)%.o: %.c
 	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $<
 
-%.o: %.cpp
+$(DIR_OBJ)%.o: %.cpp
 	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $<
 
 %.c: %.prg
@@ -343,12 +350,12 @@ endif
 
 clean:
 ifeq ($(HB_COMPILER),mingw32)
-	del *.o
+	del $(DIR_OBJ)*.o
 	del *.ppo
 	del $(TARGET)
 	del $(TARGET).exe
 else
-	rm -f *.o
+	rm -f $(patsubst %,%*.o,$(O_DIR))
 	rm -f *.ppo
 	rm -f $(TARGET)
 	rm -f $(TARGET).exe

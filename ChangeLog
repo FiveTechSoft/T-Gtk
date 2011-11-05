@@ -8,6 +8,21 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-11-05 00:15 UTC-300 Federico de Maussion <fjdemaussion at gmail.com>
+  * hbgtk/gtktoolbar.c
+  * src/gclass/gwindow.prg
+    ! Se corrigen algunos valores incompatibles para 64bits.
+  * src/gclass/Makefile
+  * hbgtk/Makefile
+  * config/dirs.mk
+  * config/harbour.mk
+  * config/detect.mk
+  * Rules.make
+    * Modificaciones para generar Objetos en Directorios por:
+      Sistema Operativo [Distribucion], Arquitectura del Procesador
+      y Compilador xBase.
+
+
 2011-10-24 20:56 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * tests/gclass/tpuy/datamodel.prg
     Algunas correcciones por adaptación a harbour, etc.
