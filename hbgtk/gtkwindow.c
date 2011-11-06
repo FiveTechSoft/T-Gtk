@@ -162,7 +162,7 @@ HB_FUNC( GTK_WINDOW_SET_MODAL ) // window, bState -> void
 HB_FUNC( GTK_WINDOW_SET_TRANSIENT_FOR ) // window, parent
 {
   GtkWidget * window = GTK_WIDGET( hb_parptr( 1 ) );
-  GtkWidget * parent = GTK_WIDGET( hb_parptr( 1 ) );
+  GtkWidget * parent = GTK_WIDGET( hb_parptr( 2 ) );
 
   gtk_window_set_transient_for( GTK_WINDOW(window), GTK_WINDOW( parent) );
 }
