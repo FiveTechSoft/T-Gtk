@@ -337,6 +337,7 @@ ifeq ($(BIN_PLATFORM_NAME),yes)
     VARTEMP := $(subst $(DIRSEP)$(DIRSEP),,$(DIR_OBJ))
     TARGET :=$(TARGET)_$(subst $(DIRSEP),_,$(subst .,,$(VARTEMP)))
     TARGET := $(subst __,_,$(TARGET))
+    TARGET := $(patsubst %_,%,$(TARGET))
   endif
 endif
 
