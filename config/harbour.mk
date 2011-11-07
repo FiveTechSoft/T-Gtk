@@ -66,23 +66,23 @@ endif
 #   export HB_VERSION=31
 #endif
 
-ifneq ($(HB_VERSION),)
+ifeq ($(HB_VERSION),)
   ifeq ($(HB_MAKE_PLAT),win)
-
     VARTEMP:=$(word 2,$(shell $(HB_BIN_INSTALL)$(DIRSEP)harbour -build ) )
     VARTEMP:=$(subst .,,$(VARTEMP))
     VARTEMP:=$(subst dev,,$(VARTEMP))
     $(info $(VARTEMP) )
     ifneq ($(VARTEMP),)
-      export HB_VERSION =$(VARTEMP)
+      HB_VERSION =$(VARTEMP)
     endif
   endif
 
   ifeq ($(HB_MAKE_PLAT),linux)
     $(shell echo `harbour -build` | cut -c9-11 > $(ROOT)config/hbversion )
-    export HB_VERSION =$(subst .,,$(shell cat $(ROOT)config/hbversion))
+    HB_VERSION =$(subst .,,$(shell cat $(ROOT)config/hbversion))
   endif
 
+  export HB_VERSION
 endif
 
 
