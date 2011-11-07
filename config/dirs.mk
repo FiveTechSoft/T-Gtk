@@ -67,4 +67,9 @@ endif
 OBJECTS_I=$(dir $(OBJECTS_II))
 O_DIR = $(sort $(OBJECTS_I))
 $(info * Creando Directorio para los OBJ - $(O_DIR))
-$(shell mkdir -p $(O_DIR))
+ifeq ($(HB_MAKE_PLAT),win)
+  $(foreach dir,$(O_DIR),$(shell mkdir $(subst /,\,$(dir)) ) )
+  #$(shell mkdir $(O_DIR))
+else
+  $(shell mkdir -p $(O_DIR))
+endif

@@ -43,9 +43,9 @@ include $(ROOT)config/pkgconfig.mk
 
 # Revisamos las Rutas y Creamos los directorios si es necesario... (miquel)
 ifeq ($(DIR_OBJ),)
-  export DIR_OBJ =.$(DIRSEP)$(HB_MAKE_PLAT)-$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)
+  export DIR_OBJ :=.$(DIRSEP)$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)$(DIRSEP)
   ifeq ($(HB_MAKE_PLAT),linux)
-     export DIR_OBJ =.$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)
+     export DIR_OBJ :=.$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)
   endif
 endif
 include $(ROOT)config/dirs.mk
@@ -301,23 +301,23 @@ ifeq ($(HB_FLAGS),)
 endif
 
 ifeq ($(strip $(SOURCE_TYPE)),)
-SOURCE_TYPE=prg
+  SOURCE_TYPE=prg
 endif
 
 #Sources / object determination rule
 #subidr might override this file by providing a makefile.sources
 ifeq ($(strip $(SOURCES)),)
-SOURCES=$(wildcard *.$(SOURCE_TYPE))
+  SOURCES=$(wildcard *.$(SOURCE_TYPE))
 endif
 
 ifeq ($(strip $(OBJECTS)),)
- OBJECTS=$(patsubst %.$(SOURCE_TYPE),$(DIR_OBJ)%.o,$(SOURCES))
-ifneq ($(strip $(CSOURCES)),)
- OBJECTS+=$(patsubst %.c,$(DIR_OBJ)%.o,$(CSOURCES))
-endif
-ifneq ($(strip $(CPPSOURCES)),)
-   OBJECTS+=$(patsubst %.cpp,$(DIR_OBJ)%.o,$(CPPSOURCES))
-endif
+  OBJECTS=$(patsubst %.$(SOURCE_TYPE),$(DIR_OBJ)%.o,$(SOURCES))
+  ifneq ($(strip $(CSOURCES)),)
+    OBJECTS+=$(patsubst %.c,$(DIR_OBJ)%.o,$(CSOURCES))
+  endif
+  ifneq ($(strip $(CPPSOURCES)),)
+    OBJECTS+=$(patsubst %.cpp,$(DIR_OBJ)%.o,$(CPPSOURCES))
+  endif
 endif
 
 #COMMANDS

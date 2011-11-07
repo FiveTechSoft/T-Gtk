@@ -17,6 +17,9 @@ else
    ifneq ($(findstring sh.exe,$(SHELL)),)
       HB_MAKE_PLAT := win
       HOST_PLAT :=$(PROCESSOR_ARCHITECTURE)
+      ifneq ($(findstring XP,$(shell ver )),)
+         HB_MAKE_ISSUE :=XP
+      endif
    else
       ifneq ($(findstring CMD.EXE,$(SHELL)),)
          HB_MAKE_PLAT := os2
