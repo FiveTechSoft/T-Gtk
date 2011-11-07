@@ -71,7 +71,6 @@ ifeq ($(HB_VERSION),)
     VARTEMP:=$(word 2,$(shell $(HB_BIN_INSTALL)$(DIRSEP)harbour -build ) )
     VARTEMP:=$(subst .,,$(VARTEMP))
     VARTEMP:=$(subst dev,,$(VARTEMP))
-    $(info $(VARTEMP) )
     ifneq ($(VARTEMP),)
       HB_VERSION =$(VARTEMP)
     endif

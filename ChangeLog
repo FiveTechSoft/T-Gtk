@@ -10,10 +10,15 @@
 
 2011-11-07 00:44 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * Rules.make
+  * config/harbour.mk
+  * config/gensetenv.mk
   * config/dirs.mk
   * config/detect.mk
     Adaptaciones de los cambios recientes de creacion de directorios objetos
     para Windows.
+    Se incluye variable para agregar en setenv.mk BIN_PLATFORM_NAME
+    para indicar si se desea adicionar en el nombre del binario, datos de 
+    la plataforma en la que se compila. 
 
 
 2011-11-05 00:15 UTC-300 Federico de Maussion <fjdemaussion at gmail.com>

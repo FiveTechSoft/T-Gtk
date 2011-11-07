@@ -32,7 +32,7 @@ endif
 ifeq ($(XBASE_COMPILER),XHARBOUR)
   HB_SHORTNAME=xhb$(HB_VERSION)
 endif
-LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_SHORTNAME)
+#LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_SHORTNAME)
 
 
 # Generar setenv.mk
@@ -48,7 +48,11 @@ ifeq ($(DIR_OBJ),)
      export DIR_OBJ :=.$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)
   endif
 endif
+
+LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(subst .,,$(DIR_OBJ))
+
 include $(ROOT)config/dirs.mk
+
 
 # Verificamos algunos binarios
 include $(ROOT)config/check_bin.mk
@@ -317,6 +321,22 @@ ifeq ($(strip $(OBJECTS)),)
   endif
   ifneq ($(strip $(CPPSOURCES)),)
     OBJECTS+=$(patsubst %.cpp,$(DIR_OBJ)%.o,$(CPPSOURCES))
+  endif
+endif
+
+# Determinamos si agregar datos de plataforma en el binario a crear.
+ifeq ($(BIN_PLATFORM_NAME),)
+  $(info *----------------------------------------------------------*)
+  $(info Si define la Variable BIN_PLATFORM_NAME=yes en su setenv.mk )
+  $(info podra  generar el  nombre del  binario con los  datos de la )
+  $(info plataforma en que se compila. )
+  $(info *----------------------------------------------------------*)
+endif
+ifeq ($(BIN_PLATFORM_NAME),yes)
+  ifneq ( lib , $(patsubst %.a, lib, $(TARGET)))
+    VARTEMP := $(subst $(DIRSEP)$(DIRSEP),,$(DIR_OBJ))
+    TARGET :=$(TARGET)_$(subst $(DIRSEP),_,$(subst .,,$(VARTEMP)))
+    TARGET := $(subst __,_,$(TARGET))
   endif
 endif
 
