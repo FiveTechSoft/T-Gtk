@@ -3,8 +3,8 @@
 # Makefile para librerias PgSql de Contrib en T-Gtk
 #
 ROOT = ../../
-include $(ROOT)setenv.mk
 include $(ROOT)config/global.mk
+include $(ROOT)$(SETENV)
 
 TARGET = libhbpg.a
 ifeq ($(strip $(XBASE_COMPILER)),HARBOUR)

@@ -35,19 +35,19 @@ endif
 #LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_SHORTNAME)
 
 
-# Generar setenv.mk
-include $(ROOT)config/gensetenv.mk
-
-# Verificamos PKG_CONFIG_PATH
-include $(ROOT)config/pkgconfig.mk
-
 # Revisamos las Rutas y Creamos los directorios si es necesario... (miquel)
-ifeq ($(DIR_OBJ),)
+ifeq ($subst $(SPACE),,$(DIR_OBJ)),)
   export DIR_OBJ :=.$(DIRSEP)$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)$(DIRSEP)
   ifeq ($(HB_MAKE_PLAT),linux)
      export DIR_OBJ :=.$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)
   endif
 endif
+
+# Generar setenv.mk
+include $(ROOT)config/gensetenv.mk
+
+# Verificamos PKG_CONFIG_PATH
+include $(ROOT)config/pkgconfig.mk
 
 LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(subst .,,$(DIR_OBJ))
 
@@ -220,9 +220,9 @@ ifeq ($(DOLPHIN),yes)
         LIBS +=-L$(LIBDIR_TGTK_)/lib -lmysql
         CFLAGS += -I$(INCLUDE_TGTK_PRG) -D__WIN__
         PRGFLAGS += -DNOINTERNAL-DDEBUG
-        #ifeq ($(XBASE_COMPILER),HARBOUR)
-        #   LIBS+= -lhbct -lharbour-$(HB_VERSION) -lhbwin -lhbnf -lole32 -loleaut32 -lwinspool -luuid
-        #endif
+        ifeq ($(XBASE_COMPILER),HARBOUR)
+           LIBS+= -lhbct -lharbour-$(HB_VERSION) -lhbwin -lhbnf -lole32 -loleaut32 -lwinspool -luuid
+        endif
     endif
 endif
 endif
@@ -323,6 +323,7 @@ ifeq ($(strip $(OBJECTS)),)
     OBJECTS+=$(patsubst %.cpp,$(DIR_OBJ)%.o,$(CPPSOURCES))
   endif
 endif
+$(info $(OBJECTS) )
 
 # Determinamos si agregar datos de plataforma en el binario a crear.
 ifeq ($(BIN_PLATFORM_NAME),)
@@ -335,7 +336,7 @@ endif
 ifeq ($(BIN_PLATFORM_NAME),yes)
   ifneq ( lib , $(patsubst %.a, lib, $(TARGET)))
     VARTEMP := $(subst $(DIRSEP)$(DIRSEP),,$(DIR_OBJ))
-    TARGET :=$(TARGET)_$(subst $(DIRSEP),_,$(subst .,,$(VARTEMP)))
+    TARGET := $(TARGET)_$(subst $(DIRSEP),_,$(subst .,,$(VARTEMP)))
     TARGET := $(subst __,_,$(TARGET))
     TARGET := $(patsubst %_,%,$(TARGET))
   endif

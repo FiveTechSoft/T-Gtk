@@ -5,23 +5,22 @@
 $(info )
 $(info Ejecutando config/gensetenv.mk )
 
-ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/setenv.mk))),)
+ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/$(SETENV)))),)
 
+$(info * Generando $(SETENV) )
 
-
-$(info * Generando setenv.mk )
 ifeq ($(HB_MAKE_PLAT),win)
   SPACE =echo.
   ECHO:=echo
   N:=\#
-  INI:=> $(ROOT)\setenv.mk 
-  ADD:=>> $(ROOT)\setenv.mk 
+  INI:=> $(ROOT)\$(SETENV) 
+  ADD:=>> $(ROOT)\$(SETENV) 
 else
   ECHO:=echo "
   SPACE:=$(ECHO)
   N:=\#
-  INI:="> $(ROOT)\setenv.mk 
-  ADD:=">> $(ROOT)\setenv.mk 
+  INI:="> $(ROOT)\$(SETENV) 
+  ADD:=">> $(ROOT)\$(SETENV) 
 endif
 $(shell $(strip $(ECHO) $(N)--------------------------------------------- $(INI)))
 $(shell $(strip $(ECHO) $(N) System Configure of T-Gtk.                   $(ADD)))
@@ -156,9 +155,9 @@ $(shell $(strip $(SPACE) $(ADD)))
 $(info * Finalizada la contruccion de setenv.mk )
 
 ifeq ($(HB_MAKE_PLAT),win)
-   $(shell notepad $(ROOT)setenv.mk )
+   $(shell notepad $(ROOT)$(SETENV) )
 else
-   $(info Por favor, edite setenv.mk y ajuste los valores... )
+   $(info Por favor, edite $(SETENV) y ajuste los valores... )
 endif
 $(info * Vuelva a ejecutar.. )
 $(error )

@@ -4,8 +4,9 @@
 #
 
 ROOT = ../
-include $(ROOT)setenv.mk
 include $(ROOT)config/global.mk
+$(info $(SETENV))
+include $(ROOT)$(SETENV)
 
 
 PRGFLAGS=-I$(ROOT)include -I$(ROOT)/tdolphin/include

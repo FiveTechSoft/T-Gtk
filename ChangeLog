@@ -8,6 +8,18 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-11-11 12:32 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * config/gensetenv.mk
+  * config/global.mk
+  * config/harbour.mk
+  * Rules.make
+  * src/mysql/Makefile
+  * src/pgsql/Makefile
+  * tdolphin/Makefile
+    Se agrega soporte para generar y utilizar setenv[plataforma] para que
+    exista entonces un setenv por cada entorno de desarrollo.
+
+
 2011-11-10 20:19 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * Rules.make
     * Se comenta linea que indica librerias cuando se selecciona dolphin.

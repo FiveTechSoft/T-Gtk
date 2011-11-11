@@ -17,31 +17,7 @@ SPACE:=
 SPACE+= 
 export SPACE
 
-ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/setenv.mk))),setenv.mk)
-  $(info Ejecutando setenv.mk )
-  include $(ROOT)setenv.mk
- 
-  XBASE_COMPILER:=$(subst $(SPACE),,$(XBASE_COMPILER))
-  HB_BIN_INSTALL:=$(subst $(SPACE),,$(HB_BIN_INSTALL))
-  HB_INC_INSTALL:=$(subst $(SPACE),,$(HB_INC_INSTALL))
-  HB_LIB_INSTALL:=$(subst $(SPACE),,$(HB_LIB_INSTALL))
-  HB_VERSION:=$(subst $(SPACE),,$(HB_VERSION))
-  XHB_BIN_INSTALL:=$(subst $(SPACE),,$(XHB_BIN_INSTALL))
-  XHB_INC_INSTALL:=$(subst $(SPACE),,$(XHB_INC_INSTALL))
-  XHB_LIB_INSTALL:=$(subst $(SPACE),,$(XHB_LIB_INSTALL))
-  TGTK_DIR:=$(subst $(SPACE),,$(TGTK_DIR))
-  LIBDIR_TGTK:=$(subst $(SPACE),,$(LIBDIR_TGTK))
-  INCLUDE_TGTK_PRG:=$(subst $(SPACE),,$(INCLUDE_TGTK_PRG))
-  GTK_PATH:=$(subst $(SPACE),,$(GTK_PATH))
-  TGTK_BIN:=$(subst $(SPACE),,$(TGTK_BIN))
-  PKG_CONFIG_PATH:=$(subst $(SPACE),,$(PKG_CONFIG_PATH))
-
-endif
-
-$(info $(shell env) )
-
 include $(ROOT)config/detect.mk
-
 
 ifeq ($(HB_MAKE_PLAT),win)
    # -- verificamos si los valores de estas variables estan en minuscula.
@@ -290,3 +266,40 @@ endif
 # HASTA AQUI. EL Resto es detectable o se deduce...
 
 export TGTK_GLOBAL=yes
+
+# Inicializamos el valor para la variable SETENV
+SETENV :=$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)_$(HOST_PLAT)
+ifeq ($(HB_MAKE_PLAT),linux)
+   SETENV :=$(HB_MAKE_ISSUE)_$(HOST_PLAT)
+endif
+
+ifeq ($(BIN_PLATFORM_NAME),no)
+  SETENV :=setenv.mk
+endif
+
+export SETENV := setenv_$(SETENV).mk
+
+ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/$(SETENV)))),$(SETENV))
+
+  $(info Ejecutando $(SETENV) )
+  include $(ROOT)$(SETENV)
+
+  #eliminamos posibles espacios en blanco
+  XBASE_COMPILER:=$(subst $(SPACE),,$(XBASE_COMPILER))
+  HB_BIN_INSTALL:=$(subst $(SPACE),,$(HB_BIN_INSTALL))
+  HB_INC_INSTALL:=$(subst $(SPACE),,$(HB_INC_INSTALL))
+  HB_LIB_INSTALL:=$(subst $(SPACE),,$(HB_LIB_INSTALL))
+  HB_VERSION:=$(subst $(SPACE),,$(HB_VERSION))
+  XHB_BIN_INSTALL:=$(subst $(SPACE),,$(XHB_BIN_INSTALL))
+  XHB_INC_INSTALL:=$(subst $(SPACE),,$(XHB_INC_INSTALL))
+  XHB_LIB_INSTALL:=$(subst $(SPACE),,$(XHB_LIB_INSTALL))
+  TGTK_DIR:=$(subst $(SPACE),,$(TGTK_DIR))
+  LIBDIR_TGTK:=$(subst $(SPACE),,$(LIBDIR_TGTK))
+  INCLUDE_TGTK_PRG:=$(subst $(SPACE),,$(INCLUDE_TGTK_PRG))
+  GTK_PATH:=$(subst $(SPACE),,$(GTK_PATH))
+  TGTK_BIN:=$(subst $(SPACE),,$(TGTK_BIN))
+  PKG_CONFIG_PATH:=$(subst $(SPACE),,$(PKG_CONFIG_PATH))
+
+endif
+
+#eof
