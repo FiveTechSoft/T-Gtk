@@ -120,7 +120,7 @@ else
                  -lhbrtl -lhblang -lhbcpage -lhbrdd -lrddntx \
                  -lrddnsx -lrddcdx -lrddfpt \
                  -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl \
-                 -lhbmacro -lhbcplr -lhbpp -lhbcommon -lhbpcre $(HB_GT_LIBS) \
+                 -lhbmacro -lhbcplr -lhbpp -lhbcommon $(HB_GT_LIBS) \
                  -lxhb -lhbxpp -lhbssl -lhbtipssl -lhbtip -lhbnetio
   endif
 

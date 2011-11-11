@@ -36,7 +36,8 @@ endif
 
 
 # Revisamos las Rutas y Creamos los directorios si es necesario... (miquel)
-ifeq ($subst $(SPACE),,$(DIR_OBJ)),)
+DIR_OBJ := $(subst $(SPACE),,$(DIR_OBJ))
+ifeq ($(DIR_OBJ),)
   export DIR_OBJ :=.$(DIRSEP)$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)$(DIRSEP)
   ifeq ($(HB_MAKE_PLAT),linux)
      export DIR_OBJ :=.$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)
@@ -220,9 +221,6 @@ ifeq ($(DOLPHIN),yes)
         LIBS +=-L$(LIBDIR_TGTK_)/lib -lmysql
         CFLAGS += -I$(INCLUDE_TGTK_PRG) -D__WIN__
         PRGFLAGS += -DNOINTERNAL-DDEBUG
-        ifeq ($(XBASE_COMPILER),HARBOUR)
-           LIBS+= -lhbct -lharbour-$(HB_VERSION) -lhbwin -lhbnf -lole32 -loleaut32 -lwinspool -luuid
-        endif
     endif
 endif
 endif
@@ -323,7 +321,6 @@ ifeq ($(strip $(OBJECTS)),)
     OBJECTS+=$(patsubst %.cpp,$(DIR_OBJ)%.o,$(CPPSOURCES))
   endif
 endif
-$(info $(OBJECTS) )
 
 # Determinamos si agregar datos de plataforma en el binario a crear.
 ifeq ($(BIN_PLATFORM_NAME),)
