@@ -13,12 +13,49 @@
 $(info )
 $(info Ejecutando config/global.mk)
 
+SPACE:=  
+SPACE+= 
+export SPACE
+
 ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/setenv.mk))),setenv.mk)
   $(info Ejecutando setenv.mk )
   include $(ROOT)setenv.mk
+ 
+  XBASE_COMPILER:=$(subst $(SPACE),,$(XBASE_COMPILER))
+  HB_BIN_INSTALL:=$(subst $(SPACE),,$(HB_BIN_INSTALL))
+  HB_INC_INSTALL:=$(subst $(SPACE),,$(HB_INC_INSTALL))
+  HB_LIB_INSTALL:=$(subst $(SPACE),,$(HB_LIB_INSTALL))
+  HB_VERSION:=$(subst $(SPACE),,$(HB_VERSION))
+  XHB_BIN_INSTALL:=$(subst $(SPACE),,$(XHB_BIN_INSTALL))
+  XHB_INC_INSTALL:=$(subst $(SPACE),,$(XHB_INC_INSTALL))
+  XHB_LIB_INSTALL:=$(subst $(SPACE),,$(XHB_LIB_INSTALL))
+  TGTK_DIR:=$(subst $(SPACE),,$(TGTK_DIR))
+  LIBDIR_TGTK:=$(subst $(SPACE),,$(LIBDIR_TGTK))
+  INCLUDE_TGTK_PRG:=$(subst $(SPACE),,$(INCLUDE_TGTK_PRG))
+  GTK_PATH:=$(subst $(SPACE),,$(GTK_PATH))
+  TGTK_BIN:=$(subst $(SPACE),,$(TGTK_BIN))
+  PKG_CONFIG_PATH:=$(subst $(SPACE),,$(PKG_CONFIG_PATH))
+
 endif
 
+$(info $(shell env) )
+
 include $(ROOT)config/detect.mk
+
+
+ifeq ($(HB_MAKE_PLAT),win)
+   # -- verificamos si los valores de estas variables estan en minuscula.
+   env:=$(call lc,$(shell set))
+   #$(info $(env))
+   ifneq ($(findstring auto_inst=yes,$(env)),)
+      #$(info encontrado!!)
+      AUTO_INST=yes
+   endif
+   ifneq ($(findstring tgtk_down=yes,$(env)),)
+      #$(info encontrado!!)
+      TGTK_DOWN=yes
+   endif
+endif
 
 export TGTK_VERSION :=2.0
 

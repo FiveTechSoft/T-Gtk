@@ -220,9 +220,9 @@ ifeq ($(DOLPHIN),yes)
         LIBS +=-L$(LIBDIR_TGTK_)/lib -lmysql
         CFLAGS += -I$(INCLUDE_TGTK_PRG) -D__WIN__
         PRGFLAGS += -DNOINTERNAL-DDEBUG
-        ifeq ($(XBASE_COMPILER),HARBOUR)
-           LIBS+= -lhbct -lharbour-$(HB_VERSION) -lhbwin -lhbnf -lole32 -loleaut32 -lwinspool -luuid
-        endif
+        #ifeq ($(XBASE_COMPILER),HARBOUR)
+        #   LIBS+= -lhbct -lharbour-$(HB_VERSION) -lhbwin -lhbnf -lole32 -loleaut32 -lwinspool -luuid
+        #endif
     endif
 endif
 endif

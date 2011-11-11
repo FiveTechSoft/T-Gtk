@@ -8,6 +8,18 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-11-10 20:19 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * Rules.make
+    * Se comenta linea que indica librerias cuando se selecciona dolphin.
+      (no corresponden)
+
+  * config/gensetenv.mk
+  * config/global.mk
+  * config/detect.mk
+    * Modificaciones para validar espacios en blanco y las variables
+      TGTK_DOWN, AUTO_INST por si estan declaradas en minusculas.
+
+
 2011-11-07 00:44 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * Rules.make
   * config/harbour.mk
