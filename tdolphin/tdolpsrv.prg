@@ -1,5 +1,5 @@
 /*
- * $Id: 12/13/2010 12:06:00 PM tdolpsrv.prg Z dgarciagil $
+ * $Id: 10/13/2010 5:51:32 PM tdolpsrv.prg Z dgarciagil $
  */
    
 /*
@@ -49,7 +49,6 @@
  * If you do not wish that, delete this exception notice.
  *
  */
-// test
 
 #include "hbclass.ch"
 #include "common.ch"
@@ -59,18 +58,22 @@
 #include "fileio.ch"
 
 #define CRLF Chr( 13 ) + Chr( 10 )
-#define DEBUG
 
+#ifdef __HARBOUR__
+#include "hbcompat.ch"
+#ifndef RGB
+#define RGB( nR,nG,nB )  ( nR + ( nG * 256 ) + ( nB * 256 * 256 ) )
+#endif /*RGB*/
+#endif/*__HARBOUR__*/
 
 static aHost := {}
 static oServerDefault := NIL
-
 
 CLASS TDolphinSrv
 
    CLASSDATA nQueryId
    CLASSDATA nServerId  INIT 1
-   
+
    DATA bOnError       /*Custom manager error message
                          ( Self, nError, lInternal ) */
    DATA bOnBackUp      /*codeblock to evaluate in backup process*/
@@ -90,11 +93,8 @@ CLASS TDolphinSrv
    DATA cBuild     INIT '22-Sep-10 9:27:25 PM'
                        
    DATA hMysql         /*MySQL connection handle*/
-   DATA hStmt          /*MySql prepared statement handle*/
                        
    DATA lReConnect     
-   
-   DATA lStmt          /*used internally, turn .T. when use prepared statement*/
    
    DATA Cargo          /*For programmer use*/
                        
@@ -127,8 +127,6 @@ CLASS TDolphinSrv
    METHOD ChangeEngineAll( cType )  
    
    METHOD CheckError( nError )
-   
-   METHOD CloseStmt()      INLINE ::hStmt := NIL
    
    METHOD CloseQuery( nId )
    
@@ -181,23 +179,13 @@ CLASS TDolphinSrv
                                 API function that can succeed or fail. 
                                 A return value of zero means that no error occurred.*/
                                 
-   METHOD Execute( cQuery )   INLINE ::SqlQuery( cQuery )
-   
-   METHOD ExecuteSTMT() INLINE  ::SQLQuerySTMT()
+   METHOD Execute( cQuery )   INLINE ::SqlQuery( cQuery )  
    
    METHOD ExecuteScript( cFile ) 
 
    METHOD GetAutoIncrement( cTable )
                                 /*Retrieve next Auto increment value in specified table;
                                  in current database selected*/   
-
-   METHOD GetServerInfo()       INLINE If( ::hMysql != NIL, MyServerInfo( ::hMysql ), "" ) 
-                                /*Returns a string that represents the server version number.*/
-
-   
-   METHOD GetClientInfo()       INLINE If( ::hMysql != NIL, MyClientInfo(), "" ) 
-                                /*Return a string that represents the MySQL client library version.*/
-
    
    METHOD GetPrivileges()
    
@@ -212,8 +200,6 @@ CLASS TDolphinSrv
                                /*Retrieve total row avalaible in  specified query;
                                 in current database selected*/    
    
-   METHOD hInsert( ctable, hValues )
-   
    METHOD Insert( cTable, aColumns, aValues )  
                               /*inserts new rows into an existing table.*/
 
@@ -227,27 +213,22 @@ CLASS TDolphinSrv
    
    METHOD ListDBs( cWild )    /* Returns a array set consisting of database names on the server 
                                  that match the simple regular expression specified by the wild parameter. 
-                                 wild may contain the wildcard characters ï¿½%ï¿½ or ï¿½_ï¿½, 
+                                 wild may contain the wildcard characters “%” or “_”, 
                                  or may be a "" to match all databases.*/
    
    METHOD ListTables( cWild ) /* Returns a array set consisting of tables names in current satabase 
                                  that match the simple regular expression specified by the wild parameter. 
-                                 wild may contain the wildcard characters ï¿½%ï¿½ or ï¿½_ï¿½, 
+                                 wild may contain the wildcard characters “%” or “_”, 
                                  or may be a "" to match all tables.*/
                                  
    METHOD MultiQuery( aQuery, lTransaction )
-   
-   METHOD NextResult() INLINE mysql_next_result( ::hMysql )
-                               /* Use only for MULTIPLE STATEMENT or stored PROCEDURE/FUNCTION */   
    
    METHOD Ping()                  INLINE If( MySqlPing( ::hMysql ) > 0, ( ::CheckError(), .F.), .T. )
                               /* Checks whether the connection to the server is working. 
                                  If the connection has gone down and auto-reconnect is enabled an attempt 
                                  to reconnect is made. If the connection is down and auto-reconnect is disabled,
                                  ::ping() returns an error.*/
-   
-   METHOD PrepareStmt() 
-   
+
    METHOD Query( cQuery )   INLINE 	TDolphinQry():New( cQuery, Self )
    
    METHOD ReConnect()
@@ -272,34 +253,19 @@ CLASS TDolphinSrv
    
    METHOD SetNameServer( cName )
    
-   METHOD SetMultiStatement( lOnOf ) INLINE SetMultiStatement( ::hMysql, lOnOf )
-   
    METHOD SqlQuery( cQuery )  /*Executes the SQL statement pointed to by cQuery, 
                               Normally, the string must consist of a single SQL statement and 
-                              you should not add a terminating semicolon (ï¿½;ï¿½) or \g to the statement. 
+                              you should not add a terminating semicolon (“;”) or \g to the statement. 
                               If multiple-statement execution has been enabled, 
                               the string can contain several statements separated by semicolons.*/
  
-   METHOD SQLQuerySTMT( cQuery ) /*Executes the SQL PREPARED statement pointed to by cQuery, 
-                              Normally, the string must consist of a single SQL statement and 
-                              you should not add a terminating semicolon (ï¿½;ï¿½) or \g to the statement. 
-                              */
-   
-   METHOD StmtParam( oBind ) 
-   
    METHOD TableExist( cTable )      INLINE If( ! Empty( cTable ), Len( ::ListTables( D_LowerCase( cTable ) ) ) > 0, .F. )
                               /* verify is table exist, return logical value*/ 
-
-   METHOD TableInitValues( cTable )
    
    METHOD TableStructure( cTable )  
    
-   METHOD hUpdate( cTable, hValues, cWhere ) 
-                             /*update specific rows into an existing table from a hash, ;
-                               the index of hash shold be field name.*/
-                             
    METHOD Update( cTable, aColumns, aValues, cWhere )
-                             /*update specific row into an existing table.*/
+                             /*inserts new rows into an existing table.*/
                                  
 ENDCLASS
 
@@ -308,17 +274,16 @@ ENDCLASS
 METHOD New( cHost, cUser, cPassword, nPort, nFlags, cDBName, bOnError, cNameHost ) CLASS TDolphinSrv
 
    DEFAULT nPort TO 3306 
-   DEFAULT cDBName TO ""
 
-   ::cHost          = AllTrim( cHost )
-   ::cUser          = AllTrim( cUser )
-   ::cPassword      = AllTrim( cPassword )
+   ::cHost          = cHost
+   ::cUser          = cUser
+   ::cPassword      = cPassword
    ::nPort          = nPort
    ::nFlags         = nFlags
    ::lError         = .F.
    ::bOnError       = bOnError
    ::nInternalError = 0
-   ::cDBName        = AllTRim( cDBName )
+   ::cDBName        = cDBName
    ::aQueries       = {}
       
    ::lReConnect     = .T.
@@ -445,7 +410,6 @@ METHOD Backup( aTables, cFile, lDrop, lOverwrite, nStep, cHeader, cFooter, lCanc
    LOCAL nRecno := 0
    LOCAL nPage  := 0
    LOCAL nError := 0
-   LOCAL uField, cType
 
    DEFAULT lOverwrite TO .F.
    DEFAULT lDrop TO .F.
@@ -595,21 +559,20 @@ METHOD Backup( aTables, cFile, lDrop, lOverwrite, nStep, cHeader, cFooter, lCanc
          oQry := ::Query( cQry )
 
          WHILE !oQry:eof() .AND. ! lCancel
+         
             cText    += "("
             FOR nCol := 1 TO oQry:FCount()
-               uField = oQry:FieldGet( nCol )
-               cType = oQry:FieldType( nCol )
-               IF cType == "D"
+               IF oQry:FieldType( nCol ) == "D"
                   cText += "'"
-                  cText += If( Empty( uField ), '0000-00-00', dtos( uField ) )
+                  cText += dtos(oQry:FieldGet( nCol ))
                   cText += "',"
-               ELSEIF cType == "N"
-                  cText += AllTrim( Str( uField ) ) + ","
-               ELSEIF cType == "L"
-                  cText += If( uField, "1", "0" ) + ","
+               ELSEIF oQry:FieldType( nCol ) == "N"
+                  cText += AllTrim( Str( oQry:FieldGet( nCol ) ) ) + ","
+               ELSEIF oQry:FieldType( nCol ) == "L"
+                  cText += If( oQry:FieldGet( nCol ), "1", "0" ) + ","
                ELSE
                   cText += "'"
-                  cText += MySqlEscape( uField, ::hMysql )
+                  cText += MySqlEscape( D_LowerCase( oQry:FieldGet( nCol ) ), ::hMysql )
                   cText += "',"
                ENDIF
             NEXT
@@ -681,12 +644,9 @@ METHOD CheckError( nError, cExtra ) CLASS TDolphinSrv
 
    LOCAL lInternal := .F.
 
-   IF ! hb_IsPointer( ::hMysql )
-      nError = ERR_INSUFFICIENT_MEMORY
-   ELSE
-      DEFAULT nError TO ::ErrorNo()
-   ENDIF
-   
+
+   DEFAULT nError TO ::ErrorNo()
+
    IF nError == 0 
       IF ::nInternalError > 0 
          nError = ::nInternalError
@@ -1086,12 +1046,10 @@ METHOD End() CLASS TDolphinSrv
       //MySqlClose( ::hMysql )/* NOTE: Deprecated */      
       ::hMysql = NIL
    ENDIF
-   
-   IF ::hMysql != NIL
-      nHost = AScan( aHost, { | a | Upper( a[ 2 ] ) == Upper( ::cNameHost ) } ) 
-      ADel( aHost, nHost )
-      ASize( aHost, Len( aHost ) - 1 )
-   ENDIF
+  
+   nHost = AScan( aHost, { | a | Upper( a[ 2 ] ) == Upper( ::cNameHost ) } ) 
+   ADel( aHost, nHost )
+   ASize( aHost, Len( aHost ) - 1 )
    
    
 RETURN NIL
@@ -1280,33 +1238,13 @@ RETURN nTotal
 
 //----------------------------------------------------//
 
-METHOD hInsert( cTable, hValues ) CLASS TDolphinSrv
-
-   local lRet := .F. 
-   local aValues := {}
-   local aColumns := HGetKeys( hValues )
-   local n
-   
-   for n = 1 to Len( aColumns )
-      AAdd( aValues, hValues[ aColumns[ n ] ] )
-   next 
-   
-   lRet := ::Insert( cTable, aColumns, aValues )
-
-
-RETURN lRet
-
-//----------------------------------------------------//
-
 METHOD Insert( cTable, aColumns, aValues ) CLASS TDolphinSrv
 
    LOCAL cExecute
    LOCAL lRet, n
-   LOCAL lMulti := .F.
    
    aColumns = CheckArray( aColumns )
-   
-  lMulti := ValType( aValues ) == 'A' .and. ValType( aValues[ 1 ] ) == 'A'      
+   aValues  = CheckArray( aValues )
 
 #ifndef NOINTERNAL
    IF Empty( aColumns ) .AND. Empty( aValues ) 
@@ -1321,21 +1259,14 @@ METHOD Insert( cTable, aColumns, aValues ) CLASS TDolphinSrv
       RETURN .F. 
    ENDIF 
    
-   IF lMulti    
-      n = Len( aValues[ 1 ] )
-   ELSE
-      n = Len( aValues )
-   ENDIF
-   
-   IF Len( aColumns ) # n
+   IF Len( aColumns ) # Len( aValues )
       ::nInternalError = ERR_NOMATCHCOLUMNSVALUES
       ::CheckError()
       RETURN .F. 
    ENDIF 
-   
 #endif 
 
-   cExecute = BuildInsert( cTable, aColumns, aValues, , lMulti )
+   cExecute = BuildInsert( cTable, aColumns, aValues )
    lRet = ::SqlQuery( cExecute )  
   
 RETURN lRet
@@ -1354,7 +1285,7 @@ METHOD IsAutoIncrement( cField, cTable ) CLASS TDolphinSrv
 
    hRes = MySqlListFields( ::hMysql, cTable, cField )
    
-   IF hRes == NIL
+   IF hRes != NIL
       ::CheckError() 
    ELSE   
       aStruct = MySqlResultStructure( hRes, D_SetCaseSensitive(), D_LogicalValue() ) 
@@ -1463,10 +1394,10 @@ METHOD MultiQuery( aQueries, lTransaction, bOnMultiQry ) CLASS TDolphinSrv
             ::SqlQuery( cQuery )
             
             IF ::bOnMultiQry != NIL
-#ifdef __XHARBOUR__             
+#ifdef __HARBOUR__
+               nIdx = cQuery:__EnumIndex() 
+#else                      
                nIdx = HB_EnumIndex()
-#else 
-               nIdx = cQuery:__EnumIndex()
 #endif 
                Eval( ::bOnMultiQry, nIdx, nTotal )
             
@@ -1489,22 +1420,6 @@ METHOD MultiQuery( aQueries, lTransaction, bOnMultiQry ) CLASS TDolphinSrv
    END 
 
 RETURN .T.
-
-//---------------------------------------------//
-
-METHOD PrepareStmt( cStatement ) CLASS TDolphinSrv
-   
-   local h := 0
-
-   IF ::hStmt == NIL
-      ::hStmt = MyStmtInit( @::hMysql ) 
-   ENDIF
-   
-   if ::hStmt != NIL
-      h = MySTMTPrepare( @::hStmt, cStatement )
-   endif
-
-RETURN h == 0
 
 //---------------------------------------------//
 
@@ -1676,8 +1591,7 @@ METHOD SelectDB( cDBName ) CLASS TDolphinSrv
       RETURN .F.
    ENDIF
 #endif
-   cDBName = AllTRim( cDBName )
-   
+
    IF ( MysqlSelectDB( ::hMysql, cDBName ) ) != 0   // table not exist
       ::cDBName :=""
       ::lError  := .T.
@@ -1748,127 +1662,6 @@ RETURN nRet == 0
 
 //----------------------------------------------------//
 
-METHOD SQLQuerySTMT() CLASS TDolphinSrv
-
-   LOCAL nRet
-      
-   IF ::hStmt != NIL
-#ifdef DEBUG
-      IF ::bDebug != NIL 
-         Eval( ::bDebug, "", ProcName( 1 ), ProcLine( 1 ) )      
-      ENDIF
-#endif   
-      IF ( nRet := MystmtExecute( @::hStmt ) ) > 0
-         ::CheckError()
-      ENDIF
-#ifndef NOINTERNAL      
-   ELSE 
-      ::nInternalError = ERR_NOQUERY
-      ::CheckError()
-      nRet = ::nInternalError
-#endif       
-   ENDIF
-
-RETURN nRet == 0
-
-//----------------------------------------------------//
-
-METHOD StmtParam( oBind ) CLASS TDolphinSrv
-
-return MyStmtBindParam( @::hStmt, @oBind:hBind )
-
-//----------------------------------------------------//
-
-METHOD TableInitValues( cTable ) CLASS TDolphinSrv
-
-
-   local aStructure
-   local hRow
-   local uItem
-   local uValue, cType, nPad
-   
-#ifndef NOINTERNAL
-   IF ! ::TableExist( cTable )
-      ::oServer:nInternalError = ERR_TABLENOEXIST
-      ::oServer:CheckError()
-      RETURN NIL 
-   ENDIF
-#endif 
-
-   aStructure = ::TableStructure( cTable )
-   
-   hRow = Hash()
-   
-   FOR EACH uItem IN aStructure
-
-      cType := uItem[ MYSQL_FS_CLIP_TYPE ]
-      SWITCH cType
-      
-      CASE "M"
-         // we can not use PadR in  memo field
-         IF uItem[ MYSQL_FS_DEF ] != NIL
-            uValue = uItem[ MYSQL_FS_DEF ]
-         ELSE 
-            uValue = ""
-         ENDIF 
-         EXIT         
-      CASE "C"
-         IF D_SetPadRight()
-            nPad = Min( If( uItem[ MYSQL_FS_MAXLEN ] > uItem[ MYSQL_FS_LENGTH ],;
-                      uItem[ MYSQL_FS_MAXLEN ], uItem[ MYSQL_FS_LENGTH] ), MAX_BLOCKSIZE )
-         ELSE 
-            nPad = 0 
-         ENDIF
-         IF uItem[ MYSQL_FS_DEF ] != NIL
-            uValue = PadR( uItem[ MYSQL_FS_DEF ], Max( Len( uItem[ MYSQL_FS_DEF ] ), nPad ) )
-         ELSE 
-            uValue = Space( nPad )
-         ENDIF 
-         EXIT
-
-      CASE "N"
-      CASE "I"
-         IF uItem[ MYSQL_FS_DEF ] != NIL
-            uValue = Val( uItem[ MYSQL_FS_DEF ] )
-         ELSE 
-            uValue = 0
-         ENDIF 
-         EXIT
-
-      CASE "L"
-         IF uItem[ MYSQL_FS_DEF ] != NIL
-            uValue = uItem[ MYSQL_FS_DEF ] == "1"
-         ELSE 
-            uValue = .F.
-         ENDIF 
-         
-         EXIT
-
-      CASE "D"
-         IF uItem[ MYSQL_FS_DEF ] != NIL
-            uValue = SqlDate2Clip( uItem[ MYSQL_FS_DEF ] )
-         ELSE 
-            uValue = CToD("")
-         ENDIF 
-      
-         EXIT
-
-#ifdef __XHARBOUR__
-      DEFAULT
-#else 
-      OTHERWISE
-#endif
-         uValue := nil
-      END
-      
-      HSet( hRow, Lower( uItem[ MYSQL_FS_NAME ] ) , uValue )
-
-   NEXT
-
-return hRow
-
-//----------------------------------------------------//
-
 METHOD TableStructure( cTable )  CLASS TDolphinSrv
 
    LOCAL aStruct := {}
@@ -1878,7 +1671,7 @@ METHOD TableStructure( cTable )  CLASS TDolphinSrv
 
    hRes = MySqlListFields( ::hMysql, cTable )
    
-   IF hRes == NIL
+   IF hRes != NIL
       ::CheckError() 
    ELSE
       aStruct = MySqlResultStructure( hRes, D_SetCaseSensitive(), D_LogicalValue() ) 
@@ -1891,24 +1684,6 @@ METHOD TableStructure( cTable )  CLASS TDolphinSrv
    
 RETURN aStruct
    
-//----------------------------------------------------//   
-
-METHOD hUpdate( cTable, hValues, cWhere ) CLASS TDolphinSrv
-
-   local lRet := .F. 
-   local aValues := {}
-   local aColumns := HGetKeys( hValues )
-   local n
-   
-   for n = 1 to Len( aColumns )
-      AAdd( aValues, hValues[ aColumns[ n ] ] )
-   next 
-   
-   lRet := ::Update( cTable, aColumns, aValues, cWhere )
-
-
-RETURN lRet
-
 //----------------------------------------------------//   
    
 METHOD Update( cTable, aColumns, aValues, cWhere ) CLASS TDolphinSrv
@@ -1965,7 +1740,6 @@ METHOD Update( cTable, aColumns, aValues, cWhere ) CLASS TDolphinSrv
          cValue   = ClipValue2SQL( aValues[ n ][ 1 ], aStruc[ nPos ][ MYSQL_FS_CLIP_TYPE ] )
          IF aStruc[ nPos ][ MYSQL_FS_CLIP_TYPE ] == "M"
             cExecute += cField + " = CONCAT(" + cField + ", " + cValue + "),"
-         ELSE
             cExecute += cField + " = " + cField + " + " + cValue + ","
          ENDIF         
       ELSE 
@@ -2013,11 +1787,7 @@ FUNCTION ClipValue2SQL( Value, cType, lTxt, lNoNull ) // Compatibility wint TMys
       CASE "I"
 
          if Value != NIL .OR. lNoNull
-            if Value != NIL
-               cValue := AllTrim( Str( Value ) )
-            else 
-               cValue = "''"
-            endif
+            cValue := AllTrim( Str( Value ) )
          else
             cValue := "NULL"
          endif
@@ -2189,56 +1959,33 @@ RETURN cQuery
 
 //----------------------------------------------------//  
 
-FUNCTION BuildInsert( cTable, aColumns, aValues, lForceValue, lMulti  )  
+FUNCTION BuildInsert( cTable, aColumns, aValues, lForceValue  )  
 
    LOCAL cExecute
    LOCAL cValues  := ""
    LOCAL cColumns := ""
    LOCAL uValue
-   LOCAL n, aRow, uData
+   LOCAL n
    
    DEFAULT lForceValue TO .F.
-   DEFAULT lMulti TO .F.
    
-   IF lMulti
-      FOR n = 1 TO Len( aColumns )
-         cColumns += aColumns[ n ] + ","
-      NEXT 
-      FOR EACH aRow IN aValues
-         cValues += "("
-         FOR EACH uData IN aRow
-            IF ValType( uData ) == "C" .AND. ! lForceValue
-               uValue = Val2Escape( uData ) 
-            ELSE 
-               uValue = uData
-            ENDIF
-            cValues += ClipValue2SQL( uData ) + ","
-         NEXT
-         cValues  = SubStr( cValues, 1, Len( cValues ) - 1 ) + "),"
-      NEXT
-      //Delete last coma 
-      cColumns = SubStr( cColumns, 1, Len( cColumns ) - 1 ) + ") VALUES"
-      cValues  = SubStr( cValues, 1, Len( cValues ) - 1 )     
-   ELSE   
-      FOR n = 1 TO Len( aColumns )
-         cColumns += aColumns[ n ] + ","
-         IF ValType( aValues[ n ] ) == "C" .AND. ! lForceValue
-            uValue = Val2Escape( aValues[ n ] ) 
-         ELSE 
-            uValue = aValues[ n ]
-         ENDIF
-         cValues += ClipValue2SQL( uValue ) + ","
-      NEXT 
-      //Delete last coma 
-      cColumns = SubStr( cColumns, 1, Len( cColumns ) - 1 ) + ") VALUES ( "
-      cValues  = SubStr( cValues, 1, Len( cValues ) - 1 ) + ")"      
-   ENDIF
+   FOR n = 1 TO Len( aColumns )
+      cColumns += aColumns[ n ] + ","
+      IF ValType( aValues[ n ] ) == "C" .AND. ! lForceValue
+         uValue = Val2Escape( aValues[ n ] ) 
+      ELSE 
+         uValue = aValues[ n ]
+      ENDIF
+      cValues += ClipValue2SQL( uValue ) + ","
+   NEXT 
+   
+   //Delete last coma 
+   cColumns = SubStr( cColumns, 1, Len( cColumns ) - 1 ) + ") VALUES ( "
+   cValues  = SubStr( cValues, 1, Len( cValues ) - 1 ) + ")"
    
    cExecute = "INSERT INTO " + D_LowerCase( cTable ) + " ( " + cColumns + cValues
 
 RETURN cExecute
-
-
 
 //----------------------------------------------------//  
 
@@ -2512,12 +2259,6 @@ RETURN oQuery
 
 //----------------------------------------------------//  
 
-FUNCTION setMultiStatement( hMyslq, lOnOf )
-return _setMultiStatement( hMyslq, lOnOf )
-
-//----------------------------------------------------//  
-
-
 static function CheckArray( aArray )
 
    if ValType( aArray ) == 'A' .and. ;
@@ -2547,6 +2288,5 @@ PROCEDURE Dolphin_DefError( oServer, nError, lInternal, cExtra )
 
 RETURN 
 
-//----------------------------------------------------//  
 
 
