@@ -109,9 +109,13 @@ STATIC FUNCTION Edita_Celda( oTreeView ,oLbx, oServer, cPath, cNewText )
    
   // Vamos a guardar el valor en la tabla
   // Lo fuerzo de esta manera, porque la alternativa, no me funciona
+#ifdef __XHARBOUR__
   sqlQuery( oServer:nSocket, 'UPDATE animals SET name = "' + cNewText + '"'+; 
                             ' WHERE PK_ID = "' + Str( nId )+ '"' )
-  
+#else
+  MySQL_Query( oServer:nSocket, 'UPDATE animals SET name = "' + cNewText + '"'+; 
+                            ' WHERE PK_ID = "' + Str( nId )+ '"' )
+#endif
   // Esto deberia funcionar... pero NO FUNCIONA!!
   /*
   oQuery := oServer:Query("SELECT * from animals where PK_ID=" + alltrim( str( nId ) ), .f. )

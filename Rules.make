@@ -206,22 +206,25 @@ ifeq ($(MYSQL),yes)
     ifeq ($(HB_COMPILER),mingw32)
         #Flags para sistemas WINDOWS
         CFLAGS+=-I../../include -I$(MYSQL_PATH) -DHB_OS_WIN_32_USED -DWIN32 -D_WIN32 -D__WIN32__ 
-        LIBS +=-L$(MYSQL_PATH)/lib -lmysql
+        #lower a la ruta MYSQL_PATH para luego sustituir include por lib.
+        LIBMYSQL_PATH:=$(call lc,$(MYSQL_PATH))
+        LIBS +=-L$(subst include,lib,$(LIBMYSQL_PATH)) -lmysql #-lmysqlclient
     else
         #Flags para sistemas GNU/Linux
         CFLAGS+=-I../../include -I/usr/mysql/include
         #CFLAGS+=$(shell pkg-config --libs mysql-connector-net )
     endif
+    TGTK_LIBS += -lhbmysql
 endif
 
 ifeq ($(MYSQL),yes)
 ifeq ($(DOLPHIN),yes)
     ifeq ($(HB_COMPILER),mingw32)
         #Flags para sistemas WINDOWS
-        LIBS +=-L$(LIBDIR_TGTK_)/lib -lmysql
         CFLAGS += -I$(INCLUDE_TGTK_PRG) -D__WIN__
         PRGFLAGS += -DNOINTERNAL-DDEBUG
     endif
+    TGTK_LIBS += -ltdolphin
 endif
 endif
 
@@ -230,15 +233,16 @@ ifeq ($(POSTGRE),yes)
 #    PRGFLAGS=-I../../include
     ifeq ($(HB_COMPILER),mingw32)
         #Flags para sistemas WINDOWS
-        LIBS+=-lhbpg -L$(POSTGRE_PATH) -lpq
+        LIBS+=-L$(POSTGRE_PATH) -lpq
         CFLAGS+=-I$(POSTGRE_PATH) -DHB_OS_WIN_32_USED -DWIN32 -D_WIN32 \
                 -D__WIN32__ 
     else
         #Flags para sistemas GNU/Linux
         CFLAGS+=-I../../include -I/usr/include -I/usr/include/libpq \
                 -I/us/include/pgsql/server/libpq -I/usr/include/postgresql
-        LIBS+=-lhbpg -L/usr/lib -lpq -lpgport -lkrb5 -lssl -lcrypt
+        LIBS+= -L/usr/lib -lpq -lpgport -lkrb5 -lssl -lcrypt
     endif
+    TGTK_LIBS += -lhbpg
 endif
 
 
@@ -282,7 +286,7 @@ endif
 HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
 #XHB_LIBDIR_ = $(LIBDIR) -L$(XHB_LIB_INSTALL)
 
-HB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
+HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
         $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS)
 #XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
 #        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)

@@ -8,6 +8,20 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-11-16 08:20 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  + tests/images/logo_sqlite_48.png
+  + tests/images/logo_mysql_48.png
+  + tests/images/logo_pgsql_48.png
+  + tests/images/logo_xharbour_48.png
+  + tests/images/logo_harbour_48.png
+  + tests/images/logo_harbour.jpg
+  * tests/gclass/test_mysql/test.prg
+  * tests/gclass/test_mysql/Makefile
+  * Rules.mak
+    Modificacion menor.. 
+    Preparando para generar nuevo instalador.
+
+
 2011-11-11 12:32 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * config/gensetenv.mk
   * config/global.mk

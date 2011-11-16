@@ -7,6 +7,6 @@ ROOT = ../../../
 TARGET = test
 SOURCES = test.prg 
 
-LIBS=-L$(ROOT)lib -lhbmysql -lmysql 
+#LIBS=-L$(ROOT)lib -lhbmysql -lmysql 
 
 include $(ROOT)Rules.make 
