@@ -77,6 +77,8 @@ METHOD NEW( cTitle, nWidth, nHeight, cId, uGlade, nType_Hint, ;
           ::SetIconName( cIconName )
        endif
 
+       gtk_window_set_type_hint(  ::pWidget , GDK_WINDOW_TYPE_HINT_DIALOG ) 
+
        if oParent != NIL
           gtk_window_set_transient_for( ::pWidget, oParent:pWidget )  
        endif

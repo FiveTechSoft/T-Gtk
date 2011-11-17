@@ -400,6 +400,15 @@ HB_FUNC( GTK_LIST_STORE_ITER_IS_VALID )
   gpointer user_data3;
 };
 */
+
+/* A nivel de harbour, convertimos un puntero Iter a un array*/
+HB_FUNC( ITER2ARRAY )
+{
+  GtkTreeIter * iter = hb_parptr( 1 ) ;
+  PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
+  FillArrayFromIter( iter, pIter );
+}
+
 /*
  * Convierte una estructura item en un array de Harbour
  * */

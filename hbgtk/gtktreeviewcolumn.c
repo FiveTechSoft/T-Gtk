@@ -260,7 +260,7 @@ CellDataFunc( GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeMode
       hb_vmPushPointer( (GtkTreeViewColumn *) tree_column );
       hb_vmPushPointer( (GtkCellRenderer *) cell );
       hb_vmPushPointer( (GtkTreeModel *) tree_model );
-      hb_vmPushPointer( (GtkTreeIter *) iter->user_data );
+      hb_vmPushPointer( (GtkTreeIter *) iter);
       hb_vmDo( 4 );
 
       return;
