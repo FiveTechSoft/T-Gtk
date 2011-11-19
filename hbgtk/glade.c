@@ -82,7 +82,18 @@ HB_FUNC( GLADE_XML_GET_WIDGET )
      widget = glade_xml_get_widget( (GladeXML *) hb_parptr( 1 ), (gchar *) hb_parc( 2 ) );
     hb_retptr( ( GtkWidget * ) widget );
 }
-  
+
+}
+
+HB_FUNC( GLADE_XML_GET_TREE_VIEW_COLUMN )
+{
+  GtkTreeViewColumn  * widget;
+
+  if( GetGtkBuilderSts() )
+  {
+     widget = GTK_TREE_VIEW_COLUMN( gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) ) );  
+     hb_retptr( widget );
+  }
   
 }
 
@@ -92,3 +103,4 @@ HB_FUNC( GLADE_GET_WIDGET_NAME )
   const gchar * name = glade_get_widget_name (widget);
   hb_retc( (gchar *) name );
 }
+

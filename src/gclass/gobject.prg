@@ -48,6 +48,8 @@ CLASS GOBJECT
       METHOD OnActivate( oSender )
       METHOD Emit_Signal( cSignal ) INLINE g_signal_emit_by_name( ::pWidget, cSignal )
       METHOD DisConnect( cSignal )
+      METHOD CheckGlade( cId )
+
 
 ENDCLASS
 
@@ -185,6 +187,15 @@ METHOD OnDelete_Event( oSender ) CLASS GOBJECT
    endif
 
 Return ! lResult
+
+******************************************************************************
+// Chequea si el puntero es correto, evitando GPF y dando 'pistas'
+METHOD CheckGlade( cId ) CLASS GOBJECT
+     IF empty( ::pWidget ) 
+        MsgStop( "No existe widget: " + cId ,  "PARADA CRITICA!!" )
+        gtk_widget_destroy( GetWndMain():pWidget )
+     ENDIF
+RETURN .F.
 
 ******************************************************************************
 // Funciones de manejo de señales

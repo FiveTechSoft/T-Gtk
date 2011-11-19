@@ -1252,9 +1252,11 @@
               [ WIDTH <nWidth> ];
               [ OF <oTreeView> ] ;
               [ <oper: EDITABLE, TOOGLE> <uAction> ];
+              [ ID <cId> ;
+              [ RESOURCE <uGlade> ] ];
        =>;
       [ <oCol> := ] gTreeViewColumn():New( <cTitle>, <cType>, <nPos>, <.lExpand.>,;
-                           <oTreeView>, <nWidth>, <.lSort.>, [ \{| oSender, path, uVal, aIter | <uAction> \} ] )
+                           <oTreeView>, <nWidth>, <.lSort.>, [ \{| oSender, path, uVal, aIter | <uAction> \} ], <cId>, <uGlade>)
 
 // Comando para poner un MENUPOPUP a un treeview
 #xcommand DEFINE MENU <aMenus,...> OF TREEVIEW <oTreeView>  ;

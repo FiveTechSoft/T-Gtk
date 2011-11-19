@@ -55,10 +55,15 @@ CLASS gTreeViewColumn FROM GOBJECT
 
 ENDCLASS
 
-METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction ) CLASS gTreeViewColumn
+METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId, uGlade ) CLASS gTreeViewColumn
       DEFAULT lExpand := .T.
       
-      ::pWidget := gtk_tree_view_column_new()
+      if cId == NIL
+         ::pWidget := gtk_tree_view_column_new()
+      else
+         ::pWidget :=  GLADE_XML_GET_TREE_VIEW_COLUMN( uGlade, cId )
+         ::CheckGlade( cId )
+      endif
 
       if nPos != NIL
          ::nColumn := nPos - 1   
