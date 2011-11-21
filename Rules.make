@@ -360,7 +360,7 @@ $(DIR_OBJ)%.o: %.cpp
 	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $<
 
 %.c: %.prg
-	$(HB_BIN_INSTALL)/harbour $(strip $(HB_FLAGS)) $(PRGFLAGS) -I$(HB_INC_INSTALL)  -o$@ $<
+	$(HB_BIN_INSTALL)/harbour $(strip $(HB_FLAGS)) $(PRGFLAGS) -I$(HB_INC_INSTALL) $(HARBOUR_INC_XHB) -o$@ $<
 
 $(TARGET): $(OBJECTS)
 ifeq ( lib , $(patsubst %.a, lib, $(TARGET)))

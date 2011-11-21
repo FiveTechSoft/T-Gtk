@@ -9,6 +9,18 @@
 */
 
 2011-11-16 08:20 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * Rules.make
+  * config/harbour.mk
+    Se agregan instrucciones para evitar error al no conseguir algunas 
+    cabeceras que no esten en harbour/include
+  * src/mysql/Makefile
+    Se agrega instruccion para generar libmysql.a en caso que no exista.
+  * tests/gclass/tpuy/main.prg
+    Se reincorpora soporte de OLE al compilar bajo Windows.
+
+
+
+2011-11-16 08:20 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   + tests/images/logo_sqlite_48.png
   + tests/images/logo_mysql_48.png
   + tests/images/logo_pgsql_48.png

@@ -22,6 +22,12 @@ ifeq ($(HB_MAKE_PLAT),win)
   #Flags para sistemas WINDOWS
   CFLAGS=-I$(MYSQL) -DHB_OS_WIN_32_USED
 
+  #Si no esta libmysql.a, procede a generarla...
+  ifeq ($(notdir $(wildcard $(subst \,/,./libmysql.a))),)
+     $(info Generando libmysql.a )
+     $(shell dlltool -d libmysql.def -D libmysql.dll -k -l libmysql.a -S as.exe )
+  endif
+
 else
  
   #Flags para sistemas GNU/Linux
