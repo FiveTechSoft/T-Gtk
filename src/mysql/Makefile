@@ -25,7 +25,7 @@ ifeq ($(HB_MAKE_PLAT),win)
   #Si no esta libmysql.a, procede a generarla...
   ifeq ($(notdir $(wildcard $(subst \,/,./libmysql.a))),)
      $(info Generando libmysql.a )
-     $(shell dlltool -d libmysql.def -D libmysql.dll -k -l libmysql.a -S as.exe )
+     $(shell genlibmysql.bat > %TEMP%\out.log )
   endif
 
 else
