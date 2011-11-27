@@ -32,7 +32,6 @@ endif
 ifeq ($(subst $(SPACE),,$(XBASE_COMPILER)),XHARBOUR)
   HB_SHORTNAME=xhb$(HB_VERSION)
 endif
-#LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_SHORTNAME)
 
 
 # Revisamos las Rutas y Creamos los directorios si es necesario... (miquel)
@@ -50,7 +49,13 @@ include $(ROOT)config/gensetenv.mk
 # Verificamos PKG_CONFIG_PATH
 include $(ROOT)config/pkgconfig.mk
 
-LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(subst .,,$(DIR_OBJ))
+$(info $(LIBDIR_TGTK_))
+ifeq ($(HB_MAKE_PLAT),win)
+   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
+else
+   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
+endif
+#LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(subst .,,$(DIR_OBJ))
 
 include $(ROOT)config/dirs.mk
 
@@ -114,12 +119,13 @@ ifeq ($(HB_COMPILER),mingw32)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
 else
-   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) -D__HARBOUR64__
+   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) -D__HARBOUR64__ 
    ifeq ($(SUPPORT_PRINT_LINUX),yes)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) -DHB_OS_LINUX
      LIBS += $(shell pkg-config --libs libgnomeprintui-2.2)
    endif
 endif
+CFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 
 ifeq ($(BONOBO),yes)
@@ -343,6 +349,7 @@ ifeq ($(BIN_PLATFORM_NAME),yes)
   endif
 endif
 
+
 #COMMANDS
 all:$(TARGET) $(TARGETS)
 win:$(TARGET) $(TARGETS)
@@ -360,7 +367,7 @@ $(DIR_OBJ)%.o: %.cpp
 	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $<
 
 %.c: %.prg
-	$(HB_BIN_INSTALL)/harbour $(strip $(HB_FLAGS)) $(PRGFLAGS) -I$(HB_INC_INSTALL) $(HARBOUR_INC_XHB) -o$@ $<
+	$(HB_BIN_INSTALL)$(DIRSEP)harbour $(strip $(HB_FLAGS)) $(PRGFLAGS) -I$(HB_INC_INSTALL)  -o$@ $<
 
 $(TARGET): $(OBJECTS)
 ifeq ( lib , $(patsubst %.a, lib, $(TARGET)))

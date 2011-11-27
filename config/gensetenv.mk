@@ -57,6 +57,8 @@ $(shell $(strip $(ECHO) export TGTK_DIR =$(TGTK_DIR)$(ADD)))
 ifeq ($(HB_MAKE_PLAT),win)
   $(shell $(strip $(ECHO) export LIBDIR_TGTK =$$(TGTK_DIR)$(DIRSEP)lib$(ADD)))
   $(shell $(strip $(ECHO) export INCLUDE_TGTK_PRG =$$(TGTK_DIR)$(DIRSEP)include$(ADD)))
+  $(shell $(strip $(ECHO) export TGTK_RUN =$$(TGTK_DIR)$(DIRSEP)runtime$(ADD)))
+  $(shell $(strip $(ECHO) export DIR_DOWN =$$(TGTK_DIR)$(DIRSEP)downloads$(ADD)))
 else
   $(shell $(strip $(ECHO) export LIBDIR_TGTK =\$$(TGTK_DIR)$(DIRSEP)lib$(ADD)))
   $(shell $(strip $(ECHO) export INCLUDE_TGTK_PRG =\$$(TGTK_DIR)$(DIRSEP)include$(ADD)))

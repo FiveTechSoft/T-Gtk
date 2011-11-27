@@ -25,9 +25,9 @@ ifeq ($(HB_MAKE_PLAT),win)
   ifeq ($(HB_LIB_INSTALL),)
     export HB_LIB_INSTALL =$(HARBOUR_PATH)\lib\win\mingw
   endif
-  # -- Version = [ 2.0 | 2.1 ]
+  # -- Version = [ 3.0 | 3.1 ]
   #ifeq ($(HB_VERSION),)
-  #  export HB_VERSION =2.1
+  #  export HB_VERSION =31
   #endif
 else
 # Ruta en GNU/Linux:
