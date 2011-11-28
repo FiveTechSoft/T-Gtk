@@ -4,7 +4,6 @@
 
 $(info )
 $(info Ejecutando config/gensetenv.mk )
-
 ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/$(SETENV)))),)
 
 $(info * Generando $(SETENV) )

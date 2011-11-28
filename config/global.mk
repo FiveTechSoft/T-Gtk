@@ -18,6 +18,30 @@ SPACE+=
 export SPACE
 
 include $(ROOT)config/detect.mk
+ifneq ($(notdir $(wildcard $(subst \,/,$(ROOT)/setenv.mk))),)
+   $(info ejecutando $(ROOT)setenv.mk)
+   include $(ROOT)setenv.mk
+endif
+
+# Obtenemos nombre generico de plataforma (PLATFORM_NAME)
+include $(ROOT)config/platform_name.mk
+
+# Inicializamos el valor para la variable SETENV
+SETENV :=$(subst $(DIRSEP),,$(PLATFORM_NAME))
+ifeq ($(HB_MAKE_PLAT),linux)
+   SETENV :=$(HB_MAKE_ISSUE)_$(HOST_PLAT)
+endif
+SETENV := setenv_$(SETENV).mk
+
+#ifeq ($(BIN_PLATFORM_NAME),no)
+#  SETENV :=setenv.mk
+#endif
+
+ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/$(SETENV)))),$(SETENV))
+  $(info Ejecutando $(SETENV) )
+  include $(ROOT)$(SETENV)
+endif
+
 
 ifeq ($(HB_MAKE_PLAT),win)
    # -- verificamos si los valores de estas variables estan en minuscula.
@@ -33,7 +57,7 @@ ifeq ($(HB_MAKE_PLAT),win)
    endif
 endif
 
-export TGTK_VERSION :=2.0
+export TGTK_VERSION :=2.1
 
 ##############################################
 # Indicar COMPILADOR XBASE. 
@@ -67,7 +91,7 @@ endif
 ifeq ($(HB_MAKE_PLAT),win)
   # Ruta en Windows:
   ifeq ($(TGTK_DIR),)
-    export TGTK_DIR         =\t-gtk-$(TGTK_VERSION)
+    export TGTK_DIR         =\t-gtk_$(TGTK_VERSION)
   endif
   ifeq ($(LIBDIR_TGTK),)
     export LIBDIR_TGTK      =$(TGTK_DIR)\lib
@@ -268,21 +292,22 @@ endif
 export TGTK_GLOBAL=yes
 
 # Inicializamos el valor para la variable SETENV
-SETENV :=$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)_$(HOST_PLAT)
-ifeq ($(HB_MAKE_PLAT),linux)
-   SETENV :=$(HB_MAKE_ISSUE)_$(HOST_PLAT)
-endif
+#SETENV :=$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)_$(HOST_PLAT)
+#ifeq ($(HB_MAKE_PLAT),linux)
+#   SETENV :=$(HB_MAKE_ISSUE)_$(HOST_PLAT)
+#endif
+#SETENV := setenv_$(SETENV).mk
 
-ifeq ($(BIN_PLATFORM_NAME),no)
-  SETENV :=setenv.mk
-endif
+#ifeq ($(BIN_PLATFORM_NAME),no)
+#  SETENV :=setenv.mk
+#endif
 
-export SETENV := setenv_$(SETENV).mk
+export SETENV
 
 ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/$(SETENV)))),$(SETENV))
 
-  $(info Ejecutando $(SETENV) )
-  include $(ROOT)$(SETENV)
+  #$(info Ejecutando $(SETENV) )
+  #include $(ROOT)$(SETENV)
 
   #eliminamos posibles espacios en blanco
   XBASE_COMPILER:=$(subst $(SPACE),,$(XBASE_COMPILER))
@@ -299,6 +324,8 @@ ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/$(SETENV)))),$(SETENV))
   GTK_PATH:=$(subst $(SPACE),,$(GTK_PATH))
   TGTK_BIN:=$(subst $(SPACE),,$(TGTK_BIN))
   PKG_CONFIG_PATH:=$(subst $(SPACE),,$(PKG_CONFIG_PATH))
+  TGTK_RUN:=$(subst $(SPACE),,$(TGTK_RUN))
+  DIR_DOWN:=$(subst $(SPACE),,$(DIR_DOWN))
 
 endif
 

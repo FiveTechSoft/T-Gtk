@@ -33,13 +33,15 @@ ifeq ($(subst $(SPACE),,$(XBASE_COMPILER)),XHARBOUR)
   HB_SHORTNAME=xhb$(HB_VERSION)
 endif
 
+# Obtenemos nombre generico de plataforma (PLATFORM_NAME)
+include $(ROOT)config/platform_name.mk
 
 # Revisamos las Rutas y Creamos los directorios si es necesario... (miquel)
 DIR_OBJ := $(subst $(SPACE),,$(DIR_OBJ))
 ifeq ($(DIR_OBJ),)
-  export DIR_OBJ :=.$(DIRSEP)$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)$(DIRSEP)
+  export DIR_OBJ :=.$(DIRSEP)obj$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)$(DIRSEP)$(DIRSEP)
   ifeq ($(HB_MAKE_PLAT),linux)
-     export DIR_OBJ :=.$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)
+     export DIR_OBJ :=.$(DIRSEP)obj$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)$(DIRSEP)
   endif
 endif
 
@@ -51,9 +53,13 @@ include $(ROOT)config/pkgconfig.mk
 
 $(info $(LIBDIR_TGTK_))
 ifeq ($(HB_MAKE_PLAT),win)
-   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
+   ifeq ($(BIN_PLATFORM_NAME),yes)
+      LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)
+   else
+      LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_PLAT)_$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
+   endif
 else
-   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
+   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)
 endif
 #LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(subst .,,$(DIR_OBJ))
 
@@ -215,6 +221,7 @@ ifeq ($(MYSQL),yes)
         #lower a la ruta MYSQL_PATH para luego sustituir include por lib.
         LIBMYSQL_PATH:=$(call lc,$(MYSQL_PATH))
         LIBS +=-L$(subst include,lib,$(LIBMYSQL_PATH)) -lmysql #-lmysqlclient
+        LIBS +=-L$(LIBDIR_TGTK) -lmysql #-lmysqlclient
     else
         #Flags para sistemas GNU/Linux
         CFLAGS+=-I../../include -I/usr/mysql/include
@@ -342,7 +349,7 @@ ifeq ($(BIN_PLATFORM_NAME),)
 endif
 ifeq ($(BIN_PLATFORM_NAME),yes)
   ifneq ( lib , $(patsubst %.a, lib, $(TARGET)))
-    VARTEMP := $(subst $(DIRSEP)$(DIRSEP),,$(DIR_OBJ))
+    VARTEMP := $(subst $(DIRSEP)$(DIRSEP),,$(PLATFORM_NAME)_$(HB_SHORTNAME))
     TARGET := $(TARGET)_$(subst $(DIRSEP),_,$(subst .,,$(VARTEMP)))
     TARGET := $(subst __,_,$(TARGET))
     TARGET := $(patsubst %_,%,$(TARGET))

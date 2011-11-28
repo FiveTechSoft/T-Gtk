@@ -9,7 +9,8 @@ $(info $(SETENV))
 include $(ROOT)$(SETENV)
 
 
-PRGFLAGS=-I$(ROOT)include -I$(ROOT)/tdolphin/include
+PRGFLAGS=-I$(ROOT)include -I$(ROOT)/tdolphin/include \
+	 -I$(subst include,contrib/xhb,$(HB_INC_INSTALL))
 
 CFLAGS+=-I$(ROOT)include
 ifeq ($(HB_MAKE_PLAT),win)

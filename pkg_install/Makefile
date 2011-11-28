@@ -4,13 +4,31 @@
 
 export ROOT=../
 include $(ROOT)config/detect.mk
-include $(ROOT)setenv.mk
+include $(ROOT)$(SETENV)
 include $(ROOT)config/global.mk
+
+ifeq ($(subst $(SPACE),,$(XBASE_COMPILER)),HARBOUR)
+  HB_SHORTNAME=hb$(HB_VERSION)
+endif
+ifeq ($(subst $(SPACE),,$(XBASE_COMPILER)),XHARBOUR)
+  HB_SHORTNAME=xhb$(HB_VERSION)
+endif
+
+ifeq ($(HB_MAKE_PLAT),win)
+   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
+else
+   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
+endif
+
+$(info copy $(LIBDIR_TGTK_)\*.a $(LIBDIR_TGTK)\hb\ )
+$(shell mkdir $(LIBDIR_TGTK)\hb)
+$(shell copy $(LIBDIR_TGTK_)\*.a $(LIBDIR_TGTK)\hb\ > %TEMP%/out.log)
+
 
 $(info Ejecutando Makefile en $(ROOT)pkg_install)
 
-TGTK_VERSION=2.0
-INSTALL_DIR=C:\t-gtk_$(TGTK_VERSION)
+#TGTK_VERSION=2.1
+INSTALL_DIR=$(subst %\:,C\:,$(TGTK_DIR))_$(TGTK_VERSION)
 
 DEST_MINGWDIR=$(INSTALL_DIR)\MinGW
 
@@ -62,9 +80,10 @@ $(shell echo    StrCpy $$DEST_GEDIT "$$INSTDIR\gedit"    >> question.nsh )
 # --------------------------------------
 $(info Generando Instalador Basico o Minimo (Solo t-gtk) )
 
+$(info Inicializando install_name.nsh )
 $(shell echo   Name "t-gtk $(TGTK_VERSION)"         > install_name.nsh )
 $(shell echo   InstallDir "$(INSTALL_DIR)" >> install_name.nsh )
-$(shell echo   OutFile "t-gtk_setup.exe"        >> install_name.nsh )
+$(shell echo   OutFile "t-gtk_$(TGTK_VERSION)_setup.exe"        >> install_name.nsh )
 $(shell echo.  >> install_name.nsh )
 
 
@@ -77,6 +96,7 @@ $(shell echo   StrCpy $$SRC_HBDIR    "$(HB_BIN_INSTALL)" >> parameters.nsh)
 $(shell echo   StrCpy $$SRC_MYSQL    "$(MSQL_PATH)"      >> parameters.nsh)
 $(shell echo   StrCpy $$SRC_PGSQL    "$(PSQL_PATH)"      >> parameters.nsh)
 $(shell echo   StrCpy $$SRC_GEDIT    "$$INSTDIR\gedit"   >> parameters.nsh)
+
 
 $(shell echo   !define FULL >> parameters.nsh)
 $(shell echo   !undef FULL >> parameters.nsh)
@@ -113,6 +133,7 @@ $(info Puede tardar varios minutos, por favor espere. )
 $(shell "$(NSIS_PATH)\makensis.exe" /Onsis.log t-gtk.nsi )
 $(shell cmd /C start nsis.log )
 
+aqui
 
 # --------------------------------------
 # Verifica existencia de componentes externos
@@ -123,7 +144,7 @@ $(shell cmd /C start nsis.log )
 #-- TDOLPHIN
 
  $(info * Verificando existencia de tdolphin )
- $(shell $(EXECUTE) $(TGTK_DIR)\tdolphin\function.c)
+ $(shell $(EXECUTE) $(TGTK_DIR)\tdolphin\c\function.c)
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
    $(info -------------------------------------------------------- )
    $(info *  No se incluye tdolphin - No ha sido localizado en: )
@@ -219,7 +240,7 @@ $(shell cmd /C start nsis.log )
  $(shell echo MessageBox MB_YESNO \
               "¿Desea colocar todos los componentes externos en \
 	      $$INSTDIR\MinGW ?" > question.nsh )
- $(shell echo   InstallDir "C:\t-gtk_$(TGTK_VERSION)" >> install_name.nsh )
+ $(shell echo   InstallDir "$(TGTK_DIR)" >> install_name.nsh )
  $(shell echo true:        >> question.nsh )
  $(shell echo    DetailPrint "Todo a MinGW"    >> question.nsh )
  $(shell echo    StrCpy $$DEST_MINGWDIR "$$INSTDIR\MinGW"    >> question.nsh )
@@ -241,9 +262,10 @@ $(shell cmd /C start nsis.log )
 # --------------------------------------
 $(info Generando Instalador Full )
 
+$(info Inicializando install_name.nsh )
 $(shell echo   Name "t-gtk $(TGTK_VERSION)"         > install_name.nsh )
-$(shell echo   InstallDir "C:\t-gtk_$(TGTK_VERSION)" >> install_name.nsh )
-$(shell echo   OutFile "t-gtk_setup_full.exe"        >> install_name.nsh )
+$(shell echo   InstallDir "$(TGTK_DIR)" >> install_name.nsh )
+$(shell echo   OutFile "t-gtk_$(TGTK_VERSION)_setup_full.exe"        >> install_name.nsh )
 $(shell echo.  >> install_name.nsh )
 
 $(shell echo   !define FULL >> parameters.nsh)

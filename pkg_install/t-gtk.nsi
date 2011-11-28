@@ -81,7 +81,7 @@
 ;Funciones
 Function .onInit
 
-        StrCpy $1 "May, 2011"
+        StrCpy $1 "Nov, 2011"
 
 	# the plugins dir is automatically deleted when the installer exits
 	InitPluginsDir
