@@ -8,37 +8,43 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-11-28 03:20 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * pkg_install/Makefile
+  * pkg_install/t-gtk.nsi
+    Beta para nuevo instalador basico.
+
+
 2011-11-28 00:51 UTC-430 Riztan Gutierrez <riztan at gmail.com>
-* tdolphin/Makefile
-  Modificacion para localizar hbcompat.ch y evitar error de compilacion al
-  usar version de SVN de Harbour.
+  * tdolphin/Makefile
+    Modificacion para localizar hbcompat.ch y evitar error de compilacion al
+    usar version de SVN de Harbour.
 
-* config/global.mk
-* config/gensetenv.mk
-+ config/platform_name.mk
-* Rules.make
-  Modificado valor de nombre de objetos y binarios para la plataforma windows. 
-  Esto para facilitar compatibilidad de los makes al generar el instalador. 
-  (Se evita que luego de generar el instalador, los makes diferencien entre 
-  win y winXP)
+  * config/global.mk
+  * config/gensetenv.mk
+  + config/platform_name.mk
+  * Rules.make
+    Modificado valor de nombre de objetos y binarios para la plataforma windows. 
+    Esto para facilitar compatibilidad de los makes al generar el instalador. 
+    (Se evita que luego de generar el instalador, los makes diferencien entre 
+    win y winXP)
 
-* pkg_install/Makefile
-* pkg_install/t-gtk.nsi
-  Adaptando los ultimos cambios de la version para generar nuevo instalador.
+  * pkg_install/Makefile
+  * pkg_install/t-gtk.nsi
+    Adaptando los ultimos cambios de la version para generar nuevo instalador.
 
-* src/mysql/LIBMYSQL.def
-  !correccion por actualizacion incorrecta en commit anterior.
+  * src/mysql/LIBMYSQL.def
+    !correccion por actualizacion incorrecta en commit anterior.
 
 
 
 2011-11-26 21:33 UTC-430 Riztan Gutierrez <riztan at gmail.com>
-* Rules.make
-  Modificacion para evitar el cambio de ruta de las libs de 
-  t-gtk al modificar DIR_OBJ
-* config/gensetenv.mk
-  + DIR_DOWN ruta para alojar las descargas. 
-    (evita que se descargue en la ruta predefinida en global.mk)
-  + TGTK_RUN ruta para runtime (aun por terminar)
+  * Rules.make
+    Modificacion para evitar el cambio de ruta de las libs de 
+    t-gtk al modificar DIR_OBJ
+  * config/gensetenv.mk
+    + DIR_DOWN ruta para alojar las descargas. 
+      (evita que se descargue en la ruta predefinida en global.mk)
+    + TGTK_RUN ruta para runtime (aun por terminar)
 
 
 2011-11-16 08:20 UTC-430 Riztan Gutierrez <riztan at gmail.com>

@@ -48,7 +48,7 @@
     \harbour-export     (directorio fuentes de Harbour)
     preinstall          (directorio TGTK)
     \MySQL              (directorio Archivos cliente MySQL)
-    \pgSQL            (directorio Archivos cliente PostgreSQL)
+    \pgSQL              (directorio Archivos cliente PostgreSQL)
     
   */
 
@@ -169,9 +169,10 @@ Section "t-gtk" SecTgtk
   ;ADD YOUR OWN FILES HERE...
   File /nonfatal /r /x CVS preinstall\*.*
 
-  SetOutPath "$INSTDIR\lib\hb"
-  File /nonfatal ..\lib\hb\libhbgtk.a
-  File /nonfatal ..\lib\hb\libgclass.a
+  SetOutPath "$INSTDIR\lib\win_x86\hb31"
+  File /nonfatal ..\lib\win_x86\hb31\libhbgtk.a
+  File /nonfatal ..\lib\win_x86\hb31\libgclass.a
+  ;!include "libtgtk.nsh"
 
   ;Store installation folder
   WriteRegStr HKCU "Software\t-gtk" "" $INSTDIR
@@ -199,16 +200,20 @@ Section "t-gtk" SecTgtk
      DetailPrint "Todo a MinGW"
      StrCpy $DEST_MINGWDIR $INSTDIR\MinGW
      StrCpy $DEST_GTKDIR $INSTDIR\MinGW
-     StrCpy $DEST_HBDIR $INSTDIR\hb-mingw
+     StrCpy $DEST_HBDIR $INSTDIR\hb31-mingw
      StrCpy $DEST_GEDIT $INSTDIR\MinGW
      Goto next
    false:
      DetailPrint "Separados!"
      StrCpy $DEST_MINGWDIR $INSTDIR\MinGW
      StrCpy $DEST_GTKDIR $INSTDIR\GTK+
-     StrCpy $DEST_HBDIR $INSTDIR\hb-mingw
+     StrCpy $DEST_HBDIR $INSTDIR\hb31-mingw
      StrCpy $DEST_GEDIT $INSTDIR\gedit
    next:
+!else
+   StrCpy $DEST_MINGWDIR \MinGW
+   StrCpy $DEST_GTKDIR \GTK+
+   StrCpy $DEST_HBDIR \hb31
 !endif
 
   StrCpy $source "preinstall"
@@ -226,7 +231,7 @@ Section "t-gtk" SecTgtk
 
 
 ; Generar setenv.mk
-FileOpen $0 $INSTDIR\setenv.mk w
+FileOpen $0 $INSTDIR\setenv_win_x86.mk w
 
 FileWrite $0  "$\r$\n"
 FileWrite $0  "#---------------------------------------------$\r$\n" 
@@ -244,7 +249,7 @@ FileWrite $0  "# RUTAS Compilador xBase HARBOUR.$\r$\n"
 FileWrite $0  "export HB_BIN_INSTALL =$DEST_HBDIR\bin$\r$\n"
 FileWrite $0  "export HB_INC_INSTALL =$DEST_HBDIR\include$\r$\n"
 FileWrite $0  "export HB_LIB_INSTALL =$DEST_HBDIR\lib\win\mingw$\r$\n"
-FileWrite $0  "export HB_VERSION =21$\r$\n"
+FileWrite $0  "export HB_VERSION =31$\r$\n"
 FileWrite $0  "#-------------------- $\r$\n"
 FileWrite $0  "# RUTAS Compilador xBase xHARBOUR. $\r$\n"
 FileWrite $0  "export XHB_BIN_INSTALL =\xhb_mingw\bin$\r$\n"
@@ -256,15 +261,29 @@ FileWrite $0  "# RUTAS T-GTK. $\r$\n"
 FileWrite $0  "export TGTK_DIR =$INSTDIR$\r$\n"
 FileWrite $0  "export LIBDIR_TGTK =$INSTDIR\lib$\r$\n"
 FileWrite $0  "export INCLUDE_TGTK_PRG =$INSTDIR\include$\r$\n"
+FileWrite $0  "export TGTK_RUN =$INSTDIR\runtime$\r$\n"
+FileWrite $0  "export DIR_DOWN =$INSTDIR\downloads$\r$\n"
 FileWrite $0  " $\r$\n"
 FileWrite $0  "#-------------------- $\r$\n"
 FileWrite $0  "# Componentes Adicionales. $\r$\n"
 FileWrite $0  "export GTK_PATH =$DEST_GTKDIR$\r$\n"
 FileWrite $0  "export TGTK_BIN =$DEST_MINGWDIR$\r$\n"
 FileWrite $0  "export PKG_CONFIG_PATH =$DEST_GTKDIR\lib\pkgconfig$\r$\n"
+FileWrite $0  "#-------------------- $\r$\n"
+FileWrite $0  "# Genera Binario con Datos de la Plataforma. $\r$\n"
+FileWrite $0  "export BIN_PLATFORM_NAME =no$\r$\n"
+FileWrite $0  "#-------------------- $\r$\n"
+FileWrite $0  "# Auto Descarga e Instalación de Componentes. $\r$\n"
+FileWrite $0  "export AUTO_INST =no$\r$\n"
+FileWrite $0  "export TGTK_DOWN =no$\r$\n"
+FileWrite $0  " $\r$\n"
 FileWrite $0  " $\r$\n"
 FileWrite $0  "# Soporte de Impresion. $\r$\n"
 FileWrite $0  "export SUPPORT_PRINT_WIN32 =no$\r$\n"
+FileWrite $0  " $\r$\n"
+FileWrite $0  "# Soporte para MultiThread. $\r$\n"
+FileWrite $0  "export GTK_THREAD =no$\r$\n"
+FileWrite $0  " $\r$\n"
 FileWrite $0  " $\r$\n"
 
 ;FileWrite $0  "# Soporte para GTKSourceView. $\r$\n"
@@ -317,6 +336,7 @@ StrCpy $RULES_WEBKIT   "$RULES_WEBKIT$\r$\n"
 StrCpy $RULES_MYSQL    "#Soporte MySQL$\r$\n"
 StrCpy $RULES_MYSQL    "$RULES_MYSQLMYSQL=no$\r$\n"
 StrCpy $RULES_MYSQL    "$RULES_MYSQLDOLPHIN=no$\r$\n"
+StrCpy $RULES_MYSQL    "export MYSQL_VERSION =5.0$\r$\n"
 ;StrCpy $RULES_MYSQL    "$RULES_MYSQLMYSQL_PATH='C:/Archivos de programa/MySQL/MySQL Server 5.0/include'$\r$\n"
 !insertmacro MYSQL_PATH
 StrCpy $RULES_MYSQL    "$RULES_MYSQL$\r$\n"
@@ -365,10 +385,10 @@ StrCpy $RULES_MYSQL   "$RULES_MYSQL$\r$\n"
   ; DOLPHIN
   !include "dolphin.nsh"
 
-  SetOutPath "$INSTDIR\lib\hb"
-  File /nonfatal ..\lib\hb\libmysql.a
-  File /nonfatal ..\lib\hb\libhbmysql.a
-  File /nonfatal ..\lib\hb\libtdolphin.a
+  SetOutPath "$INSTDIR\lib\win_x86\hb31"
+  File /nonfatal ..\lib\win_x86\hb31\libmysql.a
+  File /nonfatal ..\lib\win_x86\hb31\libhbmysql.a
+  File /nonfatal ..\lib\win_x86\hb31\libtdolphin.a
 
 
 SectionEnd
@@ -387,9 +407,9 @@ StrCpy $RULES_PGSQL   "$RULES_PGSQL$\r$\n"
   ;ADD YOUR OWN FILES HERE...
   ;File /nonfatal /r "$SRC_PGSQL\*.*"
 
-  SetOutPath "$INSTDIR\lib\hb"
-  File /nonfatal ..\lib\hb\libpq.a
-  File /nonfatal ..\lib\hb\libhbpg.a
+  SetOutPath "$INSTDIR\lib\win_x86\hb31"
+  File /nonfatal ..\lib\win_x86\hb31\libpq.a
+  File /nonfatal ..\lib\win_x86\hb31\libhbpg.a
 
 SectionEnd
 
@@ -407,9 +427,9 @@ StrCpy $RULES_CURL   "${RULES_CURL}$\r$\n"
   ;ADD YOUR OWN FILES HERE...
 ;  File /nonfatal /r "$SRC_CURL\*.*"
 
-  SetOutPath "$INSTDIR\lib\hb"
-  File /nonfatal ..\lib\hb\libcurl.a
-  File /nonfatal ..\lib\hb\libcurl-hb.a
+  SetOutPath "$INSTDIR\lib\win_86\hb31"
+  File /nonfatal ..\lib\win_x86\hb31\libcurl.a
+  File /nonfatal ..\lib\win_x86\hb31\libcurl-hb.a
 
 SectionEnd
 */
@@ -576,6 +596,34 @@ FileWrite $0 "$RULES_CURL"
 FileWrite $0 "$RULES_WEBKIT"
 FileWrite $0 "$RULES_MYSQL"
 FileWrite $0 "$RULES_PGSQL"
+
+FileWrite $0  " $\r$\n"
+FileWrite $0  " $\r$\n"
+FileWrite $0  " $\r$\n"
+FileWrite $0  "# Flags para el Compilador xBase. $\r$\n"
+FileWrite $0  "# Solo para definir una cadena fija como flag (HB_FLAGS). $\r$\n"
+FileWrite $0  "#export HB_FLAGS $\r$\n"
+FileWrite $0  " $\r$\n"
+FileWrite $0  "# -l $\r$\n"
+FileWrite $0  "export HB_LINES :=no$\r$\n"
+FileWrite $0  "# -gh $\r$\n"
+FileWrite $0  "export HB_HRB_OUT :=no$\r$\n"
+FileWrite $0  "# -d $\r$\n"
+FileWrite $0  "export HB_DEFINE :=$\r$\n"
+FileWrite $0  "# -v $\r$\n"
+FileWrite $0  "export HB_ASSUME_VARS :=no$\r$\n"
+FileWrite $0  "# -p $\r$\n"
+FileWrite $0  "export HB_GEN_PPO :=yes$\r$\n"
+FileWrite $0  "# -p+ $\r$\n"
+FileWrite $0  "export HB_GEN_PPT :=no$\r$\n"
+FileWrite $0  "# -b $\r$\n"
+FileWrite $0  "export HB_DEBUG_INFO :=no$\r$\n"
+FileWrite $0  "# -w[level] Warning Level [1..3]$\r$\n"
+FileWrite $0  "export HB_WL :=1 $\r$\n"
+FileWrite $0  "# -q[,0,2] $\r$\n"
+FileWrite $0  "export HB_QUIET :=0 $\r$\n"
+FileWrite $0  "# -kM turn off macrotext substitution $\r$\n"
+FileWrite $0  "export HB_MACROTEXT_SUBS :=no $\r$\n"
 
 FileWrite $0  "# eof $\r$\n"
 

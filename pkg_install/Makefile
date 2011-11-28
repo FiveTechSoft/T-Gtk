@@ -1,6 +1,11 @@
 #
-#  Probando sonido
+#  www.t-gtk.org
 #
+
+$(info Ejecutando build.bat (exporta version de SVN para instalador))
+$(info Esto puede demorar unos minutos, por favor espere... )
+$(shell build.bat)
+$(info Finalizada creacion de carpeta preinstall. )
 
 export ROOT=../
 include $(ROOT)config/detect.mk
