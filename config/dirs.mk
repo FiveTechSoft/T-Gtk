@@ -12,7 +12,7 @@ ifeq ($(notdir $(wildcard $(subst \,/,$(TGTK_INST))/*)),)
    endif
 endif
 
-ifeq ($(notdir $(wildcard $(subst \,/,$(LIBDIR_TGTK))/*)),)
+ifeq ($(notdir $(wildcard $(subst \,/,$(LIBDIR_TGTK_))/*)),)
    $(info * Creando Directorio LIBDIR_TGTK_ --> $(LIBDIR_TGTK_) )
    ifeq ($(HB_MAKE_PLAT),win)
       $(shell mkdir $(LIBDIR_TGTK_))
