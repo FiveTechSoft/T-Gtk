@@ -87,7 +87,7 @@ $(info Generando Instalador Basico o Minimo (Solo t-gtk) )
 
 $(info Inicializando install_name.nsh )
 $(shell echo   Name "t-gtk $(TGTK_VERSION)"         > install_name.nsh )
-$(shell echo   InstallDir "$(INSTALL_DIR)" >> install_name.nsh )
+$(shell echo   InstallDir "C:\t-gtk_$(TGTK_VERSION)" >> install_name.nsh )
 $(shell echo   OutFile "t-gtk_$(TGTK_VERSION)_setup.exe"        >> install_name.nsh )
 $(shell echo.  >> install_name.nsh )
 
@@ -138,7 +138,6 @@ $(info Puede tardar varios minutos, por favor espere. )
 $(shell "$(NSIS_PATH)\makensis.exe" /Onsis.log t-gtk.nsi )
 $(shell cmd /C start nsis.log )
 
-aqui
 
 # --------------------------------------
 # Verifica existencia de componentes externos
@@ -148,17 +147,17 @@ aqui
 
 #-- TDOLPHIN
 
- $(info * Verificando existencia de tdolphin )
- $(shell $(EXECUTE) $(TGTK_DIR)\tdolphin\c\function.c)
- ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
-   $(info -------------------------------------------------------- )
-   $(info *  No se incluye tdolphin - No ha sido localizado en: )
-   $(info * $(TGTK_DIR)\tdolphin )
-   $(info -------------------------------------------------------- )
- else
-   $(shell echo   SetOutPath "$$INSTDIR\tdolphin"       > dolphin.nsh )
-   $(shell echo   File /nonfatal /r "$(TGTK_DIR)\tdolphin\*.*"  >> dolphin.nsh )
- endif
+# $(info * Verificando existencia de tdolphin )
+# $(shell $(EXECUTE) $(TGTK_DIR)\tdolphin\c\function.c)
+# ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
+#   $(info -------------------------------------------------------- )
+#   $(info *  No se incluye tdolphin - No ha sido localizado en: )
+#   $(info * $(TGTK_DIR)\tdolphin )
+#   $(info -------------------------------------------------------- )
+# else
+#   $(shell echo   SetOutPath "$$INSTDIR\tdolphin"       > dolphin.nsh )
+#   $(shell echo   File /nonfatal /r "$(TGTK_DIR)\tdolphin\*.*"  >> dolphin.nsh )
+# endif
 
 
 #-- MySQL
@@ -245,7 +244,7 @@ aqui
  $(shell echo MessageBox MB_YESNO \
               "¿Desea colocar todos los componentes externos en \
 	      $$INSTDIR\MinGW ?" > question.nsh )
- $(shell echo   InstallDir "$(TGTK_DIR)" >> install_name.nsh )
+ $(shell echo   InstallDir "C:\t-gtk_$(TGTK_VERSION)" >> install_name.nsh )
  $(shell echo true:        >> question.nsh )
  $(shell echo    DetailPrint "Todo a MinGW"    >> question.nsh )
  $(shell echo    StrCpy $$DEST_MINGWDIR "$$INSTDIR\MinGW"    >> question.nsh )

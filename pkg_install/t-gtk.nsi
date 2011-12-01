@@ -487,7 +487,7 @@ SectionGroupEnd
     SetOutPath "$DEST_HBDIR"
 
     ;ADD YOUR OWN FILES HERE...
-    File /nonfatal /r /x SVN \harbour-svn\*.*
+    File /nonfatal /r /x SVN \harbour-project\*.*
 
   SectionEnd
 
