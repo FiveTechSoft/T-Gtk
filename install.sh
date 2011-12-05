@@ -3,7 +3,7 @@
 function setenv
 {
   make
-  nano setenv.mk
+  nano $1
 }
 
 clear
@@ -13,10 +13,23 @@ echo "* Install t-gtk on GNU/Linux   *"
 echo "*                              *"
 echo "*------------------------------*"
 echo
-global=./setenv.mk
+if [ -z $1 ] ; then
+   echo "debe indicar el archivo setenv a utilizar"
+   echo "ejemplo: install setenv_Ubuntu_11.10.mk"
+   exit
+fi
+
+test -f $1 || noexist=1
+
+if [ $noexist = 1 ] ; then
+   echo "no existe el archivo $1"
+   exit
+fi
+
+global=./$1
 tgtkPKG=/usr/lib/pkgconfig/tgtk.pc
 
-test -f $global || setenv
+test -f $global || $1
 
 tgtk_pc=0
 test -f $tgtkPKG && tgtk_pc=1
