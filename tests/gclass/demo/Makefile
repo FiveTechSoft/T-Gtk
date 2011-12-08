@@ -3,6 +3,7 @@
 # pero para depurar, va de muerte que salgan mensajes en la consola
 
 ROOT = ../../../
+SETTINGS=$(ROOT)config/settings/minimal.mk
 
 TARGET = demoppo
 SOURCES = demoppo.prg

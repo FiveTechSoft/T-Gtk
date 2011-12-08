@@ -8,6 +8,18 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2011-12-07 21:25 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * config/global.mk
+    Modificacion para incluir archivo de seteo personalizado mediante la variable
+    $(SETTINGS)
+  + config/settings/minimal.mk
+    Archivo de configuracion de seteo (minimo).
+    Con este archivo, se compila sin necesidad de enlazar los componentes 
+    adicionales.
+  * tests/gclass/demo/Makefile
+    Ejemplo de como hacer un seteo personalizado.
+
+
 2011-11-28 03:20 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * pkg_install/Makefile
   * pkg_install/t-gtk.nsi

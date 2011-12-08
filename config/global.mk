@@ -18,30 +18,33 @@ SPACE+=
 export SPACE
 
 include $(ROOT)config/detect.mk
-ifneq ($(notdir $(wildcard $(subst \,/,$(ROOT)/setenv.mk))),)
-   $(info ejecutando $(ROOT)setenv.mk)
-   include $(ROOT)setenv.mk
-endif
+#ifneq ($(notdir $(wildcard $(subst \,/,$(ROOT)/setenv.mk))),)
+#   $(info ejecutando $(ROOT)setenv.mk)
+#   include $(ROOT)setenv.mk
+#endif
 
 # Obtenemos nombre generico de plataforma (PLATFORM_NAME)
 include $(ROOT)config/platform_name.mk
 
 # Inicializamos el valor para la variable SETENV
-SETENV :=$(subst $(DIRSEP),,$(PLATFORM_NAME))
-ifeq ($(HB_MAKE_PLAT),linux)
-   SETENV :=$(HB_MAKE_ISSUE)_$(HOST_PLAT)
+ifeq ($(SETENV),)
+  SETENV :=$(subst $(DIRSEP),,$(PLATFORM_NAME))
+  ifeq ($(HB_MAKE_PLAT),linux)
+     SETENV :=$(HB_MAKE_ISSUE)_$(HOST_PLAT)
+  endif
+  SETENV := setenv_$(SETENV).mk
 endif
-SETENV := setenv_$(SETENV).mk
-
-#ifeq ($(BIN_PLATFORM_NAME),no)
-#  SETENV :=setenv.mk
-#endif
 
 ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/$(SETENV)))),$(SETENV))
   $(info Ejecutando $(SETENV) )
   include $(ROOT)$(SETENV)
 endif
 
+# Si existe se asigna un archivo para seteo adicional o personalizado
+ifneq ($(SETTINGS),)
+  $(info Ejecutando $(SETTINGS) (Settings) )
+  include $(SETTINGS)
+endif
 
 ifeq ($(HB_MAKE_PLAT),win)
    # -- verificamos si los valores de estas variables estan en minuscula.
