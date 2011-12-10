@@ -1076,9 +1076,10 @@ void OnEditing_started( GtkCellRenderer *renderer, GtkCellEditable *editable,   
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
+            hb_vmPushPointer( ( GtkCellRenderer * ) renderer  );
             hb_vmPushPointer( ( GtkCellEditable * ) editable  );
             hb_vmPushString( path, strlen( path ) );
-            hb_vmSend( 3 );                               // LLamada por Send que pasa
+            hb_vmSend( 4 );                               // LLamada por Send que pasa
          } else {
 	  HB_ERRCODE ErrCode = 5002;	  
 	  hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnEditing_started" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   
@@ -1094,7 +1095,7 @@ void OnEditing_started( GtkCellRenderer *renderer, GtkCellEditable *editable,   
         hb_vmPushPointer( ( GtkCellRenderer * ) renderer  );
         hb_vmPushPointer( ( GtkCellEditable * ) editable  );
         hb_vmPushString( path, strlen( path ) );
-        hb_vmSend( 3 );
+        hb_vmSend( 4 );
      }
   }
 }

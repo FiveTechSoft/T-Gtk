@@ -90,7 +90,8 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GetIterNext( aIter )  INLINE gtk_tree_model_iter_next( ::GetModel(), aIter )  
 
       METHOD SetMenuPopup( aoMenuPopup )
-
+      METHOD SetGridLines( GtkTreeViewGridLines ) inline gtk_tree_view_set_grid_lines ( ::pWidget, GtkTreeViewGridLines )
+      METHOD GetGridLines( ) inline gtk_tree_view_set_grid_lines ( ::pWidget )
       
       METHOD OnColumns_changed ( oSender ) VIRTUAL
       METHOD OnCursorChanged( oSender )  SETGET // cursor-changed

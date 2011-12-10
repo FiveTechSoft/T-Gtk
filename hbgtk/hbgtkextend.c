@@ -441,4 +441,8 @@ BOOL Array2Rect(PHB_ITEM aRect, GdkRectangle *rect )
    return FALSE;
 }
 
-
+HB_FUNC( GTK_IS_ENTRY )
+{
+  GtkWidget * entry = hb_parptr( 1 );
+  hb_retl( GTK_IS_ENTRY( entry ) ? 1 : 0 ) ;
+}

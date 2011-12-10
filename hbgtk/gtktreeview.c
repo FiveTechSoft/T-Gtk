@@ -365,6 +365,19 @@ HB_FUNC( GTK_TREE_VIEW_GET_PATH_AT_POS )
 }
 
 
+HB_FUNC( GTK_TREE_VIEW_SET_GRID_LINES )
+{
+   GtkTreeView * tree_view = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   gtk_tree_view_set_grid_lines( tree_view, hb_parni( 2 ) );
+}
+
+HB_FUNC( GTK_TREE_VIEW_GET_GRID_LINES )
+{
+   GtkTreeView * tree_view = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   hb_retni( gtk_tree_view_get_grid_lines( tree_view ) );
+}
+
+
 /*
  * TODO: Seria interesante realizar WRAPPER
 

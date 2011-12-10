@@ -36,7 +36,7 @@ CLASS gCellRenderer FROM GOBJECT
       METHOD SetPadY( nAlign )    INLINE g_object_set( ::pWidget, "ypad", nAlign  )
 
       METHOD OnDestroy() SETGET
-      METHOD OnEditing_started( oSender, pEditable, cPath ) SETGET
+      METHOD OnEditing_started( oSender, pCell, pEditable, cPath ) SETGET
       METHOD OnEditing_canceled( oSender ) SETGET
       METHOD SetColumn( oColumn ) INLINE ::oColumn := oColumn, ::nColumn := oColumn:nColumn
       
@@ -60,14 +60,14 @@ METHOD OnDestroy( uParam ) CLASS gCellRenderer
 RETURN NIL
 
 
-METHOD OnEditing_started( uParam, pEditable, cPath )  CLASS gCellRenderer
+METHOD OnEditing_started( uParam, pCell ,pEditable, cPath )  CLASS gCellRenderer
 
    if hb_IsBlock( uParam )
       ::bOnEditing_Started = uParam
       ::Connect( "editing-started" )
    elseif hb_IsObject( uParam )
       if hb_IsBlock( uParam:bOnEditing_Started )
-         Eval( uParam:bOnEditing_Started, uParam, pEditable, cPath  )
+         Eval( uParam:bOnEditing_Started, uParam, pCell, pEditable, cPath  )
       endif
    endif    
 
