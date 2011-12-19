@@ -32,11 +32,17 @@ CLASS gCellRendererText FROM gCellRenderer
 
 ENDCLASS
 
-METHOD New() CLASS gCellRendererText
+METHOD New( cId, uGlade ) CLASS gCellRendererText
+    
+   if cId == NIL
+     ::pWidget := gtk_cell_renderer_text_new()
+   else
+     ::pWidget :=  GLADE_XML_GET_CELL_RENDERER( uGlade, cId )
+     ::CheckGlade( cId )
+   endif
 
-    ::pWidget := gtk_cell_renderer_text_new()
-    ::cType   := "text"
-    ::Connect( "edited" )
+   ::cType   := "text"
+   ::Connect( "edited" )
     
 RETURN Self
 

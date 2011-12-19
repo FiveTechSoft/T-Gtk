@@ -55,7 +55,7 @@ CLASS gTreeViewColumn FROM GOBJECT
 
 ENDCLASS
 
-METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId, uGlade ) CLASS gTreeViewColumn
+METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId, uGlade, cId_Renderer ) CLASS gTreeViewColumn
       DEFAULT lExpand := .T.
       
       if cId == NIL
@@ -73,23 +73,34 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId
          gtk_tree_view_column_set_title( ::pWidget, cTitle )
       endif
    
-      if cType != NIL   // Si tenemos el tipo 
+      if cType != NIL .and. cId_Renderer = NIL   // Si tenemos el tipo y no es desde glade
          ::uAction = uAction
          if Valtype( cType ) = "O" // Objeto pasado como parametro
             ::oRenderer := cType
             ::cType :=  ::oRenderer:cType
-         else
+            if ::uAction != NIL                 // Si hay una accion , la activamos
+               ::oRenderer:SetEditable( .T. )
+               ::oRenderer:bEdited := ::uAction
+               ::oRenderer:SetColumn( Self ) 
+            endif           
+        else
             ::Renderer( cType )
-         endif
-         
-         if oTreeView:ClassName() == "GTREEVIEW" 
-            gtk_tree_view_column_pack_start( ::pWidget, ::oRenderer:pWidget, lExpand )
-            gtk_tree_view_column_add_attribute( ::pWidget, ::oRenderer:pWidget, ::cType, nPos-1 )
-         else     // Nos permite de esta forma, formar columnas texto + pixbuf, por ejemplo.
-            gtk_tree_view_column_pack_start( oTreeView:pWidget, ::oRenderer:pWidget, lExpand )
-            gtk_tree_view_column_add_attribute( oTreeView:pWidget, ::oRenderer:pWidget, ::cType, nPos-1 )
-         endif
-         
+        endif
+
+        if cId = NIL   // Solo si no es definido en Glade
+	   if oTreeView:ClassName() == "GTREEVIEW" 
+		gtk_tree_view_column_pack_start( ::pWidget, ::oRenderer:pWidget, lExpand )
+		gtk_tree_view_column_add_attribute( ::pWidget, ::oRenderer:pWidget, ::cType, nPos-1 )
+	   else     // Nos permite de esta forma, formar columnas texto + pixbuf, por ejemplo.
+		gtk_tree_view_column_pack_start( oTreeView:pWidget, ::oRenderer:pWidget, lExpand )
+		gtk_tree_view_column_add_attribute( oTreeView:pWidget, ::oRenderer:pWidget, ::cType, nPos-1 )
+	   endif
+        endif  
+      endif
+      
+      if cId_Renderer  != NIL  // RENDERER desde Glade
+	::uAction = uAction
+	::Renderer( "text", cId_Renderer, uGlade )
       endif
       
       if lSort .AND. ::nColumn != NIL
@@ -103,8 +114,10 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId
 
       if oTreeView != NIL 
          if oTreeView:ClassName() == "GTREEVIEW" //Solamente, cuando es un TreeView, no una columna
-            oTreeView:AppendColumn( Self )
-            ::Register()                         //Solamente CUANDO sea un TreeView, no forme parte de una columna.
+            if cId = NIL   // Solo si no es definido en Glade
+               oTreeView:AppendColumn( Self )
+               ::Register()                         //Solamente CUANDO sea un TreeView, no forme parte de una columna.
+            endif    
             AADD( oTreeView:aCols, {Self, ::nColumn} )  // Para tener el Nro de Columna a la mano...
          endif
          ::oTreeView = oTreeView
@@ -117,13 +130,13 @@ METHOD GetVisible()
 RETURN gtk_tree_view_column_get_visible( ::pWidget )
 
 
-METHOD Renderer( cType ) CLASS gTreeViewColumn
+METHOD Renderer( cType, cId, pGlade ) CLASS gTreeViewColumn
    
    cType := UPPER( cType )
    
    DO CASE
       CASE cType = "TEXT"
-           ::oRenderer := gCellRendererText():New()
+           ::oRenderer := gCellRendererText():New( cId, pGlade )
            ::cType := "text"
             if ::uAction != NIL
                ::oRenderer:SetEditable( .T. )

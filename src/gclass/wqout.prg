@@ -9,7 +9,7 @@ function WQout( aParams )
     local cOut := ""
 
     if valtype( aParams ) == "A"
-       AEval( aParams, { | c |  cOut :=  cOut + CRLF + cValToChar( c ) } )
+       AEval( aParams, { | c |  cOut :=  cOut + CRLF + valtoprg( c ) } )
        Msginfo( cOut )
     endif
 

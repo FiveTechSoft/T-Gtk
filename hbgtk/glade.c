@@ -97,6 +97,18 @@ HB_FUNC( GLADE_XML_GET_TREE_VIEW_COLUMN )
   
 }
 
+HB_FUNC( GLADE_XML_GET_CELL_RENDERER )
+{
+ GtkCellRenderer * widget;
+  if( GetGtkBuilderSts() )
+  {
+     widget = GTK_CELL_RENDERER( ( gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) ) ) );  
+     hb_retptr( widget );
+  }
+ 
+}
+
+
 HB_FUNC( GLADE_GET_WIDGET_NAME )
 {
   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
