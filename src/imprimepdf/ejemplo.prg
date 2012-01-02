@@ -2,6 +2,7 @@
 #include "hbclass.ch"
 #include "harupdf.ch"
 #include "common.ch"
+#include "tutilpdf.ch"
 
 PROCEDURE Main(  )
 
@@ -75,39 +76,13 @@ Function EjemploFacturaPdf()
 
 return nil
 
-//  ------------------------------------------------------------------------------------
-#xcommand DEFINE UTILPDF  <oUtil>  ;
-          [ < of: PRINTER,OF> <oPrinter> ]  ;
-          [ BRUSH <oBrush> ] ;
-          [ PEN   <oPen>   ] ;
-         =>;
-         [ <oUtil> := ] TUtilPdf():New( <oPrinter>,<oBrush>,<oPen> )
-
-#xcommand UTILPDF <oUtil> ;
-          [ <nRow>,<nCol> SAY <cText> ];
-          [ FONT <cFont> ] [SIZE <nSize> ];
-          [ COLOR RGB <nRed>,<nGreen>,<nBlue> ];
-          [ ROTATE <nAngle>];
-         =>;
-           <oUtil>:Text( <cText>,<nRow>,<nCol>,<cFont>,<nSize>, <nRed>,<nGreen>,<nBlue>, <nAngle>)
-
-#xcommand ISEPARATOR [ <nSpace> ] [<lBody: BODY>];
-         =>;
-           ::Separator( <nSpace> , <.lBody.>)
-
-#xcommand UTILPDF <oUtil> ;
-          BOX <nX>,<nY> TO <nX2>,<nY2> ;
-          [  <lStroke: STROKE> [ SIZE <nWitdh>] [ COLOR <nRed>,<nGreen>,<nBlue> ] ];
-          [  <lFill: FILLRGB> <nRed2>,<nGreen2>,<nBlue2>  ];
-         =>;
-           <oUtil>:Box( <nX>,<nY>,<nX2>,<nY2>,<nWitdh>,<.lStroke.>,<nRed>,<nGreen>,<nBlue>,<.lFill.>,<nRed2>,<nGreen2>,<nBlue2> )
-
 /*
  Ejemplo de impresion de una factura.
  */
 
 CLASS TFacturaPDF FROM TIMPRIMEPDF
       DATA nEndBody INIT 22   // Limite donde tiene que llegar las lineas de la factura
+      DATA lAlbaran INIT .T.
 
       METHOD New( cFile ) INLINE Super:New( cFile )
       METHOD Print()
@@ -133,25 +108,81 @@ RETURN NIL
 METHOD UnaMas() CLASS TFacturaPDF
 
        ::AddPage()
-       ::SetLandScape() 
+       ::SetLandScape()
        UTILPDF ::oUtil 1, 1 SAY  "IMPRIMEPDF Que grande que vinistes..." FONT ::aFonts[4] SIZE 34 COLOR RGB 1,0.25,.5
 
 RETURN NIL
 
 METHOD Headers() CLASS TFacturaPDF
 
-        // Poner una imagen. OJO JPEG o PNG, algunos pngs parecen no funcionar.                
+        // Poner una imagen. OJO JPEG o PNG, algunos pngs parecen no funcionar.
 //       ::oUtil:SayBitmap( 0, 0, cImagePath+"gmoork.jpeg" )
 //       ::oUtil:SayBitmap( 3, 2, cImagePath+"basn2c16.png" )
+ /*
+ if ::lAlbaran
+    UTILPDF ::oUtil 2,1.5 IMAGE oEmpresa:cLogoAlb SIZE 8,5 JPG
+ else
+    UTILPDF ::oUtil 2,1.5 IMAGE oEmpresa:cLogoFact SIZE 8,5 JPG
+ endif
+  */
 
+ UTILPDF ::oUtil LINEA 4.064,10.54 TO 4.064,11.00
+
+ UTILPDF ::oUtil LINEA 4.064,10.54 TO 4.464,10.54
+
+ UTILPDF ::oUtil LINEA 4.064,19.04 TO 4.064,19.50  // up der hor
+ UTILPDF ::oUtil LINEA 4.064,19.50 TO 4.464,19.50  // up der vert
+
+ UTILPDF ::oUtil LINEA 8.428,10.54 TO 8.428,11.00
+ UTILPDF ::oUtil LINEA 8.028,10.54 TO 8.428,10.54
+
+ UTILPDF ::oUtil LINEA 8.428,19.04 TO 8.428,19.50
+ UTILPDF ::oUtil LINEA 8.028,19.50 TO 8.428,19.50
+
+ IF ::lAlbaran        //2.2
+     UTILPDF ::oUtil 7.0,1.5   SAY "ALBARAN" FONT ::aFonts[2] SIZE 15
+ ELSE
+     UTILPDF ::oUtil 7.0,1.5   SAY "FACTURA"
+ ENDIF
+ /*
+ UTILPDF ::oUtil 7.5,1.5 SAY "NUMERO : "+ "::oDbf:Codigo"
+ UTILPDF ::oUtil 8.0,1.5 SAY "Fecha: "+ "Fecha( ::oDbf:Fecha )"
+ */
+
+
+ /*
+  if oClientes:Seek( ::oDbf:Cliente )
+     if !Empty( oClientes:Provedor )
+         UTILPRN ::oUtil 8.5,1.5 SAY "Proveedor Nº: " + oClientes:Provedor FONT oFnt4
+     endif
+     UTILPRN ::oUtil 5.0,11  SAY ::oDbf:Cliente   FONT oFnt4
+     UTILPRN ::oUtil 5.5,11  SAY oClientes:Dom1 FONT oFnt4
+     UTILPRN ::oUtil 6.0,11  SAY oClientes:Dom2 FONT oFnt4
+     UTILPRN ::oUtil 6.5,11  SAY oClientes:Dom3 FONT oFnt4
+     UTILPRN ::oUtil 7.0,11  SAY oClientes:Pro  FONT oFnt4
+
+     UTILPRN ::oUtil 7.8,16  SAY "N.I.F/D.N.I: " + oClientes:Cif  FONT oFont
+    endif
+
+ if !::lAlbaran  // Si no es un albaran
+     UTILPRN ::oUtil 25.5,1.75   SAY ::oDbf:Fpago  FONT oFnt4
+     UTILPRN ::oUtil 25.5,10.75  SAY DTOC( ::oDbf:Vto ) FONT oFnt4
+     UTILPRN ::oUtil 25.5,13.26  SAY PADR( STR( ::oDbf:Base,10,2 ),10," "  ) FONT ::oFnt
+     UTILPRN ::oUtil 25.5,15.20  SAY PADR( STR( ::oDbf:Iva,10,2 ), 10," "  ) FONT ::oFnt
+     UTILPRN ::oUtil 25.5,16.90  SAY PADR( STR( ::oDbf:Total,12,2 ),12," " ) FONT oFnt4
+ endif
+  */
+
+/*
+    EJEMPLO
        UTILPDF ::oUtil BOX 1,10 TO 6, 20
        UTILPDF ::oUtil 1.5, 11 SAY  "Nombre:"    ;  UTILPDF ::oUtil 1.5, 15 SAY  "El primer cliente" FONT ::aFonts[2] SIZE 10
-       UTILPDF ::oUtil 2.5, 11 SAY  "DirecciÃ³n:" ;  UTILPDF ::oUtil 2.5, 15 SAY  "No Importa"        FONT ::aFonts[2] SIZE 10
+       UTILPDF ::oUtil 2.5, 11 SAY  "Dirección:" ;  UTILPDF ::oUtil 2.5, 15 SAY  "No Importa"        FONT ::aFonts[2] SIZE 10
        UTILPDF ::oUtil 3.5, 11 SAY  "Provincia:" ;  UTILPDF ::oUtil 3.5, 15 SAY  "Barcelona"         FONT ::aFonts[2] SIZE 10
        UTILPDF ::oUtil 4.5, 11 SAY  "Ciudad:"    ;  UTILPDF ::oUtil 4.5, 15 SAY  "Bigues i Riells"   FONT ::aFonts[2] SIZE 10
        UTILPDF ::oUtil 5.5, 11 SAY  "Pais:"      ;  UTILPDF ::oUtil 5.5, 15 SAY  "El mundo mundial"  FONT ::aFonts[2] SIZE 10
 
-       
+
 
        UTILPDF ::oUtil ;
                BOX 7,0.75 TO 8, 4.25 ;
@@ -170,14 +201,14 @@ METHOD Headers() CLASS TFacturaPDF
 
        UTILPDF ::oUtil 7.75, 17 SAY  "Tiempo" FONT "Times-BoldItalic" SIZE 14 COLOR RGB 1,0,0
 
-
+*/
 RETURN NIL
 
 METHOD Body() CLASS TFacturaPDF
       Local X, nValue := 10
       Local nRandom
 
-      ::nLinea := 9                      // En cuerpo empieza en los 9 cms
+      ::nLinea := 10.5 // Comenzamos de nuevo lineas de albaran
 
       for x := 1 to 2
 
@@ -205,7 +236,7 @@ METHOD Separator( nSpace, lBody ) CLASS TFacturaPDF
 
    IF ::nLinea >= ::nEndBody
       ::Eject()
-      ::nLinea := 9   // En cuerpo empieza en los 5 cms
+      ::nLinea := 9   // En cuerpo empieza en los 9 cms
       ::Headers()
       ::Footers()
    ELSEIF Super:Separator( nSpace )
@@ -215,6 +246,25 @@ METHOD Separator( nSpace, lBody ) CLASS TFacturaPDF
 
 Return NIL
 
+
+/* Fecha en Spanish para clipper 5.3 English */
+Static Func Fecha( dDate )
+Local cMes
+DO CASE
+   CASE Month(dDate) == 1 ; cMes := "Enero"
+   CASE Month(dDate) == 2 ; cMes := "Febrero"
+   CASE Month(dDate) == 3 ; cMes := "Marzo"
+   CASE Month(dDate) == 4 ; cMes := "Abril"
+   CASE Month(dDate) == 5 ; cMes := "Mayo"
+   CASE Month(dDate) == 6 ; cMes := "Junio"
+   CASE Month(dDate) == 7 ; cMes := "Julio"
+   CASE Month(dDate) == 8 ; cMes := "Agosto"
+   CASE Month(dDate) == 9 ; cMes := "Septiembre"
+   CASE Month(dDate) == 10; cMes := "Octubre"
+   CASE Month(dDate) == 11; cMes := "Noviembre"
+   CASE Month(dDate) == 12; cMes := "Diciembre"
+ENDCASE
+Return ( Str(Day(dDate),2)+"  "+ cMes +"  del  "+Str(Year(dDate),4) )
 
 
 /*
@@ -238,6 +288,8 @@ CLASS TIMPRIMEPDF
     DATA cFontDefault INIT "Courier"
     DATA cFileName    INIT "tgtk.pdf"
     DATA aFonts
+    DATA aEncodings
+    DATA cEncoding   INIT "ISO8859-15"
 
     METHOD New( cFile ) CONSTRUCTOR
     METHOD Init( ) INLINE ::New()
@@ -261,7 +313,7 @@ CLASS TIMPRIMEPDF
     METHOD SetRgbStroke( nRed, nGreen, nBlue ) INLINE HPDF_Page_SetRGBStroke( ::page_active, nRed, nGreen, nBlue)
     METHOD SetRgbFill( nRed, nGreen, nBlue  )  INLINE HPDF_Page_SetRGBFill( ::Page_Active, nRed, nGreen, nBlue) // 0 ... 1
     METHOD PageFill()                          INLINE HPDF_Page_Fill( ::Page_Active )
-    METHOD PageFillStroke()                    INLINE HPDF_Page_FillStroke( ::Page_Active ) 
+    METHOD PageFillStroke()                    INLINE HPDF_Page_FillStroke( ::Page_Active )
     METHOD PageStroke()                        INLINE HPDF_Page_Stroke( ::Page_Active )
 
 
@@ -284,16 +336,18 @@ CLASS TIMPRIMEPDF
     METHOD GRestore() INLINE  HPDF_Page_GRestore( ::Page_Active )   /* Restore graphic state */
 
     METHOD LoadImagePng( cFileImage ) INLINE HPDF_LoadPngImageFromFile( ::pPdf, cFileImage )
-    METHOD LoadImageJpg( cFileImage ) INLINE HPDF_LoadJpegImageFromFile( ::pPdf, cFileImage )   
+    METHOD LoadImageJpg( cFileImage ) INLINE HPDF_LoadJpegImageFromFile( ::pPdf, cFileImage )
     METHOD ImageGetWidth( pImage )  INLINE HPDF_Image_GetWidth( pImage )
     METHOD ImageGetHeight( pImage ) INLINE HPDF_Image_GetHeight( pImage )
-    METHOD DrawImage( pImage, x, y, nWidth, nHeight )  
+    METHOD DrawImage( pImage, x, y, nWidth, nHeight )
+    METHOD UseUTF() INLINE HPDF_UseUTFEncodings( ::pPdf )
+    METHOD Line( nTop, nLeft, nBottom, nRight, nWitdh, nRed, nGreen, nBlue )
 
 
 END CLASS
 
 METHOD New( cFile ) CLASS TIMPRIMEPDF
-   :: aFonts  := { ;
+   ::aFonts  := { ;
                     "Courier",                  ;
                     "Courier-Bold",             ;
                     "Courier-Oblique",          ;
@@ -310,12 +364,37 @@ METHOD New( cFile ) CLASS TIMPRIMEPDF
                     "ZapfDingbats"              ;
                   }
 
+  ::aEncodings := { ;
+            "StandardEncoding",;
+            "MacRomanEncoding",;
+            "WinAnsiEncoding", ;
+            "ISO8859-2",       ;
+            "ISO8859-3",       ;
+            "ISO8859-4",       ;
+            "ISO8859-5",       ;
+            "ISO8859-9",       ;
+            "ISO8859-10",      ;
+            "ISO8859-13",      ;
+            "ISO8859-14",      ;
+            "ISO8859-15",      ;
+            "ISO8859-16",      ;
+            "CP1250",          ;
+            "CP1251",          ;
+            "CP1252",          ;
+            "CP1254",          ;
+            "CP1257",          ;
+            "KOI8-R",          ;
+            "Symbol-Set",      ;
+            "ZapfDingbats-Set" }
+
+
    ::pPdf := HPDF_New()
    ::aPages := {}
    ::AddPage()         // Crea pagina para imprimir
 
    DEFINE UTILPDF ::oUtil OF Self
    ::cFileName := cFile
+   ::UseUTF()
 
 RETURN Self
 
@@ -349,7 +428,7 @@ METHOD CMSAY( nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle
    Local uSize := ::GetFontSize()
    Local nRad1
 
-   DEFAULT nRed TO 0 , nGreen TO 0 , nBlue TO 0 
+   DEFAULT nRed TO 0 , nGreen TO 0 , nBlue TO 0
    ::GSave()
    HPDF_Page_BeginText( ::Page_Active )
 
@@ -375,10 +454,6 @@ RETURN NIL
 *******************************************************************************
 METHOD Rectangle( nTop, nLeft, nBottom, nRight ) CLASS TIMPRIMEPDF
    Local rect := Array( 4 )
-   #define rLEFT   1
-   #define rTOP    2
-   #define rRIGHT  3
-   #define rBOTTOM 4
 
    rect[ rLEFT   ] := ::CMS2POINTS( nLeft )
    rect[ rTOP    ] := ::GetPageHeight() - ::CMS2POINTS( nTop )
@@ -392,13 +467,28 @@ METHOD Rectangle( nTop, nLeft, nBottom, nRight ) CLASS TIMPRIMEPDF
 RETURN NIL
 
 *******************************************************************************
+METHOD Line( nTop, nLeft, nBottom, nRight, nWitdh, nRed, nGreen, nBlue ) CLASS TIMPRIMEPDF
+   Local rect := Array( 4 )
+
+   rect[ rLEFT   ] := ::CMS2POINTS( nLeft )
+   rect[ rTOP    ] := ::GetPageHeight() - ::CMS2POINTS( nTop )
+   rect[ rRIGHT  ] := ::CMS2POINTS( nRight )
+   rect[ rBOTTOM ] := ::GetPageHeight() - ::CMS2POINTS( nBottom )
+
+   HPDF_Page_MoveTo( ::Page_Active, rect[ rLEFT   ] , rect[ rTOP ] )
+   HPDF_Page_LineTo( ::Page_Active, rect[ rRIGHT  ],  rect[ rBOTTOM ])
+   ::PageStroke()
+
+RETURN NIL
+
+*******************************************************************************
 METHOD DrawImage( pImage, x, y, nWidth, nHeight )  CLASS TIMPRIMEPDF
 
    x := ::GetPageHeight() - ::CMS2POINTS( x )
    y := ::CMS2POINTS( y )
-   
+
    if empty( nWidth )
-      nWidth := ::ImageGetWidth( pImage ) 
+      nWidth := ::ImageGetWidth( pImage )
    else
       nWidth := ::CMS2POINTS( nWidth )
    endif
@@ -407,10 +497,10 @@ METHOD DrawImage( pImage, x, y, nWidth, nHeight )  CLASS TIMPRIMEPDF
       nHeight := ::ImageGetHeight( pImage )
    else
       nHeight := ::CMS2POINTS( nHeight  )
-   endif 
+   endif
 
-   //Nota: Restamos la mitad del alto para obtener la posicion real de X 
-   x -= nHeight 
+   //Nota: Restamos la mitad del alto para obtener la posicion real de X
+   x -= nHeight
 
    HPDF_Page_DrawImage( ::Page_Active, pImage, y, x, nWidth, nHeight )
 
@@ -418,6 +508,8 @@ RETURN NIL
 
 *******************************************************************************
 METHOD SetFont( cFontName, nSize, cEncoding  ) CLASS TIMPRIMEPDF
+
+   //DEFAULT cEncoding  TO ::cEncoding
 
    ::Font_Active := HPDF_GetFont( ::pPdf, cFontName, cEncoding  )
    if !empty( nSize )
@@ -524,7 +616,8 @@ CLASS TUtilPdf
       METHOD New( oPrinter ) CONSTRUCTOR
       METHOD Text()
       METHOD Box( nArriba, nIzq, nAbajo, nDerecha , oBrush, oPen, lRound, nZ, nZ2 )
-      METHOD SayBitmap( cFileImage, x, y, nWidth, nHeight ) 
+      METHOD SayBitmap( cFileImage, x, y, nWidth, nHeight )
+      METHOD Linea( nArriba, nIzq, nAbajo, nDerecha )
 
 END CLASS
 
@@ -534,29 +627,29 @@ RETURN Self
 
 
 ******************************************************************************
-/* Texto en CMS un poco mas elegante de como hasta ahora
-   pero con un brush de fondo */
 ******************************************************************************
 METHOD Text( cText,nRow,nCol, cFont, nSize, nRed,nGreen,nBlue,  nAngle ) CLASS TUtilPDF
   local nPad := 0, nAl, aDev, unDefined := 0
 
-  ::oPrinter:CMSAY( nRow, nCol, cText, cFont, nSize, nRed,nGreen,nBlue,  nAngle)
+  ::oPrinter:CMSAY( nRow, nCol, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle )
 
 Return Nil
 
+******************************************************************************
+******************************************************************************
 METHOD Box( nArriba, nIzq, nAbajo, nDerecha, nWitdh, lStroke, nRed, nGreen, nBlue, lFill, nRed2, nGreen2, nBlue2 ) CLASS TUtilPDF
 
    DEFAULT nRed  TO 0 , nGreen  TO 0 , nBlue  TO 0,;
            nRed2 TO 1 , nGreen2 TO 1 , nBlue2 TO 1
-   
-  
+
+
    ::oPrinter:GSave()
    if !empty( nWitdh )
       ::oPrinter:SetLineWidth( nWitdh )
    endif
 
    ::oPrinter:SetRGBStroke( nRed, nGreen, nBlue )
-   ::oPrinter:SetRgbFill( nRed2 , nGreen2, nBlue2  )  
+   ::oPrinter:SetRgbFill( nRed2 , nGreen2, nBlue2  )
 
    ::oPrinter:Rectangle( nArriba, nIzq, nAbajo, nDerecha )
 
@@ -566,13 +659,15 @@ METHOD Box( nArriba, nIzq, nAbajo, nDerecha, nWitdh, lStroke, nRed, nGreen, nBlu
 
 Return nil
 
+******************************************************************************
+******************************************************************************
 METHOD SayBitmap( x, y, cFileImage, nWidth, nHeight ) CLASS TUtilPDF
    Local pImage
 
     if "png" $ cFileImage
-      pImage := ::oPrinter:LoadImagePng( cFileImage )  
+      pImage := ::oPrinter:LoadImagePng( cFileImage )
     else
-      pImage := ::oPrinter:LoadImageJpg( cFileImage )  
+      pImage := ::oPrinter:LoadImageJpg( cFileImage )
     endif
 
    if !empty( pImage )
@@ -580,3 +675,21 @@ METHOD SayBitmap( x, y, cFileImage, nWidth, nHeight ) CLASS TUtilPDF
    endif
 
 RETURN NIL
+
+******************************************************************************
+/* Dibujando Lineas con el Pen que tenemos o el pasado */
+******************************************************************************
+METHOD Linea( nArriba, nIzq, nAbajo, nDerecha, nWidth, nRed, nGreen, nBlue ) CLASS TUtilPDF
+   DEFAULT nRed  TO 0 , nGreen  TO 0 , nBlue  TO 0
+
+   ::oPrinter:GSave()
+
+   if !empty( nWidth )
+      ::oPrinter:SetLineWidth( nWidth )
+   endif
+   ::oPrinter:SetRGBStroke( nRed, nGreen, nBlue )
+   ::oPrinter:Line( nArriba, nIzq, nAbajo, nDerecha, nWidth, nRed, nGreen, nBlue )
+
+   ::oPrinter:GRestore()
+
+return NIL
