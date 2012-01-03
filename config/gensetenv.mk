@@ -153,7 +153,7 @@ $(shell $(strip $(ECHO) export HB_MACROTEXT_SUBS :=$(HB_MACROTEXT_SUBS) $(ADD)))
 $(shell $(strip $(SPACE) $(ADD)))
 $(shell $(strip $(SPACE) $(ADD)))
 
-$(info * Finalizada la contruccion de setenv.mk )
+$(info * Finalizada la contruccion de $(SETENV) )
 
 ifeq ($(HB_MAKE_PLAT),win)
    $(shell notepad $(ROOT)$(SETENV) )

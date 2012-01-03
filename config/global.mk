@@ -38,7 +38,11 @@ endif
 ifeq ($(notdir $(wildcard $(subst \,/,$(ROOT)/$(SETENV)))),$(SETENV))
   $(info Ejecutando $(SETENV) )
   include $(ROOT)$(SETENV)
+else
+  $(info Ejecutando config/gensetenv.mk )
+  include $(ROOT)config/gensetenv.mk
 endif
+
 
 # Si existe se asigna un archivo para seteo adicional o personalizado
 ifneq ($(SETTINGS),)
