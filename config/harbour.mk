@@ -66,14 +66,17 @@ endif
 #   export HB_VERSION=31
 #endif
 
+
 ifeq ($(HB_VERSION),)
-  ifeq ($(HB_MAKE_PLAT),win)
-    VARTEMP:=$(word 2,$(shell $(HB_BIN_INSTALL)$(DIRSEP)harbour -build ) )
-    VARTEMP:=$(subst .,,$(VARTEMP))
-    VARTEMP:=$(subst 0dev,,$(VARTEMP))
-    ifneq ($(VARTEMP),)
-      HB_VERSION =$(VARTEMP)
-    endif
+  ifneq ($(notdir $(wildcard $(subst \,/,$(HB_BIN_INSTALL)harbour))),)
+     ifeq ($(HB_MAKE_PLAT),win)
+       VARTEMP:=$(word 2,$(shell $(HB_BIN_INSTALL)$(DIRSEP)harbour -build ) )
+       VARTEMP:=$(subst .,,$(VARTEMP))
+       VARTEMP:=$(subst 0dev,,$(VARTEMP))
+       ifneq ($(VARTEMP),)
+         HB_VERSION =$(VARTEMP)
+       endif
+     endif
   endif
 
   ifeq ($(HB_MAKE_PLAT),linux)
