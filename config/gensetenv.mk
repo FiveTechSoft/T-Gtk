@@ -38,6 +38,11 @@ export HB_BIN_INSTALL:=
 export HB_INC_INSTALL:=
 export HB_LIB_INSTALL:=
 include $(ROOT)config/harbour.mk 
+ifeq ($(HB_MAKE_PLAT),win)
+  $(shell $(strip $(ECHO) export HARBOUR_PATH =\harbour-project$(ADD)))
+else
+  $(shell $(strip $(ECHO) export HARBOUR_PATH =/usr/local$(ADD)))
+endif
 $(shell $(strip $(ECHO) export HB_BIN_INSTALL =$(HB_BIN_INSTALL)$(ADD)))
 $(shell $(strip $(ECHO) export HB_INC_INSTALL =$(HB_INC_INSTALL)$(ADD)))
 $(shell $(strip $(ECHO) export HB_LIB_INSTALL =$(HB_LIB_INSTALL)$(ADD)))

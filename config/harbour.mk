@@ -14,7 +14,9 @@
 # INDICAR RUTA DEL COMPILADOR XBASE
 ifeq ($(HB_MAKE_PLAT),win)
 # Ruta en Windows:
-  HARBOUR_PATH  =\harbour-project
+  ifeq ($(HARBOUR_PATH),)	
+    HARBOUR_PATH  =\harbour-project
+  endif
 
   ifeq ($(HB_BIN_INSTALL),)
     export HB_BIN_INSTALL =$(HARBOUR_PATH)\bin\win\mingw
@@ -31,7 +33,9 @@ ifeq ($(HB_MAKE_PLAT),win)
   #endif
 else
 # Ruta en GNU/Linux:
-  HARBOUR_PATH  =/usr/local
+  ifeq ($(HARBOUR_PATH),)	
+    HARBOUR_PATH  =/usr/local
+  endif
 
   ifeq ($(HB_BIN_INSTALL),)
     export HB_BIN_INSTALL =$(HARBOUR_PATH)/bin
