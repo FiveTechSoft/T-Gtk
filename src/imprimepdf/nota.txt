@@ -1,13 +1,20 @@
 Este proyecto está en un estado alpha, pero completamente funcional.
+Es un port de mis clases TUTILPRN / TIMPRIME con Fivewin.
+En la medida que sea posible , intentaré usar los mismos methos y parametros,
+además del mismo comando prepocesado.
 
-Está todo en el mismo ejemplo.prg.
-+ Se divide en el ejemplo en si.
-+ Comandos preprocesados.
-+ Las clases TimprimePDF y TUtilPdf.
+Aunque el grado de compatiblidad no será nunca del 100%, la idea es sí es la misma,
+alcanzando un alto grado de traspasar de un sistema a otro sin muchos cambios.
 
-Llegará el día que tendré que separarlo en librerías aparte, pero me
-es más practico de esta manera.
-Si alguien lo realiza, tendrá mi agradecimiento absoluto ;-)
 
-Cualquier mejora es bienvenida.
+Esta compuesto por;
++ ejemplo.prg
++ tutilpdf.prg
++ timprimepdf.prg
++ utilpdf.ch 
+
+Librerias necesarias para usarse;
+LIBS=-lhbhpdf -llibhpdf -hbct
+
+
 Rafa Carmona

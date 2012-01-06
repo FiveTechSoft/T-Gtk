@@ -39,3 +39,11 @@
          =>;
            <oUtil>:Linea( <nX>,<nY>,<nX2>,<nY2>,<nWitdh>,<nRed>,<nGreen>,<nBlue> )
 
+#xcommand UTILPDF <oUtil> ;
+          [<nX>,<nY>] IMAGE <cFile> [ SIZE <nX2>,<nY2> ] ;
+          [ <lImage: JPG > ];
+          [ <lPage: PAGE > ];
+         =>;
+           <oUtil>:SayImage( <nX>,<nY>,<nX2>,<nY2>,<cFile>,<.lImage.>,<.lPage.> )
+
+
