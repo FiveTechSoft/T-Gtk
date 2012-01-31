@@ -30,8 +30,15 @@ CLASS gCellRendererToggle FROM gCellRenderer
       
 ENDCLASS
 
-METHOD New() CLASS gCellRendererToggle
-       ::pWidget = gtk_cell_renderer_toggle_new()
+METHOD New( cId, uGlade ) CLASS gCellRendererToggle
+   
+       if cId == NIL
+          ::pWidget = gtk_cell_renderer_toggle_new()
+       else
+         ::pWidget :=  GLADE_XML_GET_CELL_RENDERER( uGlade, cId )
+         ::CheckGlade( cId )
+       endif
+
        ::cType := "active"
        ::Connect( "destroy" ) 
        ::Connect( "toggled" ) 

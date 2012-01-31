@@ -78,3 +78,13 @@ HB_FUNC( GTK_CELL_RENDERER_COMBO_NEW ) // -> renderer
 }
 
 #endif
+
+#if GTK_CHECK_VERSION(2,18,0) 
+
+HB_FUNC( GTK_CELL_RENDERER_SET_ALIGNMENT )
+{
+   GtkCellRenderer *cell = GTK_CELL_RENDERER( ( GtkCellRenderer * ) hb_parptr( 1 ) );
+   gtk_cell_renderer_set_alignment( cell, hb_parnd( 2 ), hb_parnd( 3 ) );
+
+}
+#endif

@@ -100,7 +100,10 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId
       
       if cId_Renderer  != NIL  // RENDERER desde Glade
 	::uAction = uAction
-	::Renderer( "text", cId_Renderer, uGlade )
+        if empty( cType )      // OJO con esto, de momento, esta solo soporta text y pixbufs
+           cType := "text"
+        endif
+        ::Renderer( cType, cId_Renderer, uGlade )
       endif
       
       if lSort .AND. ::nColumn != NIL
@@ -144,10 +147,10 @@ METHOD Renderer( cType, cId, pGlade ) CLASS gTreeViewColumn
                ::oRenderer:SetColumn( Self ) 
             endif           
       CASE cType = "PIXBUF"
-           ::oRenderer := gCellRendererPixbuf():New()
+           ::oRenderer := gCellRendererPixbuf():New( cId, pGlade )
            ::cType := "pixbuf"
       CASE cType = "ACTIVE" .OR. cType = "CHECK"
-           ::oRenderer = gCellRendererToggle():New()
+           ::oRenderer = gCellRendererToggle():New( cId, pGlade )
            ::cType := "active"
             if ::uAction != NIL
                ::oRenderer:bAction := ::uAction

@@ -24,10 +24,18 @@
 #include "hbclass.ch"
 
 CLASS gCellRendererPixbuf FROM gCellRenderer
-      METHOD New()
+      METHOD New( cId, pGlade )
 ENDCLASS
 
-METHOD New() CLASS gCellRendererPixbuf
-    ::pWidget := gtk_cell_renderer_pixbuf_new() 
-    ::cType   := "pixbuf"
+METHOD New( cId, pGlade  ) CLASS gCellRendererPixbuf
+  
+   if cId == NIL
+     ::pWidget := gtk_cell_renderer_pixbuf_new() 
+   else
+     ::pWidget :=  GLADE_XML_GET_CELL_RENDERER( pGlade, cId )
+     ::CheckGlade( cId )
+   endif
+
+   ::cType   := "pixbuf"
+
 RETURN Self
