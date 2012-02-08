@@ -30,6 +30,9 @@ CLASS GIMAGE FROM GMISC
       METHOD SetFromPixbuf( pPixbuf ) INLINE gtk_image_set_from_pixbuf( ::pWidget, pPixbuf )
       METHOD GetPixBuf( ) INLINE gtk_image_get_pixbuf( ::pWidget )
       METHOD GetPixMap( ) INLINE gtk_image_get_pixmap( ::pWidget )
+      METHOD GetWidth( )
+      METHOD GetHeight( )
+      METHOD GetPixels( )
       METHOD Adjust( nWidth, nHeight )
       #if GTK_CHECK_VERSION( 2,10,0 )
       METHOD Clear( )     INLINE gtk_image_clear( ::pWidget )
@@ -99,6 +102,18 @@ METHOD SetFromBuffer( cType, cBuffer ) CLASS GIMAGE
    g_object_unref( pPixBuf )
    
 return nil
+
+METHOD GetWigth()
+   Local pPixBuf := ::GetPixBuf()
+return gdk_pixbuf_get_width( pPixBuf )
+
+METHOD GetHeight()
+   Local pPixBuf := ::GetPixBuf()
+return gdk_pixbuf_get_height( pPixBuf )
+
+METHOD GetPixels()
+   Local pPixBuf := ::GetPixBuf()
+return gdk_pixbuf_get_pixels( pPixBuf )
 
 METHOD Adjust( nWidth, nHeight ) CLASS GIMAGE
    
