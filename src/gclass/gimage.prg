@@ -103,7 +103,7 @@ METHOD SetFromBuffer( cType, cBuffer ) CLASS GIMAGE
    
 return nil
 
-METHOD GetWigth()
+METHOD GetWidth()
    Local pPixBuf := ::GetPixBuf()
 return gdk_pixbuf_get_width( pPixBuf )
 

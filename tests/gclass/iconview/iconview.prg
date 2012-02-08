@@ -54,12 +54,28 @@ FUNCTION Create_Model()
 
 Static Function Comprueba( oIconView, pPath  )
     Local oWnd , oImage, cText
+    Local nWidth,nHeight
+    Local cWidth,cHeight
+    Local nWMax:=600, nHMax:=600
     
     // u := o:GetValue( nColumn, cType_data, pPath )
     cText  := oIconView:GetValue( 1,, pPath )
     
     DEFINE WINDOW oWnd TITLE cText TYPE_HINT GDK_WINDOW_TYPE_HINT_MENU
          DEFINE IMAGE oImage FILE "../../images/"+cText OF oWnd CONTAINER
+         
+         nWidth  := oImage:GetWidth()
+         nHeight := oImage:GetHeight()
+         
+         cWidth  := AllTrim( Str(nWidth) )
+         cHeight := AllTrim( Str(nHeight) )
+         
+         if nWidth > nWMax ; nWidth := nWMax ; endif
+         if nHeight > nHMax ; nHeight := nHMax ; endif
+         
+         oImage:Adjust( nWidth, nHeight )
+         
+         oWnd:SetTitle( cText+". "+cHeight+"x"+cWidth )
     
     ACTIVATE WINDOW oWnd MODAL CENTER
 
