@@ -487,6 +487,7 @@
                  [ <label: TEXT,LABEL,PROMPT> <cText> ];
                  [ VAR <uVar> ];
                  [ VALID <bValid> ];
+                 [ ON CLICK <bClicked> ];
                  [ FONT <oFont> ];
                  [ <lMnemonic: MNEMONIC> ];
                  [ <lExpand: EXPAND> ] ;
@@ -509,7 +510,7 @@
                      <oFont>,<.lMnemonic.>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding>,;
                      <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>,;
                      <.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
-                     <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta> )
+                     <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>, [ \{|o| <bClicked> \} ] )
 
 #xcommand SET RESOURCES <uGlade> FROM FILE <cFile> [ ROOT <root> ];
   	      => ;

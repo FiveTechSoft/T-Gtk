@@ -25,6 +25,7 @@
 
 CLASS GCHECKBOX FROM GTOGGLEBUTTON
       DATA bSetGet
+      DATA bClicked 
 
       METHOD New( )
       METHOD OnClicked( oSender )
@@ -34,7 +35,7 @@ ENDCLASS
 
 METHOD New( cText, bSetGet, bValid, oFont, lMnemonic, oParent, lExpand,;
             lFill, nPadding , lContainer, x, y, cId, uGlade, nCursor, uLabelTab,;
-            lEnd, lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta , xOptions_ta, yOptions_ta ) CLASS GCHECKBOX
+            lEnd, lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta , xOptions_ta, yOptions_ta, bClicked  ) CLASS GCHECKBOX
 
        ::bSetGet   = bSetGet
 
@@ -79,15 +80,23 @@ METHOD New( cText, bSetGet, bValid, oFont, lMnemonic, oParent, lExpand,;
           ::SetFont( oFont )
        endif
 
+       ::bClicked  = bClicked  // Declarar aqui, para que no evalue cuando se llama a SetState()
+
        ::Connect( "key-press-event" )
        ::Show()
 
 RETURN Self
 
 METHOD OnClicked( oSender ) CLASS GCHECKBOX
+
        if oSender:bSetGet != nil
           Eval( oSender:bSetGet, oSender:GetActive() )
        endif
+       
+       if oSender:bClicked  != nil
+          Eval( oSender:bClicked , oSender )
+       endif
+
 RETURN .F.
 
 METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GCHECKBOX
