@@ -8,6 +8,37 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2012-04-17 02:58 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * hbgtk/
+    * gtktreeview.c
+      * gtk_tree_view_set_rules_hint
+        Modificado para entregar el valor del argumento entregado.
+      + gtk_tree_view_set_enable_tree_lines
+      + gtk_tree_view_get_enable_tree_lines
+
+    * gtktreeviewcolumn.c
+      * CellDataFunc
+        Modificada para entregar ARRAY (iter) no puntero, ya que la funcion
+        gtk_tree_model_get() usa ARRAY.
+
+  * src/gclass/
+    * gtreeview.prg
+      + Metodo EnableTreeLines()  
+        Activa Lineas en el treeview.
+      + Metodo IsEnableTreeLines()  
+        Returna booleano indicando si estan activas las lineas en el treeview.
+    * gtreeviewcolumn.prg
+      + Metodo SetFunction()
+        Indica el nombre de la funcion que se ejecutara con la celda.
+        (Ver uso en ejemplo tests/gclass/listore)
+  * tests/gclass/listore/
+      * listore.prg
+        Se agregan los cambios realizados en la libreria para:
+        1. Activar Lineas del grid.
+        2. Ejecutar una funcion y poder modificar propiedades al vuelo..
+           por ejemplo, colores en una celda.
+
+
 2011-12-07 21:25 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * config/global.mk
     Modificacion para incluir archivo de seteo personalizado mediante la variable

@@ -251,16 +251,24 @@ HB_FUNC( GTK_CELL_RENDERER_CONNECT_EDITED )
 
 //---------------------------------------------//
 
+void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
+PHB_ITEM Iter2Array( GtkTreeIter *iter  );
+BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  );
+
+
 static void
 CellDataFunc( GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
                                              GtkTreeIter *iter, gpointer data)
 {
+//   PHB_ITEM pIter = hb_param( 4, HB_IT_ARRAY );
+      
       hb_vmPushSymbol( data );
       hb_vmPushNil();
       hb_vmPushPointer( (GtkTreeViewColumn *) tree_column );
       hb_vmPushPointer( (GtkCellRenderer *) cell );
       hb_vmPushPointer( (GtkTreeModel *) tree_model );
-      hb_vmPushPointer( (GtkTreeIter *) iter);
+      //hb_vmPushPointer( (GtkTreeIter *) iter);
+      hb_vmPush( Iter2Array( (GtkTreeIter *) iter ) );
       hb_vmDo( 4 );
 
       return;

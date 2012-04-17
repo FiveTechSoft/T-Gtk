@@ -119,6 +119,7 @@ HB_FUNC( GTK_TREE_MODEL_GET ) //  pModel, aIter, nColumn,
   
 }
 
+
 HB_FUNC( GTK_TREE_MODEL_GET_PATH ) //  pModel, aIter
 {
    GtkTreeModel *model = (GtkTreeModel *) hb_parptr( 1 );
@@ -316,6 +317,7 @@ HB_FUNC( HB_GTK_TREE_PATH_GET_INDICES )
   GtkTreePath  *path  = (GtkTreePath *)  hb_parptr( 1 );
   hb_retni( gtk_tree_path_get_indices( path )[0] );
 }
+
 
 HB_FUNC( GTK_TREE_MODEL_GET_ITER_FIRST ) //  model, iter --> bool
 {

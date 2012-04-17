@@ -54,7 +54,8 @@ HB_FUNC( GTK_TREE_VIEW_SET_MODEL ) // treeview, model -> void
 
 HB_FUNC( GTK_TREE_VIEW_SET_RULES_HINT ) // treeview -> void
 {
-  gtk_tree_view_set_rules_hint(GTK_TREE_VIEW ( GTK_WIDGET( hb_parptr( 1 ) ) ), TRUE);
+  gtk_tree_view_set_rules_hint(GTK_TREE_VIEW ( GTK_WIDGET( hb_parptr( 1 ) ) ), 
+                               (gboolean) hb_parl( 2 ) );
 }
 
 //------------------------------------------------------//
@@ -362,6 +363,20 @@ HB_FUNC( GTK_TREE_VIEW_GET_PATH_AT_POS )
    hb_storptr( (GtkTreePath * ) path, 4 );
    hb_storptr( (GtkTreeViewColumn * ) focus_column, 5 );
 
+}
+
+
+HB_FUNC( GTK_TREE_VIEW_SET_ENABLE_TREE_LINES )
+{
+   GtkTreeView * tree_view = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   gtk_tree_view_set_enable_tree_lines( tree_view, (gboolean) hb_parl( 2 ) );
+}
+
+
+HB_FUNC( GTK_TREE_VIEW_GET_ENABLE_TREE_LINES )
+{
+   GtkTreeView * tree_view = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   hb_retl( gtk_tree_view_get_enable_tree_lines( tree_view ) );
 }
 
 

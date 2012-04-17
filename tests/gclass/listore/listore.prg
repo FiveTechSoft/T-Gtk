@@ -69,12 +69,19 @@ Function Listore()
 
        /* Browse/Tree */
        DEFINE TREEVIEW oTreeView MODEL oLbx OF oScroll CONTAINER
-       oTreeView:SetRules( .T. )
+
+       //Activamos el efecto pijama. 
+       //OJO. Solo si en el fichero gtkrc esta el valor: GtkTreeView::allow-rules = 1
+       oTreeView:SetRules( .T. ) 
+
+       //Activamos lineas del grid
+       //oTreeView:EnableTreeLines( .T. )
+       oTreeView:SetGridLines( GTK_TREE_VIEW_GRID_LINES_BOTH )
 
        oTreeView:SetSearchColumn( 4 ) /*Determinamos por cual columna vamos a buscar */
 
        // Vamos a coger los valores de las columnas, se pasa path y col desde el evento
-      oTreeView:bRow_Activated := { |path,col| Comprueba( oTreeview, path, col, oLbx ) }
+       oTreeView:bRow_Activated := { |path,col| Comprueba( oTreeview, path, col, oLbx ) }
 
        // Vamos a controlar cada cambio del cursor
 
@@ -91,6 +98,8 @@ Function Listore()
        DEFINE TREEVIEWCOLUMN oCol2 COLUMN 2 TITLE "Bug Number"  TYPE "text"  SORT  OF oTreeView
        oRenderer :=  oCol2:oRenderer           // Contiene el objeto de la clase GtkCellRendererText
        oRenderer:SetEditable( .t. )            // Va ser editable-
+       oCol2:SetFunction("ChangeProperty")
+
        /*
        // Forma Manual
        oRenderer:Connect( "editing-started" )  // Conecta señal que indica que se va a disparar ANTES de editar.
@@ -141,6 +150,19 @@ Function PonModelo( oTreeView, cValor )
 
 return nil
 
+// Funcion evaluada por cada celda
+PROCEDURE ChangeProperty(pCol,pRenderer,pModel,aIter,user_data)
+
+   // Estamos evaluando el valor de la columna 1
+   if gtk_tree_model_get( @pModel, @aIter, 1, -1 ) 
+      g_object_set_property(pRenderer, "background", "Blue")  
+   else
+      g_object_set_property(pRenderer, "foreground-set", .F.)  
+      g_object_set_property(pRenderer, "background", "Red")  
+    //g_object_set(renderer, "foreground-set", FALSE, NULL); /* print this normal */
+     
+   endif
+RETURN 
 
 
 /* Ejemplo de como MODIFICAR un dato del modelo vista controlador. */

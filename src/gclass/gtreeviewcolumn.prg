@@ -33,19 +33,20 @@ CLASS gTreeViewColumn FROM GOBJECT
 
 
       METHOD New(  )  CONSTRUCTOR
-      METHOD Register()               INLINE harb_signal_connect( ::pWidget, "destroy", Self )
+      METHOD Register()                 INLINE harb_signal_connect( ::pWidget, "destroy", Self )
       METHOD Renderer( cType )
-      METHOD SetResizable( lResize )  INLINE gtk_tree_view_column_set_resizable( ::pWidget, lResize )
-      METHOD SetVisible( lSet )       INLINE gtk_tree_view_column_set_visible( ::pWidget, lSet )
+      METHOD SetResizable( lResize )    INLINE gtk_tree_view_column_set_resizable( ::pWidget, lResize )
+      METHOD SetVisible( lSet )         INLINE gtk_tree_view_column_set_visible( ::pWidget, lSet )
       METHOD GetVisible()             
-      METHOD Width( nWidth )          INLINE gtk_tree_view_column_set_fixed_width( ::pWidget, nWidth )
-      METHOD SetClickable( lClick )   INLINE gtk_tree_view_column_set_clickable( ::pWidget, lClick )
-      METHOD SetSort( )               INLINE gtk_tree_view_column_set_sort_column_id( ::pWidget, ::nColumn )
-      METHOD GetSort( )               INLINE gtk_tree_view_column_get_sort_column_id( ::pWidget ) + 1
-      METHOD SetAlign( nAlign )       INLINE g_object_set( ::pWidget, "alignment", nAlign  )
+      METHOD Width( nWidth )            INLINE gtk_tree_view_column_set_fixed_width( ::pWidget, nWidth )
+      METHOD SetClickable( lClick )     INLINE gtk_tree_view_column_set_clickable( ::pWidget, lClick )
+      METHOD SetSort( )                 INLINE gtk_tree_view_column_set_sort_column_id( ::pWidget, ::nColumn )
+      METHOD GetSort( )                 INLINE gtk_tree_view_column_get_sort_column_id( ::pWidget ) + 1
+      METHOD SetAlign( nAlign )         INLINE g_object_set( ::pWidget, "alignment", nAlign  )
       METHOD SetWidgetHeader( oWidget ) INLINE gtk_tree_view_column_set_widget( ::pWidget, oWidget:pWidget )
-      METHOD SetSizing( nMode )       INLINE gtk_tree_view_column_set_sizing( ::pWidget, nMode )
-      METHOD GetTitle( )              INLINE gtk_tree_view_column_get_title( ::pWidGet )
+      METHOD SetSizing( nMode )         INLINE gtk_tree_view_column_set_sizing( ::pWidget, nMode )
+      METHOD GetTitle( )                INLINE gtk_tree_view_column_get_title( ::pWidGet )
+      METHOD SetFunction( cFunction )   INLINE gtk_tree_view_column_set_cell_data_func(::pWidget,::oRenderer:pWidget, cFunction )
       
       //Signals
       METHOD OnClicked( oSender )
@@ -146,6 +147,7 @@ METHOD Renderer( cType, cId, pGlade ) CLASS gTreeViewColumn
                ::oRenderer:bEdited := ::uAction
                ::oRenderer:SetColumn( Self ) 
             endif           
+
       CASE cType = "PIXBUF"
            ::oRenderer := gCellRendererPixbuf():New( cId, pGlade )
            ::cType := "pixbuf"
@@ -167,6 +169,7 @@ METHOD Renderer( cType, cId, pGlade ) CLASS gTreeViewColumn
    ::oRenderer:nColumn := ::nColumn
    
 RETURN NIL
+
 
 ******************************************************************************
 METHOD OnDestroy( oSender ) CLASS gTreeViewColumn

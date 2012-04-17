@@ -90,6 +90,10 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GetIterNext( aIter )  INLINE gtk_tree_model_iter_next( ::GetModel(), aIter )  
 
       METHOD SetMenuPopup( aoMenuPopup )
+
+      METHOD EnableTreeLines( lEnable ) INLINE gtk_tree_view_set_enable_tree_lines( ::pWidget, lEnable )
+      METHOD IsEnableTreeLines()        INLINE gtk_tree_view_get_enable_tree_lines( ::pWidget )
+
       METHOD SetGridLines( GtkTreeViewGridLines ) inline gtk_tree_view_set_grid_lines ( ::pWidget, GtkTreeViewGridLines )
       METHOD GetGridLines( ) inline gtk_tree_view_set_grid_lines ( ::pWidget )
       
