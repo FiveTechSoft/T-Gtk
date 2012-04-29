@@ -11,6 +11,7 @@ Function Main()
         DEFINE BOX oBox OF oWnd HOMO
           DEFINE BUTTON oBtn PROMPT "Test 1" ACTION Browse()  EXPAND FILL OF oBox
           DEFINE BUTTON oBtn PROMPT "Test 2" ACTION Listore() EXPAND FILL OF oBox
+          DEFINE BUTTON oBtn PROMPT "Test 3" ACTION Listore_Edition() EXPAND FILL OF oBox
 
     ACTIVATE WINDOW oWnd CENTER
 
