@@ -1596,5 +1596,37 @@
         [ <oTab> := ] gTabOrder():Create( \{<aWidgets>\}, <oParent> )
 
 
+#xcommand DEFINE [PC] KEY [ <oKey> ]  ;
+                 [ FONT <oFont> ];
+                 [ OF <oParent> [, <oParentN>]] ;
+      => ;
+  [ <oKey > := ] gKey():New( \{ <oParent> [, <oParentN>]\}, <oFont> )
+
+#xcommand [PC_Set] KEY  <nKey>[, <nKey1> ]  ;
+                 [ ACTION <bAction> ];
+                 [ OF <oKey> ] ;
+      => ;
+  <oKey>:SetKey( \{ <nKey>[, <nKey1> ] \}, [ \{|o| <bAction> \} ] )
+
+#xcommand [PC_]DISPLAY KEY  <oKey>  ;
+                 [ F1 <cf1> ];
+                 [ F2 <cf2> ];
+                 [ F3 <cf3> ];
+                 [ F4 <cf4> ];
+                 [ F5 <cf5> ];
+                 [ F6 <cf6> ];
+                 [ F7 <cf7> ];
+                 [ F8 <cf8> ];
+                 [ F9 <cf9> ];
+                 [ F10 <cf10> ];
+                 [ F11 <cf11> ];
+                 [ F12 <cf12> ];
+                 [ <lDobleLine: DOBLELINE> ];
+                 OF <oBox> ;
+      => ;
+  <oKey>:Display( <oBox>, [ <cf1> ], [ <cf2> ], [ <cf3> ], [ <cf4> ], [ <cf5> ], [ <cf6> ], [ <cf7> ],;
+          [ <cf8> ], [ <cf9> ], [ <cf10> ], [ <cf11> ], [ <cf12> ], [ <.lDobleLine.> ] )
+
+
  extern errorsys
 
