@@ -251,7 +251,7 @@ Static Function Msg2Info( cText, cTitle )
             DEFINE TOGGLE oToggle TEXT "_Comnutador" ACTION g_print( "First Example" ) OF oBox 
             
             oToggle:DisConnect( "toggled" )
-            oToggle:Connect( "toggled22" )
+            oToggle:Connect( "toggled" )
 
             DEFINE TOGGLE oToggle TEXT "_Comnutador" ACTION g_print( "Two example" ) OF oBox 
             oToggle:DisConnect( "toggled" )
