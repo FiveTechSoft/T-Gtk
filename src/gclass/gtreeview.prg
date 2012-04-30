@@ -70,7 +70,10 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD OnRow_Activated( oSender, pPath, pTreeViewColumn ) SETGET
       METHOD IsGetSelected( aIter ) 
       METHOD GetPath( aIter ) INLINE gtk_tree_model_get_path( ::GetModel(), aIter )
+
       METHOD GetPosCol( cTitle )
+      METHOD SetPosCol( aIter, nColumn )
+
       METHOD GetTotalColumns()  INLINE HB_GTK_TREE_VIEW_GET_TOTAL_COLUMNS( ::pWidget )
 
       METHOD GetPosRow( aIter )
@@ -431,13 +434,36 @@ METHOD SetPosRow( aIter, nCol ) CLASS gTreeView
 RETURN nil
 
 
-
 METHOD GetPosCol( cTitle ) CLASS gTreeView
    Local nCol := -1
 
    AEVAL( ::aCols, {| o | IIF( o[1]:GetTitle() == cTitle, nCol := o[2]+1, NIL)   } )
 
 RETURN nCol
+
+
+METHOD SetPosCol( aIter, nColumn, lEdit )
+   Local pNextCol, pPath
+
+   Default lEdit := .t., nColumn := ::GetPosCol()+1
+
+//   if nColumn >= ::GetColumns() ; nColumn = 0 ; endif
+
+   if ::IsGetSelected( aIter )
+
+      pNextCol := gtk_tree_view_get_column( ::pWidget, nColumn ) 
+
+      pModel := ::GetModel() 
+      pPath  := ::GetPath(aIter)
+
+      gtk_tree_view_set_cursor( ::pWidget, pPath, pNextCol, .t. )
+      gtk_widget_grab_focus(::pWidget)
+
+      gtk_tree_path_free( pPath )
+
+   endif
+
+RETURN nil
 
 
 METHOD GetAutoValueIter( nColumn, aIter, aIter_Clone ) CLASS gTreeView

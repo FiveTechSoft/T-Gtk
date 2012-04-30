@@ -79,7 +79,7 @@ Function Listore_Edition()
        oTreeView:SetGridLines( GTK_TREE_VIEW_GRID_LINES_VERTICAL )  // TODO: Falta subir cambios a subversion
 
        DEFINE TREEVIEWCOLUMN oCol1  COLUMN 1 TITLE "Descripcion" TYPE "text"  WIDTH 350 OF oTreeView ;
-               EDITABLE Edita_Celda( oSender, path, uVal, aIter, oLbx ,oTreeView) EXPAND 
+               EDITABLE Edita_Celda( oSender, path, uVal, aIter, oLbx ,oTreeView,oCol1) EXPAND 
         
        // Montamos el autocompletado
        oCol1:oRenderer:OnEditing_Started := {|uParam, pCell, pEditable, cPath| text_editing_started( pCell, pEditable, cPath, aLista )  }
@@ -87,7 +87,7 @@ Function Listore_Edition()
 
        
        DEFINE TREEVIEWCOLUMN oCol2 COLUMN 2 TITLE "Cantidad"  TYPE "text"  OF oTreeView;
-               EDITABLE Edita_Celda( oSender, path, uVal, aIter, oLbx, oTreeView )
+               EDITABLE Edita_Celda( oSender, path, uVal, aIter, oLbx, oTreeView, oCol2 )
         
        gtk_tree_view_column_set_cell_data_func( oCol2:pWidget, oCol2:oRenderer:pWidget, "_CELLVALUE2_" )
 
@@ -108,10 +108,11 @@ Function Listore_Edition()
 return NIL
 
 
-STATIC FUNCTION Edita_Celda( oSender, cpath, uVal, aIter, oLbx, oTreeview )
+STATIC FUNCTION Edita_Celda( oSender, cpath, uVal, aIter, oLbx, oTreeview, oCol )
  Local nColumn := oSender:nColumn + 1
  Local nPrecio , nCantidad, path
  Local nImporte, uValue, n := array( 4 )
+ Local oNextCol,pPath
 
 
 *  if !oTreeView:IsGetSelected( aIter )  // Si no pude seleccionar el camino a traves del Iter, intend
@@ -121,36 +122,45 @@ STATIC FUNCTION Edita_Celda( oSender, cpath, uVal, aIter, oLbx, oTreeview )
 * endif
 
   if oTreeView:IsGetSelected( aIter )  // Si no pude seleccionar el camino a traves del Iter, intend
-  
-  do case
-      case nColumn = 1
-	  oLbx:Set( aIter, nColumn, uVal )
+
+    do case
+         case nColumn = 1
+         oLbx:Set( aIter, nColumn, uVal )
       
       case nColumn = 2                 // Cantidad
-	  nCantidad := val( uVal )
-	  nPrecio   := oTreeview:GetAutoValue(3) 
-	  oLbx:Set( aIter, 2, nCantidad )
-	  oLbx:Set( aIter, 4, nCantidad * nPrecio * 1.0  )
+         nCantidad := val( uVal )
+         nPrecio   := oTreeview:GetAutoValue(3) 
+         oLbx:Set( aIter, 2, nCantidad )
+         oLbx:Set( aIter, 4, nCantidad * nPrecio * 1.0  )
 
       case nColumn = 3                //Precio
-	  nPrecio   := val( uVal )
-	  nCantidad := oTreeview:GetAutoValue(2) 
-	  nImporte  := oTreeview:GetAutoValue(4) 
-	  oLbx:Set( aIter, 3, nPrecio * 1.0  )
-	  if !empty( nPrecio ) // Si hay precio , recalcula Importe, si no, se mantiene
-             oLbx:Set( aIter, 4, nCantidad * nPrecio * 1.0 ) 
-          endif
+         nPrecio   := val( uVal )
+         nCantidad := oTreeview:GetAutoValue(2) 
+         nImporte  := oTreeview:GetAutoValue(4) 
+         oLbx:Set( aIter, 3, nPrecio * 1.0  )
+         if !empty( nPrecio ) // Si hay precio , recalcula Importe, si no, se mantiene
+            oLbx:Set( aIter, 4, nCantidad * nPrecio * 1.0 ) 
+         endif
       
       case nColumn = 4                //Importe
-	  nImporte := val( uVal ) * 1.0 
-	  nPrecio  := 0 * 1.0 
-	  oLbx:Set( aIter, nColumn, nImporte )
-	  oLbx:Set( aIter, 3, nPrecio )       
+         nImporte := val( uVal ) * 1.0 
+         nPrecio  := 0 * 1.0 
+         oLbx:Set( aIter, nColumn, nImporte )
+         oLbx:Set( aIter, 3, nPrecio )       
 
-  end case
+    end case
+
+    /* Pasamos a la siguiente columna y si es el final... bajamos la linea */
+    if nColumn >= oTreeView:GetColumns() 
+       oTreeView:GoNext()
+       nColumn := 0 
+    endif
+    oTreeView:SetPosCol(aIter,nColumn)
+
   endif
 
 RETURN NIL
+
 
 /*
  Como pintar la columna 2

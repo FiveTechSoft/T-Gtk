@@ -8,6 +8,21 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2012-04-30 00:49 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * hbgtk/gtktreeviewcolumn.c
+    + gtk_tree_view_column_focus_cell( GtkTreeViewColumn, CellRenderer )
+      (aun no usada, pero se agrego el soporte)
+
+  * src/gclass/gtreeview.prg
+    + method SetPosCol(aIter,nColumn,lEdit)
+      Establece la columna para posicionar el cursor, 
+      si la columna es editable se inicia la edicion.
+
+  * tests/gclass/listore/listore_edition.prg
+      Modificacion para mostrar el salto de columna y linea 
+      luego de editar una celda.
+
+
 2012-04-17 02:58 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * hbgtk/
     * gtktreeview.c

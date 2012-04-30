@@ -230,6 +230,15 @@ static void RendererEditedCallBack( GtkCellRendererText *cellrenderertext,
 
 }
 
+
+HB_FUNC( GTK_TREE_VIEW_COLUMN_FOCUS_CELL )
+{
+   GtkTreeViewColumn *column = GTK_TREE_VIEW_COLUMN(  hb_parptr( 1 ) );
+   GtkCellRenderer *cell = GTK_CELL_RENDERER( hb_parptr( 2 ) );
+   gtk_tree_view_column_focus_cell( column, cell );
+}
+
+
 //---------------------------------------------//
 
 HB_FUNC( GTK_CELL_RENDERER_CONNECT_EDITED )
