@@ -51,6 +51,12 @@ Function Listore_Edition()
                     { SPACE(10),0 ,0.0,0.0 } }
 
 
+     gtk_rc_parse_string( 'style "Example"{' + CRLF + ;
+                          ' GtkTreeView::even-row-color = "#B1C1D1"' + CRLF +;
+                          ' GtkTreeView::odd-row-color = "#B7F8E7"' + CRLF +;
+                         '}'                           + CRLF + ;
+                         'class "GtkTreeView" style "Example"' )
+   
     /*Modelo de Datos */
     DEFINE LIST_STORE oLbx TYPES G_TYPE_STRING, G_TYPE_UINT, G_TYPE_DOUBLE, G_TYPE_DOUBLE
     HB_LangSelect("ES")
@@ -76,7 +82,7 @@ Function Listore_Edition()
        DEFINE TREEVIEW oTreeView MODEL oLbx OF oScroll CONTAINER
        
        oTreeView:SetRules( .T. )
-       oTreeView:SetGridLines( GTK_TREE_VIEW_GRID_LINES_VERTICAL )  // TODO: Falta subir cambios a subversion
+       oTreeView:SetGridLines( GTK_TREE_VIEW_GRID_LINES_BOTH )
 
        DEFINE TREEVIEWCOLUMN oCol1  COLUMN 1 TITLE "Descripcion" TYPE "text"  WIDTH 350 OF oTreeView ;
                EDITABLE Edita_Celda( oSender, path, uVal, aIter, oLbx ,oTreeView,oCol1) EXPAND 
