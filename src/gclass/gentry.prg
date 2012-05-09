@@ -30,7 +30,8 @@ CLASS GENTRY FROM GWIDGET
       DATA lCompletion INIT .F.
       DATA oJump
       DATA bActionBtn
-
+      DATA oCompletion
+      
       METHOD New( bSetGet, cPicture, oParent )
       METHOD SetPos( nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
       METHOD SetText( cText ) INLINE ( ;
@@ -92,7 +93,6 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
                    lEnd, lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta,;
                    xOptions_ta, yOptions_ta   )
 
-       ::bValid := bValid
        ::Connect( "key-press-event" )
        ::Connect( "changed" )
        ::Connect_After( "focus-out-event")
@@ -107,7 +107,7 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
 
        if !Empty( aCompletion )
           ::lCompletion := .T.
-          ::Create_Completion( aCompletion )
+          ::oCompletion := ::Create_Completion( aCompletion )
        endif
 
        ::oGet:SetFocus()

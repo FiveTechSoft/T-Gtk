@@ -24,16 +24,23 @@
 #include "hbclass.ch"
 
 CLASS GENTRYCOMPLETION FROM GOBJECT
+      DATA bSelected      
+      DATA oEntry
+      DATA oModel
+      DATA nColumn
       
-      METHOD New( )
-       
+      METHOD New( oEntry, oModel, nColum )
+      METHOD OnMatch_Selected ( oSender, pTreeModel, aIter )  SETGET
+      
 ENDCLASS
 
 METHOD New( oEntry, oModel, nColumn ) CLASS GENTRYCOMPLETION
  DEFAULT nColumn := 1
    
  ::pWidget := gtk_entry_completion_new()
- 
+ ::oEntry  := oEntry
+ ::oModel  := oModel
+
  if !Empty( oEntry )
     gtk_entry_set_completion( oEntry:pWidget, ::pWidget )
  endif
@@ -46,5 +53,20 @@ METHOD New( oEntry, oModel, nColumn ) CLASS GENTRYCOMPLETION
     /* Use model column 0 as the text column */
     gtk_entry_completion_set_text_column( ::pWidget, nColumn -1 )
  endif
-
+ 
 RETURN Self      
+
+
+METHOD OnMatch_Selected ( uParam, pTreeModel, aIter )
+   Local uResult := .F.
+   
+   if hb_IsBlock( uParam )
+      ::bSelected = uParam
+      ::Connect( "match-selected" )
+   elseif hb_IsObject( uParam )
+      if hb_IsBlock( ::bSelected )
+         uResult := Eval( uParam:bSelected, Self, pTreeModel, aIter )
+      endif
+   endif
+
+RETURN uResult 

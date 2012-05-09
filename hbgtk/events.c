@@ -43,6 +43,8 @@ typedef ULONG GTKSIZE;
 typedef HB_SIZE GTKSIZE;
 #endif
 
+PHB_ITEM Iter2Array( GtkTreeIter *iter  );
+
 // Atencion esto esta para mantener compatibilidad con xHarbour anteriores
 // Debe desaparecer , pero lo necesito ahora
 #ifdef __OLDHARBOUR__
@@ -3063,7 +3065,54 @@ void OnPopupMenu( GtkStatusIcon *status_icon,
      }
   }
 }
+                           
 #endif
+
+gboolean OnMatch_Selected ( GtkEntryCompletion *widget, GtkTreeModel *model, GtkTreeIter *iter, gpointer data )
+{
+  PHB_ITEM pObj = NULL;
+  PHB_ITEM pBlock;
+  PHB_DYNS pMethod ;
+
+  // comprobamos que no exista definido un codeblock a la se�al.
+  pBlock = g_object_get_data( G_OBJECT( widget ), (gchar*) data );
+
+  if( pBlock == NULL ){
+      pObj  = g_object_get_data( G_OBJECT( widget ), "Self" );
+      if( pObj ) {
+         pMethod = hb_dynsymFindName( data );
+         if( pMethod ){
+            hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
+            hb_vmPush( pObj );                            // Coloca objeto en pila.
+            hb_vmPush( pObj );                            // oSender
+            hb_vmPushPointer( ( GtkTreeModel * ) model );
+            //hb_vmPushPointer( ( GtkTreeIter *) iter );
+            hb_vmPush( Iter2Array( (GtkTreeIter *) iter ) ); // Enviamos el array, no el puntero
+            hb_vmSend( 3 );                               // LLamada por Send que pasa
+            return hb_parl( -1 ) ;
+         } else {
+         HB_ERRCODE ErrCode = 5002;	  
+	     hb_errRT_BASE_Ext1( EG_ARG, ErrCode, GetGErrorMsg( ErrCode, "OnMatch_Seleted" ), HB_ERR_FUNCNAME, 0, EF_CANDEFAULT, HB_ERR_ARGS_BASEPARAMS );   	   
+//           g_print( "Method doesn't %s exist en OnRow_Activate", (gchar *)data );
+         }
+      }
+  }
+
+  // Obtenemos el codeblock de la se�al, data, que debemos evaluar...
+  if( pObj == NULL ){
+     if( pBlock ) {
+        hb_vmPushSymbol( &hb_symEval );
+        hb_vmPush( pBlock );
+        hb_vmPushPointer( ( GtkEntryCompletion * ) widget );
+        hb_vmPushPointer( ( GtkTreeModel * ) model );
+        //hb_vmPushPointer( ( GtkTreeIter *) iter );
+        hb_vmPush( Iter2Array( (GtkTreeIter *) iter ) );  // Enviamos el array, no el puntero
+        hb_vmSend( 3 );
+        return hb_parl( -1 ) ;
+     }
+  }
+  return( FALSE );  // Salimos
+}
 
 // Content arrays the signals and Methods
 #include "events.h"
@@ -3090,7 +3139,7 @@ gint liberate_block_memory( gpointer data )
  *  Esto mientras se hace una funcion mas compatible entre Harbour y xHarbour
  */
 #ifdef __XHARBOUR__
-   #include "events_xhb_signal_connect.h"
+   #include "events_xhb_signal_connect.h" 
 #else
    #include "events_hb_signal_connect.h"
 #endif
