@@ -25,7 +25,7 @@ else
       else
          ifneq ($(findstring /bin/sh,$(SHELL)),)
            HB_MAKE_PLAT := linux
-           HB_MAKE_ISSUE:=$(shell cat /etc/issue | cut -d\  -f1,2 | tr -s " " "_" )
+           HB_MAKE_ISSUE:=$(shell cat /etc/issue | cut -d\  -f1,2 | tr -s " " "_" | tr -s "/" "-" )
            HB_COMPILER  := gcc
            HOST_PLAT := $(shell uname -p)
            ifeq ($(HOST_PLAT),unknown)
