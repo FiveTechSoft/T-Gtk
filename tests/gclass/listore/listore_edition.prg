@@ -1,17 +1,9 @@
 /* Primero implementacion de Modelo Vista en POO
-  (c)2005 Rafa Carmona
-
-  Ejemplo basado en el de ejemplo de GTK, excepto que activamos para mostrar el numero de BUG.
-
-  Nota:
-  Este ejemplo muestra como conectamos la se�al toggled, tanto a un GtkToggleButton,
-  como a un GtkCellRendererToggle, y como esta ya solucionado el tema en los eventos
-  de la se�al con el mismo nombre , pero el salto a la callback diferente.
- */
-
-/*
- *  Algunos cambios incluidos para mejor manejo de columnas por Riztan Gutierrez
+  (c)2012 Rafa Carmona
  *
+ *  Algunos cambios incluidos para mejor manejo de columnas por Riztan Gutierrez
+ * 
+ *  Edición siempre activa por Rafa
  */
 
 #include "gclass.ch"
@@ -114,11 +106,11 @@ Function Listore_Edition()
 return NIL
 
 
-STATIC FUNCTION Edita_Celda( oSender, cpath, uVal, aIter, oLbx, oTreeview, oCol )
+STATIC FUNCTION Edita_Celda( oSender, cpath, uVal, aIter, oLbx, oTreeview )
  Local nColumn := oSender:nColumn + 1
  Local nPrecio , nCantidad, path
  Local nImporte, uValue, n := array( 4 )
- Local oNextCol,pPath
+ Local pNextCol,pPath 
 
 
 *  if !oTreeView:IsGetSelected( aIter )  // Si no pude seleccionar el camino a traves del Iter, intend
@@ -128,7 +120,7 @@ STATIC FUNCTION Edita_Celda( oSender, cpath, uVal, aIter, oLbx, oTreeview, oCol 
 * endif
 
   if oTreeView:IsGetSelected( aIter )  // Si no pude seleccionar el camino a traves del Iter, intend
-
+     
     do case
          case nColumn = 1
          oLbx:Set( aIter, nColumn, uVal )
@@ -156,12 +148,21 @@ STATIC FUNCTION Edita_Celda( oSender, cpath, uVal, aIter, oLbx, oTreeview, oCol 
 
     end case
 
-    /* Pasamos a la siguiente columna y si es el final... bajamos la linea */
-    if nColumn >= oTreeView:GetColumns() 
-       oTreeView:GoNext()
-       nColumn := 0 
-    endif
-    oTreeView:SetPosCol(aIter,nColumn)
+    //  Se debe usar el path , que identifica a la celda editada, NO EL PATH del TreeView
+    if nColumn != 4
+       pNextCol := gtk_tree_view_get_column( oTreeview:pWidget, nColumn ) 
+       pPath := gtk_tree_path_new_from_string( cPath )
+       gtk_tree_view_set_cursor( oTreeview:pWidget, pPath, pNextCol, .T. )
+       gtk_tree_path_free( pPath )
+    else
+       pNextCol := gtk_tree_view_get_column( oTreeview:pWidget, 0 ) 
+       pPath := gtk_tree_path_new_from_string( cPath )
+       gtk_tree_view_set_cursor( oTreeview:pWidget, pPath, pNextCol, .T. )
+       gtk_tree_path_free( pPath )
+       /* Pasamos a la siguiente columna y si es el final... bajamos la linea */
+       oTreeView:GoNext() 
+  endif
+
 
   endif
 
