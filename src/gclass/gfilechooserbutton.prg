@@ -49,7 +49,6 @@ METHOD New( cText, nMode , cFileName, oParent, lExpand,;
        IF cId == NIL
           ::pWidget := gtk_file_chooser_button_new( cText, nMode  )
        ELSE
-          /* Actualmente, este widget no es soportado por glade....*/
           ::pWidget := glade_xml_get_widget( uGlade, cId )
           ::CheckGlade( cId )
        ENDIF

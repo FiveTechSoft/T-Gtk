@@ -100,6 +100,8 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD SetGridLines( GtkTreeViewGridLines ) inline gtk_tree_view_set_grid_lines ( ::pWidget, GtkTreeViewGridLines )
       METHOD GetGridLines( ) inline gtk_tree_view_set_grid_lines ( ::pWidget )
       
+      METHOD DelRow()
+      
       METHOD OnColumns_changed ( oSender ) VIRTUAL
       METHOD OnCursorChanged( oSender )  SETGET // cursor-changed
       METHOD OnMoveCursor( oSender, arg1, arg2 ) SETGET
@@ -456,7 +458,7 @@ METHOD SetPosCol( aIter, nColumn, lEdit )
       pModel := ::GetModel() 
       pPath  := ::GetPath(aIter)
 
-      gtk_tree_view_set_cursor( ::pWidget, pPath, pNextCol, .t. )
+      gtk_tree_view_set_cursor( ::pWidget, pPath, pNextCol, lEdit )
       gtk_widget_grab_focus(::pWidget)
 
       gtk_tree_path_free( pPath )
@@ -635,6 +637,25 @@ METHOD OnCursorChanged( uParam )  CLASS gTreeView // cursor-changed
 
 RETURN NIL
 
+// Borra la fila en la que estoy posicionando , guardando la posición que ocupo y
+// colocandome posteriormente en el sitio.
+// Atentos , para que funcione, tiene que tener un modelo de datos asociado a traves
+// de ::SetModel(), cosa que es casi obligatorio.
+METHOD DelRow( aIter ) CLASS gTreeView
+   local pPath, pReference
+
+   DEFAULT aIter := Array( 4 ) 
+  
+   if ::IsGetSelected( aIter ) .and. valtype( ::oModel ) = "O"  // Si fue posible seleccionarlo y el modelo es un objeto
+      pPath      := ::GetPath( aIter )                      // Obtengo el camino donde estoy
+      pReference := gtk_tree_row_reference_new( ::GetModel(), pPath )
+      ::oModel:Remove( aIter )
+      gtk_tree_view_set_cursor( ::pWidget, pPath, 1, .F. )  // Nos posicionamos donde estabamos
+      gtk_tree_path_free( pPath )                // Libera
+      gtk_tree_row_reference_free( pReference )  // Libera
+   endif
+
+RETURN NIL
 
 /*
  METHOD OnColumns_Changed( oSender ) CLASS gTreeView
