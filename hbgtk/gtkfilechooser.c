@@ -43,7 +43,7 @@ HB_FUNC( GTK_FILE_CHOOSER_GET_CURRENT_FOLDER ) // pWidget--> folder
 HB_FUNC( GTK_FILE_CHOOSER_SET_CURRENT_FOLDER ) // pWidget, folder --> bOk
 {
   GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parptr( 1 ) );
-  hb_retptr( ( GtkFileChooser * ) gtk_file_chooser_set_current_folder( chooser, hb_parc( 2 ) ) );
+  hb_retl( gtk_file_chooser_set_current_folder( chooser, hb_parc( 2 ) ) );
 }
 
 HB_FUNC( GTK_FILE_CHOOSER_GET_FILENAME ) // pWidget--> folder
@@ -57,7 +57,7 @@ HB_FUNC( GTK_FILE_CHOOSER_GET_FILENAME ) // pWidget--> folder
 HB_FUNC( GTK_FILE_CHOOSER_SET_FILENAME ) // pWidget,filename-->bOk
 {
   GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
-  hb_retptr( ( GtkFileChooser * ) gtk_file_chooser_set_filename( chooser , hb_parc( 2 ) ) );
+  hb_retl( gtk_file_chooser_set_filename( chooser , hb_parc( 2 ) ) );
 }
 
 HB_FUNC( GTK_FILE_CHOOSER_SET_ACTION ) // pWidget, folder --> bOk
@@ -78,6 +78,12 @@ HB_FUNC( GTK_FILE_CHOOSER_ADD_FILTER ) // pWidget, folder --> bOk
   gtk_file_chooser_add_filter( chooser, ( GtkFileFilter * ) hb_parptr( 2 ) );
 }
 
+
+HB_FUNC( GTK_FILE_CHOOSER_SELECT_FILENAME ) // pWidget,filename-->bOk
+{
+  GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
+  hb_retl( gtk_file_chooser_select_filename( chooser , hb_parc( 2 ) ) );
+}
 
 
 HB_FUNC( CHOOSEDIR ) // cTitle, cDir_Default, pParent_Window
