@@ -177,6 +177,9 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
                gtk_widget_child_focus( gtk_widget_get_toplevel( oSender:pWidget ) ,GTK_DIR_TAB_FORWARD )
             endif
             return .T.
+         else
+           if oSender:bValid != NIL
+              Return Eval( oSender:bValid )
          endif
    endcase
 
