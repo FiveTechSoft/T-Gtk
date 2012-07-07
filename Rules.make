@@ -33,6 +33,9 @@ ifeq ($(subst $(SPACE),,$(XBASE_COMPILER)),XHARBOUR)
   HB_SHORTNAME=xhb$(HB_VERSION)
 endif
 
+# Generar setenv.mk
+include $(ROOT)config/gensetenv.mk
+
 # Obtenemos nombre generico de plataforma (PLATFORM_NAME)
 include $(ROOT)config/platform_name.mk
 
@@ -45,13 +48,11 @@ ifeq ($(DIR_OBJ),)
   endif
 endif
 
-# Generar setenv.mk
-include $(ROOT)config/gensetenv.mk
-
 # Verificamos PKG_CONFIG_PATH
 include $(ROOT)config/pkgconfig.mk
 
-$(info $(LIBDIR_TGTK_))
+# Directorio de librerias de t-gtk
+#$(info $(LIBDIR_TGTK_))
 ifeq ($(HB_MAKE_PLAT),win)
    ifeq ($(BIN_PLATFORM_NAME),yes)
       LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)
@@ -86,7 +87,7 @@ $(info * Soporte.                                            )
 $(info * Gtk MultiThread  = $(GTK_THREAD)                    )
 $(info * GtkSourceView    = $(GTKSOURCEVIEW)                    )
 $(info * Bonobo           = $(BONOBO)                           )
-$(info * gnomeDB          = $(GNOMEDB)                          )
+$(info * Gnome Data Access= $(GDA)                              )
 $(info * CURL             = $(CURL)                             )
 ifneq ($(HB_MAKE_PLAT),win)
    $(info * WebKitGTK+       = $(WEBKIT) )
@@ -162,10 +163,10 @@ ifeq ($(GTKSOURCEVIEW),yes)
 endif
 
 
-ifeq ($(GNOMEDB),yes)
-    CFLAGS += -D_GNOMEDB_
-    CFLAGS += $(shell pkg-config --cflags libgnomedb-3.0)
-    LIBS   += $(shell pkg-config --libs libgnomedb-3.0 )
+ifeq ($(GDA),yes)
+    CFLAGS += -D_GDA_
+    CFLAGS += $(shell pkg-config --cflags libgda-$(GDA_VERSION))
+    LIBS   += $(shell pkg-config --libs libgda-$(GDA_VERSION) )
 endif
 
 

@@ -187,8 +187,8 @@ ifeq ($(BONOBO),)
 endif
 
 #Alpha. Soporte para GNOMEDB y LIBGDA
-ifeq ($(GNOMEDB),)
-  export GNOMEDB        =no
+ifeq ($(GDA),)
+  export GDA            =no
 endif
 
 #Soporte para CURL
