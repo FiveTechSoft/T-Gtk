@@ -128,6 +128,18 @@ HB_FUNC( G_OBJECT_SET_DATA )
     g_object_set_data ( G_OBJECT( hb_parptr( 1 ) ), hb_parc( 2 ), (gpointer) hb_parnl( 3 ) );
 }
 
+
+HB_FUNC( G_OBJECT_SET_DATA_FULL )
+{
+    g_object_set_data_full ( G_OBJECT( hb_parptr( 1 ) ), hb_parc( 2 ), hb_parptr( 3 ), g_object_unref );
+}
+
+HB_FUNC( G_OBJECT_GET_POINTER )
+{
+    hb_retptr( (gpointer) g_object_get_data ( G_OBJECT( hb_parptr( 1 ) ), hb_parc( 2 ) ) );
+}
+
+
 HB_FUNC( G_OBJECT_GET_DATA )
 {
     hb_retnl( (glong) g_object_get_data ( G_OBJECT( hb_parptr( 1 ) ), hb_parc( 2 ) ) );
