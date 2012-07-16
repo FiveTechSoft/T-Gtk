@@ -1,4 +1,4 @@
-/* $Id: hbgda.h,v 1.1 2009-03-15 17:10:16 riztan Exp $*/
+/* $Id: gda_sql_table.c,v 1.0 2012-07-06 22:40:16 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -18,19 +18,39 @@
     Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
 
     LGPL Licence.
-    (c)2008 Rafael Carmona <rafa.tgtk at gmail.com>
-    (c)2008 Riztan Gutierrez <riztan at gmail.com>
+    (c)2012 Rafael Carmona <rafa.tgtk at gmail.com>
+    (c)2012 Riztan Gutierrez <riztan at gmail.com>
 */
 
+#ifdef _GDA_
+
 #include <hbapi.h>
+#include <hbapiitm.h>
+#include <hbapierr.h>
+
+// Functions LIBGDA
+#include <glib.h>
+#include <glib-object.h>
 #include <libgda/libgda.h>
+#include <sql-parser/gda-sql-parser.h>
+
+HB_FUNC( GDA_SQL_TABLE_NEW )
+{
+   GdaSqlAnyPart *parent = (GdaSqlAnyPart *) hb_parptr(1);
+   hb_retptr( (GdaSqlTable *) gda_sql_table_new( parent ) );
+}
 
 
-extern void hb_GDAprinterr( GError *error, PHB_ITEM pError );
+HB_FUNC( GDA_SQL_TABLE_SERIALIZE )
+{
+   GdaSqlTable *table = (GdaSqlTable *) hb_parptr( 1 );
+   gchar *serialize = gda_sql_table_serialize( table );
+//   if( serialize ){
+     hb_retc( serialize );
+//   }else
+//     hb_retnil();
+}
 
-// Esto para evitar confusion cuando se hace referencia a una fila o columna,
-// ya que en GDA la referencia es de 0....n,  mientras que
-// ya que en HB  la referencia es de 1....n.
-#define GDA2HB_VECTOR( n )       ( n - 1 )
 
-
+#endif
+//eof

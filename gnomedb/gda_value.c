@@ -29,20 +29,25 @@
 #include <hbapi.h>
 #include <hbapiitm.h>
 
-#ifdef _GNOMEDB_
+#ifdef _GDA_
 #include <glib.h>
 #include <glib-object.h>
 #include <libgda/libgda.h>
+
 
 HB_FUNC( GDA_VALUE_NEW_FROM_STRING )
 {
    const gchar *cValue = hb_parc( 1 );
    GType type = hb_parnl( 2 );
+   GValue *value = gda_value_new_from_string( cValue, type );
 
-//   GValue value = gda_value_new_from_string( cValue, type );
-   
-   hb_retptr( (GValue *) gda_value_new_from_string( cValue, type ) );
-   
+   hb_retptr( value );
+}
+
+
+HB_FUNC( GDA_VALUE_FREE )
+{
+   gda_value_free( (GValue *) hb_parptr( 1 ) );
 }
 
 

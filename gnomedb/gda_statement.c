@@ -1,4 +1,4 @@
-/* $Id: hbgda.h,v 1.1 2009-03-15 17:10:16 riztan Exp $*/
+/* $Id: gda_statement.c,v 1.0 2012-07-06 22:40:16 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -18,19 +18,42 @@
     Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
 
     LGPL Licence.
-    (c)2008 Rafael Carmona <rafa.tgtk at gmail.com>
-    (c)2008 Riztan Gutierrez <riztan at gmail.com>
+    (c)2012 Rafael Carmona <rafa.tgtk at gmail.com>
+    (c)2012 Riztan Gutierrez <riztan at gmail.com>
 */
 
+#ifdef _GDA_
+
 #include <hbapi.h>
+#include <hbapiitm.h>
+#include <hbapierr.h>
+
+// Functions LIBGDA
 #include <libgda/libgda.h>
 
+HB_FUNC( GDA_STATEMENT_NEW )
+{
+   hb_retptr( (GdaStatement *) gda_statement_new() );
+}
 
-extern void hb_GDAprinterr( GError *error, PHB_ITEM pError );
+HB_FUNC( GDA_STATEMENT_COPY )
+{
+   GdaStatement *orig = (GdaStatement *) hb_parptr( 1 );
+   hb_retptr( (GdaStatement *) gda_statement_copy( orig ) );
+}
 
-// Esto para evitar confusion cuando se hace referencia a una fila o columna,
-// ya que en GDA la referencia es de 0....n,  mientras que
-// ya que en HB  la referencia es de 1....n.
-#define GDA2HB_VECTOR( n )       ( n - 1 )
 
+HB_FUNC( GDA_STATEMENT_SERIALIZE )
+{
+   GdaStatement *stmt = (GdaStatement *) hb_parptr( 1 );
+   hb_retc( gda_statement_serialize( stmt ) );
+}
 
+HB_FUNC( GDA_STATEMENT_IS_USELESS )
+{
+   GdaStatement *stmt = (GdaStatement *) hb_parptr( 1 );
+   hb_retl( gda_statement_is_useless( stmt ) );
+}
+
+#endif
+//oef

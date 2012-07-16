@@ -46,30 +46,30 @@ HB_FUNC( GDA_DICT_NEW )
 
 HB_FUNC( GDA_DICT_SET_CONNECTION )
 {
-   GdaDict *dict = GDA_DICT( hb_parnl( 1 ) );
-   GdaConnection *cnc = GDA_CONNECTION( hb_parnl( 2 ) );
+   GdaDict *dict = GDA_DICT( hb_parptr( 1 ) );
+   GdaConnection *cnc = GDA_CONNECTION( hb_parptr( 2 ) );
    gda_dict_set_connection( dict, cnc );
 }
 
 
 HB_FUNC( GDA_DICT_GET_CONNECTION )
 {
-   GdaDict *dict = GDA_DICT( hb_parnl( 1 ) );
+   GdaDict *dict = GDA_DICT( hb_parptr( 1 ) );
    hb_retptr( gda_dict_get_connection( dict ) );
 }
 
 
 HB_FUNC(  GDA_DICT_GET_DATABASE )
 {
-   GdaDict *dict = GDA_DICT( hb_parnl( 1 ) );
+   GdaDict *dict = GDA_DICT( hb_parptr( 1 ) );
    hb_retptr( gda_dict_get_database( dict ) );
 }
 
 
 HB_FUNC( GDA_DICT_UPDATE_DBMS_META_DATA )
 {
-   GdaDict *dict = GDA_DICT( hb_parnl( 1 ) );
-   GType limit_to_type = hb_parnl( 2 );
+   GdaDict *dict = GDA_DICT( hb_parptr( 1 ) );
+   GType limit_to_type = hb_parptr( 2 );
    const gchar *limit_obj_name = hb_parc( 3 );
 
    GError *error = NULL;
@@ -106,7 +106,7 @@ HB_FUNC( GDA_DICT_UPDATE_DBMS_META_DATA )
 
 HB_FUNC( GDA_DICT_STOP_UPDATE_DBMS_META_DATA )
 {
-   GdaDict *dict = GDA_DICT( hb_parnl( 1 ) );
+   GdaDict *dict = GDA_DICT( hb_parptr( 1 ) );
    gda_dict_stop_update_dbms_meta_data( dict );
 }
 

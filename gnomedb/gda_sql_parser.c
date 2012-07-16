@@ -1,4 +1,4 @@
-/* $Id: hbgda.h,v 1.1 2009-03-15 17:10:16 riztan Exp $*/
+/* $Id: gda_sql_parser.c,v 1.0 2012-07-06 22:40:16 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -18,19 +18,40 @@
     Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
 
     LGPL Licence.
-    (c)2008 Rafael Carmona <rafa.tgtk at gmail.com>
-    (c)2008 Riztan Gutierrez <riztan at gmail.com>
+    (c)2012 Rafael Carmona <rafa.tgtk at gmail.com>
+    (c)2012 Riztan Gutierrez <riztan at gmail.com>
 */
 
+#ifdef _GDA_
+
 #include <hbapi.h>
+#include <hbapiitm.h>
+#include <hbapierr.h>
+
+// Functions LIBGDA
+#include <glib.h>
+#include <glib-object.h>
 #include <libgda/libgda.h>
+#include <sql-parser/gda-sql-parser.h>
 
+#include <hbgda.h>
 
-extern void hb_GDAprinterr( GError *error, PHB_ITEM pError );
+HB_FUNC( GDA_SQL_PARSER_PARSE_STRING )
+{
+   GdaSqlParser *parser = (GdaSqlParser *) hb_parptr( 1 );
+   const gchar *sql = hb_parc( 2 );
+   const gchar *remain; 
+   GError *error = NULL;
 
-// Esto para evitar confusion cuando se hace referencia a una fila o columna,
-// ya que en GDA la referencia es de 0....n,  mientras que
-// ya que en HB  la referencia es de 1....n.
-#define GDA2HB_VECTOR( n )       ( n - 1 )
+   PHB_ITEM pError = hb_param( 3, HB_IT_ANY );
 
+   hb_retptr( (GdaStatement *) gda_sql_parser_parse_string( parser, sql, &remain, &error ) );
 
+   if (error != NULL) {
+      hb_GDAprinterr( error, pError );
+      hb_errRT_BASE_SubstR( EG_ARG, 1124, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+   }
+}
+
+#endif
+//eof

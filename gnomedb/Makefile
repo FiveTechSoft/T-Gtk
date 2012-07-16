@@ -2,11 +2,18 @@
 #
 # Makefile para T-GTK codigo de C
 #
+ROOT = ../
+include $(ROOT)config/global.mk
+include $(ROOT)$(SETENV)
 
-TARGET=libtgtk_gnomedb.a
-CFLAGS+=-I. -I../include $(shell pkg-config --cflags libgnomedb-3.0)
+TARGET=libhbgda.a
+LIBGDA=libgda-$(GDA_VERSION)
+
+CFLAGS+=-I. -I$(ROOT)include $(shell pkg-config --cflags $(LIBGDA))
+LIBGDA_VERSION=$(shell pkg-config --modversion $(LIBGDA))
+CFLAGS+= -DLIBGDAVERSION=$(LIBGDA_VERSION)
 
 SOURCE_TYPE=c
-TGTK_INSTALL=../lib
+TGTK_INSTALL=$(ROOT)lib
 
-include ../Rules.make
+include $(ROOT)Rules.make
