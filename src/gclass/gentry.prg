@@ -180,6 +180,7 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
          else
            if oSender:bValid != NIL
               Return Eval( oSender:bValid )
+           endif
          endif
    endcase
 
