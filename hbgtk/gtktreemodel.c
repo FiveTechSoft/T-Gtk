@@ -312,6 +312,13 @@ HB_FUNC( HB_GTK_TREE_MODEL_GET_DOUBLE ) //  pModel, aIter, nColumn, Type DOUBLE
 
 }
 
+
+HB_FUNC( GTK_TREE_PATH_GET_INDICES )
+{
+  GtkTreePath  *path  = (GtkTreePath *)  hb_parptr( 1 );
+  hb_retni( gtk_tree_path_get_indices( path ) );
+}
+
 HB_FUNC( HB_GTK_TREE_PATH_GET_INDICES )
 {
   GtkTreePath  *path  = (GtkTreePath *)  hb_parptr( 1 );

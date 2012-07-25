@@ -68,6 +68,15 @@ HB_FUNC( GTK_TREE_VIEW_APPEND_COLUMN ) // treeview, column -> void
 
 //------------------------------------------------------//
 
+HB_FUNC( GTK_TREE_VIEW_INSERT_COLUMN ) // treeview, column, pos -> void
+{
+   gtk_tree_view_insert_column( GTK_TREE_VIEW ( GTK_WIDGET( hb_parptr( 1 ) )),
+                                GTK_TREE_VIEW_COLUMN( ( GtkTreeViewColumn * ) hb_parptr( 2 )),
+                                (gint) hb_parni( 3 ) );
+}
+
+//------------------------------------------------------//
+
 HB_FUNC( GTK_TREE_VIEW_GET_COLUMN ) // treeview, nColumn -> column
 {
   GtkTreeViewColumn * column =
