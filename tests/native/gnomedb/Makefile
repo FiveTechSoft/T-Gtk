@@ -8,8 +8,8 @@
 ROOT = ../../../
 
 TARGET = test
-SOURCES = gnomedb.prg
-LIBS= -ltgtk_gnomedb
+SOURCES = gda_sqlite.prg
+LIBS= -lhbgda
 
 include $(ROOT)Rules.make
 
