@@ -80,3 +80,33 @@
 #define GDA_DATA_MODEL_IO_TEXT_SEPARATED            1
 
 
+/* enum GdauiLoginMode */
+#define GDA_UI_LOGIN_ENABLE_CONTROL_CENTRE_MODE     1 << 0
+#define GDA_UI_LOGIN_HIDE_DSN_SELECTION_MODE        1 << 1
+#define GDA_UI_LOGIN_HIDE_DIRECT_CONNECTION_MODE    1 << 2
+
+
+/* enum GdauiAction */
+#define GDAUI_ACTION_NEW_DATA                       0
+#define GDAUI_ACTION_WRITE_MODIFIED_DATA            1
+#define GDAUI_ACTION_DELETE_SELECTED_DATA           2
+#define GDAUI_ACTION_UNDELETE_SELECTED_DATA         3
+#define GDAUI_ACTION_RESET_DATA                     4
+#define GDAUI_ACTION_MOVE_FIRST_RECORD              5
+#define GDAUI_ACTION_MOVE_PREV_RECORD               6
+#define GDAUI_ACTION_MOVE_NEXT_RECORD               7
+#define GDAUI_ACTION_MOVE_LAST_RECORD               8
+#define GDAUI_ACTION_MOVE_FIRST_CHUNCK              9
+#define GDAUI_ACTION_MOVE_PREV_CHUNCK               10
+#define GDAUI_ACTION_MOVE_NEXT_CHUNCK               11
+#define GDAUI_ACTION_MOVE_LAST_CHUNCK               12
+
+
+/* enum GdauiDataProxyWriteMode */
+#define GDAUI_DATA_PROXY_WRITE_ON_DEMAND            0
+#define GDAUI_DATA_PROXY_WRITE_ON_ROW_CHANGE        1
+#define GDAUI_DATA_PROXY_WRITE_ON_VALUE_ACTIVATED   2
+#define GDAUI_DATA_PROXY_WRITE_ON_VALUE_CHANGE      3 
+
+
+//eof
