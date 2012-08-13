@@ -27,6 +27,7 @@
  
 CLASS GLISTSTORE FROM GOBJECT
       DATA aTypes
+      DATA nLines  INIT 0
 
       METHOD New( aTypes )
       METHOD NewAuto( aTypes )
@@ -43,7 +44,6 @@ ENDCLASS
 METHOD New( aTypes ) CLASS gListStore
 
       aTypes = CheckArray( aTypes )
-
       ::aTypes := aTypes
       ::pWidget  := gtk_list_store_newv( Len( ::aTypes ) ,::aTypes  )
 
@@ -70,10 +70,13 @@ METHOD Append( aValues ) CLASS gListStore
        Local nLen , n
 
        gtk_list_store_append( ::pWidget, aIter )
+
+       ::nLines++
+
        if aValues != NIL
           nLen := Len( aValues )
           for n := 1 to nLen
-              gtk_list_store_set( ::pWidget, n-1, aIter, aValues[ n ] )
+              gtk_list_store_set( ::pWidget, n - COL_INIT, aIter, aValues[ n ] )
           next
        endif
 
@@ -81,7 +84,7 @@ RETURN aIter
 
 METHOD Set( aIter, nCol, uValue ) CLASS gListStore
 
-       gtk_list_store_set( ::pWidget, nCol-1, aIter, uValue )
+       gtk_list_store_set( ::pWidget, nCol - COL_INIT, aIter, uValue )
 
 RETURN NIL
 
@@ -110,7 +113,7 @@ METHOD Insert( nRow, aValues ) CLASS gListStore
        if aValues != NIL
           nLen := Len( aValues )
           for n := 1 to nLen
-              gtk_list_store_set( ::pWidget, n-1, aIter, aValues[ n ] )
+              gtk_list_store_set( ::pWidget, n - COL_INIT, aIter, aValues[ n ] )
           next
        endif
 

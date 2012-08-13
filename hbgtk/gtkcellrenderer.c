@@ -30,6 +30,12 @@ HB_FUNC( GTK_CELL_RENDERER_TEXT_NEW ) // -> renderer
    hb_retptr( ( GtkCellRenderer * ) renderer );
 }
 
+HB_FUNC( GTK_CELL_RENDERER_ACTIVATE )
+{
+   GtkCellRenderer * cell = GTK_CELL_RENDERER( hb_parptr( 1 ) );
+   
+}
+
 HB_FUNC( GTK_CELL_RENDERER_TOGGLE_NEW ) // -> renderer
 {
    GtkCellRenderer *renderer = gtk_cell_renderer_toggle_new();

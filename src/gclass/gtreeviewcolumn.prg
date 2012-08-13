@@ -67,7 +67,7 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId
       endif
 
       if nPos != NIL
-         ::nColumn := nPos - 1   
+         ::nColumn := nPos - COL_INIT   
       endif
        
       if cTitle != NIL
@@ -91,10 +91,10 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId
         if cId = NIL   // Solo si no es definido en Glade
 	   if oTreeView:ClassName() == "GTREEVIEW" 
 		gtk_tree_view_column_pack_start( ::pWidget, ::oRenderer:pWidget, lExpand )
-		gtk_tree_view_column_add_attribute( ::pWidget, ::oRenderer:pWidget, ::cType, nPos-1 )
+		gtk_tree_view_column_add_attribute( ::pWidget, ::oRenderer:pWidget, ::cType, nPos - COL_INIT )
 	   else     // Nos permite de esta forma, formar columnas texto + pixbuf, por ejemplo.
 		gtk_tree_view_column_pack_start( oTreeView:pWidget, ::oRenderer:pWidget, lExpand )
-		gtk_tree_view_column_add_attribute( oTreeView:pWidget, ::oRenderer:pWidget, ::cType, nPos-1 )
+		gtk_tree_view_column_add_attribute( oTreeView:pWidget, ::oRenderer:pWidget, ::cType, nPos - COL_INIT )
 	   endif
         endif  
       endif

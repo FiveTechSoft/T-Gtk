@@ -122,10 +122,15 @@ HB_FUNC( GTK_TREE_VIEW_SET_CURSOR_ON_CELL )
 {
   GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
   GtkTreePath * path = (GtkTreePath *) hb_parptr( 2 ) ;
+  GtkTreeViewColumn * focus_column = GTK_TREE_VIEW_COLUMN( hb_parptr( 3 ) );
+  GtkCellRenderer * focus_cell = GTK_CELL_RENDERER( hb_parptr( 4 ) );
+  gboolean start_editing = hb_parl( 5 );
+
   gtk_tree_view_set_cursor_on_cell( tree,
                                     path,
-                                    GTK_TREE_VIEW_COLUMN( hb_parptr( 3 ) ),
-                                    NULL, TRUE );
+                                    focus_column, 
+                                    focus_cell,
+                                    start_editing );
 }
 
 //------------------------------------------------------//
@@ -148,6 +153,27 @@ HB_FUNC( GTK_TREE_VIEW_GET_CURSOR )
     hb_storptr( ( GtkTreePath * ) path, 2 );
     hb_storptr( ( GtkTreeViewColumn * ) focus_column, 3 );
 }
+
+HB_FUNC( GTK_TREE_VIEW_SCROLL_TO_POINT )
+{
+   GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   gint tree_x = hb_parni( 2 );
+   gint tree_y = hb_parni( 3 );
+   gtk_tree_view_scroll_to_point( tree, tree_x, tree_y );
+}
+
+HB_FUNC( GTK_TREE_VIEW_SCROLL_TO_CELL )
+{
+   GtkTreeView * tree = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   GtkTreePath * path = (GtkTreePath *) hb_parptr( 2 ) ;
+   GtkTreeViewColumn * focus_column = GTK_TREE_VIEW_COLUMN( hb_parptr( 3 ) ) ;
+   gboolean use_align = hb_parl( 4 );
+   gfloat row_align = hb_parnl( 5 ) ;
+   gfloat col_align = hb_parnl( 6 ) ;
+
+   gtk_tree_view_scroll_to_cell( tree, path, focus_column, use_align, row_align, col_align );
+}
+
 
 //------------------------------------------------------//
 
@@ -372,6 +398,16 @@ HB_FUNC( GTK_TREE_VIEW_GET_PATH_AT_POS )
    hb_storptr( (GtkTreePath * ) path, 4 );
    hb_storptr( (GtkTreeViewColumn * ) focus_column, 5 );
 
+}
+
+
+HB_FUNC( GTK_TREE_VIEW_ROW_ACTIVATED )
+{
+   GtkTreeView * tree_view = GTK_TREE_VIEW( hb_parptr( 1 ) );
+   GtkTreePath * path = ( GtkTreePath * ) hb_parptr( 2 );
+   GtkTreeViewColumn *column = ( GtkTreeViewColumn * ) hb_parptr( 3 );
+
+   gtk_tree_view_row_activated( tree_view, path, column );
 }
 
 

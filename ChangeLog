@@ -8,6 +8,25 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2012-08-12 22:51 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * hbgtk/gtkcellrederer.c
+    + gtk_cell_renderer_activate
+  * hbgtk/gtktreeview.c
+    + gtk_tree_view_scroll_to_point
+    + gtk_tree_view_scroll_to_cell
+    + gtk_tree_view_row_activated
+  * include/tgtk.ch
+    + #define COL_INIT  // columna de inicio.
+    + #define GTK_CELL_RENDERER_MODE_INERT 
+    + #define GTK_CELL_RENDERER_MODE_ACTIVATABLE 
+    + #define GTK_CELL_RENDERER_MODE_EDITABLE 
+  * src/gclass/gtreeview.prg  
+    + Method InsertColumn()
+  * src/gclass/glistore.prg
+    * Cambios para mantener datos respecto a nro de lineas.
+    + DATA nLines
+    
+
 2012-04-30 00:49 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * hbgtk/gtktreeviewcolumn.c
     + gtk_tree_view_column_focus_cell( GtkTreeViewColumn, CellRenderer )

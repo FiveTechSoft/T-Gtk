@@ -27,7 +27,7 @@ CLASS gCellRendererText FROM gCellRenderer
       DATA bEdited
 
       METHOD New()
-      METHOD SetEditable( lEdit ) INLINE g_object_set( ::pWidget, "editable", .T. )
+      METHOD SetEditable( lEdit ) INLINE g_object_set( ::pWidget, "editable", lEdit )
       METHOD OnEdited( oSender , cPath, cTextNew ) SETGET
 
 ENDCLASS

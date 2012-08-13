@@ -62,10 +62,13 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GetColumnTypeStr( nColumn )   
       METHOD RemoveColumn( nColumn ) 
       METHOD RemoveRow( pSelection ) 
-      METHOD AppendColumn( oTreeViewColumn ) INLINE gtk_tree_view_append_column( ::pWidget, oTreeViewColumn:pWidget )
+      METHOD AppendColumn( oTreeViewColumn ) ;
+                                INLINE gtk_tree_view_append_column( ::pWidget, oTreeViewColumn:pWidget )
+      METHOD InsertColumn( oTreeViewColumn, nPos ) ;
+                                INLINE gtk_tree_view_insert_column( ::pWidget, oTreeViewColumn:pWidget, nPos )
       
-      METHOD GetSearchColumn()          INLINE ( gtk_tree_view_get_search_column( ::pWidget ) + 1 )
-      METHOD SetSearchColumn( nColumn ) INLINE gtk_tree_view_set_search_column( ::pWidget, nColumn - 1 )
+      METHOD GetSearchColumn()          INLINE ( gtk_tree_view_get_search_column( ::pWidget ) + COL_INIT )
+      METHOD SetSearchColumn( nColumn ) INLINE gtk_tree_view_set_search_column( ::pWidget, nColumn - COL_INIT )
 
       METHOD OnRow_Activated( oSender, pPath, pTreeViewColumn ) SETGET
       METHOD IsGetSelected( aIter ) 
@@ -97,9 +100,10 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD EnableTreeLines( lEnable ) INLINE gtk_tree_view_set_enable_tree_lines( ::pWidget, lEnable )
       METHOD IsEnableTreeLines()        INLINE gtk_tree_view_get_enable_tree_lines( ::pWidget )
 
-      METHOD SetGridLines( GtkTreeViewGridLines ) inline gtk_tree_view_set_grid_lines ( ::pWidget, GtkTreeViewGridLines )
+      METHOD SetGridLines( GtkTreeViewGridLines ) ;
+                                   INLINE gtk_tree_view_set_grid_lines ( ::pWidget, GtkTreeViewGridLines )
       METHOD GetGridLines( ) inline gtk_tree_view_set_grid_lines ( ::pWidget )
-      
+
       METHOD DelRow()
       
       METHOD OnColumns_changed ( oSender ) VIRTUAL
@@ -114,7 +118,7 @@ METHOD NEW( oModel, oParent, lExpand,;
             uLabelTab, nWidth, nHeight, oBar, cMsgBar, lEnd, lSecond, lResize, lShrink,;
             left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta,;
             bOnRow_Activate, bOnMove, bOnChange, n ) CLASS gTreeView
-            
+
    HB_SYMBOL_UNUSED( nCursor )
    HB_SYMBOL_UNUSED( oBar )
    HB_SYMBOL_UNUSED( cMsgBar )
@@ -157,7 +161,7 @@ METHOD NEW( oModel, oParent, lExpand,;
    if bOnChange != NIL
       ::OnCursorChanged = bOnChange
    endif
-  
+
    ::Show()
    
 RETURN Self
@@ -185,7 +189,7 @@ RETURN NIL
 
 
 METHOD RemoveColumn( nColumn ) CLASS gTreeView
-   Local hColumn := ::GetColumn( nColumn-1 )
+   Local hColumn := ::GetColumn( nColumn-COL_INIT )
    gtk_tree_view_remove_column( ::pWidget, hColumn )
 RETURN NIL
 
@@ -292,7 +296,7 @@ METHOD SetValue( nColumn, uValue, path, oLbx ) CLASS gTreeView
    
    model  = ::GetModel()
 
-   nType := gtk_tree_model_get_column_type( model, nColumn - 1 )
+   nType := gtk_tree_model_get_column_type( model, nColumn - COL_INIT )
 
    if ValType(uValue)!="L" .AND. nType=G_TYPE_BOOLEAN
       RETURN .F. 
@@ -307,18 +311,18 @@ METHOD GetValue( nColumn, cType, path, aIter_Clone ) CLASS gTreeView
    Local model, aIter := Array( 4 ) 
    Local uValue, nType
    
-   DEFAULT nColumn := 1
+   DEFAULT nColumn := COL_INIT
    
    HB_SYMBOL_UNUSED( cType )
    
    model  = ::GetModel() 
    gtk_tree_model_get_iter( model, aIter, path )
-   uValue = gtk_tree_model_get( model, aIter, nColumn )
+   uValue = gtk_tree_model_get( model, aIter, nColumn ) //revisar porque no resta COL_INIT (RIGC)
    aIter_Clone = aIter
    
   /* 
    IF Empty( cType ) // Si no se especifica tipo, averiguamos...
-       nType := gtk_tree_model_get_column_type( model, nColumn - 1 )
+       nType := gtk_tree_model_get_column_type( model, nColumn - COL_INIT )
        DO CASE
           CASE ( nType = G_TYPE_CHAR .OR. nType = G_TYPE_UCHAR .OR. nType = G_TYPE_STRING     )
                cType := "String"
@@ -338,17 +342,17 @@ METHOD GetValue( nColumn, cType, path, aIter_Clone ) CLASS gTreeView
    IF( gtk_tree_model_get_iter( model, aIter, path ) )
       DO CASE
          CASE Lower( cType ) = "string" .OR. Lower( cType ) = "text" 
-              hb_gtk_tree_model_get_string( model, aIter, nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_string( model, aIter, nColumn - COL_INIT, @uValue ) 
          CASE Lower( cType ) = "int"
-              hb_gtk_tree_model_get_int( model, aIter,  nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_int( model, aIter,  nColumn - COL_INIT, @uValue ) 
          CASE Lower( cType ) = "boolean"
-              hb_gtk_tree_model_get_boolean( model, aIter,  nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_boolean( model, aIter,  nColumn - COL_INIT, @uValue ) 
          CASE Lower( cType ) = "long"
-              hb_gtk_tree_model_get_long( model, aIter, nColumn - 1, @uValue )
+              hb_gtk_tree_model_get_long( model, aIter, nColumn - COL_INIT, @uValue )
          CASE Lower( cType ) = "pointer"
-              hb_gtk_tree_model_get_pointer( model, aIter, nColumn - 1, @uValue )                
+              hb_gtk_tree_model_get_pointer( model, aIter, nColumn - COL_INIT, @uValue )                
          CASE Lower( cType ) = "double"
-              hb_gtk_tree_model_get_double( model, aIter, nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_double( model, aIter, nColumn - COL_INIT, @uValue ) 
       END CASE
       aIter_Clone := aIter
    ENDIF
@@ -373,22 +377,22 @@ METHOD GetAutoValue( nColumn, aIter, aIter_Clone ) CLASS gTreeView
       Return NIL
    ENDIF
 
-   nType := gtk_tree_model_get_column_type( model, nColumn - 1 )
+   nType := gtk_tree_model_get_column_type( model, nColumn - COL_INIT )
 
    IF( gtk_tree_model_get_iter( model, aIter, path ) )
       DO CASE
          CASE ( nType = G_TYPE_CHAR .OR. nType = G_TYPE_UCHAR .OR. nType = G_TYPE_STRING )
-              hb_gtk_tree_model_get_string( model, aIter, nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_string( model, aIter, nColumn - COL_INIT, @uValue ) 
          CASE ( nType = G_TYPE_INT .OR. nType = G_TYPE_UINT .OR. nType = G_TYPE_INT64 .OR.nType = G_TYPE_UINT64 )
-              hb_gtk_tree_model_get_int( model, aIter,  nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_int( model, aIter,  nColumn - COL_INIT, @uValue ) 
          CASE ( nType = G_TYPE_BOOLEAN )
-              hb_gtk_tree_model_get_boolean( model, aIter,  nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_boolean( model, aIter,  nColumn - COL_INIT, @uValue ) 
          CASE ( nType = G_TYPE_LONG .OR. nType = G_TYPE_ULONG )
-              hb_gtk_tree_model_get_long( model, aIter, nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_long( model, aIter, nColumn - COL_INIT, @uValue ) 
          CASE ( nType = G_TYPE_DOUBLE .OR. nType = G_TYPE_FLOAT )
-              hb_gtk_tree_model_get_double( model, aIter, nColumn - 1, @uValue )
+              hb_gtk_tree_model_get_double( model, aIter, nColumn - COL_INIT, @uValue )
          CASE ( nType = G_TYPE_POINTER .OR. nType = GDK_TYPE_PIXBUF )
-              hb_gtk_tree_model_get_pointer( model, aIter, nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_pointer( model, aIter, nColumn - COL_INIT, @uValue ) 
       END CASE
       aIter_Clone := aIter
    ENDIF
@@ -437,9 +441,9 @@ RETURN nil
 
 
 METHOD GetPosCol( cTitle ) CLASS gTreeView
-   Local nCol := -1
+   Local nCol := - COL_INIT
 
-   AEVAL( ::aCols, {| o | IIF( o[1]:GetTitle() == cTitle, nCol := o[2]+1, NIL)   } )
+   AEVAL( ::aCols, {| o | IIF( o[1]:GetTitle() == cTitle, nCol := o[2] + COL_INIT, NIL)   } )
 
 RETURN nCol
 
@@ -447,7 +451,7 @@ RETURN nCol
 METHOD SetPosCol( aIter, nColumn, lEdit )
    Local pNextCol, pPath
 
-   Default lEdit := .t., nColumn := ::GetPosCol()+1
+   Default lEdit := .t., nColumn := ::GetPosCol() + COL_INIT
 
 //   if nColumn >= ::GetColumns() ; nColumn = 0 ; endif
 
@@ -478,22 +482,22 @@ METHOD GetAutoValueIter( nColumn, aIter, aIter_Clone ) CLASS gTreeView
    model := ::GetModel() 
    Path  := ::GetPath( aIter ) 
 
-   nType := gtk_tree_model_get_column_type( model, nColumn - 1 )
+   nType := gtk_tree_model_get_column_type( model, nColumn - COL_INIT )
 
    IF( gtk_tree_model_get_iter( model, aIter, path ) )
       DO CASE
          CASE ( nType = G_TYPE_CHAR .OR. nType = G_TYPE_UCHAR .OR. nType = G_TYPE_STRING )
-              hb_gtk_tree_model_get_string( model, aIter, nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_string( model, aIter, nColumn - COL_INIT, @uValue ) 
          CASE ( nType = G_TYPE_INT .OR. nType = G_TYPE_UINT .OR. nType = G_TYPE_INT64 .OR.nType = G_TYPE_UINT64 )
-              hb_gtk_tree_model_get_int( model, aIter,  nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_int( model, aIter,  nColumn - COL_INIT, @uValue ) 
          CASE ( nType = G_TYPE_BOOLEAN )
-              hb_gtk_tree_model_get_boolean( model, aIter,  nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_boolean( model, aIter,  nColumn - COL_INIT, @uValue ) 
          CASE ( nType = G_TYPE_LONG .OR. nType = G_TYPE_ULONG )
-              hb_gtk_tree_model_get_long( model, aIter, nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_long( model, aIter, nColumn - COL_INIT, @uValue ) 
          CASE ( nType = G_TYPE_DOUBLE .OR. nType = G_TYPE_FLOAT )
-              hb_gtk_tree_model_get_double( model, aIter, nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_double( model, aIter, nColumn - COL_INIT, @uValue ) 
          CASE ( nType = G_TYPE_POINTER .OR. nType = GDK_TYPE_PIXBUF )
-              hb_gtk_tree_model_get_pointer( model, aIter, nColumn - 1, @uValue ) 
+              hb_gtk_tree_model_get_pointer( model, aIter, nColumn - COL_INIT, @uValue ) 
       END CASE
       aIter_Clone := aIter
    ENDIF
@@ -505,7 +509,7 @@ RETURN uValue
 
 METHOD GetColumnTypeStr( nColumn ) CLASS gTreeView
    Local cType := NIL
-   Local nType := ::GetColumnType( nColumn - 1 )
+   Local nType := ::GetColumnType( nColumn - COL_INIT )
    
    DO CASE
       CASE ( nType = G_TYPE_CHAR .OR. nType = G_TYPE_UCHAR .OR. nType = G_TYPE_STRING     )

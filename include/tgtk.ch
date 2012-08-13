@@ -5,6 +5,8 @@
  * (c)2008 Riztan Gutierrez
  */
 
+#define COL_INIT      1
+
 #xtranslate MsgAlert( <cMessage> [, <cTitle> ] [ <lMarkup: MARKUP> ] );
             =>;
             Msg_Alert( <cMessage>,[ <cTitle> ],[ <.lMarkup.> ] )
