@@ -18,11 +18,14 @@
  # Soporte para GTKSourceView. 
  export GTKSOURCEVIEW =no
  
+ # Soporte para GTK-Extra. 
+ export GTK_EXTRA =no
+ 
  # Soporte para Bonobo. 
  export BONOBO =no
  
  # Soporte para gnomeDB y LibGDA. 
- export GNOMEDB =no
+ export GDA =no
  
  # Soporte para cURL. 
  export CURL =no

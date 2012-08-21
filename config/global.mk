@@ -181,6 +181,11 @@ ifeq ($(GTKSOURCEVIEW),)
   export GTKSOURCEVIEW  =no
 endif
 
+#Soporte para GTK-Extra
+ifeq ($(GTK_EXTRA),)
+  export GTK_EXTRA  =no
+endif
+
 #Soporte para Bonobo
 ifeq ($(BONOBO),)
   export BONOBO         =no

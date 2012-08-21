@@ -86,6 +86,7 @@ $(info *************************************************** )
 $(info * Soporte.                                            )
 $(info * Gtk MultiThread  = $(GTK_THREAD)                    )
 $(info * GtkSourceView    = $(GTKSOURCEVIEW)                    )
+$(info * Gtk-Extra        = $(GTK_EXTRA)                        )
 $(info * Bonobo           = $(BONOBO)                           )
 $(info * Gnome Data Access= $(GDA)                              )
 $(info * CURL             = $(CURL)                             )
@@ -145,6 +146,12 @@ endif
 ifeq ($(GTK_THREAD),yes)
     CFLAGS += -D_GTK_THREAD_
     LIBS += $(shell pkg-config --libs gthread-2.0 )
+endif
+
+
+ifeq ($(GTK_EXTRA),yes)
+    CFLAGS += $(shell pkg-config --cflags gtkextra-3.0) 
+    LIBS += $(shell pkg-config --libs gtkextra-3.0) 
 endif
 
 
