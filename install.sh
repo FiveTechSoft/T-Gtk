@@ -129,7 +129,7 @@ fi
 
 #--- Gnome Data Access ---
 gda=0
-cmd=`cat $global | grep "export GNOMEDB " | cut -d= -f2`
+cmd=`cat $global | grep "export GDA " | cut -d= -f2`
 if [ $cmd =  "yes" ] ; then
    echo "detecting package libgda for development"
    dpkg --get-selections | grep "libgda-4.0-dev" && gda=1 || gda=0
@@ -137,7 +137,7 @@ if [ $cmd =  "yes" ] ; then
       apt-get install libgda-4.0-dev
    fi
 else
-   echo "gnomedb Set with value 'NO' in $global"
+   echo "LibGDA Set with value 'NO' in $global"
 fi
 
 
