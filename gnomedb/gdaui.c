@@ -25,6 +25,7 @@
 
 #ifdef _GDA_
 #include <libgda/libgda.h>
+#include <libgda-ui/libgda-ui.h>
 
 
 // -------------------------------------------------------------------------------
@@ -38,8 +39,7 @@ HB_FUNC( GDAUI_INIT )
 
 HB_FUNC( GDAUI_GET_DEFAULT_PATH )
 {
-   const gchar * path = hb_parc( 1 ) ;
-   hb_retc( gdaui_get_default_path( path ) );
+   hb_retc( gdaui_get_default_path() );
 } 
 
 

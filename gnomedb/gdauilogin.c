@@ -50,11 +50,11 @@ HB_FUNC( GDAUI_LOGIN_SET_MODE )
 
 HB_FUNC( GDAUI_LOGIN_GET_CONNECTION_INFORMATION ) 
 {
-   const GdaDsnInfo * dsninfo;
    GdauiLogin * login = hb_parptr( 1 );
+   const GdaDsnInfo * dsninfo ;
 
    dsninfo = gdaui_login_get_connection_information( login ) ;
-   hb_retptr( dsninfo );
+   hb_retptr( (GdaDsnInfo *) dsninfo );
 }
 
 
@@ -68,12 +68,12 @@ HB_FUNC( GDAUI_LOGIN_SET_DSN )
 
 
 
-HB_FUNC( GDAUI_LOGIN_SET_DSN_CONNECTION_INFORMATION ) 
+HB_FUNC( GDAUI_LOGIN_SET_CONNECTION_INFORMATION ) 
 {
    GdauiLogin * login = hb_parptr( 1 );
    const GdaDsnInfo * dsninfo = hb_parptr( 2 );
 
-   gdaui_login_set_dsn_connection_informatio( login, dsninfo );
+   gdaui_login_set_connection_information( login, dsninfo );
 }
 
 
