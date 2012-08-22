@@ -85,6 +85,111 @@ HB_FUNC( GDAUI_BASIC_FORM_RESET )
 }
 
 
+HB_FUNC( GDAUI_BASIC_FORM_SET_AS_REFERENCE ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   gdaui_basic_form_set_as_reference( form );
+}
+
+
+HB_FUNC( GDAUI_BASIC_FORM_ENTRY_SET_VISIBLE ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   GdaHolder *holder = hb_parptr( 2 );
+   gboolean show = hb_parl( 3 );
+
+   gdaui_basic_form_entry_set_visible( form, holder, show );
+}
+
+
+HB_FUNC( GDAUI_BASIC_FORM_ENTRY_GRAB_FOCUS ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   GdaHolder *holder = hb_parptr( 2 );
+
+   gdaui_basic_form_entry_grab_focus( form, holder );
+}
+
+
+HB_FUNC( GDAUI_BASIC_FORM_ENTRY_SET_EDITABLE ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   GdaHolder *holder = hb_parptr( 2 );
+   gboolean editable = hb_parl( 3 );
+
+   gdaui_basic_form_entry_set_editable( form, holder, editable );
+}
+
+
+HB_FUNC( GDAUI_BASIC_FORM_SET_ENTRIES_TO_DEFAULT ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   gdaui_basic_form_set_entries_to_default( form );
+}
+
+
+HB_FUNC( GDAUI_BASIC_FORM_GET_ENTRY_WIDGET ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   GdaHolder *holder = hb_parptr( 2 );
+
+   GtkWidget *widget = gdaui_basic_form_get_entry_widget( form, holder );
+   hb_retptr( widget );
+}
+
+
+HB_FUNC( GDAUI_BASIC_FORM_GET_LABEL_WIDGET ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   GdaHolder *holder = hb_parptr( 2 );
+
+   GtkWidget *widget = gdaui_basic_form_get_label_widget( form, holder );
+   hb_retptr( widget );
+}
+
+
+HB_FUNC( GDAUI_BASIC_FORM_SET_LAYOUT_FROM_FILE ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   const gchar *file_name = hb_parc( 2 );
+   const gchar *form_name = hb_parc( 3 );
+
+   gdaui_basic_form_set_layout_from_file( form, file_name, form_name );
+}
+
+
+HB_FUNC( GDAUI_BASIC_FORM_GET_PLACE_HOLDER ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   const gchar * placeholder_id = hb_parc( 2 );
+
+   GtkWidget *widget = gdaui_basic_form_get_place_holder( form, placeholder_id );
+   hb_retptr( widget );
+}
+
+
+HB_FUNC( GDAUI_BASIC_FORM_ADD_TO_SIZE_GROUP ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   GtkSizeGroup *size_group = hb_parptr( 2 );
+   int part = hb_parni( 3 );
+
+   gdaui_basic_form_add_to_size_group( form, size_group, part );
+}
+
+
+HB_FUNC( GDAUI_BASIC_FORM_REMOVE_FROM_SIZE_GROUP ) 
+{
+   GdauiBasicForm * form = hb_parptr( 1 );
+   GtkSizeGroup *size_group = hb_parptr( 2 );
+   int part = hb_parni( 3 );
+
+   gdaui_basic_form_remove_from_size_group( form, size_group, part );
+}
+
+
+
+
 #endif
 
 //eof
