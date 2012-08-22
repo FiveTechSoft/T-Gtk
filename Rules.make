@@ -150,8 +150,9 @@ endif
 
 
 ifeq ($(GTK_EXTRA),yes)
-    CFLAGS += $(shell pkg-config --cflags gtkextra-3.0) 
+    CFLAGS += $(shell pkg-config --cflags gtkextra-3.0) -D_GTKEXTRA_
     LIBS += $(shell pkg-config --libs gtkextra-3.0) 
+    TGTK_LIBS += -lhbgtkextra
 endif
 
 
