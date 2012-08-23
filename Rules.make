@@ -284,7 +284,7 @@ else
 endif
 
 #librerias usadas por Tgtk las definimos aqui. GTK y GLADE
-LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk ) 
+LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
 PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 # By Quim -->
@@ -302,6 +302,8 @@ endif
 
 ifneq ($(HB_MAKE_PLAT),win)
    OS_LIBS += -ldl -lz
+else
+   OS_LIBS += -ldl
 endif
 
 
@@ -309,7 +311,7 @@ HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
 #XHB_LIBDIR_ = $(LIBDIR) -L$(XHB_LIB_INSTALL)
 
 HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
-        $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS)
+        $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS) $(OS_LIBS)
 #XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
 #        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)
 
@@ -390,7 +392,7 @@ ifeq ( lib , $(patsubst %.a, lib, $(TARGET)))
 	$(LINKER) -r $(TARGET) $(OBJECTS)
 	$(LIBRARIAN) $(TARGET)
 else
-	$(CC) -o $(TARGET) $(OBJECTS) $(HB_LIBDIR_) $(HB_LIBS_)
+	$(CC) -o $(TARGET) $(OBJECTS) $(HB_LIBDIR_) $(HB_LIBS_) 
 endif
 
 
