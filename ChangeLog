@@ -8,6 +8,18 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2012-08-22 17:49 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  Implementacion minima de soporte a libreria Gtk-Extra.
+  * Rules.make
+  + include/gclass_extra.ch
+  + gtkextra/gtksheet.c
+  + gtkextra/gsheet.prg
+  + gtkextra/gtkextra_main.c
+  + gtkextra/Makefile
+  + tests/gclass/gtkextra/Makefile
+  + tests/gclass/gtkextra/sheet.prg
+
+
 2012-08-12 22:51 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * hbgtk/gtkcellrederer.c
     + gtk_cell_renderer_activate

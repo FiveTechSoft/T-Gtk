@@ -16,6 +16,9 @@ endif
 ifeq ($(GNOMEDB),yes)
 	make -C gnomedb
 endif
+ifeq ($(GTK_EXTRA),yes)
+	make -C gtkextra
+endif
 ifeq ($(CURL),yes)
 	make -C curl-hb
 endif
@@ -44,6 +47,9 @@ endif
 ifeq ($(GNOMEDB),yes)
 	make -C gnomedb clean
 endif
+ifeq ($(GTK_EXTRA),yes)
+	make -C gtkextra clean
+endif
 ifeq ($(CURL),yes)
 	make -C curl-hb clean
 endif
@@ -70,6 +76,9 @@ ifeq ($(VTE),yes)
 endif
 ifeq ($(GNOMEDB),yes)
 	make -C gnomedb install
+endif
+ifeq ($(GTK_EXTRA),yes)
+	make -C gtkextra install
 endif
 ifeq ($(CURL),yes)
 	make -C curl-hb install
