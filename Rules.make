@@ -260,8 +260,9 @@ ifeq ($(POSTGRE),yes)
                 -D__WIN32__ 
     else
         #Flags para sistemas GNU/Linux
-        CFLAGS+=-I../../include -I/usr/include -I/usr/include/libpq \
-                -I/us/include/pgsql/server/libpq -I/usr/include/postgresql
+        CFLAGS+=-I$(ROOT)include -I/usr/include -I/usr/include/libpq \
+                -I/usr/include/postgresql/ -I/usr/include/postgresql/libpq \
+                -I/usr/include/pgsql/server/libpq -I/usr/include/postgresql/libpq
         LIBS+= -L/usr/lib -lpq -lpgport -lkrb5 -lssl -lcrypt
     endif
     TGTK_LIBS += -lhbpg
@@ -301,7 +302,7 @@ ifeq ($(HB_COMPILER),gcc)
 endif   
 
 ifneq ($(HB_MAKE_PLAT),win)
-   OS_LIBS += -ldl -lz
+   OS_LIBS += -ldl -lz 
 else
    OS_LIBS += -ldl
 endif
