@@ -52,6 +52,8 @@
  *
  */
 
+#define PQCLOSE(<conn>)         PQFINISH(<conn>)
+
 #ifndef HBPOSTGRES_CH_
 #define HBPOSTGRES_CH_
 

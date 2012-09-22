@@ -297,10 +297,9 @@ HB_FUNC( PQSETDBLOGIN )
                                 hb_parcx( 7 ) /* pwd */ ) );
 }
 
-#if defined( HB_LEGACY_LEVEL3 )
 
 /* NOTE: Deprecated */
-HB_FUNC( PQCLOSE )
+HB_FUNC( PQFINISH )
 {
    void ** ph = ( void ** ) hb_parptrGC( &s_gcPGconnFuncs, 1 );
 
@@ -315,7 +314,6 @@ HB_FUNC( PQCLOSE )
    }
 }
 
-#endif
 
 HB_FUNC( PQRESET )
 {
@@ -475,7 +473,6 @@ HB_FUNC( PQSTATUS )
  * Query handling functions
  */
 
-#if defined( HB_LEGACY_LEVEL3 )
 
 /* NOTE: Deprecated */
 HB_FUNC( PQCLEAR )
@@ -493,7 +490,6 @@ HB_FUNC( PQCLEAR )
    }
 }
 
-#endif
 
 HB_FUNC( PQEXEC )
 {
