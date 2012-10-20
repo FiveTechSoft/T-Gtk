@@ -75,7 +75,9 @@ METHOD New( cText, bSetGet, nTotal, nOrientation, oParent, lExpand,;
 
 
        ::Set( Eval( bSetGet ) )
-       ::SetText( cText )
+       if !empty( cText )
+          ::SetText( cText )
+       endif    
        ::Show()
 
 RETURN Self
