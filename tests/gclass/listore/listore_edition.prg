@@ -100,8 +100,11 @@ Function Listore_Edition()
        
        gtk_tree_view_column_set_cell_data_func( oCol4:pWidget, oCol4:oRenderer:pWidget, "_CELLVALUE4_" )
 
+       //Cursor del treeview a la primera linea.
+       oTreeView:GoTop()
     
    ACTIVATE WINDOW oWnd CENTER
+
 
 return NIL
 
@@ -161,7 +164,7 @@ STATIC FUNCTION Edita_Celda( oSender, cpath, uVal, aIter, oLbx, oTreeview )
        gtk_tree_path_free( pPath )
        /* Pasamos a la siguiente columna y si es el final... bajamos la linea */
        oTreeView:GoNext() 
-  endif
+    endif
 
 
   endif

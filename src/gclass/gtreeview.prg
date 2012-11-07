@@ -83,6 +83,8 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD SetPosRow( aIter, nCol )
 
       METHOD GetDepth( path ) 
+      
+      METHOD GoTop()  INLINE gtk_tree_view_set_cursor( ::pWidget, gtk_tree_path_new_first(), NIL, .f. )
 
       METHOD GoUp()   INLINE HB_GTK_TREE_VIEW_UP_ROW( ::pWidget )
       METHOD GoDown() INLINE HB_GTK_TREE_VIEW_DOWN_ROW( ::pWidget )

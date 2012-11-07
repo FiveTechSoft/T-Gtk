@@ -8,36 +8,32 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
-2012-08-22 17:49 UTC-430 Riztan Gutierrez <riztan at gmail.com>
-  Implementacion minima de soporte a libreria Gtk-Extra.
-  * Rules.make
-  + include/gclass_extra.ch
-  + gtkextra/gtksheet.c
-  + gtkextra/gsheet.prg
-  + gtkextra/gtkextra_main.c
-  + gtkextra/Makefile
-  + tests/gclass/gtkextra/Makefile
-  + tests/gclass/gtkextra/sheet.prg
+2012-11-07 03:50 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * Nuevo metodo GoTop en TreeView para posicionar el cursor del treeview
+  * en la primera linea.
+  * hbgtk/gtktreemodel.c
+    + gtk_tree_path_new()
+    + gtk_tree_path_new_first()
+
+  * src/gclass/gtreeview.prg
+    + Method GoTop()
+
+  * tests/gclass/listore/listore_edition.prg
+  * Uso del metodo GoTop()
 
 
-2012-08-12 22:51 UTC-430 Riztan Gutierrez <riztan at gmail.com>
-  * hbgtk/gtkcellrederer.c
-    + gtk_cell_renderer_activate
-  * hbgtk/gtktreeview.c
-    + gtk_tree_view_scroll_to_point
-    + gtk_tree_view_scroll_to_cell
-    + gtk_tree_view_row_activated
-  * include/tgtk.ch
-    + #define COL_INIT  // columna de inicio.
-    + #define GTK_CELL_RENDERER_MODE_INERT 
-    + #define GTK_CELL_RENDERER_MODE_ACTIVATABLE 
-    + #define GTK_CELL_RENDERER_MODE_EDITABLE 
-  * src/gclass/gtreeview.prg  
-    + Method InsertColumn()
-  * src/gclass/glistore.prg
-    * Cambios para mantener datos respecto a nro de lineas.
-    + DATA nLines
-    
+2012-07-15 20:49 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * Actualizando libgda con version reciente y t-gtk 2.x
+  * /gnomedb 
+    * hb_gda.h
+    * gda_connection.c
+    * gda_value.c
+    + gda_main.c
+    + gda_functions.c
+    + gda_sql_parser.c
+    + gda_statement.c
+    + gda_sql_table.c
+
 
 2012-04-30 00:49 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * hbgtk/gtktreeviewcolumn.c

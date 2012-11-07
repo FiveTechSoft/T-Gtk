@@ -171,6 +171,17 @@ HB_FUNC( GTK_TREE_MODEL_ITER_HAS_CHILD ) //  pModel, aIter
 }
 
 
+HB_FUNC( GTK_TREE_PATH_NEW )
+{
+  GtkTreePath * path =  gtk_tree_path_new( );
+  hb_retptr( (GtkTreePath * ) path );
+}
+
+HB_FUNC( GTK_TREE_PATH_NEW_FIRST )
+{
+  GtkTreePath * path =  gtk_tree_path_new_first( );
+  hb_retptr( (GtkTreePath * ) path );
+}
 
 HB_FUNC( GTK_TREE_PATH_NEW_FROM_STRING )
 {
