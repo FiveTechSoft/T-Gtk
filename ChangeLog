@@ -8,6 +8,14 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2012-12-04 11:30 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * src/gclass/gentry.prg
+    Modificaciones para evitar que evalue varias veces los bloques de codigo
+    bValid y bAction...  (las señales deben ser desconectadas antes de volver
+    a conectar)
+    + Metodo SetAction(bAction)
+    
+
 2012-11-07 03:50 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * Nuevo metodo GoTop en TreeView para posicionar el cursor del treeview
   * en la primera linea.

@@ -35,6 +35,7 @@ CLASS GENTRY FROM GWIDGET
       METHOD New( bSetGet, cPicture, oParent )
       METHOD SetPos( nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
       METHOD SetText( cText ) INLINE ( ;
+                                      ::DisConnect( "focus-out-event"), ;
                                       ::Connect( "focus-out-event"), ;
                                       ::Connect( "activate"),;
                                       gtk_entry_set_text( ::pWidget,  cText ) )
@@ -45,6 +46,7 @@ CLASS GENTRY FROM GWIDGET
       METHOD SetMaxLength( nMax ) INLINE gtk_entry_set_max_length( ::pWidget, nMax )
       METHOD SetWidthChar( nWidth ) INLINE gtk_entry_set_width_chars( ::pWidget, nWidth )
 
+      METHOD SetAction(bAction) 
       METHOD Refresh()
       METHOD Create_Completion( aCompletion )
 
@@ -154,6 +156,8 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GENTRY
        if oSender:bValid != nil
           if Len( oSender:GetText() ) == 0
              oSender:SetText( oSender:oGet:buffer )
+             ::Disconnect( "focus-out-event")
+             ::Connect( "focus-out-event")
           endif
        Endif
 
@@ -205,6 +209,14 @@ METHOD Create_Completion( aCompletion ) CLASS GEntry
     oCompletion := gEntryCompletion():New( Self, oLbx, 1 )
 
 RETURN oCompletion
+
+METHOD SetAction( bAction )
+   if bAction != NIL
+      ::DisConnect("icon-release")
+      ::OnIcon_Release := bAction
+   endif
+Return NIL
+
 
 METHOD OnIcon_Release( uParam, nPos ) CLASS GEntry
 
