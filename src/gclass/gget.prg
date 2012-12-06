@@ -242,7 +242,9 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GGET
    endif
 
    do case
-      case nKey == GDK_Tab .or. nKey == K_TAB .Or. nKey == GDK_Return .or. nKey == K_ENTER  .or. nKey == 13 .or. nKey == 65421// VK_RETURN
+      case nKey == GDK_Tab .or. nKey == GTK_KEY_TAB .Or. ;
+           nKey == GDK_Return .or. nKey == GTK_KEY_ENTER  .or. ;
+           nKey == 13 .or. nKey == 65421// VK_RETURN
            if !oSender:lCompletion
               gtk_widget_child_focus( gtk_widget_get_toplevel( oSender:pWidget ) ,GTK_DIR_TAB_FORWARD )
               ::lSal := .t.
@@ -253,21 +255,21 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GGET
            Set( _SET_INSERT, ! Set( _SET_INSERT ) )
            return .T.
 
-      case nKey == GDK_RIGHT .Or. nKey == K_RIGHT
+      case nKey == GDK_RIGHT .Or. nKey == GTK_KEY_RIGHT
            return .f.
-      case nKey == GDK_LEFT .Or. nKey == K_LEFT
+      case nKey == GDK_LEFT .Or. nKey == GTK_KEY_LEFT
            return .f.
-      case nKey == GDK_DOWN .Or. nKey == K_DOWN
+      case nKey == GDK_DOWN .Or. nKey == GTK_KEY_DOWN
            return .f.
-      case nKey == GDK_UP .Or. nKey == K_UP
+      case nKey == GDK_UP .Or. nKey == GTK_KEY_UP
            return .f.
-      case nKey == GDK_Delete .Or. nKey == K_DEL
+      case nKey == GDK_Delete .Or. nKey == GTK_KEY_DEL
             return .f.
-      case nKey == GDK_BackSpace .Or. nKey == K_BS
+      case nKey == GDK_BackSpace .Or. nKey == GTK_KEY_BS
            return .f.
-      case nKey == GDK_HOME .Or. nKey == K_HOME
+      case nKey == GDK_HOME .Or. nKey == GTK_KEY_HOME
            return .f.
-      case nKey == GDK_END .Or. nKey == K_END
+      case nKey == GDK_END .Or. nKey == GTK_KEY_END
            return .f.
 
 //                        Shift Shift Ctrl  Ctrl  Alt   Alt

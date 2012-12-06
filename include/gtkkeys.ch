@@ -73,6 +73,7 @@
 /*
   -- estas teclas chocan con hbrun de harbour --
   
+  
 #define K_ESC       65307
 #define K_HOME      65360
 #define K_END       65367
@@ -90,6 +91,23 @@
 #define K_UPPER     65509
 #define K_ENTER     65293
 */
+#define GTK_KEY_ESC       65307
+#define GTK_KEY_HOME      65360
+#define GTK_KEY_END       65367
+#define GTK_KEY_PAGEUP    65365
+#define GTK_KEY_PAGEDOWN  65366
+#define GTK_KEY_UP        65362
+#define GTK_KEY_DOWN      65364
+#define GTK_KEY_TAB       65289
+#define GTK_KEY_LEFT      65361
+#define GTK_KEY_RIGHT     65363
+#define GTK_KEY_DEL       65535
+#define GTK_KEY_BS        65288
+#define GTK_KEY_SHIFT     65505
+#define GTK_KEY_CTRL      65507
+#define GTK_KEY_UPPER     65509
+#define GTK_KEY_ENTER     65293
+
 
 /* Por definir
 
