@@ -8,6 +8,17 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+
+2012-12-04 11:30 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+  * src/gclass/gentry.prg
+    * Metodo SetText( cText )  por  SetText( cText, lValid )
+      default .t.
+      Forzamos a que predeterminadamente realice la validación al cambiar
+      el valor de la entrada.. 
+      (Se presentaba que al colocar un icono, y el mismo se activaba sin tener
+       el foco en el gentry, no se producia la validación.)
+
+
 2012-12-04 11:30 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * src/gclass/gentry.prg
     Modificaciones para evitar que evalue varias veces los bloques de codigo

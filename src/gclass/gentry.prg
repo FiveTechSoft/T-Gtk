@@ -34,11 +34,7 @@ CLASS GENTRY FROM GWIDGET
       
       METHOD New( bSetGet, cPicture, oParent )
       METHOD SetPos( nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
-      METHOD SetText( cText ) INLINE ( ;
-                                      ::DisConnect( "focus-out-event"), ;
-                                      ::Connect( "focus-out-event"), ;
-                                      ::Connect( "activate"),;
-                                      gtk_entry_set_text( ::pWidget,  cText ) )
+      METHOD SetText( cText, lValid )
       METHOD GetText()        INLINE gtk_entry_get_text( ::pWidget )
       METHOD GetPos()         INLINE gtk_editable_get_position( ::pWidget )
       METHOD Justify (nType ) INLINE gtk_entry_set_alignment( ::pWidget, nType )
@@ -246,3 +242,21 @@ METHOD SetButton( uImage, nPos ) class GEntry
    endif
 
 RETURN NIL
+
+
+METHOD SetText( cText, lValid ) CLASS Gentry 
+   Default lValid :=  .T.
+
+   ::DisConnect( "focus-out-event")
+   ::Connect( "focus-out-event")
+   ::Connect( "activate")
+
+   gtk_entry_set_text( ::pWidget,  cText )
+
+   if lValid .and. ::bValid != nil
+      Return Eval( ::bVAlid, self ) 
+   endif 
+
+RETURN .t.
+
+//eof
