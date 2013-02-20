@@ -47,6 +47,12 @@ BOOL G_IsWidget( int iArg )
   return bWidget;
 }
 
+HB_FUNC( GTK_WIDGET_GET_SETTINGS )
+{
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+   hb_retptr( widget );
+}
+
 HB_FUNC( GTK_WIDGET_SHOW )
 {
   if( G_IsWidget( 1 ) )
@@ -378,3 +384,5 @@ HB_FUNC( G_CHECKWIDGET )
 {
   hb_retl( G_IsWidget( 1 ) ); 
 }
+
+//eof

@@ -703,7 +703,7 @@ HB_FUNC( PQMETADATA )
 
                case VARCHAROID:
                   if( typemod >= 0 )
-                     length = ( int ) ( typemod - VARHDRSZ );
+                     length = ( int ) ( typemod ); //- VARHDRSZ );
                   hb_strncpy( buf, "character varying", sizeof( buf ) - 1 );
                   break;
 

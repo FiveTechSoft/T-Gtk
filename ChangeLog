@@ -8,6 +8,24 @@
    2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
 */
 
+2013-02-19 20:47 UTC-430 Riztan Gutierrez <riztan at gmail.com>
+ * hbgtk/gtkentry.c
+   + gtk_editable_select_region()
+
+ * hbgtk/gtkwidget.c
+   + gtk_widget_get_settings()
+
+ * src/gclass/gbutton.prg
+   * cambio menor. (estetico)
+
+ * src/gclass/gentry.prg
+   + Method SelectOnFocus( lValue )
+     Activa auto seleccion del contenido del entry.
+
+ * src/pgsql/hb/postgres.c
+   * Correccion menor. Retornaba longitud de campo incorrecta
+     en columna tipo varchar.
+
 
 2012-12-04 11:30 UTC-430 Riztan Gutierrez <riztan at gmail.com>
   * src/gclass/gentry.prg
