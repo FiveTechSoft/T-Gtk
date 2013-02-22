@@ -127,9 +127,9 @@ ifeq ($(HB_COMPILER),mingw32)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
 else
-   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) -D__HARBOUR64__ 
+   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) -D__HARBOUR64__ -DGTK_ENABLE_DEPRECATED -DGSEAL_ENABLE
    ifeq ($(SUPPORT_PRINT_LINUX),yes)
-     CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) -DHB_OS_LINUX
+     CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) -DHB_OS_LINUX 
      LIBS += $(shell pkg-config --libs libgnomeprintui-2.2)
    endif
 endif

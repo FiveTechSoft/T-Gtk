@@ -27,6 +27,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+
 HB_FUNC( GDK_PIXBUF_NEW_FROM_FILE ) // cFilename -> pixbuf
 {
   GdkPixbuf * pixbuf;
@@ -137,6 +138,7 @@ HB_FUNC( GDK_PIXBUF_NEW ) // color_space, balpha, ibits,iwidth,iheigth -> pixbuf
 }
 
 //----------------------------------------------//
+#if GTK_MAJOR_VERSION < 3  // Solo funciona para < gtk3
 
 HB_FUNC( GDK_DRAW_RGB_IMAGE_DITHALIGN )
 {
@@ -164,7 +166,7 @@ HB_FUNC( GDK_DRAW_RGB_IMAGE_DITHALIGN )
                                     xdith,
                                     ydith);
 }
-
+#endif
 //----------------------------------------------//
 
 HB_FUNC( GDK_PIXBUF_COPY_AREA ) 

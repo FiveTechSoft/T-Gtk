@@ -54,6 +54,10 @@
 #INCLUDE "gclass.ch"
 #include "hbclass.ch"
 
+#if GTK_MAJOR_VERSION < 3  // Solo funciona para < gtk3
+  // TODO: Para GTK3 usar / mirar GtkFileChooser, para poder simular para hacer lo mismo
+
+
 CLASS GDLGFILE FROM GDIALOG
       DATA oBtn_Ok      // Los botones se trataran como objetos
       DATA oBtn_Cancel
@@ -132,3 +136,4 @@ Function ChooseFile( cTitle, cFileDefault, cPattern )
          Local oFile := gDlgFile():New( cTitle , cFileDefault, cPattern )
 RETURN oFile:cFileName
 
+#endif

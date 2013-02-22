@@ -28,6 +28,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#if GTK_MAJOR_VERSION < 3  // Solo funciona para < gtk3
+
 HB_FUNC( GDK_WINDOW_SET_CURSOR ) // nWindow, nCursor -> void
 {
   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
@@ -111,3 +113,5 @@ HB_FUNC( GDK_GET_DEFAULT_ROOT_WINDOW )
 {
    hb_retptr( (GdkWindow * ) gdk_get_default_root_window() );
 }
+
+#endif

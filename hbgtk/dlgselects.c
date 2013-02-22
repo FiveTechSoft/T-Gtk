@@ -28,6 +28,10 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#if GTK_MAJOR_VERSION < 3  // Solo funciona para < gtk3
+ // TODO: Para GTK3 usar / mirar GtkFileChooser, para poder simular para hacer lo mismo
+
+
 HB_FUNC( __GET_POINTER_BTN_OK_FILE )
 {
    GtkWidget * file_selector = GTK_WIDGET( hb_parptr( 1 ) );
@@ -86,3 +90,5 @@ HB_FUNC( GTK_FONT_SELECTION_DIALOG_GET_PREVIEW_TEXT )
    GtkWidget * dlg_font = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retc( (gchar*) gtk_font_selection_dialog_get_preview_text( GTK_FONT_SELECTION_DIALOG( dlg_font ) ));
 }
+
+#endif

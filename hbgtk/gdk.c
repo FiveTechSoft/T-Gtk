@@ -121,6 +121,7 @@ HB_FUNC( CAMBIO_STYLE )
 /*
  * API Graphics Contexts
  * */
+#if GTK_MAJOR_VERSION < 3  // FIX. Para gkt3 de momento
 
 // Create a new graphics context with default values.
 HB_FUNC( GDK_GC_NEW )
@@ -304,3 +305,4 @@ HB_FUNC( GDK_RECTANGLE_INTERSECT )
      hb_retl( bResult );
 }
 
+#endif

@@ -534,6 +534,8 @@ void OnMove_slider( GtkWidget *widget, GtkScrollType arg1, gpointer data )
 
 }
 
+#if GTK_MAJOR_VERSION < 3
+
 void OnSelect_child ( GtkList *list,  GtkWidget *widget, gpointer data )
 {
   PHB_ITEM pObj = NULL;
@@ -653,7 +655,7 @@ void OnSwitch_page( GtkNotebook *notebook, GtkNotebookPage *page, guint page_num
   }
 
 }
-
+#endif
 void OnGroup_changed( GtkRadioButton *radiobutton, gpointer data )
 {
   PHB_ITEM pObj = NULL;
@@ -1305,6 +1307,8 @@ void OnChild_Notify( GtkWidget *widget, GParamSpec *pspec, gpointer data )
   }
 }
 
+#if GTK_MAJOR_VERSION < 3  // FIX. Para gkt3 de momento
+
 gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data )
 {
   PHB_ITEM pObj = NULL;
@@ -1346,6 +1350,7 @@ gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data
   }
   return( FALSE );
 }
+#endif
 
 void OnDirection_Changed( GtkWidget *widget, GtkTextDirection arg1, gpointer data )
 {
@@ -1716,6 +1721,8 @@ gboolean OnMotion_Notify_Event( GtkWidget *widget, GdkEventMotion *event, gpoint
   return( FALSE );  // Salimos
 }
 
+#if GTK_MAJOR_VERSION < 3  // FIX. Para gkt3 de momento
+
 gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer data )
 {
   PHB_ITEM pObj = NULL;
@@ -1758,8 +1765,8 @@ gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer
 
   return( FALSE );  // Salimos
 }
-
-void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
+#endif
+void OnParent_Set( GtkWidget *widget, GObject *old_parent, gpointer data )
 {
   PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
@@ -1776,7 +1783,7 @@ void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushPointer( ( GtkObject * ) old_parent );
+            hb_vmPushPointer( ( GObject * ) old_parent );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
 	  HB_ERRCODE ErrCode = 5002;	  
@@ -1792,7 +1799,7 @@ void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-        hb_vmPushPointer( ( GtkObject * ) old_parent );
+        hb_vmPushPointer( ( GObject * ) old_parent );
         hb_vmSend( 2 );
      }
   }

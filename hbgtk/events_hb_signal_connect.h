@@ -59,7 +59,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
       lPosDef = G_GetHashPos( phpredefine, cStr );
       if( lPosDef > 0 )
       { 
-         gtk_class_name = GTK_OBJECT_TYPE_NAME( widget );
+         gtk_class_name = GTK_OBJECT_TYPE_NAME( ( GtkWidget * ) widget );
          cStr2 = ( char * ) hb_xgrab( hb_parclen( 2 ) + 2 );
          memcpy( cStr2, hb_parc( 2 ), hb_parclen( 2 ) );
          memcpy( cStr2 + hb_parclen( 2 ), "-1", 3 );
