@@ -104,7 +104,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GTEXTVIEW
        // no se actualiza la variable!!
        Eval( oSender:bSetGet, oSender:GetText() )
 
-RETURN Super:OnFocus_Out_Event( oSender )
+RETURN ::Super:OnFocus_Out_Event( oSender )
 
 /*
   Definicion provisional aqui.

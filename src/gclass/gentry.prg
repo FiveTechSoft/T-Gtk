@@ -164,7 +164,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GENTRY
 
        Eval( ::bSetGet, oSender:oGet:buffer )
 
-RETURN Super:OnFocus_Out_Event( oSender )
+RETURN ::Super:OnFocus_Out_Event( oSender )
 
 METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
 

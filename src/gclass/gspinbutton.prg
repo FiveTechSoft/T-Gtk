@@ -120,7 +120,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GSPINBUTTON
    gtk_spin_button_update( oSender:pWidget )
    Eval( oSender:bSetGet, oSender:Get() )
 
-RETURN Super:OnFocus_Out_Event( oSender )
+RETURN ::Super:OnFocus_Out_Event( oSender )
 
 METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GSPINBUTTON
    local  nKey, nType
