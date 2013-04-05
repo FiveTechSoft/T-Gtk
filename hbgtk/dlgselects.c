@@ -24,7 +24,8 @@
 /*
  * Distintos dialogos de Selecccion, de fonts, de archivos, de color...
 */
-#if GTK_MAJOR_VERSION < 3  // Solo funciona para < gtk3
+
+#ifdef GTK_MAJOR_VERSION < 3  // Solo funciona para < gtk3
 
 #include <gtk/gtk.h>
 #include "hbapi.h"

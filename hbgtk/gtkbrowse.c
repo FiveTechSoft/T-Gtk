@@ -22,7 +22,7 @@
     (c)2003 Joaquim Ferrer <quim_ferrer@yahoo.es>
 */
 
-#if GTK_MAJOR_VERSION < 3
+#ifdef GTK_MAJOR_VERSION < 3
 
 #ifdef HAVE_CONFIG_H
   #include <config.h>

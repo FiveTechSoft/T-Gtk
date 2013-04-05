@@ -35,7 +35,9 @@ HB_FUNC( GTK_CONTAINER_ADD )
 
     if GTK_IS_DIALOG(window)
     {
-        gtk_container_add(GTK_CONTAINER( GTK_DIALOG(window)->vbox ), widget );
+       // TODO: Mirar de como obtener el vbox
+       // gtk_container_add(GTK_CONTAINER( GTK_DIALOG(window)->vbox ), widget );
+
     }
     else
     {
