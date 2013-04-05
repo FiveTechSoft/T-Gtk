@@ -187,7 +187,7 @@ METHOD OnFocus_In_Event( oSender ) CLASS GGET
     oSender:SetPos(0)
   end
 
-Return Super:OnFocus_in_event( oSender )
+Return ::Super:OnFocus_in_event( oSender )
 
 METHOD OnFocus_Out_Event( oSender ) CLASS GGET
    local ldev := .f.
@@ -213,7 +213,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GGET
      end
 
 //RETURN ldev
-RETURN Super:OnFocus_Out_Event( oSender )
+RETURN ::Super:OnFocus_Out_Event( oSender )
 
 METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GGET
 

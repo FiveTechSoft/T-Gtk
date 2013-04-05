@@ -31,6 +31,7 @@ CLASS GENTRY FROM GWIDGET
       DATA oJump
       DATA bActionBtn
       DATA oCompletion
+      DATA lValid        INIT .T.
       
       METHOD New( bSetGet, cPicture, oParent )
       METHOD SetPos( nPos )   INLINE gtk_editable_set_position( ::pWidget, nPos )
@@ -41,6 +42,9 @@ CLASS GENTRY FROM GWIDGET
       METHOD SetVisible( lVisible )  INLINE gtk_entry_set_visibility( ::pWidget, lVisible )
       METHOD SetMaxLength( nMax ) INLINE gtk_entry_set_max_length( ::pWidget, nMax )
       METHOD SetWidthChar( nWidth ) INLINE gtk_entry_set_width_chars( ::pWidget, nWidth )
+
+      METHOD SelectOnFocus( lValue ) INLINE g_object_set( gtk_widget_get_settings( ::pWidget ),;
+                                             "gtk-entry-select-on-focus", lValue ) 
 
       METHOD SetAction(bAction) 
       METHOD Refresh()
@@ -139,6 +143,7 @@ METHOD Refresh() CLASS GENTRY
 
 RETURN NIL
 
+
 METHOD OnFocus_Out_Event( oSender ) CLASS GENTRY
 
        if !( oSender:oGet:buffer == oSender:GetText() )
@@ -149,7 +154,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GENTRY
        oSender:oGet:Assign()
        oSender:SetPos( 1 )
 
-       if oSender:bValid != nil
+       if oSender:bValid != nil .and. ::lValid
           if Len( oSender:GetText() ) == 0
              oSender:SetText( oSender:oGet:buffer )
              ::Disconnect( "focus-out-event")
@@ -159,7 +164,7 @@ METHOD OnFocus_Out_Event( oSender ) CLASS GENTRY
 
        Eval( ::bSetGet, oSender:oGet:buffer )
 
-RETURN Super:OnFocus_Out_Event( oSender )
+RETURN ::Super:OnFocus_Out_Event( oSender )
 
 METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
 
@@ -253,7 +258,7 @@ METHOD SetText( cText, lValid ) CLASS Gentry
 
    gtk_entry_set_text( ::pWidget,  cText )
 
-   if lValid .and. ::bValid != nil
+   if ::lValid .and. lValid .and. ::bValid != nil
       Return Eval( ::bVAlid, self ) 
    endif 
 

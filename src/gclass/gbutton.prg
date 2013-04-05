@@ -125,7 +125,7 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
   por el tema de la font
  */
    
-    if Valtype( aStylesChild  ) = "A"
+       if Valtype( aStylesChild  ) = "A"
           FOR X := 1 TO Len( aStylesChild )
              ::StyleChild( aStylesChild[X,STYLE_COLOR], aStylesChild[ X,STYLE_COMPONENT ], aStylesChild[ X,STYLE_STATE ] )
           NEXT

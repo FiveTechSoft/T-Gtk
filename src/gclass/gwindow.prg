@@ -177,7 +177,7 @@ METHOD End() CLASS GWINDOW
 return nil
 
 METHOD Register() CLASS GWINDOW
-    Super:Register()
+    ::Super:Register()
     AADD( ::aWindows, Self )
     // Debugger
     //g_print("Ventana:" + cValtoChar( ::pWidget ) + ":Array:"+ cValtoChar( Len( ::aWindows ) ) )
@@ -227,5 +227,5 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS gWindow
            endif
    end case
 
-RETURN Super:OnKeyPressEvent( oSender, pGdkEventKey )
+RETURN ::Super:OnKeyPressEvent( oSender, pGdkEventKey )
 

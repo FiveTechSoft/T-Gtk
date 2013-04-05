@@ -58,7 +58,7 @@ METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand,lFill, nPa
             cId, uGlade, uLabelTab, nWidth, nHeight, lEnd, lSecond,lResize, lShrink,;
             left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta ) CLASS GCOMBOBOX_CLIP
 
-    Super:New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand,lFill, nPadding, lContainer, x, y,;
+    ::Super:New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand,lFill, nPadding, lContainer, x, y,;
                cId, uGlade, uLabelTab, nWidth, nHeight, lEnd, lSecond,lResize, lShrink,;
                left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta )
 

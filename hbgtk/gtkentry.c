@@ -33,6 +33,16 @@ HB_FUNC( GTK_ENTRY_NEW ) // -->widget
 
 //--------------------------------------------------------//
 
+
+HB_FUNC( GTK_EDITABLE_SELECT_REGION )
+{
+   GtkWidget * Entry = GTK_WIDGET( hb_parptr( 1 ) );
+   gint * ini = (gint) hb_parni( 2 );
+   gint * end = (gint) hb_parni( 3 );
+   gtk_editable_select_region( GTK_EDITABLE( Entry ), ini, end );
+   
+}
+
 HB_FUNC( GTK_EDITABLE_GET_POSITION ) // widget
 {
    GtkWidget * Entry = GTK_WIDGET( hb_parptr( 1 ) );
