@@ -22,13 +22,14 @@
     (c)2003 Joaquim Ferrer <quim_ferrer@yahoo.es>
 */
 
-#ifdef GTK_MAJOR_VERSION < 3
 
 #ifdef HAVE_CONFIG_H
   #include <config.h>
 #endif
 
 #include <gtk/gtk.h>
+#if GTK_MAJOR_VERSION < 3
+
 /**
  * Para la definicion de _gtk_marshal_VOID__OBJECT_OBJECT
  **/

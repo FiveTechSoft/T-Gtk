@@ -26,12 +26,17 @@
  * Api completa GTK+ 2.4
  */
 
+
 #include <gtk/gtk.h>
+#if GTK_MAJOR_VERSION < 3  // Solo funciona para < gtk3
+
 #include "hbapi.h"
 #include "hbvm.h"
 #include "t-gtk.h"
 #include "hbapiitm.h"
 #include "hbapierr.h"
+
+
 
 HB_FUNC( GTK_FILE_SELECTION_NEW )
 {
@@ -156,5 +161,5 @@ HB_FUNC( GTK_FILE_SELECTION_CONNECT )
 
 }
 
-
+#endif
 
