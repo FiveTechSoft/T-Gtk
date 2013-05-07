@@ -31,6 +31,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_TREE_NEW )
 {
   GtkWidget *tree = gtk_tree_new();
@@ -155,7 +156,7 @@ HB_FUNC( GTK_TREE_ITEM_SET_SUBTREE )
   GtkWidget * subtree = GTK_WIDGET( hb_parptr( 2 ) );
   gtk_tree_item_set_subtree( tree_item, subtree );
 }
-
+#endif
 /*
 void        gtk_tree_item_remove_subtree    (GtkTreeItem *tree_item);
 void        gtk_tree_item_select            (GtkTreeItem *tree_item);

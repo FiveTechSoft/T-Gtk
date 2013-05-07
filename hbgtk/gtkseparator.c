@@ -26,12 +26,22 @@
 
 HB_FUNC( GTK_HSEPARATOR_NEW )
 {
-  GtkWidget * separator =  gtk_hseparator_new ();
+  #if GTK_MAJOR_VERSION < 3
+      GtkWidget * separator =  gtk_hseparator_new ();
+  #else    
+      GtkWidget * separator =  gtk_separator_new( GTK_ORIENTATION_HORIZONTAL );
+  #endif    
   hb_retptr( ( GtkWidget * ) separator );
 }
 
 HB_FUNC( GTK_VSEPARATOR_NEW )
 {
-  GtkWidget * separator =  gtk_vseparator_new ();
+  
+  #if GTK_MAJOR_VERSION < 3
+      GtkWidget * separator =  gtk_vseparator_new ();
+  #else    
+      GtkWidget * separator =  gtk_separator_new( GTK_ORIENTATION_VERTICAL );
+  #endif    
+
   hb_retptr( ( GtkWidget * ) separator );
 }

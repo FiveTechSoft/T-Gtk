@@ -25,6 +25,9 @@
 #include <gtk/gtk.h>
 #include <t-gtk.h>
 
+
+#if GTK_MAJOR_VERSION < 3     
+
 HB_FUNC( GTK_TOOLTIPS_NEW ) //->widget
 {
    GtkTooltips * hWnd = gtk_tooltips_new( );
@@ -62,3 +65,6 @@ HB_FUNC( GTK_TOOLTIPS_SET_DELAY ) //tooltips, delay(default 1000ms)
    GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parptr( 1 ) );
    gtk_tooltips_set_delay(  tooltips , hb_parni( 2 ) );
 }
+#else
+  // TODO:Se ha cambiado todo 
+#endif

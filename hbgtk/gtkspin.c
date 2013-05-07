@@ -27,7 +27,7 @@
 HB_FUNC( GTK_SPIN_BUTTON_NEW )  //pAdjust, value, decimals -->pWidget
 {
    GtkWidget * spin_button = NULL;
-   GtkObject * adjust = GTK_OBJECT(  hb_parptr( 1 )  );
+   GObject * adjust = G_OBJECT(  hb_parptr( 1 )  );
 
    spin_button = gtk_spin_button_new( GTK_ADJUSTMENT(adjust), hb_parni( 2 ), hb_parni( 3 ) );
    hb_retptr( ( GtkWidget * ) spin_button );
