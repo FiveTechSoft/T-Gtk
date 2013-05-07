@@ -31,8 +31,12 @@
 
 HB_FUNC( GTK_HSCALE_NEW ) // pAdjust -->pWidget
 {
-  GtkObject * adjust = GTK_OBJECT( hb_parptr( 1 ) );
-  GtkWidget * widget = gtk_hscale_new( GTK_ADJUSTMENT( adjust ) );
+  GObject * adjust = G_OBJECT( hb_parptr( 1 ) );
+  #if GTK_MAJOR_VERSION < 3
+      GtkWidget * widget = gtk_hscale_new( GTK_ADJUSTMENT( adjust ) );
+  #else
+     GtkWidget * widget = gtk_scale_new ( GTK_ORIENTATION_HORIZONTAL ,GTK_ADJUSTMENT( adjust ) );
+  #endif    
   hb_retptr( ( GtkWidget * ) widget );
 }
 
@@ -47,8 +51,12 @@ HB_FUNC( GTK_HSCALE_NEW_WITH_RANGE ) // dMin, dMan, dStep
 
 HB_FUNC( GTK_VSCALE_NEW ) // pAdjust -->pWidget
 {
-  GtkObject * adjust = GTK_OBJECT( hb_parptr( 1 ) );
-  GtkWidget * widget = gtk_vscale_new( GTK_ADJUSTMENT( adjust ) );
+  GObject * adjust = G_OBJECT( hb_parptr( 1 ) );
+  #if GTK_MAJOR_VERSION < 3
+      GtkWidget * widget = gtk_vscale_new( GTK_ADJUSTMENT( adjust ) );
+  #else
+      GtkWidget * widget = gtk_scale_new ( GTK_ORIENTATION_VERTICAL ,GTK_ADJUSTMENT( adjust ) );
+  #endif    
   hb_retptr( ( GtkWidget * ) widget );
 }
 

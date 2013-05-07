@@ -33,6 +33,7 @@
 #include "hbapi.h"
 #include "t-gtk.h"
 
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_HRULER_NEW ) // -> widget
 {
@@ -90,5 +91,5 @@ HB_FUNC( GTK_RULER_SET_RANGE ) // widget, lower, upper, position, max_size --> v
                         (gdouble) hb_parnl( 5 ) );
 } 
 
-
+#endif
    
