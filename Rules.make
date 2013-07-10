@@ -179,6 +179,7 @@ endif
 
 
 ifeq ($(CURL),yes)
+    CFLAGS += -D_CURL_
     ifeq ($(findstring libcurl,$(PACKAGES)),)
        $(info ----------------------------------------)
        $(info *  ERROR libcURL  No Encontrado!       *)
