@@ -159,7 +159,8 @@ HB_FUNC( CURL_EASY_STRERROR )
 HB_FUNC( FILE_OPEN )
 {
    FILE *arch ;
-   arch = fopen( hb_parc( 1 ), "w" );
+   
+   arch = fopen( hb_parc( 1 ), "wb" );
    
    hb_retptr( arch );
 }
@@ -171,11 +172,7 @@ HB_FUNC( FILE_CLOSE )
 }
 
 
+
 #endif
 
-
-
-
-
-
-
+//eof

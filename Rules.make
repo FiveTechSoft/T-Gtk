@@ -133,8 +133,14 @@ else
      LIBS += $(shell pkg-config --libs libgnomeprintui-2.2)
    endif
 endif
+
 CFLAGS += -I$(INCLUDE_TGTK_PRG)
 
+#ifeq ($(GTK_MAJOR_VERSION),3)
+    CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ -D_GTK_$(GTK_MAJOR_VERSION).$(GTK_MINOR_VERSION)_
+#else
+#    CFLAGS += -D_GTK2_
+#endif
 
 ifeq ($(BONOBO),yes)
     CFLAGS += -D_HAVEBONOBO_
@@ -179,15 +185,16 @@ endif
 
 
 ifeq ($(CURL),yes)
-    CFLAGS += -D_CURL_
     ifeq ($(findstring libcurl,$(PACKAGES)),)
        $(info ----------------------------------------)
        $(info *  ERROR libcURL  No Encontrado!       *)
        $(info ----------------------------------------)
        $(error Error, aparentemente no existe o no localiza libcURL )
     endif
-    CFLAGS += $(shell pkg-config --cflags libcurl)
+    CFLAGS +=-D_CURL_
+    CFLAGS +=$(shell pkg-config --cflags libcurl )
     LIBS += $(shell pkg-config --libs libcurl )
+    TGTK_LIBS += -lcurl-hb
 endif
 
 ifneq ($(HB_MAKE_PLAT),win)
@@ -305,7 +312,7 @@ endif
 ifneq ($(HB_MAKE_PLAT),win)
    OS_LIBS += -ldl -lz 
 else
-   OS_LIBS += -ldl
+   #OS_LIBS += -ldl
 endif
 
 

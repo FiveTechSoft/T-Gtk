@@ -165,8 +165,7 @@ OPENSSL_INST_FILE=Win32OpenSSL_Light-1_0_0d.exe
 OPENSSL_INST_LNK=http://www.slproweb.com/download/$(OPENSSL_INST_FILE)
 
 #LibCURL for Windows
-LIBCURL_INST_FILE=curl-7.24.0-devel-mingw32
-LIBCURL_INST_LNK=http://rghost.net/download/36474911/2fb7d33ccf214e2577a6aef4ceb6dacd3fc4ab75/$(LIBCURL_INST_FILE).zip
-
+LIBCURL_INST_FILE=curl-7.31.0-rtmp-ssh2-ssl-sspi-zlib-idn-static-bin-w32
+LIBCURL_INST_LNK=http://curl.haxx.se/gknw.net/7.31.0/dist-w32/$(LIBCURL_INST_FILE).zip
 endif
 #/eof
