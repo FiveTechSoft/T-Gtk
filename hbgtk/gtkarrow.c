@@ -24,6 +24,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
 
 HB_FUNC( GTK_ARROW_NEW ) /* nDirection, nShadow ->pWidget */
 {
@@ -36,3 +37,5 @@ HB_FUNC( GTK_ARROW_SET ) /* pWidget, nDirection, nShadow */
    GtkWidget * arrow = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_arrow_set( GTK_ARROW( arrow ), hb_parni( 2 ), hb_parni( 3 ) );
 }
+
+#endif

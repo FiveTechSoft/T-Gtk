@@ -25,6 +25,8 @@
 #include "hbapi.h"
 #include "hbapiitm.h"
 
+#ifdef _GTK2_
+
 /*
  * Preparado para sopartar un dialogo
  */
@@ -35,9 +37,7 @@ HB_FUNC( GTK_CONTAINER_ADD )
 
     if GTK_IS_DIALOG(window)
     {
-       // TODO: Mirar de como obtener el vbox
-       // gtk_container_add(GTK_CONTAINER( GTK_DIALOG(window)->vbox ), widget );
-
+        gtk_container_add(GTK_CONTAINER( GTK_DIALOG(window)->vbox ), widget );
     }
     else
     {
@@ -76,3 +76,4 @@ HB_FUNC( GTK_CONTAINER_SET_FOCUS_CHAIN )
 
 }
 
+#endif

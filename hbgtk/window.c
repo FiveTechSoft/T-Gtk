@@ -34,8 +34,8 @@ HB_FUNC( CONNECT_DESTROY_WIDGET )
 {
   GtkWidget * window = GTK_WIDGET( hb_parnl( 1 ) );
   g_signal_connect( G_OBJECT( window ),
-                      "destroy",
-                      G_CALLBACK( destroy ), NULL );
+                    "destroy",
+                    G_CALLBACK( destroy ), NULL );
 }
 
 /*

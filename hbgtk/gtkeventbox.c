@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_EVENT_BOX_NEW )
 {
    GtkWidget * widget = gtk_event_box_new();
@@ -56,3 +58,5 @@ HB_FUNC( GTK_EVENT_BOX_GET_VISIBLE_WINDOW )
    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retl( gtk_event_box_get_visible_window( GTK_EVENT_BOX( widget ) ) );
 }
+
+#endif

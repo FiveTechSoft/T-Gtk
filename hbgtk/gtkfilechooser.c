@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 #if GTK_CHECK_VERSION(2,4,0)
 
 HB_FUNC( GTK_FILE_CHOOSER_SET_CURRENT_NAME )
@@ -110,4 +112,6 @@ HB_FUNC( CHOOSEDIR ) // cTitle, cDir_Default, pParent_Window
     }
     gtk_widget_destroy (dialog);
 }
+#endif
+
 #endif

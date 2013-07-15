@@ -27,6 +27,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_ACCEL_GROUP_NEW )
 {
   GtkAccelGroup *accel = gtk_accel_group_new();
@@ -53,3 +55,4 @@ HB_FUNC( GTK_ACCEL_GROUP_UNLOCK )
   gtk_accel_group_unlock( accel_group );
 }
 
+#endif

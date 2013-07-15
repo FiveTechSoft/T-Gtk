@@ -24,24 +24,18 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_HSEPARATOR_NEW )
 {
-  #if GTK_MAJOR_VERSION < 3
-      GtkWidget * separator =  gtk_hseparator_new ();
-  #else    
-      GtkWidget * separator =  gtk_separator_new( GTK_ORIENTATION_HORIZONTAL );
-  #endif    
+  GtkWidget * separator =  gtk_hseparator_new ();
   hb_retptr( ( GtkWidget * ) separator );
 }
 
 HB_FUNC( GTK_VSEPARATOR_NEW )
 {
-  
-  #if GTK_MAJOR_VERSION < 3
-      GtkWidget * separator =  gtk_vseparator_new ();
-  #else    
-      GtkWidget * separator =  gtk_separator_new( GTK_ORIENTATION_VERTICAL );
-  #endif    
-
+  GtkWidget * separator =  gtk_vseparator_new ();
   hb_retptr( ( GtkWidget * ) separator );
 }
+
+#endif

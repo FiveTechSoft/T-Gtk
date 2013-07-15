@@ -23,6 +23,8 @@
     (c) 2008 Rafa Carmona <rafa.tgtk at gmail.com>
 */
 
+#ifdef _GTK2_
+
 #ifdef _HAVEGTKSOURCEVIEW_
 #include <gtksourceview/gtksourceview.h>
 
@@ -102,4 +104,6 @@ GtkWidget * create_text_widget(const char * content_type)
       /* fall back to the simple text view if the mime type is not supported */
 return widget ? widget : gtk_source_view_new(); //gtk_text_view_new();
 }
+#endif
+
 #endif

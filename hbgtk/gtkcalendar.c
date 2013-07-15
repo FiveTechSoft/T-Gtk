@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_CALENDAR_NEW )
 {
    GtkWidget * calendar = gtk_calendar_new();
@@ -36,7 +38,7 @@ HB_FUNC( GTK_CALENDAR_SELECT_MONTH ) // calendar, month, year
   guint month = hb_parni( 2 );
   guint year  = hb_parni( 3 );
 
-  gtk_calendar_select_month( GTK_CALENDAR( calendar ), month, year );
+  hb_retl( gtk_calendar_select_month( GTK_CALENDAR( calendar ), month, year ) );
 }
 
 HB_FUNC( GTK_CALENDAR_SELECT_DAY ) // calendar, day
@@ -50,14 +52,14 @@ HB_FUNC( GTK_CALENDAR_MARK_DAY ) //calendar, day
 {
   GtkWidget * calendar = ( GtkWidget * ) hb_parptr( 1 );
   guint day = hb_parni( 2 );
-  gtk_calendar_mark_day ( GTK_CALENDAR( calendar ), day ) ;
+  hb_retl( gtk_calendar_mark_day ( GTK_CALENDAR( calendar ), day ) );
 }
 
 HB_FUNC( GTK_CALENDAR_UNMARK_DAY ) //calendar, day
 {
   GtkWidget * calendar = ( GtkWidget * ) hb_parptr( 1 );
   guint day = hb_parni( 2 );
-  gtk_calendar_unmark_day ( GTK_CALENDAR( calendar ), day );
+  hb_retl( gtk_calendar_unmark_day ( GTK_CALENDAR( calendar ), day ) );
 }
 
 HB_FUNC( GTK_CALENDAR_CLEAR_MARKS ) // calendar
@@ -66,21 +68,11 @@ HB_FUNC( GTK_CALENDAR_CLEAR_MARKS ) // calendar
   gtk_calendar_clear_marks( GTK_CALENDAR( calendar ) );
 }
 
-/*
 HB_FUNC( GTK_CALENDAR_DISPLAY_OPTIONS ) // calendar, flags
 {
   GtkWidget * calendar = GTK_WIDGET( hb_parptr( 1 ) );
   GtkCalendarDisplayOptions flags = hb_parni( 2 );
-   gtk_calendar_display_options( GTK_CALENDAR( calendar ) , flags );
-}
-
-*/
-
-HB_FUNC( GTK_CALENDAR_DISPLAY_OPTIONS ) // calendar, flags
-{
-  GtkWidget * calendar = GTK_WIDGET( hb_parptr( 1 ) );
-  GtkCalendarDisplayOptions flags = hb_parni( 2 );
-  gtk_calendar_set_display_options( GTK_CALENDAR( calendar ) , flags );
+  gtk_calendar_display_options( GTK_CALENDAR( calendar ) , flags );
 }
 
 HB_FUNC( GTK_CALENDAR_GET_DATE )
@@ -108,10 +100,5 @@ HB_FUNC( GTK_CALENDAR_THAW )
 }
 
 
-
-
-
-
-
-
+#endif
 

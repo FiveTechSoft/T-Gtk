@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
 
 HB_FUNC( GTK_TREE_VIEW_NEW )
 {
@@ -138,11 +139,7 @@ HB_FUNC( GTK_TREE_VIEW_SET_CURSOR_ON_CELL )
 HB_FUNC( GTK_TREE_COLUMN_GET_EDITABLE_WIDGET )
 {
     GtkTreeViewColumn * column = (GtkTreeViewColumn *) hb_parnl( 1 );
-    #if GTK_MAJOR_VERSION < 3
-        hb_retptr( ( GtkTreeViewColumn * ) column->editable_widget );
-    #else
-        // TODO: Any Idea ?
-    #endif    
+    hb_retptr( ( GtkTreeViewColumn * ) column->editable_widget );
 }
 
 //------------------------------------------------------//
@@ -449,3 +446,5 @@ void        gtk_tree_view_get_cursor        (GtkTreeView *tree_view,
                                              GtkTreePath **path,
                                              GtkTreeViewColumn **focus_column);
 */
+
+#endif

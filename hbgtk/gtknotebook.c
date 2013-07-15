@@ -24,6 +24,8 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_NOTEBOOK_NEW )
 {
    GtkWidget * notebook = gtk_notebook_new ();
@@ -62,20 +64,11 @@ HB_FUNC( GTK_NOTEBOOK_SET_TAB_POS ) // widget, nPos
 }
 
 // Esta fun es propia, no existe en GTK
-#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_NOTEBOOK_GET_TAB_POS ) // widget-->tab
 {
    GtkNotebook *notebook  = GTK_NOTEBOOK(  hb_parptr( 1 )  );
    hb_retni( notebook->tab_pos + 1 );
 }
-#else
-HB_FUNC( GTK_NOTEBOOK_GET_TAB_POS ) // widget-->tab
-{
-   GtkNotebook *notebook  = GTK_NOTEBOOK(  hb_parptr( 1 )  );
-   hb_retni( gtk_notebook_get_tab_pos ( notebook )  + 1 );
-}
-
-#endif
 
 HB_FUNC( GTK_NOTEBOOK_SET_SHOW_TABS ) // widget, lShow
 {
@@ -141,3 +134,5 @@ HB_FUNC( GTK_NOTEBOOK_REMOVE_PAGE )
 
    gtk_notebook_remove_page(  GTK_NOTEBOOK( notebook ),  page_num );
 }
+
+#endif

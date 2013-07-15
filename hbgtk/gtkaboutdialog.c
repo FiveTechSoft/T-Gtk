@@ -23,6 +23,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 #if GTK_CHECK_VERSION(2,6,0)
 
 HB_FUNC( GTK_ABOUT_DIALOG_NEW )
@@ -197,4 +199,6 @@ HB_FUNC( GTK_SHOW_ABOUT_DIALOG )
   parent = ISNIL( 1 ) ? NULL : GTK_WINDOW( hb_parptr( 1 ) );
   gtk_show_about_dialog( parent, NULL, NULL );
 }
+#endif
+
 #endif

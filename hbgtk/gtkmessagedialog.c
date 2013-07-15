@@ -53,7 +53,7 @@
 #include <hbdate.h>
 #include <hbset.h>
 #include <hbvm.h>
-#ifndef __HARBOUR__
+#ifdef __HARBOUR__
   #include <hbapicls.h>
 #endif
 #include "t-gtk.h"
@@ -200,7 +200,7 @@ void msgbox( gint msgtype, gchar *message, gchar *title, gboolean lmarkup )
 //   g_convert( title, -1,"UTF-8","ISO-8859-1", NULL,NULL,NULL );
 
    gtk_window_set_modal( GTK_WINDOW( dialog ), TRUE );
-   gtk_window_set_policy( GTK_WINDOW( dialog ), FALSE, FALSE, FALSE );
+   gtk_window_set_resizable( GTK_WINDOW( dialog ), FALSE );
    gtk_window_set_position( GTK_WINDOW( dialog ), GTK_WIN_POS_CENTER );
    gtk_window_set_title( GTK_WINDOW( dialog ), title );
    gtk_window_set_type_hint( GTK_WINDOW( dialog ), GDK_WINDOW_TYPE_HINT_MENU );
@@ -361,17 +361,11 @@ HB_FUNC( GTK_ALERT ) // cMessage, aButtons -> nOption
                                                      GTK_DIALOG_MODAL,
                                                      GTK_STOCK_REFRESH, GTK_ALERT_RETRY, 
                                                      GTK_STOCK_QUIT, GTK_ALERT_QUIT, NULL);
-
-   #if GTK_MAJOR_VERSION < 3
-       gtk_container_set_border_width( GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 20 );
-       gtk_widget_set_usize( dialog, 350, 150 );
-       gtk_container_add( GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), label );
-   #else
-       // TODO: Esto esta para repasar, seguramente cascará, pero necesitamos seguir compilando
-       gtk_widget_set_usize( dialog, 350, 150 );
-       gtk_container_add( GTK_CONTAINER (GTK_DIALOG (dialog)), label );
-   #endif    
-
+#ifdef _GTK2_
+   gtk_container_set_border_width( GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 20 );
+   gtk_widget_set_usize( dialog, 350, 150 );
+   gtk_container_add( GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), label );
+#endif
    result = gtk_dialog_run( GTK_DIALOG (dialog) );
    gtk_widget_destroy( dialog );
 

@@ -28,6 +28,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_RC_GET_THEME_DIR ) // -> path de instalacion de los temas
 {
   gchar * path = gtk_rc_get_theme_dir();
@@ -63,3 +65,5 @@ HB_FUNC( GTK_RC_REPARSE_ALL_FOR_SETTINGS ) // void-->boolean
 
   hb_retl( gtk_rc_reparse_all_for_settings( settings, force_load ) );
 }
+
+#endif

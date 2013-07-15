@@ -24,6 +24,8 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_TABLE_NEW ) // rows,columns, homogeneous -->widget
 {
  GtkWidget * Table = gtk_table_new( hb_parni( 1 ),  hb_parni( 2 ),  hb_parl( 3 ) );
@@ -138,3 +140,5 @@ HB_FUNC( GTK_TABLE_GET_DEFAULT_COL_SPACING ) // table -> col default
    GtkWidget * Table = ( GtkWidget * ) hb_parptr( 1 );
    hb_retni( gtk_table_get_default_col_spacing( GTK_TABLE( Table ) ) );
 }
+
+#endif

@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_VIEWPORT_NEW )  // void -> nWidget
 {
    GtkWidget *viewport;
@@ -48,4 +50,6 @@ HB_FUNC( GTK_VIEWPORT_SET_SHADOW_TYPE )  // nWidget -> void
    gtk_viewport_set_shadow_type( GTK_VIEWPORT(viewport),
                                  (gint) hb_parni( 2 ) );
 }
-  
+ 
+
+#endif 

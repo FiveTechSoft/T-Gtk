@@ -1,6 +1,8 @@
 #include <gtk/gtk.h>
 #include <hbapi.h>
 
+#ifdef _GTK2_
+
 static BOOL lStatus = FALSE;
 
 
@@ -71,3 +73,5 @@ HB_FUNC( SETGTKBUILDER )
 {
    SetGtkBuilder( hb_parl( 1 ) );
 }
+
+#endif

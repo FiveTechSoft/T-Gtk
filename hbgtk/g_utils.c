@@ -24,6 +24,8 @@
 #include <hbapi.h>
 #include <glib.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( HB_G_FIND_PROGRAM_IN_PATH )
 {
   gchar * command_line = (gchar *) hb_parc(1);
@@ -106,3 +108,5 @@ HB_FUNC( HB_NAND )
 
    hb_retnl( lRet );
 }
+
+#endif

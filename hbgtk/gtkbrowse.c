@@ -21,15 +21,13 @@
      GtkBrowse.c - Widget browse para GTK+ GIMP Toolkit
     (c)2003 Joaquim Ferrer <quim_ferrer@yahoo.es>
 */
-
-
 #ifdef HAVE_CONFIG_H
   #include <config.h>
 #endif
 
-#include <gtk/gtk.h>
-#if GTK_MAJOR_VERSION < 3
+#ifdef _GTK2_
 
+#include <gtk/gtk.h>
 /**
  * Para la definicion de _gtk_marshal_VOID__OBJECT_OBJECT
  **/
@@ -786,4 +784,5 @@ HB_FUNC( GTK_BROWSE_SCROLL_CONNECT )  // browse, scrolled
  
 // gtk_browse_scroll_event llama a la clase browse, metodo Scrolled() pasandole orientacion y value
 } 
+
 #endif

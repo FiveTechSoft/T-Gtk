@@ -23,6 +23,9 @@
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
+
+#ifdef _GTK2_
+
 /*
  Combobox
  */
@@ -62,7 +65,7 @@ HB_FUNC( GTK_COMBO_BOX_SET_COLUMN_SPAN_COLUMN )
 
 HB_FUNC( GTK_COMBO_BOX_NEW_TEXT )
 {
-   GtkWidget  * combo =  gtk_combo_box_new_text();
+   GtkWidget * combo = gtk_combo_box_new_text();
    hb_retptr( ( GtkWidget * ) combo );
 }
 
@@ -161,33 +164,20 @@ HB_FUNC( GTK_COMBO_BOX_ENTRY_SET_TEXT_COLUMN )
    gtk_combo_box_entry_set_text_column( GTK_COMBO_BOX_ENTRY(entry_box), (gint)hb_parni( 2 ) );
 }
 
-#if GTK_MAJOR_VERSION < 3  // Solo funciona para < gtk3
-  HB_FUNC( TGTK_GET_TEXT_COMBO_ENTRY )
-  {
-   GtkWidget * combo_box = GTK_WIDGET( hb_parptr( 1 ) );
-   GtkEntry * entry = GTK_ENTRY(GTK_BIN (combo_box)->child );
-   hb_retc( gtk_entry_get_text( entry ) );
-  }
+HB_FUNC( TGTK_GET_TEXT_COMBO_ENTRY )
+{
+ GtkWidget * combo_box = GTK_WIDGET( hb_parptr( 1 ) );
+ GtkEntry * entry = GTK_ENTRY(GTK_BIN (combo_box)->child );
+ hb_retc( gtk_entry_get_text( entry ) );
+}
 
-  HB_FUNC( TGTK_GET_WIDGET_COMBO_ENTRY )
-  {
-   GtkWidget * combo_box = GTK_WIDGET( hb_parptr( 1 ) );
-   GtkEntry * entry = GTK_ENTRY(GTK_BIN (combo_box)->child );
-   hb_retptr( ( GtkWidget * ) entry  );
-  }
-#else
-   // TODO: Falta 
-  HB_FUNC( TGTK_GET_TEXT_COMBO_ENTRY )
-  {
-   hb_retc( "falta" );
-  }
+HB_FUNC( TGTK_GET_WIDGET_COMBO_ENTRY )
+{
+ GtkWidget * combo_box = GTK_WIDGET( hb_parptr( 1 ) );
+ GtkEntry * entry = GTK_ENTRY(GTK_BIN (combo_box)->child );
+ hb_retptr( ( GtkWidget * ) entry  );
+}
 
-  HB_FUNC( TGTK_GET_WIDGET_COMBO_ENTRY )
-  {
-   hb_retptr( 0 );
-  }
-
-#endif
 #endif
 
 /* OBSOLETO ------->
@@ -203,3 +193,6 @@ HB_FUNC( GTK_COMBO_SET_POPDOWN_STRINGS )
   gtk_combo_set_popdown_strings( GTK_COMBO(combo), (GList*)hb_parnl( 2 ) );
  }
  OBSOLETO ------->  */
+
+
+#endif

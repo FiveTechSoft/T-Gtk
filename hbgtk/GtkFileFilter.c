@@ -23,6 +23,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_FILE_FILTER_NEW )
 {
 	GtkFileFilter * pFilter = gtk_file_filter_new();
@@ -56,3 +58,5 @@ HB_FUNC( GTK_FILE_FILTER_GET_NAME )
 }
 
 //-------------------------------------------------------//
+
+#endif

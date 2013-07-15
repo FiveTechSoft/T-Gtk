@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_CELL_RENDERER_TEXT_NEW ) // -> renderer
 {
    GtkCellRenderer * renderer = gtk_cell_renderer_text_new();
@@ -93,4 +95,6 @@ HB_FUNC( GTK_CELL_RENDERER_SET_ALIGNMENT )
    gtk_cell_renderer_set_alignment( cell, hb_parnd( 2 ), hb_parnd( 3 ) );
 
 }
+#endif
+
 #endif

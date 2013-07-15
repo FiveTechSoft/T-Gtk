@@ -25,6 +25,8 @@
 #include "hbapi.h"
 #include "t-gtk.h"
 
+#ifdef _GTK2_
+
 void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
 BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  );
@@ -45,13 +47,9 @@ HB_FUNC( GTK_TREE_MODEL_GET_LONG )
     long l;
     GtkListStore * model = (GtkListStore *) hb_parptr( 1 ) ;
     GtkTreeIter iter;
-   
+
     iter.user_data = (gpointer) hb_parptr( 2 );
-    #if GTK_MAJOR_VERSION < 3
-        iter.stamp = model->stamp;
-    #else
-        //TODO: AnyIdea ?
-    #endif    
+    iter.stamp = model->stamp;
     gtk_tree_model_get ( (GtkTreeModel *) model, &iter, 0, &l, -1);
 
     hb_retnl( l );
@@ -465,3 +463,5 @@ HB_FUNC( GTK_TREE_ROW_REFERENCE_COPY )
  GtkTreeRowReference * row = gtk_tree_row_reference_copy( (GtkTreeRowReference *) hb_parptr( 1 ) );
  hb_retptr( (GtkTreeRowReference * ) row );
 }
+
+#endif

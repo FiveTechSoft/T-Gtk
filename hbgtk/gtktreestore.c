@@ -25,6 +25,8 @@
 #include "hbapi.h"
 #include "t-gtk.h"
 
+#ifdef _GTK2_
+
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
 BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  );
 void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
@@ -205,3 +207,5 @@ HB_FUNC( GTK_TREE_STORE_REMOVE )
   }
   hb_retl( bresult );
 }
+
+#endif

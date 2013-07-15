@@ -25,6 +25,8 @@
 #include <hbvm.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_MENU_BAR_NEW )
 {
     hb_retptr( ( GtkWidget * ) gtk_menu_bar_new() );
@@ -285,4 +287,6 @@ HB_FUNC( GTK_MENU_ITEM_SET_LABEL )
 
    gtk_menu_item_set_label( menu, label );
 } 
+#endif
+
 #endif

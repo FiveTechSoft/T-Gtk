@@ -127,14 +127,21 @@ ifeq ($(HB_COMPILER),mingw32)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
 else
-   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) -D__HARBOUR64__ -DGTK_ENABLE_DEPRECATED -DGSEAL_ENABLE
+   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) -D__HARBOUR64__ 
    ifeq ($(SUPPORT_PRINT_LINUX),yes)
-     CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) -DHB_OS_LINUX 
+     CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) -DHB_OS_LINUX
      LIBS += $(shell pkg-config --libs libgnomeprintui-2.2)
    endif
 endif
+
 CFLAGS += -I$(INCLUDE_TGTK_PRG)
 
+#ifeq ($(GTK_MAJOR_VERSION),3)
+    CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ -D_GTK_$(GTK_MAJOR_VERSION).$(GTK_MINOR_VERSION)_
+    LIBS +=$(shell pkg-config --cflags --libs gtk+-3.0)
+#else
+#    CFLAGS += -D_GTK2_
+#endif
 
 ifeq ($(BONOBO),yes)
     CFLAGS += -D_HAVEBONOBO_
@@ -285,7 +292,9 @@ else
 endif
 
 #librerias usadas por Tgtk las definimos aqui. GTK y GLADE
-LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
+#LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
+# agregar despues a libgclass 
+LIBS += -L$(LIBDIR_TGTK_) -lhbgtk
 PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 # By Quim -->
@@ -302,7 +311,7 @@ ifeq ($(HB_COMPILER),gcc)
 endif   
 
 ifneq ($(HB_MAKE_PLAT),win)
-   OS_LIBS += -ldl -lz 
+   OS_LIBS += -ldl -lz -lm $(shell pkg-config --cflags --libs libpcre) 
 else
    OS_LIBS += -ldl
 endif
@@ -311,7 +320,8 @@ endif
 HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
 #XHB_LIBDIR_ = $(LIBDIR) -L$(XHB_LIB_INSTALL)
 
-HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
+#HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) 
+HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
         $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS) $(OS_LIBS)
 #XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
 #        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)

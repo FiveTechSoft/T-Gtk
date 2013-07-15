@@ -25,6 +25,8 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 #if GTK_CHECK_VERSION(2,10,0)
 HB_FUNC( GTK_PRINT_OPERATION_NEW )
 {
@@ -76,5 +78,7 @@ HB_FUNC( GTK_PRINT_OPERATION_SET_DEFAULT_PAGE_SETUP )
  GtkPageSetup * default_page_setup = GTK_PAGE_SETUP( hb_parnl( 2 ) );
  gtk_print_operation_set_default_page_setup( op, default_page_setup );
 }
+
+#endif
 
 #endif

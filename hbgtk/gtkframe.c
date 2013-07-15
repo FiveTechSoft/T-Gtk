@@ -25,6 +25,8 @@
 #include <gtk/gtk.h>
 #include <t-gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_FRAME_NEW )
 {
   GtkWidget * frame = gtk_frame_new( hb_parc( 1 ) );
@@ -70,3 +72,4 @@ HB_FUNC( GTK_FRAME_SET_SHADOW_TYPE ) // frame, nType
    gtk_frame_set_shadow_type( GTK_FRAME( frame ), type );
 }
 
+#endif

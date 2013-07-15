@@ -28,6 +28,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_SCROLLED_WINDOW_NEW )
 {
    GtkWidget *scroll;
@@ -76,7 +78,6 @@ HB_FUNC( GTK_SCROLLED_WINDOW_SET_SHADOW_TYPE )
 
 //---------------------------------------------------//
 
-#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_SCROLLED_WINDOW_GET_SCROLL )
 {
    GtkWidget *scroll     = GTK_WIDGET( hb_parptr( 1 ) );
@@ -87,7 +88,7 @@ HB_FUNC( GTK_SCROLLED_WINDOW_GET_SCROLL )
    else
       hb_retptr( ( GtkWidget * ) vscrollbar );
 }
-#endif
+
 //---------------------------------------------------//
 
 HB_FUNC( GTK_SCROLLED_WINDOW_SET_HADJUSTMENT )
@@ -118,3 +119,5 @@ HB_FUNC( GTK_SCROLLED_WINDOW_GET_VADJUSTMENT )
 }
 
 //---------------------------------------------------//
+
+#endif

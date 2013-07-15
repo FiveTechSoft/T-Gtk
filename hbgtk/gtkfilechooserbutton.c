@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 #if GTK_CHECK_VERSION(2,6,0)
 
 HB_FUNC( GTK_FILE_CHOOSER_BUTTON_NEW )
@@ -73,5 +75,7 @@ HB_FUNC( GTK_FILE_CHOOSER_BUTTON_SET_WIDTH_CHARS )
   GtkFileChooserButton * button = GTK_FILE_CHOOSER_BUTTON( hb_parptr( 1 ) );
   gtk_file_chooser_button_set_width_chars( button, hb_parni( 2 ) );
 }
+
+#endif
 
 #endif

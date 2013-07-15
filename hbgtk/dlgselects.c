@@ -25,13 +25,10 @@
  * Distintos dialogos de Selecccion, de fonts, de archivos, de color...
 */
 
+#ifdef _GTK2_
 
 #include <gtk/gtk.h>
-#if GTK_MAJOR_VERSION < 3   // Solo funciona para < gtk3
 #include "hbapi.h"
-
- // TODO: Para GTK3 usar / mirar GtkFileChooser, para poder simular para hacer lo mismo
-
 
 HB_FUNC( __GET_POINTER_BTN_OK_FILE )
 {
@@ -44,6 +41,7 @@ HB_FUNC( __GET_POINTER_BTN_CANCEL_FILE )
    GtkWidget * file_selector = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retptr( (GtkWidget *) GTK_FILE_SELECTION (file_selector)->cancel_button );
 }
+
 
 /* Seleccion de dialogo de fonts */
 HB_FUNC( __GET_POINTER_BTN_OK_FONT )
@@ -91,5 +89,6 @@ HB_FUNC( GTK_FONT_SELECTION_DIALOG_GET_PREVIEW_TEXT )
    GtkWidget * dlg_font = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retc( (gchar*) gtk_font_selection_dialog_get_preview_text( GTK_FONT_SELECTION_DIALOG( dlg_font ) ));
 }
-
 #endif
+
+//eof

@@ -25,10 +25,11 @@
  * Glade. Support Glade----------------------------------------------------
  */
 
+#ifdef _GTK2_
+
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include "hbapi.h"
-
 
 //prototypes
 GtkBuilder  * _gtk_builder_new();
@@ -116,3 +117,4 @@ HB_FUNC( GLADE_GET_WIDGET_NAME )
   hb_retc( (gchar *) name );
 }
 
+#endif

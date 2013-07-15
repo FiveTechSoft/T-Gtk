@@ -28,6 +28,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 PHB_ITEM Color2Array( GdkColor *color );
 BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );
 
@@ -121,7 +123,6 @@ HB_FUNC( CAMBIO_STYLE )
 /*
  * API Graphics Contexts
  * */
-#if GTK_MAJOR_VERSION < 3  // FIX. Para gkt3 de momento
 
 // Create a new graphics context with default values.
 HB_FUNC( GDK_GC_NEW )

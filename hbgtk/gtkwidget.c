@@ -21,6 +21,9 @@
     (c)2003 Rafael Carmona <thefull@wanadoo.es>
     (c)2003 Joaquim Ferrer <quim_ferrer@yahoo.es>
 */
+
+/* TODO: Reemplazar gtk_style_copy() [descontinuada]  por funcion actual. */
+
 #include <gtk/gtk.h>
 #include "hbapi.h"
 #include "t-gtk.h"
@@ -36,6 +39,7 @@ BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );
 #define TEXTCOLOR 4
 #define GDK_VoidSymbol       0xFFFFFF
 
+
 BOOL G_IsWidget( int iArg )
 {
   BOOL bWidget = FALSE;
@@ -46,6 +50,7 @@ BOOL G_IsWidget( int iArg )
   
   return bWidget;
 }
+
 
 HB_FUNC( GTK_WIDGET_GET_SETTINGS )
 {
@@ -78,6 +83,13 @@ HB_FUNC( GTK_WIDGET_DESTROY )
     gtk_widget_destroy( GTK_WIDGET( hb_parptr( 1 )  ) );
 }
 
+HB_FUNC( GTK_WIDGET_GRAB_DEFAULT )
+{
+  if( G_IsWidget( 1 ) )
+    gtk_widget_grab_default( GTK_WIDGET( hb_parptr( 1 )  ) );
+}
+
+#ifdef _GTK2_
 HB_FUNC( GTK_WIDGET_SET_FLAGS )
 {
   if( G_IsWidget( 1 ) ){
@@ -86,17 +98,26 @@ HB_FUNC( GTK_WIDGET_SET_FLAGS )
   }
 }
 
-HB_FUNC( GTK_WIDGET_GRAB_DEFAULT )
-{
-  if( G_IsWidget( 1 ) )
-    gtk_widget_grab_default( GTK_WIDGET( hb_parptr( 1 )  ) );
-}
-
 HB_FUNC( GTK_WIDGET_SET_USIZE )
 {
    if( G_IsWidget( 1 ) )
     gtk_widget_set_usize ( GTK_WIDGET( hb_parptr( 1 ) ), hb_parni( 2 ), hb_parni( 3 ) );
 }
+
+HB_FUNC( GTK_WIDGET_SET_UPOSITION )
+{
+  if( G_IsWidget( 1 ) )
+     gtk_widget_set_uposition( GTK_WIDGET( hb_parptr( 1 ) ),
+                               hb_parnl( 3 ), hb_parnl( 2 ) );
+}
+
+HB_FUNC( GTK_WIDGET_GET_COLORMAP )
+{
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+   GdkColormap * colormap = gtk_widget_get_colormap( widget );
+   hb_retptr( (GdkColormap *) colormap );
+}
+#endif
 
 HB_FUNC( GTK_WIDGET_QUEUE_DRAW )
 {
@@ -109,14 +130,6 @@ HB_FUNC( GTK_WIDGET_GRAB_FOCUS )
   if( G_IsWidget( 1 ) )
     gtk_widget_grab_focus( GTK_WIDGET( hb_parptr( 1 )  ) );
 }
-
-HB_FUNC( GTK_WIDGET_SET_UPOSITION )
-{
-  if( G_IsWidget( 1 ) )
-     gtk_widget_set_uposition( GTK_WIDGET( hb_parptr( 1 ) ),
-                               hb_parnl( 3 ), hb_parnl( 2 ) );
-}
-
 HB_FUNC( GTK_WIDGET_SET_SENSITIVE ) // widget, boolean -> void
 {
    gtk_widget_set_sensitive( GTK_WIDGET( hb_parptr( 1 ) ),
@@ -162,8 +175,8 @@ HB_FUNC( GTK_WIDGET_MODIFY_BG ) // widget, state, namecolor -> void
           hb_storni( (guint16) (color.blue) ,3, 4);
         }
      }
-   else
-      g_warning ("GTK_WIDGET_MODIFY_BG : Se esperaba un array");
+  else
+     g_warning ("GTK_WIDGET_MODIFY_BG : Se esperaba un array");
 }
 
 HB_FUNC( HB_GTK_WIDGET_MODIFY_BG ) // widget, state, namecolor -> void
@@ -213,17 +226,6 @@ HB_FUNC( GTK_WIDGET_SET_SIZE_REQUEST ) // pWidget, width, height
 {
    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_widget_set_size_request( widget, hb_parni( 2 ), hb_parni( 3 ) );
-}
-
-HB_FUNC( GTK_WIDGET_GET_COLORMAP )
-{
-   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
-   #if GTK_MAJOR_VERSION < 3
-       GdkColormap * colormap = gtk_widget_get_colormap( widget );
-       hb_retptr( (GdkColormap *) colormap );
-   #else
-       // TODO: Any Idea ?
-   #endif    
 }
 
 HB_FUNC( GTK_WIDGET_CHILD_FOCUS )
@@ -388,5 +390,6 @@ HB_FUNC( G_CHECKWIDGET )
 {
   hb_retl( G_IsWidget( 1 ) ); 
 }
+
 
 //eof

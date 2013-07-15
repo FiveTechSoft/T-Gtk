@@ -24,6 +24,8 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 #if GTK_CHECK_VERSION(2,4,0) 
 
 HB_FUNC( GTK_COLOR_BUTTON_NEW )
@@ -78,4 +80,6 @@ HB_FUNC( GTK_COLOR_BUTTON_SET_USE_ALPHA ) // widget, bUsed
 {
    gtk_color_button_set_use_alpha( GTK_COLOR_BUTTON( hb_parptr(1)) , hb_parl( 2 ) );
 }
+#endif
+
 #endif

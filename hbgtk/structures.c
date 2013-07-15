@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 /*
  * FUNCIONES GENERICAS QUE NOS DEVUELVE VALORES DE LOS MIEMBROS
  * DE LA ESTRUCTURA WIDGET
@@ -171,3 +173,4 @@ HB_FUNC( HB_GET_GDKEVENTBUTTON_Y )
 }
 
 
+#endif

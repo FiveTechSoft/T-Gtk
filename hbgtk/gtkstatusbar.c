@@ -25,6 +25,7 @@
 #include "hbapi.h"
 #include <t-gtk.h>
 
+#ifdef _GTK2_
 
 HB_FUNC( GTK_STATUSBAR_NEW ) // -> widget
 {
@@ -73,3 +74,5 @@ HB_FUNC( GTK_STATUSBAR_GET_HAS_RESIZE_GRIP ) // pStatusbar -> bResize
    GtkWidget * statusbar = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retl( gtk_statusbar_get_has_resize_grip( GTK_STATUSBAR( statusbar ) ) );
 }
+
+#endif

@@ -33,6 +33,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 #if GTK_CHECK_VERSION(2,6,0) 
 
 HB_FUNC( GTK_ICON_VIEW_NEW )
@@ -266,5 +268,7 @@ HB_FUNC( GTK_ICON_VIEW_GET_CURSOR )
   hb_retl( bret );
 
 }
+
+#endif
 
 #endif

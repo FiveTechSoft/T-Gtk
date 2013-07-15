@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_FIXED_NEW ) // -> widget
 {
    GtkWidget * fixed = gtk_fixed_new( );
@@ -58,3 +60,4 @@ HB_FUNC( GTK_FIXED_SET_HAS_WINDOW )
    gtk_fixed_set_has_window( GTK_FIXED( hb_parptr( 1 ) ), hb_parl( 2 ) ) ;
 }
 
+#endif

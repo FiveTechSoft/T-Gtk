@@ -26,6 +26,7 @@
 #include "hbapiitm.h"
 #include "t-gtk.h"
 
+#ifdef _GTK2_
 
 PHB_ITEM PangoMatrix2Array( PangoMatrix * matrix );
 BOOL Array2PangoMatrix(PHB_ITEM aMatrix, PangoMatrix * matrix  );
@@ -346,3 +347,5 @@ BOOL Array2PangoMatrix(PHB_ITEM aMatrix, PangoMatrix * matrix  )
    }
    return FALSE;
 }
+
+#endif

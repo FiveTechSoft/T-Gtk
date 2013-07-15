@@ -24,6 +24,8 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_HPANED_NEW ) //-->Widget
 {
    GtkWidget * hpaned = gtk_hpaned_new();
@@ -81,3 +83,5 @@ HB_FUNC( GTK_PANED_GET_POSITION ) // paned --> iPosition
   gtk_paned_get_child1 ()
   gtk_paned_get_child2 ()
 */
+
+#endif

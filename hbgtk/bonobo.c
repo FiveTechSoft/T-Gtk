@@ -1,6 +1,8 @@
 #include "hbapi.h"
 #include "hbapiitm.h"
 
+#ifdef _GTK2_
+
 #ifdef _HAVEBONOBO_
 
 #include <libbonobo.h>
@@ -36,4 +38,6 @@ HB_FUNC( BONOBO_MAIN_QUIT )
 {
   bonobo_main_quit();
 }
+#endif
+
 #endif

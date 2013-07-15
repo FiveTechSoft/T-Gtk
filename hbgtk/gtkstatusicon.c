@@ -24,6 +24,8 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 #if GTK_CHECK_VERSION( 2,10,0 )
 HB_FUNC( GTK_STATUS_ICON_NEW ) 
 {
@@ -91,4 +93,6 @@ HB_FUNC( GTK_STATUS_ICON_POSITION_MENU )
                                  &push_in, NULL );
 
 }
+#endif
+
 #endif

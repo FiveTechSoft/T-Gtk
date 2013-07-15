@@ -25,6 +25,8 @@
 #include "hbapi.h"
 #include <t-gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_TOGGLE_BUTTON_NEW ) // -> widget
 {
    GtkWidget * button = gtk_toggle_button_new( );
@@ -95,3 +97,5 @@ HB_FUNC( GTK_TOGGLE_BUTTON_SET_INCONSISTENT ) // widget ,linconsistent
    GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_toggle_button_set_inconsistent( GTK_TOGGLE_BUTTON( button ), hb_parl( 2 ) );
 }
+
+#endif

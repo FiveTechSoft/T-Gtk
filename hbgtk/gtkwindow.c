@@ -73,10 +73,11 @@ GtkWidget * get_win_parent()
     return wParent;
 }
 
-
 HB_FUNC( GTK_WINDOW_NEW )
 {
   GtkWidget * window = window = gtk_window_new ( hb_parni( 1 ) ) ;
+
+  g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 
   hb_retptr( (GtkWidget * ) window );
 }
@@ -197,6 +198,7 @@ HB_FUNC( GTK_WINDOW_DEICONIFY ) // widget -> void
   gtk_window_deiconify( GTK_WINDOW(  hb_parptr( 1 ) ) );
 }
 
+/*
 HB_FUNC( GTK_WINDOW_SET_FRAME_DIMENSIONS ) // widget, left, top, right,
                                            // bottom -> void
 {
@@ -213,7 +215,7 @@ HB_FUNC( GTK_WINDOW_SET_HAS_FRAME ) // window, logical -> void
   GtkWidget * window = GTK_WIDGET(  hb_parptr( 1 ) );
   gtk_window_set_has_frame( GTK_WINDOW( window ), (gboolean) hb_parl( 2 ) );
 }
-
+*/
 HB_FUNC( GTK_WINDOW_SET_SKIP_TASKBAR_HINT ) // window, logical -> void
 {
   GtkWidget * window = GTK_WIDGET(  hb_parptr( 1 ) );
@@ -227,6 +229,7 @@ HB_FUNC( GTK_WINDOW_MOVE ) // widget, left, top -> void
                                          (gint) hb_parni( 3 ) );
 }
 
+#ifdef _GTK2_
 #if GTK_CHECK_VERSION( 2,4,0)
 HB_FUNC( GTK_WINDOW_SET_KEEP_ABOVE )
 {
@@ -312,12 +315,7 @@ HB_FUNC( GTK_WINDOW_LIST_TOPLEVELS )
 HB_FUNC( GET_GTKWINDOW )
 {
     GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
-    #if GTK_MAJOR_VERSION < 3
-        hb_retptr( widget->window );
-    #else
-        // TODO  : Any idea
-        hb_retptr( gtk_widget_get_parent_window( widget ) );
-    #endif    
+    hb_retptr( widget->window );
 }
 
 HB_FUNC( GTK_WINDOW_SET_TYPE_HINT ) // window, nWindowTypeHint -> void
@@ -367,3 +365,4 @@ HB_FUNC( CREATE_PIXBUF ) // cFilename
 */
 
 
+#endif

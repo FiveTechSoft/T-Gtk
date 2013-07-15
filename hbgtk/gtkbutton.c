@@ -25,6 +25,8 @@
 #include "hbapi.h"
 #include <t-gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_BUTTON_NEW ) // -> widget
 {
    GtkWidget * button = gtk_button_new( );
@@ -85,4 +87,6 @@ HB_FUNC( GTK_BUTTON_GET_LABEL ) // widget -> cExt
 HB_FUNC( GTK_BUTTON_SET_USE_UNDERLINE )
 {    
    gtk_button_set_use_underline( GTK_BUTTON( hb_parptr( 1 ) ), hb_parl( 2 ) ); 
-}  
+}
+
+#endif  

@@ -24,6 +24,8 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_RANGE_SET_UPDATE_POLICY ) // pWidget, nTypeUpdate
 {
     GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
@@ -41,7 +43,7 @@ HB_FUNC( GTK_RANGE_GET_ADJUSTMENT ) // pWidget--> pAdjustment
 HB_FUNC( GTK_RANGE_SET_ADJUSTMENT ) // pWidget, pAdjustment
 {
    GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
-   GObject * adjust = G_OBJECT( hb_parptr( 2 ) );
+   GtkObject * adjust = GTK_OBJECT( hb_parptr( 2 ) );
    gtk_range_set_adjustment( GTK_RANGE( range ), GTK_ADJUSTMENT( adjust ) );
 }
 
@@ -94,18 +96,11 @@ HB_FUNC( GTK_RANGE_SET_VALUE ) // pWidget, dValue
    gtk_range_set_value( GTK_RANGE( range ),value );
 }
 
-#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_RANGE_GET_ORIENTATION ) // pWidget, int orientation
 {
    GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
    gint orientation  = GTK_RANGE (range)->orientation;
    hb_retni( orientation );
-}
-#else
-// TODO: Mirar como hacer esto en GTK3
-HB_FUNC( GTK_RANGE_GET_ORIENTATION ) // pWidget, int orientation
-{
-   hb_retni( 0 );
 }
 
 #endif

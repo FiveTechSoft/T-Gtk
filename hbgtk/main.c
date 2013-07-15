@@ -24,6 +24,7 @@
 
 // Punto de entrada a GTK+/Gnome para [x]Harbour
 
+
 #include <gtk/gtk.h>
 //#include <gnome.h>
 #include "hbapi.h"
@@ -48,7 +49,7 @@ int main( int argc, char * argv[] )
    g_print("activado soporte multitarea.. \n");
 #endif
 
-   gtk_set_locale();
+//   gtk_set_locale();
 
    if( gtk_init_check( &argc, &argv ) )
    {

@@ -25,6 +25,8 @@
 #include <hbvm.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_ENTRY_NEW ) // -->widget
 {
    GtkWidget * hWnd = gtk_entry_new();
@@ -189,3 +191,5 @@ HB_FUNC( GTK_ENTRY_SET_ICON_FROM_PIXBUF )
 }
 
 //--------------------------------------------------------//
+
+#endif

@@ -88,6 +88,7 @@ GTK_DIALOG_NEW_WITH_BUTTONS()
   en cada iteraccion, de forma similar a como lo hace GTK.
 */
 
+#ifdef _GTK2_
 HB_FUNC( GTK_DIALOG_NEW_WITH_BUTTONS ) // title, parent, flags, list params...
                                        // -> dialog
 {
@@ -111,10 +112,8 @@ HB_FUNC( GTK_DIALOG_NEW_WITH_BUTTONS ) // title, parent, flags, list params...
   if ( flags & GTK_DIALOG_DESTROY_WITH_PARENT )
      gtk_window_set_destroy_with_parent( GTK_WINDOW(dialog), TRUE );
 
-  #if GTK_MAJOR_VERSION < 3
-      if ( flags & GTK_DIALOG_NO_SEPARATOR )
-          gtk_dialog_set_has_separator( GTK_DIALOG(dialog), FALSE );
-  #endif      
+  if ( flags & GTK_DIALOG_NO_SEPARATOR )
+     gtk_dialog_set_has_separator( GTK_DIALOG(dialog), FALSE );
 
   for( iParam = 4; iParam <= ipCount; iParam += 2 )
      {
@@ -145,6 +144,7 @@ HB_FUNC( GTK_DIALOG_SET_HAS_SEPARATOR ) // dialog, lSeparator -> void
   gboolean separator = (gboolean ) hb_parl( 2 );
   gtk_dialog_set_has_separator( GTK_DIALOG(dialog), separator );
 }
+#endif
 
 HB_FUNC( GTK_DIALOG_SET_DEFAULT_RESPONSE ) // dialog, nResponse -> void
 {
@@ -170,3 +170,4 @@ HB_FUNC( GTK_GRAB_REMOVE ) // nDialog -> void
   GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_grab_remove( dialog );
 }
+

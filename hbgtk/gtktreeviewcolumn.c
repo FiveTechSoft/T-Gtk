@@ -33,6 +33,8 @@ static void
 CellDataFunc( GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
               GtkTreeIter *iter, gpointer data);
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_TREE_VIEW_COLUMN_NEW ) // -> widget
 {
    GtkTreeViewColumn * column = gtk_tree_view_column_new();
@@ -285,3 +287,5 @@ CellDataFunc( GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeMode
 }
 
 //---------------------------------------------//
+
+#endif

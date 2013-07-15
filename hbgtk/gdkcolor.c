@@ -78,3 +78,4 @@ BOOL Array2Color(PHB_ITEM aColor, GdkColor *color )
 }
 
 
+//eof

@@ -25,6 +25,8 @@
 #include <hbvm.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_ENTRY_COMPLETION_NEW ) 
 {
    GtkEntryCompletion * completion = gtk_entry_completion_new();
@@ -51,3 +53,5 @@ HB_FUNC( GTK_ENTRY_COMPLETION_SET_TEXT_COLUMN )
    gint column = hb_parni( 2 );
    gtk_entry_completion_set_text_column (completion, column ); 
 }
+
+#endif

@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_BUTTON_BOX_SET_LAYOUT ) // widget, enum GtkButtonBoxStyle -> void   
 {
   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );   
@@ -53,3 +55,4 @@ HB_FUNC( GTK_VBUTTON_BOX_NEW ) // void --> widget
 
 
 
+#endif

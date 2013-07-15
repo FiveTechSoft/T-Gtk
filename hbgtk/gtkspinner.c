@@ -25,6 +25,8 @@
 #include "hbapi.h"
 #include <t-gtk.h>
 
+#ifdef _GTK2_
+
 #if GTK_CHECK_VERSION(2,20,0)
 
 HB_FUNC( GTK_SPINNER_NEW ) // -> widget
@@ -45,5 +47,7 @@ HB_FUNC( GTK_SPINNER_STOP )
   GtkWidget * spinner = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_spinner_stop( GTK_SPINNER( spinner) );
 }
+
+#endif
 
 #endif

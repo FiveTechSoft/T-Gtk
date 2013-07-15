@@ -30,6 +30,8 @@
 #DEFINE RIGTH  1.0
 */
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_MISC_SET_ALIGNMENT ) // widget, nPosH, nPosV
 {
   GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
@@ -61,3 +63,5 @@ HB_FUNC( GTK_MISC_GET_PADDING ) // widget, @nxpad, @nypad
   hb_storni( xpad, 2 );
   hb_storni( ypad, 3 );
 }
+
+#endif

@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_RADIO_BUTTON_NEW ) // NULL o Group -->radio
 {
    GtkWidget * radio = gtk_radio_button_new( ( GSList * ) hb_parptr( 1 )  );
@@ -81,3 +83,5 @@ HB_FUNC( GTK_RADIO_BUTTON_GET_GROUP )
   GSList*     group = gtk_radio_button_get_group( GTK_RADIO_BUTTON( radio ) );
   hb_retptr( ( GtkWidget * ) group );
 }
+
+#endif

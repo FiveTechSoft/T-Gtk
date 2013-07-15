@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_LIST_NEW ) //->widget
 {
    GtkWidget * hWnd = gtk_list_new( );
@@ -63,3 +65,5 @@ HB_FUNC( GTK_LIST_CLEAR_ITEMS )
   gint end =   hb_parni( 3 );
   gtk_list_clear_items( GTK_LIST(list), start, end ) ;
 }
+
+#endif

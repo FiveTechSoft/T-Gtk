@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 #if GTK_CHECK_VERSION(2,4,0) 
 
 HB_FUNC( GTK_TOOLBAR_NEW ) 
@@ -94,15 +96,8 @@ HB_FUNC( GTK_TOOL_ITEM_GET_EXPAND ) // ITEM -->bExpand
 HB_FUNC( GTK_TOOL_ITEM_SET_TOOLTIP ) // GtkToolItem, Gtktooltip, tip_Text, tip_private
 {
    GtkToolItem * item = GTK_TOOL_ITEM( hb_parptr( 1 ) );
-   #if GTK_MAJOR_VERSION < 3
-       GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parptr( 2 ) );
-       gtk_tool_item_set_tooltip ( item, tooltips, (gchar *) hb_parc( 3 ), (gchar *) hb_parc( 4 ) ) ;
-   #else
-      // View http://maemo.org/api_refs/5.0/beta/gtk/gtk-migrating-tooltips.html
-       gtk_widget_set_tooltip_text ( item, (gchar *) hb_parc( 3 ) );
-   #endif    
-
-
+   GtkTooltips * tooltips = GTK_TOOLTIPS( hb_parptr( 2 ) );
+   gtk_tool_item_set_tooltip ( item, tooltips, (gchar *) hb_parc( 3 ), (gchar *) hb_parc( 4 ) ) ;
 }
 
 HB_FUNC( GTK_TOOL_ITEM_SET_TOOLTIP_TEXT ) // GtkToolItem, tip_Text
@@ -325,4 +320,6 @@ HB_FUNC( GTK_MENU_TOOL_BUTTON_GET_MENU )
 }
 
 #else
+#endif
+
 #endif

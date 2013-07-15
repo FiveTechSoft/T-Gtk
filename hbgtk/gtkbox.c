@@ -24,6 +24,8 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_VBOX_NEW ) // bHomogeneus, iSpacing
 {
    GtkWidget * VBox = gtk_vbox_new( hb_parl( 1 ), hb_parni( 2 ) );
@@ -52,3 +54,4 @@ HB_FUNC( GTK_BOX_PACK_END ) // box, child, lExpand, lFill, ipadding
                       hb_parl( 3 ), hb_parl( 4 ), hb_parl( 5 ) );
 }
 
+#endif

@@ -24,6 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GTK_PROGRESS_BAR_NEW )
 {
    GtkWidget * progressbar = gtk_progress_bar_new();
@@ -71,3 +73,5 @@ HB_FUNC( GTK_PROGRESS_BAR_GET_ORIENTATION )
    GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retni( (gint) gtk_progress_bar_get_orientation( GTK_PROGRESS_BAR( progressbar ) ) );
 }
+
+#endif

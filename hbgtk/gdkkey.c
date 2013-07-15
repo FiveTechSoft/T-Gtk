@@ -29,6 +29,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GDK_KEYVAL_FROM_NAME ) // cValue --> nValue
 {
 hb_retni( (guint) gdk_keyval_from_name( hb_parc( 1 ) ));
@@ -64,3 +66,5 @@ HB_FUNC( G_LOCALE_FROM_UTF8 )
   gchar *msg = g_locale_from_utf8( hb_parc(1), -1, NULL, NULL, NULL);
   hb_retc( msg );
 }
+
+#endif

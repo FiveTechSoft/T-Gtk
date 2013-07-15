@@ -28,6 +28,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#ifdef _GTK2_
+
 HB_FUNC( GDK_CURSOR_NEW ) // nGdkTypeCursor -> cursor
 {
   GdkCursor * cursor = gdk_cursor_new( ( gint ) hb_parni( 1 ) );
@@ -47,3 +49,4 @@ HB_FUNC( GDK_CURSOR_GET_DISPLAY ) // pCursor -> display
   hb_retptr( (GdkDisplay*) display );
 }
 
+#endif
