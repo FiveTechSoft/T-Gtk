@@ -164,12 +164,15 @@ HB_FUNC( GTK_COMBO_BOX_ENTRY_SET_TEXT_COLUMN )
    gtk_combo_box_entry_set_text_column( GTK_COMBO_BOX_ENTRY(entry_box), (gint)hb_parni( 2 ) );
 }
 
+#if GTK_MAJOR_VERSION < 3  // Solo funciona para < gtk3
+
 HB_FUNC( TGTK_GET_TEXT_COMBO_ENTRY )
 {
  GtkWidget * combo_box = GTK_WIDGET( hb_parptr( 1 ) );
  GtkEntry * entry = GTK_ENTRY(GTK_BIN (combo_box)->child );
  hb_retc( gtk_entry_get_text( entry ) );
 }
+
 
 HB_FUNC( TGTK_GET_WIDGET_COMBO_ENTRY )
 {
@@ -178,7 +181,17 @@ HB_FUNC( TGTK_GET_WIDGET_COMBO_ENTRY )
  hb_retptr( ( GtkWidget * ) entry  );
 }
 
+#else
+  // TODO: Falta 
+  HB_FUNC( TGTK_GET_TEXT_COMBO_ENTRY )
+  {
+   hb_retc( "falta" );
+  }
+
 #endif
+
+
+
 
 /* OBSOLETO ------->
 HB_FUNC( GTK_COMBO_NEW )

@@ -77,8 +77,10 @@ HB_FUNC( GTK_WINDOW_NEW )
 {
   GtkWidget * window = window = gtk_window_new ( hb_parni( 1 ) ) ;
 
+#ifdef _GTK3_
+  /* Esto es temporal... por problemas con señales en harbour de momento. */
   g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
-
+#endif
   hb_retptr( (GtkWidget * ) window );
 }
 
@@ -315,7 +317,12 @@ HB_FUNC( GTK_WINDOW_LIST_TOPLEVELS )
 HB_FUNC( GET_GTKWINDOW )
 {
     GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
-    hb_retptr( widget->window );
+    #if GTK_MAJOR_VERSION < 3
+        hb_retptr( widget->window );
+    #else
+        // TODO  : Any idea
+        hb_retptr( gtk_widget_get_parent_window( widget ) );
+    #endif    
 }
 
 HB_FUNC( GTK_WINDOW_SET_TYPE_HINT ) // window, nWindowTypeHint -> void

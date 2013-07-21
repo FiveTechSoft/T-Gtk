@@ -33,9 +33,11 @@ static TGtkActionParce array[] = {
                {"value-changed",             "OnValue_changed",             G_CALLBACK( OnEventos ),NULL},                /*21 -- GtkRange  -- */
                {"move-slider",               "OnMove_slider",               G_CALLBACK( OnMove_slider ),NULL},            /*22 -- GtkRange  -- */
                {"expose-event",              "OnExpose_Event",              G_CALLBACK( OnExpose_Event ),NULL},           /*23 -- GtkWidget -- */
+#if GTK_MAJOR_VERSION < 3  // FIX. Para gkt3 de momento
                {"select-child",              "OnSelect_child",              G_CALLBACK( OnSelect_child ),NULL},           /*24*/
                {"selection-changed",         "OnSelection_changed",         G_CALLBACK( OnSelection_changed ),NULL},      /*25*/
                {"switch-page",               "OnSwitch_page",               G_CALLBACK( OnSwitch_page ),NULL},            /*26*/
+#endif
                {"key-release-event",         "OnKeyReleaseEvent",           G_CALLBACK( OnKeyPressEvent ),NULL},          /*27 -- GtkWidget    -- */
                {"group-changed",             "OnGroup_changed",             G_CALLBACK( OnGroup_changed ),NULL},          /*28 Pendiente, no logro que funcione! */
                {"row-activated",             "OnRow_Activated",             G_CALLBACK( OnRow_activated ),NULL},          /*29*/
@@ -58,7 +60,9 @@ static TGtkActionParce array[] = {
                {"button-release-event",      "OnButtonReleaseEvent",        G_CALLBACK( OnButton_Press_Event ),NULL},     /*44 -- GtkWidget -- */
                {"can-activate-accel",        "OnCanActivateAccel",          G_CALLBACK( OnCan_Activate_Accel ),NULL},     /*45 -- GtkWidget -- */
                {"child-notify",              "OnChildNotify",               G_CALLBACK( OnChild_Notify ),NULL},           /*46 -- GtkWidget -- */
+#if GTK_MAJOR_VERSION < 3  // FIX. Para gkt3 de momento
                {"client-event",              "OnClientEvent",               G_CALLBACK( OnClient_Event ),NULL},           /*47 -- GtkWidget -- */
+#endif
                {"destroy-event",             "OnDestroyEvent",              G_CALLBACK( OnDelete_Event ),NULL},           /*48 -- GtkWidget -- */
                {"direction-changed",         "OnDirectionChanged",          G_CALLBACK( OnDirection_Changed ),NULL},      /*49 -- GtkWidget -- */
                {"event-after",               "OnEventAfter",                G_CALLBACK( OnEvent_After ),NULL},            /*50 -- GtkWidget -- */
@@ -78,7 +82,9 @@ static TGtkActionParce array[] = {
                {"map-event",                 "OnMapEvent",                  G_CALLBACK( OnDelete_Event ),NULL},           /*62 -- GtkWidget -- */
                {"mnemonic-activate",         "OnMnemonicActivate",          G_CALLBACK( OnMnemonic_Activate ),NULL},      /*63 -- GtkWidget -- */
                {"motion-notify-event",       "OnMotionNotifyEvent",         G_CALLBACK( OnMotion_Notify_Event ),NULL},    /*64 -- GtkWidget -- */
+#if GTK_MAJOR_VERSION < 3  // FIX. Para gkt3 de momento
                {"no-expose-event",           "OnNoExposeEvent",             G_CALLBACK( OnNo_Expose_Event ),NULL},        /*65 -- GtkWidget -- */
+#endif
                {"parent-set",                "OnParentSet",                 G_CALLBACK( OnParent_Set ),NULL},             /*66 -- GtkWidget -- */
                {"popup-menu",                "OnPopupMenu",                 G_CALLBACK( OnEventos ),NULL},                /*67 -- GtkWidget -- */
                {"property-notify-event",     "OnPropertyNotifyEvent",       G_CALLBACK( OnProperty_Notify_Event ),NULL},  /*68 -- GtkWidget -- */

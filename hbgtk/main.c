@@ -48,9 +48,9 @@ int main( int argc, char * argv[] )
    gdk_threads_enter();
    g_print("activado soporte multitarea.. \n");
 #endif
-
-//   gtk_set_locale();
-
+#ifdef _GTK2_
+   gtk_set_locale();
+#endif
    if( gtk_init_check( &argc, &argv ) )
    {
       /* gnome_init( "T-Gtk","0.1",argc, argv); --> Entrada a gnome desactivada

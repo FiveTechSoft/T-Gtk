@@ -43,7 +43,7 @@ HB_FUNC( GTK_RANGE_GET_ADJUSTMENT ) // pWidget--> pAdjustment
 HB_FUNC( GTK_RANGE_SET_ADJUSTMENT ) // pWidget, pAdjustment
 {
    GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
-   GtkObject * adjust = GTK_OBJECT( hb_parptr( 2 ) );
+   GObject * adjust  = G_OBJECT( hb_parptr( 2 ) );
    gtk_range_set_adjustment( GTK_RANGE( range ), GTK_ADJUSTMENT( adjust ) );
 }
 
@@ -95,12 +95,18 @@ HB_FUNC( GTK_RANGE_SET_VALUE ) // pWidget, dValue
    gdouble value = hb_parnd( 2 );
    gtk_range_set_value( GTK_RANGE( range ),value );
 }
-
+#ifdef _GTK2_
 HB_FUNC( GTK_RANGE_GET_ORIENTATION ) // pWidget, int orientation
 {
    GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
    gint orientation  = GTK_RANGE (range)->orientation;
    hb_retni( orientation );
 }
+#else
+HB_FUNC( GTK_RANGE_GET_ORIENTATION ) // pWidget, int orientation
+{
+   hb_retni( 0 );
+}
+#endif
 
 #endif

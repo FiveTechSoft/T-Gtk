@@ -365,6 +365,10 @@ HB_FUNC( GTK_ALERT ) // cMessage, aButtons -> nOption
    gtk_container_set_border_width( GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 20 );
    gtk_widget_set_usize( dialog, 350, 150 );
    gtk_container_add( GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), label );
+#else
+   // TODO: Esto esta para repasar, seguramente cascar��, pero necesitamos seguir compilando
+   gtk_widget_set_usize( dialog, 350, 150 );
+   gtk_container_add( GTK_CONTAINER (GTK_DIALOG (dialog)), label );
 #endif
    result = gtk_dialog_run( GTK_DIALOG (dialog) );
    gtk_widget_destroy( dialog );

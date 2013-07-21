@@ -139,7 +139,11 @@ HB_FUNC( GTK_TREE_VIEW_SET_CURSOR_ON_CELL )
 HB_FUNC( GTK_TREE_COLUMN_GET_EDITABLE_WIDGET )
 {
     GtkTreeViewColumn * column = (GtkTreeViewColumn *) hb_parnl( 1 );
-    hb_retptr( ( GtkTreeViewColumn * ) column->editable_widget );
+    #if GTK_MAJOR_VERSION < 3
+        hb_retptr( ( GtkTreeViewColumn * ) column->editable_widget );
+    #else
+        // TODO: Any Idea ?
+    #endif 
 }
 
 //------------------------------------------------------//

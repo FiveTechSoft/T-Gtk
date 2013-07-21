@@ -114,8 +114,12 @@ HB_FUNC( GTK_WIDGET_SET_UPOSITION )
 HB_FUNC( GTK_WIDGET_GET_COLORMAP )
 {
    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
-   GdkColormap * colormap = gtk_widget_get_colormap( widget );
-   hb_retptr( (GdkColormap *) colormap );
+   #if GTK_MAJOR_VERSION < 3
+       GdkColormap * colormap = gtk_widget_get_colormap( widget );
+       hb_retptr( (GdkColormap *) colormap );
+   #else
+       // TODO: Any Idea ?
+   #endif
 }
 #endif
 

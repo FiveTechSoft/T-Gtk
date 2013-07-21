@@ -1761,7 +1761,7 @@ gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer
   return( FALSE );  // Salimos
 }
 
-void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
+void OnParent_Set( GtkWidget *widget, GObject *old_parent, gpointer data )
 {
   PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
@@ -1778,7 +1778,7 @@ void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
             hb_vmPush( pObj );                            // Coloca objeto en pila.
             hb_vmPush( pObj );                            // oSender
-            hb_vmPushPointer( ( GtkObject * ) old_parent );
+            hb_vmPushPointer( ( GObject * ) old_parent );
             hb_vmSend( 2 );                               // LLamada por Send que pasa
          } else {
 	  HB_ERRCODE ErrCode = 5002;	  
@@ -1794,7 +1794,7 @@ void OnParent_Set( GtkWidget *widget, GtkObject *old_parent, gpointer data )
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkWidget * ) widget );
-        hb_vmPushPointer( ( GtkObject * ) old_parent );
+        hb_vmPushPointer( ( GObject * ) old_parent );
         hb_vmSend( 2 );
      }
   }

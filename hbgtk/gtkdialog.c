@@ -111,10 +111,10 @@ HB_FUNC( GTK_DIALOG_NEW_WITH_BUTTONS ) // title, parent, flags, list params...
 
   if ( flags & GTK_DIALOG_DESTROY_WITH_PARENT )
      gtk_window_set_destroy_with_parent( GTK_WINDOW(dialog), TRUE );
-
+#if GTK_MAJOR_VERSION < 3
   if ( flags & GTK_DIALOG_NO_SEPARATOR )
      gtk_dialog_set_has_separator( GTK_DIALOG(dialog), FALSE );
-
+#endif
   for( iParam = 4; iParam <= ipCount; iParam += 2 )
      {
        stock_button = (gchar *) hb_parc(iParam);

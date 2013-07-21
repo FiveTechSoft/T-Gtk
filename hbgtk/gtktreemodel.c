@@ -49,7 +49,11 @@ HB_FUNC( GTK_TREE_MODEL_GET_LONG )
     GtkTreeIter iter;
 
     iter.user_data = (gpointer) hb_parptr( 2 );
-    iter.stamp = model->stamp;
+    #if GTK_MAJOR_VERSION < 3
+        iter.stamp = model->stamp;
+    #else
+        //TODO: AnyIdea ?
+    #endif
     gtk_tree_model_get ( (GtkTreeModel *) model, &iter, 0, &l, -1);
 
     hb_retnl( l );

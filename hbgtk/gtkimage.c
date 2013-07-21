@@ -88,6 +88,7 @@ HB_FUNC( GTK_DRAWING_AREA_NEW )
 
 }
 
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_IMAGE_GET_PIXMAP )
 {
    GtkWidget * image = GTK_WIDGET( hb_parptr( 1 ) );
@@ -95,5 +96,5 @@ HB_FUNC( GTK_IMAGE_GET_PIXMAP )
    gtk_image_get_pixmap( GTK_IMAGE( image ), &pixmap, NULL );
    hb_retptr( (GdkPixmap *) pixmap );
 }
-
+#endif
 #endif
