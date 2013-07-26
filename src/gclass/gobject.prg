@@ -198,45 +198,7 @@ METHOD CheckGlade( cId ) CLASS GOBJECT
 RETURN .F.
 
 ******************************************************************************
-// Funciones de manejo de señales
-FUNCTION gtk_signal_connect( pWidget, cSignal, pBlock )
-  Local iReturn := 0
-  
-  iReturn := HARB_SIGNAL_CONNECT( pWidget, cSignal, NIL, pBlock , 0 )
+/* Funciones de manejos de señales movidas a gsignals.prg */
+******************************************************************************
 
-RETURN iReturn
-      
-FUNCTION gtk_signal_connect_After( pWidget, cSignal, pBlock )
-  Local iReturn := 0
-  
-  IF ValType( pBlock ) == "B"
-     iReturn := HARB_SIGNAL_CONNECT( pWidget, cSignal, NIL, pBlock , G_CONNECT_AFTER )
-  ELSE
-     MsgSTOP( "Sorry...Codeblock not pass at widget "+ cValToChar( pWidget ), "Caution..." )
-  ENDIF
-
-RETURN iReturn
-
-FUNCTION gtk_signal_connect_Swapped( pWidget, cSignal, pBlock )
-  Local iReturn := 0
-  
-  /*
-   IF ValType( pBlock ) == "B"
-     iReturn := HARB_SIGNAL_CONNECT( pWidget, cSignal, NIL, pBlock , G_CONNECT_SWAPPED )
-  ELSE
-     MsgSTOP( "Sorry...Codeblock not pass at widget "+ cValToChar( pWidget ), "Caution..." )
-  ENDIF
-  */
-  MsgSTOP( "Sorry...not implement...under xBase, not necessary..."+CRLF+;
-           "Use function g_signal_connect()", "Caution..." )
-
-RETURN iReturn
-
-FUNCTION g_signal_connect( pWidget, cSignal, pBlock )
-RETURN gtk_signal_connect( pWidget, cSignal, pBlock )
-
-FUNCTION g_signal_connect_After( pWidget, cSignal, pBlock )
-RETURN gtk_signal_connect_After( pWidget, cSignal, pBlock )
-
-FUNCTION g_signal_connect_Swapped( pWidget, cSignal, pBlock )
-RETURN gtk_signal_connect_Swapped( pWidget, cSignal, pBlock )
+//eof

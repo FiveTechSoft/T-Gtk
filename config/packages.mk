@@ -58,7 +58,7 @@ ifeq ($(findstring gtk+,$(PACKAGES)),)
    endif
 endif
 
-ifneq ($(GTK_VERSION),3)
+ifneq ($(GTK_MAJOR_VERSION),3)
    ifeq ($(findstring libglade-2.0,$(PACKAGES)),)
       $(info ----------------------------------------)
       $(info *  ERROR LibGlade No Encontrado!       *)

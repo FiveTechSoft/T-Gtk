@@ -11,7 +11,7 @@ function Main()
 
 /* Ventana */
    hWnd := gtk_window_new( GTK_WINDOW_TOPLEVEL )
-   gtk_window_set_icon( hWnd, "../../images/glade.png" )
+   gtk_window_set_icon( hWnd, "../../images/gnome-logo.png" )
 
    Gtk_Signal_Connect( hWnd, "key-press-event", {||  otra() } )  // Cuando se mata la aplicacion
 
@@ -43,7 +43,7 @@ function otra()
 
 /* Method Activate */
    gtk_window_set_title( hWnd, "Hello World! from T-Gtk for [x]Harbour" )
-//   gtk_window_set_position( hWnd, GTK_WIN_POS_CENTER )
+   gtk_window_set_position( hWnd, GTK_WIN_POS_CENTER )
    gtk_window_set_default_size( hWnd, 500, 350 )
     
    gtk_widget_show( hWnd )

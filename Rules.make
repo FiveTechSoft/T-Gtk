@@ -293,8 +293,7 @@ endif
 
 #librerias usadas por Tgtk las definimos aqui. GTK y GLADE
 #LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
-# agregar despues a libgclass 
-LIBS += -L$(LIBDIR_TGTK_) -lhbgtk
+LIBS += -L$(LIBDIR_TGTK_) -lhbgtk -lgclass
 PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 # By Quim -->
@@ -320,8 +319,7 @@ endif
 HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
 #XHB_LIBDIR_ = $(LIBDIR) -L$(XHB_LIB_INSTALL)
 
-#HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) 
-HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
+HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
         $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS) $(OS_LIBS)
 #XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
 #        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)

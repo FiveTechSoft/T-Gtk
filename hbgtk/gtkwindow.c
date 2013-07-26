@@ -76,11 +76,6 @@ GtkWidget * get_win_parent()
 HB_FUNC( GTK_WINDOW_NEW )
 {
   GtkWidget * window = window = gtk_window_new ( hb_parni( 1 ) ) ;
-
-#ifdef _GTK3_
-  /* Esto es temporal... por problemas con señales en harbour de momento. */
-  g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
-#endif
   hb_retptr( (GtkWidget * ) window );
 }
 
