@@ -70,6 +70,9 @@ ifeq ($(HB_MAKE_PLAT),win)
 endif
 
 
+export GTK_MAJOR_VERSION = 2
+export GTK_MINOR_VERSION = 0
+
 # Intentamos detectar dependencias varias...
 # ejemplo libgttrm puede depender de libgpm (soporte de mouse)
 ifneq ($(HB_MAKE_PLAT),win)
@@ -80,6 +83,17 @@ ifneq ($(HB_MAKE_PLAT),win)
    ifneq ($(findstring libssl,$(shell dpkg --get-selections | grep "libssl-dev" )),)
       export OS_LIBS += -lssl
    endif
+
+   ifneq ($(findstring libgtk-3-dev,$(shell dpkg --get-selections | grep "libgtk-3" )),)
+      export GTK_MAJOR_VERSION = 3
+      export GTK_MINOR_VERSION = $(shell dpkg -s libgtk-3-0 | grep '^Version' | cut -c12)
+   endif
+
+   ifneq ($(findstring libgtk2.0-dev,$(shell dpkg --get-selections | grep "libgtk2.0-dev" )),)
+      export GTK_MAJOR_VERSION = 2
+      export GTK_MINOR_VERSION = $(shell dpkg -s libgtk2.0-dev | grep '^Version' | cut -c12)
+   endif
+
 
 endif
 

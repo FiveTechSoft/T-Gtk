@@ -128,7 +128,7 @@ else
                  -lrddnsx -lrddcdx -lrddfpt \
                  -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl \
                  -lhbmacro -lhbcplr -lhbpp -lhbcommon $(HB_GT_LIBS) \
-                 -lxhb -lhbxpp -lhbssl -lhbtipssl -lhbtip -lhbnetio
+                 -lxhb -lhbxpp -lhbtip -lhbnetio
   endif
 
 endif
