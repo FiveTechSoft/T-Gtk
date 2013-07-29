@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 #include <t-gtk.h>
 
-#ifdef _GTK2_
 
 HB_FUNC( GTK_LABEL_NEW )
 {
@@ -231,4 +230,3 @@ HB_FUNC( GTK_LABEL_SET_USE_UNDERLINE )
 
 //--------------------------------------------------------//
 
-#endif

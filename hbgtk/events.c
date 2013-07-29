@@ -1306,7 +1306,9 @@ void OnChild_Notify( GtkWidget *widget, GParamSpec *pspec, gpointer data )
      }
   }
 }
-#ifdef _GTK2_
+
+#if GTK_MAJOR_VERSION < 3
+  //TODO: Se necesita sustituir GdkEventClient..  como??  aparentemente se debe usar gdk_window_add_filter
 gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data )
 {
   PHB_ITEM pObj = NULL;
@@ -1349,6 +1351,8 @@ gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data
   return( FALSE );
 }
 #endif
+
+
 void OnDirection_Changed( GtkWidget *widget, GtkTextDirection arg1, gpointer data )
 {
   PHB_ITEM pObj = NULL;
@@ -3090,10 +3094,7 @@ gboolean OnMatch_Selected ( GtkEntryCompletion *widget, GtkTreeModel *model, Gtk
             hb_vmPush( pObj );                            // oSender
             hb_vmPushPointer( ( GtkTreeModel * ) model );
             //hb_vmPushPointer( ( GtkTreeIter *) iter );
-#ifdef _GTK2_
- // TODO: esta dando error... 
             hb_vmPush( Iter2Array( (GtkTreeIter *) iter ) ); // Enviamos el array, no el puntero
-#endif
             hb_vmSend( 3 );                               // LLamada por Send que pasa
             return hb_parl( -1 ) ;
          } else {
@@ -3112,10 +3113,7 @@ gboolean OnMatch_Selected ( GtkEntryCompletion *widget, GtkTreeModel *model, Gtk
         hb_vmPushPointer( ( GtkEntryCompletion * ) widget );
         hb_vmPushPointer( ( GtkTreeModel * ) model );
         hb_vmPushPointer( ( GtkTreeIter *) iter );
-#ifdef _GTK2_
- // TODO: esta dando error... 
         hb_vmPush( Iter2Array( (GtkTreeIter *) iter ) );  // Enviamos el array, no el puntero
-#endif
         hb_vmSend( 3 );
         return hb_parl( -1 ) ;
      }
