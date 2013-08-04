@@ -25,7 +25,6 @@
 #include "hbapi.h"
 #include "hbapiitm.h"
 
-#ifdef _GTK2_
 
 /*
  * Preparado para sopartar un dialogo
@@ -77,4 +76,3 @@ HB_FUNC( GTK_CONTAINER_SET_FOCUS_CHAIN )
 
 }
 
-#endif
