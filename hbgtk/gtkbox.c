@@ -24,18 +24,37 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#ifdef _GTK2_
 
 HB_FUNC( GTK_VBOX_NEW ) // bHomogeneus, iSpacing
 {
-   GtkWidget * VBox = gtk_vbox_new( hb_parl( 1 ), hb_parni( 2 ) );
+   #if GTK_MAJOR_VERSION < 3
+      GtkWidget * VBox = gtk_vbox_new( hb_parl( 1 ), hb_parni( 2 ) );
+   #else
+      gboolean homogeneous = hb_parl( 1 );
+      GtkWidget * VBox = gtk_box_new( GTK_ORIENTATION_VERTICAL, hb_parni( 2 ) );
+      gtk_box_set_homogeneous( ( GtkBox * ) VBox, homogeneous  );
+   #endif
+   g_message("gtk_vbox_new is deprecated!");
    hb_retptr( ( GtkWidget * ) VBox );
 }
 
 HB_FUNC( GTK_HBOX_NEW ) // bHomogeneus, iSpacing
 {
+   #if GTK_MAJOR_VERSION < 3
    GtkWidget * HBox = gtk_hbox_new( hb_parl( 1 ), hb_parni( 2 ) );
+   #else
+      gboolean homogeneous = hb_parl( 1 );
+      GtkWidget * HBox = gtk_box_new( GTK_ORIENTATION_HORIZONTAL, hb_parni( 2 ) );
+      gtk_box_set_homogeneous( ( GtkBox * ) HBox, homogeneous  );
+   #endif
+   g_message("gtk_hbox_new is deprecated!");
    hb_retptr( ( GtkWidget * ) HBox );
+}
+
+HB_FUNC( GTK_BOX_NEW )
+{
+   GtkWidget * Box = gtk_box_new( hb_parni( 1 ), hb_parni( 2 ) );
+   hb_retptr( (GtkWidget * ) Box ) ;
 }
 
 HB_FUNC( GTK_BOX_PACK_START ) // box, child, lExpand, lFill, ipadding
@@ -54,4 +73,4 @@ HB_FUNC( GTK_BOX_PACK_END ) // box, child, lExpand, lFill, ipadding
                       hb_parl( 3 ), hb_parl( 4 ), hb_parl( 5 ) );
 }
 
-#endif
+//eof

@@ -25,7 +25,6 @@
 #include "hbapi.h"
 #include <t-gtk.h>
 
-#ifdef _GTK2_
 
 HB_FUNC( GTK_CHECK_BUTTON_NEW )
 {
@@ -49,4 +48,4 @@ HB_FUNC( GTK_CHECK_BUTTON_NEW_WITH_MNEMONIC )
    hb_retptr( ( GtkWidget *  ) checkbox );
 }
 
-#endif
+//eof

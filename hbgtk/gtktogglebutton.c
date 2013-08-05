@@ -25,7 +25,6 @@
 #include "hbapi.h"
 #include <t-gtk.h>
 
-#ifdef _GTK2_
 
 HB_FUNC( GTK_TOGGLE_BUTTON_NEW ) // -> widget
 {
@@ -83,7 +82,18 @@ HB_FUNC( GTK_TOGGLE_BUTTON_GET_ACTIVE ) //widget --> lActivo
 HB_FUNC( GTK_TOGGLE_BUTTON_SET_STATE ) // widget, lstate
 {
    GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
-   gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( button ), hb_parl( 2 ) );
+   #if GTK_MAJOR_VERSION < 3
+     gtk_toggle_button_set_state( GTK_TOGGLE_BUTTON( button ), hb_parl( 2 ) );
+   #else
+     gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( button ), hb_parl( 2 ) );
+   #endif
+   g_message( "gtk_toggle_button_set_state is deprecated! /n Use gtk_toggle_button_set_active" );
+}
+
+HB_FUNC( GTK_TOGGLE_BUTTON_SET_ACTIVE ) // widget, lstate
+{
+   GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
+   gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( button ), hb_parl( 2 ) );
 }
 
 HB_FUNC( GTK_TOGGLE_BUTTON_GET_INCONSISTENT ) // widget --> linconsistent
@@ -98,4 +108,4 @@ HB_FUNC( GTK_TOGGLE_BUTTON_SET_INCONSISTENT ) // widget ,linconsistent
    gtk_toggle_button_set_inconsistent( GTK_TOGGLE_BUTTON( button ), hb_parl( 2 ) );
 }
 
-#endif
+//eof

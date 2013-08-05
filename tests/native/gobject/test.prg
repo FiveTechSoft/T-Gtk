@@ -66,7 +66,12 @@ function main()
    gtk_signal_connect( window, "destroy", {|| gtk_main_quit() } ) 
    gtk_window_set_title( window, "Test gObject. GtkLabel properties" )
 
-   vbox = gtk_vbox_new (.F., 8)
+   /*
+     deprecated!
+     vbox = gtk_vbox_new (.F., 8)  
+   */
+   vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL , 8)
+
    gtk_container_set_border_width (vbox, 8)
    gtk_container_add (window, vbox)
   
