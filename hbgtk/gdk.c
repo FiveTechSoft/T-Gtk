@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#ifdef _GTK2_
 
 PHB_ITEM Color2Array( GdkColor *color );
 BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );
@@ -109,6 +108,7 @@ HB_FUNC( GTK_SETTINGS_GET_DEFAULT )
    hb_retptr( (GtkSettings *) set );
 }
 
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( CAMBIO_STYLE )
 {
     
@@ -287,6 +287,7 @@ HB_FUNC( GDK_GC_SET_BACKGROUND ) // gc, { colors }
     }
  hb_ret();
 }
+#endif
 
 HB_FUNC( GDK_RECTANGLE_INTERSECT )
 {
@@ -306,4 +307,4 @@ HB_FUNC( GDK_RECTANGLE_INTERSECT )
      hb_retl( bResult );
 }
 
-#endif
+//eof

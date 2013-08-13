@@ -33,8 +33,7 @@
 #include "hbapiitm.h"
 #include "hbapierr.h"
 
-#ifdef _GTK2_
-
+#if GTK_MAJOR_VERSION > 3
 HB_FUNC( GTK_FILE_SELECTION_NEW )
 {
   GtkWidget * filesel;
@@ -48,7 +47,66 @@ HB_FUNC( GTK_FILE_SELECTION_NEW )
 
   hb_retptr( ( GtkWidget * ) filesel );
 }
+#else
 
+HB_FUNC( GTK_FILE_SELECTION_NEW )
+{
+  g_message("gtk_file_selection_new is deprecated! ");
+
+  GtkWidget * filesel;
+  GtkWidget *parent_window = NULL;
+
+  const gchar * title = ( const gchar*) hb_parc( 1 );
+
+  parent_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+  filesel = gtk_file_chooser_dialog_new (title,
+                                          GTK_WINDOW(parent_window),
+                                          GTK_FILE_CHOOSER_ACTION_OPEN,
+                                          GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                          GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+                                          NULL); 
+  hb_retptr( ( GtkWidget * ) filesel );
+}
+
+
+HB_FUNC( GTK_FILE_CHOOSER_DIALOG_NEW )
+{
+  gint iParam;
+  gint ipCount = hb_pcount();
+  gint response;
+  gchar * stock_button;
+
+  GtkWidget * result;
+
+  const gchar * title = ( const gchar*) hb_parc( 1 );
+
+  GtkWindow * parent = GTK_WINDOW( hb_parptr( 2 ) );
+
+  GtkFileChooserAction action = hb_parni( 3 );
+
+
+  result = g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
+			 "title", title,
+			 "action", action,
+			 NULL);
+
+  if (parent)
+     gtk_window_set_transient_for( GTK_WINDOW( result ), parent );
+
+  for( iParam = 4; iParam <= ipCount; iParam += 2 )
+     {
+       stock_button = (gchar *) hb_parc(iParam);
+       response     = hb_parni(iParam+1);
+       gtk_dialog_add_button( GTK_DIALOG(result), stock_button, response );
+     }
+
+  hb_retptr( (GtkWidget *) result );
+}
+
+#endif
+
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_FILE_SELECTION_HIDE_FILEOP_BUTTONS )
 {
   GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parptr( 1 ) );
