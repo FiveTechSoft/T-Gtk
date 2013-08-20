@@ -191,6 +191,8 @@ HB_FUNC( GTK_FILE_SELECTION_SET_FILENAME )
 #endif
 
 
+
+#if _GTK2_
 static void event_filename( GtkWidget *widget, gpointer user_data )
 {
    PHB_ITEM pUser_Data = ( PHB_ITEM ) user_data;
@@ -208,8 +210,6 @@ static void event_filename( GtkWidget *widget, gpointer user_data )
   
 }
 
-
-#if _GTK2_
 HB_FUNC( GTK_FILE_SELECTION_GET_SELECTIONS )
 {
  /* GTK+ Reference Manual
@@ -269,13 +269,43 @@ HB_FUNC( GTK_FILE_SELECTION_CONNECT )
 }
 
 #else
+
+//HB_FUNC( GTK_FILE_CHOOSER_GET_FILES )
+HB_FUNC( GTK_FILE_SELECTION_GET_SELECTIONS )
+{
+  GtkFileChooser * filechooser = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
+  GSList * sel_filenames = gtk_file_chooser_get_files( filechooser );
+  gint i;
+  guint len = g_slist_length( sel_filenames );
+
+  PHB_ITEM aList = hb_itemArrayNew( len );
+  PHB_ITEM element = hb_itemNew( NULL );
+
+//  g_message(" Nro de Items %i ", len);
+
+  for( i = 0; i <= len-1; i++ ) {
+     gchar * path = g_file_get_path( g_slist_nth_data( sel_filenames, i ) );
+//     g_message(" Valor %i = %s ", i, path );
+     hb_arraySet( aList, i+1, hb_itemPutC( element, path ) );
+  }
+
+  hb_itemRelease( element );
+  
+  g_slist_free( sel_filenames ); 
+  hb_itemReturnForward( aList );
+
+}
+
+
+#include "hbvm.h"
+#include "hbstack.h"
 HB_FUNC( GTK_FILE_SELECTION_CONNECT )
 {
-   GtkFileChooser * filesel = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
-   const char * szsignal = hb_parc( 2 );
+   GtkFileChooser * filechooser = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
+   //const char * szsignal = hb_parc( 2 );
    PHB_ITEM pBlock       = hb_param( 3, HB_IT_BLOCK );
    PHB_ITEM pUser_Data   = hb_itemArrayNew( 1 );
-   gint response = gtk_dialog_run( GTK_DIALOG ( filesel ) );
+   gint response = gtk_dialog_run( GTK_DIALOG ( filechooser ) );
    
    
    
@@ -285,7 +315,20 @@ HB_FUNC( GTK_FILE_SELECTION_CONNECT )
 //      if( hb_stricmp( szsignal, "ok_button" ) == 0 )
       if ( response == GTK_RESPONSE_OK || response == GTK_RESPONSE_ACCEPT )
       {
-         g_message("AQUIIII");
+
+         int iPCount = hb_pcount();
+         int iParam;
+
+         hb_vmPushEvalSym();
+         hb_vmPush( pBlock );
+    
+         for( iParam = 2; iParam <= iPCount; iParam++ )
+            hb_vmPush( hb_stackItemFromBase( iParam ) );
+
+         hb_vmSend( ( HB_USHORT ) ( iPCount - 1 ) );
+
+         //gtk_widget_destroy( GTK_WIDGET ( filechooser ) );
+       }
 /*
          g_signal_connect (GTK_FILE_CHOOSER (filesel)->ok_button,
                            "clicked",
@@ -296,7 +339,6 @@ HB_FUNC( GTK_FILE_SELECTION_CONNECT )
                             G_CALLBACK(gtk_widget_destroy ),
                             (gpointer) filesel );
 */
-      }
    }
 
 }
