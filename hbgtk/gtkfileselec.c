@@ -281,6 +281,8 @@ HB_FUNC( GTK_FILE_SELECTION_GET_SELECTIONS )
   PHB_ITEM aList = hb_itemArrayNew( len );
   PHB_ITEM element = hb_itemNew( NULL );
 
+  g_message( "gtk_file_selection_get_selections is Deprecated!" )
+
 //  g_message(" Nro de Items %i ", len);
 
   for( i = 0; i <= len-1; i++ ) {
