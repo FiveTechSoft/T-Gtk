@@ -20,7 +20,8 @@ function Main()
    gtk_signal_connect( hWnd, "destroy", {|| gtk_main_quit(), .F. } )
 
 /* Caja de 'empaquetamiento'*/
-   hBox := gtk_hbox_new( .t., 0 )
+   //hBox := gtk_hbox_new( .t., 0 )
+   hBox := gtk_box_new( .t., GTK_ORIENTATION_HORIZONTAL ) // GTK+3
    gtk_container_add( hWnd, hBox )
    gtk_widget_show( hBox )
 
@@ -65,28 +66,32 @@ FUNCTION button_leave ( widget )
    DO CASE
       CASE aButton[1] == widget
            if( !Empty( aCursor[1] ) )
-               gdk_cursor_unref( aCursor[1] )
+               g_object_unref( aCursor[1] )  // GTK+3
+               //gdk_cursor_unref( aCursor[1] )
            endif
            gdk_window_set_cursor( widget , NIL )
            aCursor[1] := NIL
 
       CASE aButton[2] == widget
            if( !Empty( aCursor[2] ) )
-               gdk_cursor_unref( aCursor[2] )
+               g_object_unref( aCursor[2] ) // GTK+3
+               //gdk_cursor_unref( aCursor[2] )
            endif
            gdk_window_set_cursor( widget , NIL )
             aCursor[2] := NIL
 
       CASE aButton[3] == widget
            if( !Empty( aCursor[3] ) )
-               gdk_cursor_unref( aCursor[3] )
+               g_object_unref( aCursor[3] ) // GTK+3
+               //gdk_cursor_unref( aCursor[3] )
            endif
            gdk_window_set_cursor( widget , NIL)
            aCursor[3] := NIL
 
       CASE aButton[4] == widget
            if( !Empty( aCursor[4] ) )
-               gdk_cursor_unref( aCursor[4] )
+               g_object_unref( aCursor[3] ) // GTK+3
+               //gdk_cursor_unref( aCursor[4] )
            endif
            gdk_window_set_cursor( widget , NIL )
            aCursor[4] := NIL
@@ -99,28 +104,32 @@ FUNCTION button_enter( widget )
    DO CASE
       CASE aButton[1] == widget
            if( !Empty( aCursor[1] ) )
-                gdk_cursor_unref( aCursor[1] )
+                g_object_unref( aCursor[1] ) // GTK+3
+                //gdk_cursor_unref( aCursor[1] )
            endif
            aCursor[1] = gdk_cursor_new( GDK_SPIDER )
            gdk_window_set_cursor( widget , aCursor[1] )
 
       CASE aButton[2] == widget
            if( !Empty( aCursor[2] ) )
-                gdk_cursor_unref( aCursor[2] )
+                g_object_unref( aCursor[2] ) // GTK+3
+                //gdk_cursor_unref( aCursor[2] )
            endif
            aCursor[2] = gdk_cursor_new( GDK_UMBRELLA )
            gdk_window_set_cursor( widget , aCursor[2] )
 
       CASE aButton[3] == widget
            if( !Empty( aCursor[3] ) )
-                gdk_cursor_unref( aCursor[3] )
+                g_object_unref( aCursor[3] ) // GTK+3
+                //gdk_cursor_unref( aCursor[3] )
            endif
            aCursor[3] = gdk_cursor_new( GDK_QUESTION_ARROW )
            gdk_window_set_cursor( widget , aCursor[3] )
 
       CASE aButton[4] == widget
            if( !Empty( aCursor[4] ) )
-                gdk_cursor_unref( aCursor[4] )
+                g_object_unref( aCursor[4] ) // GTK+3
+                //gdk_cursor_unref( aCursor[4] )
            endif
            aCursor[4] = gdk_cursor_new( GDK_BOX_SPIRAL )
            gdk_window_set_cursor( widget , aCursor[4] )
