@@ -224,10 +224,7 @@ METHOD FillArray( ) CLASS gTreeView
    local aData    := {}
    local lRet,path
 
-? "AQUI --- gtreeview.fillarray()"
-   
    lRet = ::GetIterFirst( aIter )
-   //path = gtk_tree_model_get_path( pModel, aIter )
    path := ::GetPath( aIter )
 
    do while lRet
