@@ -73,6 +73,7 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD OnRow_Activated( oSender, pPath, pTreeViewColumn ) SETGET
       METHOD IsGetSelected( aIter ) 
       METHOD GetPath( aIter ) INLINE gtk_tree_model_get_path( ::GetModel(), aIter )
+      METHOD GetPathStr( aIter ) INLINE gtk_tree_path_to_string( ::GetPath( aIter ) )
 
       METHOD GetPosCol( cTitle )
       METHOD SetPosCol( aIter, nColumn )
@@ -219,22 +220,17 @@ RETURN NIL
 
 METHOD FillArray( ) CLASS gTreeView
 
-   local nColumns := ::GetColumns()
    local aIter    := Array( 4 )
-   local n, nRow
    local aData    := {}
-   local pModel   := ::GetModel()
    local lRet,path
 
-   
    lRet = ::GetIterFirst( aIter )
-   path = gtk_tree_model_get_path( pModel, aIter )
+   path := ::GetPath( aIter )
 
-   nRow = 1
    do while lRet
       AAdd( aData, ::aRow(aIter,path) )
-      nRow++
       lRet = ::GetIterNext( aIter )
+      path = ::GetPath( aIter )
    enddo
 
 //TO DO: Falta hacer que genere los datos de items con hijos.
