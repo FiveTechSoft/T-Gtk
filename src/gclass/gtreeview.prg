@@ -93,7 +93,9 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GoNext() INLINE HB_GTK_TREE_VIEW_NEXT_ROW( ::pWidget )
       METHOD GoPrev() INLINE HB_GTK_TREE_VIEW_PREV_ROW( ::pWidget )
 
+      METHOD ForEach( bCode )
       METHOD FillArray()
+
       METHOD aRow( aIter,path )
       METHOD GetIterFirst( aIter ) INLINE gtk_tree_model_get_iter_first( ::GetModel(), aIter )
       METHOD GetIterNext( aIter )  INLINE gtk_tree_model_iter_next( ::GetModel(), aIter )  
@@ -218,19 +220,36 @@ METHOD RemoveRow( pSelection ) CLASS gTreeView
 RETURN NIL
 
 
+METHOD ForEach( bCode ) CLASS gTreeView
+   local aIter    := Array( 4 )
+   local lRet,pPath
+   local pModel := ::GetModel()
+
+   default bCode := {||.t.}
+
+   lRet = ::GetIterFirst( aIter )
+   pPath := ::GetPath( aIter )
+   do while lRet
+      Eval( bCode, self, pModel, aIter, pPath )
+      lRet  := ::GetIterNext( aIter )
+      pPath := ::GetPath( aIter )
+   enddo
+Return .t.
+
+
 METHOD FillArray( ) CLASS gTreeView
 
    local aIter    := Array( 4 )
    local aData    := {}
-   local lRet,path
+   local lRet,pPath
 
-   lRet = ::GetIterFirst( aIter )
-   path := ::GetPath( aIter )
+   lRet  := ::GetIterFirst( aIter )
+   pPath := ::GetPath( aIter )
 
    do while lRet
-      AAdd( aData, ::aRow(aIter,path) )
-      lRet = ::GetIterNext( aIter )
-      path = ::GetPath( aIter )
+      AAdd( aData, ::aRow(aIter,pPath) )
+      lRet  := ::GetIterNext( aIter )
+      pPath := ::GetPath( aIter )
    enddo
 
 //TO DO: Falta hacer que genere los datos de items con hijos.
@@ -363,21 +382,27 @@ RETURN uValue
 METHOD GetAutoValue( nColumn, aIter, aIter_Clone ) CLASS gTreeView
    Local model
    Local uValue, nType, path
+   Local lIter := .f.
    
-   DEFAULT nColumn := 1,;
-           aIter := Array( 4 ) 
+   DEFAULT nColumn := 1
    
    model := ::GetModel() 
-   
-   IF ::IsGetSelected( aIter ) // Si fue posible seleccionarlo 
-      Path  := ::GetPath( aIter ) 
-   ELSE
-      Return NIL
-   ENDIF
+ 
+   if aIter = NIL
+      aIter := Array( 4 ) 
+      lIter := ::IsGetSelected( aIter ) // Si fue posible seleccionarlo 
+      IF lIter
+         Path  := ::GetPath( aIter ) 
+      ELSE
+         Return NIL
+      ENDIF
+   else
+      lIter := .t.
+   endif
 
    nType := gtk_tree_model_get_column_type( model, nColumn - COL_INIT )
 
-   IF( gtk_tree_model_get_iter( model, aIter, path ) )
+   IF lIter //( gtk_tree_model_get_iter( model, aIter, path ) )
       DO CASE
          CASE ( nType = G_TYPE_CHAR .OR. nType = G_TYPE_UCHAR .OR. nType = G_TYPE_STRING )
               hb_gtk_tree_model_get_string( model, aIter, nColumn - COL_INIT, @uValue ) 
