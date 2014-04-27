@@ -214,6 +214,7 @@
 #xcommand DEFINE BOX <oBox>  ;
                [ <lHomogeneous: HOMOGENEOUS, HOMO> ] ;
                [ SPACING <nSpacing> ];
+               [ BORDER <nBorder> ]  ;
                [ <lMode: VERTICAL> ] ;
                [ OF <oParent> ] ;
                [ LABELNOTEBOOK <uLabelBook> ];
@@ -232,7 +233,7 @@
        <oBox> := GBoxVH():New( <.lHomogeneous.>, <nSpacing>, <.lMode.>, <oParent>, <.lExpand.>,;
                   <.lFill.>, <nPadding>, <.lContainer.>, <x>, <y>, <uLabelBook>,;
                   <.lSecond.>, <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
-                  <xOptions_ta>, <yOptions_ta>, <cId>, <uGlade> )
+                  <xOptions_ta>, <yOptions_ta>, <cId>, <uGlade>, <nBorder> )
 
 // Label
 #xcommand DEFINE LABEL [<oLabel>]  ;
