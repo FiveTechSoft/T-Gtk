@@ -51,7 +51,7 @@ ENDCLASS
 METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpand,;
             lFill, nPadding , lContainer, x, y, cId, uGlade, nCursor,;
             uLabelTab, nWidth, nHeight, oBar, cMsgBar, lEnd, lSecond, lResize, lShrink,;
-            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta, aStyles, aStylesChild, uImage ) CLASS GBUTTON
+            left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta, aStyles, aStylesChild, uImage, cToolTip ) CLASS GBUTTON
 
        DEFAULT lMnemonic := .F.
 
@@ -132,6 +132,8 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
        endif
 
        ::SetImage( uImage )
+
+       if ValType(cToolTip)='C' ;  gToolTip():New( cToolTip, self ) ; endif
 
        ::Show()
 
