@@ -35,6 +35,7 @@ CLASS GICONVIEW FROM GCONTAINER
       METHOD SetTexColumn( nColumn )    INLINE gtk_icon_view_set_text_column( ::pWidget, nColumn - 1 )
       METHOD SetPixBufColumn( nColumn ) INLINE gtk_icon_view_set_pixbuf_column( ::pWidget, nColumn - 1 )
       METHOD SetItemWidth( nWidth )     INLINE gtk_icon_view_set_item_width( ::pWidget, nWidth )
+      METHOD SetToolTipColumn(nColumn)  INLINE gtk_icon_view_set_tooltip_column( ::pWidget, nColumn - 1 )
       METHOD SetColumns( nColumns )     INLINE gtk_icon_view_set_columns( ::pWidget, nColumns )
       METHOD SetOrientation( nOrient)   INLINE gtk_icon_view_set_orientation( ::pWidget, nOrient )
       METHOD GetValue( nColumn, cType, path, aIter_Clone )
