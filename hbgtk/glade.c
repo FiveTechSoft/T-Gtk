@@ -25,7 +25,7 @@
  * Glade. Support Glade----------------------------------------------------
  */
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>

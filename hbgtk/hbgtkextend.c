@@ -90,7 +90,7 @@ hb_gtk_call_block_destroy( GtkWidget * widget, gpointer data )
 }
 
 
-HB_FUNC( GTK_SIGNAL_CONNECT ) // widget, se�al, codeblock -> NIL
+HB_FUNC( _GTK_SIGNAL_CONNECT ) // widget, se�al, codeblock -> NIL
 {
   GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
   gchar *     signal = ( gchar * ) hb_parc( 2 );
@@ -391,7 +391,7 @@ HB_FUNC( SET_AUTO_UTF8 )
 }
 
 //--------------------------------------------------------//
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( HB_GTK_GET_DLG_BOX ) //  nWidget dialog -> child vBox
 {
   #if GTK_MAJOR_VERSION < 3

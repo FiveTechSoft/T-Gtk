@@ -24,7 +24,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_CELL_RENDERER_TEXT_NEW ) // -> renderer
 {
@@ -35,7 +35,6 @@ HB_FUNC( GTK_CELL_RENDERER_TEXT_NEW ) // -> renderer
 HB_FUNC( GTK_CELL_RENDERER_ACTIVATE )
 {
    GtkCellRenderer * cell = GTK_CELL_RENDERER( hb_parptr( 1 ) );
-   
 }
 
 HB_FUNC( GTK_CELL_RENDERER_TOGGLE_NEW ) // -> renderer

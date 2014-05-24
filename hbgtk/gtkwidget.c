@@ -89,7 +89,8 @@ HB_FUNC( GTK_WIDGET_GRAB_DEFAULT )
     gtk_widget_grab_default( GTK_WIDGET( hb_parptr( 1 )  ) );
 }
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
+
 HB_FUNC( GTK_WIDGET_SET_FLAGS )
 {
   if( G_IsWidget( 1 ) ){

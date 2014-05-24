@@ -61,12 +61,9 @@ HB_FUNC( GTK_ADJUSTMENT_NEW ) // -> nAdjustment
   gdouble page_increment = (gdouble) hb_parnd( 5 );
   gdouble page_size      = (gdouble) hb_parnd( 6 );
 
-  GtkAdjustment * adjust = gtk_adjustment_new( lower, upper, value,
-                                               step_increment,
-                                               page_increment,
-                                               page_size );
+  GtkAdjustment * adjust = gtk_adjustment_new( lower, upper, value,step_increment, page_increment, page_size );
   
-  hb_retptr( ( GObject * ) adjust );
+  hb_retptr( GTK_ADJUSTMENT( adjust ) );
 }
 
 HB_FUNC( GTK_ADJUSTMENT_GET_VALUE ) // pAdjust-->nValue

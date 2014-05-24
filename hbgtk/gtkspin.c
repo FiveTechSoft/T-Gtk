@@ -24,8 +24,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#ifdef _GTK2_
-
+#if GTK_MAJOR_VERSION < 3
+    
 HB_FUNC( GTK_SPIN_BUTTON_NEW )  //pAdjust, value, decimals -->pWidget
 {
    GtkWidget * spin_button = NULL;

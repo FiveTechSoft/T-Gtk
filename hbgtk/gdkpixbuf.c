@@ -27,8 +27,8 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#ifdef _GTK2_
-
+#if GTK_MAJOR_VERSION < 3
+ 
 HB_FUNC( GDK_PIXBUF_NEW_FROM_FILE ) // cFilename -> pixbuf
 {
   GdkPixbuf * pixbuf;
@@ -77,7 +77,7 @@ HB_FUNC( GDK_PIXBUF_NEW_FROM_BUFFER ) // cType, Buffer -> pixbuf
 HB_FUNC( GDK_PIXBUF_UNREF ) // nIcon -> void
 {
   GdkPixbuf * pixbuf = GDK_PIXBUF( hb_parptr( 1 ) );
-  gdk_pixbuf_unref( pixbuf );
+  g_object_unref( pixbuf );
 }
 
 //----------------------------------------------//
@@ -86,7 +86,7 @@ HB_FUNC( GDK_PIXBUF_GET_TYPE ) //
 {
   hb_retni( gdk_pixbuf_get_type() );
 }
-
+ 
 //----------------------------------------------//
 
 HB_FUNC( GDK_PIXBUF_GET_WIDTH ) 

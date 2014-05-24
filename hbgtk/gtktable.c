@@ -24,8 +24,8 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#ifdef _GTK2_
-
+#if GTK_MAJOR_VERSION < 3
+    
 HB_FUNC( GTK_TABLE_NEW ) // rows,columns, homogeneous -->widget
 {
  GtkWidget * Table = gtk_table_new( hb_parni( 1 ),  hb_parni( 2 ),  hb_parl( 3 ) );

@@ -33,7 +33,7 @@
 #include "hbapiitm.h"
 #include "hbapierr.h"
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_FILE_SELECTION_NEW )
 {

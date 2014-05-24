@@ -28,7 +28,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GDK_WINDOW_SET_CURSOR ) // nWindow, nCursor -> void
 {

@@ -23,7 +23,7 @@
     (c) 2008 Rafa Carmona <rafa.tgtk at gmail.com>
 */
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 #ifdef _HAVEGTKSOURCEVIEW_
 #include <gtksourceview/gtksourceview.h>

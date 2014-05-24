@@ -24,8 +24,8 @@
 #include <gtk/gtk.h>
 #include <hbapi.h>
 #include "t-gtk.h"
-
-#ifdef _GTK2_
+    
+#if GTK_MAJOR_VERSION < 3
 
 void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
