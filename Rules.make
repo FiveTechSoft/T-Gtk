@@ -136,12 +136,11 @@ endif
 
 CFLAGS += -I$(INCLUDE_TGTK_PRG)
 
-#ifeq ($(GTK_MAJOR_VERSION),3)
-    CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ -D_GTK_$(GTK_MAJOR_VERSION).$(GTK_MINOR_VERSION)_
+ifeq ($(GTK_MAJOR_VERSION),3)
     LIBS +=$(shell pkg-config --cflags --libs gtk+-3.0)
-#else
-#    CFLAGS += -D_GTK2_
-#endif
+else
+    LIBS +=$(shell pkg-config --cflags --libs gtk+-2.0)
+endif
 
 ifeq ($(BONOBO),yes)
     CFLAGS += -D_HAVEBONOBO_
@@ -192,8 +191,10 @@ ifeq ($(CURL),yes)
        $(info ----------------------------------------)
        $(error Error, aparentemente no existe o no localiza libcURL )
     endif
-    CFLAGS += $(shell pkg-config --cflags libcurl)
+    CFLAGS +=-D_CURL_
+    CFLAGS +=$(shell pkg-config --cflags libcurl )
     LIBS += $(shell pkg-config --libs libcurl )
+    TGTK_LIBS += -lcurl-hb
 endif
 
 ifneq ($(HB_MAKE_PLAT),win)
@@ -313,7 +314,7 @@ endif
 ifneq ($(HB_MAKE_PLAT),win)
    OS_LIBS += -ldl -lz -lm $(shell pkg-config --cflags --libs libpcre) 
 else
-   OS_LIBS += -ldl
+   #OS_LIBS += -ldl
 endif
 
 

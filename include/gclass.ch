@@ -214,6 +214,7 @@
 #xcommand DEFINE BOX <oBox>  ;
                [ <lHomogeneous: HOMOGENEOUS, HOMO> ] ;
                [ SPACING <nSpacing> ];
+               [ BORDER <nBorder> ]  ;
                [ <lMode: VERTICAL> ] ;
                [ OF <oParent> ] ;
                [ LABELNOTEBOOK <uLabelBook> ];
@@ -232,7 +233,7 @@
        <oBox> := GBoxVH():New( <.lHomogeneous.>, <nSpacing>, <.lMode.>, <oParent>, <.lExpand.>,;
                   <.lFill.>, <nPadding>, <.lContainer.>, <x>, <y>, <uLabelBook>,;
                   <.lSecond.>, <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
-                  <xOptions_ta>, <yOptions_ta>, <cId>, <uGlade> )
+                  <xOptions_ta>, <yOptions_ta>, <cId>, <uGlade>, <nBorder> )
 
 // Label
 #xcommand DEFINE LABEL [<oLabel>]  ;
@@ -320,12 +321,13 @@
                  [ STYLE <aStyles> ];
                  [ STYLE_CHILD <aStylesChild> ];
                  [ IMAGE <cImage> ];
+                 [ TOOLTIP <cToolTip> ];
       => ;
     [ <oBtn> := ] GButton():New( <cText>,[ \{|o| <bAction> \} ] , [ \{|o| <bValid> \} ], <oFont>,;
        <.lMnemonic.>, <cFromStock>, <oParent>, <.lExpand.>, <.lFill.>, <nPadding> ,;
       <.lContainer.>, <x>, <y>, <cId>, <uGlade>, <nCursor>, <uLabelBook>, <nWidth>, <nHeight>,;
       <oBar>,<cMsgBar>,<.lEnd.>, <.lSecond.>, <.lResize.>, <.lShrink.>,;
-      <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>, <aStyles> , <aStylesChild>, <cImage> )
+      <left_ta>,<right_ta>,<top_ta>,<bottom_ta>, <xOptions_ta>, <yOptions_ta>, <aStyles> , <aStylesChild>, <cImage>, <cToolTip> )
 
 // Toggle
 #xcommand DEFINE TOGGLE [ <oBtn> ]  ;

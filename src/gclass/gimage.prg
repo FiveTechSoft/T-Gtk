@@ -34,6 +34,9 @@ CLASS GIMAGE FROM GMISC
       METHOD GetHeight( )
       METHOD GetPixels( )
       METHOD Adjust( nWidth, nHeight )
+      METHOD GetRelation()   INLINE   ( ::GetWidth() / ::GetHeight() )
+      METHOD SetProportion( nProportion )   INLINE   ::Adjust( ::GetWidth() * nProportion )
+
       #if GTK_CHECK_VERSION( 2,10,0 )
       METHOD Clear( )     INLINE gtk_image_clear( ::pWidget )
       #else
@@ -115,9 +118,14 @@ METHOD GetPixels()
    Local pPixBuf := ::GetPixBuf()
 return gdk_pixbuf_get_pixels( pPixBuf )
 
+
 METHOD Adjust( nWidth, nHeight ) CLASS GIMAGE
    
-   local pPixBuf
+   local pPixBuf, nRel
+
+   if nHeight = NIL
+      nHeight := nWidth / ::GetRelation()
+   endif
    
    pPixBuf = gdk_pixbuf_scale_simple( ::GetPixBuf(), nWidth, nHeight )
    

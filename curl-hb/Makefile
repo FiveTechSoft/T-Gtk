@@ -3,11 +3,20 @@
 # Makefile para T-GTK codigo de C
 #
 ROOT = ../
-TARGET=libcurl-hb.a
+include $(ROOT)config/global.mk
+include $(ROOT)$(SETENV)
+
+TARGET =libcurl-hb.a
+SOURCE_TYPE=c
+CSOURCES =easy.c
 
 CFLAGS+=-I. -I$(ROOT)include $(shell pkg-config --cflags libcurl)
 
-SOURCE_TYPE=c
-TGTK_INSTALL=$(ROOT)lib
+ifeq ($(HB_MAKE_PLAT),win)
+   ifeq ($(notdir $(wildcard $(subst \,/,./libcurl.a))),)
+      $(info Generando libcurl.a )
+      $(shell dlltool -d libcurl.def -D libcurl.dll -k -l libcurl.a -S as.exe )
+   endif
+endif
 
-include $(ROOT)Rules.make
+include $(TGTK_DIR)/Rules.make

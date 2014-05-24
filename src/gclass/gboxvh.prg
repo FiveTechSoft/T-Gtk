@@ -31,7 +31,7 @@ ENDCLASS
 
 METHOD New( lhomogeneous, nSpacing, lMode, oParent, lExpand, lFill, nPadding, lContainer, x, y,uLabelTab,;
            lSecond, lResize, lShrink, left_ta, right_ta, top_ta, bottom_ta, xOptions_ta, yOptions_ta,;
-           cId, uGlade ) CLASS GBOXVH
+           cId, uGlade, nBorder ) CLASS GBOXVH
 
        DEFAULT lMode := .F.,;
                nSpacing := 0,;
@@ -58,6 +58,8 @@ METHOD New( lhomogeneous, nSpacing, lMode, oParent, lExpand, lFill, nPadding, lC
                       uLabelTab,, lSecond, lResize, lShrink,;
                       left_ta, right_ta, top_ta, bottom_ta , xOptions_ta, yOptions_ta )
        ENDIF
+
+      IF ValType(nBorder) = "N" ; gtk_container_set_border_width( ::pWidget, nBorder ) ; endif
 
       ::Show()
 

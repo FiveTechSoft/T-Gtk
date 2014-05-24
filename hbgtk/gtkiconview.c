@@ -64,6 +64,12 @@ HB_FUNC( GTK_ICON_VIEW_GET_MODEL )
   hb_retptr( ( GtkWidget * ) gtk_icon_view_get_model( iconlist ) );
 }
 
+HB_FUNC( GTK_ICON_VIEW_SET_TOOLTIP_COLUMN )
+{
+  GtkIconView  * iconlist = GTK_ICON_VIEW( hb_parptr( 1 ) );
+  gtk_icon_view_set_tooltip_column( iconlist, hb_parni( 2 ) );
+}
+
 HB_FUNC( GTK_ICON_VIEW_SET_TEXT_COLUMN )
 {
   GtkIconView  * iconlist = GTK_ICON_VIEW( hb_parptr( 1 ) );

@@ -1,6 +1,9 @@
 #include "tgtk.ch"
 
 #define CRLF hb_osnewline()
+#ifdef __HARBOUR__
+   #xtranslate VALTOPRG( <uValue> ) => hb_ValToExp( <uValue> )
+#endif
 
 //---------------------------------------------------------------------------//
 
@@ -9,7 +12,7 @@ function WQout( aParams )
     local cOut := ""
 
     if valtype( aParams ) == "A"
-       AEval( aParams, { | c |  cOut :=  cOut + CRLF + valtoprg( c ) } )
+       AEval( aParams, { | c |  cOut :=  cOut + CRLF + ValToPrg( c ) } )
        Msginfo( cOut )
     endif
 
