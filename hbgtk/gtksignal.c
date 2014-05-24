@@ -25,7 +25,7 @@
 #include "hbapi.h"
 
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( G_SIGNAL_EMIT_BY_NAME ) //pWidget, cSignal
 {

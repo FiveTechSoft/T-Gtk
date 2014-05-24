@@ -30,7 +30,7 @@
 #DEFINE RIGTH  1.0
 */
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_MISC_SET_ALIGNMENT ) // widget, nPosH, nPosV
 {

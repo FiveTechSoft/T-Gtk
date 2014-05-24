@@ -26,8 +26,8 @@
  */
 #include <gtk/gtk.h>
 #include "hbapi.h"
-
-#ifdef _GTK2_
+ 
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_ACCEL_GROUP_NEW )
 {

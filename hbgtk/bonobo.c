@@ -1,7 +1,7 @@
 #include "hbapi.h"
 #include "hbapiitm.h"
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 #ifdef _HAVEBONOBO_
 

@@ -48,7 +48,7 @@ int main( int argc, char * argv[] )
    gdk_threads_enter();
    g_print("activado soporte multitarea.. \n");
 #endif
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
    gtk_set_locale();
 #endif
    if( gtk_init_check( &argc, &argv ) )

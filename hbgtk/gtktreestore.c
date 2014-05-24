@@ -25,7 +25,7 @@
 #include "hbapi.h"
 #include "t-gtk.h"
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
 BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  );

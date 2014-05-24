@@ -361,7 +361,7 @@ HB_FUNC( GTK_ALERT ) // cMessage, aButtons -> nOption
                                                      GTK_DIALOG_MODAL,
                                                      GTK_STOCK_REFRESH, GTK_ALERT_RETRY, 
                                                      GTK_STOCK_QUIT, GTK_ALERT_QUIT, NULL);
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
    gtk_container_set_border_width( GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 20 );
    gtk_widget_set_usize( dialog, 350, 150 );
    gtk_container_add( GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), label );

@@ -29,7 +29,7 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_HSCALE_NEW ) // pAdjust -->pWidget
 {

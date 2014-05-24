@@ -24,8 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#ifdef _GTK2_
-
 /*
  Combobox
  */

@@ -231,7 +231,7 @@ HB_FUNC( GTK_WINDOW_MOVE ) // widget, left, top -> void
                                          (gint) hb_parni( 3 ) );
 }
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 #if GTK_CHECK_VERSION( 2,4,0)
 HB_FUNC( GTK_WINDOW_SET_KEEP_ABOVE )
 {

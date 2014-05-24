@@ -24,7 +24,7 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_RANGE_SET_UPDATE_POLICY ) // pWidget, nTypeUpdate
 {
@@ -95,7 +95,7 @@ HB_FUNC( GTK_RANGE_SET_VALUE ) // pWidget, dValue
    gdouble value = hb_parnd( 2 );
    gtk_range_set_value( GTK_RANGE( range ),value );
 }
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_RANGE_GET_ORIENTATION ) // pWidget, int orientation
 {
    GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );

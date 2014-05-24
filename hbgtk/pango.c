@@ -26,7 +26,7 @@
 #include "hbapiitm.h"
 #include "t-gtk.h"
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 PHB_ITEM PangoMatrix2Array( PangoMatrix * matrix );
 BOOL Array2PangoMatrix(PHB_ITEM aMatrix, PangoMatrix * matrix  );

@@ -25,7 +25,7 @@
  * Distintos dialogos de Selecccion, de fonts, de archivos, de color...
 */
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 #include <gtk/gtk.h>
 #include "hbapi.h"

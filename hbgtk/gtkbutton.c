@@ -25,7 +25,7 @@
 #include "hbapi.h"
 #include <t-gtk.h>
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_BUTTON_NEW ) // -> widget
 {

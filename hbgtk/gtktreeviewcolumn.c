@@ -33,7 +33,7 @@ static void
 CellDataFunc( GtkTreeViewColumn *tree_column, GtkCellRenderer *cell, GtkTreeModel *tree_model,
               GtkTreeIter *iter, gpointer data);
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_TREE_VIEW_COLUMN_NEW ) // -> widget
 {

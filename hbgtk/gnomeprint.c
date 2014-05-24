@@ -23,7 +23,7 @@
 
 
 //#ifdef HB_OS_LINUX
-#ifdef GTK_CHECK_VERSION(2,8,0)
+#if SUPPORT_PRINT_LINUX
 
 #include <hbapi.h>
 #include <gtk/gtk.h>
@@ -31,6 +31,8 @@
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprint/gnome-print-pango.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
+
+#if GTK_CHECK_VERSION(2,8,0)
 
 /****************************************************************************
  * API gnome-print-job
@@ -573,4 +575,5 @@ HB_FUNC( GTK_PRINT_DIALOG_NEW )
    hb_retl( result != GNOME_PRINT_DIALOG_RESPONSE_CANCEL );
 }
 
+#endif
 #endif

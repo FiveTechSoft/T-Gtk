@@ -25,7 +25,7 @@
   #include <config.h>
 #endif
 
-#ifdef _GTK2_
+#if GTK_MAJOR_VERSION < 3
 
 #include <gtk/gtk.h>
 /**

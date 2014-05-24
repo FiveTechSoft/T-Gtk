@@ -137,8 +137,10 @@ endif
 CFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 ifeq ($(GTK_MAJOR_VERSION),3)
+#    CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ -D_GTK_$(GTK_MAJOR_VERSION).$(GTK_MINOR_VERSION)_
     LIBS +=$(shell pkg-config --cflags --libs gtk+-3.0)
 else
+#   CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ -D_GTK_$(GTK_MAJOR_VERSION).$(GTK_MINOR_VERSION)_
     LIBS +=$(shell pkg-config --cflags --libs gtk+-2.0)
 endif
 
