@@ -480,9 +480,9 @@ METHOD SetPosCol( aIter, nColumn, lEdit )
 
    if ::IsGetSelected( aIter )
 
-      pNextCol := gtk_tree_view_get_column( ::pWidget, nColumn ) 
+      pNextCol := gtk_tree_view_get_column( ::pWidget, nColumn - COL_INIT ) 
 
-      pModel := ::GetModel() 
+      //pModel := ::GetModel() 
       pPath  := ::GetPath(aIter)
 
       gtk_tree_view_set_cursor( ::pWidget, pPath, pNextCol, lEdit )
