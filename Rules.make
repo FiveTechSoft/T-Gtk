@@ -120,6 +120,11 @@ LINKER = ar
 CC = gcc
 LIBRARIAN = ranlib
 
+#librerias usadas por Tgtk las definimos aqui. GTK y GLADE
+LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
+# agregar despues a libgclass 
+LIBS += -L$(LIBDIR_TGTK_) $(TGTK_LIBS) 
+PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 ifeq ($(HB_COMPILER),mingw32)
    CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_
@@ -142,6 +147,7 @@ ifeq ($(GTK_MAJOR_VERSION),3)
 else
 #   CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ -D_GTK_$(GTK_MAJOR_VERSION).$(GTK_MINOR_VERSION)_
     LIBS +=$(shell pkg-config --cflags --libs gtk+-2.0)
+    LIBS +=$(shell pkg-config --libs libglade-2.0)
 endif
 
 ifeq ($(BONOBO),yes)
@@ -247,17 +253,17 @@ ifeq ($(MYSQL),yes)
         #CFLAGS+=$(shell pkg-config --libs mysql-connector-net )
     endif
     TGTK_LIBS += -lhbmysql
-endif
 
-ifeq ($(MYSQL),yes)
-ifeq ($(DOLPHIN),yes)
-    ifeq ($(HB_COMPILER),mingw32)
-        #Flags para sistemas WINDOWS
-        CFLAGS += -I$(INCLUDE_TGTK_PRG) -D__WIN__
-        PRGFLAGS += -DNOINTERNAL-DDEBUG
+    ifeq ($(DOLPHIN),yes)
+       ifeq ($(HB_COMPILER),mingw32)
+           #Flags para sistemas WINDOWS
+           CFLAGS += -I$(INCLUDE_TGTK_PRG) -D__WIN__
+           PRGFLAGS += -DNOINTERNAL-DDEBUG
+       endif
+       TGTK_LIBS += -ltdolphin
+
     endif
-    TGTK_LIBS += -ltdolphin
-endif
+
 endif
 
 
@@ -297,8 +303,8 @@ endif
 #librerias usadas por Tgtk las definimos aqui. GTK y GLADE
 #LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
 # agregar despues a libgclass 
-LIBS += -L$(LIBDIR_TGTK_) -lhbgtk
-PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
+#LIBS += -L$(LIBDIR_TGTK_) $(TGTK_LIBS) 
+#PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 # By Quim -->
 # Soporte impresion para Win32, las libs de gnome van en este orden y despues de tgtk si no, no enlaza.
@@ -324,8 +330,11 @@ HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
 #XHB_LIBDIR_ = $(LIBDIR) -L$(XHB_LIB_INSTALL)
 
 #HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) 
-HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
-        $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS) $(OS_LIBS)
+#HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lhbgtk -lgclass -Wl,--start-group -L$(HB_LIB_INSTALL) 
+HB_LIBS_+= -L$(LIBDIR_TGTK_) -lhbgtk -lgclass $(TGTK_LIBS) -Wl,--start-group -L$(HB_LIB_INSTALL) \
+        $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group \
+        $(LIBS) $(OS_LIBS)
+#        -L$(LIBDIR_TGTK_) -lhbgtk -lgclass $(TGTK_LIBS) 
 #XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
 #        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)
 

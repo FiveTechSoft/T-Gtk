@@ -109,7 +109,7 @@ ifeq ($(HB_MAKE_PLAT),win)
   endif
 
   ifeq ($(HB_LIBFILES_),)
-    export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbrtl -lhblang -lhbrdd -lhbmacro -lhbpp -lhbxpp \
+    export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbcplr -lhbrtl -lhblang -lhbrdd -lhbmacro -lhbpp -lhbxpp \
                  -lhbsix -lhbdebug -lhbcommon -lrddntx -lrddfpt -lrddcdx \
                  -lhbsix -lxhb -lhbpp -lhbcpage -lhbwin -lhbpcre \
                  -lhbzlib -lhbnetio $(HB_GT_LIBS)
@@ -123,13 +123,13 @@ else
   endif
 
   ifeq ($(HB_LIBFILES_),)
-    export HB_LIBFILES_ = $(HB_LIBS_MT) -lgclass -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug -lhbvm \
+    export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug -lhbvm \
                  -lhbrtl -lhblang -lhbcpage -lhbrdd -lrddntx \
                  -lrddnsx -lrddcdx -lrddfpt \
                  -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl \
                  -lhbmacro -lhbcplr -lhbpp -lhbcommon $(HB_GT_LIBS) \
-                 -lxhb -lhbxpp -lhbtip -lhbnetio 
-#                 -lxhb -lhbxpp -lhbssl -lhbtipssl -lhbtip -lhbnetio
+                 -lxhb -lhbxpp -lhbssl -lhbtipssl -lhbtip -lhbnetio
+#                 -lxhb -lhbxpp -lhbtip -lhbnetio 
   endif
 
 endif
