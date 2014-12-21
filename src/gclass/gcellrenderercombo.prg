@@ -1,4 +1,4 @@
-/* $Id: gcellrenderercombo.prg,v 1.1 2006-09-07 17:07:55 xthefull Exp $*/
+/* $Id: gcellrenderercombo.prg,v 1.1 2014-12-21 03:41:45 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -23,11 +23,28 @@
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
-CLASS gCellRendererCombo FROM gCellRenderer
-      METHOD New()
+CLASS gCellRendererCombo FROM gCellRendererText
+      DATA bEdited
+      DATA oModel
+      METHOD New( oComboModel, nTextCol )
+      METHOD SetModel(oModel)   INLINE g_object_set( ::pWidget, "model", oModel:pWidget)
+      METHOD IsEntry(lEntry)    INLINE g_object_set( ::pWidget, "has-entry", lEntry)
+      METHOD TextColumn(nColumn) INLINE g_object_set( ::pWidget, "text_column", nColumn - COL_INIT )
 ENDCLASS
 
-METHOD New() CLASS gCellRendererCombo
+METHOD New( oComboModel, nTextCol ) CLASS gCellRendererCombo
     ::pWidget := gtk_cell_renderer_combo_new() 
     ::cType   := "text"
+    if hb_IsObject( oComboModel )
+       if nTextCol = NIL ; ::TextColumn( 1 ) ; endif
+       ::oModel := oComboModel
+       ::SetModel( ::oModel )
+       ::SetEditable( .t. )
+       ::Connect( "edited" )
+       ::IsEntry(.t.)
+MsgInfo("deberia")
+    endif
 RETURN Self
+
+
+

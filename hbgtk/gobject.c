@@ -1,4 +1,4 @@
-/* $Id: gobject.c,v 1.4 2010-10-27 21:39:33 xthefull Exp $*/
+/* $Id: gobject.c,v 1.4 2014-12-21 03:42:12 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -22,7 +22,7 @@
     (c)2003 Joaquim Ferrer <quim_ferrer@yahoo.es>
 */
 /*
- * GObject. Tipos GLib, Objetos, Par�metros y Se�ales --------------------
+ * GObject. Tipos GLib, Objetos, Parámetros y Señales --------------------
  */
 
 #include <gtk/gtk.h>
@@ -45,6 +45,8 @@ HB_FUNC( G_OBJECT_SET )  // object, property_name, value ->void
        g_object_set( (gpointer) hb_parptr( 1 ), (gchar  *) hb_parc( 2 ), hb_parnd( 3 ), NULL );
   else if( HB_IS_LOGICAL( pValue ) )
        g_object_set( (gpointer) hb_parptr( 1 ), (gchar  *) hb_parc( 2 ), hb_parl( 3 ), NULL );
+  else if( HB_IS_POINTER( pValue ) )
+       g_object_set( (gpointer) hb_parptr( 1 ), (gchar  *) hb_parc( 2 ), hb_parptr( 3 ), NULL );
   
 }
 

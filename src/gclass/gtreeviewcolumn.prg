@@ -56,7 +56,7 @@ CLASS gTreeViewColumn FROM GOBJECT
 
 ENDCLASS
 
-METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId, uGlade, cId_Renderer ) CLASS gTreeViewColumn
+METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId, uGlade, cId_Renderer, oComboModel, nTextModelCol ) CLASS gTreeViewColumn
       DEFAULT lExpand := .T.
       
       if cId == NIL
@@ -85,7 +85,7 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId
                ::oRenderer:SetColumn( Self ) 
             endif           
         else
-            ::Renderer( cType )
+            ::Renderer( cType,,,oComboModel, nTextModelCol )
         endif
 
         if cId = NIL   // Solo si no es definido en Glade
@@ -104,7 +104,7 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId
         if empty( cType )      // OJO con esto, de momento, esta solo soporta text y pixbufs
            cType := "text"
         endif
-        ::Renderer( cType, cId_Renderer, uGlade )
+        ::Renderer( cType, cId_Renderer, uGlade, oComboModel, nTextModelCol )
       endif
       
       if lSort .AND. ::nColumn != NIL
@@ -134,7 +134,7 @@ METHOD GetVisible()
 RETURN gtk_tree_view_column_get_visible( ::pWidget )
 
 
-METHOD Renderer( cType, cId, pGlade ) CLASS gTreeViewColumn
+METHOD Renderer( cType, cId, pGlade, oComboModel, nTextModelCol ) CLASS gTreeViewColumn
    
    cType := UPPER( cType )
    
@@ -162,8 +162,14 @@ METHOD Renderer( cType, cId, pGlade ) CLASS gTreeViewColumn
            ::oRenderer = gCellRendererProgress():New()
            ::cType := "value"
       CASE cType = "COMBO"
-           ::oRenderer = gCellRendererCombo():New()
+           ::oRenderer = gCellRendererCombo():New( oComboModel, nTextModelCol )
            ::cType := "text"
+            if ::uAction != NIL
+               ::oRenderer:SetEditable( .T. )
+               ::oRenderer:bEdited := ::uAction
+               ::oRenderer:SetColumn( Self ) 
+            endif           
+
    END CASE
    
    ::oRenderer:nColumn := ::nColumn
