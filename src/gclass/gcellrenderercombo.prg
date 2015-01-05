@@ -42,7 +42,6 @@ METHOD New( oComboModel, nTextCol ) CLASS gCellRendererCombo
        ::SetEditable( .t. )
        ::Connect( "edited" )
        ::IsEntry(.t.)
-MsgInfo("deberia")
     endif
 RETURN Self
 
