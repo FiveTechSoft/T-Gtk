@@ -1,4 +1,4 @@
-/* $Id: gtreeviewcolumn.prg,v 1.6 2010-02-09 04:22:04 riztan Exp $*/
+/* $Id: gtreeviewcolumn.prg,v 1.6 2015-01-04 12:31:21 riztan Exp $*/
 /*
     LGPL Licence.
     
@@ -46,6 +46,7 @@ CLASS gTreeViewColumn FROM GOBJECT
       METHOD SetWidgetHeader( oWidget ) INLINE gtk_tree_view_column_set_widget( ::pWidget, oWidget:pWidget )
       METHOD SetSizing( nMode )         INLINE gtk_tree_view_column_set_sizing( ::pWidget, nMode )
       METHOD GetTitle( )                INLINE gtk_tree_view_column_get_title( ::pWidGet )
+      METHOD SetTitle( cTitle )         INLINE gtk_tree_view_column_set_title( ::pWidGet, cTitle )
       METHOD SetFunction( cFunction )   INLINE gtk_tree_view_column_set_cell_data_func(::pWidget,::oRenderer:pWidget, cFunction )
       
       //Signals
