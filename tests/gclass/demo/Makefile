@@ -8,6 +8,8 @@ SETTINGS=$(ROOT)config/settings/minimal.mk
 TARGET = demoppo
 SOURCES = demoppo.prg
 
+RESOURCE_FILE = resource.rc
+
 #PRGFLAGS=-I$(ROOT)include
 #LIBS=$(shell pkg-config --libs tgtk )
 

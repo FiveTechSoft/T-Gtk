@@ -363,6 +363,20 @@ ifeq ($(strip $(SOURCES)),)
   SOURCES=$(wildcard *.$(SOURCE_TYPE))
 endif
 
+# En Windows si se define fichero de recursos, generamos el objeto.
+# Si desea crear un icono, muy simple: 
+# Abre Gimp y pega las diferentes imagenes (tamaños) como capas,
+# luego guardar con extension .ico y listo!
+RESOURCE =
+ifeq ($(HB_MAKE_PLAT),win) 
+  ifeq ($(RESOURCE_FILE),)
+  else
+     RESOURCE = $(DIR_OBJ)win_resource.o
+     $(info Objeto de recursos (Windows): $(RESOURCE) )
+     $(info )
+  endif
+endif
+
 ifeq ($(strip $(OBJECTS)),)
   OBJECTS=$(patsubst %.$(SOURCE_TYPE),$(DIR_OBJ)%.o,$(SOURCES))
   ifneq ($(strip $(CSOURCES)),)
@@ -415,7 +429,12 @@ ifeq ( lib , $(patsubst %.a, lib, $(TARGET)))
 	$(LINKER) -r $(TARGET) $(OBJECTS)
 	$(LIBRARIAN) $(TARGET)
 else
+  ifeq ($(RESOURCE),)
 	$(CC) -o $(TARGET) $(OBJECTS) $(HB_LIBDIR_) $(HB_LIBS_) 
+  else
+	windres $(RESOURCE_FILE) $(RESOURCE) 
+	$(CC) -o $(TARGET) $(OBJECTS) $(RESOURCE) $(HB_LIBDIR_) $(HB_LIBS_) 
+  endif
 endif
 
 
