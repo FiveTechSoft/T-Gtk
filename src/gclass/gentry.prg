@@ -252,8 +252,10 @@ RETURN NIL
 METHOD SetText( cText, lValid ) CLASS Gentry 
    Default lValid :=  .T.
 
-   ::DisConnect( "focus-out-event")
-   ::Connect( "focus-out-event")
+//-- En algun momento esto fue necesario, por ahora genera problema en Windows.
+//-- Dejo la nota para estar pendiente. RIGC 2015-01-05
+//   ::DisConnect( "focus-out-event")
+//   ::Connect( "focus-out-event")
    ::Connect( "activate")
 
    gtk_entry_set_text( ::pWidget,  cText )
