@@ -57,8 +57,8 @@ METHOD New( lVertical, oParent, lExpand, lFill, nPadding, lContainer, x, y, cId,
     ::Register()
 
     IF oParent != NIL
-       if oParent:ClassName() = "GWINDOW" .OR.;
-          oParent:ClassName() = "GDIALOG"  // Si es una window, debe de usar CONTAINER
+       if oParent:IsDerivedFrom("GWINDOW") .OR.;
+          oParent:IsDerivedFrom("GDIALOG")  // Si es una window, debe de usar CONTAINER
           lContainer := .T.
        endif
       ::AddChild( oParent, lExpand, lFill, nPadding, lContainer, x, y, uLabelTab, lEnd,;

@@ -126,7 +126,7 @@ RETURN NIL
 ******************************************************************************
 METHOD OnDestroy( oSender ) CLASS GOBJECT
     Local nWidget
-    Local cClassName := oSender:ClassName()
+//    Local cClassName := oSender:ClassName()
 
    if oSender:bDestroy != NIL
        Eval( oSender:bDestroy, oSender )
@@ -150,7 +150,8 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
        if oSender:oAccelGroup != NIL
           oSender:oAccelGroup:Destroy()
        endif
-       if cClassName == "GDIALOG" .OR. cClassName == "GASSISTANT"// Si es un dialogo, lo matamos
+       if oSender:IsDerivedFrom("GDIALOG") .OR. ;
+          oSender:IsDerivedFrom("GASSISTANT") // Si es un dialogo, lo matamos
           gtk_widget_destroy( oSender:pWidget )
        endif
 
@@ -159,7 +160,7 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
        endif
     endif
 
-    if cClassName == "GDIALOG" .OR. cClassName == "GWINDOW"
+    if oSender:IsDerived("GDIALOG") .OR. oSender:IsDerivedFrom( "GWINDOW" )
        nWidget := AScan( oSender:aWindows, { | oControl | oControl:pWidget == oSender:pWidget } )
        if nWidget != 0
           ADEL( oSender:aWindows, nWidget )
