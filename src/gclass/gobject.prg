@@ -160,7 +160,7 @@ METHOD OnDestroy( oSender ) CLASS GOBJECT
        endif
     endif
 
-    if oSender:IsDerived("GDIALOG") .OR. oSender:IsDerivedFrom( "GWINDOW" )
+    if oSender:IsDerivedFrom("GDIALOG") .OR. oSender:IsDerivedFrom( "GWINDOW" )
        nWidget := AScan( oSender:aWindows, { | oControl | oControl:pWidget == oSender:pWidget } )
        if nWidget != 0
           ADEL( oSender:aWindows, nWidget )
