@@ -14,7 +14,7 @@
 # INDICAR RUTA DEL COMPILADOR XBASE
 ifeq ($(HB_MAKE_PLAT),win)
 # Ruta en Windows:
-  ifeq ($(HARBOUR_PATH),)	
+  ifeq ($(HARBOUR_PATH),)    
     HARBOUR_PATH  =\harbour-project
   endif
 
@@ -33,7 +33,7 @@ ifeq ($(HB_MAKE_PLAT),win)
   #endif
 else
 # Ruta en GNU/Linux:
-  ifeq ($(HARBOUR_PATH),)	
+  ifeq ($(HARBOUR_PATH),)    
     HARBOUR_PATH  =/usr/local
   endif
 
@@ -117,22 +117,29 @@ ifeq ($(HB_MAKE_PLAT),win)
 
 # GNU/Linux:
 else
+
+
 # GT Driver:
   ifeq ($(HB_GT_LIBS),)
     HB_GT_LIBS=-lgtstd -lgtcgi -lgtpca -lgttrm
   endif
 
   ifeq ($(HB_LIBFILES_),)
-    export HB_LIBFILES_ = $(HB_LIBS_MT) -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug -lhbvm \
+    export HB_LIBFILES_ += $(HB_LIBS_MT) -lhbcplr -lhbpp -lhbcommon -lhbextern -lhbdebug -lhbvm \
                  -lhbrtl -lhblang -lhbcpage -lhbrdd -lrddntx \
                  -lrddnsx -lrddcdx -lrddfpt \
                  -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl \
                  -lhbmacro -lhbcplr -lhbpp -lhbcommon $(HB_GT_LIBS) \
-                 -lxhb -lhbxpp -lhbssl -lhbtipssl -lhbtip -lhbnetio
-#                 -lxhb -lhbxpp -lhbtip -lhbnetio 
+                 -lxhb -lhbxpp -lhbtip -lhbnetio
   endif
 
 endif
+
+# Soporte SSL
+ifneq ($(findstring libgpm,$(shell ls $(HB_LIB_INSTALL) | grep "libhbssl" )),)
+   export HB_LIBFILES_ += -lhbssl -lhbtipssl
+endif
+
 
 # Otros:
 export HB_CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF \
@@ -145,4 +152,5 @@ export HB_CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF \
 HARBOUR_INC_XHB =-I$(subst include,contrib$(DIRSEP)xhb,$(HB_INC_INSTALL)) \
                  -I$(subst include,contrib$(DIRSEP)hbtip,$(HB_INC_INSTALL))
 export HARBOUR_INC_XHB
+
 

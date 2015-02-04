@@ -107,7 +107,7 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libmysqlclient for development"
    dpkg --get-selections | grep "libmysqlclient" | grep dev && mysql=1 || mysql=0
    if [ $mysql -eq 0 ] ; then
-      apt-get install libmysqlclient-dev mysql-gui-tools-common 
+      apt-get install libmysqlclient-dev #mysql-gui-tools-common 
    fi
 else
    echo "MySQL Set with value 'NO' in $global"
