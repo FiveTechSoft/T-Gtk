@@ -53,6 +53,7 @@ CLASS GWINDOW FROM GCONTAINER
       METHOD End()
       METHOD Register()
       METHOD SetDecorated( lDecorated ) INLINE gtk_window_set_decorated( ::pWidget , lDecorated )
+      METHOD SetDeletable( lDeletable ) INLINE gtk_window_set_deletable( ::pWidget, lDeletable )
       METHOD SetSkipTaskBar( lHide )    INLINE gtk_window_set_skip_taskbar_hint( ::pWidget , lHide )
       METHOD SetTypeHint( nType )       INLINE gtk_window_set_type_hint( ::pWidget , nType )
       METHOD GetOpacity()               INLINE gtk_window_get_opacity( ::pWidget )

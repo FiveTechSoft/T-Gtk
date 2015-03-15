@@ -169,3 +169,15 @@ else
 fi
 
 
+#---  SSL ---
+ssl=0
+cmd=`cat $global | grep "export SSL" | cut -d= -f2`
+if [ $cmd =  "yes" ] ; then
+   echo "detecting package libssl for development"
+   dpkg --get-selections | grep "libssl-dev" | grep dev && ssl=1 || ssl=0
+   if [ $ssl -eq 0 ] ; then
+      apt-get install libssl-dev
+   fi
+else
+   echo "SSL Set with value 'NO' in $global"
+fi

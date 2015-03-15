@@ -97,6 +97,12 @@ HB_FUNC( GTK_WINDOW_GET_TITLE ) // widget-->cTitle
 }
 
 
+HB_FUNC( GTK_WINDOW_SET_DELETABLE ) // window, logical -> void
+{
+  GtkWidget * window = GTK_WIDGET(  hb_parptr( 1 ) );
+  gtk_window_set_deletable( GTK_WINDOW( window ), (gboolean) hb_parl( 2 ) );
+}
+
 HB_FUNC( GTK_WINDOW_SET_RESIZABLE ) // window, logical -> void
 {
   GtkWidget * window = GTK_WIDGET(  hb_parptr( 1 ) );

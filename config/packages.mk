@@ -12,7 +12,7 @@ ifeq ($(notdir $(wildcard $(PKG_CONFIG_PATH)/tgtk.pc)),)
   ifeq ($(HB_MAKE_PLAT),win)
      $(shell type $(TGTK_DIR)\utils\config_system\tgtk_win.pc > $(PKG_CONFIG_PATH)\tgtk.pc )
   else
-     $(shell cat utils/config_system/tgtk_gnu.pc > $(PKG_CONFIG_PATH)/tgtk.pc)
+     $(shell cat $(TGTK_DIR)/utils/config_system/tgtk_gnu.pc > $(PKG_CONFIG_PATH)/tgtk.pc)
   endif
 endif
 
@@ -43,11 +43,11 @@ ifeq ($(findstring gtk+,$(PACKAGES)),)
    ifeq ($(AUTO_INST),yes)
      include $(ROOT)config/links.mk
      # Descargar Paquetes Externos
-     ifeq $($(TGTK_DOWN),yes)
+     ifeq ($(TGTK_DOWN),yes)
        include $(ROOT)config/download.mk
      endif
      # Descomprime Paquetes Externos
-     ifeq $($(TGTK_UNZIP),yes)
+     ifeq ($(TGTK_UNZIP),yes)
        include $(ROOT)config/unzip.mk
      endif
    else

@@ -138,6 +138,8 @@ endif
 # Soporte SSL
 ifneq ($(findstring libgpm,$(shell ls $(HB_LIB_INSTALL) | grep "libhbssl" )),)
    export HB_LIBFILES_ += -lhbssl -lhbtipssl
+else
+   $(info ! Compilación sin soporte para SSL (secure sockets layer).  )
 endif
 
 

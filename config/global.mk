@@ -237,6 +237,12 @@ ifeq ($(POSTGRE_PATH),)
 endif
 
 
+#Soporte SSL
+ifeq ($(SSL),)
+  export SSL        =yes
+endif
+
+
 #Adicionales para el compilador xBase
 
 #FLAGS para harbour predefinido
