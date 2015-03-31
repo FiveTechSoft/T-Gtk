@@ -136,8 +136,8 @@ export LIBGLADE_DEV_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade
 LIBGLADE_BIN_FILE :=libglade_2.6.4-1_win32
 export LIBGLADE_BIN_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/$(LIBGLADE_BIN_FILE).zip
 
-GLADE_BIN_FILE :=glade3-3.6.4-installer
-export GLADE_BIN_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/glade3/3.6/$(GLADE_BIN_FILE).exe
+GLADE_BIN_FILE :=glade-3-8-5-installer
+export GLADE_BIN_LNK :=http://ftp.gnome.org/pub/GNOME/binaries/win32/glade/3.8/$(GLADE_BIN_FILE).exe
 
 # ZLIB Win32
 ZLIB_DEV_FILE :=zlib-dev_1.2.5-2_win32

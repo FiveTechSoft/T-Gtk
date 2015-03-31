@@ -292,8 +292,8 @@ endif
 
 ifeq ($(HB_COMPILER),mingw32)
    LIBFILES_ += -luser32 -lwinspool -lole32 -loleaut32 -luuid -lgdi32 -lcomctl32 \
-                -lcomdlg32 -lodbc32 -lwininet -lwsock32 -lws2_32 -lodbc32 \
-                -Wl,-subsystem,windows -mwindows -mconsole
+                -lcomdlg32 -lodbc32 -lwininet -lwsock32 -lws2_32 -lodbc32 -liphlpapi \
+                -Wl,-subsystem,windows -mwindows -mconsole 
    EXETYPE=.exe
 else
    LIBFILES_ += 
@@ -416,13 +416,13 @@ linux:$(TARGET) $(TARGETS)
 	$(CC) -o$@ $< $(HB_LIBDIR_) $(HB_LIBS_)
 
 $(DIR_OBJ)%.o: %.c
-	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $<
+	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $(HB_INC_3RD) $<
 
 $(DIR_OBJ)%.o: %.cpp
-	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $<
+	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $(HB_INC_3RD) $<
 
 %.c: %.prg
-	$(HB_BIN_INSTALL)$(DIRSEP)harbour $(strip $(HB_FLAGS)) $(PRGFLAGS) -I$(HB_INC_INSTALL)  -o$@ $<
+	$(HB_BIN_INSTALL)$(DIRSEP)harbour $(strip $(HB_FLAGS)) $(PRGFLAGS) -I$(HB_INC_INSTALL) -I$(HB_INC_3RD) -o$@ $<
 
 $(TARGET): $(OBJECTS)
 ifeq ( lib , $(patsubst %.a, lib, $(TARGET)))

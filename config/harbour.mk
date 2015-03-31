@@ -151,8 +151,7 @@ export HB_CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF \
 
 
 # Ruta a contrib/xhb para evitar error por no encontrar hbcompat.ch
-HARBOUR_INC_XHB =-I$(subst include,contrib$(DIRSEP)xhb,$(HB_INC_INSTALL)) \
-                 -I$(subst include,contrib$(DIRSEP)hbtip,$(HB_INC_INSTALL))
-export HARBOUR_INC_XHB
-
+HB_INC_3RD = -I$(subst include,contrib$(DIRSEP)xhb ,$(HB_INC_INSTALL))  
+HB_INC_3RD += -I$(subst include,contrib$(DIRSEP)hbtip ,$(HB_INC_INSTALL)) 
+export HB_INC_3RD
 
