@@ -422,7 +422,7 @@ $(DIR_OBJ)%.o: %.cpp
 	$(CC) -c -o$@ $(CFLAGS) $(HB_CFLAGS) -I$(HB_INC_INSTALL) $(HB_INC_3RD) $<
 
 %.c: %.prg
-	$(HB_BIN_INSTALL)$(DIRSEP)harbour $(strip $(HB_FLAGS)) $(PRGFLAGS) -I$(HB_INC_INSTALL) -I$(HB_INC_3RD) -o$@ $<
+	$(HB_BIN_INSTALL)$(DIRSEP)harbour $(strip $(HB_FLAGS)) $(PRGFLAGS) -I$(HB_INC_INSTALL) $(HB_INC_3RD) -o$@ $<
 
 $(TARGET): $(OBJECTS)
 ifeq ( lib , $(patsubst %.a, lib, $(TARGET)))
