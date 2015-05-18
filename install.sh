@@ -132,9 +132,9 @@ gda=0
 cmd=`cat $global | grep "export GDA " | cut -d= -f2`
 if [ $cmd =  "yes" ] ; then
    echo "detecting package libgda for development"
-   dpkg --get-selections | grep "libgda-4.0-dev" && gda=1 || gda=0
+   dpkg --get-selections | grep "libgda-5.0-dev" && gda=1 || gda=0
    if [ $gda -eq 0 ] ; then
-      apt-get install libgda-4.0-dev
+      apt-get install libgda-5.0-dev
    fi
 else
    echo "LibGDA Set with value 'NO' in $global"

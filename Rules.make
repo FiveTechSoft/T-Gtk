@@ -128,6 +128,7 @@ PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 ifeq ($(HB_COMPILER),mingw32)
    CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_
+   CFLAGS +=-D__PLATFORM__WINDOWS
    ifeq ($(SUPPORT_PRINT_WIN32),yes)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
