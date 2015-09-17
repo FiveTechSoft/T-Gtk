@@ -45,7 +45,8 @@ Function Listore_Edition()
 
      gtk_rc_parse_string( 'style "Example"{' + CRLF + ;
                           ' GtkTreeView::even-row-color = "#B1C1D1"' + CRLF +;
-                          ' GtkTreeView::odd-row-color = "#B7F8E7"' + CRLF +;
+                          ' GtkTreeView::odd-row-color = "#B7F8E7"'  + CRLF +;
+                          ' GtkTreeView::allow-rules   = 1 '         + CRLF +;
                          '}'                           + CRLF + ;
                          'class "GtkTreeView" style "Example"' )
    
