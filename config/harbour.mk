@@ -130,10 +130,12 @@ else
                  -lrddnsx -lrddcdx -lrddfpt \
                  -lhbsix -lhbhsx -lhbusrrdd -lhbuddall -lhbrtl \
                  -lhbmacro -lhbcplr -lhbpp -lhbcommon $(HB_GT_LIBS) \
-                 -lxhb -lhbxpp -lhbtip -lhbnetio
+                 -lxhb -lhbxpp -lhbtip -lhbnetio -lhbct
   endif
 
 endif
+
+
 
 # Soporte SSL
 ifneq ($(findstring libssl-dev,$(shell ls $(HB_LIB_INSTALL) | grep "libhbssl" )),)
@@ -142,6 +144,10 @@ else
    $(info ! Compilación sin soporte para SSL (secure sockets layer).  )
 endif
 
+# Soporte a Graphic Library (LibGD)
+ifeq ($(LIBGD), yes)
+   export HB_LIBFILES_ += -lhbgd
+endif
 
 # Otros:
 export HB_CFLAGS += -D_HB_API_INTERNAL_ -DHB_ARRAY_USE_COUNTER_OFF \

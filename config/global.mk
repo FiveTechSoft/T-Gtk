@@ -206,6 +206,11 @@ ifeq ($(WEBKIT),)
   export WEBKIT         =no
 endif
 
+#Soporte a LibGD (GD Graphic Library)
+ifeq ($(LIBGD),)
+  export LIBGD         =no
+endif
+
 #Soporte para SQLite 
 ifeq ($(SQLITE),)
   export SQLITE         =no

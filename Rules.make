@@ -192,6 +192,10 @@ ifeq ($(GDA),yes)
     LIBS   += $(shell pkg-config --libs libgda-$(GDA_VERSION) )
 endif
 
+ifeq ($(LIBGD),yes)
+    CFLAGS += $(shell pkg-config --cflags gdlib)
+    LIBS   += $(shell pkg-config --libs gdlib )
+endif
 
 ifeq ($(CURL),yes)
     ifeq ($(findstring libcurl,$(PACKAGES)),)
