@@ -192,4 +192,14 @@ HB_FUNC( GTK_ENTRY_SET_ICON_FROM_PIXBUF )
 
 //--------------------------------------------------------//
 
+HB_FUNC( GTK_ENTRY_SET_ICON_ACTIVATABLE )
+{
+   GtkWidget * Entry = GTK_WIDGET( hb_parptr( 1 ) );
+   GtkEntryIconPosition icon_pos = hb_parni( 2 );
+   
+   gtk_entry_set_icon_activatable( GTK_ENTRY( Entry ), icon_pos, 
+                                   (gboolean) hb_parl( 3 ) );
+}
+
+//--------------------------------------------------------//
 #endif

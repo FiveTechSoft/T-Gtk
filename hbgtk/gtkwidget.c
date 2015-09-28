@@ -130,6 +130,14 @@ HB_FUNC( GTK_WIDGET_QUEUE_DRAW )
     gtk_widget_queue_draw ( GTK_WIDGET( hb_parptr( 1 ) ) );
 }
 
+
+HB_FUNC( GTK_WIDGET_SET_CAN_FOCUS )
+{
+  if( G_IsWidget( 1 ) )
+    gtk_widget_set_can_focus( GTK_WIDGET( hb_parptr( 1 )  ),
+                              (gboolean) hb_parl( 2 ) );
+}
+
 HB_FUNC( GTK_WIDGET_GRAB_FOCUS )
 {
   if( G_IsWidget( 1 ) )

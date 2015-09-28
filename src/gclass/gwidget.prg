@@ -43,7 +43,9 @@ CLASS GWIDGET FROM GOBJECT
        METHOD Hide()     INLINE gtk_widget_hide( ::pWidget )
        METHOD SetBorder( nBorder )  INLINE gtk_container_set_border_width( ::pWidget, nBorder )
        METHOD Quit()     INLINE gtk_main_quit( ),Self
-       METHOD SetFocus() INLINE gtk_widget_grab_focus( ::pWidget )
+
+       METHOD SetFocus()    INLINE gtk_widget_grab_focus( ::pWidget )
+       METHOD SetCanFocus( lBool ) INLINE gtk_widget_set_can_focus( ::pWidget, lBool )
 
        METHOD Enable()     INLINE gtk_widget_set_sensitive( ::pWidget, .T.)
        METHOD Disable()    INLINE gtk_widget_set_sensitive( ::pWidget, .F.)

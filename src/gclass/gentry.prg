@@ -55,6 +55,11 @@ CLASS GENTRY FROM GWIDGET
       METHOD GetValue( )        INLINE ::GetText()
 
       METHOD SetButton( uImage, nPos )
+      METHOD SetEditable( lMode )  INLINE gtk_editable_set_editable( ::pWidget, lMode )
+      
+      METHOD SetIconActivatable( nIcon, lBool )   INLINE gtk_entry_set_icon_activatable( ::pWidget, nIcon, lBool )
+      METHOD PrimaryIconActivatable( lBool )   INLINE ::SetIconActivatable( 0, lBool )
+      METHOD SecondaryIconActivatable( lBool ) INLINE ::SetIconActivatable( 1, lBool )
 
       METHOD OnFocus_out_event( oSender )
       METHOD OnKeyPressEvent( oSender,   pGdkEventKey  )
