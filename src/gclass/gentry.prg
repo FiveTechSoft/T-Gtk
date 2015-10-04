@@ -100,6 +100,10 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
                    lEnd, lSecond, lResize, lShrink, left_ta,right_ta,top_ta,bottom_ta,;
                    xOptions_ta, yOptions_ta   )
 
+       if hb_IsBlock( bValid ) 
+          ::bValid := bValid
+       endif
+
        ::Connect( "key-press-event" )
        ::Connect( "changed" )
        ::Connect_After( "focus-out-event")
@@ -173,7 +177,7 @@ RETURN ::Super:OnFocus_Out_Event( oSender )
 
 METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
 
-   local  nKey, nType
+   local  nKey, nType, lValid := .f.
 
    nKey := HB_GET_GDKEVENTKEY_KEYVAL( pGdkEventKey )// aGdkEventKey[ 6 ]
    nType:= HB_GET_GDKEVENTKEY_TYPE( pGdkEventKey )  // aGdkEventKey[ 1 ]
@@ -186,10 +190,10 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
             else
                gtk_widget_child_focus( gtk_widget_get_toplevel( oSender:pWidget ) ,GTK_DIR_TAB_FORWARD )
             endif
-            return .T.
+//            return .T.
          else
            if oSender:bValid != NIL
-              Return Eval( oSender:bValid )
+              lValid := Eval( oSender:bValid )
            endif
          endif
    endcase
@@ -199,7 +203,7 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
       Eval( ::bSetGet, oSender:oGet:buffer )
    endif
 
-Return .F.
+Return lValid
 
 METHOD Create_Completion( aCompletion ) CLASS GEntry
     Local oLbx, x, n, oCompletion
