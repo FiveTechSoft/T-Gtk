@@ -119,15 +119,15 @@ HB_FUNC( GTK_FILE_CHOOSER_GET_URIS )
 
   for (l= uris; l != NULL; l = l->next) {
      gchar * uri = uris->data;
-     printf( "%s\n", uri );
+     //printf( "%s\n", uri );
      hb_itemPutC( temp, uri );
      hb_arrayAdd( aItems, temp );
   }
   hb_itemReturnForward( aItems );
   hb_itemRelease( temp   );
   hb_itemRelease( aItems );
-//  g_slist_free( uris );
-//  g_slist_free( l );
+  g_slist_free( uris );
+  g_slist_free( l );
 }
 
 
