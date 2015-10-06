@@ -28,6 +28,27 @@
 
 #if GTK_CHECK_VERSION(2,4,0)
 
+
+HB_FUNC( GTK_FILE_CHOOSER_WIDGET_NEW )
+{
+  GtkFileChooserAction action = hb_parni( 1 );
+  hb_retptr( ( GtkWidget * ) gtk_file_chooser_widget_new( action ) );
+}
+
+/*
+Funciona, pero de momento no tiene utilidad en t-gtk (RIGC-2015-10-05)
+HB_FUNC( GTK_FILE_CHOOSER_DIALOG_NEW )
+{ const gchar * title = hb_parc( 1 );
+  GtkWindow * parent = GTK_WINDOW( hb_parptr( 2 ) );
+  GtkFileChooserAction nAction = hb_parni( 3 );
+//  const gchar * first_button_text = hb_parc( 4 );
+  hb_retptr( ( GtkWidget * ) gtk_file_chooser_dialog_new( title, parent, nAction, 
+                             GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                             GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+                             NULL ) );
+}
+*/
+
 HB_FUNC( GTK_FILE_CHOOSER_SET_CURRENT_NAME )
 {
   GtkFileChooser * chooser= GTK_FILE_CHOOSER( hb_parptr( 1 ) );
@@ -85,6 +106,42 @@ HB_FUNC( GTK_FILE_CHOOSER_SELECT_FILENAME ) // pWidget,filename-->bOk
 {
   GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
   hb_retl( gtk_file_chooser_select_filename( chooser , hb_parc( 2 ) ) );
+}
+
+#include "hbapiitm.h"
+HB_FUNC( GTK_FILE_CHOOSER_GET_URIS )
+{
+  GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
+  GSList * uris = gtk_file_chooser_get_uris( chooser );
+  GSList * l;
+  PHB_ITEM aItems = hb_itemArrayNew( 0 );
+  PHB_ITEM temp   = hb_itemNew( NULL );
+
+  for (l= uris; l != NULL; l = l->next) {
+     gchar * uri = uris->data;
+     printf( "%s\n", uri );
+     hb_itemPutC( temp, uri );
+     hb_arrayAdd( aItems, temp );
+  }
+  hb_itemReturnForward( aItems );
+  hb_itemRelease( temp   );
+  hb_itemRelease( aItems );
+//  g_slist_free( uris );
+//  g_slist_free( l );
+}
+
+
+HB_FUNC( GTK_FILE_CHOOSER_GET_SELECT_MULTIPLE ) //pWidget
+{
+  GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
+  hb_retl( gtk_file_chooser_get_select_multiple( chooser ) );
+}
+
+
+HB_FUNC( GTK_FILE_CHOOSER_SET_SELECT_MULTIPLE ) //pWidget, boolean
+{
+  GtkFileChooser * chooser = GTK_FILE_CHOOSER( hb_parptr( 1 ) );
+  gtk_file_chooser_set_select_multiple( chooser, hb_parl( 2 ) );
 }
 
 

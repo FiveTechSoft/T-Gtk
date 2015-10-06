@@ -75,6 +75,34 @@
                            [ \{|o| <uHelp> \} ] , [ \{|o| <uEnd> \} ], <.lCenter.>,;
                            <.lResizable.> , <.lNoModal.>, <.lNoSeparator.>, <.lRun.>, <.lInitiate.>  )
 
+
+#xcommand DEFINE FILECHOOSERWIDGET <oBox>  ;
+               [ MODE <nMode> ];
+               [ <lHomogeneous: HOMOGENEOUS, HOMO> ] ;
+               [ SPACING <nSpacing> ];
+               [ BORDER <nBorder> ]  ;
+               [ OF <oParent> ] ;
+               [ LABELNOTEBOOK <uLabelBook> ];
+               [ <lExpand: EXPAND> ] ;
+               [ <lFill: FILL> ] ;
+               [ PADDING <nPadding> ];
+               [ <lContainer: CONTAINER> ] ;
+               [ POS <x>,<y>  ];
+               [ <lSecond: SECOND_PANED > ] ;
+               [ <lResize: RESIZE > ] ;
+               [ <lShrink: SHRINK > ] ;
+               [ TABLEATTACH <left_ta>,<right_ta>,<top_ta>,<bottom_ta>[,<xOptions_ta>, <yOptions_ta> ] ];
+               [ ID <cId> ;
+               [ RESOURCE <uGlade> ] ];
+      => ;
+       <oBox> := GFileChooserWidget():New( <nMode>, <.lHomogeneous.>, <nSpacing>, <oParent>, <.lExpand.>,;
+                  <.lFill.>, <nPadding>, <.lContainer.>, <x>, <y>, <uLabelBook>,;
+                  <.lSecond.>, <.lResize.>, <.lShrink.>, <left_ta>,<right_ta>,<top_ta>,<bottom_ta>,;
+                  <xOptions_ta>, <yOptions_ta>, <cId>, <uGlade>, <nBorder> )
+
+
+
+
 /* Support Timers */
 #xcommand DEFINE TIMER <oTimer>;
               [ INTERVAL <nInterval> ];
