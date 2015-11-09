@@ -4,13 +4,12 @@
 #
 
 ROOT = ../../
+include $(ROOT)config/global.mk
+include $(ROOT)$(SETENV)
 
-TARGET=test
-SOUCES= ejemplo.prg timprimepdf.prg tutilpdf.prg
+TARGET=libtimprime.a
+SOURCES= timprimepdf.prg tutilpdf.prg
 
-LIBS= -lhbhpdf -llibhpdf
-PRGFLAGS=-I../../include
-CFLAGS+=-I../../include
-TGTK_INSTALL=../../lib
+export HPDF=yes
 
-include $(ROOT)Rules.make
+include $(TGTK_DIR)/Rules.make

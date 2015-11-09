@@ -46,4 +46,19 @@
          =>;
            <oUtil>:SayImage( <nX>,<nY>,<nX2>,<nY2>,<cFile>,<.lImage.>,<.lPage.> )
 
-
+#xcommand UTILPDF <oUtil> ;
+          MSG [ <cText>  [ AT <nRow>,<nCol> ] [TEXTFONT <oFont> ] [TEXTCOLOR <nClrText>] ];
+          [<nX>,<nY> TO <nX2>,<nY2>] ;
+          [ BRUSH <oBrush>];
+          [ PEN <oPen> ] ;
+          [ <lRound: ROUND >  [ <nZ>,<nZ2>  ] ];
+          [ <lShadow: SHADOW> [ WIDTH <nShadow> ] ];
+          [SHADOWBRUSH <oBrushShadow>];
+          [SHADOWPEN <oPenShadow>];
+          [ EXPANDBOX <nAlto>,<nAncho> ] ;
+          [ ALIGN <nMode> ] ;
+         =>;
+           <oUtil>:BoxMsg( <nX>,<nY>,<nX2>,<nY2>,<oBrush>,<oPen>,<.lRound.>,<nZ>,<nZ2>,;
+                        <cText>,<nRow>,<nCol>,<oFont>, <nClrText>,,;
+                        <nAlto>, <nAncho> ,<.lShadow.>,<nShadow>, <oBrushShadow>, <oPenShadow> ,;
+                        <nMode>) 

@@ -89,6 +89,8 @@ $(info * GtkSourceView    = $(GTKSOURCEVIEW)                    )
 $(info * Gtk-Extra        = $(GTK_EXTRA)                        )
 $(info * Bonobo           = $(BONOBO)                           )
 $(info * Gnome Data Access= $(GDA)                              )
+$(info * LibGD            = $(LIBGD)                            )
+$(info * Haru - PDF       = $(HPDF)                             )
 $(info * CURL             = $(CURL)                             )
 ifneq ($(HB_MAKE_PLAT),win)
    $(info * WebKitGTK+       = $(WEBKIT) )
@@ -193,8 +195,23 @@ ifeq ($(GDA),yes)
 endif
 
 ifeq ($(LIBGD),yes)
-    CFLAGS += $(shell pkg-config --cflags gdlib)
-    LIBS   += $(shell pkg-config --libs gdlib )
+   ifeq ($(HB_COMPILER),mingw32)
+     CFLAGS+=-I$(GD_INC)
+     LIBS+=-L$(GD_LIB) -lgd
+     LIBFILES_ += -lgd
+   else
+     CFLAGS += $(shell pkg-config --cflags gdlib)
+     LIBS   += $(shell pkg-config --libs gdlib )
+   endif
+endif
+
+ifeq ($(HPDF),yes)
+   LIBS += -lhbhpdf -llibhpdf -lpng #-lpng12
+   ifeq ($(HB_COMPILER),mingw32)
+     LIBS+=-lhbzlib
+   endif
+   TGTK_LIBS += -ltimprime 
+   PRGFLAGS+=-I$(ROOT)/src/imprimepdf
 endif
 
 ifeq ($(CURL),yes)

@@ -22,6 +22,9 @@ endif
 ifeq ($(CURL),yes)
 	make -C curl-hb
 endif
+ifeq ($(HPDF),yes)
+	make -C src/imprimepdf
+endif
 ifeq ($(SQLITE),yes)
 	make -C src/sqlite3
 endif
@@ -53,6 +56,9 @@ endif
 ifeq ($(CURL),yes)
 	make -C curl-hb clean
 endif
+ifeq ($(HPDF),yes)
+	make -C src/imprimepdf clean
+endif
 ifeq ($(SQLITE),yes)
 	make -C src/sqlite3 clean
 endif
@@ -82,6 +88,9 @@ ifeq ($(GTK_EXTRA),yes)
 endif
 ifeq ($(CURL),yes)
 	make -C curl-hb install
+endif
+ifeq ($(HPDF),yes)
+	make -C src/imprimepdf install
 endif
 ifeq ($(SQLITE),yes)
 	make -C src/sqlite3 install

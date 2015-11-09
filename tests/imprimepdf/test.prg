@@ -29,7 +29,7 @@ Function EjemploRaw()
                         "ZapfDingbats"              ;
                       }
 
-   oHairu := TIMPRIMEPDf():New()                                  // Creamos documento
+   oHairu := TIMPRIMEPDF():New()                                  // Creamos documento
 
    oHairu:PageSetSize( HPDF_PAGE_SIZE_A4, HPDF_PAGE_LANDSCAPE ) // Page format
 
@@ -134,7 +134,7 @@ METHOD New( nID, cFile, lCopia ) CLASS TFacturaPDF
     endif
 
     // TODO: Comprobar directorio que exista
-    Super:New( ::Directory + cFile +".pdf" )
+    ::Super:New( ::Directory + cFile +".pdf" )
 
 RETURN Self
 
@@ -165,6 +165,7 @@ METHOD Headers() CLASS TFacturaPDF
  ::Plantilla( 9 )
 
  // Poner una imagen. OJO JPEG o PNG, algunos pngs parecen no funcionar.
+
  if ::lAlbaran
     UTILPDF ::oUtil 1,1.5 IMAGE "./logotipo.png" SIZE 8,5 
  else
@@ -340,7 +341,7 @@ METHOD Separator( nSpace, lBody ) CLASS TFacturaPDF
       ::nLinea := 10.5
       ::Headers()
       ::Footers()
-   ELSEIF Super:Separator( nSpace )
+   ELSEIF ::Super:Separator( nSpace )
       ::Headers()
       ::Footers()
    ENDIF
