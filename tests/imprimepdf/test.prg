@@ -7,11 +7,12 @@
 PROCEDURE Main(  )
 
    EjemploFacturaPdf()
+   EjemploRaw()
 
 RETURN
 
 Function EjemploRaw()
-   Local oHairu, nLinea, samp_text, i, oFact
+   Local oHaru, nLinea, samp_text, i, oFact
    LOCAL font_list  := { ;
                         "Courier",                  ;
                         "Courier-Bold",             ;
@@ -24,45 +25,53 @@ Function EjemploRaw()
                         "Times-Roman",              ;
                         "Times-Bold",               ;
                         "Times-Italic",             ;
-                        "Times-BoldItalic",         ;
-                        "Symbol",                   ;
-                        "ZapfDingbats"              ;
+                        "Times-BoldItalic"         ;
                       }
 
-   oHairu := TIMPRIMEPDF():New()                                  // Creamos documento
+   oHaru := TIMPRIMEPDF():New("test.pdf")                                  // Creamos documento
 
-   oHairu:PageSetSize( HPDF_PAGE_SIZE_A4, HPDF_PAGE_LANDSCAPE ) // Page format
+   oHaru:PageSetSize( HPDF_PAGE_SIZE_A4, HPDF_PAGE_LANDSCAPE ) // Page format
 
-   oHairu:SetFont( font_list[1], 10)
+   oHaru:SetFont( font_list[5], 10)
    nLinea := 1
-   oHairu:CmsSay( nLinea, 1, "HARBOUR" )
+   oHaru:CmSay( nLinea, 1, "HARBOUR" )
 
    nLinea += 0.5
-   oHairu:SetFont( font_list[1], 12 )
-   oHairu:CMSAY( nLinea, 1, "power" )
+   oHaru:SetFont( font_list[5], 12 )
+   oHaru:CMSAY( nLinea, 1, "power" )
 
    nLinea += 1
-   oHairu:SetFont( font_list[5], 24 )
+   oHaru:SetFont( font_list[5], 24 )
 
-   oHairu:CMSAY( nLinea, 1, "(c)2011 by Rafa Carmona" )
+   oHaru:CMSAY( nLinea, 1, "(c)2011 by Rafa Carmona" )
+
+   UTILPDF oHaru:oUtil 5, 5 SAY  "IMPRIMEPDF Que grande que viniste..." ;
+                    TO 7, 20 FONT "Helvetica" SIZE 12 COLOR RGB 1,0.25,.5 ;
+           ALIGN HPDF_TALIGN_RIGHT
+
+   UTILPDF oHaru:oUtil 12, 10 SAY  "IMPRIMEPDF Que grande que viniste..." ;
+                    TO 20, 13 FONT "Helvetica" SIZE 12 COLOR RGB 1,0.25,.5 ;
+           ALIGN HPDF_TALIGN_RIGHT
+oHaru:End( .t. )
+return
 
    //Second Page
-   oHairu:Addpage()                                            // Add page to document
-   oHairu:PageSetSize( HPDF_PAGE_SIZE_A4, HPDF_PAGE_PORTRAIT ) // Page format
+   oHaru:Addpage()                                            // Add page to document
+   oHaru:PageSetSize( HPDF_PAGE_SIZE_A4, HPDF_PAGE_PORTRAIT ) // Page format
 
    nLinea := 1
    FOR i := 1 TO Len( font_list )
       samp_text := "abcdefgABCDEFG12345!#$%&+-@?"
-      oHairu:SetFont( font_list[i], 9 )
-      oHairu:CMSAY( nLinea, 1, font_list[i] )
+      oHaru:SetFont( font_list[i], 9 )
+      oHaru:CMSAY( nLinea, 1, font_list[i] )
       nLinea += 0.6
 
-      oHairu:SetFont( font_list[i], 20 )
-      oHairu:CMSAY( nLinea, 1, samp_text  )
+      oHaru:SetFont( font_list[i], 20 )
+      oHaru:CMSAY( nLinea, 1, samp_text  )
       nLinea += 0.6
 
    NEXT
-   oHairu:End( "test.pdf", .t. )
+   oHaru:End( .t. )
 
 Return nil
 

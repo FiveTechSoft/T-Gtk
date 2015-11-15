@@ -110,7 +110,7 @@ CLASS TIMPRIMEPDF
     METHOD Line( nTop, nLeft, nBottom, nRight, nWitdh, nRed, nGreen, nBlue )
     METHOD SetEncoder( cEncoding ) INLINE HPDF_SetCurrentEncoder  ( ::pPdf, cEncoding )
     Method LoadTTF( cFont )  INLINE HPDF_LoadTTFontFromFile ( ::pPdf, "/home/rafa/pol/fonts/"+cFont +".ttf", HPDF_TRUE)
-    METHOD CMSAYRECT(nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle, nTop, nLeft, nBottom, nRight, nJustify)
+    METHOD CMSAYRECT(nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle, nBottom, nRight, nJustify)
     METHOD CreateFonts()
 
 END CLASS
@@ -231,19 +231,20 @@ METHOD CMSAY( nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle
 RETURN NIL
 
 *******************************************************************************
-METHOD CMSAYRECT(nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle, nTop, nLeft, nBottom, nRight, nJustify) CLASS TIMPRIMEPDF 
+METHOD CMSAYRECT(nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle, nBottom, nRight, nAlign) CLASS TIMPRIMEPDF 
    Local uFont := ::GetFontName()
    Local uSize := ::GetFontSize()
    Local nRad1
    Local rect := Array( 4 )
 
-   rect[ rLEFT   ] := ::CMS2POINTS( nLeft )
+   rect[ rLEFT   ] := ::CMS2POINTS( nColCms )
 
-   rect[ rTOP    ] := ::GetPageHeight() - ::CMS2POINTS( nTop )
+   rect[ rTOP    ] := ::GetPageHeight() - ::CMS2POINTS( nRowCms )
    rect[ rRIGHT  ] := ::CMS2POINTS( nRight )
    rect[ rBOTTOM ] := ::GetPageHeight() - ::CMS2POINTS( nBottom )
 
-   DEFAULT nRed TO 0 , nGreen TO 0 , nBlue TO 0
+   DEFAULT nRed TO 0 , nGreen TO 0 , nBlue TO 0,;
+           nAlign TO HPF_TALIGN_JUSTIFY
 
    if ::lUTF8toISO
       cText := _UTF_8 ( cText )
@@ -265,7 +266,7 @@ METHOD CMSAYRECT(nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAn
 
     HPDF_Page_SetRGBFill( ::Page_Active, nRed, nGreen, nBlue) // 0 ... 1
     HPDF_Page_TextRect( ::Page_Active, rect[ rLEFT ], rect[ rTOP ], rect[ rRIGHT ], rect[ rBOTTOM ],;
-               cText, HPDF_TALIGN_CENTER, NIL)
+               cText, nAlign, NIL)
 
    HPDF_Page_EndText( ::Page_Active )
    ::GRestore()

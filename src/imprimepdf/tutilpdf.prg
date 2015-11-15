@@ -58,10 +58,16 @@ RETURN Self
 
 ******************************************************************************
 ******************************************************************************
-METHOD Text( cText,nRow,nCol, cFont, nSize, nRed,nGreen,nBlue,  nAngle ) CLASS TUtilPDF
+METHOD Text( cText,nRow,nCol, cFont, nSize, nRed,nGreen,nBlue, nAngle, nBottom, nRight, nAlign ) CLASS TUtilPDF
   local nPad := 0, nAl, aDev, unDefined := 0
+  DEFAULT nBottom TO 0, nRight TO 0, nAlign TO 0
 
-  ::oPrinter:CMSAY( nRow, nCol, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle )
+  if nBottom+nRight+nAlign > 0
+     ::oPrinter:CMSAYRECT( nRow, nCol, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle, ;
+                           nBottom, nRight, nAlign )
+  else
+     ::oPrinter:CMSAY( nRow, nCol, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle )
+  endif
 
 Return Nil
 
