@@ -9,6 +9,7 @@ include $(ROOT)$(SETENV)
 
 TARGET=libtimprime.a
 SOURCES= timprimepdf.prg tutilpdf.prg
+CSOURCES= ./C/grid_sheet.c
 
 export HPDF=yes
 

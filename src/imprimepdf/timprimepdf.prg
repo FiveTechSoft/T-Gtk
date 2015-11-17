@@ -113,6 +113,8 @@ CLASS TIMPRIMEPDF
     METHOD CMSAYRECT(nRowCms, nColCms, cText, cFont, nSize, nRed, nGreen, nBlue, nAngle, nBottom, nRight, nJustify)
     METHOD CreateFonts()
 
+    METHOD Grid()  INLINE  print_grid( ::pPDF, ::Page_Active )
+
 END CLASS
 
 METHOD New( cFile ) CLASS TIMPRIMEPDF
@@ -451,3 +453,11 @@ METHOD _MesFecha_( dDate ) CLASS TIMPRIMEPDF
   ENDCASE
 
 Return  cMes
+
+/*
+STATIC PROCEDURE print_grid( pPdf, pPage )
+   local height, width
+   
+RETURN
+*/
+
