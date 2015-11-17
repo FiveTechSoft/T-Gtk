@@ -1,8 +1,13 @@
-// T:\harboursvn\contrib\hbhpdf\tests>t:\harboursvn\bin\win\bcc\hbmk2.exe ejemplo.prg timprimepdf.prg tutilpdf.prg -w1
+/* $Id: test.prg,v 0.2 2015-11-17 16:33:14 riztan Exp $
+ * ImprimePDF para Harbour
+ * (c)2011 Rafa Carmona
+ */ 
+
 #include "hbclass.ch"
 #include "harupdf.ch"
 #include "common.ch"
 #include "tutilpdf.ch"
+
 
 PROCEDURE Main(  )
 
@@ -10,6 +15,7 @@ PROCEDURE Main(  )
    EjemploRaw()
 
 RETURN
+
 
 Function EjemploRaw()
    Local oHaru, nLinea, samp_text, i, oFact
@@ -32,28 +38,32 @@ Function EjemploRaw()
 
    oHaru:PageSetSize( HPDF_PAGE_SIZE_A4, HPDF_PAGE_LANDSCAPE ) // Page format
 
+   /* Rejilla guia */
+   oHaru:Grid()
+
    oHaru:SetFont( font_list[5], 10)
    nLinea := 1
    oHaru:CmSay( nLinea, 1, "HARBOUR" )
 
    nLinea += 0.5
    oHaru:SetFont( font_list[5], 12 )
-   oHaru:CMSAY( nLinea, 1, "power" )
+   oHaru:CMSAY( nLinea, 1, "Power!" )
 
    nLinea += 1
    oHaru:SetFont( font_list[5], 24 )
 
    oHaru:CMSAY( nLinea, 1, "(c)2011 by Rafa Carmona" )
 
-   UTILPDF oHaru:oUtil 5, 5 SAY  "IMPRIMEPDF Que grande que viniste..." ;
-                    TO 7, 20 FONT "Helvetica" SIZE 12 COLOR RGB 1,0.25,.5 ;
-           ALIGN HPDF_TALIGN_RIGHT
+   UTILPDF oHaru:oUtil BOX 5,5 TO 6,13
+   UTILPDF oHaru:oUtil 5, 5 SAY  "IMPRIMEPDF Texto alineado a la derecha." ;
+           FONT "Helvetica" SIZE 12  ;
+           TO 6,13 ALIGN HPDF_TALIGN_RIGHT
 
-   UTILPDF oHaru:oUtil 12, 10 SAY  "IMPRIMEPDF Que grande que viniste..." ;
-                    TO 20, 13 FONT "Helvetica" SIZE 12 COLOR RGB 1,0.25,.5 ;
-           ALIGN HPDF_TALIGN_RIGHT
-oHaru:End( .t. )
-return
+   UTILPDF oHaru:oUtil BOX 6,5 TO 7,13
+   UTILPDF oHaru:oUtil 6, 5 SAY  "IMPRIMEPDF Texto alineado a la izquierda." ;
+           TO 7, 13 FONT "Helvetica" SIZE 12 COLOR RGB 1,0.25,.5 ;
+           ALIGN HPDF_TALIGN_LEFT
+
 
    //Second Page
    oHaru:Addpage()                                            // Add page to document
