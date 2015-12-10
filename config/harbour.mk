@@ -146,7 +146,11 @@ endif
 
 # Soporte a Graphic Library (LibGD)
 ifeq ($(LIBGD), yes)
-   export HB_LIBFILES_ += -lhbgd
+   ifeq ($(HB_MAKE_PLAT),win)
+      export HB_LIBFILES_ += -lhbgd -lhbct -lgd.dll
+   else
+      export HB_LIBFILES_ += -lhbgd
+   endif
 endif
 
 # Otros:

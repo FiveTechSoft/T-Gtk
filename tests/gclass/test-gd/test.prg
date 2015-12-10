@@ -1,93 +1,60 @@
-#require "hbgd"
+/*
+ * Copyright 2015 - Riztan Gutierrez 
+ *
+ */
 
+#include "gclass.ch"
+
+#define IMAGES_IN  "imgs_in" + hb_ps()
 #define IMAGES_OUT "imgs_out" + hb_ps()
 
 PROCEDURE Main()
 
-   LOCAL bar
+   LOCAL oWnd, oBox, oBtn1, oBtn2
+   LOCAL oBtn3, oBtn4, oBtn5, oBtn6, oBtn7
 
-   // Creating some Color (arguments are R, G, B)
-   LOCAL black  := { 0, 0, 0 }
-   LOCAL white  := { 255, 255, 255 }
+   // Check output directory
+   IF ! hb_DirExists( IMAGES_OUT )
+      DirMake( IMAGES_OUT )
+   ENDIF
 
-#if 0
-   LOCAL blue   := { 0, 0, 255 }
-   LOCAL yellon := { 255, 255, 128 }
+   DEFINE WINDOW oWnd TITLE "LibGD with t-gtk" ;
+          SIZE 300,300
 
-   LOCAL red    := { 255, 0, 0 }
+   DEFINE BOX oBox VERTICAL ;
+          BORDER 5 HOMO ;
+          OF oWnd
 
-   LOCAL nlower := 1, nhight := 50
-#endif
+   DEFINE BUTTON oBtn1 TEXT "gdAPI"        ;
+          ACTION gdAPI()                   ;
+          OF oBox
 
-   LOCAL ccode13    := "789136043666"
-   LOCAL ccode8     := "0421000"
-   // LOCAL ccode128   := "00011005100000000"
-   LOCAL ccode128   := "Code 128"
+   DEFINE BUTTON oBtn2 TEXT "Animated GIF" ;
+          ACTION gdAnimGif()               ;
+          OF oBox
 
-   /* here is the list of arguments
-   1- Barcode Type 13,8  and 128
-   */
+   DEFINE BUTTON oBtn3 TEXT "gdClass"      ;
+          ACTION gdClass()                 ;
+          OF oBox
 
-   bar := GDBarCode():New( 13 )
+   DEFINE BUTTON oBtn4 TEXT "Bar Code"     ;
+          ACTION BarCode()                 ;
+          OF oBox
 
-   /* Here is the list of the arguments
-   1 - Thickness
-   2 - Color of bars
-   3 - Color of spaces
-   4 - Resolution
-   5 - Text Font (0-5)
-   */
-   bar:Configure( 70, black, white, 2, 1 )
+   DEFINE BUTTON oBtn5 TEXT "Bar Code 2"   ;
+          ACTION BarCode2()                ;
+          OF oBox
 
-   /* Here is the list of the arguments
-   1 - Width
-   2 - Height
-   3 - Filename (empty : display on screen)
-   4 - Background color */
-   bar:CreateBar( 205, 105, IMAGES_OUT + "bar13.jpg", white )
+   DEFINE BUTTON oBtn6 TEXT "Anti Aliased" ;
+          ACTION AntiAlia()                ;
+          OF oBox
 
-   // 1 - code bar
-   bar:Draw13( ccode13 )
+   DEFINE BUTTON oBtn7 TEXT "Counter"      ;
+          ACTION Counter()                 ;
+          OF oBox
 
-   // Build image
-   bar:Finish( 2 )
 
-   // EAN8
-   bar := GDBarCode():New( 8 )
+   ACTIVATE WINDOW oWnd
 
-   bar:Configure( 70, black, white, 2, 1 )
-
-   bar:CreateBar( 154, 100, IMAGES_OUT + "bar8.gif", white )
-
-   bar:Draw8( ccode8 )
-
-   bar:Finish( 8 )
-
-   bar:ResizeImage()
-
-   // EAN128
-   bar := GDBarCode():New( 128 )
-
-   bar:Configure( 50, black, white, 2, 1 )
-
-   bar:CreateBar( 300, 400, IMAGES_OUT + "bar128.gif", white )
-
-   // 1- code bar
-   // 2- barcode types A/B/C
-   // A- Alphanumeric characters uppercase
-   // B- Alphanumeric characters upper and lowercase
-   // C- Numeric pairs of integer
-   bar:Draw128( cCode128, "B" )
-
-   bar:Finish( 2 )
-
-   // BRAZIL-FEBRABAN
-   bar := GDBarCode():New( 25 )
-
-   bar:Configure( 25, black, white, 1, 1,, .T. )
-
-   bar:CreateBar( 560, 60, IMAGES_OUT + "febraban.gif", white )
-   bar:DrawI25( "104995628545723070285700000008218000" )
-   bar:Finish( 8 )
 
    RETURN
