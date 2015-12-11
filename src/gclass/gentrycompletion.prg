@@ -35,34 +35,35 @@ CLASS GENTRYCOMPLETION FROM GOBJECT
 ENDCLASS
 
 METHOD New( oEntry, oModel, nColumn ) CLASS GENTRYCOMPLETION
- LOCAL pEntry
- DEFAULT nColumn := 1
+   LOCAL pEntry, lEntry:=.f.
+   DEFAULT nColumn := 1
    
- if oEntry:IsDerivedFrom( "GCOMBOBOXENTRY" )
-    pEntry := tgtk_get_widget_combo_entry( oEntry:pWidget )
- elseif oEntry:IsDerivedFrom( "GENTRY" )
-    pEntry := oEntry:pWidget
- else
-    return nil
- endif
+   if oEntry:IsDerivedFrom( "GCOMBOBOXENTRY" )
+      ::oEntry := oEntry:oEntry
+      pEntry := oEntry:oEntry:pWidget
 
- ::pWidget := gtk_entry_completion_new()
- ::oEntry  := oEntry
- ::oModel  := oModel
+   elseif oEntry:IsDerivedFrom( "GENTRY" )
+      ::oEntry := oEntry
+      pEntry := oEntry:pWidget
+      lEntry := .t.
+   else
+      return nil
+   endif
 
- if !Empty( oEntry )
-    gtk_entry_set_completion( pEntry, ::pWidget )
- endif
+   if empty( oModel ) ; return nil ; endif
+
+   ::pWidget := gtk_entry_completion_new()
+   ::oModel  := oModel
+
+   gtk_entry_set_completion( pEntry, ::pWidget )
+   ::Connect( "match-selected" )
+   ::oEntry:lCompletion := .t.
+   gtk_entry_completion_set_text_column( ::pWidget, nColumn -1 )
+   gtk_entry_completion_set_model( ::pWidget, oModel:pWidget )
    
- g_object_unref( ::pWidget )
- 
- if !Empty( oModel )
-    gtk_entry_completion_set_model( ::pWidget, oModel:pWidget )
-    g_object_unref ( oModel:pWidget )
-    /* Use model column 0 as the text column */
-    gtk_entry_completion_set_text_column( ::pWidget, nColumn -1 )
- endif
- 
+   g_object_unref( ::pWidget )
+   g_object_unref ( oModel:pWidget )
+
 RETURN Self  
 
 
@@ -80,3 +81,6 @@ METHOD OnMatch_Selected ( uParam, pTreeModel, aIter )
    endif
 
 RETURN uResult 
+
+
+
