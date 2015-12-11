@@ -35,14 +35,23 @@ CLASS GENTRYCOMPLETION FROM GOBJECT
 ENDCLASS
 
 METHOD New( oEntry, oModel, nColumn ) CLASS GENTRYCOMPLETION
+ LOCAL pEntry
  DEFAULT nColumn := 1
    
+ if oEntry:IsDerivedFrom( "GCOMBOBOXENTRY" )
+    pEntry := tgtk_get_widget_combo_entry( oEntry:pWidget )
+ elseif oEntry:IsDerivedFrom( "GENTRY" )
+    pEntry := oEntry:pWidget
+ else
+    return nil
+ endif
+
  ::pWidget := gtk_entry_completion_new()
  ::oEntry  := oEntry
  ::oModel  := oModel
 
  if !Empty( oEntry )
-    gtk_entry_set_completion( oEntry:pWidget, ::pWidget )
+    gtk_entry_set_completion( pEntry, ::pWidget )
  endif
    
  g_object_unref( ::pWidget )
@@ -54,7 +63,8 @@ METHOD New( oEntry, oModel, nColumn ) CLASS GENTRYCOMPLETION
     gtk_entry_completion_set_text_column( ::pWidget, nColumn -1 )
  endif
  
-RETURN Self      
+RETURN Self  
+
 
 
 METHOD OnMatch_Selected ( uParam, pTreeModel, aIter )
