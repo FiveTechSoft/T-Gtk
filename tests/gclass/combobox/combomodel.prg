@@ -11,7 +11,7 @@ Function Main()
 
   local oWnd, oLbx, oBox, cVar , oCombo, oCombo3, cVar3 
   local oCombo2, cVar2 := "ARA", aItems := { "1-Value","2-Dos","3-Well..." }
-  Local oComboChange, cVarChange
+  Local oComboChange, cVarChange, oEntry, oEnt, oEnt2, cEnt := "", oComplete
 
   DEFINE WINDOW oWnd TITLE "T-Gtk Combobox TreeStore power!!" 
      
@@ -20,6 +20,13 @@ Function Main()
      
      /*Modelo de Datos */
      oLbx := Create_Model()
+
+     DEFINE ENTRY oEnt VAR cEnt COMPLETION aItems OF oBox
+
+     DEFINE ENTRY oEnt2 VAR cEnt OF oBox
+     oComplete := Completion( oEnt2 )
+     oComplete:bSelected := {|oSender, pModel, aIter|  MsgInfo( "aqqui" )  }
+
      
      DEFINE COMBOBOX oCombo VAR cVar ; 
             MODEL oLbx ;
@@ -35,6 +42,8 @@ Function Main()
      DEFINE COMBOBOX ENTRY oCombo3  ;
                  VAR cVar3 ;
                  ITEMS aItems OF oBox
+     // Autocompletado en comboboxentry 
+     Completion( oCombo3 )
      
      
      DEFINE BUTTON oCombo TEXT "VALUE VARIABLE COMBOBOX" ;
@@ -45,6 +54,7 @@ Function Main()
      DEFINE COMBOBOX oComboChange VAR cVarChange ; 
             ITEMS {""} ;
             OF oBox  
+
      
    ACTIVATE WINDOW oWnd CENTER
   
@@ -109,3 +119,32 @@ STATIC FUNCTION Create_Model()
      endif
 
 RETURN NIL
+
+
+/*
+ Creamos un autocompletado a traves de un simple array
+*/
+function Completion( oEntry, aCompletion ) 
+    Local oLbx, x, n, oCompletion
+    Local nLen, cItem
+
+    default aCompletion := { "China", "India", "Estados Unidos", "Indonesia", "Brasil", "Pakistan",;
+                             "Bangladesh", "Rusia", "Nigeria", "Japón" }
+
+    nLen := Len( aCompletion )
+
+
+    /*Modelo de Datos */
+    DEFINE LIST_STORE oLbx TYPES G_TYPE_STRING
+
+    FOR EACH cItem IN aCompletion
+        INSERT LIST_STORE oLbx ROW cItem:__EnumIndex() VALUES cItem
+    Next
+
+    oCompletion := gEntryCompletion():New( oEntry, oLbx, 1 )
+
+
+RETURN oCompletion
+
+
+
