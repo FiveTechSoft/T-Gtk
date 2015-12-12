@@ -70,7 +70,7 @@ RETURN Self
 
 METHOD OnMatch_Selected ( uParam, pTreeModel, aIter )
    Local uResult := .F.
-   
+    
    if hb_IsBlock( uParam )
       ::bSelected = uParam
       ::Connect( "match-selected" )
@@ -79,7 +79,6 @@ METHOD OnMatch_Selected ( uParam, pTreeModel, aIter )
          uResult := Eval( uParam:bSelected, Self, pTreeModel, aIter )
       endif
    endif
-
 RETURN uResult 
 
 
