@@ -1,16 +1,17 @@
 #
 #  www.t-gtk.org
+#  (c)2004-15 gTxBase Team
 #
 
-$(info Ejecutando build.bat (exporta version de SVN para instalador))
-$(info Esto puede demorar unos minutos, por favor espere... )
-$(shell build.bat)
-$(info Finalizada creacion de carpeta preinstall. )
+$(info  )
+$(info * Ejecutando Makefile en $(ROOT)pkg_install)
 
-export ROOT=../
-include $(ROOT)config/detect.mk
-include $(ROOT)$(SETENV)
-include $(ROOT)config/global.mk
+ROOT=../
+include ../config/detect.mk
+include ../config/global.mk
+include $(TGTK_DIR)/$(SETENV)
+#ROOT=$(TGTK_DIR)
+$(info  )
 
 ifeq ($(subst $(SPACE),,$(XBASE_COMPILER)),HARBOUR)
   HB_SHORTNAME=hb$(HB_VERSION)
@@ -19,34 +20,84 @@ ifeq ($(subst $(SPACE),,$(XBASE_COMPILER)),XHARBOUR)
   HB_SHORTNAME=xhb$(HB_VERSION)
 endif
 
+
 ifeq ($(HB_MAKE_PLAT),win)
-   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_PLAT)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
+
+   #-- De acuerdo al formato de fecha se debe cambiar los valores para
+   #   obtener el mes y el año.
+   MONTH=$(shell echo %date:~-7,2%)
+   YEAR=$(shell echo %date:~-4%)
+   FECHA=$(shell echo %date:~-7,2%-%date:~-4%)
+
+   $(info Ejecutando build.bat (exporta version de SVN para instalador))
+   $(info Esto puede demorar unos minutos, por favor espere... )
+   $(shell build.bat)
+
+   ifeq ($(BIN_PLATFORM_NAME),yes)
+      LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)
+   else
+      LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_PLAT)_$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
+   endif
 else
-   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_ISSUE)$(DIRSEP)$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
+
+   MONTH=$(shell date +'%m')
+   YEAR=$(shell date +'%Y')
+   FECHA=$(shell date +'%m-%Y')
+
+   $(shell cd $(TGTK_DIR); git checkout-index --prefix=preinstall/ -a -f )
+
+   LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)
+endif
+$(info Finalizada creacion de carpeta preinstall. )
+$(info  )
+
+
+$(shell mkdir $(LIBDIR_TGTK)$(DIRSEP)hb)
+$(info copy $(LIBDIR_TGTK_)$(DIRSEP)*.a $(LIBDIR_TGTK)$(DIRSEP)hb$(DIRSEP) )
+ifeq ($(HB_MAKE_PLAT),win)
+   $(shell copy $(LIBDIR_TGTK_)\*.a $(LIBDIR_TGTK)\hb\ > %TEMP%/out.log)
+else
+   $(shell cp $(LIBDIR_TGTK_)/*.a $(LIBDIR_TGTK)/hb/ > /tmp/out.log)
 endif
 
-$(info copy $(LIBDIR_TGTK_)\*.a $(LIBDIR_TGTK)\hb\ )
-$(shell mkdir $(LIBDIR_TGTK)\hb)
-$(shell copy $(LIBDIR_TGTK_)\*.a $(LIBDIR_TGTK)\hb\ > %TEMP%/out.log)
 
-
-$(info Ejecutando Makefile en $(ROOT)pkg_install)
-
-#TGTK_VERSION=2.1
+#TGTK_VERSION=2.1  defined in config/global.mk
+$(info  )
+$(info * ------------------------------------- * )
 INSTALL_DIR=$(subst %\:,C\:,$(TGTK_DIR))_$(TGTK_VERSION)
+$(info Destino de instalacion: $(INSTALL_DIR) )
 
 DEST_MINGWDIR=$(INSTALL_DIR)\MinGW
+#$(info MinGW Path: $(DEST_MINGWDIR))
 
 MSQL_PATH=$(subst ",,$(dir $(MYSQL_PATH)))
+#$(info MySQL Path: $(MSQL_PATH) )
 PSQL_PATH=$(subst ",,$(dir $(POSTGRE_PATH)))
+#$(info PgSQL Path: $(PSQL_PATH) )
+#$(info  )
 
 #-- RUTA DE FUENTES DE HARBOUR
-HB_SOURCE_PATH:=\harbour-svn
+ifeq ($(HB_SOURCE_PATH),)
+$(info * ------------------------------------- *                   )
+$(info *              ATENCION.                                    )
+$(info * ------------------------------------- *                   )
+$(info * La variable con la ruta a los fuentes de Harbour,         )
+$(info * no esta definida. Se asume /harbour-project               )
+$(info * Puede indicar la variable mediante la instruccion:        )
+$(info * SET HB_SOURCE_PATH=RUTA.                                  )
+$(info * Ejemplo:                                                  )
+$(info * SET HB_SOURCE_PATH=\harbour-project                       )
+   HB_SOURCE_PATH:=\harbour-project
+endif
+#$(info Harbour (Source) Path: $(HB_SOURCE_PATH) )
 
 HB_PATH:=$(dir $(HB_BIN_INSTALL))
+#$(info Harbour (Binaries) Path: $(HB_PATH))
 
-#$(shell cmd /C start svn export --force ../ ./preinstall/ )
-$(shell cmd /C start svn export ../ ./preinstall/ )
+# (shell cmd /C start svn export --force ../ ./preinstall/ )
+# (shell cmd /C start svn export ../ ./preinstall/ )
+# (shell cd $(TGTK_DIR); makedir preinstall; git checkout-index --prefix=preinstall/ -a -f )
+#git checkout-index -a -f --prefix=/destination/path/
 
 $(info * ------------------------------------- * )
 $(info Ruta GTK a utilizar: $(GTK_PATH) )
@@ -60,24 +111,57 @@ $(info * ------------------------------------- * )
 # --------------------------------------
 # Inicializa Archivos .nsh
 # --------------------------------------
+$(info Generando Valores Iniciales (init.nsh) )
+$(shell echo   File /nonfatal /r /x CVS $(ROOT)$(DIRSEP)preinstall\*.* > init.nsh )
+$(shell echo.   >> init.nsh )
+$(shell echo   SetOutPath "$$INSTDIR$(LIBDIR_TGTK_)" >> init.nsh )
+$(shell echo   File /nonfatal "$(LIBDIR_TGTK_)$(DIRSEP)libhbgtk.a" >> init.nsh )
+$(shell echo   File /nonfatal "$(LIBDIR_TGTK_)$(DIRSEP)libgclass.a" >> init.nsh )
+
+
+# --------------------------------------
+# Inicializa Fecha (date.nsh)
+# --------------------------------------
+$(info Inicializando date.nsh )
+ifeq ($(MES),12)
+   FECHA="Dic, $(YEAR)"
+endif
+$(shell echo.   > date.nsh )
+$(shell echo      	StrCpy $$1 "$(FECHA)" >> date.nsh )
+
+
 $(info Inicializando dolphin.nsh )
 $(shell echo.   > dolphin.nsh )
+$(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libmysql.a"  >> dolphin.nsh )
+$(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libhbmysql.a"  >> dolphin.nsh )
+$(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libtdolphin.a"  >> dolphin.nsh )
+
 
 $(info Inicializando mysql.nsh )
 $(shell echo.   > mysql.nsh )
 
+
 $(info Inicializando pgsql.nsh )
 $(shell echo.   > pgsql.nsh )
+$(shell echo  SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)" >> pgsql.nsh )
+$(shell echo  File /nonfatal ..\lib\win_x86\hb$(HB_VERSION)\libpq.a >> pgsql.nsh )
+$(shell echo  File /nonfatal ..\lib\win_x86\hb$(HB_VERSION)\libhbpg.a >> pgsql.nsh )
+
 
 $(info Inicializando gtk.nsh )
 $(shell echo.   > gtk.nsh )
 
+
 $(info Inicializando question.nsh )
 $(shell echo.   > question.nsh )
-$(shell echo    StrCpy $$DEST_MINGWDIR "$(DEST_MINGWDIR)"    >> question.nsh )
+$(shell echo    StrCpy $$DEST_MINGWDIR "$$INSTDIR\MinGW"    >> question.nsh )
 $(shell echo    StrCpy $$DEST_GTKDIR "$$INSTDIR\GTK+"    >> question.nsh )
-$(shell echo    StrCpy $$DEST_HBDIR "$$INSTDIR\hb-mingw"    >> question.nsh )
-$(shell echo    StrCpy $$DEST_GEDIT "$$INSTDIR\gedit"    >> question.nsh )
+$(shell echo    StrCpy $$DEST_HBDIR "$$INSTDIR\hb$(HB_VERSION)-mingw"    >> question.nsh )
+
+
+# --------------------------------------
+# Genera Valores Iniciales
+# --------------------------------------
 
 
 # --------------------------------------
@@ -98,10 +182,10 @@ $(shell echo.  >> install_name.nsh )
 $(shell echo   StrCpy $$SRC_MINGWDIR "$(TGTK_BIN)"       >  parameters.nsh)
 $(shell echo   StrCpy $$SRC_GTKDIR   "$(GTK_PATH)"       >> parameters.nsh)
 $(shell echo   StrCpy $$SRC_HBDIR    "$(HB_BIN_INSTALL)" >> parameters.nsh)
+$(shell echo   StrCpy $$SRC_HBVER    "$(HB_VERSION)"     >> parameters.nsh)
 $(shell echo   StrCpy $$SRC_MYSQL    "$(MSQL_PATH)"      >> parameters.nsh)
 $(shell echo   StrCpy $$SRC_PGSQL    "$(PSQL_PATH)"      >> parameters.nsh)
 $(shell echo   StrCpy $$SRC_GEDIT    "$$INSTDIR\gedit"   >> parameters.nsh)
-
 
 $(shell echo   !define FULL >> parameters.nsh)
 $(shell echo   !undef FULL >> parameters.nsh)
@@ -135,7 +219,7 @@ ifeq ($(NSIS_PATH),)
    NSIS_PATH =$(PROGRAMFILES)\NSIS
 endif
 $(info Puede tardar varios minutos, por favor espere. )
-$(shell "$(NSIS_PATH)\makensis.exe" /Onsis.log t-gtk.nsi )
+$(shell "$(NSIS_PATH)\makensis.exe" /V3 /Onsis.log t-gtk.nsi )
 $(shell cmd /C start nsis.log )
 
 
@@ -157,6 +241,10 @@ $(shell cmd /C start nsis.log )
 # else
 #   $(shell echo   SetOutPath "$$INSTDIR\tdolphin"       > dolphin.nsh )
 #   $(shell echo   File /nonfatal /r "$(TGTK_DIR)\tdolphin\*.*"  >> dolphin.nsh )
+   $(shell echo.    > dolphin.nsh )
+   $(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libmysql.a"  >> dolphin.nsh )
+   $(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libhbmysql.a"  >> dolphin.nsh )
+   $(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libtdolphin.a"  >> dolphin.nsh )
 # endif
 
 
@@ -190,6 +278,10 @@ $(shell cmd /C start nsis.log )
    $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient\include"     >> pgsql.nsh )
    $(shell echo   File /nonfatal "$(PSQL_PATH)include\*.*"  >> pgsql.nsh )
  endif
+$(shell echo.   > pgsql.nsh )
+$(shell echo  SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)" >> pgsql.nsh )
+$(shell echo  File /nonfatal ..\lib\win_x86\hb$(HB_VERSION)\libpq.a >> pgsql.nsh )
+$(shell echo  File /nonfatal ..\lib\win_x86\hb$(HB_VERSION)\libhbpg.a >> pgsql.nsh )
 
 
 #-- GTK+
@@ -224,12 +316,14 @@ $(shell cmd /C start nsis.log )
 #-- Harbour
 
  $(info * Verificando existencia de Harbour )
- $(shell $(EXECUTE) $(HB_PATH)bin\harbour.exe)
+ $(shell $(EXECUTE) $(HB_PATH)mingw\harbour.exe)
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
    $(info -------------------------------------------------------- )
    $(info *  No se incluye Harbour - No ha sido localizado en: )
    $(info * $(HB_PATH) )
+   $(info * No se continua la generacion del instalador.           )
    $(info -------------------------------------------------------- )
+   $(error No se puede generar instalador FULL )
  else
    $(shell echo   SetOutPath "$$DEST_HBDIR"       > harbour.nsh )
    $(shell echo   File /nonfatal /r "$(HB_PATH)*.*"  >> harbour.nsh )
@@ -241,24 +335,29 @@ $(shell cmd /C start nsis.log )
 # --------------------------------------
 # Unidos o Separados (question.nsh)
 # --------------------------------------
- $(shell echo MessageBox MB_YESNO \
-              "¿Desea colocar todos los componentes externos en \
-	      $$INSTDIR\MinGW ?" > question.nsh )
- $(shell echo   InstallDir "C:\t-gtk_$(TGTK_VERSION)" >> install_name.nsh )
- $(shell echo true:        >> question.nsh )
- $(shell echo    DetailPrint "Todo a MinGW"    >> question.nsh )
- $(shell echo    StrCpy $$DEST_MINGWDIR "$$INSTDIR\MinGW"    >> question.nsh )
- $(shell echo    StrCpy $$DEST_GTKDIR "$$INSTDIR\MinGW"    >> question.nsh )
- $(shell echo    StrCpy $$DEST_HBDIR "$$INSTDIR\hb-mingw"    >> question.nsh )
- $(shell echo    StrCpy $$DEST_GEDIT "$$INSTDIR\MinGW"    >> question.nsh )
- $(shell echo    Goto next    >> question.nsh )
- $(shell echo false:        >> question.nsh )
- $(shell echo    DetailPrint "Separados!"    >> question.nsh )
- $(shell echo    StrCpy $$DEST_MINGWDIR "$$INSTDIR\MinGW"    >> question.nsh )
- $(shell echo    StrCpy $$DEST_GTKDIR "$$INSTDIR\GTK+"    >> question.nsh )
- $(shell echo    StrCpy $$DEST_HBDIR "$$INSTDIR\hb-mingw"    >> question.nsh )
- $(shell echo    StrCpy $$DEST_GEDIT "$$INSTDIR\gedit"    >> question.nsh )
- $(shell echo next:        >> question.nsh )
+ $(shell echo !ifdef QUESTION > question.nsh )
+ 
+ $(shell echo    MessageBox MB_YESNO \
+                 "¿Desea colocar todos los componentes externos en \
+	         $$INSTDIR\MinGW ?" IDYES true IDNO false >> question.nsh )
+# $(shell echo   InstallDir "C:\t-gtk_$(TGTK_VERSION)" >> install_name.nsh )
+ $(shell echo    true:        >> question.nsh )
+ $(shell echo       DetailPrint "Todo a MinGW"    >> question.nsh )
+ $(shell echo       StrCpy $$DEST_MINGWDIR "$$INSTDIR\MinGW"    >> question.nsh )
+ $(shell echo       StrCpy $$DEST_GTKDIR "$$INSTDIR\MinGW"    >> question.nsh )
+ $(shell echo       StrCpy $$DEST_HBDIR "$$INSTDIR\hb$(HB_VERSION)-mingw"    >> question.nsh )
+ $(shell echo       Goto next    >> question.nsh )
+ $(shell echo    false:        >> question.nsh )
+ $(shell echo       DetailPrint "Separados!"    >> question.nsh )
+ $(shell echo       StrCpy $$DEST_MINGWDIR "$$INSTDIR\MinGW"    >> question.nsh )
+ $(shell echo       StrCpy $$DEST_GTKDIR "$$INSTDIR\GTK+"    >> question.nsh )
+ $(shell echo       StrCpy $$DEST_HBDIR "$$INSTDIR\hb$(HB_VERSION)-mingw"    >> question.nsh )
+ $(shell echo    next:        >> question.nsh )
+ $(shell echo !else >> question.nsh )
+ $(shell echo   StrCpy $$DEST_MINGWDIR \MinGW >> question.nsh )
+ $(shell echo   StrCpy $$DEST_GTKDIR   \GTK >> question.nsh )
+ $(shell echo   StrCpy $$DEST_HBDIR    \hb$(HB_VERSION) >> question.nsh )
+ $(shell echo !endif >> question.nsh )
 
 
 # --------------------------------------
@@ -279,7 +378,7 @@ ifeq ($(NSIS_PATH),)
    NSIS_PATH =$(PROGRAMFILES)\NSIS
 endif
 $(info Puede tardar varios minutos, por favor espere. )
-$(shell "$(NSIS_PATH)\makensis.exe" /Onsis.log t-gtk.nsi )
-$(shell notepad nsis.log )
+#$(shell "$(NSIS_PATH)\makensis.exe" /V3 /Onsis.log t-gtk.nsi )
+#$(shell notepad nsis.log )
 
 #eof

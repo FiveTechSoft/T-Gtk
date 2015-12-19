@@ -55,7 +55,7 @@
   Var SRC_MINGWDIR
   Var SRC_GTKDIR
   Var SRC_HBDIR
-  Var SRC_HB_SVN_DIR
+  Var SRC_HBVER
   Var SRC_MYSQL
   Var SRC_PGSQL
   Var SRC_GEDIT
@@ -63,7 +63,6 @@
   Var DEST_HBDir  
   Var DEST_GTKDir
   Var DEST_MINGWDIR
-  Var DEST_GEDIT
 
   Var SOURCE
 
@@ -81,7 +80,8 @@
 ;Funciones
 Function .onInit
 
-        StrCpy $1 "Nov, 2011"
+        ;StrCpy $1 "Nov, 2011"
+        !include "date.nsh"
 
 	# the plugins dir is automatically deleted when the installer exits
 	InitPluginsDir
@@ -130,19 +130,19 @@ FunctionEnd
 !define MUI_FINISHPAGE_SHOWREADME_TEXT "Show release notes"
 !define MUI_FINISHPAGE_SHOWREADME_FUNCTION ShowReleaseNotes
 
-Function ShowReleaseNotes
-  ${If} ${FileExists} $WINDIR\hh.exe
-    StrCpy $0 $WINDIR\hh.exe
-    Exec '"$0" mk:@MSITStore:$INSTDIR\NSIS.chm::/SectionF.1.html'
-  ${Else}
-    SearchPath $0 hh.exe
-    ${If} ${FileExists} $0
-      Exec '"$0" mk:@MSITStore:$INSTDIR\NSIS.chm::/SectionF.1.html'
-    ${Else}
-      ExecShell "open" "http://www.t-gtk.org"
-    ${EndIf}
-  ${EndIf}
-FunctionEnd
+;Function ShowReleaseNotes
+;  ${If} ${FileExists} $WINDIR\hh.exe
+;    StrCpy $0 $WINDIR\hh.exe
+;    Exec '"$0" mk:@MSITStore:$INSTDIR\NSIS.chm::/SectionF.1.html'
+;  ${Else}
+;    SearchPath $0 hh.exe
+;    ${If} ${FileExists} $0
+;      Exec '"$0" mk:@MSITStore:$INSTDIR\NSIS.chm::/SectionF.1.html'
+;    ${Else}
+;      ExecShell "open" "http://www.t-gtk.org"
+;    ${EndIf}
+;  ${EndIf}
+;FunctionEnd
 
 
 
@@ -167,11 +167,12 @@ Section "t-gtk" SecTgtk
   SetOutPath "$INSTDIR"
 
   ;ADD YOUR OWN FILES HERE...
-  File /nonfatal /r /x CVS preinstall\*.*
+  !include "init.nsh"
+;  File /nonfatal /r /x CVS preinstall\*.*
 
-  SetOutPath "$INSTDIR\lib\win_x86\hb31"
-  File /nonfatal ..\lib\win_x86\hb31\libhbgtk.a
-  File /nonfatal ..\lib\win_x86\hb31\libgclass.a
+;  SetOutPath "$INSTDIR\lib\win_x86\hb$SRC_HBVER"
+;  File /nonfatal ..\lib\win_x86\hb$SRC_HBVER\libhbgtk.a
+;  File /nonfatal ..\lib\win_x86\hb$SRC_HBVER\libgclass.a
   ;!include "libtgtk.nsh"
 
   ;Store installation folder
@@ -186,35 +187,34 @@ Section "t-gtk" SecTgtk
 ;  StrCpy $SRC_MINGWDIR    "\MinGW"
 ;  StrCpy $SRC_GTKDIR      "\GTK+"
 ;  StrCpy $SRC_HBDIR       "\hb-mingw"
-;  StrCpy $SRC_HB_SVN_DIR  "\hb-mingw-svn"
 ;  StrCpy $SRC_GEDIT       "\gedit"
 
   ;File Destination
   
   ; Define Destino de componentes
   ; En caso de ser instalador full, pregunta si colocar todo en MinGW
-;  !include "question.nsh"
-!ifdef QUESTION
-   MessageBox MB_YESNO "¿Desea colocar todos los componentes externos en $INSTDIR\MinGW ?" IDYES true IDNO false
-   true:
-     DetailPrint "Todo a MinGW"
-     StrCpy $DEST_MINGWDIR $INSTDIR\MinGW
-     StrCpy $DEST_GTKDIR $INSTDIR\MinGW
-     StrCpy $DEST_HBDIR $INSTDIR\hb31-mingw
-     StrCpy $DEST_GEDIT $INSTDIR\MinGW
-     Goto next
-   false:
-     DetailPrint "Separados!"
-     StrCpy $DEST_MINGWDIR $INSTDIR\MinGW
-     StrCpy $DEST_GTKDIR $INSTDIR\GTK+
-     StrCpy $DEST_HBDIR $INSTDIR\hb31-mingw
-     StrCpy $DEST_GEDIT $INSTDIR\gedit
-   next:
-!else
-   StrCpy $DEST_MINGWDIR \MinGW
-   StrCpy $DEST_GTKDIR \GTK+
-   StrCpy $DEST_HBDIR \hb31
-!endif
+  !include "question.nsh"
+;!ifdef QUESTION
+;   MessageBox MB_YESNO "¿Desea colocar todos los componentes externos en $INSTDIR\MinGW ?" IDYES true IDNO false
+;   true:
+;     DetailPrint "Todo a MinGW"
+;     StrCpy $DEST_MINGWDIR $INSTDIR\MinGW
+;     StrCpy $DEST_GTKDIR $INSTDIR\MinGW
+;     StrCpy $DEST_HBDIR $INSTDIR\hb$SRC_HBVER-mingw
+;     StrCpy $DEST_GEDIT $INSTDIR\MinGW
+;     Goto next
+;   false:
+;     DetailPrint "Separados!"
+;     StrCpy $DEST_MINGWDIR $INSTDIR\MinGW
+;     StrCpy $DEST_GTKDIR $INSTDIR\GTK+
+;     StrCpy $DEST_HBDIR $INSTDIR\hb$SRC_HBVER-mingw
+;     StrCpy $DEST_GEDIT $INSTDIR\gedit
+;   next:
+;!else
+;   StrCpy $DEST_MINGWDIR \MinGW
+;   StrCpy $DEST_GTKDIR \GTK+
+;   StrCpy $DEST_HBDIR \hb$SRC_HBVER
+;!endif
 
   StrCpy $source "preinstall"
 
@@ -236,7 +236,7 @@ FileOpen $0 $INSTDIR\setenv_win_x86.mk w
 FileWrite $0  "$\r$\n"
 FileWrite $0  "#---------------------------------------------$\r$\n" 
 FileWrite $0  "# System Configure of T-Gtk.$\r$\n" 
-FileWrite $0  "# (c)2004-11 gTXBASE Team.$\r$\n" 
+FileWrite $0  "# (c)2004-15 gTXBASE Team.$\r$\n" 
 FileWrite $0  "#$\r$\n" 
 FileWrite $0  "#---------------------------------------------$\r$\n" 
 FileWrite $0  "$\r$\n" 
@@ -249,7 +249,7 @@ FileWrite $0  "# RUTAS Compilador xBase HARBOUR.$\r$\n"
 FileWrite $0  "export HB_BIN_INSTALL =$DEST_HBDIR\bin$\r$\n"
 FileWrite $0  "export HB_INC_INSTALL =$DEST_HBDIR\include$\r$\n"
 FileWrite $0  "export HB_LIB_INSTALL =$DEST_HBDIR\lib\win\mingw$\r$\n"
-FileWrite $0  "export HB_VERSION =31$\r$\n"
+FileWrite $0  "export HB_VERSION =$SRC_HBVER$\r$\n"
 FileWrite $0  "#-------------------- $\r$\n"
 FileWrite $0  "# RUTAS Compilador xBase xHARBOUR. $\r$\n"
 FileWrite $0  "export XHB_BIN_INSTALL =\xhb_mingw\bin$\r$\n"
@@ -385,10 +385,10 @@ StrCpy $RULES_MYSQL   "$RULES_MYSQL$\r$\n"
   ; DOLPHIN
   !include "dolphin.nsh"
 
-  SetOutPath "$INSTDIR\lib\win_x86\hb31"
-  File /nonfatal ..\lib\win_x86\hb31\libmysql.a
-  File /nonfatal ..\lib\win_x86\hb31\libhbmysql.a
-  File /nonfatal ..\lib\win_x86\hb31\libtdolphin.a
+;  SetOutPath "$INSTDIR\lib\win_x86\hb$SRC_HBVER"
+;  File /nonfatal ..\lib\win_x86\hb$SRC_HBVER\libmysql.a
+;  File /nonfatal ..\lib\win_x86\hb$SRC_HBVER\libhbmysql.a
+;  File /nonfatal ..\lib\win_x86\hb$SRC_HBVER\libtdolphin.a
 
 
 SectionEnd
@@ -407,9 +407,9 @@ StrCpy $RULES_PGSQL   "$RULES_PGSQL$\r$\n"
   ;ADD YOUR OWN FILES HERE...
   ;File /nonfatal /r "$SRC_PGSQL\*.*"
 
-  SetOutPath "$INSTDIR\lib\win_x86\hb31"
-  File /nonfatal ..\lib\win_x86\hb31\libpq.a
-  File /nonfatal ..\lib\win_x86\hb31\libhbpg.a
+;  SetOutPath "$INSTDIR\lib\win_x86\hb$SRC_HBVER"
+;  File /nonfatal ..\lib\win_x86\hb$SRC_HBVER\libpq.a
+;  File /nonfatal ..\lib\win_x86\hb$SRC_HBVER\libhbpg.a
 
 SectionEnd
 
@@ -427,9 +427,9 @@ StrCpy $RULES_CURL   "${RULES_CURL}$\r$\n"
   ;ADD YOUR OWN FILES HERE...
 ;  File /nonfatal /r "$SRC_CURL\*.*"
 
-  SetOutPath "$INSTDIR\lib\win_86\hb31"
-  File /nonfatal ..\lib\win_x86\hb31\libcurl.a
-  File /nonfatal ..\lib\win_x86\hb31\libcurl-hb.a
+  SetOutPath "$INSTDIR\lib\win_86\hb32"
+  File /nonfatal ..\lib\win_x86\hb32\libcurl.a
+  File /nonfatal ..\lib\win_x86\hb32\libcurl-hb.a
 
 SectionEnd
 */
@@ -549,9 +549,9 @@ SectionGroupEnd
 !ifdef FULL
   LangString DESC_SecMinGW ${LANG_SPANISH} "MinGW, Compilador y herramientas de compilación GNU."
 
-  LangString DESC_SecHarbour ${LANG_SPANISH} "Harbour. Compilador xBase version 2.1"
+  LangString DESC_SecHarbour ${LANG_SPANISH} "Harbour. Compilador xBase version 3.2"
 
-  LangString DESC_SecHBSource ${LANG_SPANISH} "Harbour. Codigo Fuente version 2.1"
+  LangString DESC_SecHBSource ${LANG_SPANISH} "Harbour. Codigo Fuente version 3.2"
 
   LangString DESC_SecGTK+ ${LANG_SPANISH} "GTK+ 2.24, Componentes para desarrollar con GTK+ y Glade."
 
