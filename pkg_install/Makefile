@@ -38,6 +38,9 @@ ifeq ($(HB_MAKE_PLAT),win)
    else
       LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(HB_MAKE_PLAT)_$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)
    endif
+
+   LIB_DEST=..$(DIRSEP)lib$(DIRSEP)$(HB_MAKE_PLAT)_$(HOST_PLAT)$(DIRSEP)$(HB_SHORTNAME)$(DIRSEP)
+
 else
 
    MONTH=$(shell date +'%m')
@@ -47,6 +50,8 @@ else
    $(shell cd $(TGTK_DIR); git checkout-index --prefix=preinstall/ -a -f )
 
    LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)
+   LIB_DEST=..$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)$(DIRSEP)
+
 endif
 $(info Finalizada creacion de carpeta preinstall. )
 $(info  )
@@ -114,9 +119,9 @@ $(info * ------------------------------------- * )
 $(info Generando Valores Iniciales (init.nsh) )
 $(shell echo   File /nonfatal /r /x CVS $(ROOT)$(DIRSEP)preinstall\*.* > init.nsh )
 $(shell echo.   >> init.nsh )
-$(shell echo   SetOutPath "$$INSTDIR$(LIBDIR_TGTK_)" >> init.nsh )
-$(shell echo   File /nonfatal "$(LIBDIR_TGTK_)$(DIRSEP)libhbgtk.a" >> init.nsh )
-$(shell echo   File /nonfatal "$(LIBDIR_TGTK_)$(DIRSEP)libgclass.a" >> init.nsh )
+$(shell echo   SetOutPath "$$INSTDIR$(DIRSEP)lib" >> init.nsh )
+$(shell echo   File /nonfatal "$(LIB_DEST)libhbgtk.a" >> init.nsh )
+$(shell echo   File /nonfatal "$(LIB_DEST)libgclass.a" >> init.nsh )
 
 
 # --------------------------------------
@@ -132,9 +137,10 @@ $(shell echo      	StrCpy $$1 "$(FECHA)" >> date.nsh )
 
 $(info Inicializando dolphin.nsh )
 $(shell echo.   > dolphin.nsh )
-$(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libmysql.a"  >> dolphin.nsh )
-$(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libhbmysql.a"  >> dolphin.nsh )
-$(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libtdolphin.a"  >> dolphin.nsh )
+$(shell echo   SetOutPath "$$INSTDIR$(DIRSEP)lib"  >> dolphin.nsh )
+$(shell echo   File /nonfatal "$(LIB_DEST)libmysql.a"  >> dolphin.nsh )
+$(shell echo   File /nonfatal "$(LIB_DEST)libhbmysql.a"  >> dolphin.nsh )
+$(shell echo   File /nonfatal "$(LIB_DEST)libtdolphin.a"  >> dolphin.nsh )
 
 
 $(info Inicializando mysql.nsh )
@@ -143,9 +149,9 @@ $(shell echo.   > mysql.nsh )
 
 $(info Inicializando pgsql.nsh )
 $(shell echo.   > pgsql.nsh )
-$(shell echo  SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)" >> pgsql.nsh )
-$(shell echo  File /nonfatal ..\lib\win_x86\hb$(HB_VERSION)\libpq.a >> pgsql.nsh )
-$(shell echo  File /nonfatal ..\lib\win_x86\hb$(HB_VERSION)\libhbpg.a >> pgsql.nsh )
+$(shell echo  SetOutPath "$$INSTDIR$(DIRSEP)lib" >> pgsql.nsh )
+$(shell echo  File /nonfatal "$(LIB_DEST)libpq.a" >> pgsql.nsh )
+$(shell echo  File /nonfatal "$(LIB_DEST)libhbpg.a" >> pgsql.nsh )
 
 
 $(info Inicializando gtk.nsh )
@@ -167,7 +173,7 @@ $(shell echo    StrCpy $$DEST_HBDIR "$$INSTDIR\hb$(HB_VERSION)-mingw"    >> ques
 # --------------------------------------
 # Genera Instalador Basico
 # --------------------------------------
-$(info Generando Instalador Basico o Minimo (Solo t-gtk) )
+$(info Generando Instalador Basico (Solo t-gtk) )
 
 $(info Inicializando install_name.nsh )
 $(shell echo   Name "t-gtk $(TGTK_VERSION)"         > install_name.nsh )
@@ -242,9 +248,10 @@ $(shell cmd /C start nsis.log )
 #   $(shell echo   SetOutPath "$$INSTDIR\tdolphin"       > dolphin.nsh )
 #   $(shell echo   File /nonfatal /r "$(TGTK_DIR)\tdolphin\*.*"  >> dolphin.nsh )
    $(shell echo.    > dolphin.nsh )
-   $(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libmysql.a"  >> dolphin.nsh )
-   $(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libhbmysql.a"  >> dolphin.nsh )
-   $(shell echo   SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)\libtdolphin.a"  >> dolphin.nsh )
+   $(shell echo   SetOutPath "$$INSTDIR\lib" >> dolphin.nsh )
+   $(shell echo   File /nonfatal /r "$(LIB_DEST)libmysql.a"  >> dolphin.nsh )
+   $(shell echo   File /nonfatal /r "$(LIB_DEST)libhbmysql.a"  >> dolphin.nsh )
+   $(shell echo   File /nonfatal /r "$(LIB_DEST)libtdolphin.a"  >> dolphin.nsh )
 # endif
 
 
@@ -279,9 +286,9 @@ $(shell cmd /C start nsis.log )
    $(shell echo   File /nonfatal "$(PSQL_PATH)include\*.*"  >> pgsql.nsh )
  endif
 $(shell echo.   > pgsql.nsh )
-$(shell echo  SetOutPath "$$INSTDIR\lib\win_x86\hb$(HB_VERSION)" >> pgsql.nsh )
-$(shell echo  File /nonfatal ..\lib\win_x86\hb$(HB_VERSION)\libpq.a >> pgsql.nsh )
-$(shell echo  File /nonfatal ..\lib\win_x86\hb$(HB_VERSION)\libhbpg.a >> pgsql.nsh )
+$(shell echo  SetOutPath "$$INSTDIR$(DIRSEP)lib" >> pgsql.nsh )
+$(shell echo  File /nonfatal "$(LIB_DEST)libpq.a" >> pgsql.nsh )
+$(shell echo  File /nonfatal "$(LIB_DEST)libhbpg.a" >> pgsql.nsh )
 
 
 #-- GTK+
@@ -378,7 +385,7 @@ ifeq ($(NSIS_PATH),)
    NSIS_PATH =$(PROGRAMFILES)\NSIS
 endif
 $(info Puede tardar varios minutos, por favor espere. )
-#$(shell "$(NSIS_PATH)\makensis.exe" /V3 /Onsis.log t-gtk.nsi )
-#$(shell notepad nsis.log )
+$(shell "$(NSIS_PATH)\makensis.exe" /V3 /Onsis.log t-gtk.nsi )
+$(shell notepad nsis.log )
 
 #eof
