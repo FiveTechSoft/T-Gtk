@@ -48,10 +48,15 @@ else
    FECHA=$(shell date +'%m-%Y')
 
    $(shell cd $(TGTK_DIR); git checkout-index --prefix=preinstall/ -a -f )
+   $(info se genera directorio con fuentes de Harbour)
+   $(info $(HARBOUR_PATH))
+   #$(shell cd ~$(HARBOUR_PATH); git checkout-index --prefix=hb_git/ -a -f )
+   #$(shell cd ~/harbour-project; git checkout-index --prefix=hb_git/ -a -f )
 
    LIBDIR_TGTK_ =$(LIBDIR_TGTK)$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)
    LIB_DEST=..$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)$(DIRSEP)
 
+   exit
 endif
 $(info Finalizada creacion de carpeta preinstall. )
 $(info  )
@@ -92,12 +97,11 @@ $(info * Puede indicar la variable mediante la instruccion:        )
 $(info * SET HB_SOURCE_PATH=RUTA.                                  )
 $(info * Ejemplo:                                                  )
 $(info * SET HB_SOURCE_PATH=\harbour-project                       )
-   HB_SOURCE_PATH:=\harbour-project
+   HB_SOURCE_PATH:=$(HARBOUR_PATH)$(DIRSEP)hb_git
 endif
 #$(info Harbour (Source) Path: $(HB_SOURCE_PATH) )
 
 HB_PATH:=$(dir $(HB_BIN_INSTALL))
-#$(info Harbour (Binaries) Path: $(HB_PATH))
 
 # (shell cmd /C start svn export --force ../ ./preinstall/ )
 # (shell cmd /C start svn export ../ ./preinstall/ )
@@ -111,6 +115,16 @@ $(info Ruta MinGW a utilizar: $(TGTK_BIN) )
 $(info Ruta MySQL a utilizar: $(MSQL_PATH) )
 $(info Ruta PgSQL a utilizar: $(PSQL_PATH) )
 $(info * ------------------------------------- * )
+
+
+#--- Se copia carpeta de binarios a otra para evitar que se incluyan
+#--- archivos temporales
+$(shell echo. )
+$(info Copiando binarios a carpeta 'binaries' en Harbour.)
+$(shell mkdir $(HARBOUR_PATH)$(DIRSEP)binaries)
+$(info copy $(HB_BIN_INSTALL)$(DIRSEP)*.* $(HARBOUR_PATH)$(DIRSEP)binaries$(DIRSEP) )
+$(shell copy /Y $(HB_BIN_INSTALL)$(DIRSEP)*.* $(HARBOUR_PATH)$(DIRSEP)binaries$(DIRSEP) > %TEMP%/out.log)
+$(shell echo. )
 
 
 # --------------------------------------
@@ -212,7 +226,7 @@ $(shell echo   !macro MYSQL_PATH >> parameters.nsh )
 $(shell echo     StrCpy $$RULES_MYSQL    "$$RULES_MYSQLMYSQL_PATH=$(MYSQL_PATH)$$\r$$\n" >> parameters.nsh )
 $(shell echo   !macroend >> parameters.nsh)
 
-$(shell echo   !macro PGSQL_PATH >> parameters.nsh )
+$(shell echo   !macro PSQL_PATH >> parameters.nsh )
 $(shell echo     StrCpy $$RULES_PGSQL    "$$RULES_PGSQLPOSTGRE_PATH=$(POSTGRE_PATH)$$\r$$\n" >> parameters.nsh )
 $(shell echo   !macroend >> parameters.nsh)
 
@@ -227,6 +241,8 @@ endif
 $(info Puede tardar varios minutos, por favor espere. )
 $(shell "$(NSIS_PATH)\makensis.exe" /V3 /Onsis.log t-gtk.nsi )
 $(shell cmd /C start nsis.log )
+$(info echo.)
+$(info echo.)
 
 
 # --------------------------------------
@@ -237,7 +253,7 @@ $(shell cmd /C start nsis.log )
 
 #-- TDOLPHIN
 
-# $(info * Verificando existencia de tdolphin )
+# $(info * Verificando ruta de tdolphin )
 # $(shell $(EXECUTE) $(TGTK_DIR)\tdolphin\c\function.c)
 # ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
 #   $(info -------------------------------------------------------- )
@@ -257,7 +273,7 @@ $(shell cmd /C start nsis.log )
 
 #-- MySQL
 
- $(info * Verificando existencia de Cliente MySQL )
+ $(info * Verificando ruta de Cliente MySQL )
  $(shell $(EXECUTE) $(MSQL_PATH)\lib\libmysql.dll)
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
    $(info -------------------------------------------------------- )
@@ -272,20 +288,20 @@ $(shell cmd /C start nsis.log )
 
 #-- PostgreSQL
 
- $(info * Verificando existencia de Cliente PostgreSQL )
+ $(info * Verificando ruta de Cliente PostgreSQL )
+ $(shell echo.   > pgsql.nsh )
  $(shell $(EXECUTE) $(PSQL_PATH)\lib\libpq.dll)
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
    $(info -------------------------------------------------------- )
    $(info *  No se incluye PostgreSQL Client - No ha sido localizado en: )
-   $(info * $(PGSQL_PATH) )
+   $(info * $(PSQL_PATH) )
    $(info -------------------------------------------------------- )
  else
-   $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient\lib"       > pgsql.nsh )
-   $(shell echo   File /nonfatal "$(PSQL_PATH)lib\libpq.*"  >> pgsql.nsh )
-   $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient\include"     >> pgsql.nsh )
-   $(shell echo   File /nonfatal "$(PSQL_PATH)include\*.*"  >> pgsql.nsh )
+   $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient"       > pgsql.nsh )
+   $(shell echo   File /nonfatal /r "$(PSQL_PATH)*.*"  >> pgsql.nsh )
+#   $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient\include"     >> pgsql.nsh )
+#   $(shell echo   File /nonfatal "$(PSQL_PATH)include\*.*"  >> pgsql.nsh )
  endif
-$(shell echo.   > pgsql.nsh )
 $(shell echo  SetOutPath "$$INSTDIR$(DIRSEP)lib" >> pgsql.nsh )
 $(shell echo  File /nonfatal "$(LIB_DEST)libpq.a" >> pgsql.nsh )
 $(shell echo  File /nonfatal "$(LIB_DEST)libhbpg.a" >> pgsql.nsh )
@@ -293,7 +309,7 @@ $(shell echo  File /nonfatal "$(LIB_DEST)libhbpg.a" >> pgsql.nsh )
 
 #-- GTK+
 
- $(info * Verificando existencia de GTK+ )
+ $(info * Verificando ruta de GTK+ )
  $(shell $(EXECUTE) $(GTK_PATH)\bin\libgtk-win32-2.0-0.dll)
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
    $(info -------------------------------------------------------- )
@@ -307,7 +323,7 @@ $(shell echo  File /nonfatal "$(LIB_DEST)libhbpg.a" >> pgsql.nsh )
 
 #-- MinGW
 
- $(info * Verificando existencia de MinGW )
+ $(info * Verificando ruta de MinGW )
  $(shell $(EXECUTE) $(TGTK_BIN)\bin\gcc.exe)
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
    $(info -------------------------------------------------------- )
@@ -322,7 +338,7 @@ $(shell echo  File /nonfatal "$(LIB_DEST)libhbpg.a" >> pgsql.nsh )
 
 #-- Harbour
 
- $(info * Verificando existencia de Harbour )
+ $(info * Verificando ruta de Harbour )
  $(shell $(EXECUTE) $(HB_PATH)mingw\harbour.exe)
  ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
    $(info -------------------------------------------------------- )
@@ -332,8 +348,20 @@ $(shell echo  File /nonfatal "$(LIB_DEST)libhbpg.a" >> pgsql.nsh )
    $(info -------------------------------------------------------- )
    $(error No se puede generar instalador FULL )
  else
-   $(shell echo   SetOutPath "$$DEST_HBDIR"       > harbour.nsh )
-   $(shell echo   File /nonfatal /r "$(HB_PATH)*.*"  >> harbour.nsh )
+
+   $(shell echo   SetOutPath "$$DEST_HBDIR$(DIRSEP)bin"       > harbour.nsh )
+   $(shell echo   File /nonfatal /r "$(HARBOUR_PATH)$(DIRSEP)binaries$(DIRSEP)*.*"  >> harbour.nsh )
+   $(shell echo   SetOutPath "$$DEST_HBDIR$(DIRSEP)include"       >> harbour.nsh )
+   $(shell echo   File /nonfatal /r "$(HB_SOURCE_PATH)$(DIRSEP)include$(DIRSEP)*.*"  >> harbour.nsh )
+   $(shell echo   SetOutPath "$$DEST_HBDIR$(DIRSEP)contrib"       >> harbour.nsh )
+   $(shell echo   File /nonfatal /r "$(HB_SOURCE_PATH)$(DIRSEP)contrib$(DIRSEP)*.*"  >> harbour.nsh )
+   $(shell echo   SetOutPath "$$DEST_HBDIR$(DIRSEP)lib"       >> harbour.nsh )
+   $(shell echo   File /nonfatal /r "$(HB_LIB_INSTALL)$(DIRSEP)*.a"  >> harbour.nsh )
+
+   #Fuentes de Harbour.
+   $(info Generando hbsources.nsh )
+   $(shell echo   SetOutPath "$$DEST_HBDIR"       > hbsources.nsh )
+   $(shell echo   File /nonfatal /r "$(HB_SOURCE_PATH)$(DIRSEP)*.*"  >> hbsources.nsh )
  endif
 
 
@@ -387,5 +415,7 @@ endif
 $(info Puede tardar varios minutos, por favor espere. )
 $(shell "$(NSIS_PATH)\makensis.exe" /V3 /Onsis.log t-gtk.nsi )
 $(shell notepad nsis.log )
+
+$(info Finalizado. )
 
 #eof

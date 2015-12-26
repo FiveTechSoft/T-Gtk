@@ -344,7 +344,7 @@ StrCpy $RULES_MYSQL    "$RULES_MYSQL$\r$\n"
 StrCpy $RULES_PGSQL    "#Soporte PostgreSQL$\r$\n"
 StrCpy $RULES_PGSQL    "$RULES_PGSQLPOSTGRE=no$\r$\n"
 ;StrCpy $RULES_PGSQL    "$RULES_PGSQLPOSTGRE_PATH='C:/Archivos de programa/PostgreSQL/9.0/include'$\r$\n"
-!insertmacro PGSQL_PATH
+!insertmacro PSQL_PATH
 StrCpy $RULES_PGSQL    "$RULES_PGSQL$\r$\n"
 
 
@@ -484,17 +484,18 @@ SectionGroupEnd
 
   Section /o "Fuentes" SecHBSource
 
-    SetOutPath "$DEST_HBDIR"
+    !include "hbsources.nsh"
+    ;SetOutPath "$DEST_HBDIR"
 
     ;ADD YOUR OWN FILES HERE...
-    File /nonfatal /r /x SVN \harbour-project\*.*
+    ;File /nonfatal /r /x SVN \harbour-project\*.*
 
   SectionEnd
 
 
   SectionGroupEnd
 
-
+/*
   ;------------------------------------
   Section "GTK+" SecGTK+
   ;------------------------------------
@@ -512,7 +513,7 @@ SectionGroupEnd
 
   SectionEnd
 
-/*
+
   ;------------------------------------
   Section "gedit" SecGEDIT
   ;------------------------------------
@@ -547,13 +548,13 @@ SectionGroupEnd
 ;  LangString DESC_SecCURL ${LANG_SPANISH} "Soporte para CURL"
 
 !ifdef FULL
-  LangString DESC_SecMinGW ${LANG_SPANISH} "MinGW, Compilador y herramientas de compilación GNU."
+  LangString DESC_SecMinGW ${LANG_SPANISH} "MinGW y GTK+2, Compilador y herramientas de compilación GNU."
 
   LangString DESC_SecHarbour ${LANG_SPANISH} "Harbour. Compilador xBase version 3.2"
 
   LangString DESC_SecHBSource ${LANG_SPANISH} "Harbour. Codigo Fuente version 3.2"
 
-  LangString DESC_SecGTK+ ${LANG_SPANISH} "GTK+ 2.24, Componentes para desarrollar con GTK+ y Glade."
+;  LangString DESC_SecGTK+ ${LANG_SPANISH} "GTK+ 2.24, Componentes para desarrollar con GTK+ y Glade."
 
 ;  LangString DESC_SecGEDIT ${LANG_SPANISH} "gedit. Editor de texto de gnome."
 !endif
@@ -569,7 +570,7 @@ SectionGroupEnd
 !ifdef FULL
     !insertmacro MUI_DESCRIPTION_TEXT ${SecMinGW} $(DESC_SecMinGW)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecHarbour} $(DESC_SecHarbour)
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecGTK+}  $(DESC_SecGTK+)
+;    !insertmacro MUI_DESCRIPTION_TEXT ${SecGTK+}  $(DESC_SecGTK+)
 ;    !insertmacro MUI_DESCRIPTION_TEXT ${SecGEDIT}  $(DESC_SecGEDIT)
 !endif
 
