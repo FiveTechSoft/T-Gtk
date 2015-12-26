@@ -248,7 +248,7 @@ FileWrite $0  "#--------------------$\r$\n"
 FileWrite $0  "# RUTAS Compilador xBase HARBOUR.$\r$\n" 
 FileWrite $0  "export HB_BIN_INSTALL =$DEST_HBDIR\bin$\r$\n"
 FileWrite $0  "export HB_INC_INSTALL =$DEST_HBDIR\include$\r$\n"
-FileWrite $0  "export HB_LIB_INSTALL =$DEST_HBDIR\lib\win\mingw$\r$\n"
+FileWrite $0  "export HB_LIB_INSTALL =$DEST_HBDIR\lib$\r$\n"
 FileWrite $0  "export HB_VERSION =$SRC_HBVER$\r$\n"
 FileWrite $0  "#-------------------- $\r$\n"
 FileWrite $0  "# RUTAS Compilador xBase xHARBOUR. $\r$\n"
@@ -371,12 +371,12 @@ SectionEnd
 ;------------------------------------
 Section "Soporte MySQL" SecMySQL
 ;------------------------------------
-StrCpy $RULES_MYSQL   "#Soporte MySQL$\r$\n"
-StrCpy $RULES_MYSQL   "$RULES_MYSQLMYSQL=yes$\r$\n"
-StrCpy $RULES_MYSQL   "$RULES_MYSQLMYSQL_VERSION=5.0$\r$\n"
-StrCpy $RULES_MYSQL   "$RULES_MYSQLDOLPHIN=yes$\r$\n"
-StrCpy $RULES_MYSQL   "$RULES_MYSQLMYSQL_PATH='C:/Archivos de programa/MySQL/MySQL Server 5.0/include'$\r$\n"
-StrCpy $RULES_MYSQL   "$RULES_MYSQL$\r$\n"
+;StrCpy $RULES_MYSQL   "#Soporte MySQL$\r$\n"
+;StrCpy $RULES_MYSQL   "$RULES_MYSQLMYSQL=yes$\r$\n"
+;StrCpy $RULES_MYSQL   "$RULES_MYSQLMYSQL_VERSION=5.0$\r$\n"
+;StrCpy $RULES_MYSQL   "$RULES_MYSQLDOLPHIN=yes$\r$\n"
+;StrCpy $RULES_MYSQL   "$RULES_MYSQLMYSQL_PATH='C:/Archivos de programa/MySQL/MySQL Server 5.0/include'$\r$\n"
+;StrCpy $RULES_MYSQL   "$RULES_MYSQL$\r$\n"
 
   !include "mysql.nsh"
   ;SetOutPath "$INSTDIR\MySQLClient"
@@ -396,11 +396,11 @@ SectionEnd
 ;------------------------------------
 Section "Soporte Postgre" SecPgSQL
 ;------------------------------------
-StrCpy $RULES_PGSQL   "#Soporte PostgreSQL$\r$\n"
-StrCpy $RULES_PGSQL   "$RULES_PGSQLPOSTGRE=yes$\r$\n"
-StrCpy $RULES_PGSQL   "$RULES_PGSQLPOSTGRE_VERSION=9.0$\r$\n"
-StrCpy $RULES_PGSQL   "$RULES_PGSQLPOSTGRE_PATH='C:/Archivos de programa/PostgreSQL/9.0/include'$\r$\n"
-StrCpy $RULES_PGSQL   "$RULES_PGSQL$\r$\n"
+;StrCpy $RULES_PGSQL   "#Soporte PostgreSQL$\r$\n"
+;StrCpy $RULES_PGSQL   "$RULES_PGSQLPOSTGRE=yes$\r$\n"
+;StrCpy $RULES_PGSQL   "$RULES_PGSQLPOSTGRE_VERSION=9.0$\r$\n"
+;StrCpy $RULES_PGSQL   "$RULES_PGSQLPOSTGRE_PATH='C:/Archivos de programa/PostgreSQL/9.0/include'$\r$\n"
+;StrCpy $RULES_PGSQL   "$RULES_PGSQL$\r$\n"
 
   !include "pgsql.nsh"
   ;SetOutPath "$INSTDIR\PgSQLClient"

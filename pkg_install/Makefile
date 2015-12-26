@@ -62,13 +62,13 @@ $(info Finalizada creacion de carpeta preinstall. )
 $(info  )
 
 
-$(shell mkdir $(LIBDIR_TGTK)$(DIRSEP)hb)
-$(info copy $(LIBDIR_TGTK_)$(DIRSEP)*.a $(LIBDIR_TGTK)$(DIRSEP)hb$(DIRSEP) )
-ifeq ($(HB_MAKE_PLAT),win)
-   $(shell copy $(LIBDIR_TGTK_)\*.a $(LIBDIR_TGTK)\hb\ > %TEMP%/out.log)
-else
-   $(shell cp $(LIBDIR_TGTK_)/*.a $(LIBDIR_TGTK)/hb/ > /tmp/out.log)
-endif
+#$(shell mkdir $(LIBDIR_TGTK)$(DIRSEP)hb)
+#$(info copy $(LIBDIR_TGTK_)$(DIRSEP)*.a $(LIBDIR_TGTK)$(DIRSEP)hb$(DIRSEP) )
+#ifeq ($(HB_MAKE_PLAT),win)
+#   $(shell copy $(LIBDIR_TGTK_)\*.a $(LIBDIR_TGTK)\hb\ > %TEMP%/out.log)
+#else
+#   $(shell cp $(LIBDIR_TGTK_)/*.a $(LIBDIR_TGTK)/hb/ > /tmp/out.log)
+#endif
 
 
 #TGTK_VERSION=2.1  defined in config/global.mk
@@ -133,7 +133,7 @@ $(shell echo. )
 $(info Generando Valores Iniciales (init.nsh) )
 $(shell echo   File /nonfatal /r /x CVS $(ROOT)$(DIRSEP)preinstall\*.* > init.nsh )
 $(shell echo.   >> init.nsh )
-$(shell echo   SetOutPath "$$INSTDIR$(DIRSEP)lib" >> init.nsh )
+$(shell echo   SetOutPath "$$INSTDIR$(DIRSEP)lib$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)" >> init.nsh )
 $(shell echo   File /nonfatal "$(LIB_DEST)libhbgtk.a" >> init.nsh )
 $(shell echo   File /nonfatal "$(LIB_DEST)libgclass.a" >> init.nsh )
 
@@ -151,7 +151,7 @@ $(shell echo      	StrCpy $$1 "$(FECHA)" >> date.nsh )
 
 $(info Inicializando dolphin.nsh )
 $(shell echo.   > dolphin.nsh )
-$(shell echo   SetOutPath "$$INSTDIR$(DIRSEP)lib"  >> dolphin.nsh )
+$(shell echo   SetOutPath "$$INSTDIR$(DIRSEP)lib$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)"  >> dolphin.nsh )
 $(shell echo   File /nonfatal "$(LIB_DEST)libmysql.a"  >> dolphin.nsh )
 $(shell echo   File /nonfatal "$(LIB_DEST)libhbmysql.a"  >> dolphin.nsh )
 $(shell echo   File /nonfatal "$(LIB_DEST)libtdolphin.a"  >> dolphin.nsh )
@@ -163,7 +163,7 @@ $(shell echo.   > mysql.nsh )
 
 $(info Inicializando pgsql.nsh )
 $(shell echo.   > pgsql.nsh )
-$(shell echo  SetOutPath "$$INSTDIR$(DIRSEP)lib" >> pgsql.nsh )
+$(shell echo   SetOutPath "$$INSTDIR$(DIRSEP)lib$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)" >> pgsql.nsh )
 $(shell echo  File /nonfatal "$(LIB_DEST)libpq.a" >> pgsql.nsh )
 $(shell echo  File /nonfatal "$(LIB_DEST)libhbpg.a" >> pgsql.nsh )
 
@@ -264,7 +264,7 @@ $(info echo.)
 #   $(shell echo   SetOutPath "$$INSTDIR\tdolphin"       > dolphin.nsh )
 #   $(shell echo   File /nonfatal /r "$(TGTK_DIR)\tdolphin\*.*"  >> dolphin.nsh )
    $(shell echo.    > dolphin.nsh )
-   $(shell echo   SetOutPath "$$INSTDIR\lib" >> dolphin.nsh )
+   $(shell echo   SetOutPath "$$INSTDIR$(DIRSEP)lib$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)" >> dolphin.nsh )
    $(shell echo   File /nonfatal /r "$(LIB_DEST)libmysql.a"  >> dolphin.nsh )
    $(shell echo   File /nonfatal /r "$(LIB_DEST)libhbmysql.a"  >> dolphin.nsh )
    $(shell echo   File /nonfatal /r "$(LIB_DEST)libtdolphin.a"  >> dolphin.nsh )
@@ -281,7 +281,15 @@ $(info echo.)
    $(info * $(MYSQL_PATH) )
    $(info -------------------------------------------------------- )
  else
-   $(shell echo   SetOutPath "$$INSTDIR\MySQLClient"       > mysql.nsh )
+   $(shell echo StrCpy $$RULES_MYSQL   "#Soporte MySQL$$\r$$\n" > mysql.nsh )
+   $(shell echo StrCpy $$RULES_MYSQL   "$$RULES_MYSQLMYSQL=yes$$\r$$\n" >> mysql.nsh )
+   $(shell echo StrCpy $$RULES_MYSQL   "$$RULES_MYSQLMYSQL_VERSION=5.0$$\r$$\n" >> mysql.nsh )
+   $(shell echo StrCpy $$RULES_MYSQL   "$$RULES_MYSQLDOLPHIN=yes$$\r$$\n" >> mysql.nsh )
+   $(shell echo StrCpy $$RULES_MYSQL   "$$RULES_MYSQLMYSQL_PATH='$$INSTDIR$(DIRSEP)MySqlClient$(DIRSEP)include'$$\r$$\n" >> mysql.nsh )
+   $(shell echo StrCpy $$RULES_MYSQL   "$$RULES_MYSQL$$\r$$\n" >> mysql.nsh )
+   $(shell echo. >> mysql.nsh )
+
+   $(shell echo   SetOutPath "$$INSTDIR\MySQLClient"       >> mysql.nsh )
    $(shell echo   File /nonfatal /r "$(MSQL_PATH)*.*"  >> mysql.nsh )
  endif
 
@@ -297,12 +305,19 @@ $(info echo.)
    $(info * $(PSQL_PATH) )
    $(info -------------------------------------------------------- )
  else
-   $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient"       > pgsql.nsh )
+   $(shell echo StrCpy $$RULES_PGSQL   "#Soporte PostgreSQL$$\r$$\n" > pgsql.nsh )
+   $(shell echo StrCpy $$RULES_PGSQL   "$$RULES_PGSQLPOSTGRE=yes$$\r$$\n"  >> pgsql.nsh )
+   $(shell echo StrCpy $$RULES_PGSQL   "$$RULES_PGSQLPOSTGRE_VERSION=9.0$$\r$$\n"  >> pgsql.nsh )
+   $(shell echo StrCpy $$RULES_PGSQL   "$$RULES_PGSQLPOSTGRE_PATH='$$INSTDIR$(DIRSEP)PgSQLClient$(DIRSEP)include'$$\r$$\n"  >> pgsql.nsh )
+   $(shell echo StrCpy $$RULES_PGSQL   "$$RULES_PGSQL$$\r$$\n"   >> pgsql.nsh )
+   $(shell echo. >> pgsql.nsh )
+
+   $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient"       >> pgsql.nsh )
    $(shell echo   File /nonfatal /r "$(PSQL_PATH)*.*"  >> pgsql.nsh )
 #   $(shell echo   SetOutPath "$$INSTDIR\PgSQLClient\include"     >> pgsql.nsh )
 #   $(shell echo   File /nonfatal "$(PSQL_PATH)include\*.*"  >> pgsql.nsh )
  endif
-$(shell echo  SetOutPath "$$INSTDIR$(DIRSEP)lib" >> pgsql.nsh )
+$(shell echo   SetOutPath "$$INSTDIR$(DIRSEP)lib$(DIRSEP)$(PLATFORM_NAME)$(HB_SHORTNAME)" >> pgsql.nsh )
 $(shell echo  File /nonfatal "$(LIB_DEST)libpq.a" >> pgsql.nsh )
 $(shell echo  File /nonfatal "$(LIB_DEST)libhbpg.a" >> pgsql.nsh )
 

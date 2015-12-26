@@ -3,7 +3,7 @@ ROOT = ../../../
 include $(ROOT)config/global.mk
 
 TARGET = test
-SOURCES = dophin.prg
+SOURCES = dolphin.prg
 
 PRGFLAGS=-I$(TGTK_DIR)/tdolphin/include
 LIBFILES_=-ltdolphin -lhbct

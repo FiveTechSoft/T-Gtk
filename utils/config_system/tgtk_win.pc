@@ -9,7 +9,7 @@ gtk_host=i386-pc
 
 Name: T-GTK
 Description: Library Gtk+ for [x]Harbour (${target} target)
-Version: 2.0.0 Beta
+Version: 2.2.0 Beta
 Requires: gtk+-2.0 libglade-2.0
 Libs: -lgclass -lhbgtk -L${libdir} -lgtk-${target}-2.0 -lglade-2.0
 Cflags: -I${includedir}/gtk-2.0 -I${includedir}/libglade-2.0

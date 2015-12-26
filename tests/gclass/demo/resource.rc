@@ -1,0 +1,23 @@
+App ICON "../../images/t-gtk.ico" 
+1 VERSIONINFO 
+PRODUCTVERSION 0, 1, 0, 0 
+FILEFLAGSMASK 0 
+FILEOS 0x40000 
+FILETYPE 1 
+{ 
+BLOCK "StringFileInfo" 
+{ 
+BLOCK "040904E4" 
+{ 
+VALUE "CompanyName", "www.t-gtk.org" 
+VALUE "FileDescription", "T-GTK. Demo" 
+VALUE "FileVersion", "01/12/2015 " 
+VALUE "InternalName", "t-gtk" 
+VALUE "LegalCopyright", "GNU Public License" 
+VALUE "OriginalFilename", "demo.exe" 
+VALUE "ProductName", "T-Gtk Demo" 
+VALUE "ProductVersion", "2.2 (Beta)" 
+VALUE "Comments", "t-gtk Team " 
+} 
+} 
+} 
