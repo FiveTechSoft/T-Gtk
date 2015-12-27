@@ -10,8 +10,8 @@
 ;  !include "MUI.nsh"
   !include "WordFunc.nsh"
   !include "EnvVarUpdate.nsh"
-;  !insertmacro MUI_DEFAULT MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
-;  !insertmacro MUI_DEFAULT MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
+  !insertmacro MUI_DEFAULT MUI_ICON "../tests/images/t-gtk.ico" ;"${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
+  !insertmacro MUI_DEFAULT MUI_UNICON "uninstall.ico" ;"${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 ;  !define MUI_ICON "t-gtk.ico"
 
 ;--------------------------------
@@ -103,11 +103,11 @@ FunctionEnd
 ;--------------------------------
 ;Interface Configuration
 
-  !define MUI_HEADERIMAGE "${NSISDIR}\Contrib\Graphics\Header\orange.bmp"
-  !define MUI_HEADERIMAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Header\orange.bmp" ; optional
+  !define MUI_HEADERIMAGE "header.bmp" ;"${NSISDIR}\Contrib\Graphics\Header\orange.bmp"
+  !define MUI_HEADERIMAGE_BITMAP "header.bmp" ;"${NSISDIR}\Contrib\Graphics\Header\orange.bmp" ; optional
 ;  !define MUI_ABORTWARNING
   ;Definiendo Imagenes de Bienvenida y Finalizacion
-  !define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
+  !define MUI_WELCOMEFINISHPAGE_BITMAP "wizard.bmp" ;"${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
 
 
 
