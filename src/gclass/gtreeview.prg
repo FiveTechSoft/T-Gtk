@@ -464,11 +464,21 @@ RETURN nil
 
 
 METHOD GetPosCol( cTitle ) CLASS gTreeView
-   Local nCol := - COL_INIT
+   Local nPos := -1, oColumn, i, cColName
+   Local nColumns
 
-   AEVAL( ::aCols, {| o | IIF( o[1]:GetTitle() == cTitle, nCol := o[2] + COL_INIT, NIL)   } )
+   if empty( cTitle ); return nPos ; endif
 
-RETURN nCol
+   nColumns := ::GetColumns()
+   
+   FOR i := 0 to nColumns
+      cColName := gtk_tree_view_column_get_title( ::GetColumn(i) )
+      if ALLTRIM( cColName  ) == ALLTRIM( cTitle )
+         RETURN i + COL_INIT
+      endif
+   NEXT
+
+RETURN nPos
 
 
 METHOD SetPosCol( aIter, nColumn, lEdit )
