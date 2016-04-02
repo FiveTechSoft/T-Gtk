@@ -86,6 +86,7 @@ CLASS GTREEVIEW FROM GCONTAINER
       METHOD GetDepth( path ) 
       
       METHOD GoTop()  INLINE gtk_tree_view_set_cursor( ::pWidget, gtk_tree_path_new_first(), NIL, .f. )
+      METHOD GoBottom()
 
       METHOD GoUp()   INLINE HB_GTK_TREE_VIEW_UP_ROW( ::pWidget )
       METHOD GoDown() INLINE HB_GTK_TREE_VIEW_DOWN_ROW( ::pWidget )
@@ -217,6 +218,21 @@ METHOD RemoveRow( pSelection ) CLASS gTreeView
       gtk_tree_path_free( path )
    endif
    
+RETURN NIL
+
+
+METHOD GoBottom()
+   local nPosRow := 0, pPath, aIter := ARRAY(4)
+
+   while ::IsGetSelected( aIter ) .and. ::GetIterNext( @aIter )
+      pPath   = ::GetPath( aIter ) 
+      if nPosRow != hb_gtk_tree_path_get_indices( pPath )
+         nPosRow := hb_gtk_tree_path_get_indices( pPath )
+         gtk_tree_view_set_cursor( ::pWidget, pPath, NIL, .F. )
+      endif
+   endDo
+
+
 RETURN NIL
 
 
@@ -464,11 +480,21 @@ RETURN nil
 
 
 METHOD GetPosCol( cTitle ) CLASS gTreeView
-   Local nCol := - COL_INIT
+   Local nPos := -1, oColumn, i, cColName
+   Local nColumns
 
-   AEVAL( ::aCols, {| o | IIF( o[1]:GetTitle() == cTitle, nCol := o[2] + COL_INIT, NIL)   } )
+   if empty( cTitle ); return nPos ; endif
 
-RETURN nCol
+   nColumns := ::GetColumns()
+   
+   FOR i := 0 to nColumns
+      cColName := gtk_tree_view_column_get_title( ::GetColumn(i) )
+      if ALLTRIM( cColName  ) == ALLTRIM( cTitle )
+         RETURN i + COL_INIT
+      endif
+   NEXT
+
+RETURN nPos
 
 
 METHOD SetPosCol( aIter, nColumn, lEdit )
