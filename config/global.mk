@@ -61,7 +61,7 @@ ifeq ($(HB_MAKE_PLAT),win)
    endif
 endif
 
-export TGTK_VERSION :=2.1
+export TGTK_VERSION :=2.3
 
 ##############################################
 # Indicar COMPILADOR XBASE. 

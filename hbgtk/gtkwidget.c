@@ -405,4 +405,11 @@ HB_FUNC( G_CHECKWIDGET )
 }
 
 
+HB_FUNC( GTK_WIDGET_GET_NAME )
+{
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+  hb_retc( ( gchar * ) gtk_widget_get_name( widget ) );
+}
+
+
 //eof

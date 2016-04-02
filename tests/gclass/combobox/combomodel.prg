@@ -9,23 +9,25 @@
 
 Function Main()
 
-  local oWnd, oLbx, oBox, cVar , oCombo, oCombo3, cVar3 
+  local oWnd, oLbx, oBox, cVar , oCombo, oCombo3, cVar3
   local oCombo2, cVar2 := "ARA", aItems := { "1-Value","2-Dos","3-Well..." }
   Local oComboChange, cVarChange
 
-  DEFINE WINDOW oWnd TITLE "T-Gtk Combobox TreeStore power!!" 
+  DEFINE WINDOW oWnd TITLE "T-Gtk Combobox TreeStore power!!"
      
    DEFINE BOX oBox VERTICAL SPACING 8 OF oWnd
+
+
      DEFINE LABEL PROMPT "Ups! Combobox with Data Model"  OF oBox EXPAND FILL   
      
-     /*Modelo de Datos */
+     
      oLbx := Create_Model()
      
-     DEFINE COMBOBOX oCombo VAR cVar ; 
+     DEFINE COMBOBOX oCombo VAR cVar ;
             MODEL oLbx ;
             OF oBox  ;
             ON CHANGE ( CambioArray( oComboChange ) )
-                      
+                     
      DEFINE COMBOBOX ENTRY oCombo2  ;
                  VAR cVar2 ;
                  MODEL oLbx ;
@@ -35,6 +37,9 @@ Function Main()
      DEFINE COMBOBOX ENTRY oCombo3  ;
                  VAR cVar3 ;
                  ITEMS aItems OF oBox
+     oCompletion := oCombo3:oEntry:Create_Completion( aItems )
+     oCompletion:bSelected := {|| MsgInfo( oCombo3:GetValue() ) }
+     
      
      
      DEFINE BUTTON oCombo TEXT "VALUE VARIABLE COMBOBOX" ;
@@ -42,12 +47,13 @@ Function Main()
                             "Combo_entry:" + cVar2 + CRLF +;
                             "Combo 3 := "  + cVar3  ) OF oBox
      
-     DEFINE COMBOBOX oComboChange VAR cVarChange ; 
+     DEFINE COMBOBOX oComboChange VAR cVarChange ;
             ITEMS {""} ;
-            OF oBox  
+            OF oBox 
+
      
    ACTIVATE WINDOW oWnd CENTER
-  
+ 
 RETURN NIL         
 
 STATIC FUNCTION Create_Model()
@@ -62,7 +68,7 @@ STATIC FUNCTION Create_Model()
   Local aPueblos := { "Bigues i Riells", "Sta.Perpetua de la moguda", "Sant Feliu de Codines" }
 
   DEFINE TREE_STORE oLbx TYPES G_TYPE_STRING
-  
+ 
   For x := 1 To Len( aComunidad )
        APPEND TREE_STORE oLbx ITER aParent VALUES UTF_8( aComunidad[x] )
        For j := 1 To Len( aProvincias[x] )
@@ -75,8 +81,8 @@ STATIC FUNCTION Create_Model()
                   APPEND TREE_STORE oLbx PARENT aChild ;
                          ITER aIter ;
                          VALUES UTF_8( aPueblos[y] )
-             Next 
-          Endif    
+             Next
+          Endif   
        Next
   Next
 
@@ -95,7 +101,7 @@ STATIC FUNCTION Create_Model()
      if nCount > 3
         nCount := 1
      endif
-    
+   
      if nCount = 1
         oCombo:SetItems( aArray1 )
      endif
@@ -109,3 +115,6 @@ STATIC FUNCTION Create_Model()
      endif
 
 RETURN NIL
+
+
+

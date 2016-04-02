@@ -203,6 +203,8 @@ ifeq ($(LIBGD),yes)
      CFLAGS += $(shell pkg-config --cflags gdlib)
      LIBS   += $(shell pkg-config --libs gdlib )
    endif
+   #PRGFLAGS += -I$(TGTK_DIR)$(DIRSEP)gd
+   PRGFLAGS += -I$(HARBOUR_PATH)$(DIRSEP)contrib$(DIRSEP)hbgd
 endif
 
 ifeq ($(HPDF),yes)

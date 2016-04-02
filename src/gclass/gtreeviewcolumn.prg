@@ -120,7 +120,11 @@ METHOD New( cTitle, cType, nPos, lExpand, oTreeView, nWidth, lSort, uAction, cId
       if oTreeView != NIL 
          if oTreeView:ClassName() == "GTREEVIEW" //Solamente, cuando es un TreeView, no una columna
             if cId = NIL   // Solo si no es definido en Glade
-               oTreeView:AppendColumn( Self )
+               if nPos = NIL
+                  oTreeView:AppendColumn( Self )
+               else
+                  oTreeView:InsertColumn( Self, ::nColumn )
+               endif
                ::Register()                         //Solamente CUANDO sea un TreeView, no forme parte de una columna.
             endif    
             AADD( oTreeView:aCols, {Self, ::nColumn} )  // Para tener el Nro de Columna a la mano...

@@ -28,11 +28,16 @@ CLASS GFILECHOOSERBUTTON FROM GBOXVH
       DATA bAction
 
       METHOD New( )
+      METHOD SetAction( nAction ) INLINE gtk_file_chooser_set_action( ::pWidget, nAction)
       METHOD SetFolder( cFolder ) INLINE gtk_file_chooser_set_current_folder( ::pWidget, cFolder )
       METHOD GetFolder( )         INLINE gtk_file_chooser_get_current_folder( ::pWidget )
       METHOD SetFileName( cFile ) INLINE gtk_file_chooser_set_filename( ::pWidget, cFile )
       METHOD GetFileName( )       INLINE gtk_file_chooser_get_filename( ::pWidget )
       METHOD SetFilter( aFilter )
+
+      METHOD SetMultiple( lMultiple )  INLINE gtk_file_chooser_set_select_multiple( ::pWidget, lMultiple )
+      METHOD GetMultiple()             INLINE gtk_file_chooser_get_select_multiple( ::pWidget )
+
       METHOD Onfile_Set()
       
 

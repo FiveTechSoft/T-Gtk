@@ -160,6 +160,13 @@ HB_FUNC( GTK_WINDOW_SET_ICON_FROM_FILE ) //  window, cIcon -> void
   gtk_window_set_icon_from_file( GTK_WINDOW(window), cIcon, NULL );
 }
 
+HB_FUNC( GTK_WINDOW_GET_MODAL ) // window, bState -> void
+{
+  GtkWidget * window = GTK_WIDGET(  hb_parptr( 1 ) );
+  gboolean modal = gtk_window_get_modal( GTK_WINDOW(window) );
+  hb_retl( modal );
+}
+
 HB_FUNC( GTK_WINDOW_SET_MODAL ) // window, bState -> void
 {
   GtkWidget * window = GTK_WIDGET(  hb_parptr( 1 ) );

@@ -54,7 +54,7 @@
 #INCLUDE "gclass.ch"
 #include "hbclass.ch"
 
-#if GTK_MAJOR_VERSION < 3  // Solo funciona para < gtk3
+#if GTK_MAJOR_VERSION >= 3  // Solo funciona para < gtk3
   // TODO: Para GTK3 usar / mirar GtkFileChooser, para poder simular para hacer lo mismo
 
 

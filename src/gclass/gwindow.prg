@@ -48,6 +48,7 @@ CLASS GWINDOW FROM GCONTAINER
       METHOD Activate( bEnd )
       METHOD SetResizable( lResizable ) INLINE gtk_window_set_resizable( ::pWidget, lResizable )
       METHOD Modal( lModal ) INLINE gtk_window_set_modal( ::pWidget, lModal )
+      METHOD IsModal()       INLINE gtk_window_get_modal( ::pWidget )
       METHOD Maximize()      INLINE gtk_window_maximize( ::pWidget )
       METHOD Center()
       METHOD End()
