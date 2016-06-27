@@ -26,6 +26,7 @@ if [ $noexist = 1 ] ; then
    exit
 fi
 
+install=''
 global=./$1
 tgtkPKG=/usr/lib/pkgconfig/tgtk.pc
 
@@ -50,13 +51,15 @@ fi
 echo "detecting package gtk for development"
 dpkg --get-selections | grep "libgtk" | grep dev && gtk=1 || gtk=0
 if [ $gtk -eq 0 ] ; then
-   apt-get install libgtk2.0-dev
+   install+='libgtk2.0-dev '
+   #apt-get install libgtk2.0-dev
 fi
 
 echo "detecting package glade for development"
 dpkg --get-selections | grep "libglade" | grep dev && glade=1 || glade=0
 if [ $glade -eq 0  ] ; then
-   apt-get install libglade2-dev
+   install+='libglade2-dev '
+   #apt-get install libglade2-dev
 fi
 
 #--- GTK SourceView ---
@@ -66,7 +69,8 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package gtksourceview for development"
    dpkg --get-selections | grep "libgtksourceview2.0-dev" && scview=1 || scview=0
    if [ $scview -eq 0 ] ; then
-      apt-get install libgtksourceview2.0-dev
+      install+='libgtksourceview2.0-dev '
+#      apt-get install libgtksourceview2.0-dev
    fi
 else
    echo "GTKSOURCEVIEW Set with value 'NO' in $global"
@@ -80,7 +84,8 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libcurl for development"
    dpkg --get-selections | grep "libcurl" | grep dev && curl=1 || curl=0
    if [ $curl -eq 0 ] ; then
-      apt-get install libcurl4-openssl-dev
+      install+='libcurl4-openssl-dev '
+#      apt-get install libcurl4-openssl-dev
    fi
 else
    echo "CURL Set with value 'NO' in $global"
@@ -94,7 +99,8 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libsqlite3 for development"
    dpkg --get-selections | grep "libsqlite3-dev" | grep dev && sqlite=1 || sqlite=0
    if [ $sqlite -eq 0 ] ; then
-      apt-get install libsqlite3-dev 
+   install+='libsqlite3-dev '
+#      apt-get install libsqlite3-dev 
    fi
 else
    echo "SQLite Set with value 'NO' in $global"
@@ -107,7 +113,8 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libmysqlclient for development"
    dpkg --get-selections | grep "libmysqlclient" | grep dev && mysql=1 || mysql=0
    if [ $mysql -eq 0 ] ; then
-      apt-get install libmysqlclient-dev #mysql-gui-tools-common 
+   install+='libmysqlclient-dev '
+#      apt-get install libmysqlclient-dev #mysql-gui-tools-common 
    fi
 else
    echo "MySQL Set with value 'NO' in $global"
@@ -120,7 +127,8 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libpq for development"
    dpkg --get-selections | grep "libpq-dev" | grep dev && pgsql=1 || pgsql=0
    if [ $pgsql -eq 0 ] ; then
-      apt-get install libpq-dev
+       install+='libpq-dev '
+#      apt-get install libpq-dev
    fi
 else
    echo "PostgreSQL Set with value 'NO' in $global"
@@ -134,7 +142,8 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libgda for development"
    dpkg --get-selections | grep "libgda-5.0-dev" && gda=1 || gda=0
    if [ $gda -eq 0 ] ; then
-      apt-get install libgda-5.0-dev
+       install+='libgda-5.0-dev '
+#      apt-get install libgda-5.0-dev
    fi
 else
    echo "LibGDA Set with value 'NO' in $global"
@@ -148,7 +157,8 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libwebkit for development"
    dpkg --get-selections | grep "libwebkit-dev" && webkit=1 || webkit=0
    if [ $webkit -eq 0 ] ; then
-      apt-get install libwebkit-dev
+       install+='libwebkit-dev '
+#      apt-get install libwebkit-dev
    fi
 else
    echo "WEBKIT Set with value 'NO' in $global"
@@ -162,7 +172,8 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libvte for development"
    dpkg --get-selections | grep "libvte-dev" && vte=1 || vte=0
    if [ $vte -eq 0 ] ; then
-      apt-get install libvte-dev
+       install+='libvte-dev '
+      #apt-get install libvte-dev
    fi
 else
    echo "VTE Set with value 'NO' in $global"
@@ -176,8 +187,15 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libssl for development"
    dpkg --get-selections | grep "libssl-dev" | grep dev && ssl=1 || ssl=0
    if [ $ssl -eq 0 ] ; then
-      apt-get install libssl-dev
+      install+='libssl-dev '
+#      apt-get install libssl-dev
    fi
 else
    echo "SSL Set with value 'NO' in $global"
+fi
+
+if [ -z $install ] ; then
+   echo "nothing to install"
+else
+   apt-get install $install
 fi
