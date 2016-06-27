@@ -77,6 +77,21 @@ else
 fi
 
 
+#---  LIBGD ---
+libgd=0
+cmd=`cat $global | grep "export LIBGD" | cut -d= -f2`
+if [ $cmd =  "yes" ] ; then
+   echo "detecting package libgd for development"
+   dpkg --get-selections | grep "libgd-dev" | grep dev && libgd=1 || libgd=0
+   if [ $libgd -eq 0 ] ; then
+      install+='libgd-dev '
+#      apt-get install libgd-dev
+   fi
+else
+   echo "LibGD Set with value 'NO' in $global"
+fi
+
+
 #---  CURL ---
 curl=0
 cmd=`cat $global | grep "export CURL" | cut -d= -f2`
