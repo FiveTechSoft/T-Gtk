@@ -30,6 +30,7 @@ CLASS GENTRY FROM GWIDGET
       DATA lCompletion INIT .F.
       DATA oJump
       DATA bActionBtn
+      DATA bKeyPress
       DATA oCompletion
       DATA lValid        INIT .T.
       
@@ -104,6 +105,7 @@ METHOD New( bSetGet, cPicture, bValid, aCompletion, oFont, oParent, lExpand,;
           ::bValid := bValid
        endif
 
+       ::bKeyPress := nil
        ::Connect( "key-press-event" )
        ::Connect( "changed" )
        ::Connect_After( "focus-out-event")
@@ -201,6 +203,10 @@ METHOD OnKeyPressEvent( oSender, pGdkEventKey ) CLASS GEntry
    //actualizamos la variable contenedora del get
    if oSender:oGet:buffer != nil
       Eval( ::bSetGet, oSender:oGet:buffer )
+   endif
+
+   if hb_ISBLOCK( ::bKeyPress )
+      EVAL( ::bKeyPress, alltrim( ::oGet:buffer ), nKey, nType )
    endif
 
 Return lValid
