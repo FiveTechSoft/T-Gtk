@@ -217,6 +217,7 @@ if [ $cmd =  "yes" ] ; then
       else
          install+='libssl-dev '
       fi
+      install+='libkrb5-dev '
 #      apt-get install libssl-dev
    fi
 else
