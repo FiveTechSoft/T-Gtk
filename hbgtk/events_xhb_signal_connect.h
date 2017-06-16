@@ -42,7 +42,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
 
     // Check before seek in base array for possible signals, distints callbacks
     for ( x = 0;  x < num_predefine; x++ ) {
-        if( g_strcasecmp( cStr, predefine[x].signalname ) == 0 ) {
+        if( g_ascii_strcasecmp( cStr, predefine[x].signalname ) == 0 ) {
             gtk_class_name = GTK_OBJECT_TYPE_NAME( widget ); // get name class_gtk
             break;
         }
@@ -51,7 +51,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
     // Find signal for process.
     for ( x = 0;  x < num_elements; x++ ) {
         // Si es encuentrada, y no tiene .gtkclassname y no hay existe signal en struct predefine
-        if( g_strcasecmp( cStr, array[x].name ) == 0 && ! array[x].gtkclassname && ! gtk_class_name )
+        if( g_ascii_strcasecmp( cStr, array[x].name ) == 0 && ! array[x].gtkclassname && ! gtk_class_name )
         {
             //g_print( "pos  %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ) );
             iPos = x;
@@ -60,7 +60,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
 
         // Si existe se�al en la struct predefine, gtk_class_name vale ahora el nombre del widget ,y ademas esta en array[x].gtkclassname.
         if( gtk_class_name && array[x].gtkclassname ){
-            if ( g_strcasecmp( gtk_class_name, array[x].gtkclassname ) == 0 && g_strcasecmp( cStr, array[x].name ) == 0  )  {
+            if ( g_ascii_strcasecmp( gtk_class_name, array[x].gtkclassname ) == 0 && g_ascii_strcasecmp( cStr, array[x].name ) == 0  )  {
                  //g_print( "pos class %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ));
                  iPos = x;
                  break;
@@ -69,7 +69,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
 
         // Si existe se�al en la struct predefine, , pero en el array  no existe, guardamos posicion PERO no salimos
         if( gtk_class_name && ! array[x].gtkclassname ){
-            if( g_strcasecmp( cStr, array[x].name ) == 0 ) {
+            if( g_ascii_strcasecmp( cStr, array[x].name ) == 0 ) {
                 // g_print( "pos 3 %d %s \n", x, GTK_OBJECT_TYPE_NAME( widget ));
                 iPos = x;
                   //break;
