@@ -123,7 +123,10 @@ HB_FUNC( GTK_LIST_STORE_NEWV ) // iCantidad, { a_G_Types }-> pListStore
 
   for( iCol = 0; iCol < iLenCols; iCol++ )
    {
-     colTypes[ iCol ] = hb_arrayGetNI( pArray, iCol+1 );
+     if( hb_arrayGetNI( pArray, iCol+1 ) == 909090 ) // En Debian 9, devuelve Violacion de Segmento
+	colTypes[ iCol ] = GDK_TYPE_PIXBUF;
+     else
+        colTypes[ iCol ] = hb_arrayGetNI( pArray, iCol+1 );
    }
   store = gtk_list_store_newv( iLenCols, colTypes );
   hb_retptr( ( GtkListStore * ) store );

@@ -30,6 +30,8 @@ install=''
 global=./$1
 tgtkPKG=/usr/lib/pkgconfig/tgtk.pc
 
+distro=`lsb_release -is`
+
 test -f $global || $1
 
 tgtk_pc=0
@@ -128,7 +130,11 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libmysqlclient for development"
    dpkg --get-selections | grep "libmysqlclient" | grep dev && mysql=1 || mysql=0
    if [ $mysql -eq 0 ] ; then
-   install+='libmysqlclient-dev '
+     if [ $distro = "Debian" ] ; then
+        install+='libmariadbclient-dev-compat '
+     else
+        install+='libmysqlclient-dev '
+     fi
 #      apt-get install libmysqlclient-dev #mysql-gui-tools-common 
    fi
 else
@@ -172,7 +178,11 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libwebkit for development"
    dpkg --get-selections | grep "libwebkit-dev" && webkit=1 || webkit=0
    if [ $webkit -eq 0 ] ; then
-       install+='libwebkit-dev '
+      if [ $distro = "Debian" ] ; then
+        install+='libwebkitgtk-dev '
+      else
+        install+='libwebkit-dev '
+      fi
 #      apt-get install libwebkit-dev
    fi
 else
@@ -202,7 +212,12 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package libssl for development"
    dpkg --get-selections | grep "libssl-dev" | grep dev && ssl=1 || ssl=0
    if [ $ssl -eq 0 ] ; then
-      install+='libssl-dev '
+      if [ $distro = "Debian" ] ; then
+         install+='libssl1.0-dev ' # Esta generando error en Debian 9
+      else
+         install+='libssl-dev '
+      fi
+      install+='libkrb5-dev '
 #      apt-get install libssl-dev
    fi
 else

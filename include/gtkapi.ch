@@ -459,7 +459,10 @@
 #define G_TYPE_BOXED      G_TYPE_MAKE_FUNDAMENTAL(18)
 #define G_TYPE_PARAM      G_TYPE_MAKE_FUNDAMENTAL(19)
 #define G_TYPE_OBJECT     G_TYPE_MAKE_FUNDAMENTAL(20)
-#define GDK_TYPE_PIXBUF   gdk_pixbuf_get_type()
+
+// En Debian 9 esto ha presentado un problema, no retorna el valor correcto. (RIGC)
+//#define GDK_TYPE_PIXBUF   gdk_pixbuf_get_type() 
+#define GDK_TYPE_PIXBUF   909090 
 
 /*
  * GdkRgbDither
