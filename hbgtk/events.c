@@ -3139,12 +3139,13 @@ gint liberate_block_memory( gpointer data )
 
 /*
  *  Esto mientras se hace una funcion mas compatible entre Harbour y xHarbour
+ *  ( Por ahora se deja la versión anterior ya que genera errores en el S.O. Windows - RIGC Jun2017 )
  */
-#ifdef __XHARBOUR__
+//#ifdef __XHARBOUR__
    #include "events_xhb_signal_connect.h" 
-#else
-   #include "events_hb_signal_connect.h"
-#endif
+//#else
+//   #include "events_hb_signal_connect.h"
+//#endif
 
 
 #endif

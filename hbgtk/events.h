@@ -2,12 +2,12 @@
 // Statics vars , for events.c
 
 #include "hbapi.h"
-
+/*
 #ifndef __XHARBOUR__
    static PHB_ITEM phActionParce;
    static PHB_ITEM phpredefine;
 #endif
-
+*/
 static TGtkActionParce array[] = {
                {"clicked",                   "OnClicked",                   G_CALLBACK( OnEventos ),NULL},                /* 0 -- GtkButton -- */
                {"pressed",                   "OnPressed",                   G_CALLBACK( OnEventos ),NULL},                /* 1 -- GtkButton -- */
