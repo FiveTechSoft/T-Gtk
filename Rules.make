@@ -317,7 +317,7 @@ endif
 ifeq ($(HB_COMPILER),mingw32)
    LIBFILES_ += -luser32 -lwinspool -lole32 -loleaut32 -luuid -lgdi32 -lcomctl32 \
                 -lcomdlg32 -lodbc32 -lwininet -lwsock32 -lws2_32 -lodbc32 -liphlpapi \
-                -Wl,-subsystem,windows -mwindows -mconsole 
+                -Wl,-subsystem,windows -mwindows -mconsole -lwinmm
    EXETYPE=.exe
 else
    LIBFILES_ += 
