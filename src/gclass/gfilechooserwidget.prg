@@ -70,7 +70,7 @@ METHOD New( nMode, lhomogeneous, nSpacing, oParent, lExpand, lFill, nPadding, lC
 
 RETURN Self
 
-METHOD SetFilter( cFilter ) CLASS GFILECHOOSERWIDGET
+METHOD SetFilter( cFilter, cLabel ) CLASS GFILECHOOSERWIDGET
 
    local aFilter
    local pFilter
@@ -78,11 +78,12 @@ METHOD SetFilter( cFilter ) CLASS GFILECHOOSERWIDGET
    aFilter = HB_ATokens( cFilter, "|" )
 
    if Len( aFilter ) > 0
-      pFilter = gtk_file_filter_new()
       for each cFilter in aFilter
-         gtk_file_filter_add_pattern( pFilter, AllTrim( cFilter ) )
+         pFilter = gtk_file_filter_new()
+         gtk_file_filter_add_pattern( pFilter, ALLTRIM( cFilter ) )
+         gtk_file_filter_set_name( pFilter, ALLTRIM( cFilter ) )
+         gtk_file_chooser_add_filter( ::pWidget, pFilter )
       next
-      gtk_file_chooser_add_filter( ::pWidget, pFilter )
    endif
 
 return nil
