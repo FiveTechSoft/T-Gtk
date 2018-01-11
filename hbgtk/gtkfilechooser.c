@@ -118,7 +118,7 @@ HB_FUNC( GTK_FILE_CHOOSER_GET_URIS )
   PHB_ITEM temp   = hb_itemNew( NULL );
 
   for (l= uris; l != NULL; l = l->next) {
-     gchar * uri = uris->data;
+     gchar * uri = l->data;
      //printf( "%s\n", uri );
      hb_itemPutC( temp, uri );
      hb_arrayAdd( aItems, temp );
