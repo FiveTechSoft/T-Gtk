@@ -194,6 +194,15 @@ HB_FUNC( GTK_TREE_VIEW_COLUMN_SET_WIDGET )  // renderer, nColumn -> void
 
 //---------------------------------------------//
 
+HB_FUNC( GTK_TREE_VIEW_COLUMN_SET_ALIGNMENT )  // renderer, nColumn -> void
+{
+   GtkTreeViewColumn *column = GTK_TREE_VIEW_COLUMN(  hb_parptr( 1 ) );
+   gfloat xalign = hb_parnd( 2 );
+   gtk_tree_view_column_set_alignment(  column, xalign );
+}
+
+//---------------------------------------------//
+
 // TODO: Comprobar. From Carlos Mora...
 HB_FUNC( GTK_TREE_VIEW_COLUMN_SET_CELL_DATA_FUNC )
 {
