@@ -42,7 +42,8 @@ CLASS gTreeViewColumn FROM GOBJECT
       METHOD SetClickable( lClick )     INLINE gtk_tree_view_column_set_clickable( ::pWidget, lClick )
       METHOD SetSort( )                 INLINE gtk_tree_view_column_set_sort_column_id( ::pWidget, ::nColumn )
       METHOD GetSort( )                 INLINE gtk_tree_view_column_get_sort_column_id( ::pWidget ) + 1
-      METHOD SetAlign( nAlign )         INLINE g_object_set( ::pWidget, "alignment", nAlign  )
+      //METHOD SetAlign( nAlign )         INLINE g_object_set( ::pWidget, "alignment", nAlign  )
+      METHOD SetAlign( nXAlign,nYAlign )  INLINE gtk_cell_renderer_set_alignment( ::oRenderer:pWidget, nXAlign, nYAlign  )
       METHOD SetTitleAlign( nAlign )    INLINE gtk_tree_view_column_set_alignment( ::pWidget, nAlign ) 
       METHOD SetWidgetHeader( oWidget ) INLINE gtk_tree_view_column_set_widget( ::pWidget, oWidget:pWidget )
       METHOD SetSizing( nMode )         INLINE gtk_tree_view_column_set_sizing( ::pWidget, nMode )
