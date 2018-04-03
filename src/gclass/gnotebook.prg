@@ -25,6 +25,7 @@
 
 CLASS GNOTEBOOK FROM GCONTAINER
       DATA nPageCurrent INIT 0
+      DATA aFold        INIT {}
 
       METHOD New()
       METHOD Next() INLINE gtk_notebook_next_page( ::pWidget )
@@ -38,8 +39,12 @@ CLASS GNOTEBOOK FROM GCONTAINER
       METHOD SetScroll( lScroll )    INLINE gtk_notebook_set_scrollable( ::pWidget, lScroll )
       METHOD SetPopup( lPopup )
       METHOD GetCurrentPage() INLINE ::nPageCurrent := gtk_notebook_get_current_page( ::pWidget ) + 1
-      METHOD Append( oContainer, oLabelTab ) INLINE gtk_notebook_append_page( ::pWidget, oContainer:pWidget, oLabelTab:pWidget )
+      METHOD Append( oContainer, oLabelTab ) INLINE AADD( ::aFold, STR(Seconds())), gtk_notebook_append_page( ::pWidget, oContainer:pWidget, oLabelTab:pWidget )
       METHOD OnSwitch_page( oSender, pPage, nPage )
+
+      METHOD nId()            
+      METHOD SetId(xId)       
+      METHOD LastId()         INLINE ::SetCurrentPage( Len(::aFold) )
 
 ENDCLASS
 
@@ -80,6 +85,8 @@ RETURN Self
 
 METHOD RemovePage( nPage ) CLASS GNOTEBOOK
        DEFAULT nPage := gtk_notebook_get_current_page( ::pWidget ) + 1
+       ADEL(::aFold, nPage)
+       ASIZE(::aFold, Len(::aFold)-1)
        gtk_notebook_remove_page( ::pWidget, nPage - 1 )
        /* Con la siguiente funcin se vuelve a dibujar el notebook
          * para que no se vea la p�ina que ha sido borrada. */
@@ -114,3 +121,27 @@ METHOD OnSwitch_page( oSender, pPage, nPage ) CLASS GNOTEBOOK
     endif
 
 RETURN NIL
+
+
+
+METHOD nId()       CLASS GNOTEBOOK
+   Local x := Len( ::aFold )
+   ::SetId( x )
+RETURN ::aFold[x]
+
+
+
+METHOD SetId(xId)  CLASS GNOTEBOOK
+  Local nPos 
+
+  if xId=NIL ; return .f. ; endif
+
+  nPos := aScan( ::aFold, xId )
+
+  if nPos >=0
+    ::SetCurrentPage( nPos )
+    return .t.
+  endif
+
+RETURN .f.
+
