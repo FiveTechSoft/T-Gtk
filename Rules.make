@@ -208,10 +208,10 @@ ifeq ($(LIBGD),yes)
 endif
 
 ifeq ($(HPDF),yes)
-   LIBS += -lhbhpdf -llibhpdf -lpng #-lpng12
-   ifeq ($(HB_COMPILER),mingw32)
-     LIBS+=-lhbzlib
-   endif
+   LIBS += -lhbhpdf -llibhpdf -lpng -lz #-lpng12
+#   ifeq ($(HB_COMPILER),mingw32)
+#     LIBS+=-lhbzlib
+#   endif
    TGTK_LIBS += -ltimprime 
    PRGFLAGS+=-I$(ROOT)/src/imprimepdf
 endif
@@ -226,7 +226,7 @@ ifeq ($(CURL),yes)
     CFLAGS +=-D_CURL_
     CFLAGS +=$(shell pkg-config --cflags libcurl )
     LIBS += $(shell pkg-config --libs libcurl )
-    TGTK_LIBS += -lcurl-hb
+    TGTK_LIBS +=  -lhbcurl #-lcurl-hb
 endif
 
 ifneq ($(HB_MAKE_PLAT),win)
