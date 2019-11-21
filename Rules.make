@@ -249,7 +249,9 @@ endif
 
 
 ifeq ($(SQLITE),yes)
+  LIBS += -lhbsqlit3
   ifeq ($(HB_COMPILER),mingw32)
+     LIBS += -L$(HARBOUR_PATH)/lib/win/mingw -lsqlite3
   else
      ifeq ($(findstring sqlite3,$(PACKAGES)),)
        $(info ----------------------------------------)
@@ -257,8 +259,7 @@ ifeq ($(SQLITE),yes)
        $(info ----------------------------------------)
        $(error Error, aparentemente no existe o no localiza SQLite )
      endif
-     CFLAGS += $(shell pkg-config --cflags sqlite3)
-     LIBS += $(shell pkg-config --libs sqlite3 ) 
+     LIBS += -L$(HARBOUR_PATH)/lib/linux/gcc -lsqlite3
   endif 
 endif
 
