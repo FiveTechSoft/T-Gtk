@@ -11,7 +11,7 @@
 #include "tgtk.ch"
 
 /* Version que queremos que soporte de T-Gtk de GTK+ */
-#define T_GTK_VERSION  2.10  // Deprecated, look file include "gtkversion.ch"
+#define T_GTK_VERSION  3.00  // Deprecated, look file include "gtkversion.ch"
 
 /* Codigos de teclado */
 #include "gtkkeys.ch"

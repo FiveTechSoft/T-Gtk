@@ -66,7 +66,7 @@ HB_FUNC( GTK_WIDGET_SHOW )
 
 HB_FUNC( GTK_WIDGET_SHOW_ALL )
 {
-  if( G_IsWidget( 1 ) )
+  //if( G_IsWidget( 1 ) ) //-- Puede ser un GtkApplication (RIGC 20220612)
      gtk_widget_show_all( GTK_WIDGET( hb_parptr( 1 ) ) );
 }
 
