@@ -38,8 +38,13 @@ HB_FUNC( GDK_CURSOR_NEW ) // nGdkTypeCursor -> cursor
 
 HB_FUNC( GDK_CURSOR_UNREF ) // pCursor -> void
 {
+  g_message( "gdk_cursor_unref is Deprecated!" );
   GdkCursor * cursor = ( GdkCursor * )  hb_parptr( 1 );
+#if GTK_MAJOR_VERSION < 3
   gdk_cursor_unref( cursor );
+#else
+  g_object_unref( cursor );
+#endif
 }
 
 HB_FUNC( GDK_CURSOR_GET_DISPLAY ) // pCursor -> display
@@ -49,4 +54,3 @@ HB_FUNC( GDK_CURSOR_GET_DISPLAY ) // pCursor -> display
   hb_retptr( (GdkDisplay*) display );
 }
 
-#endif

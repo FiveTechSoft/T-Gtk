@@ -77,4 +77,3 @@ HB_FUNC( GTK_CONTAINER_SET_FOCUS_CHAIN )
 
 }
 
-#endif

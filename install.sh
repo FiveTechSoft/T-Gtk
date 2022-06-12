@@ -51,28 +51,30 @@ fi
 
 
 echo "detecting package gtk for development"
-dpkg --get-selections | grep "libgtk" | grep dev && gtk=1 || gtk=0
+dpkg --get-selections | grep "libgtk-3-dev" | grep dev && gtk=1 || gtk=0
 if [ $gtk -eq 0 ] ; then
-   install+='libgtk2.0-dev '
-   #apt-get install libgtk2.0-dev
+   apt-get install libgtk-3-dev
 fi
 
-echo "detecting package glade for development"
-dpkg --get-selections | grep "libglade" | grep dev && glade=1 || glade=0
-if [ $glade -eq 0  ] ; then
-   install+='libglade2-dev '
-   #apt-get install libglade2-dev
-fi
+#echo "detecting package glade for development"
+#dpkg --get-selections | grep "libglade" | grep dev && glade=1 || glade=0
+#if [ $glade -eq 0  ] ; then
+#   apt-get install libglade2-dev
+#fi
 
 #--- GTK SourceView ---
 scview=0
 cmd=`cat $global | grep "export GTKSOURCEVIEW " | cut -d= -f2 `
 if [ $cmd =  "yes" ] ; then
    echo "detecting package gtksourceview for development"
-   dpkg --get-selections | grep "libgtksourceview2.0-dev" && scview=1 || scview=0
+   dpkg --get-selections | grep "libgtksourceview-3.0-dev" && scview=1 || scview=0
    if [ $scview -eq 0 ] ; then
+<<<<<<< HEAD
       install+='libgtksourceview2.0-dev '
 #      apt-get install libgtksourceview2.0-dev
+=======
+      apt-get install libgtksourceview-3.0-dev
+>>>>>>> ffee2553ed419928b3d49a717ef251aa2a897b7e
    fi
 else
    echo "GTKSOURCEVIEW Set with value 'NO' in $global"

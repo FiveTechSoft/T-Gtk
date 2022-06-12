@@ -49,4 +49,4 @@ HB_FUNC( GTK_CHECK_BUTTON_NEW_WITH_MNEMONIC )
    hb_retptr( ( GtkWidget *  ) checkbox );
 }
 
-#endif
+//eof

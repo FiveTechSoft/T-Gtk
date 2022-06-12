@@ -115,6 +115,8 @@ HB_FUNC( GTK_DIALOG_NEW_WITH_BUTTONS ) // title, parent, flags, list params...
 #if GTK_MAJOR_VERSION < 3
   if ( flags & GTK_DIALOG_NO_SEPARATOR )
      gtk_dialog_set_has_separator( GTK_DIALOG(dialog), FALSE );
+//#else
+//     g_object_set( GTK_DIALOG( dialog ), "has-separator", FALSE, NULL );
 #endif
   for( iParam = 4; iParam <= ipCount; iParam += 2 )
      {
@@ -132,20 +134,27 @@ HB_FUNC( GTK_DIALOG_RESPONSE ) // dialog, response -> void
   gtk_dialog_response( GTK_DIALOG(dialog), response );
 }
 
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_DIALOG_GET_HAS_SEPARATOR ) // dialog -> lSeparator
 {
   GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gboolean separator = gtk_dialog_get_has_separator( GTK_DIALOG(dialog) );
   hb_retl( separator );
 }
+#endif
 
 HB_FUNC( GTK_DIALOG_SET_HAS_SEPARATOR ) // dialog, lSeparator -> void
 {
-  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gboolean separator = (gboolean ) hb_parl( 2 );
+  g_message("gtk_dialog_set_has_separator is deprecated!\n");
+#if GTK_MAJOR_VERSION < 3
+  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   gtk_dialog_set_has_separator( GTK_DIALOG(dialog), separator );
-}
+#else
+  GtkDialog * dialog = GTK_DIALOG( hb_parptr( 1 ) );
+  g_object_set( GTK_DIALOG( dialog ), "has-separator", separator, NULL );
 #endif
+}
 
 HB_FUNC( GTK_DIALOG_SET_DEFAULT_RESPONSE ) // dialog, nResponse -> void
 {

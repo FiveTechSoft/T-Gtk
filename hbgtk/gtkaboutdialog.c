@@ -36,7 +36,11 @@ HB_FUNC( GTK_ABOUT_DIALOG_NEW )
 HB_FUNC( GTK_ABOUT_DIALOG_GET_NAME )
 {
   GtkAboutDialog  * dialog = GTK_ABOUT_DIALOG( hb_parnl( 1 ) );
-  const gchar *szText = gtk_about_dialog_get_name( dialog );
+  #if GTK_MAJOR_VERSION < 3
+    const gchar *szText = gtk_about_dialog_get_name( dialog );
+  #else
+    const gchar *szText = gtk_about_dialog_get_program_name( dialog );
+  #endif
   hb_retc( szText );
 }
 
@@ -44,7 +48,11 @@ HB_FUNC( GTK_ABOUT_DIALOG_SET_NAME )
 {
   GtkAboutDialog  * dialog = GTK_ABOUT_DIALOG( hb_parptr( 1 ) );
   const gchar *szText = hb_parc( 2 );
-  gtk_about_dialog_set_name( dialog, szText );
+  #if GTK_MAJOR_VERSION < 3
+    gtk_about_dialog_set_name( dialog, szText );
+  #else
+    gtk_about_dialog_set_program_name( dialog, szText );
+  #endif
 }
 
 HB_FUNC( GTK_ABOUT_DIALOG_GET_VERSION )
@@ -201,4 +209,4 @@ HB_FUNC( GTK_SHOW_ABOUT_DIALOG )
 }
 #endif
 
-#endif
+//eof

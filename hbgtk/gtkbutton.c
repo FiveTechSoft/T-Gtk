@@ -89,4 +89,3 @@ HB_FUNC( GTK_BUTTON_SET_USE_UNDERLINE )
    gtk_button_set_use_underline( GTK_BUTTON( hb_parptr( 1 ) ), hb_parl( 2 ) ); 
 }
 
-#endif  

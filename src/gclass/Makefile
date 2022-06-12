@@ -5,6 +5,10 @@
 
 ROOT = ../../
 
+include $(ROOT)config/detect.mk
+#ifeq ($(GTK_MAJOR_VERSION),3)
+   SOURCES=gsignals.prg
+#endif
 
 PRGFLAGS=-I$(ROOT)include 
 CFLAGS+=-I$(ROOT)include

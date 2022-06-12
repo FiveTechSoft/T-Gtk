@@ -536,7 +536,7 @@ void OnMove_slider( GtkWidget *widget, GtkScrollType arg1, gpointer data )
 
 }
 
-void OnSelect_child ( GtkList *list,  GtkWidget *widget, gpointer data )
+void OnSelect_child ( GtkTreeView *list,  GtkWidget *widget, gpointer data )
 {
   PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
@@ -568,7 +568,7 @@ void OnSelect_child ( GtkList *list,  GtkWidget *widget, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushPointer( ( GtkList * ) list );
+        hb_vmPushPointer( ( GtkTreeView * ) list );
         hb_vmPushPointer( ( GtkWidget * ) widget );
         hb_vmSend( 2 );
      }
@@ -576,7 +576,7 @@ void OnSelect_child ( GtkList *list,  GtkWidget *widget, gpointer data )
 
 }
 
-void OnSelection_changed( GtkList *list, gpointer data )
+void OnSelection_changed( GtkTreeView *list, gpointer data )
 {
   PHB_ITEM pObj = NULL;
   PHB_ITEM pBlock;
@@ -607,13 +607,14 @@ void OnSelection_changed( GtkList *list, gpointer data )
      if( pBlock ) {
         hb_vmPushSymbol( &hb_symEval );
         hb_vmPush( pBlock );
-        hb_vmPushPointer( ( GtkList * ) list );
+        hb_vmPushPointer( ( GtkTreeView * ) list );
         hb_vmSend( 1 );
      }
   }
 
 }
 
+#ifdef _GTK2_
 void OnSwitch_page( GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, gpointer data )
 {
   PHB_ITEM pObj = NULL;
@@ -655,7 +656,7 @@ void OnSwitch_page( GtkNotebook *notebook, GtkNotebookPage *page, guint page_num
   }
 
 }
-
+#endif
 void OnGroup_changed( GtkRadioButton *radiobutton, gpointer data )
 {
   PHB_ITEM pObj = NULL;
@@ -1307,6 +1308,8 @@ void OnChild_Notify( GtkWidget *widget, GParamSpec *pspec, gpointer data )
   }
 }
 
+#if GTK_MAJOR_VERSION < 3
+  //TODO: Se necesita sustituir GdkEventClient..  como??  aparentemente se debe usar gdk_window_add_filter
 gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data )
 {
   PHB_ITEM pObj = NULL;
@@ -1348,6 +1351,8 @@ gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data
   }
   return( FALSE );
 }
+#endif
+
 
 void OnDirection_Changed( GtkWidget *widget, GtkTextDirection arg1, gpointer data )
 {
@@ -1717,7 +1722,7 @@ gboolean OnMotion_Notify_Event( GtkWidget *widget, GdkEventMotion *event, gpoint
 
   return( FALSE );  // Salimos
 }
-
+#ifdef _GTK2_
 gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer data )
 {
   PHB_ITEM pObj = NULL;
@@ -1760,6 +1765,7 @@ gboolean OnNo_Expose_Event( GtkWidget *widget, GdkEventNoExpose *event, gpointer
 
   return( FALSE );  // Salimos
 }
+#endif
 
 void OnParent_Set( GtkWidget *widget, GObject *old_parent, gpointer data )
 {
@@ -3107,7 +3113,7 @@ gboolean OnMatch_Selected ( GtkEntryCompletion *widget, GtkTreeModel *model, Gtk
         hb_vmPush( pBlock );
         hb_vmPushPointer( ( GtkEntryCompletion * ) widget );
         hb_vmPushPointer( ( GtkTreeModel * ) model );
-        //hb_vmPushPointer( ( GtkTreeIter *) iter );
+        hb_vmPushPointer( ( GtkTreeIter *) iter );
         hb_vmPush( Iter2Array( (GtkTreeIter *) iter ) );  // Enviamos el array, no el puntero
         hb_vmSend( 3 );
         return hb_parl( -1 ) ;
@@ -3148,5 +3154,4 @@ gint liberate_block_memory( gpointer data )
 //#endif
 
 
-#endif
 //eof

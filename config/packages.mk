@@ -58,10 +58,12 @@ ifeq ($(findstring gtk+,$(PACKAGES)),)
    endif
 endif
 
-ifeq ($(findstring libglade-2.0,$(PACKAGES)),)
-   $(info ----------------------------------------)
-   $(info *  ERROR LibGlade No Encontrado!       *)
-   $(info ----------------------------------------)
-   $(error Error, aparentemente no existe o no localiza LibGlade )
+ifneq ($(GTK_MAJOR_VERSION),3)
+   ifeq ($(findstring libglade-2.0,$(PACKAGES)),)
+      $(info ----------------------------------------)
+      $(info *  ERROR LibGlade No Encontrado!       *)
+      $(info ----------------------------------------)
+      $(error Error, aparentemente no existe o no localiza LibGlade )
+   endif
 endif
 

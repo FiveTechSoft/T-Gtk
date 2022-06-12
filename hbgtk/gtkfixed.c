@@ -52,12 +52,21 @@ HB_FUNC( GTK_FIXED_MOVE ) // fixed, child_widget,x, y
 
 HB_FUNC( GTK_FIXED_GET_HAS_WINDOW )
 {
+   g_message("gtk_fixed_get_has_window is Deprecated!");
+#if GTK_MAJOR_VERSION<3
    hb_retl( gtk_fixed_get_has_window( GTK_FIXED( hb_parptr( 1 ) ) ) ) ;
+#else
+   hb_retl( gtk_widget_get_has_window( GTK_WIDGET( hb_parptr( 1 ) ) ) ) ;
+#endif
 }
 
 HB_FUNC( GTK_FIXED_SET_HAS_WINDOW )
 {
+   g_message("gtk_fixed_set_has_window is Deprecated!");
+#if GTK_MAJOR_VERSION<3
    gtk_fixed_set_has_window( GTK_FIXED( hb_parptr( 1 ) ), hb_parl( 2 ) ) ;
+#else
+   gtk_widget_set_has_window( GTK_WIDGET( hb_parptr( 1 ) ), hb_parl( 2 ) ) ;
+#endif
 }
 
-#endif

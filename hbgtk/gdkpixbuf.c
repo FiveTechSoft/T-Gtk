@@ -29,6 +29,7 @@
 
 #if GTK_MAJOR_VERSION < 3
  
+
 HB_FUNC( GDK_PIXBUF_NEW_FROM_FILE ) // cFilename -> pixbuf
 {
   GdkPixbuf * pixbuf;
@@ -77,7 +78,15 @@ HB_FUNC( GDK_PIXBUF_NEW_FROM_BUFFER ) // cType, Buffer -> pixbuf
 HB_FUNC( GDK_PIXBUF_UNREF ) // nIcon -> void
 {
   GdkPixbuf * pixbuf = GDK_PIXBUF( hb_parptr( 1 ) );
+<<<<<<< HEAD
   g_object_unref( pixbuf );
+=======
+  #if GTK_MAJOR_VERSION < 3
+    gdk_pixbuf_unref( pixbuf );
+  #else
+    g_object_unref( pixbuf );
+  #endif
+>>>>>>> ffee2553ed419928b3d49a717ef251aa2a897b7e
 }
 
 //----------------------------------------------//
@@ -704,4 +713,3 @@ HB_FUNC( SET_DEFAULT_TGTK_ICON )
    
 }
 
-#endif

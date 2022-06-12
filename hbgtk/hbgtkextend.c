@@ -57,6 +57,7 @@ gboolean Set_Auto_Utf8( gint bValue );
 static gboolean bStatus = FALSE;
 
 
+#ifdef __INTERNAL_TGTK__
 /**
  * Internals ...............................................................
  **/
@@ -64,7 +65,7 @@ void
 hb_gtk_call_block( GtkWidget * widget, gpointer data )
 {
    PHB_ITEM pItem  = g_object_get_data( G_OBJECT( widget ), "Codeblock" );
-
+g_print("aqui voy---");
   if( HB_IS_BLOCK(pItem) )
     {
 	  // hb_vmEvalBlockV( pItem, nLong, PHB_ITEM );
@@ -92,11 +93,10 @@ hb_gtk_call_block_destroy( GtkWidget * widget, gpointer data )
 
 HB_FUNC( _GTK_SIGNAL_CONNECT ) // widget, se�al, codeblock -> NIL
 {
-  GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
+  GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
   gchar *     signal = ( gchar * ) hb_parc( 2 );
   PHB_ITEM     pSelf = hb_param( 3, HB_IT_BLOCK );
-
-  g_signal_connect( G_OBJECT( widget ), signal,
+  g_signal_connect( ( GtkWidget * ) widget, signal ,
                     G_CALLBACK( hb_gtk_call_block ), pSelf );
 
 /* Al conectar la se�al al codeblock, se fuerza la conexion a la callback que
@@ -116,8 +116,6 @@ HB_FUNC( _GTK_SIGNAL_CONNECT ) // widget, se�al, codeblock -> NIL
 }
 
 
-
-#ifdef __INTERNAL_TGTK__
 gint 
 click_connect_by_param( GtkWidget * widget, gpointer data )
 {
@@ -184,7 +182,7 @@ click_connect_destroy( gpointer data )
 
 HB_FUNC( HB_GTK_SIGNAL_CONNECT_BLOCK ) // widget, se�al, codeblock -> NIL
 {
-  GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
+  GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
   gchar *     signal = ( gchar * ) hb_parc( 2 );
   PHB_ITEM     pSelf = hb_param( 3, HB_IT_BLOCK );
 
@@ -212,7 +210,7 @@ HB_FUNC( HB_GTK_SIGNAL_CONNECT_BLOCK ) // widget, se�al, codeblock -> NIL
  **/
 HB_FUNC( HB_CLICK_CONNECT_BY_PARAM ) // widget, salto a funcion, param
 {
-  GtkWidget * widget = ( GtkWidget * ) hb_parnl( 1 );
+  GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
   gchar * cFunc      = hb_parc( 2 );
   gint iReturn       = 0;
   PHB_ITEM pSelf     = NULL;
