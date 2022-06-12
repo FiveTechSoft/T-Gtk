@@ -112,6 +112,7 @@ ifeq ($(POSTGRE),yes)
 endif
 $(info *************************************************** )
 
+$(info ****GTK VERSION = $(GTK_MAJOR_VERSION) )
 
 ############################################## 
 # Esqueleto para todas las plataformas
@@ -123,19 +124,19 @@ CC = gcc
 LIBRARIAN = ranlib
 
 #librerias usadas por Tgtk las definimos aqui. GTK y GLADE
-LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
+LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk3 )
 # agregar despues a libgclass 
 LIBS += -L$(LIBDIR_TGTK_) $(TGTK_LIBS) 
 PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 ifeq ($(HB_COMPILER),mingw32)
-   CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_
+   CFLAGS +=-fms-extensions -Wall $(shell pkg-config --cflags tgtk3)-mms-bitfields -ffast-math -D_HB_API_INTERNAL_
    CFLAGS +=-D__PLATFORM__WINDOWS
    ifeq ($(SUPPORT_PRINT_WIN32),yes)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) 
    endif
 else
-   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk) -D__HARBOUR64__ 
+   CFLAGS += -Wall -I. $(shell pkg-config --cflags tgtk3) -D__HARBOUR64__ 
    ifeq ($(SUPPORT_PRINT_LINUX),yes)
      CFLAGS += $(shell pkg-config --cflags libgnomeprintui-2.2) -DHB_OS_LINUX
      LIBS += $(shell pkg-config --libs libgnomeprintui-2.2)
@@ -145,11 +146,12 @@ endif
 CFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 ifeq ($(GTK_MAJOR_VERSION),3)
-#    CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ -D_GTK_$(GTK_MAJOR_VERSION).$(GTK_MINOR_VERSION)_
+    CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ -D_GTK_$(GTK_MAJOR_VERSION).$(GTK_MINOR_VERSION)_
+    CFLAGS += -DGTK_MAJOR_VERSION=3
     LIBS +=$(shell pkg-config --cflags --libs gtk+-3.0)
 else
-#   CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ -D_GTK_$(GTK_MAJOR_VERSION).$(GTK_MINOR_VERSION)_
-    LIBS +=$(shell pkg-config --cflags --libs gtk+-2.0)
+    CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ -D_GTK_$(GTK_MAJOR_VERSION).$(GTK_MINOR_VERSION)_
+    #LIBS +=$(shell pkg-config --cflags --libs gtk+-2.0)
     LIBS +=$(shell pkg-config --libs libglade-2.0)
 endif
 
@@ -326,13 +328,13 @@ else
 endif
 
 #librerias usadas por Tgtk las definimos aqui. GTK y GLADE
-#LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
+#LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk3 )
 # agregar despues a libgclass 
 #LIBS += -L$(LIBDIR_TGTK_) $(TGTK_LIBS) 
 #PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 
 # By Quim -->
-# Soporte impresion para Win32, las libs de gnome van en este orden y despues de tgtk si no, no enlaza.
+# Soporte impresion para Win32, las libs de gnome van en este orden y despues de tgtk3 si no, no enlaza.
 # <--
 ifeq ($(SUPPORT_PRINT_WIN32),yes)
   LIBS += $(shell pkg-config --libs libgnomeprint-2.2) $(shell pkg-config --libs libgnomeprintui-2.2)
@@ -356,7 +358,7 @@ HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
 
 #HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) 
 #HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lhbgtk -lgclass -Wl,--start-group -L$(HB_LIB_INSTALL) 
-HB_LIBS_+= -L$(LIBDIR_TGTK_) -lhbgtk -lgclass $(TGTK_LIBS) -Wl,--start-group -L$(HB_LIB_INSTALL) \
+HB_LIBS_+= -L$(LIBDIR_TGTK_) -lhbgtk $(TGTK_LIBS) -Wl,--start-group -L$(HB_LIB_INSTALL) \
         $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group \
         $(LIBS) $(OS_LIBS)
 #        -L$(LIBDIR_TGTK_) -lhbgtk -lgclass $(TGTK_LIBS) 

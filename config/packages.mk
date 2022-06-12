@@ -6,13 +6,13 @@ $(info )
 $(info * Ejecutando config/packages.mk )
 
 
-# Verificamos que esta tgtk.pc pkg-config
-ifeq ($(notdir $(wildcard $(PKG_CONFIG_PATH)/tgtk.pc)),)
-  $(info * Registrando t-gtk en pkg-config... )
+# Verificamos que esta tgtk3.pc pkg-config
+ifeq ($(notdir $(wildcard $(PKG_CONFIG_PATH)/tgtk3.pc)),)
+  $(info * Registrando t-gtk en pkg-config... $(PKG_CONFIG_PATH))
   ifeq ($(HB_MAKE_PLAT),win)
-     $(shell type $(TGTK_DIR)\utils\config_system\tgtk_win.pc > $(PKG_CONFIG_PATH)\tgtk.pc )
+     $(shell type $(TGTK_DIR)\utils\config_system\tgtk3_win.pc > $(PKG_CONFIG_PATH)\tgtk3.pc )
   else
-     $(shell cat $(TGTK_DIR)/utils/config_system/tgtk_gnu.pc > $(PKG_CONFIG_PATH)/tgtk.pc)
+     $(shell cat $(TGTK_DIR)/utils/config_system/tgtk3_gnu.pc > $(PKG_CONFIG_PATH)/tgtk3.pc)
   endif
 endif
 

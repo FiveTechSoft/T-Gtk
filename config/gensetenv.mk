@@ -70,9 +70,15 @@ endif
 $(shell $(strip $(SPACE) $(ADD)))
 $(shell $(strip $(ECHO) $(N)-------------------- $(ADD)))
 $(shell $(strip $(ECHO) $(N) Componentes Adicionales. $(ADD)))
+$(shell $(strip $(ECHO) export GTK_MAJOR_VERSION = 3$(ADD)))
+$(shell $(strip $(ECHO) export GTK_MINOR_VERSION = 0$(ADD)))
 $(shell $(strip $(ECHO) export GTK_PATH =$(GTK_PATH)$(ADD)))
 $(shell $(strip $(ECHO) export TGTK_BIN =$(TGTK_BIN)$(ADD)))
-$(shell $(strip $(ECHO) export PKG_CONFIG_PATH =$$(GTK_PATH)$(DIRSEP)lib$(DIRSEP)pkgconfig$(ADD)))
+ifeq ($(HB_MAKE_PLAT),win)
+  $(shell $(strip $(ECHO) export PKG_CONFIG_PATH =$$(GTK_PATH)$(DIRSEP)lib$(DIRSEP)pkgconfig$(ADD)))
+else
+  $(shell $(strip $(ECHO) export PKG_CONFIG_PATH =$(DIRSEP)usr$(DIRSEP)lib$(DIRSEP)pkgconfig$(ADD)))
+endif
 $(shell $(strip $(ECHO) $(N)-------------------- $(ADD)))
 $(shell $(strip $(ECHO) $(N) Genera Binario con Datos de la Plataforma. $(ADD)))
 $(shell $(strip $(ECHO) export BIN_PLATFORM_NAME =yes$(ADD)))
