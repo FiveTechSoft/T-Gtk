@@ -28,7 +28,7 @@ fi
 
 install=''
 global=./$1
-tgtkPKG=/usr/lib/pkgconfig/tgtk.pc
+tgtkPKG=/usr/lib/pkgconfig/tgtk3.pc
 
 distro=`lsb_release -is`
 
@@ -38,7 +38,7 @@ tgtk_pc=0
 test -f $tgtkPKG && tgtk_pc=1
 if [ $tgtk_pc = 0 ]; then
    echo "copiando $tgtkPKG" 
-   cp ./utils/config_system/tgtk_gnu.pc $tgtkPKG
+   cp ./utils/config_system/tgtk3_gnu.pc $tgtkPKG
    if test -f $tgtkPKG 
    then 
       echo "copiado." 
@@ -69,12 +69,8 @@ if [ $cmd =  "yes" ] ; then
    echo "detecting package gtksourceview for development"
    dpkg --get-selections | grep "libgtksourceview-3.0-dev" && scview=1 || scview=0
    if [ $scview -eq 0 ] ; then
-<<<<<<< HEAD
-      install+='libgtksourceview2.0-dev '
-#      apt-get install libgtksourceview2.0-dev
-=======
+      install+='libgtksourceview3.0-dev '
       apt-get install libgtksourceview-3.0-dev
->>>>>>> ffee2553ed419928b3d49a717ef251aa2a897b7e
    fi
 else
    echo "GTKSOURCEVIEW Set with value 'NO' in $global"
@@ -178,12 +174,12 @@ webkit=0
 cmd=`cat $global | grep "export WEBKIT " | cut -d= -f2`
 if [ $cmd =  "yes" ] ; then
    echo "detecting package libwebkit for development"
-   dpkg --get-selections | grep "libwebkit-dev" && webkit=1 || webkit=0
+   dpkg --get-selections | grep "libweb2kit-4.0-dev" && webkit=1 || webkit=0
    if [ $webkit -eq 0 ] ; then
       if [ $distro = "Debian" ] ; then
         install+='libwebkitgtk-dev '
       else
-        install+='libwebkit-dev '
+        install+='libwebkit2gtk-4.0-dev '
       fi
 #      apt-get install libwebkit-dev
    fi
