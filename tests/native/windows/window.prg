@@ -15,7 +15,7 @@ function Main()
 
    Gtk_Signal_Connect( hWnd, "key-press-event", {||  otra() } )  // Cuando se mata la aplicacion
 
-    Gtk_Signal_Connect( hWnd, "delete-event", {||  gtk_main_quit(), .F. } )
+   Gtk_Signal_Connect( hWnd, "delete-event", {||  gtk_main_quit(), .F. } )
 
 /* Method Activate */
    gtk_window_set_title( hWnd, "Hello World! from T-Gtk for [x]Harbour" )

@@ -43,7 +43,7 @@ HB_FUNC( HARB_SIGNAL_CONNECT ) // widget, señal, Self, method a saltar, Connect
     // Check before seek in base array for possible signals, distints callbacks
     for ( x = 0;  x < num_predefine; x++ ) {
         if( g_ascii_strcasecmp( cStr, predefine[x].signalname ) == 0 ) {
-            gtk_class_name = GTK_OBJECT_TYPE_NAME( widget ); // get name class_gtk
+            gtk_class_name = G_OBJECT_TYPE_NAME( widget ); 
             break;
         }
     }

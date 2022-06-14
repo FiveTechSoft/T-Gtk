@@ -332,7 +332,7 @@ endif
 # agregar despues a libgclass 
 LIBS += -L$(LIBDIR_TGTK_) $(TGTK_LIBS) 
 #PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
-#LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
+LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
 #LIBS += -L$(LIBDIR_TGTK_) -lhbgtk -lgclass
 PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
 

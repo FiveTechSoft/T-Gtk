@@ -11,5 +11,5 @@ Name: T-GTK
 Description: Library Gtk+ for Harbour 
 Version: 2.3.0 Beta
 Requires: gtk+-3.0 
-Libs: -lhbgtk -L${libdir}  
+Libs: -lgclass -lhbgtk -L${libdir}  
 Cflags: -I${includedir}/gtk-3.0 

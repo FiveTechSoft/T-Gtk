@@ -1320,7 +1320,7 @@ gboolean OnClient_Event( GtkWidget *widget, GdkEventClient *event, gpointer data
 
   if( pBlock == NULL ){
       pObj  = g_object_get_data( G_OBJECT( widget ), "Self" );
-      if( pObj ) {
+      if( pObj ) { 
          pMethod = hb_dynsymFindName( data );
          if( pMethod ){
             hb_vmPushSymbol( hb_dynsymSymbol( pMethod ) );     // Coloca simbolo en la pila
