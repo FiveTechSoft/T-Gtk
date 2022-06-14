@@ -8,8 +8,8 @@ gtk_binary_version=3.0.0
 gtk_host=i386-pc
 
 Name: T-GTK
-Description: Library Gtk+ for [x]Harbour (${target} target)
+Description: Library Gtk+ for Harbour 
 Version: 2.3.0 Beta
 Requires: gtk+-3.0 
-Libs: -lgclass -lhbgtk -L${libdir} -lgtk-${target}-6.0 
+Libs: -lhbgtk -L${libdir}  
 Cflags: -I${includedir}/gtk-3.0 
