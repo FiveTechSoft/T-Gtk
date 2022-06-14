@@ -282,11 +282,11 @@ HB_FUNC( GTK_FILE_SELECTION_GET_SELECTIONS )
   PHB_ITEM aList = hb_itemArrayNew( len );
   PHB_ITEM element = hb_itemNew( NULL );
 
-  g_message( "gtk_file_selection_get_selections is Deprecated!" )
+  g_message( "gtk_file_selection_get_selections is Deprecated!" );
 
 //  g_message(" Nro de Items %i ", len);
 
-  for( i = 0; i <= len-1; i++ ) {
+  for( i = 0; i <= len-1 ; i++ ) {
      gchar * path = g_file_get_path( g_slist_nth_data( sel_filenames, i ) );
 //     g_message(" Valor %i = %s ", i, path );
      hb_arraySet( aList, i+1, hb_itemPutC( element, path ) );

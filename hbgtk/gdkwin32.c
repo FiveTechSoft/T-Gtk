@@ -174,4 +174,5 @@ HB_FUNC( GDK_GET_DEFAULT_ROOT_WINDOW )
    hb_retptr( (GdkWindow * ) gdk_get_default_root_window() );
 }
 
+#endif
 //eof

@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 PHB_ITEM Color2Array( GdkColor *color );
 BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );

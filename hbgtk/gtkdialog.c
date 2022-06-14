@@ -88,7 +88,6 @@ GTK_DIALOG_NEW_WITH_BUTTONS()
   en cada iteraccion, de forma similar a como lo hace GTK.
 */
 
-#if GTK_MAJOR_VERSION < 3
   
 HB_FUNC( GTK_DIALOG_NEW_WITH_BUTTONS ) // title, parent, flags, list params...
                                        // -> dialog

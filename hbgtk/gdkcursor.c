@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GDK_CURSOR_NEW ) // nGdkTypeCursor -> cursor
 {

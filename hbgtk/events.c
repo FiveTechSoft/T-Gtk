@@ -35,7 +35,6 @@
 #include "hbapierr.h"
 #include "gerrapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 #ifdef __XHARBOUR__
 #include "hashapi.h"

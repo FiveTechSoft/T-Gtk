@@ -328,16 +328,13 @@ else
 endif
 
 #librerias usadas por Tgtk las definimos aqui. GTK y GLADE
-<<<<<<< HEAD
 #LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk3 )
 # agregar despues a libgclass 
-#LIBS += -L$(LIBDIR_TGTK_) $(TGTK_LIBS) 
+LIBS += -L$(LIBDIR_TGTK_) $(TGTK_LIBS) 
 #PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
-=======
 #LIBS += -L$(LIBDIR_TGTK_) $(shell pkg-config --libs tgtk )
-LIBS += -L$(LIBDIR_TGTK_) -lhbgtk -lgclass
+#LIBS += -L$(LIBDIR_TGTK_) -lhbgtk -lgclass
 PRGFLAGS += -I$(INCLUDE_TGTK_PRG)
->>>>>>> ffee2553ed419928b3d49a717ef251aa2a897b7e
 
 # By Quim -->
 # Soporte impresion para Win32, las libs de gnome van en este orden y despues de tgtk3 si no, no enlaza.
@@ -362,17 +359,12 @@ endif
 HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
 #XHB_LIBDIR_ = $(LIBDIR) -L$(XHB_LIB_INSTALL)
 
-<<<<<<< HEAD
-#HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) 
 #HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lhbgtk -lgclass -Wl,--start-group -L$(HB_LIB_INSTALL) 
 HB_LIBS_+= -L$(LIBDIR_TGTK_) -lhbgtk $(TGTK_LIBS) -Wl,--start-group -L$(HB_LIB_INSTALL) \
         $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group \
         $(LIBS) $(OS_LIBS)
-#        -L$(LIBDIR_TGTK_) -lhbgtk -lgclass $(TGTK_LIBS) 
-=======
-HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
-        $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS) $(OS_LIBS)
->>>>>>> ffee2553ed419928b3d49a717ef251aa2a897b7e
+#HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
+#        $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group $(LIBS) $(OS_LIBS)
 #XHB_LIBS_= -L$(LIBDIR_TGTK_) -lgclass -lhbgtk -Wl,--start-group -L$(XHB_LIB_INSTALL) \
 #        $(XHB_LIBFILES_) $(LIBFILES_) -Wl,--end-group $(LIBS)
 

@@ -24,28 +24,6 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION > 2
-
-HB_FUNC( GTK_BOX_NEW )
-{
-   GtkOrientation orientation = hb_parni( 1 );
-   gint spacing = hb_parni( 2 );
-   hb_retptr( (GtkWidget *) gtk_box_new( orientation, spacing ) );
-}
-
-HB_FUNC( GTK_HBOX_NEW ) // bHomogeneus, iSpacing
-{
-   hb_retptr( (GtkWidget *) gtk_box_new( GTK_ORIENTATION_HORIZONTAL, hb_parni( 2 ) ) );
-}
-
-HB_FUNC( GTK_VBOX_NEW ) // bHomogeneus, iSpacing
-{
-   hb_retptr( (GtkWidget *) gtk_box_new( GTK_ORIENTATION_VERTICAL, hb_parni( 2 ) ) );
-}
-
-#endif
-
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_VBOX_NEW ) // bHomogeneus, iSpacing
 {

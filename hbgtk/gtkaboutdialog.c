@@ -23,7 +23,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 #if GTK_CHECK_VERSION(2,6,0)
 

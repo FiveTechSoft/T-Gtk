@@ -162,6 +162,7 @@ HB_FUNC( GTK_COMBO_BOX_ENTRY_SET_TEXT_COLUMN )
    gtk_combo_box_entry_set_text_column( GTK_COMBO_BOX_ENTRY(entry_box), (gint)hb_parni( 2 ) );
 }
 
+/* No compila en gcc 9 (RIGC)
 HB_FUNC( TGTK_GET_TEXT_COMBO_ENTRY )
 {
  GtkWidget * combo_box = GTK_WIDGET( hb_parptr( 1 ) );
@@ -169,12 +170,14 @@ HB_FUNC( TGTK_GET_TEXT_COMBO_ENTRY )
  hb_retc( gtk_entry_get_text( entry ) );
 }
 
+
 HB_FUNC( TGTK_GET_WIDGET_COMBO_ENTRY )
 {
  GtkWidget * combo_box = GTK_WIDGET( hb_parptr( 1 ) );
  GtkEntry * entry = GTK_ENTRY(GTK_BIN (combo_box)->child );
  hb_retptr( ( GtkWidget * ) entry  );
 }
+*/
 
 #endif
 
@@ -192,5 +195,4 @@ HB_FUNC( GTK_COMBO_SET_POPDOWN_STRINGS )
  }
  OBSOLETO ------->  */
 
-
-#endif
+//eof

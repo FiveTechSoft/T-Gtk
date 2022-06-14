@@ -25,7 +25,6 @@
 #include "hbapi.h"
 #include <t-gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_TOGGLE_BUTTON_NEW ) // -> widget
 {

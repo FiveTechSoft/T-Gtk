@@ -25,8 +25,6 @@
 #include "hbapi.h"
 #include "hbapiitm.h"
 
-#if GTK_MAJOR_VERSION < 3
-
 /*
  * Preparado para sopartar un dialogo
  */

@@ -50,7 +50,6 @@ void        gtk_list_store_move_after       (GtkListStore *store,
 #include "t-gtk.h"
 #include "hbapierr.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );

@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 #include <t-gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_LABEL_NEW )
 {
