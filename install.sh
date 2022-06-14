@@ -56,11 +56,11 @@ if [ $gtk -eq 0 ] ; then
    apt-get install libgtk-3-dev
 fi
 
-#echo "detecting package glade for development"
-#dpkg --get-selections | grep "libglade" | grep dev && glade=1 || glade=0
-#if [ $glade -eq 0  ] ; then
-#   apt-get install libglade2-dev
-#fi
+echo "detecting package glade for development"
+dpkg --get-selections | grep "libgladeui" | grep dev && glade=1 || glade=0
+if [ $glade -eq 0  ] ; then
+   apt-get install libgladeui-dev glade
+fi
 
 #--- GTK SourceView ---
 scview=0
