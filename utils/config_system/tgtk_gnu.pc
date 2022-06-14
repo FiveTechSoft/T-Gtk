@@ -2,14 +2,13 @@ prefix=/usr
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
-target=x11
 
 gtk_binary_version=3.0.0
-gtk_host=i386-pc
+target = x11
 
 Name: T-GTK
-Description: Library Gtk+ for [x]Harbour (${target} target)
+Description: Library Gtk+ for Harbour 
 Version: 3.0.0 Beta
 Requires: gtk+-3.0 
-Libs: -lgclass -lhbgtk -L${libdir} -lgtk-${target}-3 
+Libs: -lhbgtk -L${libdir}  
 Cflags: -I${includedir}/gtk-3 
