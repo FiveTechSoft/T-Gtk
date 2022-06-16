@@ -30,11 +30,19 @@
 PHB_ITEM Color2Array( GdkColor *color );
 BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );
 
+HB_FUNC( GDK_RGBA_PARSE )
+{
+  GdkRGBA rgba ; 
+  gchar * spec = (gchar *) hb_parc( 1 );
+  hb_retl( (gboolean) gdk_rgba_parse( &rgba, spec ) );
+}
+
+
 HB_FUNC( GDK_COLOR_PARSE ) //  string name_color -> logical
 {
-  GdkColor color;
-  gchar * name = (gchar *) hb_parc( 1 );
-  hb_retl( (gboolean) gdk_color_parse( name, &color ) );
+  GdkRGBA rgba ; 
+  gchar * spec = (gchar *) hb_parc( 1 );
+  hb_retl( (gboolean) gdk_rgba_parse( &rgba, spec ) );
 }
 
 /*
