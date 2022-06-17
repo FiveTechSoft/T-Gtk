@@ -35,25 +35,39 @@ BOOL Array2Color(PHB_ITEM aColor, GdkColor *color );
 PHB_ITEM Rect2Array( GdkRectangle *rect );
 BOOL Array2Rect(PHB_ITEM aRect, GdkRectangle *rect );
 
-HB_FUNC( GDK_GET_DISPLAY )
+/*
+ * Display
+ */
+HB_FUNC( GDK_GET_DISPLAY ) //deprecated
 {
-   hb_retc( ( gchar*) gdk_get_display() );
+   GdkDisplay * display = gdk_display_get_default();
+   hb_retc( ( gchar*) gdk_display_get_name( display ) );
 }
 
-HB_FUNC( GDK_FLUSH )
+
+HB_FUNC( GDK_FLUSH ) //deprecated
 {
-  gdk_flush();
+  gdk_display_flush( gdk_display_get_default() );
 }
 
+HB_FUNC( GDK_DISPLAY_FLUSH )
+{
+  GdkDisplay * display = (GdkDisplay *) hb_parptr( 1 );
+  gdk_display_flush( display );
+}
+
+/* depecrated
 HB_FUNC( GDK_SCREEN_WIDTH )
 {
   hb_retni( gdk_screen_width() );
 }
 
+
 HB_FUNC( GDK_SCREEN_HEIGHT )
 {
   hb_retni( gdk_screen_height() );
 }
+
 
 HB_FUNC( GDK_SCREEN_WIDTH_MM )
 {
@@ -64,20 +78,34 @@ HB_FUNC( GDK_SCREEN_HEIGHT_MM )
 {
   hb_retni( gdk_screen_height_mm() );
 }
+*/
 
-HB_FUNC( GDK_SET_DOUBLE_CLICK_TIME ) //msec
+HB_FUNC( GDK_SET_DOUBLE_CLICK_TIME ) //deprecated
 {
-  gdk_set_double_click_time( (guint) hb_parni( 1 ) );
+  //gdk_set_double_click_time( (guint) hb_parni( 1 ) );
+  GdkDisplay *display = gdk_display_get_default();
+  gdk_display_set_double_click_time( display, (guint) hb_parni( 1 ) );
 }
 
-HB_FUNC( GDK_BEEP )
+HB_FUNC( GDK_DISPLAY_SET_DOUBLE_CLICK_TIME ) //msec
 {
-  gdk_beep();
+  GdkDisplay *display = hb_parptr( 1 );
+  gdk_display_set_double_click_time( display, (guint) hb_parni( 2 ) );
 }
 
-/*
- * Display
- */
+
+
+HB_FUNC( GDK_BEEP ) //deprecated
+{
+  gdk_display_beep( gdk_display_get_default() );
+}
+
+HB_FUNC( GDK_DISPLAY_BEEP )
+{
+  GdkDisplay *display = hb_parptr( 1 );
+  gdk_display_beep( display );
+}
+
 HB_FUNC( GDK_DISPLAY_OPEN )
 {
   GdkDisplay * display = gdk_display_open( hb_parc( 1 ) );
@@ -95,10 +123,10 @@ HB_FUNC( GDK_DISPLAY_GET_NAME )
   hb_retc( (gchar*) gdk_display_get_name( display ) );
 }
 
-HB_FUNC( GDK_DISPLAY_GET_N_SCREENS )
+HB_FUNC( GDK_DISPLAY_GET_N_SCREENS ) //deprecated
 {
-  GdkDisplay * display = (GdkDisplay *) hb_parptr( 1 );
-  hb_retni( gdk_display_get_n_screens( display ) );
+  //GdkDisplay * display = (GdkDisplay *) hb_parptr( 1 );
+  hb_retni( 0 ); //gdk_display_get_n_screens( display ) );
 }
 
 // GtkSettings* gtk_settings_get_for_screen    (GdkScreen *screen);
