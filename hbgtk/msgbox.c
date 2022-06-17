@@ -34,7 +34,7 @@
 #define GTK_MSGBOX_NO        64
 
 #define _(s) gettext(s)
-
+ 
 
 HB_FUNC( MSGBOX ) // cText, iButtons, iBoxType , cTitle
 {
@@ -60,13 +60,30 @@ HB_FUNC( MSGBOX ) // cText, iButtons, iBoxType , cTitle
    
    gtk_window_set_type_hint( GTK_WINDOW( gbox ), GDK_WINDOW_TYPE_HINT_MENU );
    
-   if( title );
+   if( title ){
       gtk_window_set_title( GTK_WINDOW( gbox ), title );
+   }
 
    if( iButtons == 0 )
    {
       iButtons = GTK_MSGBOX_OK;
    }
+
+  #undef GTK_STOCK_OK  
+  #define GTK_STOCK_OK     "_OK"
+
+  #undef  GTK_STOCK_YES
+  #define GTK_STOCK_YES    "Yes"
+
+  #undef  GTK_STOCK_NO
+  #define GTK_STOCK_NO     "No"
+
+  #undef  GTK_STOCK_CLOSE
+  #define GTK_STOCK_CLOSE  "_Close"
+
+  #undef  GTK_STOCK_CANCEL
+  #define GTK_STOCK_CANCEL "Cancel"
+
 
    if ( (iButtons & GTK_MSGBOX_OK) == GTK_MSGBOX_OK )
    {
@@ -103,7 +120,7 @@ HB_FUNC( MSGBOX ) // cText, iButtons, iBoxType , cTitle
       gtk_dialog_add_button( GTK_DIALOG( gbox ), GTK_STOCK_CANCEL, GTK_MSGBOX_CANCEL );
    }
 
-   gtk_window_set_policy( GTK_WINDOW( gbox ), FALSE, FALSE, FALSE );
+   //gtk_window_set_policy( GTK_WINDOW( gbox ), FALSE, FALSE, FALSE );
    gtk_window_set_position( GTK_WINDOW( gbox ), GTK_WIN_POS_CENTER );
 
    iResponse = gtk_dialog_run( GTK_DIALOG( gbox ) );
