@@ -29,11 +29,29 @@
 #include "hbapi.h"
 
 
-HB_FUNC( GDK_CURSOR_NEW ) // nGdkTypeCursor -> cursor
+HB_FUNC( GDK_CURSOR_NEW ) //deprecated
 {
-  GdkCursor * cursor = gdk_cursor_new( ( gint ) hb_parni( 1 ) );
+  GdkDisplay *display = gdk_display_get_default() ;
+  GdkCursor * cursor  = gdk_cursor_new_for_display( display, ( gint ) hb_parni( 1 ) );
   hb_retptr( (GdkCursor*) cursor );
 }
+
+HB_FUNC( GDK_CURSOR_NEW_FOR_DISPLAY ) // nGdkTypeCursor -> cursor 
+{
+  GdkDisplay *display = hb_parptr( 1 );
+  GdkCursor * cursor  = gdk_cursor_new_for_display( display, ( gint ) hb_parni( 2 ) );
+  hb_retptr( (GdkCursor*) cursor );
+}
+
+
+HB_FUNC( GDK_CURSOR_NEW_FROM_NAME )
+{
+  GdkDisplay *display = hb_parptr( 1 );
+  const gchar   *name = hb_parc( 2 );
+  GdkCursor   *cursor = gdk_cursor_new_from_name( display, name );
+  hb_retptr( (GdkCursor*) cursor );
+}
+
 
 HB_FUNC( GDK_CURSOR_UNREF ) // pCursor -> void
 {
