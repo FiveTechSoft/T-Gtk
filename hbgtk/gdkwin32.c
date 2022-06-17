@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GDK_WINDOW_SET_CURSOR ) // nWindow, nCursor -> void
 {
@@ -42,6 +41,7 @@ HB_FUNC( GDK_WINDOW_SET_CURSOR ) // nWindow, nCursor -> void
     gdk_window_set_cursor( window, cursor );
   #endif
 }
+
 
 HB_FUNC( GDK_WINDOW_SET_MODAL_HINT ) // nWindow, lModal -> void
 {
@@ -174,5 +174,4 @@ HB_FUNC( GDK_GET_DEFAULT_ROOT_WINDOW )
    hb_retptr( (GdkWindow * ) gdk_get_default_root_window() );
 }
 
-#endif
 //eof
