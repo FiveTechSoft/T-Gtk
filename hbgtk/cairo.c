@@ -24,7 +24,6 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
 #if GTK_CHECK_VERSION(2,8,0)
 HB_FUNC( CAIRO_MOVE_TO ) // ctx, x, y
@@ -101,5 +100,4 @@ HB_FUNC( CAIRO_PAINT ) // ctx
 }         
 #endif
 
-#endif
 

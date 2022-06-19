@@ -25,6 +25,7 @@
  * Glade. Support Glade----------------------------------------------------
  */
 
+
 #if GTK_MAJOR_VERSION < 3
 
 #include <gtk/gtk.h>
@@ -118,3 +119,4 @@ HB_FUNC( GLADE_GET_WIDGET_NAME )
 }
 
 #endif
+//eof

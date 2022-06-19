@@ -29,7 +29,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GDK_KEYVAL_FROM_NAME ) // cValue --> nValue
 {
@@ -67,4 +66,4 @@ HB_FUNC( G_LOCALE_FROM_UTF8 )
   hb_retc( msg );
 }
 
-#endif
+//eof

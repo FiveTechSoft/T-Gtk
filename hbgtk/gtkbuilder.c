@@ -1,7 +1,6 @@
 #include <gtk/gtk.h>
 #include <hbapi.h>
 
-#if GTK_MAJOR_VERSION < 3
 
 static BOOL lStatus = FALSE;
 
@@ -74,4 +73,3 @@ HB_FUNC( SETGTKBUILDER )
    SetGtkBuilder( hb_parl( 1 ) );
 }
 
-#endif

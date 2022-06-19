@@ -57,6 +57,7 @@ HB_FUNC( SHELLEXEC )   //-> path, name_program, params_program
                           &error) );
   g_strfreev (argv);
 }
+
 /* Esto es la version reducida del g_spawn_sync, y funciona ;-) 
  * El WINRUN famaso*/
 HB_FUNC( WINRUN )
