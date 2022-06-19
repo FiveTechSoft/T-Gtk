@@ -574,3 +574,13 @@
 #define GTK_CELL_RENDERER_MODE_INERT          0
 #define GTK_CELL_RENDERER_MODE_ACTIVATABLE    1
 #define GTK_CELL_RENDERER_MODE_EDITABLE       2 
+
+/*
+ *enum Gtk.SelectionMode
+ */
+#define GTK_SELECTION_NONE			0
+#define GTK_SELECTION_SINGLE			1
+#define GTK_SELECTION_BROWSE			2
+#define GTK_SELECTION_MULTIPLE			3
+
+//eof
