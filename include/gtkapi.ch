@@ -432,7 +432,7 @@
 #define GTK_SELECTION_SINGLE   1
 #define GTK_SELECTION_BROWSE   2
 #define GTK_SELECTION_MULTIPLE 3
-#define GTK_SELECTION_EXTENDER 3 /* Deprecated */
+//#define GTK_SELECTION_EXTENDER 3 /* Deprecated */
 
 
 
@@ -591,13 +591,6 @@
 #define GTK_CELL_RENDERER_EXPANDABLE		5
 #define GTK_CELL_RENDERER_EXPANDED		6
 
-/*
- *enum Gtk.SelectionMode
- */
-#define GTK_SELECTION_NONE			0
-#define GTK_SELECTION_SINGLE			1
-#define GTK_SELECTION_BROWSE			2
-#define GTK_SELECTION_MULTIPLE			3
 
 /*
  *enum Gio.Application
