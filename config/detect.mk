@@ -70,8 +70,8 @@ ifeq ($(HB_MAKE_PLAT),win)
 endif
 
 
-export GTK_MAJOR_VERSION = 2
-export GTK_MINOR_VERSION = 0
+#export GTK_MAJOR_VERSION = 2
+#export GTK_MINOR_VERSION = 0
 
 # Intentamos detectar dependencias varias...
 # ejemplo libgttrm puede depender de libgpm (soporte de mouse)
