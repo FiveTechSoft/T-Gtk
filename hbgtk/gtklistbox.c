@@ -27,18 +27,18 @@
 //CreateWidgetFunc( GObject *item, gpointer data ) ;
 
 
-static void
-CreateWidgetFunc( GObject *item, gpointer data )
+static GtkWidget *
+CreateWidgetFunc( void *item, gpointer data )
 {
    hb_vmPushSymbol( data );
    hb_vmPushNil();
-   hb_vmPushPointer( (GObject *) item );
+   hb_vmPushPointer( item );
    hb_vmDo( 1 );
 
-   return;
+   return hb_parptr( -1 );
 }
 
-    
+
 HB_FUNC( GTK_LIST_BOX_NEW ) //->widget
 {
    GtkWidget * hWnd = gtk_list_box_new();
@@ -47,7 +47,6 @@ HB_FUNC( GTK_LIST_BOX_NEW ) //->widget
 
 
 //----------------------
-
 HB_FUNC( GTK_LIST_BOX_BIND_MODEL ) 
 {
    PHB_DYNS pDynSym = hb_dynsymFindName( hb_parc( 3 ) );
@@ -56,9 +55,6 @@ HB_FUNC( GTK_LIST_BOX_BIND_MODEL )
    {
       GtkListBox   *box   = hb_parptr( 1 );
       GListModel   *model = hb_parptr( 2 );
-      //GtkListBoxCreateWidgetFunc create_widget_func,
-      //gpointer user_data,
-      //GDestroyNotify user_data_free_func
       gtk_list_box_bind_model( box, 
                                model, 
                                CreateWidgetFunc, 
@@ -73,7 +69,7 @@ void
 gtk_list_box_drag_highlight_row (
   GtkListBox* box,
   GtkListBoxRow* row
-)*/
+) */
 HB_FUNC( GTK_LIST_BOX_DRAG_HIGHLIGHT_ROW )
 {
    GtkListBox    *box = GTK_LIST_BOX( ( GtkListBox *) hb_parptr( 1 ) );
@@ -275,6 +271,27 @@ HB_FUNC( GTK_LIST_BOX_SELECT_ROW )
 
 /*
 void
+(* GtkListBoxForeachFunc) (
+  GtkListBox* box,
+  GtkListBoxRow* row,
+  gpointer user_data
+)*/
+static void 
+ListBoxForeachFunc( GtkListBox    * box,
+                    GtkListBoxRow * row,
+                    gpointer        data )
+{
+   hb_vmPushSymbol( data );
+   hb_vmPushNil();
+   hb_vmPushPointer( row );
+   hb_vmPushPointer( box );
+   hb_vmDo( 2 );
+   return ; 
+}
+
+
+/*
+void
 gtk_list_box_selected_foreach (
   GtkListBox* box,
   GtkListBoxForeachFunc func,
@@ -282,10 +299,15 @@ gtk_list_box_selected_foreach (
 )*/
 HB_FUNC( GTK_LIST_BOX_SELECTED_FOREACH )  //TODO
 {
-   GtkListBox *box = GTK_LIST_BOX( ( GtkListBox *) hb_parptr( 1 ) );
-   GtkListBoxForeachFunc func = hb_parptr( 2 );
-   gpointer data = hb_parptr( 3 );
-   gtk_list_box_selected_foreach( box, func, data );
+   PHB_DYNS pDynSym = hb_dynsymFindName( hb_parc( 3 ) );
+
+   if( pDynSym )
+   {
+     GtkListBox *box = GTK_LIST_BOX( ( GtkListBox *) hb_parptr( 1 ) );
+     gtk_list_box_selected_foreach( box, 
+		                    ListBoxForeachFunc, 
+				    (gpointer) pDynSym->pSymbol );
+   }
 }
 
 
