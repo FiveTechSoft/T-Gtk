@@ -25,7 +25,6 @@
 #include "hbapi.h"
 #include <t-gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
 #if GTK_CHECK_VERSION(2,20,0)
 
@@ -50,4 +49,4 @@ HB_FUNC( GTK_SPINNER_STOP )
 
 #endif
 
-#endif
+//eof

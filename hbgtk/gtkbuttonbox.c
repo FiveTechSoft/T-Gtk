@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_BUTTON_BOX_SET_LAYOUT ) // widget, enum GtkButtonBoxStyle -> void   
 {
@@ -40,19 +39,33 @@ HB_FUNC( GTK_BUTTON_BOX_GET_LAYOUT ) // widget --> GtkButtonBoxStyle
   hb_retni( (gint) style );
 }
                              
-HB_FUNC( GTK_HBUTTON_BOX_NEW ) // void --> widget
+HB_FUNC( GTK_BUTTON_BOX_NEW )
 {
-  GtkWidget * widget = gtk_hbutton_box_new();
-  hb_retptr( ( GtkWidget * ) widget );
-}
-
-HB_FUNC( GTK_VBUTTON_BOX_NEW ) // void --> widget
-{
-  GtkWidget * widget = gtk_vbutton_box_new();
+  GtkOrientation orientation = hb_parni( 1 );
+  GtkWidget * widget = gtk_button_box_new( orientation );
   hb_retptr( ( GtkWidget * ) widget );
 }
 
 
+HB_FUNC( GTK_HBUTTON_BOX_NEW ) //-- deprecated
+{
+  #if GTK_MAJOR_VERSION < 3
+    GtkWidget * widget = gtk_hbutton_box_new();
+  #else
+    GtkWidget * widget = gtk_button_box_new( GTK_ORIENTATION_HORIZONTAL );
+  #endif
+  hb_retptr( ( GtkWidget * ) widget );
+}
+
+HB_FUNC( GTK_VBUTTON_BOX_NEW ) //-- deprecated
+{
+  #if GTK_MAJOR_VERSION < 3
+    GtkWidget * widget = gtk_vbutton_box_new();
+  #else
+    GtkWidget * widget = gtk_button_box_new( GTK_ORIENTATION_VERTICAL );
+  #endif
+  hb_retptr( ( GtkWidget * ) widget );
+}
 
 
-#endif
+//eof

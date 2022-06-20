@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_CELL_RENDERER_TEXT_NEW ) // -> renderer
 {
@@ -32,9 +31,33 @@ HB_FUNC( GTK_CELL_RENDERER_TEXT_NEW ) // -> renderer
    hb_retptr( ( GtkCellRenderer * ) renderer );
 }
 
-HB_FUNC( GTK_CELL_RENDERER_ACTIVATE )
+/*
+gboolean
+activate (
+  GtkCellRenderer* cell,
+  GdkEvent* event,
+  GtkWidget* widget,
+  const gchar* path,
+  const GdkRectangle* background_area,
+  const GdkRectangle* cell_area,
+  GtkCellRendererState flags
+ */
+HB_FUNC( GTK_CELL_RENDERER_ACTIVATE )  //TODO
 {
-   GtkCellRenderer * cell = GTK_CELL_RENDERER( hb_parptr( 1 ) );
+   GtkCellRenderer * cell  = GTK_CELL_RENDERER( hb_parptr( 1 ) );
+   GdkEvent        * event = hb_parptr( 2 );
+   GtkWidget       * widget= GTK_WIDGET( hb_parptr( 3 ) );
+   const gchar     * path  = hb_parc( 4 );
+   const GdkRectangle * background_area = hb_parptr( 5 ); //TODO  Ver si usar como array
+   const GdkRectangle * cell_area       = hb_parptr( 6 ); //TODO  Ver si usar como array
+   GtkCellRendererState flags = hb_parni( 7 );
+   hb_retl( gtk_cell_renderer_activate( cell,
+			                event,
+			                widget,
+			                path,
+			                background_area,
+			                cell_area,
+			                flags ) );
 }
 
 HB_FUNC( GTK_CELL_RENDERER_TOGGLE_NEW ) // -> renderer
@@ -70,8 +93,6 @@ HB_FUNC( GTK_CELL_LAYOUT_ADD_ATTRIBUTE )
 }
 
 
-#if GTK_CHECK_VERSION(2,6,0) 
-
 HB_FUNC( GTK_CELL_RENDERER_PROGRESS_NEW ) // -> renderer
 {
    GtkCellRenderer *renderer = gtk_cell_renderer_progress_new();
@@ -84,9 +105,6 @@ HB_FUNC( GTK_CELL_RENDERER_COMBO_NEW ) // -> renderer
    hb_retptr( ( GtkCellRenderer * ) renderer );
 }
 
-#endif
-
-#if GTK_CHECK_VERSION(2,18,0) 
 
 HB_FUNC( GTK_CELL_RENDERER_SET_ALIGNMENT )
 {
@@ -94,6 +112,5 @@ HB_FUNC( GTK_CELL_RENDERER_SET_ALIGNMENT )
    gtk_cell_renderer_set_alignment( cell, hb_parnd( 2 ), hb_parnd( 3 ) );
 
 }
-#endif
 
-#endif
+//eof

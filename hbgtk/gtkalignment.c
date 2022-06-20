@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_ALIGNMENT_NEW )
 {
@@ -39,4 +38,4 @@ HB_FUNC( GTK_ALIGNMENT_NEW )
   hb_retptr( ( GtkWidget *  ) align );
 }
 
-#endif
+//eof

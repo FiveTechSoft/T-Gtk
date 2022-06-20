@@ -33,7 +33,6 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
 #if GTK_CHECK_VERSION(2,10,0)
 HB_FUNC( GTK_ASSISTANT_NEW )
@@ -241,4 +240,4 @@ HB_FUNC( GTK_ASSISTANT_UPDATE_BUTTONS_STATE )
 //--------------------------------------------------------//
 #endif
 
-#endif
+//eof

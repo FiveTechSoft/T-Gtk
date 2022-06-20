@@ -27,7 +27,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
  
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_ACCEL_GROUP_NEW )
 {
@@ -55,4 +54,5 @@ HB_FUNC( GTK_ACCEL_GROUP_UNLOCK )
   gtk_accel_group_unlock( accel_group );
 }
 
-#endif
+
+//eof

@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
     
 HB_FUNC( GTK_SPIN_BUTTON_NEW )  //pAdjust, value, decimals -->pWidget
 {
@@ -93,4 +92,4 @@ HB_FUNC( GTK_SPIN_BUTTON_UPDATE )
     gtk_spin_button_update( GTK_SPIN_BUTTON( spin_button ) );
 }
 
-#endif
+//eof

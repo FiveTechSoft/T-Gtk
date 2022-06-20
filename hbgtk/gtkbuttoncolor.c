@@ -24,9 +24,6 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
-
-#if GTK_CHECK_VERSION(2,4,0) 
 
 HB_FUNC( GTK_COLOR_BUTTON_NEW )
 {
@@ -39,10 +36,31 @@ HB_FUNC( GTK_COLOR_BUTTON_NEW )
    hb_retptr( ( GtkWidget * ) button );
 }
 
+
+HB_FUNC( GTK_COLOR_BUTTON_NEW_WITH_RGBA )
+{
+   const GdkRGBA *rgba = hb_parptr( 1 );
+   hb_retptr( ( GtkWidget * ) gtk_color_button_new_with_rgba( rgba ) );
+}
+
+
+HB_FUNC( GTK_COLOR_BUTTON_SET_TITLE ) // widget, cTitle
+{
+   GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
+   gtk_color_button_set_title( GTK_COLOR_BUTTON( button ) , (gchar *) hb_parc(2) );
+}
+
+HB_FUNC( GTK_COLOR_BUTTON_GET_TITLE ) // widget
+{
+   hb_retc( ( gchar * ) gtk_color_button_get_title( GTK_COLOR_BUTTON( hb_parnl( 1 ) ) ) );
+}
+
+#if GTK_MAJOR_VERSION < 3
 /* TODO:
  *  Esta funcion esta 'parseada' , para usar de forma simple el uso 
  * de seleccion de color.
  */
+
 HB_FUNC( GTK_COLOR_BUTTON_SET_COLOR )
 {
    GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
@@ -65,21 +83,10 @@ HB_FUNC( GTK_COLOR_BUTTON_SET_ALPHA ) // widget, nAlphaColor
    gtk_color_button_set_alpha( GTK_COLOR_BUTTON( button ), (guint16) hb_parni(2) ) ;
 }
 
-HB_FUNC( GTK_COLOR_BUTTON_SET_TITLE ) // widget, cTitle
-{
-   GtkWidget * button = GTK_WIDGET( hb_parptr( 1 ) );
-   gtk_color_button_set_title( GTK_COLOR_BUTTON( button ) , (gchar *) hb_parc(2) );
-}
-
-HB_FUNC( GTK_COLOR_BUTTON_GET_TITLE ) // widget
-{
-   hb_retc( ( gchar * ) gtk_color_button_get_title( GTK_COLOR_BUTTON( hb_parnl( 1 ) ) ) );
-}
-
 HB_FUNC( GTK_COLOR_BUTTON_SET_USE_ALPHA ) // widget, bUsed
 {
    gtk_color_button_set_use_alpha( GTK_COLOR_BUTTON( hb_parptr(1)) , hb_parl( 2 ) );
 }
 #endif
 
-#endif
+//eof

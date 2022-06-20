@@ -134,15 +134,20 @@ HB_FUNC( GTK_ADJUSTMENT_CLAMP_PAGE ) // pAdjust, nlower, nUpper
    gtk_adjustment_clamp_page( GTK_ADJUSTMENT( adjust ), hb_parnd( 2 ), hb_parnd( 3 ) );
 }
 
-HB_FUNC( GTK_ADJUSTMENT_CHANGED ) // pAdjust
-{
-   GObject * adjust = G_OBJECT(  hb_parptr( 1 )  );
-   gtk_adjustment_changed( GTK_ADJUSTMENT( adjust ) );
-}
+#ifdef _GTK3_
+  #if GTK_MINOR_VERSION < 18
+  HB_FUNC( GTK_ADJUSTMENT_CHANGED ) // pAdjust
+  {
+     GObject * adjust = G_OBJECT(  hb_parptr( 1 )  );
+     gtk_adjustment_changed( GTK_ADJUSTMENT( adjust ) );
+  }
 
-HB_FUNC( GTK_ADJUSTMENT_VALUE_CHANGED ) // pAdjust
-{
-   GObject * adjust = G_OBJECT(  hb_parptr( 1 )  );
-   gtk_adjustment_value_changed( GTK_ADJUSTMENT( adjust ) );
-}
+  HB_FUNC( GTK_ADJUSTMENT_VALUE_CHANGED ) // pAdjust
+  {
+     GObject * adjust = G_OBJECT(  hb_parptr( 1 )  );
+     gtk_adjustment_value_changed( GTK_ADJUSTMENT( adjust ) );
+  }
+  #endif
+#endif
 
+//eof
