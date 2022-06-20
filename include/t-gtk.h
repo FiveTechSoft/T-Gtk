@@ -7,6 +7,8 @@
  * (C) 2004. Joaquim Ferrer
  */
 
+#include "t-gtkstock.ch"
+
 typedef struct {
   gchar *name;
   gchar *method;
@@ -44,3 +46,5 @@ gchar * utf82str( gchar * szString );
 #ifndef HB_SYMBOL_UNUSED
    #define HB_SYMBOL_UNUSED( symbol )  ( symbol := ( symbol ) )
 #endif
+
+

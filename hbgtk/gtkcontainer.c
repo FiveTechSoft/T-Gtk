@@ -59,19 +59,23 @@ HB_FUNC( GTK_CONTAINER_SET_BORDER_WIDTH ) // widget, guint border_width
     gtk_container_set_border_width( GTK_CONTAINER( widget ) , hb_parni( 2 ) );
 }
 
-HB_FUNC( GTK_CONTAINER_SET_FOCUS_CHAIN )
-{
-    GtkContainer *container = GTK_CONTAINER( hb_parptr( 1 ) );
-    PHB_ITEM param = hb_param( 2, HB_IT_ANY );
-    GList *list = NULL;
+#if GTK_MAJOR_VERSION < 4
+   #if GTK_MINOR_VERSION < 24
+   HB_FUNC( GTK_CONTAINER_SET_FOCUS_CHAIN )
+   {
+       GtkContainer *container = GTK_CONTAINER( hb_parptr( 1 ) );
+       PHB_ITEM param = hb_param( 2, HB_IT_ANY );
+       GList *list = NULL;
 
-    if ( HB_IS_ARRAY( param ) ) {
-       ULONG nPos = 0;
-        for ( nPos = 1; nPos <= hb_arrayLen( param ); nPos++ ) {
-             list = g_list_append ( list,  GTK_WIDGET( hb_arrayGetPtr( param, nPos ) ) );
+       if ( HB_IS_ARRAY( param ) ) {
+          ULONG nPos = 0;
+           for ( nPos = 1; nPos <= hb_arrayLen( param ); nPos++ ) {
+                list = g_list_append ( list,  GTK_WIDGET( hb_arrayGetPtr( param, nPos ) ) );
+           }
+           gtk_container_set_focus_chain ( container, list );
         }
-        gtk_container_set_focus_chain ( container, list );
-     }
 
-}
+   }
+   #endif
+#endif
 
