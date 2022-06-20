@@ -43,15 +43,19 @@ HB_FUNC( GTK_MAIN_QUIT )
 
 HB_FUNC( G_PRINT )
 {
-    g_print( hb_parc(1) );
+    const gchar *format = hb_parc( 1 );
+    g_print( format, NULL );
     hb_retc( hb_parc(1) );
 }
 
-// Esto es de gObject, pero de momento lo dejamos por aqui.
-HB_FUNC( G_TYPE_INIT )
-{
-  g_type_init();
-}
+#if GTK_MAJOR_VERSION < 3
+#if GTK_MINOR_VERSION < 37
+   HB_FUNC( G_TYPE_INIT )
+   {
+     g_type_init();
+   }
+#endif
+#endif
 
 HB_FUNC( GTK_CHECK_VERSION )
 {

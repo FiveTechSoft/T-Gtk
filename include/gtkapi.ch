@@ -120,6 +120,8 @@
 #define GTK_STATE_PRELIGHT      2
 #define GTK_STATE_SELECTED      3
 #define GTK_STATE_INSENSITIVE   4
+#define GTK_STATE_INCONSISTENT	5
+#define GTK_STATE_FOCUSED	6
 
 /*
  * Miembros de la estructura GtkWidgetFlags de C----------------
@@ -176,6 +178,8 @@
 #define GTK_STOCK_DND              "gtk-dnd"
 #define GTK_STOCK_DND_MULTIPLE     "gtk-dnd-multiple"
 
+#include "t-gtkstock.ch"
+/*
 #define GTK_STOCK_ADD              "gtk-add"
 #define GTK_STOCK_APPLY            "gtk-apply"
 #define GTK_STOCK_BOLD             "gtk-bold"
@@ -206,8 +210,8 @@
 #define GTK_STOCK_HELP             "gtk-help"
 #define GTK_STOCK_HOME             "gtk-home"
 #define GTK_STOCK_INDEX            "gtk-index"
-#define GTK_STOCK_INDENT           "gtk-indent"		/* since gtk-2.4 */
-#define GTK_STOCK_UNINDENT         "gtk-unindent"	/* since gtk-2.4 */
+#define GTK_STOCK_INDENT           "gtk-indent"		
+#define GTK_STOCK_UNINDENT         "gtk-unindent"
 #define GTK_STOCK_ITALIC           "gtk-italic"
 #define GTK_STOCK_JUMP_TO          "gtk-jump-to"
 #define GTK_STOCK_JUSTIFY_CENTER   "gtk-justify-center"
@@ -247,6 +251,7 @@
 #define GTK_STOCK_ZOOM_FIT         "gtk-zoom-fit"
 #define GTK_STOCK_ZOOM_IN          "gtk-zoom-in"
 #define GTK_STOCK_ZOOM_OUT         "gtk-zoom-out"
+*/
 
 /*
  * Cursors Cursores GDK-----------------------------------------------------
@@ -593,5 +598,26 @@
 #define GTK_SELECTION_SINGLE			1
 #define GTK_SELECTION_BROWSE			2
 #define GTK_SELECTION_MULTIPLE			3
+
+/*
+ *enum Gio.Application
+ */
+#define G_APPLICATION_FLAGS_NONE		0
+#define G_APPLICATION_IS_SERVICE		1
+#define G_APPLICATION_IS_LAUNCHER		2
+#define G_APPLICATION_HANDLES_OPEN		3
+#define G_APPLICATION_HANDLES_COMMAND_LINE	4
+#define G_APPLICATION_SEND_ENVIRONMENT		5
+#define G_APPLICATION_NON_UNIQUE		6
+#define G_APPLICATION_CAN_OVERRIDE_APP_ID	7
+#define G_APPLICATION_ALLOW_REPLACEMENT		8
+#define G_APPLICATION_REPLACE			9
+
+/*
+ *enum Gtk.Direction
+ */
+#define GTK_TEXT_DIR_NONE			0
+#define GTK_TEXT_DIR_LTR			1
+#define GTK_TEXT_DIR_RTL			2
 
 //eof

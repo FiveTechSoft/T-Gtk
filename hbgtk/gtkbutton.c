@@ -59,11 +59,15 @@ HB_FUNC( GTK_BUTTON_NEW_WITH_LABEL ) //_cText -> widget
    
 }
 
-HB_FUNC( GTK_BUTTON_NEW_FROM_STOCK ) // stock_id
-{
-  GtkWidget * button = gtk_button_new_from_stock ( (gchar *) hb_parc( 1 ) );
-  hb_retptr( ( GtkWidget * ) button );
-}
+#if GTK_MAJOR_VERSION < 4
+   #if GTK_MINOR_VERSION < 10
+   HB_FUNC( GTK_BUTTON_NEW_FROM_STOCK ) // stock_id
+   {
+     GtkWidget * button = gtk_button_new_from_stock ( (gchar *) hb_parc( 1 ) );
+     hb_retptr( ( GtkWidget * ) button );
+   }
+   #endif
+#endif
 
 HB_FUNC( GTK_BUTTON_SET_LABEL ) // widget, cText
 {

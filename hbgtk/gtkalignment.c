@@ -25,17 +25,20 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
+#if GTK_MAJOR_VERSION < 4
+   #if GTK_MINOR_VERSION < 14
+   HB_FUNC( GTK_ALIGNMENT_NEW )
+   {
+     GtkWidget * align;
+     gfloat xalign = hb_parnd( 1 );
+     gfloat yalign = hb_parnd( 2 );
+     gfloat xscale = hb_parnd( 3 );
+     gfloat yscale = hb_parnd( 4 );
+     align = gtk_alignment_new(  xalign, yalign, xscale, yscale );
 
-HB_FUNC( GTK_ALIGNMENT_NEW )
-{
-  GtkWidget * align;
-  gfloat xalign = hb_parnd( 1 );
-  gfloat yalign = hb_parnd( 2 );
-  gfloat xscale = hb_parnd( 3 );
-  gfloat yscale = hb_parnd( 4 );
-  align = gtk_alignment_new(  xalign, yalign, xscale, yscale );
-
-  hb_retptr( ( GtkWidget *  ) align );
-}
+     hb_retptr( ( GtkWidget *  ) align );
+   }
+   #endif
+#endif
 
 //eof

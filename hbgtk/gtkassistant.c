@@ -152,15 +152,17 @@ HB_FUNC( GTK_ASSISTANT_GET_PAGE_TITLE )
 
 //--------------------------------------------------------//
 
-HB_FUNC( GTK_ASSISTANT_SET_PAGE_HEADER_IMAGE )
-{
-  GtkAssistant * assistant = GTK_ASSISTANT( hb_parptr( 1 ) );
-  GtkWidget * page = GTK_WIDGET( hb_parptr( 2 ) );
-  GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 3 ) );
-    
-  gtk_assistant_set_page_header_image( assistant, page, pixbuf );
-}
 
+#if GTK_MAJOR_VERSION < 4 
+  #if GTK_MINOR_VERSION < 20 //GTK_CHECK_VERSION(3,20,0)
+  HB_FUNC( GTK_ASSISTANT_SET_PAGE_HEADER_IMAGE )
+  {
+    GtkAssistant * assistant = GTK_ASSISTANT( hb_parptr( 1 ) );
+    GtkWidget * page = GTK_WIDGET( hb_parptr( 2 ) );
+    GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 3 ) );
+    
+    gtk_assistant_set_page_header_image( assistant, page, pixbuf );
+  }
 //--------------------------------------------------------//
 
 HB_FUNC( GTK_ASSISTANT_GET_PAGE_HEADER_IMAGE )
@@ -191,6 +193,8 @@ HB_FUNC( GTK_ASSISTANT_GET_PAGE_SIDE_IMAGE )
   hb_retptr( ( GdkPixbuf * ) pixbuf );
 }
 
+  #endif
+#endif
 //--------------------------------------------------------//
 
 HB_FUNC( GTK_ASSISTANT_SET_PAGE_COMPLETE )
@@ -239,5 +243,5 @@ HB_FUNC( GTK_ASSISTANT_UPDATE_BUTTONS_STATE )
 
 //--------------------------------------------------------//
 #endif
-
+ 
 //eof

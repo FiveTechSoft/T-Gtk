@@ -348,11 +348,12 @@ HB_FUNC( GTK_ALERT ) // cMessage, aButtons -> nOption
        dialog = gtk_dialog_new_with_buttons (message, GTK_WINDOW( wParent ), GTK_DIALOG_MODAL,
                                              GTK_STOCK_QUIT, GTK_ALERT_QUIT, NULL);
    else
-       if( ISARRAY( 2 ) )
+       if ISARRAY( 2 ){ 
            buttons = hb_param( 2, HB_IT_ARRAY );
            if( hb_arrayLen(buttons) > 2 )
                dialog = gtk_dialog_new_with_buttons ("T-Gtk error system", GTK_WINDOW( wParent ), 
                                                      GTK_DIALOG_MODAL,
+
                                                      GTK_STOCK_REFRESH, GTK_ALERT_RETRY, 
                                                      GTK_STOCK_CANCEL, GTK_ALERT_DEFAULT,
                                                      GTK_STOCK_QUIT, GTK_ALERT_QUIT, NULL);
@@ -361,6 +362,7 @@ HB_FUNC( GTK_ALERT ) // cMessage, aButtons -> nOption
                                                      GTK_DIALOG_MODAL,
                                                      GTK_STOCK_REFRESH, GTK_ALERT_RETRY, 
                                                      GTK_STOCK_QUIT, GTK_ALERT_QUIT, NULL);
+       }
 #if GTK_MAJOR_VERSION < 3
    gtk_container_set_border_width( GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 20 );
    gtk_widget_set_usize( dialog, 350, 150 );

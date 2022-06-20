@@ -30,7 +30,7 @@ HB_FUNC( GTK_APPLICATION_NEW )
 {
   const gchar* app_id = hb_parc( 1 );
   GApplicationFlags flags = hb_parni( 2 );
-  GtkWidget * app = gtk_application_new ( app_id, flags ) ;
+  GtkApplication * app = gtk_application_new ( app_id, flags ) ;
 
   hb_retptr( (GtkApplication * ) app );
 }
