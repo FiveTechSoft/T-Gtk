@@ -122,6 +122,25 @@ HB_FUNC( GTK_WIDGET_GET_COLORMAP )
        // TODO: Any Idea ?
    #endif
 }
+#else
+
+HB_FUNC( GTK_WIDGET_SET_SIZE_REQUEST )
+{
+   if( G_IsWidget( 1 ) )
+    gtk_widget_set_size_request( GTK_WIDGET( hb_parptr( 1 ) ), hb_parni( 2 ), hb_parni( 3 ) );
+}
+
+void gtk_alert_deprecated( const gchar *func )
+{
+   g_print( "%s IS DEPRECATED! \n", func );
+}
+
+HB_FUNC( GTK_WIDGET_SET_USIZE ) //deprecated
+{
+   gtk_alert_deprecated( "GTK_WIDGET_SET_USIZE" );
+   if( G_IsWidget( 1 ) )
+    gtk_widget_set_size_request( GTK_WIDGET( hb_parptr( 1 ) ), hb_parni( 2 ), hb_parni( 3 ) );
+}
 #endif
 
 HB_FUNC( GTK_WIDGET_QUEUE_DRAW )
@@ -247,12 +266,6 @@ HB_FUNC( GTK_WIDGET_HIDE_ON_DELETE )
 {
    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    hb_parl( gtk_widget_hide_on_delete( widget ) );
-}
-
-HB_FUNC( GTK_WIDGET_SET_SIZE_REQUEST ) // pWidget, width, height
-{
-   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
-   gtk_widget_set_size_request( widget, hb_parni( 2 ), hb_parni( 3 ) );
 }
 
 HB_FUNC( GTK_WIDGET_CHILD_FOCUS )

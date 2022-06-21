@@ -26,14 +26,14 @@
 ******************************************************************************
 // Funciones de manejo de señales
 FUNCTION gtk_signal_connect( pWidget, cSignal, pBlock )
-  Local iReturn := 0
+  Local iReturn 
   
   iReturn := HARB_SIGNAL_CONNECT( pWidget, cSignal, NIL, pBlock , 0 )
 
 RETURN iReturn
       
 FUNCTION gtk_signal_connect_After( pWidget, cSignal, pBlock )
-  Local iReturn := 0
+  Local iReturn 
   
   IF ValType( pBlock ) == "B"
      iReturn := HARB_SIGNAL_CONNECT( pWidget, cSignal, NIL, pBlock , G_CONNECT_AFTER )
@@ -44,6 +44,7 @@ FUNCTION gtk_signal_connect_After( pWidget, cSignal, pBlock )
   ENDIF
 
 RETURN iReturn
+
 
 FUNCTION gtk_signal_connect_Swapped( pWidget, cSignal, pBlock )
   Local iReturn := 0
@@ -59,7 +60,6 @@ FUNCTION gtk_signal_connect_Swapped( pWidget, cSignal, pBlock )
   MsgSTOP( "Sorry...not implement...under xBase, not necessary..."+CRLF+;
            "Use function g_signal_connect()", "Caution..." )
 #endif
-
 RETURN iReturn
 
 FUNCTION g_signal_connect( pWidget, cSignal, pBlock )

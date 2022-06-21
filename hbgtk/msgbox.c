@@ -69,22 +69,6 @@ HB_FUNC( MSGBOX ) // cText, iButtons, iBoxType , cTitle
       iButtons = GTK_MSGBOX_OK;
    }
 
-  #undef GTK_STOCK_OK  
-  #define GTK_STOCK_OK     "_OK"
-
-  #undef  GTK_STOCK_YES
-  #define GTK_STOCK_YES    "Yes"
-
-  #undef  GTK_STOCK_NO
-  #define GTK_STOCK_NO     "No"
-
-  #undef  GTK_STOCK_CLOSE
-  #define GTK_STOCK_CLOSE  "_Close"
-
-  #undef  GTK_STOCK_CANCEL
-  #define GTK_STOCK_CANCEL "Cancel"
-
-
    if ( (iButtons & GTK_MSGBOX_OK) == GTK_MSGBOX_OK )
    {
       gtk_dialog_add_button( GTK_DIALOG( gbox ), GTK_STOCK_OK, GTK_MSGBOX_OK );

@@ -275,7 +275,11 @@
   #define GTK_STOCK_NEW              	"document-new"
 #endif
 
-//#define GTK_STOCK_NO               	"gtk-no"
+#ifdef GTK_STOCK_NO
+  #undef GTK_STOCK_NO
+#define GTK_STOCK_NO               	"No"
+#endif
+
 #ifdef GTK_STOCK_OK
   #undef GTK_STOCK_OK
   #define GTK_STOCK_OK               	"_OK"
@@ -404,7 +408,11 @@
   #define GTK_STOCK_UNINDENT             	"format-indent-less"
 #endif
 
-//#define GTK_STOCK_YES              	"gtk-yes"
+#ifdef GTK_STOCK_YES
+  #undef GTK_STOCK_YES
+#define GTK_STOCK_YES              	"Yes"
+#endif
+
 #ifdef GTK_STOCK_ZOOM_100
   #undef GTK_STOCK_ZOOM_100
   #define GTK_STOCK_ZOOM_100         	"zoom-original"
