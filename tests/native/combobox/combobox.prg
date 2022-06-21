@@ -16,32 +16,34 @@ Function Main( )
 
     /* crear una nueva ventana */
     window = gtk_window_new( GTK_WINDOW_TOPLEVEL )
-    gtk_widget_set_usize( window, 200, 100 )
+    gtk_widget_set_usize( window, 200, 100 ) //deprecated
+    //gtk_widget_set_size_request( window, 200, 100 ) 
     gtk_window_set_title( window, "T-GTK Combobox Example" )
     gtk_signal_connect( window, "destroy", {|| gtk_main_quit(), .F. } )
 
-    vbox = gtk_vbox_new( FALSE, 1)
+    vbox := gtk_vbox_new( FALSE, 1) // deprecated
+    //vbox := gtk_box_new( GTK_ORIENTATION_VERTICAL, 1 )
     gtk_container_add( window, vbox)
     gtk_widget_show(vbox)
 
-    COMBOBOX1 = gtk_combo_entry_new_text()
+    COMBOBOX1 = gtk_combo_box_text_new_with_entry()
     gtk_widget_show (combobox1)
     gtk_box_pack_start (GTK_BOX (vbox), combobox1, FALSE, TRUE, 0)
-    gtk_combo_box_append_text ( combobox1, "Uno")
-    gtk_combo_box_append_text ( combobox1, "Dos")
-    gtk_combo_box_append_text ( combobox1, "Tres")
+    gtk_combo_box_text_append_text ( combobox1, "Uno")
+    gtk_combo_box_text_append_text ( combobox1, "Dos")
+    gtk_combo_box_text_append_text ( combobox1, "Tres")
 
-    gtk_combo_box_insert_text ( combobox1,1, "Insertado despues del uno")
+    gtk_combo_box_text_insert_text ( combobox1,1, "Insertado despues del uno")
 
     gtk_signal_connect( combobox1, "changed", {|w|cambio(w) } )
     gtk_combo_box_set_active( combobox1, 0 ) // Selecciona el primero
 
-    COMBOBOX1 = gtk_combo_box_new_text()
+    COMBOBOX1 = gtk_combo_box_text_new()
     gtk_widget_show (combobox1)
     gtk_box_pack_start (GTK_BOX (vbox), combobox1, FALSE, TRUE, 0)
-    gtk_combo_box_append_text ( combobox1, "2Uno")
-    gtk_combo_box_append_text ( combobox1, "2Dos")
-    gtk_combo_box_append_text ( combobox1, "2Tres")
+    gtk_combo_box_text_append_text ( combobox1, "2Uno")
+    gtk_combo_box_text_append_text ( combobox1, "2Dos")
+    gtk_combo_box_text_append_text ( combobox1, "2Tres")
     gtk_signal_connect( combobox1, "changed", {|w| cambio(w)} )
 
 
