@@ -70,10 +70,10 @@ function main()
   // Pasando codeblock referenciado en variable local 
   bBlock2 := {|w| my_static_fun( w, "Hello", nId_Signal ), .F. }
   nId_Signal := gtk_signal_connect( button2, "clicked", @bBlock2 )
-  gtk_signal_connect( button2, "destroy", {|w|g_print("destruyendo.."+cvaltochar(w)+hb_osnewline() )} )
+  gtk_signal_connect( button2, "destroy", {|w|g_print("destruyendo.."+hb_osnewline() )} )
   gtk_box_pack_start( vbox, button2, .F.,.T.,0 )
   gtk_widget_show( button2 )
-  g_print("Creacion de button2.."+cvaltochar(button2)+hb_osnewline()  )
+  g_print("Creacion de button2.."+hb_osnewline()  )
 
 
   button3 := gtk_button_new_with_label( "Salir - Codeblock a funcion publica GTK+" )

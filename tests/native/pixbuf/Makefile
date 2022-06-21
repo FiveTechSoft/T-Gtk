@@ -6,6 +6,6 @@ ROOT = ../../../
 
 TARGET = pixbuf
 SOURCES = pixbuf.prg
-LIBS = -mwindows
+#LIBS = -mwindows
 include $(ROOT)Rules.make
 

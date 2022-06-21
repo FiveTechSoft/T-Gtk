@@ -99,11 +99,6 @@ HB_FUNC( GTK_WIDGET_SET_FLAGS )
   }
 }
 
-HB_FUNC( GTK_WIDGET_SET_USIZE )
-{
-   if( G_IsWidget( 1 ) )
-    gtk_widget_set_usize ( GTK_WIDGET( hb_parptr( 1 ) ), hb_parni( 2 ), hb_parni( 3 ) );
-}
 
 HB_FUNC( GTK_WIDGET_SET_UPOSITION )
 {
@@ -186,7 +181,6 @@ HB_FUNC( GTK_WIDGET_MODIFY_FONT ) // widget, Font
 // state = GTK_STATE_NORMAL, GTK_STATE_ACTIVE, GTK_STATE_PRELIGHT,
 //         GTK_STATE_SELECTED, GTK_STATE_INSENSITIVE
 
-#if GTK_MAJOR_VERSION < 3
 
 //-- Funciones que pasan a ser controladas por CSS
 
@@ -253,7 +247,6 @@ HB_FUNC( GTK_WIDGET_MODIFY_BASE ) // widget, state, namecolor -> void
   gdk_color_parse( name, &color );
   gtk_widget_modify_base( widget, state, &color );
 }
-#endif
 
 HB_FUNC( GTK_BIN_GET_CHILD ) // devuelve widget hijo
 {
@@ -341,7 +334,6 @@ HB_FUNC( NOR )
 }
 
 
-#if GTK_MAJOR_VERSION < 3
 // Funcion generica que cambia el color de un widget
 /*
   STATE_NORMAL        # El estado durante la operacin normal
@@ -378,7 +370,6 @@ HB_FUNC( __GSTYLE )
     gtk_widget_set_style( widget, newstyle );  // Y se lo aplicamos
 
 }
-#endif
 
 HB_FUNC( GTK_WIDGET_SET_EVENTS )
 {
@@ -422,7 +413,6 @@ HB_FUNC( GTK_WIDGET_ADD_ACCELERATOR )// widget, accel_signal, accel_group, accel
    }
 }
 
-#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_WIDGET_RENDER_ICON )
 {
    GtkWidget *widget = GTK_WIDGET( hb_parptr( 1 ) );
@@ -432,8 +422,6 @@ HB_FUNC( GTK_WIDGET_RENDER_ICON )
    GdkPixbuf * pixbuf = gtk_widget_render_icon( widget, stock_id, size, detail );
    hb_retptr( ( GdkPixbuf * ) pixbuf );
 }
-#else
-#if GTK_MINOR_VERSION < 10
   HB_FUNC( GTK_WIDGET_RENDER_ICON_PIXBUF )
   {
      GtkWidget    * widget   = GTK_WIDGET( hb_parptr( 1 ) );
@@ -445,9 +433,7 @@ HB_FUNC( GTK_WIDGET_RENDER_ICON )
                                                         size );
      hb_retptr( pixbuf );
   }
-#endif
 
-#endif
 
 HB_FUNC( G_CHECKWIDGET )
 {

@@ -18,7 +18,7 @@ function Main()
    Gtk_Signal_Connect( hWnd, "delete-event", {||  gtk_main_quit(), .F. } )
 
 /* Method Activate */
-   gtk_window_set_title( hWnd, "Hello World! from T-Gtk for [x]Harbour" )
+   gtk_window_set_title( hWnd, "Hello World! from T-Gtk for [x]Harbour" + Str( GTK_GET_MAJOR_VERSION()) )
    gtk_window_set_position( hWnd, GTK_WIN_POS_CENTER )
    gtk_window_set_default_size( hWnd, 500, 350 )
     

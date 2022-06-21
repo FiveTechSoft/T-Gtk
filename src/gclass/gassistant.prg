@@ -24,7 +24,6 @@
 #include "gtkapi.ch"
 #include "hbclass.ch"
 
-#if GTK_CHECK_VERSION( 2,10,0 )
 CLASS GASSISTANT FROM GWINDOW
     DATA bCancel, bClose, bPrepare, bApply
     
@@ -194,8 +193,3 @@ METHOD OnPrepare( uParam, pPage ) CLASS GASSISTANT
 
 RETURN NIL
 
-#else
-  CLASS GASSISTANT FROM GWINDOW
-        METHOD NEW( ) INLINE ( MsgStop( "Not avaliable GtkAssistant..." ), gtk_main_quit() )
-  ENDCLASS
-#endif
