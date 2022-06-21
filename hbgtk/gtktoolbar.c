@@ -24,10 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
-
-#if GTK_CHECK_VERSION(2,4,0) 
-
 HB_FUNC( GTK_TOOLBAR_NEW ) 
 {
    GtkWidget * toolbar = gtk_toolbar_new( );
@@ -55,8 +51,11 @@ HB_FUNC( GTK_TOOLBAR_SET_SHOW_ARROW ) // toolbar, bShow
 HB_FUNC( GTK_TOOLBAR_SET_ORIENTATION ) // toolbar, bOrientation, ( 0 horizontally , 1 vertically )
 {    
   GtkWidget * toolbar = GTK_WIDGET( hb_parptr( 1 ) );
-  gtk_toolbar_set_orientation( GTK_TOOLBAR( toolbar ), hb_parni( 2 ) );
+//  gtk_toolbar_set_orientation( GTK_TOOLBAR( toolbar ), hb_parni( 2 ) );
+  gtk_orientable_set_orientation (GTK_ORIENTABLE( toolbar),hb_parni( 2 ) );
 }
+
+
 /* --------------------------------------------------------------------------
 // GtkToolItems____
 --------------------------------------------------------------------------  */
@@ -323,8 +322,3 @@ HB_FUNC( GTK_MENU_TOOL_BUTTON_GET_MENU )
   GtkWidget * menu = gtk_menu_tool_button_get_menu( button );
   hb_retptr( ( GtkMenuToolButton * ) menu );
 }
-
-#else
-#endif
-
-#endif

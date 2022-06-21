@@ -1,4 +1,3 @@
-/* $Id: gtkseparator.c,v 1.1 2006-09-08 12:18:45 xthefull Exp $*/
 /*
     LGPL Licence.
     
@@ -18,27 +17,15 @@
     Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
 
     LGPL Licence.
-    (c)2003 Rafael Carmona <thefull@wanadoo.es>
-    (c)2003 Joaquim Ferrer <quim_ferrer@yahoo.es>
+    (c)2022 Rafael Carmona <rafa.thefull@gmail.com>
+
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-HB_FUNC( GTK_HSEPARATOR_NEW )
-{
-  GtkWidget * separator =  gtk_separator_new( GTK_ORIENTATION_HORIZONTAL );
-  hb_retptr( ( GtkWidget * ) separator );
-}
-
-HB_FUNC( GTK_VSEPARATOR_NEW )
-{
-  GtkWidget * separator =  gtk_separator_new( GTK_ORIENTATION_VERTICAL );
-  hb_retptr( ( GtkWidget * ) separator );
-}
-
-HB_FUNC( GTK_SEPARATOR_NEW )
-{
-   GtkWidget * separator =  gtk_separator_new( hb_parni( 1 ) );
-   hb_retptr( ( GtkWidget * ) separator );
+HB_FUNC( GTK_ORIENTABLE_SET_ORIENTATION ) 
+{    
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+  gtk_orientable_set_orientation (GTK_ORIENTABLE( widget), hb_parni( 2 ) );
 }
 

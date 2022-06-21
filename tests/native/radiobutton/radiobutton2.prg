@@ -14,7 +14,9 @@ Function main( )
    window = gtk_window_new (GTK_WINDOW_TOPLEVEL)
    Gtk_Signal_Connect( window, "delete-event", {|| Salir() } )  // Cuando se mata la aplicacion
 
-   box = gtk_vbox_new (.T., 2)
+//   box = gtk_vbox_new (.T., 2)
+   box = gtk_box_new(GTK_ORIENTATION_VERTICAL,2)
+   gtk_box_set_homogeneous(box,.T.)
 
    /* Create a radio button with a GtkEntry widget */
    radio1 = gtk_radio_button_new (NIL)

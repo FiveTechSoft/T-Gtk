@@ -8,14 +8,14 @@
 #include "gtkapi.ch"
 
 FUNCTION MAIN()
-        Local window, box1, box2, button, separator, group
+        Local window, box1, box2, close_button, separator, group, button
 
         window = gtk_window_new( GTK_WINDOW_TOPLEVEL )
         gtk_signal_connect( window, "destroy", {| widget | Salir( widget) } )        
         gtk_window_set_title ( window, "radio buttons" )
         gtk_container_set_border_width( window, 10 )
 
-        box1 = gtk_vbox_new (.F., 0)
+        box1 = gtk_vbox_new (.F., 0) 
         gtk_container_add ( window, box1)
         gtk_widget_show(box1)
 
@@ -30,7 +30,7 @@ FUNCTION MAIN()
 
         group = gtk_radio_button_get_group (button)
         button = gtk_radio_button_new_with_label(group, "button2")
-        gtk_toggle_button_set_state ( button, .T.)
+        gtk_toggle_button_set_active ( button, .T.)
         gtk_box_pack_start (box2, button, .T., .T., 0)
         gtk_widget_show (button)
 
@@ -48,13 +48,14 @@ FUNCTION MAIN()
         gtk_box_pack_start ( box1, box2, .F., .T., 0)
         gtk_widget_show (box2)
 
-        button = gtk_button_new_with_label ("close")
-        gtk_signal_connect( button, "clicked", {|| g_signal_emit_by_name( window, "destroy" ) } )
+        close_button = gtk_button_new_with_label ("close")
+        gtk_signal_connect( close_button, "clicked", {|| g_signal_emit_by_name( window, "destroy" ) } )
 
-        gtk_box_pack_start ( box2, button, .T., .T., 0)
-        GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT )
-        gtk_widget_grab_default (button)
-        gtk_widget_show (button)
+        gtk_box_pack_start ( box2, close_button, .T., .T., 0)
+        gtk_widget_set_can_default(close_button, .T.)  // GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT ) esto es el equivalente a GTk2
+        gtk_widget_grab_default (close_button)
+        gtk_widget_grab_focus (close_button)
+        gtk_widget_show (close_button)
         gtk_widget_show (window)
 
         gtk_main()

@@ -24,8 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
-
 HB_FUNC( GTK_RADIO_BUTTON_NEW ) // NULL o Group -->radio
 {
    GtkWidget * radio = gtk_radio_button_new( ( GSList * ) hb_parptr( 1 )  );
@@ -84,4 +82,3 @@ HB_FUNC( GTK_RADIO_BUTTON_GET_GROUP )
   hb_retptr( ( GtkWidget * ) group );
 }
 
-#endif

@@ -89,16 +89,22 @@ HB_FUNC( GTK_WIDGET_GRAB_DEFAULT )
     gtk_widget_grab_default( GTK_WIDGET( hb_parptr( 1 )  ) );
 }
 
-#if GTK_MAJOR_VERSION < 3
 
-HB_FUNC( GTK_WIDGET_SET_FLAGS )
+HB_FUNC( GTK_WIDGET_SET_STATE_FLAGS )
 {
   if( G_IsWidget( 1 ) ){
      GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
-     GTK_WIDGET_SET_FLAGS( widget , hb_parni( 2 )  ); 
+     gtk_widget_set_state_flags( widget , hb_parni( 2 ), hb_parl(3)  ); 
   }
 }
 
+HB_FUNC( GTK_WIDGET_SET_CAN_DEFAULT )
+{
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+  gtk_widget_set_can_default(widget, hb_parl( 2 ) ); 
+}
+
+#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_WIDGET_SET_UPOSITION )
 {
