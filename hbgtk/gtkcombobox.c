@@ -27,10 +27,15 @@
 /*
  Combobox
  */
-#if GTK_CHECK_VERSION( 2,4,0)
 HB_FUNC( GTK_COMBO_BOX_NEW )
 {
    GtkWidget * combo = gtk_combo_box_new();
+   hb_retptr( ( GtkWidget * ) combo );
+}
+
+HB_FUNC( GTK_COMBO_BOX_NEW_WITH_ENTRY )
+{
+   GtkWidget * combo = gtk_combo_box_new_with_entry();
    hb_retptr( ( GtkWidget * ) combo );
 }
 
@@ -61,39 +66,15 @@ HB_FUNC( GTK_COMBO_BOX_SET_COLUMN_SPAN_COLUMN )
    gtk_combo_box_set_column_span_column( GTK_COMBO_BOX( combo ), iCol_Span );
 }
 
-HB_FUNC( GTK_COMBO_BOX_NEW_TEXT )
+
+#if GTK_MAJOR_VERSION < 3
+HB_FUNC( GTK_COMBO_BOX_NEW_TEXT ) //deprecated
 {
    GtkWidget * combo = gtk_combo_box_new_text();
    hb_retptr( ( GtkWidget * ) combo );
 }
+#endif
 
-HB_FUNC( GTK_COMBO_BOX_APPEND_TEXT )
-{
-  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
-  gtk_combo_box_append_text ( GTK_COMBO_BOX (combo), (gchar *) hb_parc( 2 ) );
-}
-
-HB_FUNC( GTK_COMBO_BOX_INSERT_TEXT )
-{
-  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
-  gint position = hb_parni( 2 );
-  gchar *text = ( gchar *) hb_parc( 3 );
-  gtk_combo_box_insert_text( GTK_COMBO_BOX (combo), position ,text );
-}
-
-HB_FUNC( GTK_COMBO_BOX_PREPEND_TEXT )
-{
-  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
-  gchar *text = ( gchar * )hb_parc( 2 );
-  gtk_combo_box_prepend_text ( GTK_COMBO_BOX (combo), text );
-}
-
-HB_FUNC( GTK_COMBO_BOX_REMOVE_TEXT )
-{
-  GtkWidget * combo = GTK_WIDGET( hb_parptr( 1 ) );
-  gint position = hb_parni( 2 );
-  gtk_combo_box_remove_text( GTK_COMBO_BOX (combo), position );
-}
 
 HB_FUNC( GTK_COMBO_BOX_GET_ACTIVE )// iActive or -1 not Active
 {
@@ -137,30 +118,32 @@ HB_FUNC( GTK_COMBO_BOX_POPDOWN )
   gtk_combo_box_popdown( GTK_COMBO_BOX( combo ) );
 }
 
+#if GTK_MAJOR_VERSION < 3
 /* GtkComboEntry . Child is widget Entry */
-HB_FUNC( GTK_COMBO_BOX_ENTRY_NEW )
+HB_FUNC( GTK_COMBO_BOX_ENTRY_NEW ) //deprecated
 {
    GtkWidget * combo = gtk_combo_box_entry_new();
    hb_retptr( ( GtkWidget * ) combo );
 }
 
-HB_FUNC( GTK_COMBO_BOX_ENTRY_NEW_WITH_MODEL ) // TreeModel, iText_Column
+HB_FUNC( GTK_COMBO_BOX_ENTRY_NEW_WITH_MODEL ) // deprecated // TreeModel, iText_Column
 {
    GtkWidget * combo = gtk_combo_box_entry_new_with_model( GTK_TREE_MODEL( hb_parptr( 1 ) ), (gint) hb_parni( 2 ) );
    hb_retptr( ( GtkWidget * ) combo );
 }
 
-HB_FUNC( GTK_COMBO_ENTRY_NEW_TEXT )
+HB_FUNC( GTK_COMBO_ENTRY_NEW_TEXT ) //deprecated
 {
    GtkWidget * combo = gtk_combo_box_entry_new_text ();
    hb_retptr( ( GtkWidget * ) combo );
 }
 
-HB_FUNC( GTK_COMBO_BOX_ENTRY_SET_TEXT_COLUMN )
+HB_FUNC( GTK_COMBO_BOX_ENTRY_SET_TEXT_COLUMN ) //deprecated
 {
    GtkWidget * entry_box = GTK_WIDGET( hb_parptr( 1 ) );
-   gtk_combo_box_entry_set_text_column( GTK_COMBO_BOX_ENTRY(entry_box), (gint)hb_parni( 2 ) );
+   gtk_combo_box_entry_set_text_column( GTK_COMBO_BOX_TEXT(entry_box), (gint)hb_parni( 2 ) );
 }
+#endif
 
 /* No compila en gcc 9 (RIGC)
 HB_FUNC( TGTK_GET_TEXT_COMBO_ENTRY )
@@ -179,20 +162,5 @@ HB_FUNC( TGTK_GET_WIDGET_COMBO_ENTRY )
 }
 */
 
-#endif
-
-/* OBSOLETO ------->
-HB_FUNC( GTK_COMBO_NEW )
-{
-   GtkWidget * combo = gtk_combo_new();
-   hb_retnl( ( glong ) combo );
-}
-
-HB_FUNC( GTK_COMBO_SET_POPDOWN_STRINGS )
- {
-  GtkWidget * combo = GTK_WIDGET( hb_parnl( 1 ) );
-  gtk_combo_set_popdown_strings( GTK_COMBO(combo), (GList*)hb_parnl( 2 ) );
- }
- OBSOLETO ------->  */
 
 //eof
