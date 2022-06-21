@@ -389,24 +389,15 @@ HB_FUNC( SET_AUTO_UTF8 )
 }
 
 //--------------------------------------------------------//
-#if GTK_MAJOR_VERSION < 3
 HB_FUNC( HB_GTK_GET_DLG_BOX ) //  nWidget dialog -> child vBox
 {
-  #if GTK_MAJOR_VERSION < 3
-      GtkWidget * box = GTK_DIALOG( hb_parptr( 1 ) )->vbox;
-  #else    
-      GtkWidget * box = gtk_dialog_get_content_area( GTK_DIALOG( hb_parptr( 1 ) ) );
-  #endif 
+   GtkWidget * box = gtk_dialog_get_content_area( GTK_DIALOG( hb_parptr( 1 ) ) );
   hb_retptr( ( GtkWidget * ) box );
 }
 
 HB_FUNC( HB_GTK_GET_DLG_ACTION_AREA ) //  nWidget dialog -> child action_area
 {
-  #if GTK_MAJOR_VERSION < 3
-      GtkWidget * area = GTK_DIALOG( hb_parptr( 1 ) )->action_area;
-  #else
-      GtkWidget * area = gtk_dialog_get_action_area ( GTK_DIALOG( hb_parptr( 1 ) ) );
-  #endif 
+  GtkWidget * area = gtk_dialog_get_action_area ( GTK_DIALOG( hb_parptr( 1 ) ) );
   hb_retptr( ( GtkWidget * ) area );
 }
 
@@ -415,12 +406,11 @@ HB_FUNC( HB_GTK_GET_STATUSBAR_LABEL ) //  nWidget statusbar -> child label
   #if GTK_MAJOR_VERSION < 3
       GtkWidget * label = GTK_STATUSBAR( hb_parptr( 1 ) )->label;
       hb_retptr( ( GtkWidget * ) label );
+      hb_retptr( ( GtkWidget * ) label );
   #else
       //TODO: Any idea ?
   #endif
-  hb_retptr( ( GtkWidget * ) label );
 }
-#endif
 
 HB_FUNC( UTF_8 )
 {

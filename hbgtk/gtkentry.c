@@ -25,8 +25,6 @@
 #include <hbvm.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
-
 HB_FUNC( GTK_ENTRY_NEW ) // -->widget
 {
    GtkWidget * hWnd = gtk_entry_new();
@@ -98,13 +96,11 @@ HB_FUNC( GTK_ENTRY_SET_VISIBILITY ) // pWidget, bVisible
 
 //--------------------------------------------------------//
 
-#if GTK_CHECK_VERSION( 2,4,0)
 HB_FUNC( GTK_ENTRY_SET_ALIGNMENT )
 {
    GtkWidget * Entry = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_entry_set_alignment( GTK_ENTRY( Entry ), hb_parnl( 2 ) );
 }
-#endif
 
 //--------------------------------------------------------//
 
@@ -202,4 +198,4 @@ HB_FUNC( GTK_ENTRY_SET_ICON_ACTIVATABLE )
 }
 
 //--------------------------------------------------------//
-#endif
+

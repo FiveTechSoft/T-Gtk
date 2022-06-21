@@ -28,8 +28,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
- 
 HB_FUNC( GTK_SCROLLED_WINDOW_NEW )
 {
    GtkWidget *scroll;
@@ -120,4 +118,3 @@ HB_FUNC( GTK_SCROLLED_WINDOW_GET_VADJUSTMENT )
 
 //---------------------------------------------------//
 
-#endif

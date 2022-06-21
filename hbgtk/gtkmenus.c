@@ -25,8 +25,6 @@
 #include <hbvm.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
-
 HB_FUNC( GTK_MENU_BAR_NEW )
 {
     hb_retptr( ( GtkWidget * ) gtk_menu_bar_new() );
@@ -60,7 +58,8 @@ HB_FUNC( GTK_MENU_APPEND )
 {
    GtkWidget * menu =     GTK_WIDGET( hb_parptr( 1 ) );
    GtkWidget * menuitem = GTK_WIDGET( hb_parptr( 2 ) );
-   gtk_menu_append( GTK_MENU (menu), menuitem );
+//   gtk_menu_append( GTK_MENU (menu), menuitem );
+   gtk_menu_shell_append(GTK_MENU_SHELL(GTK_MENU (menu)), menuitem);
 }
 
 HB_FUNC( GTK_MENU_ITEM_SET_SUBMENU )
@@ -131,7 +130,6 @@ HB_FUNC( GTK_CHECK_MENU_ITEM_SET_INCONSISTENT )
    gtk_check_menu_item_set_inconsistent( GTK_CHECK_MENU_ITEM( menuitem ), hb_parl( 2 ) );
 }
 
-#if GTK_CHECK_VERSION( 2,4,0)
 HB_FUNC( GTK_CHECK_MENU_ITEM_SET_DRAW_AS_RADIO )
 {
    GtkWidget * menuitem = GTK_WIDGET( hb_parptr( 1 ) );
@@ -143,7 +141,6 @@ HB_FUNC( GTK_CHECK_MENU_ITEM_GET_DRAW_AS_RADIO )
    GtkWidget * menuitem = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retl( gtk_check_menu_item_get_draw_as_radio( GTK_CHECK_MENU_ITEM( menuitem ) ));
 }
-#endif
 /*-----------------20/08/2004 00:40-----------------
  * GtkSeparatorMenu
  * (c)2004 Rafa Carmona
@@ -226,7 +223,6 @@ HB_FUNC( GTK_RADIO_MENU_ITEM_NEW_WITH_MNEMONIC  )
    hb_retptr( (GtkWidget *) radio );
 }
 
-#if GTK_CHECK_VERSION( 2,4,0)
 HB_FUNC( GTK_RADIO_MENU_ITEM_NEW_FROM_WIDGET  ) // radio, label
 {
    GtkWidget * radio ;
@@ -250,7 +246,6 @@ HB_FUNC( GTK_RADIO_MENU_ITEM_NEW_WITH_MNEMONIC_FROM_WIDGET  )
    radio =  gtk_radio_menu_item_new_with_mnemonic_from_widget( GTK_RADIO_MENU_ITEM( radio_widget ), (gchar *) hb_parc( 2 ) ) ;
    hb_retptr( (GtkWidget *) radio );
 }
-#endif
 
 HB_FUNC( GTK_RADIO_MENU_ITEM_SET_GROUP )
 {
@@ -279,7 +274,6 @@ HB_FUNC( GTK_MENU_POPUP )
 }
 
 
-#if GTK_CHECK_VERSION( 2,16,0)
 HB_FUNC( GTK_MENU_ITEM_SET_LABEL )
 {
    GtkMenuItem * menu = GTK_MENU_ITEM( hb_parptr( 1 ) );
@@ -287,6 +281,4 @@ HB_FUNC( GTK_MENU_ITEM_SET_LABEL )
 
    gtk_menu_item_set_label( menu, label );
 } 
-#endif
 
-#endif

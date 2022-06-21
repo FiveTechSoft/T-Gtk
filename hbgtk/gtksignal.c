@@ -24,9 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-
-#if GTK_MAJOR_VERSION < 3
-
 HB_FUNC( G_SIGNAL_EMIT_BY_NAME ) //pWidget, cSignal
 {
    GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
@@ -60,4 +57,3 @@ HB_FUNC( HB_G_SIGNAL_HANDLER_DISCONNECT ) // widget, handler_id_signal, cName_Si
      }
 }
 
-#endif

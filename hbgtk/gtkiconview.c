@@ -33,10 +33,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
-
-#if GTK_CHECK_VERSION(2,6,0) 
-
 HB_FUNC( GTK_ICON_VIEW_NEW )
 {
    GtkWidget * iconlist = gtk_icon_view_new();
@@ -134,13 +130,13 @@ HB_FUNC( GTK_ICON_VIEW_SET_ORIENTATION )
 {
   GtkIconView  * iconlist = GTK_ICON_VIEW( hb_parptr( 1 ) );
   GtkOrientation orientation = hb_parni( 2 );
-  gtk_icon_view_set_orientation( iconlist, orientation );
+  gtk_icon_view_set_item_orientation( iconlist, orientation );
 }
 
 HB_FUNC( GTK_ICON_VIEW_GET_ORIENTATION )
 {
   GtkIconView  * iconlist = GTK_ICON_VIEW( hb_parptr( 1 ) );
-  hb_retni( gtk_icon_view_get_orientation( iconlist ) );
+  hb_retni( gtk_icon_view_get_item_orientation( iconlist ) );
 }
 
 HB_FUNC( GTK_ICON_VIEW_SET_COLUMNS )
@@ -274,7 +270,3 @@ HB_FUNC( GTK_ICON_VIEW_GET_CURSOR )
   hb_retl( bret );
 
 }
-
-#endif
-
-#endif

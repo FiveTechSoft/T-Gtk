@@ -31,32 +31,19 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
  
-#if GTK_MAJOR_VERSION < 3
-
 HB_FUNC( GTK_HSCROLLBAR_NEW ) //  nAdjustment -> Widget
 {
   GtkWidget * hscroll;
   GtkAdjustment * adjust = ( GtkAdjustment *) hb_parptr( 1 );
-  #if GTK_MAJOR_VERSION < 3
-      hscroll = gtk_hscrollbar_new( adjust );
-  #else
-      hscroll = gtk_scrollbar_new(  GTK_ORIENTATION_HORIZONTAL ,adjust );
-  #endif    
-
-  hb_retptr( ( GtkWidget * ) hscroll );
+  hscroll = gtk_scrollbar_new(  GTK_ORIENTATION_HORIZONTAL ,adjust );
+   hb_retptr( ( GtkWidget * ) hscroll );
 }
 
 HB_FUNC( GTK_VSCROLLBAR_NEW ) //  nAdjustment -> Widget
 {
   GtkWidget * vscroll;
   GtkAdjustment * adjust = ( GtkAdjustment *) hb_parptr( 1 );
-  #if GTK_MAJOR_VERSION < 3
-      vscroll = gtk_vscrollbar_new( adjust );
-  #else
-      vscroll = gtk_scrollbar_new(  GTK_ORIENTATION_VERTICAL ,adjust );
-  #endif    
+  vscroll = gtk_scrollbar_new(  GTK_ORIENTATION_VERTICAL ,adjust );
   hb_retptr( ( GtkWidget * ) vscroll );
 }
 
-
-#endif

@@ -239,20 +239,17 @@ HB_FUNC( GTK_WINDOW_MOVE ) // widget, left, top -> void
                                          (gint) hb_parni( 3 ) );
 }
 
-#if GTK_MAJOR_VERSION < 3
-#if GTK_CHECK_VERSION( 2,4,0)
 HB_FUNC( GTK_WINDOW_SET_KEEP_ABOVE )
 {
   GtkWidget * window = GTK_WIDGET(  hb_parptr( 1 ) );
   gtk_window_set_keep_above( GTK_WINDOW( window ), hb_parl( 2 ));
 }
 
-HB_FUNC( GTK_WINDOW_SET_KEEP_BELOW )
+HB_FUNC( GTK_WINDOW_SET_KEEP_BELOW ) 
 {
   GtkWidget * window = GTK_WIDGET(  hb_parptr( 1 ) );
   gtk_window_set_keep_below( GTK_WINDOW( window ), hb_parl( 2 ) );
 }
-#endif
 
 HB_FUNC( GTK_WINDOW_SET_DESTROY_WITH_PARENT )
 {
@@ -281,7 +278,7 @@ HB_FUNC( GTK_WINDOW_SET_DEFAULT_ICON )
 {
   GdkPixbuf * pixbuf = ( GdkPixbuf * ) create_pixbuf( hb_parc( 1 ) );
   gtk_window_set_default_icon( pixbuf );
-  gdk_pixbuf_unref(  pixbuf );
+  g_object_unref(  pixbuf );
 }
 
 HB_FUNC( GTK_WINDOW_SET_DEFAULT_ICON_FROM_FILE )
@@ -347,19 +344,22 @@ HB_FUNC( GTK_WINDOW_ADD_ACCEL_GROUP ) // pWindow, pAccel_Group --> void
 }
 
 
-HB_FUNC( GTK_WINDOW_SET_OPACITY ) 
-{
-  GtkWidget * window = GTK_WIDGET( hb_parptr( 1 ) );
-  gtk_window_set_opacity( GTK_WINDOW( window ),  hb_parnd( 2 ) );
-}
+#if GTK_MAJOR_VERSION < 4
+#if GTK_MINOR_VERSION < 8
+  HB_FUNC( GTK_WINDOW_SET_OPACITY ) 
+  {
+    GtkWidget * window = GTK_WIDGET( hb_parptr( 1 ) );
+    gtk_window_set_opacity( GTK_WINDOW( window ),  hb_parnd( 2 ) );
+  }
 
 
-HB_FUNC( GTK_WINDOW_GET_OPACITY ) 
-{
-  GtkWidget * window = GTK_WIDGET( hb_parptr( 1 ) );
-  hb_retnd( gtk_window_get_opacity( GTK_WINDOW( window ) ) );
-}
-
+  HB_FUNC( GTK_WINDOW_GET_OPACITY ) 
+  {
+    GtkWidget * window = GTK_WIDGET( hb_parptr( 1 ) );
+    hb_retnd( gtk_window_get_opacity( GTK_WINDOW( window ) ) );
+  }
+#endif
+#endif
 
 /*
 HB_FUNC( CREATE_PIXBUF ) // cFilename
@@ -380,4 +380,3 @@ HB_FUNC( CREATE_PIXBUF ) // cFilename
 */
 
 
-#endif
