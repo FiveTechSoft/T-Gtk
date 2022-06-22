@@ -47,12 +47,15 @@ HB_FUNC( GTK_MENU_ITEM_NEW_WITH_MNEMONIC )
    hb_retptr( ( GtkWidget * ) menuitem );
 }
 
+#if GTK_MAJOR_VERSION < 4
+#if GTK_MINOR_VERSION < 4
 HB_FUNC( GTK_TEAROFF_MENU_ITEM_NEW )      /*  GtkTearOff   */
 {
    GtkWidget * menuitem = gtk_tearoff_menu_item_new();
    hb_retptr( ( GtkWidget * ) menuitem );
 }
-
+#endif
+#endif
 
 HB_FUNC( GTK_MENU_APPEND )
 {
@@ -152,10 +155,8 @@ HB_FUNC( GTK_SEPARATOR_MENU_ITEM_NEW )
    hb_retptr( ( GtkWidget * ) menuitem );
 }
 
-/*-----------------20/08/2004 23:44-----------------
- * GtkImageMenuItem
- * (c)2004 Rafa Carmona
- * --------------------------------------------------*/
+#if GTK_MAJOR_VERSION < 4
+#if GTK_MINOR_VERSION < 10
 HB_FUNC( GTK_IMAGE_MENU_ITEM_SET_IMAGE )
 {
    GtkWidget * menuitem = GTK_WIDGET( hb_parptr( 1 ) );
@@ -183,15 +184,24 @@ HB_FUNC( GTK_IMAGE_MENU_ITEM_NEW_FROM_STOCK )
    hb_retptr( ( GtkWidget * ) menuitem );
 }
 
+HB_FUNC( GTK_IMAGE_MENU_ITEM_NEW_WITH_MNEMONIC )
+{
+   GtkWidget * menuitem = gtk_image_menu_item_new_with_mnemonic( (gchar *) hb_parc( 1 ) );
+   hb_retptr( ( GtkWidget * ) menuitem );
+}
+
 HB_FUNC( GTK_IMAGE_MENU_ITEM_NEW_WITH_LABEL )
 {
    GtkWidget * menuitem = gtk_image_menu_item_new_with_label( (gchar *) hb_parc( 1 ) );
    hb_retptr( ( GtkWidget * ) menuitem );
 }
 
-HB_FUNC( GTK_IMAGE_MENU_ITEM_NEW_WITH_MNEMONIC )
+#endif
+#endif
+
+HB_FUNC( GTK_MENU_ITEM_NEW )
 {
-   GtkWidget * menuitem = gtk_image_menu_item_new_with_mnemonic( (gchar *) hb_parc( 1 ) );
+   GtkWidget * menuitem = gtk_menu_item_new( );
    hb_retptr( ( GtkWidget * ) menuitem );
 }
 

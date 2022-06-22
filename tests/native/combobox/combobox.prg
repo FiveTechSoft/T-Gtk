@@ -12,7 +12,7 @@ static status_bar
 static context_id
 
 Function Main( )
-    Local window, vbox, button, combobox1
+    Local window, vbox, combobox1
 
     /* crear una nueva ventana */
     window = gtk_window_new( GTK_WINDOW_TOPLEVEL )

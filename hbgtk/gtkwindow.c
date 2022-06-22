@@ -268,7 +268,7 @@ HB_FUNC( GTK_WINDOW_SET_DEFAULT )
   GtkWidget * window = GTK_WIDGET(  hb_parptr( 1 ) );
   GtkWidget * default_widget = NULL;
 
-  if(  hb_parptr( 2 ) );
+  if(  hb_parptr( 2 ) )
      default_widget = GTK_WIDGET(  hb_parptr( 2 ) );
 
   gtk_window_set_default( GTK_WINDOW( window ), default_widget );
@@ -296,7 +296,7 @@ HB_FUNC( GTK_WINDOW_SET_FOCUS )
   GtkWidget * window = GTK_WIDGET(  hb_parptr( 1 ) );
   GtkWidget * default_widget = NULL;
 
-  if(  hb_parptr( 2 ) );
+  if(  hb_parptr( 2 ) )
      default_widget = GTK_WIDGET(  hb_parptr( 2 ) );
 
   gtk_window_set_focus( GTK_WINDOW( window ), default_widget );

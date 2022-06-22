@@ -151,7 +151,8 @@ HB_FUNC( GTK_ASSISTANT_GET_PAGE_TITLE )
 
 //--------------------------------------------------------//
 
-#if GTK_CHECK_VERSION(3,20,0)
+#if GTK_MAJOR_VERSION < 4
+#if GTK_MINOR_VERSION < 2
 HB_FUNC( GTK_ASSISTANT_SET_PAGE_HEADER_IMAGE ) 
   {
     GtkAssistant * assistant = GTK_ASSISTANT( hb_parptr( 1 ) );
@@ -189,6 +190,7 @@ HB_FUNC( GTK_ASSISTANT_GET_PAGE_SIDE_IMAGE )
   GdkPixbuf * pixbuf = gtk_assistant_get_page_side_image( assistant, page );
   hb_retptr( ( GdkPixbuf * ) pixbuf );
 }
+#endif
 #endif
 //--------------------------------------------------------//
 
