@@ -47,4 +47,4 @@ gchar * utf82str( gchar * szString );
    #define HB_SYMBOL_UNUSED( symbol )  ( symbol := ( symbol ) )
 #endif
 
-
+void gtk_alert_deprecated( const gchar *func_name );
