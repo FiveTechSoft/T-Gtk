@@ -47,3 +47,4 @@ HB_FUNC( GTK_VSCROLLBAR_NEW ) //  nAdjustment -> Widget
   hb_retptr( ( GtkWidget * ) vscroll );
 }
 
+//eof

@@ -26,7 +26,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_TREE_VIEW_NEW )
 {
@@ -53,7 +52,7 @@ HB_FUNC( GTK_TREE_VIEW_SET_MODEL ) // treeview, model -> void
 
 //------------------------------------------------------//
 
-HB_FUNC( GTK_TREE_VIEW_SET_RULES_HINT ) // treeview -> void
+HB_FUNC( GTK_TREE_VIEW_SET_RULES_HINT ) // treeview -> void //deprecated
 {
   gtk_tree_view_set_rules_hint(GTK_TREE_VIEW ( GTK_WIDGET( hb_parptr( 1 ) ) ), 
                                (gboolean) hb_parl( 2 ) );
@@ -135,7 +134,7 @@ HB_FUNC( GTK_TREE_VIEW_SET_CURSOR_ON_CELL )
 }
 
 //------------------------------------------------------//
-
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_TREE_COLUMN_GET_EDITABLE_WIDGET )
 {
     GtkTreeViewColumn * column = (GtkTreeViewColumn *) hb_parnl( 1 );
@@ -145,7 +144,7 @@ HB_FUNC( GTK_TREE_COLUMN_GET_EDITABLE_WIDGET )
         // TODO: Any Idea ?
     #endif 
 }
-
+#endif
 //------------------------------------------------------//
 
 HB_FUNC( GTK_TREE_VIEW_GET_CURSOR )
@@ -451,4 +450,4 @@ void        gtk_tree_view_get_cursor        (GtkTreeView *tree_view,
                                              GtkTreeViewColumn **focus_column);
 */
 
-#endif
+//eof

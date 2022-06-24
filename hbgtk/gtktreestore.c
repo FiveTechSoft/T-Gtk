@@ -25,7 +25,6 @@
 #include "hbapi.h"
 #include "t-gtk.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
 BOOL Array2Iter(PHB_ITEM aIter, GtkTreeIter *iter  );
@@ -208,4 +207,4 @@ HB_FUNC( GTK_TREE_STORE_REMOVE )
   hb_retl( bresult );
 }
 
-#endif
+//eof

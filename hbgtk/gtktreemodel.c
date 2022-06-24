@@ -25,7 +25,6 @@
 #include "hbapi.h"
 #include "t-gtk.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
@@ -468,4 +467,4 @@ HB_FUNC( GTK_TREE_ROW_REFERENCE_COPY )
  hb_retptr( (GtkTreeRowReference * ) row );
 }
 
-#endif
+//eof

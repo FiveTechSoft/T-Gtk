@@ -24,13 +24,25 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
+#if GTK_MAJOR_VERSION < 3
+/* 
+gtk_range_set_update_policy has been deprecated since version 2.24 and should not be used in newly-written code.
+
+There is no replacement. If you require delayed updates, you need to code it yourself.
+*/
 HB_FUNC( GTK_RANGE_SET_UPDATE_POLICY ) // pWidget, nTypeUpdate
 {
     GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
     gtk_range_set_update_policy( GTK_RANGE( range ), hb_parni( 2 ));
 }
+
+HB_FUNC( GTK_RANGE_GET_UPDATE_POLICY ) // pWidget--> iTypeUpdate
+{
+   GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
+   hb_retni( gtk_range_get_update_policy( GTK_RANGE( range ) ) );
+}
+#endif
 
 HB_FUNC( GTK_RANGE_GET_ADJUSTMENT ) // pWidget--> pAdjustment
 {
@@ -57,12 +69,6 @@ HB_FUNC( GTK_RANGE_SET_INVERTED ) // pWidget, bSetting
 {
    GtkWidget * range = GTK_WIDGET( hb_parnl( 1 ) );
    gtk_range_set_inverted( GTK_RANGE( range ) , hb_parl( 2 ) );
-}
-
-HB_FUNC( GTK_RANGE_GET_UPDATE_POLICY ) // pWidget--> iTypeUpdate
-{
-   GtkWidget * range = GTK_WIDGET( hb_parptr( 1 ) );
-   hb_retni( gtk_range_get_update_policy( GTK_RANGE( range ) ) );
 }
 
 HB_FUNC( GTK_RANGE_GET_VALUE ) // pWidget--> dValue
@@ -109,4 +115,3 @@ HB_FUNC( GTK_RANGE_GET_ORIENTATION ) // pWidget, int orientation
 }
 #endif
 
-#endif

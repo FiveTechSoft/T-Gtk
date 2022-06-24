@@ -23,10 +23,9 @@
 */
 #include <gtk/gtk.h>
 #include "hbapi.h"
+#include "t-gtk.h"
 
-#if GTK_MAJOR_VERSION < 3
 
-#if GTK_CHECK_VERSION(2,4,0)
 
 
 HB_FUNC( GTK_FILE_CHOOSER_WIDGET_NEW )
@@ -169,6 +168,5 @@ HB_FUNC( CHOOSEDIR ) // cTitle, cDir_Default, pParent_Window
     }
     gtk_widget_destroy (dialog);
 }
-#endif
 
-#endif
+//eof

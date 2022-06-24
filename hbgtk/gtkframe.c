@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 #include <t-gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_FRAME_NEW )
 {
@@ -72,4 +71,4 @@ HB_FUNC( GTK_FRAME_SET_SHADOW_TYPE ) // frame, nType
    gtk_frame_set_shadow_type( GTK_FRAME( frame ), type );
 }
 
-#endif
+//eof

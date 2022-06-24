@@ -24,7 +24,6 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_NOTEBOOK_NEW )
 {
@@ -143,4 +142,3 @@ HB_FUNC( GTK_NOTEBOOK_REMOVE_PAGE )
    gtk_notebook_remove_page(  GTK_NOTEBOOK( notebook ),  page_num );
 }
 
-#endif

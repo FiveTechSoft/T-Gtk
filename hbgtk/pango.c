@@ -26,7 +26,6 @@
 #include "hbapiitm.h"
 #include "t-gtk.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 PHB_ITEM PangoMatrix2Array( PangoMatrix * matrix );
 BOOL Array2PangoMatrix(PHB_ITEM aMatrix, PangoMatrix * matrix  );
@@ -52,7 +51,6 @@ HB_FUNC( GTK_FONT_SELECTION_GET_FONT )
 }
 
 
-#if GTK_CHECK_VERSION(2,6,0)
 /* Soporte para fonts se realiza a traves de Pango */
 HB_FUNC( PANGO_FONT_DESCRIPTION_FROM_STRING ) //cString_font
 {
@@ -71,7 +69,7 @@ HB_FUNC( PANGO_FONT_DESCRIPTION_SET_SIZE )
    gint size = hb_parni( 2 );
    pango_font_description_set_size( Font, size );
 }
-#endif
+
 /* API Layout Objects â€” Highlevel layout driver objects */
 HB_FUNC( PANGO_LAYOUT_NEW )
 {
@@ -140,7 +138,6 @@ HB_FUNC( PANGO_LAYOUT_SET_ALIGNMENT )
  pango_layout_set_alignment( layout, alignment );
 }
 
-#if GTK_CHECK_VERSION(2,8,0)
 
 /*
  * Cairo Rendering — Rendering with the Cairo backend
@@ -158,10 +155,9 @@ HB_FUNC( PANGO_CAIRO_LAYOUT_PATH ) // ctx, layout
  PangoLayout * layout = PANGO_LAYOUT( hb_parptr( 2 ) ) ;
  pango_cairo_layout_path( ctx, layout );
 }
-#endif
 
-#if GTK_CHECK_VERSION(2,6,0)
 
+#if GTK_MAJOR_VERSION < 3
 /*Pango Interaction
   Pango Interaction  Using Pango in GDK
  */
@@ -211,7 +207,6 @@ HB_FUNC( GDK_PANGO_RENDERER_SET_OVERRIDE_COLOR )
      }
     }
 }
-#endif
 
 HB_FUNC( PANGO_CONTEXT_SET_MATRIX )
 {
@@ -301,7 +296,7 @@ HB_FUNC( PANGO_MATRIX_ROTATE )
      g_print("Falla pango_matrix_rotate\n");
    }
 }
-
+#endif
 
 /*
  * Convierte una estructura item en un array de Harbour
@@ -348,4 +343,4 @@ BOOL Array2PangoMatrix(PHB_ITEM aMatrix, PangoMatrix * matrix  )
    return FALSE;
 }
 
-#endif
+//eof

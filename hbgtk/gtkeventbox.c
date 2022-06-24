@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_EVENT_BOX_NEW )
 {
@@ -59,4 +58,4 @@ HB_FUNC( GTK_EVENT_BOX_GET_VISIBLE_WINDOW )
    hb_retl( gtk_event_box_get_visible_window( GTK_EVENT_BOX( widget ) ) );
 }
 
-#endif
+//eof

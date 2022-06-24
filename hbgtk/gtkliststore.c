@@ -179,7 +179,7 @@ HB_FUNC( GTK_LIST_STORE_APPEND ) // liststore , aIter-> new Item
     hb_errRT_BASE( EG_ARG, 5000, GetGErrorMsg( 5000 ), HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 
 }
-
+ 
 /*--------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------*/
 HB_FUNC( GTK_LIST_STORE_PREPEND ) // liststore, aIter -> new Item

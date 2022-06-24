@@ -56,14 +56,17 @@ HB_FUNC( GTK_SCROLLED_WINDOW_SET_POLICY )
 }
 
 //---------------------------------------------------//
-
-HB_FUNC( GTK_SCROLLED_WINDOW_ADD_WITH_VIEWPORT )
+#if GTK_MAJOR_VERSION < 3
+#if GTK_MINOR_VERSION < 8
+HB_FUNC( GTK_SCROLLED_WINDOW_ADD_WITH_VIEWPORT ) // deprecated
 {
-   GtkWidget * scroll = GTK_WIDGET( hb_parptr( 1 ) );
+   GtkScrolledWindow * scroll = GTK_SCROLLED_WINDOW( hb_parptr( 1 ) );
    GtkWidget * child  = GTK_WIDGET( hb_parptr( 2 ) );
    gtk_scrolled_window_add_with_viewport( GTK_SCROLLED_WINDOW (scroll),
    				          child );
 }   
+#endif
+#endif
 
 //---------------------------------------------------//
 
@@ -118,3 +121,4 @@ HB_FUNC( GTK_SCROLLED_WINDOW_GET_VADJUSTMENT )
 
 //---------------------------------------------------//
 
+//eof

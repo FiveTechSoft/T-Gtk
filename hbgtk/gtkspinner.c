@@ -26,7 +26,6 @@
 #include <t-gtk.h>
 
 
-#if GTK_CHECK_VERSION(2,20,0)
 
 HB_FUNC( GTK_SPINNER_NEW ) // -> widget
 {
@@ -47,6 +46,5 @@ HB_FUNC( GTK_SPINNER_STOP )
   gtk_spinner_stop( GTK_SPINNER( spinner) );
 }
 
-#endif
 
 //eof

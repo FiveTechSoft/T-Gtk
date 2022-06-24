@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_PROGRESS_BAR_NEW )
 {
@@ -56,11 +55,19 @@ HB_FUNC( GTK_PROGRESS_BAR_SET_PULSE_STEP ) // widget, fraction
    gtk_progress_bar_set_pulse_step( GTK_PROGRESS_BAR( progressbar ), ( gdouble ) hb_parnd( 2 ) );
 }
 
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_PROGRESS_BAR_SET_ORIENTATION )  // widget, nOrientation.
 {
    GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
    gtk_progress_bar_set_orientation( GTK_PROGRESS_BAR( progressbar ), hb_parni( 2 ) );
 }                                             
+
+HB_FUNC( GTK_PROGRESS_BAR_GET_ORIENTATION )
+{
+   GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
+   hb_retni( (gint) gtk_progress_bar_get_orientation( GTK_PROGRESS_BAR( progressbar ) ) );
+}
+#endif
 
 HB_FUNC( GTK_PROGRESS_BAR_GET_TEXT ) // widget --> cText
 {
@@ -68,10 +75,4 @@ HB_FUNC( GTK_PROGRESS_BAR_GET_TEXT ) // widget --> cText
    hb_retc( ( gchar * )gtk_progress_bar_get_text( GTK_PROGRESS_BAR( progressbar ) ));
 }
 
-HB_FUNC( GTK_PROGRESS_BAR_GET_ORIENTATION )
-{
-   GtkWidget * progressbar = GTK_WIDGET( hb_parptr( 1 ) );
-   hb_retni( (gint) gtk_progress_bar_get_orientation( GTK_PROGRESS_BAR( progressbar ) ) );
-}
-
-#endif
+//eof

@@ -24,9 +24,7 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
-#if GTK_CHECK_VERSION(2,6,0)
 
 HB_FUNC( GTK_FILE_CHOOSER_BUTTON_NEW )
 {
@@ -36,6 +34,7 @@ HB_FUNC( GTK_FILE_CHOOSER_BUTTON_NEW )
   hb_retptr( (GtkWidget *) button );
 }
 
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_FILE_CHOOSER_BUTTON_NEW_WITH_BACKEND )
 {
   GtkWidget * button;
@@ -43,6 +42,7 @@ HB_FUNC( GTK_FILE_CHOOSER_BUTTON_NEW_WITH_BACKEND )
   button = gtk_file_chooser_button_new_with_backend( hb_parc( 1 ), action , hb_parc( 3 ) );
   hb_retptr( ( GtkWidget * ) button );
 }
+#endif
 
 HB_FUNC( GTK_FILE_CHOOSER_BUTTON_NEW_WITH_DIALOG )
 {
@@ -76,6 +76,5 @@ HB_FUNC( GTK_FILE_CHOOSER_BUTTON_SET_WIDTH_CHARS )
   gtk_file_chooser_button_set_width_chars( button, hb_parni( 2 ) );
 }
 
-#endif
 
-#endif
+//eof

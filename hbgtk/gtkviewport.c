@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_VIEWPORT_NEW )  // void -> nWidget
 {
@@ -52,4 +51,4 @@ HB_FUNC( GTK_VIEWPORT_SET_SHADOW_TYPE )  // nWidget -> void
 }
  
 
-#endif 
+//eof

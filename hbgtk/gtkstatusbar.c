@@ -25,7 +25,6 @@
 #include "hbapi.h"
 #include <t-gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_STATUSBAR_NEW ) // -> widget
 {
@@ -62,6 +61,8 @@ HB_FUNC( GTK_STATUSBAR_REMOVE ) // pStatusbar, ID_Context , ID_Msg
    gtk_statusbar_remove( GTK_STATUSBAR( statusbar ), id , msg );
 }
 
+#if GTK_MAJOR_VERSION < 4
+#if GTK_MINOR_VERSION < 14
 HB_FUNC( GTK_STATUSBAR_SET_HAS_RESIZE_GRIP ) // pStatusbar, bSetting
 {
    GtkWidget * statusbar = GTK_WIDGET( hb_parptr( 1 ) );
@@ -74,5 +75,8 @@ HB_FUNC( GTK_STATUSBAR_GET_HAS_RESIZE_GRIP ) // pStatusbar -> bResize
    GtkWidget * statusbar = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retl( gtk_statusbar_get_has_resize_grip( GTK_STATUSBAR( statusbar ) ) );
 }
-
 #endif
+#endif
+
+
+//eof

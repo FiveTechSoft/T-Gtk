@@ -24,17 +24,22 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
-
-HB_FUNC( GTK_HPANED_NEW ) //-->Widget
+HB_FUNC( GTK_PANED_NEW )
 {
-   GtkWidget * hpaned = gtk_hpaned_new();
+   GtkOrientation orientation = (GtkOrientation) hb_parni( 1 );
+   GtkWidget * paned = gtk_paned_new( orientation );
+   hb_retptr( (GtkWidget *) paned );
+}
+
+HB_FUNC( GTK_HPANED_NEW ) //-->Widget //deprecated
+{
+   GtkWidget * hpaned = gtk_paned_new( GTK_ORIENTATION_HORIZONTAL );
    hb_retptr( ( GtkWidget * ) hpaned );
 }
 
 HB_FUNC( GTK_VPANED_NEW ) //-->Widget
 {
-   GtkWidget * vpaned = gtk_vpaned_new();
+   GtkWidget * vpaned = gtk_paned_new( GTK_ORIENTATION_VERTICAL );
    hb_retptr( ( GtkWidget * ) vpaned );
 }
 
@@ -84,4 +89,4 @@ HB_FUNC( GTK_PANED_GET_POSITION ) // paned --> iPosition
   gtk_paned_get_child2 ()
 */
 
-#endif
+//eof

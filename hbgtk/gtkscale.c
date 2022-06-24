@@ -29,34 +29,46 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
-HB_FUNC( GTK_HSCALE_NEW ) // pAdjust -->pWidget
+HB_FUNC( GTK_HSCALE_NEW ) // pAdjust -->pWidget //deprecated
 {
-  GtkObject * adjust = GTK_OBJECT( hb_parptr( 1 ) );
   #if GTK_MAJOR_VERSION < 3
+      GtkObject * adjust = GTK_OBJECT( hb_parptr( 1 ) );
       GtkWidget * widget = gtk_hscale_new( GTK_ADJUSTMENT( adjust ) );
   #else
+      GtkAdjustment * adjust = GTK_ADJUSTMENT( hb_parptr( 1 ) );
       GtkWidget * widget = gtk_scale_new ( GTK_ORIENTATION_HORIZONTAL ,GTK_ADJUSTMENT( adjust ) );
   #endif
   hb_retptr( ( GtkWidget * ) widget );
 }
 
-HB_FUNC( GTK_HSCALE_NEW_WITH_RANGE ) // dMin, dMan, dStep
+HB_FUNC( GTK_SCALE_NEW_WITH_RANGE ) // dMin, dMan, dStep
+{
+  GtkOrientation orientation = (gint) hb_parni( 1 );
+  gdouble min  = hb_parnd( 1 );
+  gdouble max  = hb_parnd( 2 );
+  gdouble step = hb_parnd( 3 );
+  GtkWidget * widget = gtk_scale_new_with_range( orientation, min, max, step );
+  hb_retptr( ( GtkWidget * ) widget );
+}
+
+HB_FUNC( GTK_HSCALE_NEW_WITH_RANGE ) // dMin, dMan, dStep //deprecated
 {
   gdouble min  = hb_parnd( 1 );
   gdouble max  = hb_parnd( 2 );
   gdouble step = hb_parnd( 3 );
-  GtkWidget * widget = gtk_hscale_new_with_range( min, max, step );
+  GtkWidget * widget = gtk_scale_new_with_range( GTK_ORIENTATION_HORIZONTAL, min, max, step );
+  //gtk_orientable_set_orientation( widget, GTK_ORIENTATION_HORIZONTAL );
   hb_retptr( ( GtkWidget * ) widget );
 }
 
-HB_FUNC( GTK_VSCALE_NEW ) // pAdjust -->pWidget
+HB_FUNC( GTK_VSCALE_NEW ) // pAdjust -->pWidget //deprecated
 {
-  GtkObject * adjust = GTK_OBJECT( hb_parptr( 1 ) );
   #if GTK_MAJOR_VERSION < 3
+      GtkObject * adjust = GTK_OBJECT( hb_parptr( 1 ) );
       GtkWidget * widget = gtk_vscale_new( GTK_ADJUSTMENT( adjust ) );
   #else
+      GtkAdjustment * adjust = GTK_ADJUSTMENT( hb_parptr( 1 ) );
       GtkWidget * widget = gtk_scale_new ( GTK_ORIENTATION_VERTICAL ,GTK_ADJUSTMENT( adjust ) );
   #endif
   hb_retptr( ( GtkWidget * ) widget );
@@ -67,7 +79,7 @@ HB_FUNC( GTK_VSCALE_NEW_WITH_RANGE ) // dMin,dMan, dStep
   gdouble min  = hb_parnd( 1 );
   gdouble max  = hb_parnd( 2 );
   gdouble step = hb_parnd( 3 );
-  GtkWidget * widget = gtk_vscale_new_with_range( min, max, step );
+  GtkWidget * widget = gtk_scale_new_with_range( GTK_ORIENTATION_VERTICAL, min, max, step );
   hb_retptr( ( GtkWidget * ) widget );
 }
 
@@ -107,7 +119,6 @@ HB_FUNC( GTK_SCALE_GET_VALUE_POS ) // pWidget --> iPositionType
     hb_retni( gtk_scale_get_value_pos( GTK_SCALE( scale ) ) );
 }
 
-#if GTK_CHECK_VERSION( 2,4,0 )
 HB_FUNC( GTK_SCALE_GET_LAYOUT ) // pWidget --> pPango
 {
     GtkWidget * scale = GTK_WIDGET( hb_parptr( 1 ) );
@@ -117,11 +128,10 @@ HB_FUNC( GTK_SCALE_GET_LAYOUT ) // pWidget --> pPango
 
 HB_FUNC( GTK_SCALE_GET_LAYOUT_OFFSETS ) // pWidget, iX, iY
 {
-    GtkWidget * scale = GTK_WIDGET( hb_parptr( 1 ) );
-    gint * X = (gint *) hb_parni( 2 );
-    gint * Y = (gint *) hb_parni( 3 );
-    gtk_scale_get_layout_offsets( GTK_SCALE( scale ), X, Y );
+    GtkScale * scale = GTK_SCALE( hb_parptr( 1 ) );
+    gint * x = (gint *) hb_parni( 2 );
+    gint * y = (gint *) hb_parni( 3 );
+    gtk_scale_get_layout_offsets( GTK_SCALE( scale ), x, y );
 }
-#endif
 
-#endif
+//eof

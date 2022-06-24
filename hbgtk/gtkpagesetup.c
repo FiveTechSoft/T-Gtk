@@ -24,9 +24,7 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
-#if GTK_CHECK_VERSION(2,10,0)
 HB_FUNC( GTK_PAGE_SETUP_NEW )
 {
  hb_retnl( (glong) gtk_page_setup_new() );
@@ -45,6 +43,5 @@ HB_FUNC( GTK_PAGE_SETUP_SET_PAPER_SIZE )
  GtkPaperSize * size = ( GtkPaperSize * ) hb_parptr( 2 );
  gtk_page_setup_set_paper_size( setup, size);
 }
-#endif
 
-#endif
+//oef

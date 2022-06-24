@@ -139,3 +139,4 @@ HB_FUNC( GTK_TABLE_GET_DEFAULT_COL_SPACING ) // table -> col default
    hb_retni( gtk_table_get_default_col_spacing( GTK_TABLE( Table ) ) );
 }
 
+//eof

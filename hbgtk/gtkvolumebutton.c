@@ -23,11 +23,11 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_CHECK_VERSION(2,12,0)
 
 HB_FUNC( GTK_VOLUME_BUTTON_NEW ) // -> widget
 {
    GtkWidget * button = gtk_volume_button_new ();
    hb_retptr( ( GtkWidget * ) button );
 }
-#endif
+
+//eof

@@ -25,7 +25,6 @@
 #include <hbvm.h>
 #include <gtk/gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
 HB_FUNC( GTK_ENTRY_COMPLETION_NEW ) 
 {
@@ -54,4 +53,4 @@ HB_FUNC( GTK_ENTRY_COMPLETION_SET_TEXT_COLUMN )
    gtk_entry_completion_set_text_column (completion, column ); 
 }
 
-#endif
+//eof

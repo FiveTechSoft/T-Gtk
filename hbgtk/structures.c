@@ -24,7 +24,6 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
 
 /*
  * FUNCIONES GENERICAS QUE NOS DEVUELVE VALORES DE LOS MIEMBROS
@@ -33,9 +32,10 @@
 HB_FUNC( HB_GET_WIDGET_WINDOW )
 {
    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
-   hb_retptr( (GdkWindow *) widget->window );
+   hb_retptr( (GdkWindow *) gtk_widget_get_window( widget ) ) ; //widget->window );
 }
 
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( HB_GET_WIDGET_STYLE_BLACK_GC )
 {
    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
@@ -53,6 +53,7 @@ HB_FUNC( HB_GET_WIDGET_ALLOCATION_HEIGHT )
    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retni(  widget->allocation.height );
 }
+#endif
    
 HB_FUNC( HB_GET_EVENTEXPOSE_AREA_Y )
 {
@@ -173,4 +174,4 @@ HB_FUNC( HB_GET_GDKEVENTBUTTON_Y )
 }
 
 
-#endif
+//eof

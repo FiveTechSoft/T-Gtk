@@ -25,7 +25,6 @@
 #include <hbapi.h>
 #include "t-gtk.h"
     
-#if GTK_MAJOR_VERSION < 3
 
 void FillArrayFromIter( GtkTreeIter *iter, PHB_ITEM pArray );
 PHB_ITEM Iter2Array( GtkTreeIter *iter  );
@@ -101,4 +100,4 @@ HB_FUNC( GTK_TREE_PATH_PREV)
   hb_retl( gtk_tree_path_prev( path ) );
 }
 
-#endif
+//eof

@@ -25,9 +25,7 @@
 #include <gtk/gtk.h>
 #include <t-gtk.h>
 
-#if GTK_MAJOR_VERSION < 3
 
-#if GTK_CHECK_VERSION(2,4,0)
 
 /* Nota:
  * Es indistinto usar GTK_EXPANDER( hb_parnl(1) ) , o
@@ -111,6 +109,5 @@ HB_FUNC( GTK_EXPANDER_GET_USE_MARKUP ) // widget -->bUse_markup
   GtkExpander * expander = ( GtkExpander * ) hb_parptr( 1 );
   hb_retl( gtk_expander_get_use_markup( expander ) );
 }
-#endif
 
-#endif
+//eof

@@ -37,11 +37,22 @@ HB_FUNC( GTK_IMAGE_NEW_FROM_FILE ) // cFileName -> image
   hb_retptr( (GtkWidget *) image );
 }
 
+#if GTK_MAJOR_VERSION < 3
 //  warning: ‘gtk_image_new_from_stock’ is deprecated: Use 'gtk_image_new_from_icon_name' instead 
 HB_FUNC( GTK_IMAGE_NEW_FROM_STOCK ) // nIcon, nSize -> image
 {
   GtkWidget * image  = gtk_image_new_from_stock( (gchar *) hb_parc( 1 ),
                                                  (gint   ) hb_parni( 2 ) );
+  hb_retptr( (GtkWidget *) image );
+}
+#endif
+
+HB_FUNC( GTK_IMAGE_NEW_FROM_ICON_NAME ) // nIcon, nSize -> image
+{
+  const gchar * icon_name = (gchar *) hb_parc( 1 );
+  GtkIconSize   size      = (gint   ) hb_parni( 2 ); 
+  GtkWidget   * image     = gtk_image_new_from_icon_name( icon_name, size );
+                                                 
   hb_retptr( (GtkWidget *) image );
 }
 
@@ -99,3 +110,5 @@ HB_FUNC( GTK_IMAGE_GET_PIXMAP )
    hb_retptr( (GdkPixmap *) pixmap );
 }
 #endif
+
+//eof

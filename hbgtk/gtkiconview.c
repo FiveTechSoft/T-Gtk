@@ -268,5 +268,6 @@ HB_FUNC( GTK_ICON_VIEW_GET_CURSOR )
   hb_stornl( (glong) path , 2);
   hb_stornl( (glong) cell , 3);
   hb_retl( bret );
-
 }
+
+//eof

@@ -42,3 +42,4 @@ HB_FUNC( GTK_SEPARATOR_NEW )
    hb_retptr( ( GtkWidget * ) separator );
 }
 
+//eof

@@ -347,13 +347,13 @@
 /*
  * Icons -------------------------------------------------------------------
  */
-#define  GTK_ICON_SIZE_INVALID          0
-#define  GTK_ICON_SIZE_MENU             1
-#define  GTK_ICON_SIZE_SMALL_TOOLBAR    2
-#define  GTK_ICON_SIZE_LARGE_TOOLBAR    3
-#define  GTK_ICON_SIZE_BUTTON           4
-#define  GTK_ICON_SIZE_DND              5
-#define  GTK_ICON_SIZE_DIALOG           6
+#define  GTK_ICON_SIZE_INVALID          0   // ivalid size
+#define  GTK_ICON_SIZE_MENU             1   // 16px
+#define  GTK_ICON_SIZE_SMALL_TOOLBAR    2   // 16px
+#define  GTK_ICON_SIZE_LARGE_TOOLBAR    3   // 24px
+#define  GTK_ICON_SIZE_BUTTON           4   // 16px
+#define  GTK_ICON_SIZE_DND              5   // 32px
+#define  GTK_ICON_SIZE_DIALOG           6   // 48px
 
 /*
  * Styles ToolBar ----------------------------------------------------------
