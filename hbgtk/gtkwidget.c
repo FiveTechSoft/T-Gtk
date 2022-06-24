@@ -453,5 +453,10 @@ HB_FUNC( GTK_WIDGET_GET_NAME )
   hb_retc( ( gchar * ) gtk_widget_get_name( widget ) );
 }
 
+HB_FUNC( GTK_WIDGET_SET_TOOLTIP_TEXT )
+{
+  GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+  gtk_widget_set_tooltip_text (widget, (gchar *) hb_parc( 2 ) );
+}
 
 //eof

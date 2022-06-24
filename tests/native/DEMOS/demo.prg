@@ -74,7 +74,7 @@ Function Main( )
 */
 
   Gtk_Widget_Show( calendar )
-  // Probando las seÃ±ales del calendario
+  // Probando las seÃƒÂ±ales del calendario
   Gtk_Signal_Connect( calendar, "day-selected-double-click", {|w| CaleSelect(w)} )
   Gtk_Signal_Connect( calendar, "prev-month", {|w|CambioMes(w) } )
   Gtk_Signal_Connect( calendar, "next-month", {|w|CambioMes(w) } )
@@ -100,16 +100,18 @@ Function Main( )
   Gtk_tooltips_set_tip( tooltips, button,;
                         "Soporte de ToolTips"+;
                          Hb_OsNewLine()+;
-                         "También soporta multilinea..." )
+                         "TambiÃ©n soporta multilinea..." )
   gtk_tooltips_set_delay( tooltips, 1000 )
 */
+
+gtk_widget_set_tooltip_text(button,"Soporte de ToolTips"+Hb_OsNewLine()+"TambiÃ©n soporta multilinea...") 
 
   button := Gtk_toggle_button_new_with_label( "Conmutador" )
   gtk_widget_show( button )
   Gtk_box_pack_start( vbox, button, .F.,.T.,0 )
 //  Gtk_Signal_Connect( button, "toggled", {|w| EstadoCom( w )} )
 
-  button := Gtk_button_new_with_mnemonic( "_Salida rápida..." )
+  button := Gtk_button_new_with_mnemonic( "_Salida rÃ¡pida..." )
   gtk_widget_show( button )
   Gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   Gtk_Signal_Connect( button, "clicked", {|| g_signal_emit_by_name( window, "destroy" ) } )
@@ -125,7 +127,7 @@ Function Main( )
   Gtk_Widget_Show( vBox_E )
   gtk_container_add( expand, vBox_E)
 
-  button := gtk_check_button_new_with_label( "CheckBox,será posible.." )
+  button := gtk_check_button_new_with_label( "CheckBox,serÃ¡ posible.." )
   Gtk_box_pack_start( vbox_E, button, .F.,.T.,0 )
   gtk_widget_show( button )
   Gtk_Signal_Connect( button, "toggled", {|w|EstadoCom(w)} )
@@ -173,7 +175,7 @@ Function MYLEAVE( widget )
 return nil
 
 Function MYENTER( widget )
- gtk_button_set_label( widget, "Estoy en el botón" )
+ gtk_button_set_label( widget, "Estoy en el botÃ³n" )
  ?. "El texto es: " + str2utf8( GTK_BUTTON_GET_LABEL( widget ) )
 return nil
 
@@ -228,11 +230,11 @@ FUNCTION Create_Menus( boxmenu )
          menuitemimage := gtk_image_menu_item_new_with_label( "Con imagen ;-)" )
          gtk_image_menu_item_set_image( menuitemimage, image )
 
-         gtk_menu_append( menu, menuitemimage )                  // Añado Items al menu
-         gtk_menu_append( menu, menuitem )                   // Añado Items al menu
-         gtk_menu_append( menu, menuitem2 )                  // Añado Items al menu
-         gtk_menu_append( menu, separator )                  // Añado Items al menu
-         gtk_menu_append( menu, menuitemcheck )                  // Añado Items al menu
+         gtk_menu_append( menu, menuitemimage )                  // AÃ±ado Items al menu
+         gtk_menu_append( menu, menuitem )                   // AÃ±ado Items al menu
+         gtk_menu_append( menu, menuitem2 )                  // AÃ±ado Items al menu
+         gtk_menu_append( menu, separator )                  // AÃ±ado Items al menu
+         gtk_menu_append( menu, menuitemcheck )                  // AÃ±ado Items al menu
 
          gtk_widget_show( menuitem  )                        // HAY que mostrarlos, ojo
          gtk_widget_show( menuitem2 )
@@ -242,17 +244,17 @@ FUNCTION Create_Menus( boxmenu )
 
          submenu := gtk_menu_new() // No es necesario mostrar por ser un contenedor
           submenuitem := gtk_menu_item_new_with_label( "Uno de UNO" )   // Item del menu
-          gtk_menu_append( submenu, submenuitem )                       // Añado Items al menu
+          gtk_menu_append( submenu, submenuitem )                       // AÃ±ado Items al menu
           gtk_widget_show( submenuitem  )                               // HAY que mostrarlos, ojo
           gtk_menu_item_set_submenu( menuitem, submenu )                // asociar a menuitem el submenu
           gtk_signal_connect( submenuitem , "activate", {|w| Menuitem( w )} )    // Salta a la opcion 1.1
 
           /* Crea el item "Ejemplo" */
           root_menu = gtk_menu_item_new_with_label("Ejemplo")
-          /* Asociar el menú con el item "Ejemplo" root_menu  */
+          /* Asociar el menÃº con el item "Ejemplo" root_menu  */
           gtk_menu_item_set_submenu( root_menu, menu )
           gtk_widget_show(root_menu)
-          /* Por último, se añade el menú a la barra de menús */
+          /* Por Ãºltimo, se aÃ±ade el menÃº a la barra de menÃºs */
           gtk_menu_shell_append( menubar, root_menu )
 
           // Fin de Menus ..............................
