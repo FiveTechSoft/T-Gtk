@@ -155,8 +155,8 @@ HB_FUNC( GTK_SEPARATOR_MENU_ITEM_NEW )
    hb_retptr( ( GtkWidget * ) menuitem );
 }
 
-#if GTK_MAJOR_VERSION < 4
-#if GTK_MINOR_VERSION < 10
+//#if GTK_MAJOR_VERSION < 4
+//#if GTK_MINOR_VERSION < 10
 HB_FUNC( GTK_IMAGE_MENU_ITEM_SET_IMAGE )
 {
    GtkWidget * menuitem = GTK_WIDGET( hb_parptr( 1 ) );
@@ -196,8 +196,8 @@ HB_FUNC( GTK_IMAGE_MENU_ITEM_NEW_WITH_LABEL )
    hb_retptr( ( GtkWidget * ) menuitem );
 }
 
-#endif
-#endif
+//#endif
+//#endif
 
 HB_FUNC( GTK_MENU_ITEM_NEW )
 {

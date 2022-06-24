@@ -78,7 +78,6 @@ HB_FUNC( GTK_CALENDAR_DISPLAY_OPTIONS ) // calendar, flags
 */
 
 #if GTK_MAJOR_VERSION < 3
-
 HB_FUNC( GTK_CALENDAR_FREEZE )
 {
   GtkWidget * calendar = ( GtkWidget * ) hb_parptr( 1 );
@@ -104,7 +103,6 @@ HB_FUNC( GTK_CALENDAR_SET_DISPLAY_OPTIONS ) // calendar, flags
 {
   GtkWidget * calendar = GTK_WIDGET( hb_parptr( 1 ) );
   GtkCalendarDisplayOptions flags = hb_parni( 2 );
-  gtk_calendar_set_display_options( GTK_CALENDAR( calendar ) , flags );
   gtk_calendar_set_display_options( GTK_CALENDAR( calendar ) , flags );
  }
 

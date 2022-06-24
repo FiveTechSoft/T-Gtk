@@ -64,10 +64,14 @@ Function Main( )
   gtk_calendar_mark_day( calendar, 10 ) //marcado
   gtk_calendar_mark_day( calendar, 11 ) //marcado
   gtk_calendar_mark_day( calendar, 12 ) //marcado
+  gtk_calendar_set_display_options( calendar, GTK_CALENDAR_NO_MONTH_CHANGE )
+  gtk_calendar_set_display_options( calendar, GTK_CALENDAR_SHOW_WEEK_NUMBERS )
+  gtk_calendar_set_display_options( calendar, GTK_CALENDAR_SHOW_HEADING )
+/*
   gtk_calendar_display_options( calendar, nOr( GTK_CALENDAR_NO_MONTH_CHANGE,;
                                                GTK_CALENDAR_SHOW_WEEK_NUMBERS,;
                                                GTK_CALENDAR_SHOW_HEADING ))
-
+*/
 
   Gtk_Widget_Show( calendar )
   // Probando las seÃ±ales del calendario
@@ -91,13 +95,14 @@ Function Main( )
   Gtk_box_pack_start( vbox, button, .F.,.T.,0 )
   gtk_widget_show( button )
 
+/*
   ToolTips := Gtk_ToolTips_New()
   Gtk_tooltips_set_tip( tooltips, button,;
                         "Soporte de ToolTips"+;
                          Hb_OsNewLine()+;
                          "También soporta multilinea..." )
   gtk_tooltips_set_delay( tooltips, 1000 )
-
+*/
 
   button := Gtk_toggle_button_new_with_label( "Conmutador" )
   gtk_widget_show( button )
