@@ -68,6 +68,16 @@ HB_FUNC( GTK_BUTTON_NEW_WITH_LABEL ) //_cText -> widget
    }
    #endif
 #endif
+#if GTK_MAJOR_VERSION > 2
+#ifdef _GTK_DEPRECATED_
+   HB_FUNC( GTK_BUTTON_NEW_FROM_STOCK ) // stock_id
+   {
+     g_message("gtk_button_new_from_stock is deprecated! Use gtk_button_new_with_label.");
+     GtkWidget * button = gtk_button_new_from_stock ( (gchar *) hb_parc( 1 ) );
+     hb_retptr( ( GtkWidget * ) button );
+   }
+#endif
+#endif
 
 HB_FUNC( GTK_BUTTON_SET_LABEL ) // widget, cText
 {

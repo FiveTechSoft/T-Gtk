@@ -30,21 +30,22 @@
 #DEFINE RIGTH  1.0
 */
 
-#if GTK_MAJOR_VERSION < 3
 
-HB_FUNC( GTK_MISC_SET_ALIGNMENT ) // widget, nPosH, nPosV
+#if GTK_MAJOR_VERSION < 4
+#if GTK_MINOR_VERSION < 14
+HB_FUNC( GTK_MISC_SET_ALIGNMENT ) // widget, nPosH, nPosV //deprecated
 {
   GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
   gtk_misc_set_alignment( GTK_MISC( widget ), hb_parnd(2), hb_parnd( 3 ) );
 }
 
-HB_FUNC( GTK_MISC_SET_PADDING ) // widget, nxpad, nypad
+HB_FUNC( GTK_MISC_SET_PADDING ) // widget, nxpad, nypad //deprecated
 {
   GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
   gtk_misc_set_padding( GTK_MISC( widget ), hb_parni(2), hb_parni( 3 ) );
 }
 
-HB_FUNC( GTK_MISC_GET_ALIGNMENT ) // widget, @nPosH, @nPosV
+HB_FUNC( GTK_MISC_GET_ALIGNMENT ) // widget, @nPosH, @nPosV //deprecated
 {
   GtkWidget * widget = ( GtkWidget * ) hb_parptr( 1 );
   gfloat  x;
@@ -63,5 +64,45 @@ HB_FUNC( GTK_MISC_GET_PADDING ) // widget, @nxpad, @nypad
   hb_storni( xpad, 2 );
   hb_storni( ypad, 3 );
 }
-
 #endif
+
+#if _GTK_DEPRECATED_
+  #if GTK_CHECK_VERSION(3,14,0)
+  HB_FUNC( GTK_MISC_SET_ALIGNMENT ) // widget, nPosH, nPosV
+  {
+    g_message("gtk_misc_set_aligment is deprecated!");
+    GtkMisc * widget = ( GtkMisc * ) hb_parptr( 1 );
+    gtk_misc_set_alignment( GTK_MISC( widget ), hb_parnd(2), hb_parnd( 3 ) );
+  }
+
+  HB_FUNC( GTK_MISC_SET_PADDING ) // widget, nxpad, nypad
+  {
+    g_message("gtk_misc_set_padding is deprecated!");
+    GtkMisc * widget = ( GtkMisc * ) hb_parptr( 1 );
+    gtk_misc_set_padding( GTK_MISC( widget ), hb_parni(2), hb_parni( 3 ) );
+  }
+
+  HB_FUNC( GTK_MISC_GET_ALIGNMENT ) // widget, @nPosH, @nPosV
+  {
+    GtkMisc * widget = ( GtkMisc * ) hb_parptr( 1 );
+    gfloat  x;
+    gfloat  y;
+    gtk_misc_get_alignment( GTK_MISC( widget ), &x, &y );
+    hb_stornd( ( gfloat ) x, 2 );
+    hb_stornd( ( gfloat ) y, 3 );
+  }
+
+  HB_FUNC( GTK_MISC_GET_PADDING ) // widget, @nxpad, @nypad
+  {
+    GtkMisc * widget = ( GtkMisc * ) hb_parptr( 1 );
+    gint  xpad;
+    gint  ypad;
+    gtk_misc_get_padding( GTK_MISC( widget ), &xpad, &ypad );
+    hb_storni( xpad, 2 );
+    hb_storni( ypad, 3 );
+  }
+  #endif
+#endif
+#endif
+
+//eof
