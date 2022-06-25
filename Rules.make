@@ -364,7 +364,7 @@ HB_LIBDIR_ = $(LIBDIR) -L$(HB_LIB_INSTALL)
 #XHB_LIBDIR_ = $(LIBDIR) -L$(XHB_LIB_INSTALL)
 
 #HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lhbgtk -lgclass -Wl,--start-group -L$(HB_LIB_INSTALL) 
-HB_LIBS_+= -L$(LIBDIR_TGTK_) -lhbgtk $(TGTK_LIBS) -Wl,--start-group -L$(HB_LIB_INSTALL) \
+HB_LIBS_+= -L$(LIBDIR_TGTK_) -lhbgtk -lgclass $(TGTK_LIBS) -Wl,--start-group -L$(HB_LIB_INSTALL) \
         $(HB_LIBFILES_) $(OS_LIBS) $(LIBFILES_) -Wl,--end-group \
         $(LIBS) $(OS_LIBS)
 #HB_LIBS_+= -L$(LIBDIR_TGTK_) $(TGTK_LIBS) -lgclass -lhbgtk -Wl,--start-group -L$(HB_LIB_INSTALL) \
