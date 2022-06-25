@@ -149,7 +149,8 @@ HB_FUNC( GTK_FILE_SELECTION_SET_SELECT_MULTIPLE )
   GtkFileSelection * filesel = GTK_FILE_SELECTION( hb_parptr( 1 ) );
   gboolean select = ( gboolean ) hb_parl( 2 );
   gtk_file_selection_set_select_multiple( filesel, select );
-}
+} 
+/*
 #else
 HB_FUNC( GTK_FILE_SELECTION_SET_SELECT_MULTIPLE )
 {
@@ -164,6 +165,7 @@ HB_FUNC( GTK_FILE_CHOOSER_SET_SELECT_MULTIPLE )
   gboolean select = ( gboolean ) hb_parl( 2 );
   gtk_file_chooser_set_select_multiple( filesel, select );
 }
+*/
 #endif
 
 // TODO: Atencion , tenemos que tener en cuenta el tema del g_filename_from_utf8
@@ -174,6 +176,7 @@ HB_FUNC( GTK_FILE_SELECTION_SET_FILENAME )
   gchar * file = ( gchar * ) hb_parc( 2 );
   gtk_file_selection_set_filename( filesel, file );
 }
+/*
 #else
 HB_FUNC( GTK_FILE_CHOOSER_SET_FILENAME )
 {
@@ -181,6 +184,7 @@ HB_FUNC( GTK_FILE_CHOOSER_SET_FILENAME )
   const gchar * file = ( gchar * ) hb_parc( 2 );
   gtk_file_chooser_set_filename( filesel, file );
 }
+*/
 
 HB_FUNC( GTK_FILE_SELECTION_SET_FILENAME )
 {

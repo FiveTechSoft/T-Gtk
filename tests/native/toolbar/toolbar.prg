@@ -68,8 +68,11 @@ Function Main( )
     gtk_signal_connect( toolbutton, "toggled" , {|w|Estado(w)} )
     gtk_widget_show(toolbutton)
 
-    ToolTips := Gtk_ToolTips_New()
-    gtk_tool_item_set_tooltip_text( toolbutton, "Hola. ToolTips Activados" )
+    //ToolTips := Gtk_ToolTips_New()
+    //gtk_tool_item_set_tooltip_text( toolbutton, "Hola. ToolTips Activados" )
+
+    gtk_widget_set_tooltip_text(toolbutton,"Hola. Tooltips Actvados" )
+
 
     //Ejemplo de colocacion de Texto y Stock_ID
     toolbutton := gtk_tool_button_new()

@@ -151,46 +151,60 @@ HB_FUNC( GTK_ASSISTANT_GET_PAGE_TITLE )
 
 //--------------------------------------------------------//
 
-#if GTK_MAJOR_VERSION < 4
-#if GTK_MINOR_VERSION < 2
-HB_FUNC( GTK_ASSISTANT_SET_PAGE_HEADER_IMAGE ) 
+#ifdef _GTK_DEPRECATED_
+HB_FUNC( GTK_ASSISTANT_SET_PAGE_HEADER_IMAGE )  //deprecated
   {
+#if GTK_MAJOR_VERSION < 4 
+#if GTK_MINOR_VERSION < 2
     GtkAssistant * assistant = GTK_ASSISTANT( hb_parptr( 1 ) );
     GtkWidget * page = GTK_WIDGET( hb_parptr( 2 ) );
     GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 3 ) );
     
     gtk_assistant_set_page_header_image( assistant, page, pixbuf );
+#endif
+#endif
   }
 //--------------------------------------------------------//
 
-HB_FUNC( GTK_ASSISTANT_GET_PAGE_HEADER_IMAGE )
+HB_FUNC( GTK_ASSISTANT_GET_PAGE_HEADER_IMAGE ) //deprecated
 {
+#if GTK_MAJOR_VERSION < 4 
+#if GTK_MINOR_VERSION < 2
   GtkAssistant * assistant = GTK_ASSISTANT( hb_parptr( 1 ) );
   GtkWidget * page = GTK_WIDGET( hb_parptr( 2 ) );
   GdkPixbuf * pixbuf = gtk_assistant_get_page_header_image( assistant, page );
   hb_retptr( ( GdkPixbuf * ) pixbuf );
+#endif
+#endif
 }
 
 //--------------------------------------------------------//
 
-HB_FUNC( GTK_ASSISTANT_SET_PAGE_SIDE_IMAGE )
+HB_FUNC( GTK_ASSISTANT_SET_PAGE_SIDE_IMAGE )  //deprecated
 {
+#if GTK_MAJOR_VERSION < 4 
+#if GTK_MINOR_VERSION < 2
   GtkAssistant * assistant = GTK_ASSISTANT( hb_parptr( 1 ) );
   GtkWidget * page = GTK_WIDGET( hb_parptr( 2 ) );
   GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 3 ) );
   gtk_assistant_set_page_side_image( assistant, page, pixbuf );
+#endif
+#endif
 }
 
 //--------------------------------------------------------//
 
-HB_FUNC( GTK_ASSISTANT_GET_PAGE_SIDE_IMAGE )
+HB_FUNC( GTK_ASSISTANT_GET_PAGE_SIDE_IMAGE ) //deprecated
 {
+#if GTK_MAJOR_VERSION < 4 
+#if GTK_MINOR_VERSION < 2
   GtkAssistant * assistant = GTK_ASSISTANT( hb_parptr( 1 ) );
   GtkWidget * page = GTK_WIDGET( hb_parptr( 2 ) );
   GdkPixbuf * pixbuf = gtk_assistant_get_page_side_image( assistant, page );
   hb_retptr( ( GdkPixbuf * ) pixbuf );
-}
 #endif
+#endif
+}
 #endif
 //--------------------------------------------------------//
 

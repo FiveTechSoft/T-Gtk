@@ -44,11 +44,13 @@ HB_FUNC( GTK_FONT_SELECTION_SET_FONT_NAME )
    gtk_font_selection_set_font_name( GTK_FONT_SELECTION( font ), hb_parc( 2 ) );
 }
 
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_FONT_SELECTION_GET_FONT )
 {
    GtkWidget * font = GTK_WIDGET( hb_parptr( 1 ) );
    hb_retc( (gchar*) gtk_font_selection_get_font( GTK_FONT_SELECTION( font ) ) );
-}
+} 
+#endif
 
 
 /* Soporte para fonts se realiza a traves de Pango */

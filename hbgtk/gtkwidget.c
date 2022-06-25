@@ -123,6 +123,12 @@ HB_FUNC( GTK_WIDGET_GET_COLORMAP )
        // TODO: Any Idea ?
    #endif
 }
+
+HB_FUNC( GTK_WIDGET_SET_USIZE ) 
+{
+   if( G_IsWidget( 1 ) )
+    gtk_widget_set_size_usize( GTK_WIDGET( hb_parptr( 1 ) ), hb_parni( 2 ), hb_parni( 3 ) );
+}
 #else
 
 HB_FUNC( GTK_WIDGET_SET_SIZE_REQUEST )
@@ -131,14 +137,9 @@ HB_FUNC( GTK_WIDGET_SET_SIZE_REQUEST )
     gtk_widget_set_size_request( GTK_WIDGET( hb_parptr( 1 ) ), hb_parni( 2 ), hb_parni( 3 ) );
 }
 
-void gtk_alert_deprecated( const gchar *func )
-{
-   g_print( "%s IS DEPRECATED! \n", func );
-}
-
 HB_FUNC( GTK_WIDGET_SET_USIZE ) //deprecated
 {
-   gtk_alert_deprecated( "GTK_WIDGET_SET_USIZE" );
+   g_message("gtk_widget_set_usize is deprecated! use gtk_widget_set_size_request.");
    if( G_IsWidget( 1 ) )
     gtk_widget_set_size_request( GTK_WIDGET( hb_parptr( 1 ) ), hb_parni( 2 ), hb_parni( 3 ) );
 }
@@ -171,16 +172,25 @@ HB_FUNC( GTK_WIDGET_SET_SENSITIVE ) // widget, boolean -> void
 
 #if GTK_MAJOR_VERSION < 4 
 #if GTK_MINOR_VERSION < 16
-/*
-Deprecated since:	3.16
-
-This function is not useful in the context of CSS-based rendering. If you wish to change the font a widget uses to render its text you should use a custom CSS style, through an application-specific GtkStyleProvider and a CSS style class.
-*/
 HB_FUNC( GTK_WIDGET_MODIFY_FONT ) // widget, Font
 {
    gtk_widget_modify_font( GTK_WIDGET( hb_parptr( 1 ) ),
                           ( PangoFontDescription * ) hb_parptr( 2 ) );
 }
+#else
+  #ifdef _GTK_DEPRECATED_
+/*
+Deprecated since:	3.16
+
+This function is not useful in the context of CSS-based rendering. If you wish to change the font a widget uses to render its text you should use a custom CSS style, through an application-specific GtkStyleProvider and a CSS style class.
+*/
+  HB_FUNC( GTK_WIDGET_MODIFY_FONT ) // widget, Font
+  {
+     g_message("gtk_widget_modify_font is deprecated!");
+     gtk_widget_modify_font( GTK_WIDGET( hb_parptr( 1 ) ),
+                            ( PangoFontDescription * ) hb_parptr( 2 ) );
+  }
+  #endif
 #endif
 #endif
 
