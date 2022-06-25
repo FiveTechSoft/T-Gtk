@@ -92,6 +92,73 @@ HB_FUNC( GTK_STATUS_ICON_POSITION_MENU )
                                  &push_in, NULL );
 
 }
+
+#else
+  #ifdef _GTK_DEPRECATED_
+  HB_FUNC( GTK_STATUS_ICON_NEW ) 
+  {
+    GtkStatusIcon * status = gtk_status_icon_new();
+    hb_retptr( ( GtkStatusIcon *  ) status );
+  }
+
+  HB_FUNC( GTK_STATUS_ICON_NEW_FROM_STOCK ) 
+  {
+    GtkStatusIcon * status = gtk_status_icon_new_from_stock( hb_parc( 1 ) );
+    hb_retptr( ( GtkStatusIcon *  ) status );
+  }
+
+  HB_FUNC( GTK_STATUS_ICON_NEW_FROM_FILE ) 
+  {
+    GtkStatusIcon * status;
+    const gchar * filename = hb_parc( 1 );
+    status = gtk_status_icon_new_from_file( filename );
+    hb_retptr( ( GtkStatusIcon * ) status );
+  }
+
+  HB_FUNC( GTK_STATUS_ICON_SET_FROM_ICON_NAME ) 
+  {
+    GtkStatusIcon * status = GTK_STATUS_ICON( hb_parptr( 1 ) );
+    const gchar * icon_name = hb_parc( 2 );
+    gtk_status_icon_set_from_icon_name( status, icon_name );
+  }
+
+  HB_FUNC( GTK_STATUS_ICON_SET_TOOLTIP ) 
+  {
+    g_message("gtk_status_icon_set_tooltip is deprecated!");
+    GtkStatusIcon * status = GTK_STATUS_ICON( hb_parptr( 1 ) );
+    const gchar * tooltip = hb_parc( 2 );
+    gtk_status_icon_set_tooltip_text( status, tooltip );
+  }
+
+  HB_FUNC( GTK_STATUS_ICON_SET_VISIBLE ) 
+  {
+    GtkStatusIcon * status = GTK_STATUS_ICON( hb_parptr( 1 ) );
+    gboolean visible = hb_parl( 2 );
+    gtk_status_icon_set_visible( status, visible );
+  }
+
+  HB_FUNC( GTK_STATUS_ICON_GET_BLINKING ) 
+  {
+    g_message("gtk_status_icon_get_blinking is removed!");
+  }
+
+  HB_FUNC( GTK_STATUS_ICON_SET_BLINKING ) 
+  {
+    g_message("gtk_status_icon_get_blinking is removed!");
+  }
+
+  HB_FUNC( GTK_STATUS_ICON_POSITION_MENU ) 
+  {
+    GtkMenu * menu = GTK_MENU( hb_parptr( 1 ) );
+    gint x,y;
+    gboolean push_in;
+    
+    gtk_status_icon_position_menu( menu,
+                                   &x,
+                                   &y,
+                                   &push_in, NULL );
+  }
+  #endif
 #endif
 #endif
 
