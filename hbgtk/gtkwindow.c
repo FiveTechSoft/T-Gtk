@@ -358,6 +358,23 @@ HB_FUNC( GTK_WINDOW_ADD_ACCEL_GROUP ) // pWindow, pAccel_Group --> void
     GtkWidget * window = GTK_WIDGET( hb_parptr( 1 ) );
     hb_retnd( gtk_window_get_opacity( GTK_WINDOW( window ) ) );
   }
+#else
+  #ifdef _GTK_DEPRECATED_
+  HB_FUNC( GTK_WINDOW_SET_OPACITY ) 
+  {
+    g_message("gtk_window_set_opacity is deprecated! use gtk_widget_set_opacity.");
+    GtkWidget * window = GTK_WIDGET( hb_parptr( 1 ) );
+    gtk_widget_set_opacity( GTK_WIDGET( window ),  hb_parnd( 2 ) );
+  }
+
+
+  HB_FUNC( GTK_WINDOW_GET_OPACITY ) 
+  {
+    g_message("gtk_window_get_opacity is deprecated! use gtk_widget_get_opacity.");
+    GtkWidget * window = GTK_WIDGET( hb_parptr( 1 ) );
+    hb_retnd( gtk_widget_get_opacity( GTK_WIDGET( window ) ) );
+  }
+  #endif
 #endif
 #endif
 
