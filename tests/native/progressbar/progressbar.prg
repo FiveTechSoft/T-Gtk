@@ -7,6 +7,16 @@
 */
 #include "gtkapi.ch"
 
+/**
+GTK+ 2.x                        GTK+ 3
+-----------------------------------------------------------------------
+GtkProgressBarOrientation 	GtkOrientation                  inverted
+-----------------------------------------------------------------------
+GTK_PROGRESS_LEFT_TO_RIGHT 	GTK_ORIENTATION_HORIZONTAL 	FALSE
+GTK_PROGRESS_RIGHT_TO_LEFT 	GTK_ORIENTATION_HORIZONTAL 	TRUE
+GTK_PROGRESS_TOP_TO_BOTTOM 	GTK_ORIENTATION_VERTICAL 	FALSE
+GTK_PROGRESS_BOTTOM_TO_TOP 	GTK_ORIENTATION_VERTICAL 	TRUE
+*/
 Static progress, progress2, progress3, progress4
 
 Function Main( )
@@ -47,7 +57,9 @@ Function Main( )
     __GSTYLE( "magenta" ,progress2, FGCOLOR , STATE_NORMAL )  // Cuando esta normal, letras verdes
     __GSTYLE( "black",progress2, BGCOLOR  , STATE_PRELIGHT )
     __GSTYLE( "blue"   ,progress2, FGCOLOR  , STATE_PRELIGHT )
-    gtk_progress_bar_set_orientation(progress2, GTK_PROGRESS_RIGHT_TO_LEFT )
+    // gtk_progress_bar_set_orientation(progress2, GTK_PROGRESS_RIGHT_TO_LEFT ) --> GTK2
+    gtk_orientable_set_orientation(progress2,GTK_ORIENTATION_HORIZONTAL)
+    gtk_progress_bar_set_inverted(progress2,.T.)
     gtk_box_pack_start( vbox, progress2, .F., .T., 2)
     gtk_widget_show( progress2 )
 
@@ -59,13 +71,20 @@ Function Main( )
     __GSTYLE( "red"    ,progress3, FGCOLOR , STATE_NORMAL )  // Cuando esta normal, letras verdes
     __GSTYLE( "white"  ,progress3, BGCOLOR  , STATE_PRELIGHT )
     __GSTYLE( "orange" ,progress3, FGCOLOR  , STATE_PRELIGHT )
-    gtk_progress_bar_set_orientation(progress3, GTK_PROGRESS_BOTTOM_TO_TOP)
+  //  gtk_progress_bar_set_orientation(progress3, GTK_PROGRESS_BOTTOM_TO_TOP)  // GTK2
+    gtk_orientable_set_orientation(progress3,GTK_ORIENTATION_VERTICAL)
+    gtk_progress_bar_set_inverted(progress3,.T.)
+    //-----------------------------------------------------------------------
+
+
     gtk_box_pack_start( vbox, progress3, .F., .T., 2)
     gtk_widget_show( progress3 )
 
     progress4 = gtk_progress_bar_new()
     gtk_progress_bar_set_text( progress4, "ProgressBar Top To Bottom..." )
-    gtk_progress_bar_set_orientation(progress4, GTK_PROGRESS_TOP_TO_BOTTOM )
+//    gtk_progress_bar_set_orientation(progress4, GTK_PROGRESS_TOP_TO_BOTTOM )
+    gtk_orientable_set_orientation(progress4,GTK_ORIENTATION_VERTICAL)
+    gtk_progress_bar_set_inverted(progress4,.F.)
     gtk_box_pack_start( vbox, progress4, .F., .T., 2)
     gtk_widget_show( progress4 )
 
