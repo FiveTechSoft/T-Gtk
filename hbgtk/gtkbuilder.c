@@ -14,8 +14,19 @@ GtkBuilder  * _gtk_builder_new()
 HB_FUNC( GTK_BUILDER_NEW ) //fname,root,domain
 {
   GtkBuilder  *pBuilder;
-  pBuilder = _gtk_builder_new( );
-  hb_retptr( ( GtkBuilder * ) pBuilder );
+  if( hb_parc( 1 ) ){
+     GtkBuilder * pBuilder = gtk_builder_new();
+     const * filename = hb_parc( 1 );
+     if( _gtk_builder_add_from_file( pBuilder, ( const gchar *) filename ) ){
+        hb_retptr( pBuilder );
+     } else {
+       g_print( "Carga de gtkbuilder no es correcta\n");
+     }
+
+  }else{
+     pBuilder = _gtk_builder_new( );
+     hb_retptr( ( GtkBuilder * ) pBuilder );
+  }
 }
 
 
@@ -73,3 +84,37 @@ HB_FUNC( SETGTKBUILDER )
    SetGtkBuilder( hb_parl( 1 ) );
 }
 
+
+HB_FUNC( GTK_BUILDER_NEW_FROM_FILE )
+{
+  const gchar * filename = ( gchar * ) hb_parc( 1 );
+  GtkBuilder * builder = gtk_builder_new_from_file( filename );
+  hb_retptr( ( GtkBuilder * ) builder );
+}
+
+
+HB_FUNC( GTK_BUILDER_NEW_FROM_RESOURCE )
+{
+  const gchar * resource_path = ( gchar * ) hb_parc( 1 );
+  GtkBuilder * builder = gtk_builder_new_from_resource( resource_path );
+  hb_retptr( ( GtkBuilder * ) builder );
+}
+
+
+HB_FUNC( GTK_BUILDER_NEW_FROM_STRING )
+{
+  const gchar * string = ( gchar * ) hb_parc( 1 );
+  gssize length = (gsize) hb_parni( 2 );
+  GtkBuilder * builder = gtk_builder_new_from_string( string, length );
+  hb_retptr( ( GtkBuilder * ) builder );
+}
+
+
+HB_FUNC( GTK_BUILDER_CONNECT_SIGNALS )
+{
+  GtkBuilder * builder = (GtkBuilder *) hb_parptr( 1 );
+  gpointer   user_data = hb_parptr( 2 );
+  gtk_builder_connect_signals( builder, user_data );
+}
+
+//eof

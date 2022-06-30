@@ -25,12 +25,9 @@
  * Glade. Support Glade----------------------------------------------------
  */
 
-
-#if GTK_MAJOR_VERSION < 3
-
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include "hbapi.h"
+ 
 
 //prototypes
 GtkBuilder  * _gtk_builder_new();
@@ -40,26 +37,17 @@ BOOL GetGtkBuilderSts();
 
 HB_FUNC( GLADE_XML_NEW ) //fname,root,domain
 {
-  
-  if( GetGtkBuilderSts() )
-  {
-     GtkBuilder  * pBuilder =  _gtk_builder_new();
-     const char * filename = hb_parc( 1 );
-     if( _gtk_builder_add_from_file( pBuilder, ( const gchar *) filename ) ){
-        hb_retptr( pBuilder );
-     } else {
-	g_print( "Carga de gtkbuilder no es correcta\n");
-     }
-     
-  }else
-  {
-     GladeXML *xml;     
-     xml = glade_xml_new( hb_parc( 1 ), ISNIL( 2 ) ? NULL : hb_parc( 2 ), ISNIL( 3 ) ? NULL : hb_parc( 3 ) );
-     hb_retptr( ( GladeXML * ) xml );
+  g_message( "GLADE_XML_NEW is Removed! Use GTK_BUILDER_NEW." );
+  GtkBuilder  * pBuilder =  _gtk_builder_new();
+  const char * filename = hb_parc( 1 );
+  if( _gtk_builder_add_from_file( pBuilder, ( const gchar *) filename ) ){
+     hb_retptr( pBuilder );
+  } else {
+    g_print( "Carga de gtkbuilder no es correcta\n");
   }
 }
 
-
+/*
 HB_FUNC( GLADE_XML_NEW_FROM_BUFFER ) //fname,root,domain
 {
   GladeXML *xml;
@@ -70,53 +58,41 @@ HB_FUNC( GLADE_XML_NEW_FROM_BUFFER ) //fname,root,domain
   
   hb_retptr( ( GladeXML * ) xml );
 }
-
+*/
 
 HB_FUNC( GLADE_XML_GET_WIDGET )
 {
   GtkWidget * widget;
-  if( GetGtkBuilderSts() )
-  {
-     widget = GTK_WIDGET( gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) ) );  
-     hb_retptr( widget );
-}else
-  {
-     widget = glade_xml_get_widget( (GladeXML *) hb_parptr( 1 ), (gchar *) hb_parc( 2 ) );
-    hb_retptr( ( GtkWidget * ) widget );
-}
-
+  g_message( "GLADE_XML_GET_WIDGET is Removed! Use GTK_BUILDER_GET_OBJECT." );
+  widget = GTK_WIDGET( gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) ) );  
+  hb_retptr( widget );
 }
 
 HB_FUNC( GLADE_XML_GET_TREE_VIEW_COLUMN )
 {
   GtkTreeViewColumn  * widget;
-
-  if( GetGtkBuilderSts() )
-  {
-     widget = GTK_TREE_VIEW_COLUMN( gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) ) );  
-     hb_retptr( widget );
-  }
-  
+  g_message( "GLADE_XML_GET_TREE_VIEW_COLUMN is Removed! Use GTK_BUILDER_GET_OBJECT." );
+  widget = GTK_TREE_VIEW_COLUMN( gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) ) );  
+  hb_retptr( widget );
 }
+  
 
 HB_FUNC( GLADE_XML_GET_CELL_RENDERER )
 {
- GtkCellRenderer * widget;
-  if( GetGtkBuilderSts() )
-  {
-     widget = GTK_CELL_RENDERER( ( gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) ) ) );  
-     hb_retptr( widget );
-  }
- 
+  GtkCellRenderer * widget;
+  g_message( "GLADE_XML_GET_CELL_RENDERER is Removed! Use GTK_BUILDER_GET_OBJECT." );
+  widget = GTK_CELL_RENDERER( ( gtk_builder_get_object ( ( GtkBuilder * ) hb_parptr( 1 ) , ( const gchar * ) hb_parc( 2 ) ) ) );  
+  hb_retptr( widget );
 }
 
 
 HB_FUNC( GLADE_GET_WIDGET_NAME )
 {
+  g_message( "GLADE_GET_WIDGET_NAME is Removed!!!" );
   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
-  const gchar * name = glade_get_widget_name (widget);
+  const gchar * name = gtk_widget_get_name(widget);
   hb_retc( (gchar *) name );
 }
 
-#endif
+
 //eof

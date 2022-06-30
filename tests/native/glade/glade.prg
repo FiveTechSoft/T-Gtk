@@ -8,46 +8,57 @@
 
 #include "gtkapi.ch"
 
-func gtk_exit( widget ) ; gtk_main_quit() ; return( .f. )
+//func gtk_exit( widget ) ; gtk_main_quit() ; return( .f. )
 
-function main( )
-  local xml, window
-  local item_new
+procedure  main( )
+   local builder, window
+   local button, item_new, my_user_data
 
-/* Cargando interface */
-   xml = glade_xml_new( "example.glade" )
-   
-/* Recuperando widget ventana a partir de su identificador */   
-   window = glade_xml_get_widget( xml, "window1" )
 
-/* Conectando salida controlada */
+   /* Cargando interface */
+   //builder = glade_xml_new("gtk3.ui") //gtk_builder_new()
+   builder = gtk_builder_new( "gtk3.ui" )
+
+   // Load the XML from a file.
+   //gtk_builder_add_from_file( builder, "gtk3.ui", NIL )
+
+   // Get the object called 'main_window' from the file and show it.
+   window = gtk_builder_get_object( builder, "main_window" )
+   gtk_widget_show( window )
+
+   my_user_data = 0xDEADBEEF
+   gtk_builder_connect_signals(builder, @my_user_data)
+
+
+   // Conectando salida controlada 
    gtk_signal_connect( window, "delete-event", {|w| Salida(w) } )  
 
-/* Recuperando widget menu_item a partir de su identificador */   
-   item_new = glade_xml_get_widget( xml, "new1" )
+   // Recuperando widget button a partir de su identificador "button1" 
+   button = gtk_builder_get_object( builder, "button1" )
 
-/* Conectando al menu_item una accion */  
-   gtk_signal_connect( item_new, "activate", {|w| show_action(w)} )
+   // Conectando al menu_item una accion   
+   gtk_signal_connect( button, "clicked", {|w| show_action(w)} )
 
-/* start the event loop */
+   // Main loop.
    gtk_main()
 
-return 0
+return
+
 
 function Salida( widget )
-
-   if ( MsgBox( "Quieres salir", GTK_MSGBOX_OK+GTK_MSGBOX_CANCEL,;
+   if ( MsgBox( "¿Quieres salir?", GTK_MSGBOX_OK+GTK_MSGBOX_CANCEL,;
                 GTK_MSGBOX_INFO ) == GTK_MSGBOX_OK )
       gtk_main_quit()
       return .f.  // Salimos y matamos la aplicacion.
    endif
-
 return .t.
 
-function show_action(widget)
- 
- local name := "El identificador en archivo XML de este widget es : "
-  name += glade_get_widget_name(widget) 
-  msginfo( name )
 
+function show_action( widget )
+   local name := "El identificador en archivo XML de este widget es : "
+   name += gtk_widget_get_name(widget) 
+   msginfo( name )
 return .t.
+
+
+//eof
