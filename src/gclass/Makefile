@@ -6,9 +6,9 @@
 ROOT = ../../
 
 include $(ROOT)config/detect.mk
-#ifeq ($(GTK_MAJOR_VERSION),3)
-   SOURCES=gsignals.prg wqout.prg
-#endif
+##ifeq ($(GTK_MAJOR_VERSION),3)
+##   SOURCES=gsignals.prg wqout.prg gtimer.prg errorsys.prg
+##endif
 
 PRGFLAGS=-I$(ROOT)include 
 CFLAGS+=-I$(ROOT)include

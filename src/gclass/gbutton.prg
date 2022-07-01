@@ -133,7 +133,9 @@ METHOD New( cText, bAction, bValid, oFont, lMnemonic, cFromStock, oParent, lExpa
 
        ::SetImage( uImage )
 
-       if ValType(cToolTip)='C' ;  gToolTip():New( cToolTip, self ) ; endif
+       if ValType(cToolTip)='C' //;  gToolTip():New( cToolTip, self ) ; endif
+          gtk_widget_set_tooltip_text( self, cToolTip )
+       endif
 
        ::Show()
 

@@ -11,7 +11,7 @@ Function Main()
 
   local oWnd, oLbx, oBox, cVar , oCombo, oCombo3, cVar3
   local oCombo2, cVar2 := "ARA", aItems := { "1-Value","2-Dos","3-Well..." }
-  Local oComboChange, cVarChange
+  Local oComboChange, cVarChange, oCompletion
 
   DEFINE WINDOW oWnd TITLE "T-Gtk Combobox TreeStore power!!"
      

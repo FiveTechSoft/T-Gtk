@@ -8,7 +8,8 @@ TARGET = test
 SOURCES = dialogos.prg
 
 PRGFLAGS=-I$(ROOT)include -p
-LIBS=-L$(ROOT)src/gclass -lgclass -L$(ROOT)hbgtk -lhbgtk $(shell pkg-config --libs libglade-2.0) $(shell pkg-config --libs gtk+-2.0 )
+#LIBS=-L$(ROOT)src/gclass -lgclass -L$(ROOT)hbgtk -lhbgtk $(shell pkg-config --libs libglade-2.0) $(shell pkg-config --libs gtk+-2.0 )
+#LIBS=-L/usr/local/lib/harbour -lhbrtl -lhbct -lhbcplr -lhbvm -lhbrtl
 
 include $(ROOT)Rules.make
 

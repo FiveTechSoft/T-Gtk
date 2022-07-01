@@ -158,7 +158,7 @@ HB_FUNC( GTK_ENTRY_SET_ICON_FROM_STOCK ) //deprecated
    GtkEntry * Entry = GTK_ENTRY( hb_parptr( 1 ) );
    GtkEntryIconPosition icon_pos = ( GtkEntryIconPosition ) hb_parni( 2 );
    const gchar *stock_id = ( const gchar * ) hb_parc( 3 );
-   gtk_alert_deprecated( "GTK_ENTRY_SET_ICON_FROM_STOCK" );	
+   g_message( "GTK_ENTRY_SET_ICON_FROM_STOCK is deprecated!" );	
    gtk_entry_set_icon_from_icon_name ( GTK_ENTRY( Entry ), icon_pos, stock_id);	
    
 }

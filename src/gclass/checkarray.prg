@@ -1,7 +1,7 @@
-/* $Id: gtooltip.prg,v 1.1 2006-09-07 17:02:46 xthefull Exp $*/
+/* $Id: checkarray.prg,v 1.3 2022-07-01 00:30:12 riztan Exp $*/
 /*
     LGPL Licence.
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -18,30 +18,20 @@
     Boston, MA 02111-1307 USA (or visit the web site http://www.gnu.org/).
 
     LGPL Licence.
-    (c)2003 Rafael Carmona <thefull@wanadoo.es>
 */
 
-/*
-#include "gtkapi.ch"
-#include "hbclass.ch"
+//------------------------------------------------------//
 
-CLASS GTOOLTIP FROM GOBJECT
+function CheckArray( aArray )
+   
+   if ValType( aArray ) == 'A' .and. ;
+      Len( aArray ) == 1 .and. ;
+      ValType( aArray[ 1 ] ) == 'A'
+      aArray   = aArray[ 1 ]
+   elseif ValType( aArray ) == "U"
+      aArray = {}
+   endif
 
-      METHOD NEW( cText, oWidget )
-      METHOD Enable()  INLINE gtk_tooltips_enable( ::pWidget )
-      METHOD Disable() INLINE gtk_tooltips_disable( ::pWidget )
-      METHOD SetTip( oWidget, cText ) INLINE Gtk_tooltips_set_tip( ::pWidget, oWidget:pWidget, cText )
+return aArray
 
-ENDCLASS
-
-METHOD NEW( cText, oWidget ) CLASS GTOOLTIP
-  
-    ::pWidget:= Gtk_ToolTips_New()
-      
-    if oWidget != NIL
-       ::SetTip( oWidget, cText )
-    endif
-
-RETURN Self
-*/
 //eof

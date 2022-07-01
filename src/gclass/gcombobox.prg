@@ -31,7 +31,7 @@ CLASS GCOMBOBOX FROM GBIN
       METHOD New( )
       METHOD SetItems( aItems )
       METHOD GetText()
-      METHOD Insert( nPos,cText ) INLINE gtk_combo_box_insert_text ( ::pWidget, nPos-1, cText )
+      METHOD Insert( nPos,cText ) INLINE gtk_combo_box_text_insert ( ::pWidget, nPos-1, cText )
       METHOD RemoveItem( nItem )
       METHOD RemoveAll( )
       METHOD SetActive( nItem ) INLINE gtk_combo_box_set_active(::pWidget, nItem -1 )
@@ -48,6 +48,7 @@ CLASS GCOMBOBOX FROM GBIN
 
 ENDCLASS
 
+
 METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nPadding, lContainer, x, y,;
             cId, uGlade, uLabelTab, nWidth, nHeight, lEnd, lSecond, lResize, lShrink,;
             left_ta,right_ta,top_ta,bottom_ta, xOptions_ta, yOptions_ta ) CLASS GCOMBOBOX
@@ -58,7 +59,7 @@ METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nP
 
        IF cId == NIL
           if oModel == NIL
-             ::pWidget = gtk_combo_box_new_text( )
+             ::pWidget = gtk_combo_box_text_new( )
           else
              // TODO: De momento, solamente se admite un modelo de una columna simple, no compuesta. 
              ::pWidget = gtk_combo_box_new_with_model( oModel:pWidget )
@@ -115,6 +116,7 @@ METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nP
 
 RETURN Self
 
+
 METHOD SetItems( aItems ) CLASS GCOMBOBOX
        Local X
        Local uActive := 1
@@ -129,7 +131,7 @@ METHOD SetItems( aItems ) CLASS GCOMBOBOX
        if !Empty( aItems )
           ::aItems := aItems
           for x := 1 to Len( aItems )
-             gtk_combo_box_append_text ( ::pWidget, cValtoChar( aItems[x] ) )
+             gtk_combo_box_text_append ( ::pWidget, cValtoChar( aItems[x] ) )
           next
        endif
 
@@ -143,6 +145,7 @@ METHOD SetItems( aItems ) CLASS GCOMBOBOX
        ::SetActive( uActive )
 
 RETURN NIL
+
 
 METHOD GetText() CLASS GCOMBOBOX
        Local nPos, aIter
@@ -163,11 +166,11 @@ METHOD GetText() CLASS GCOMBOBOX
 
 RETURN uResult
 
-METHOD RemoveItem( nItem ) CLASS GCOMBOBOX
 
+METHOD RemoveItem( nItem ) CLASS GCOMBOBOX
        Adel( ::aItems, nItem )
        ASIZE( ::aItems, ( Len( ::aItems ) - 1) )
-       gtk_combo_box_remove_text( ::pWidget, nItem - 1 )
+       gtk_combo_box_text_remove( ::pWidget, nItem - 1 )
 
 RETURN Nil
 
@@ -199,7 +202,7 @@ METHOD RemoveAll( ) CLASS GCOMBOBOX
     if ::oModel = NIL
        ::aItems := NIL
        FOR x := 1 To nLen 
-           gtk_combo_box_remove_text( ::pWidget, 0 )
+           gtk_combo_box_text_remove( ::pWidget, 0 )
        NEXT
     else
         ::oModel:Clear()

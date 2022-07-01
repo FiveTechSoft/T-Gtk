@@ -187,7 +187,7 @@ METHOD OnPrepare( uParam, pPage ) CLASS GASSISTANT
       ::Connect( "prepare" )
    elseif hb_IsObject( uParam )
       if hb_IsBlock( uParam:bPrepare )
-         Eval( uParam:bPrepare, uParam, nPage )
+         Eval( uParam:bPrepare, uParam, pPage )
       endif
    endif             
 

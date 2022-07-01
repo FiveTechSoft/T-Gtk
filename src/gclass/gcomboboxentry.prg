@@ -9,7 +9,7 @@ CLASS GCOMBOBOXENTRY FROM GCOMBOBOX
       DATA oEntry
       METHOD New( )
       METHOD GetText()
-      METHOD Get_Widget_Entry( ) INLINE TGTK_GET_WIDGET_COMBO_ENTRY( ::pWidget )
+      METHOD Get_Widget_Entry( ) INLINE gtk_bin_get_child( ::pWidget )  //TGTK_GET_WIDGET_COMBO_ENTRY( ::pWidget )
       METHOD GetValue()       INLINE ::oEntry:GetValue()
       METHOD SetValue( uVal ) INLINE ::oEntry:SetValue( uVal )
 ENDCLASS
@@ -25,9 +25,9 @@ METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nP
 
        IF cId == NIL
           if oModel == NIL
-             ::pWidget = gtk_combo_entry_new_text()
+             ::pWidget = gtk_combo_box_new_with_entry()
           else
-             ::pWidget = gtk_combo_box_entry_new_with_model( oModel:pWidget, 0 )
+             ::pWidget = gtk_combo_box_new_with_model( oModel:pWidget, 0 )
           endif
        ELSE
           ::pWidget := glade_xml_get_widget( uGlade, cId )
@@ -67,6 +67,7 @@ METHOD New( bSetGet, aItems, bChange, oModel, oFont, oParent, lExpand, lFill, nP
        ::Connect( "changed" )
 
        // Obtenemos el entry como un simple objeto, para manipularlo como queramos
+
        ::oEntry         := gEntry():Object_Empty()
        ::oEntry:pWidget := ::Get_Widget_Entry( )
        ::oEntry:oGet    := GetNew( -1, -1, bSetGet, "" )
