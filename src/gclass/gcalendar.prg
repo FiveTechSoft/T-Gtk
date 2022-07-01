@@ -108,7 +108,7 @@ METHOD SetStyle( nStyle ) CLASS GCALENDAR
 
        if nStyle != NIL
           ::nStyle := nStyle
-           gtk_calendar_display_options( ::pWidget, ::nStyle )
+           gtk_calendar_set_display_options( ::pWidget, ::nStyle )
        endif
 
 Return NIL

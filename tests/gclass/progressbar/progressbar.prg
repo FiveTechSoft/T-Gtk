@@ -6,7 +6,7 @@ FUNCTION Main()
    LOCAL oWnd, oPBr, oBtn
    LOCAL nVar := 0, cFileRes, cResource
 
-   cFileRes := "pruebas.glade"
+   cFileRes := "pruebas.ui"
    
    HB_CDPSELECT( "ESISO" )
    Set_Auto_UTF8( .T. )

@@ -24,7 +24,6 @@
 #include <hbapi.h>
 #include <glib.h>
 
-#if GTK_MAJOR_VERSION < 3
     
 HB_FUNC( HB_G_FIND_PROGRAM_IN_PATH )
 {
@@ -109,4 +108,4 @@ HB_FUNC( HB_NAND )
    hb_retnl( lRet );
 }
 
-#endif
+//eof

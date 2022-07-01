@@ -90,7 +90,7 @@ METHOD SetItems( aItems ) CLASS GCOMBOBOX_CLIP
 
     if !Empty( aItems ) // Note.. If you NOT ASIGN array.. CRASH!!
        for x := 1 to nLen
-           gtk_combo_box_append_text ( ::pWidget, cValtoChar( ::GetItem( x, 1 ) ) ) // Corect from Rosen
+           gtk_combo_box_text_append ( ::pWidget, cValtoChar( ::GetItem( x, 1 ) ) ) // Corect from Rosen
        next
     endif
 

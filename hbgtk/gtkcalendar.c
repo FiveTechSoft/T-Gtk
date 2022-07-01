@@ -97,6 +97,16 @@ HB_FUNC( GTK_CALENDAR_DISPLAY_OPTIONS ) // calendar, flags
   gtk_calendar_set_display_options( GTK_CALENDAR( calendar ) , flags );
   gtk_calendar_display_options( GTK_CALENDAR( calendar ) , flags );
  }
+#else
+   #ifdef _GTK_DEPRECATED_
+   HB_FUNC( GTK_CALENDAR_DISPLAY_OPTIONS ) // calendar, flags //deprecated
+   {
+     g_message("GTK_CALENDAR_DISPLAY_OPTIONS is deprecated! Use GTK_CALENDAR_SET_DISPLAY_OPTIONS.");
+     GtkWidget * calendar = GTK_WIDGET( hb_parptr( 1 ) );
+     GtkCalendarDisplayOptions flags = hb_parni( 2 );
+     gtk_calendar_set_display_options( GTK_CALENDAR( calendar ) , flags );
+    }
+   #endif
 #endif
 
 HB_FUNC( GTK_CALENDAR_SET_DISPLAY_OPTIONS ) // calendar, flags

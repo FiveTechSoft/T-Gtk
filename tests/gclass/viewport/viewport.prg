@@ -6,7 +6,7 @@
 #include "gclass.ch"
 
 Function Main()
-   Local oWnd, oViewPort
+   Local oWnd, oViewPort, oScroll
 
    DEFINE WINDOW oWnd TITLE "T-GTK ViewPort"  SIZE 100,100
       DEFINE SCROLLEDWINDOW oScroll OF oWnd CONTAINER

@@ -33,7 +33,8 @@ CLASS GProgressBar FROM GWidget
                                     ::Set( Eval( ::bSetGet ) )
       METHOD SetText( cText ) INLINE gtk_progress_bar_set_text( ::pWidget, cText )
       METHOD SetOrientation( nOrientation ) INLINE ;
-             gtk_progress_bar_set_orientation( ::pWidget, nOrientation )
+             gtk_orientable_set_orientation( ::pWidget, nOrientation )
+
 
       METHOD Inc( nValue )
       METHOD Dec( nValue )
