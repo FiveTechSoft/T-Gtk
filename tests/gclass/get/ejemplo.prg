@@ -31,17 +31,17 @@ FUNCTION Main()
 
      // Vamos a usar una tabla ;-)
      DEFINE TABLE oTable ROWS 4 COLS 2 OF oBox
-       DEFINE LABEL PROMPT "Nombre" OF oTable TABLEATTACH 0,1,0,1 HALIGN GTK_LEFT
+       DEFINE LABEL PROMPT "Nombre"    OF oTable TABLEATTACH 0,1,0,1 HALIGN GTK_LEFT
        DEFINE LABEL PROMPT "Fec. Nac." OF oTable TABLEATTACH 0,1,1,2 HALIGN GTK_LEFT
-       DEFINE LABEL PROMPT "CUIT" OF oTable TABLEATTACH 0,1,2,3 HALIGN GTK_LEFT
-       DEFINE LABEL PROMPT "Sueldo" OF oTable TABLEATTACH 0,1,3,4 HALIGN GTK_LEFT
-       DEFINE LABEL PROMPT "Observ." OF oTable TABLEATTACH 0,1,4,5 HALIGN GTK_LEFT
+       DEFINE LABEL PROMPT "CUIT"      OF oTable TABLEATTACH 0,1,2,3 HALIGN GTK_LEFT
+       DEFINE LABEL PROMPT "Sueldo"    OF oTable TABLEATTACH 0,1,3,4 HALIGN GTK_LEFT
+       DEFINE LABEL PROMPT "Observ."   OF oTable TABLEATTACH 0,1,4,5 HALIGN GTK_LEFT
 
-       DEFINE GET VAR aValues[1] PICTURE Replicate("!",35) OF oTable TABLEATTACH 1,2,0,1
-       DEFINE GET VAR aValues[2] PICTURE "@D" OF oTable TABLEATTACH 1,2,1,2
+       DEFINE GET VAR aValues[1] PICTURE Replicate("!",35)  OF oTable TABLEATTACH 1,2,0,1
+       DEFINE GET VAR aValues[2] PICTURE "@D"               OF oTable TABLEATTACH 1,2,1,2
        DEFINE GET VAR aValues[3] PICTURE "@R 99-99999999-9" OF oTable TABLEATTACH 1,2,2,3 VALID ValidCuit( aValues[3] )
        DEFINE GET VAR aValues[4] PICTURE "@E 99,999,999.99" OF oTable TABLEATTACH 1,2,3,4
-       DEFINE GET VAR aValues[5] PICTURE Replicate("X",14) OF oTable TABLEATTACH 1,2,4,5
+       DEFINE GET VAR aValues[5] PICTURE Replicate("X",14)  OF oTable TABLEATTACH 1,2,4,5
 
      DEFINE BOX oBox2 OF oBox HOMO
        DEFINE BUTTON PROMPT "Grabar" ACTION ( lAcepta := .t., oWnd:End() ) OF oBox2 EXPAND FILL
@@ -95,9 +95,9 @@ function ValidCuit( cuit )
   if Empty(cuit)
     lDev := .t.
   elseif !Cuit(cuit)
-    MsgInfo( UTF_8( "    El CUIT ingresado no es"+CRLF+;
-                  "      Valido, por fabor"+CRLF+;
-                  "controlelo e Ingreselo nuevamente"+CRLF ), "Atencion" )
+    MsgInfo( UTF_8( " El CUIT ingresado no es válido. "+CRLF+;
+                    "Por favor, "+CRLF+;
+                    "verifique e ingrese los datos nuevamente"+CRLF ), "Atención" )
   else
     lDev := .t.
   endif
@@ -105,3 +105,4 @@ function ValidCuit( cuit )
 
 Return lDev
 
+//eof
