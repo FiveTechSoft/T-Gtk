@@ -4,9 +4,15 @@
 #include "gclass.ch"
 
 #define GTK_WRAP_WORD      2
+#ifdef GTK_TEXT_DIR_RTL
+  #undef GTK_TEXT_DIR_RTL
+#endif
 #define GTK_TEXT_DIR_RTL   2
 #define PANGO_STYLE_ITALIC 2
-#define PANGO_SCALE 1024
+#ifdef PANGO_SCALE
+  #undef PANGO_SCALE
+#endif
+#define PANGO_SCALE        1024
 
 Function Main()
     Local cText := "Power of TextView" + CRLF, oWnd, oTextView, oScroll, oBox, oBtn
@@ -15,7 +21,7 @@ Function Main()
       DEFINE BOX oBox OF oWnd VERTICAL
         DEFINE BUTTON oBtn TEXT "Insert" OF oBox ACTION ( Create_Text( oTextView, oScroll ), oBtn:Disable() )
 
-        DEFINE SCROLLEDWINDOW oScroll OF oBox CONTAINER
+        DEFINE SCROLLEDWINDOW oScroll OF oBox EXPAND FILL
           DEFINE TEXTVIEW oTextView VAR cText OF oScroll CONTAINER
 
           // gtk_text_view_set_justification( oTextView:pWidget, GTK_JUSTIFY_RIGHT )
