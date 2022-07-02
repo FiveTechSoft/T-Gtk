@@ -28,10 +28,13 @@
 #include <gtk/gtk.h>
 #include "hbapi.h"
 
-#if GTK_MAJOR_VERSION < 3
+//#if GTK_MAJOR_VERSION < 3
+//#else
+#ifdef _GTK_DEPRECATED_
 
 HB_FUNC( GTK_RC_GET_THEME_DIR ) // -> path de instalacion de los temas
 {
+  g_message("GTK_RC_GET_THEME_DIR is deprecated!");
   gchar * path = gtk_rc_get_theme_dir();
   hb_retc( path );
   g_free( path );
@@ -39,27 +42,32 @@ HB_FUNC( GTK_RC_GET_THEME_DIR ) // -> path de instalacion de los temas
 
 HB_FUNC( GTK_RC_PARSE )        // filename -> void
 {
+  g_message("GTK_RC_PARCE is deprecated!");
   gtk_rc_parse( (gchar *) hb_parc( 1 ) );
 }
 
 HB_FUNC( GTK_RC_PARSE_STRING ) // string -> void
 {
+  g_message("GTK_RC_PARCE_STRING is deprecated!");
   gtk_rc_parse_string( (gchar *) hb_parc(1) );
 }
 
 HB_FUNC( GTK_RC_REPARSE_ALL) // void-->boolean
 {
+  g_message("GTK_RC_PARCE_ALL is deprecated!");
   hb_retl( gtk_rc_reparse_all() );
 }
 
 HB_FUNC( GTK_RC_RESET_STYLES ) // pSetting;
 {
+  g_message("GTK_RC_RESET_STYLES is deprecated!");
   GtkSettings * settings = GTK_SETTINGS( hb_parptr( 1 ) );
   gtk_rc_reset_styles(settings);
 }
 
 HB_FUNC( GTK_RC_REPARSE_ALL_FOR_SETTINGS ) // void-->boolean
 {
+  g_message("GTK_RC_REPARSE_ALL_FOR_SETTINGS is deprecated!");
   GtkSettings * settings = GTK_SETTINGS( hb_parptr( 1 ) );
   gboolean force_load = ISNIL( 2 ) ? TRUE : hb_parl( 2 );
 
@@ -67,3 +75,4 @@ HB_FUNC( GTK_RC_REPARSE_ALL_FOR_SETTINGS ) // void-->boolean
 }
 
 #endif
+//#endif
