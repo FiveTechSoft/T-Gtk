@@ -8,6 +8,8 @@ function main()
   Local oBox, oBox1
   Local oBook
   Local aFields, oKeyS
+  Local oTitu, oLbx, oScroll, oTreeView, aTit, x, oCol
+  Local oKey
 
   DEFINE WINDOW oWnd TITLE "Tree of T-Gtk" SIZE 600,300
 
@@ -31,7 +33,7 @@ function main()
         oTreeView:SetRules( .T. )
         aTit := { "Código", "Empresa", "CUIT", "Direccion", "Cód. Muni.", "Cód. Rent."}
         // Vamos a coger los valores de las columnas, se pasa path y col desde el evento
-        oTreeView:bRow_Activated := { |path,col| MsgInfo( "As presionado Enter" ) }
+        oTreeView:bRow_Activated := { |path,col| MsgInfo( "Has presionado Enter" ) }
 
         For x=1 to Len(aTit)
           DEFINE TREEVIEWCOLUMN oCol COLUMN x TITLE Utf_8(aTit[x])  TYPE "text" OF oTreeView EXPAND SORT
@@ -51,10 +53,10 @@ function main()
 
         DEFINE KEY oKey OF oTreeView
 
-        KEY  GDK_F1  ACTION MsgInfo( "As presionado F1" ) OF oKey
-        KEY  GDK_F2  ACTION MsgInfo( "As presionado F2" ) OF oKey
-        KEY  GDK_F7  ACTION MsgInfo( "As presionado F7" ) OF oKey
-        KEY  GDK_Delete  ACTION MsgInfo( "As presionado Delete" ) OF oKey
+        KEY  GDK_F1  ACTION MsgInfo( "Has presionado F1" ) OF oKey
+        KEY  GDK_F2  ACTION MsgInfo( "Has presionado F2" ) OF oKey
+        KEY  GDK_F7  ACTION MsgInfo( "Has presionado F7" ) OF oKey
+        KEY  GDK_Delete  ACTION MsgInfo( "Has presionado Delete" ) OF oKey
 
         DISPLAY KEY oKey F1 " Ayuda " ;
                          F2 " Alta " ;
@@ -79,7 +81,7 @@ function main()
         oTreeView:SetRules( .T. )
         aTit := { "Código", "Empresa", "CUIT", "Direccion", "Cód. Muni.", "Cód. Rent."}
         // Vamos a coger los valores de las columnas, se pasa path y col desde el evento
-        oTreeView:bRow_Activated := { |path,col| MsgInfo( "As presionado Enter en el tree 2" ) }
+        oTreeView:bRow_Activated := { |path,col| MsgInfo( "Has presionado Enter en el tree 2" ) }
 
         For x=1 to Len(aTit)
           DEFINE TREEVIEWCOLUMN oCol COLUMN x TITLE Utf_8(aTit[x])  TYPE "text" OF oTreeView EXPAND SORT
@@ -99,10 +101,10 @@ function main()
 
         DEFINE KEY oKey OF oTreeView
 
-        KEY  GDK_F1  ACTION MsgInfo( "As presionado F1 en el tree 2" ) OF oKey
-        KEY  GDK_F3  ACTION MsgInfo( "As presionado F3 en el tree 2" ) OF oKey
-        KEY  GDK_F7  ACTION MsgInfo( "As presionado F7 en el tree 2" ) OF oKey
-        KEY  GDK_Delete  ACTION MsgInfo( "As presionado Delete en el tree 2" ) OF oKey
+        KEY  GDK_F1  ACTION MsgInfo( "Has presionado F1 en el tree 2" ) OF oKey
+        KEY  GDK_F3  ACTION MsgInfo( "Has presionado F3 en el tree 2" ) OF oKey
+        KEY  GDK_F7  ACTION MsgInfo( "Has presionado F7 en el tree 2" ) OF oKey
+        KEY  GDK_Delete  ACTION MsgInfo( "Has presionado Delete en el tree 2" ) OF oKey
 
         DISPLAY KEY oKey F1 " Ayuda " ;
                          F3 " Alta " ;
