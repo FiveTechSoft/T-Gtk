@@ -54,7 +54,7 @@ CLASS GWIDGET FROM GOBJECT
        METHOD AddEvents( uEvents ) INLINE gtk_widget_add_events( ::pWidget, uEvents )
 
        METHOD SetFont( oFont ) INLINE ::oFont := oFont, gtk_widget_modify_font( ::pWidget, oFont:pFont )
-       METHOD Size( nWidth, nHeight )   INLINE gtk_widget_set_usize( ::pWidget, nWidth, nHeight )
+       METHOD Size( nWidth, nHeight )   INLINE gtk_widget_set_size_request( ::pWidget, nWidth, nHeight )
        METHOD Style( cColor, iComponent, iState ) INLINE  __GSTYLE( cColor, ::pWidget, iComponent , iState )
 
        // Insercion de contanedores padre/hijo
