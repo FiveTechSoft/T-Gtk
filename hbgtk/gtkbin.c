@@ -25,10 +25,11 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
+#if GTK_MAJOR_VERSION > 2
 HB_FUNC( GTK_BIN_GET_CHILD )
 {
    GtkBin * bin = hb_parptr( 1 ) ;
    hb_retptr( ( GtkWidget *) gtk_bin_get_child( bin ) );
 }
-
+#endif
 //eof

@@ -264,12 +264,14 @@ HB_FUNC( GTK_WIDGET_MODIFY_BASE ) // widget, state, namecolor -> void
   gtk_widget_modify_base( widget, state, &color );
 }
 
+#if GTK_MAJOR_VERSION < 3
 HB_FUNC( GTK_BIN_GET_CHILD ) // devuelve widget hijo
 {
    GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
    GtkWidget * child =  gtk_bin_get_child( GTK_BIN( widget ) );
    hb_retptr( (GtkWidget * ) child );
 }
+#endif
 
 HB_FUNC( GTK_WIDGET_HIDE_ON_DELETE )
 {
