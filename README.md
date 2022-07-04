@@ -30,6 +30,7 @@ To compile t-gtk3 on Windows, it is necessary to have available Harbour compiled
 After downloading and installing msys2, we must proceed to invoke a msys terminal window and update it using the instruction: 
 `pacman -Syu`
 After updating, we proceed to install the necessary dependencies (gtk3, pkg-config, glade):
+
 `pacman -S --needed base-devel mingw-w64-x86_64-toolchain`
 
 `pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-pkg-config mingw-w64-x86_64-gtk3 mingw-w64-x86_64-glade`
@@ -99,6 +100,7 @@ Para compilar t-gtk3 en Windows, es necesario tener disponible Harbour  compilad
 Tras descargar e instalar msys2, debemos proceder a invocar una ventana de terminal de msys y actualizarlo mediante la instrucción: 
 `pacman -Syu`
 Luego de actualizar, procedemos a instalar las dependencias necesarias (gtk3, pkg-config, glade):
+
 `pacman -S --needed base-devel mingw-w64-x86_64-toolchain`
 
 `pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-pkg-config mingw-w64-x86_64-gtk3 mingw-w64-x86_64-glade `
