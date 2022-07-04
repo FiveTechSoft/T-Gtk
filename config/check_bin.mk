@@ -16,6 +16,7 @@ lc = $(strip $(subst /,\,$(subst A,a,$(subst B,b,$(subst C,c,$(subst D,d,$(subst
 
 # Verificamos que la ruta GTK_PATH o TGTK_BIN estan en el PATH
 $(info * Buscando GTK_PATH ($(GTK_PATH)\bin) en la Variable de Entorno PATH.)
+$(info --------------------------------------------------------------- )
 ifeq ($(findstring $(call lc,$(GTK_PATH)\bin),$(call lc,$(PATH))),)
   $(info ** No Encontrado valor de GTK_PATH en path.)
    $(info -------------- )
@@ -59,6 +60,7 @@ EXECUTE :=cmd /C start /MIN /WAIT $(TGTK_DIR)\config\check_bin.bat $(TGTK_DIR)
 $(info * Buscando pkg-config.exe en GTK_PATH ->$(GTK_PATH)\bin)
 $(shell $(EXECUTE) $(GTK_PATH)\bin\pkg-config.exe)
 
+$(info buscando valor $(TGTK_DIR)\config\control.log )
 ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
   $(info * No encontrado... )
   
@@ -104,36 +106,38 @@ endif
 
 
 # Buscamos wget
-EXECUTE :=cmd /C start /MIN /WAIT $(TGTK_DIR)\config\check_bin.bat $(TGTK_DIR) 
+EXECUTE :=cmd /C start /MIN /WAIT $(TGTK_DIR)/config/check_bin.bat $(TGTK_DIR) 
 
 $(info * Buscando wget.exe en TGTK_BIN ->$(TGTK_BIN))
-$(shell $(EXECUTE) $(TGTK_BIN)\bin\wget.exe)
+$(info Invocando $(TGTK_BIN)\bin\wget.exe)
+#$(shell $(EXECUTE) $(TGTK_BIN)\bin\wget.exe)
 
 ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
   $(info * No encontrado... )
 
   $(info * Buscando wget.exe en TGTK_DIR\pkg_install\miscelan_bin ->$(TGTK_DIR)\pkg_install\miscelan_bin)
+  $(info Invocando $(TGTK_DIR)\pkg_install\miscelan_bin\wget.exe)
   $(shell $(EXECUTE) $(TGTK_DIR)\pkg_install\miscelan_bin\wget.exe)
 
   ifneq ($(findstring yes,$(shell type $(TGTK_DIR)\config\control.log)),yes)
     $(info No Encontrado... )
 
-    ifeq ($(shell wget --version ),)
-      ifeq ($(AUTO_INST),yes)
-        $(info Debe descargar y descomprimir wget en una ruta como $(TGTK_BIN) )
+#    ifeq ($(shell wget --version ),)
+#      ifeq ($(AUTO_INST),yes)
+#        $(info Debe descargar y descomprimir wget en una ruta como $(TGTK_BIN) )
 
-        $(shell cmd /C start http://users.ugent.be/~bpuype/cgi-bin/fetch.pl?dl=wget/wget.exe)
+#        $(shell cmd /C start http://users.ugent.be/~bpuype/cgi-bin/fetch.pl?dl=wget/wget.exe)
 #        $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-bin.zip)
 #        $(shell cmd /C start http://downloads.sourceforge.net/gnuwin32/wget-1.11.4-1-dep.zip)
 
-      else
-        $(info ***************************************************** )
-	$(info   Por favor, debe setear la variable AUTO_INST=yes 
-	$(info   para intentar obtener las dependencias necesarias. 
-        $(info ***************************************************** )
-	$(error )
-      endif
-    endif
+#      else
+##        $(info ***************************************************** )
+#	$(info   Por favor, debe setear la variable AUTO_INST=yes    )
+#	$(info   para intentar obtener las dependencias necesarias.  )
+#        $(info ***************************************************** )
+#	$(error )
+#      endif
+#    endif
 
   endif
 

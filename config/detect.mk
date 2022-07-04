@@ -13,15 +13,22 @@ ifneq ($(findstring COMMAND,$(SHELL)),)
    HB_MAKE_PLAT := dos
    HOST_PLAT := x86
 else
-   ifneq ($(findstring sh.exe,$(SHELL)),)
+   ##ifeq ($(findstring sh.exe,$(SHELL ver)),)
+   #
+   # $(shell ver)  -- Aplica en Windows  (en minusculas)
+   #
+   ifneq ($(findstring Windows,$(shell ver)),)
       HB_MAKE_PLAT := win
       HOST_PLAT :=$(PROCESSOR_ARCHITECTURE)
       ifneq ($(findstring XP,$(shell ver )),)
          HB_MAKE_ISSUE :=XP
       endif
+      ifneq ($(findstring Microsoft,$(shell ver )),)
+         HB_MAKE_ISSUE :=win
+      endif
    else
       ifneq ($(findstring CMD.EXE,$(SHELL)),)
-         HB_MAKE_PLAT := os2
+         HB_MAKE_PLAT :=os2
       else
          ifneq ($(findstring /bin/sh,$(SHELL)),)
            HB_MAKE_PLAT := linux
@@ -37,6 +44,8 @@ else
       endif
    endif
 endif
+$(info Plataforma detectada: $(HB_MAKE_PLAT) )
+$(info Plataforma detectada (HOST): $(HOST_PLAT) )
 
 # Directory separator default
 ifeq ($(DIRSEP),)

@@ -112,7 +112,7 @@ ifeq ($(POSTGRE),yes)
 endif
 $(info *************************************************** )
 
-$(info ****GTK VERSION = $(GTK_MAJOR_VERSION) )
+$(info ****GTK VERSION = $(GTK_MAJOR_VERSION))
 
 ############################################## 
 # Esqueleto para todas las plataformas
@@ -149,12 +149,12 @@ ifeq ($(GTK_DEPRECATED),yes)
    CFLAGS += -D_GTK_DEPRECATED_
 endif
 
-ifeq ($(GTK_MAJOR_VERSION),3)
-    CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ #-D_GTK_$(GTK_MAJOR_VERSION)-$(GTK_MINOR_VERSION)_
+ifeq ($(strip $(GTK_MAJOR_VERSION)),3)
+    CFLAGS += -D_GTK$(strip $(GTK_MAJOR_VERSION))_ #-D_GTK_$(GTK_MAJOR_VERSION)-$(GTK_MINOR_VERSION)_
     CFLAGS += -DGTK_MAJOR_VERSION=3
     LIBS +=$(shell pkg-config --cflags --libs gtk+-3.0)
 else
-    CFLAGS += -D_GTK$(GTK_MAJOR_VERSION)_ #-D_GTK_$(GTK_MAJOR_VERSION)-$(GTK_MINOR_VERSION)_
+    CFLAGS += -D_GTK$(strip $(GTK_MAJOR_VERSION))_ #-D_GTK_$(GTK_MAJOR_VERSION)-$(GTK_MINOR_VERSION)_
     #LIBS +=$(shell pkg-config --cflags --libs gtk+-2.0)
     LIBS +=$(shell pkg-config --libs libglade-2.0)
 endif

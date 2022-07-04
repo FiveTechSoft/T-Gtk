@@ -7,6 +7,7 @@ $(info * Ejecutando config/packages.mk )
 
 
 # Verificamos que esta tgtk3.pc pkg-config
+$(info * Verificando existencia de tgtk3.pc en: $(PKG_CONFIG_PATH))
 ifeq ($(notdir $(wildcard $(PKG_CONFIG_PATH)/tgtk3.pc)),)
   $(info * Registrando t-gtk en pkg-config... $(PKG_CONFIG_PATH))
   ifeq ($(HB_MAKE_PLAT),win)

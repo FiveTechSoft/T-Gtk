@@ -15,21 +15,29 @@
 ifeq ($(HB_MAKE_PLAT),win)
 # Ruta en Windows:
   ifeq ($(HARBOUR_PATH),)    
-    HARBOUR_PATH  =\harbour-project
+    HARBOUR_PATH  =\harbour
   endif
 
   ifeq ($(HB_BIN_INSTALL),)
-    export HB_BIN_INSTALL =$(HARBOUR_PATH)\bin\win\mingw
+    ifneq ($(findstring 64,$(HOST_PLAT)),)
+      export HB_BIN_INSTALL =$$(HARBOUR_PATH)\bin\win\mingw64
+    else
+      export HB_BIN_INSTALL =$$(HARBOUR_PATH)\bin\win\mingw
+    endif
   endif
   ifeq ($(HB_INC_INSTALL),)
-    export HB_INC_INSTALL =$(HARBOUR_PATH)\include
+    export HB_INC_INSTALL =$$(HARBOUR_PATH)\include
   endif
   ifeq ($(HB_LIB_INSTALL),)
-    export HB_LIB_INSTALL =$(HARBOUR_PATH)\lib\win\mingw
+    ifneq ($(findstring 64,$(HOST_PLAT)),)
+      export HB_LIB_INSTALL =$$(HARBOUR_PATH)\lib\win\mingw64
+    else
+      export HB_LIB_INSTALL =$$(HARBOUR_PATH)\lib\win\mingw
+    endif
   endif
   # -- Version = [ 3.0 | 3.1 ]
   #ifeq ($(HB_VERSION),)
-  #  export HB_VERSION =31
+    export HB_VERSION =32
   #endif
 else
 # Ruta en GNU/Linux:

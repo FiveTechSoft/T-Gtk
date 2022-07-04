@@ -13,7 +13,7 @@ ifeq ($(HB_MAKE_PLAT),win)
   ECHO:=echo
   N:=\#
   INI:=> $(ROOT)\$(SETENV) 
-  ADD:=>> $(ROOT)\$(SETENV) 
+  ADD:=>>$(ROOT)\$(SETENV) 
 else
   ECHO:=echo "
   SPACE:=$(ECHO)
@@ -47,14 +47,14 @@ $(shell $(strip $(ECHO) export HB_BIN_INSTALL =$(HB_BIN_INSTALL)$(ADD)))
 $(shell $(strip $(ECHO) export HB_INC_INSTALL =$(HB_INC_INSTALL)$(ADD)))
 $(shell $(strip $(ECHO) export HB_LIB_INSTALL =$(HB_LIB_INSTALL)$(ADD)))
 $(shell $(strip $(ECHO) export HB_VERSION =$(HB_VERSION)$(ADD)))
-$(shell $(strip $(ECHO) $(N)-------------------- $(ADD)))
-$(shell $(strip $(ECHO) $(N) RUTAS Compilador xBase xHARBOUR. $(ADD)))
+#$(shell $(strip $(ECHO) $(N)-------------------- $(ADD)))
+#$(shell $(strip $(ECHO) $(N) RUTAS Compilador xBase xHARBOUR. $(ADD)))
 
-include $(ROOT)config/xharbour.mk 
-$(shell $(strip $(ECHO) export XHB_BIN_INSTALL =$(XHB_BIN_INSTALL)$(ADD)))
-$(shell $(strip $(ECHO) export XHB_INC_INSTALL =$(XHB_INC_INSTALL)$(ADD)))
-$(shell $(strip $(ECHO) export XHB_LIB_INSTALL =$(XHB_LIB_INSTALL)$(ADD)))
-$(shell $(strip $(SPACE) $(ADD)))
+#include $(ROOT)config/xharbour.mk 
+#$(shell $(strip $(ECHO) export XHB_BIN_INSTALL =$(XHB_BIN_INSTALL)$(ADD)))
+#$(shell $(strip $(ECHO) export XHB_INC_INSTALL =$(XHB_INC_INSTALL)$(ADD)))
+#$(shell $(strip $(ECHO) export XHB_LIB_INSTALL =$(XHB_LIB_INSTALL)$(ADD)))
+#$(shell $(strip $(SPACE) $(ADD)))
 $(shell $(strip $(ECHO) $(N)-------------------- $(ADD)))
 $(shell $(strip $(ECHO) $(N) RUTAS T-GTK. $(ADD)))
 $(shell $(strip $(ECHO) export TGTK_DIR =$(TGTK_DIR)$(ADD)))
@@ -70,8 +70,8 @@ endif
 $(shell $(strip $(SPACE) $(ADD)))
 $(shell $(strip $(ECHO) $(N)-------------------- $(ADD)))
 $(shell $(strip $(ECHO) $(N) Componentes Adicionales. $(ADD)))
-$(shell $(strip $(ECHO) export GTK_MAJOR_VERSION = 3$(ADD)))
-$(shell $(strip $(ECHO) export GTK_MINOR_VERSION = 0$(ADD)))
+$(shell $(strip $(ECHO) export GTK_MAJOR_VERSION = 3 $(ADD)))
+$(shell $(strip $(ECHO) export GTK_MINOR_VERSION = 0 $(ADD)))
 $(shell $(strip $(ECHO) export GTK_DEPRECATED = no$(ADD)))
 $(shell $(strip $(ECHO) export GTK_PATH =$(GTK_PATH)$(ADD)))
 $(shell $(strip $(ECHO) export TGTK_BIN =$(TGTK_BIN)$(ADD)))
@@ -83,12 +83,15 @@ endif
 $(shell $(strip $(ECHO) $(N)-------------------- $(ADD)))
 $(shell $(strip $(ECHO) $(N) Genera Binario con Datos de la Plataforma. $(ADD)))
 $(shell $(strip $(ECHO) export BIN_PLATFORM_NAME =yes$(ADD)))
+ifeq ($(HB_MAKE_PLAT),win)
+  $(shell $(strip $(ECHO) $(N)-------------------- $(ADD)))
+  $(shell $(strip $(ECHO) $(N) Auto Descarga e Instalación de Componentes. $(ADD)))
+  $(shell $(strip $(ECHO) export AUTO_INST =no$(ADD)))
+  $(shell $(strip $(ECHO) export TGTK_DOWN =no$(ADD)))
+  $(shell $(strip $(SPACE) $(ADD)))
+  $(shell $(strip $(SPACE) $(ADD)))
+endif
 $(shell $(strip $(ECHO) $(N)-------------------- $(ADD)))
-$(shell $(strip $(ECHO) $(N) Auto Descarga e Instalación de Componentes. $(ADD)))
-$(shell $(strip $(ECHO) export AUTO_INST =yes$(ADD)))
-$(shell $(strip $(ECHO) export TGTK_DOWN =yes$(ADD)))
-$(shell $(strip $(SPACE) $(ADD)))
-$(shell $(strip $(SPACE) $(ADD)))
 $(shell $(strip $(ECHO) $(N) Soporte de Impresion. $(ADD)))
 ifeq ($(HB_MAKE_PLAT),win)
 $(shell $(strip $(ECHO) export SUPPORT_PRINT_WIN32 =$(SUPPORT_PRINT_WIN32)$(ADD)))
@@ -190,4 +193,5 @@ $(info * Vuelva a ejecutar.. )
 $(error )
 
 endif
+$(info * Finalizado gensetenv.mk $(SETENV) )
 #/eof

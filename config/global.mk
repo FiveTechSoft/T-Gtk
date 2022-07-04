@@ -61,7 +61,7 @@ ifeq ($(HB_MAKE_PLAT),win)
    endif
 endif
 
-export TGTK_VERSION :=2.3
+export TGTK_VERSION :=3
 
 ##############################################
 # Indicar COMPILADOR XBASE. 
@@ -95,7 +95,7 @@ endif
 ifeq ($(HB_MAKE_PLAT),win)
   # Ruta en Windows:
   ifeq ($(TGTK_DIR),)
-    export TGTK_DIR         =\t-gtk_$(TGTK_VERSION)
+    export TGTK_DIR         =\t-gtk$(TGTK_VERSION)
   endif
   ifeq ($(LIBDIR_TGTK),)
     export LIBDIR_TGTK      =$(TGTK_DIR)\lib
@@ -126,7 +126,11 @@ endif
 # bin - para colocar herramientas
 # run - binarios (RunTime) para distribuir 
 ifeq ($(TGTK_BIN),)
-  export TGTK_BIN  =\mingw
+  ifneq ($(findstring 64,$(HOST_PLAT)),)
+    export TGTK_BIN  =\mingw64
+  else
+    export TGTK_BIN  =\mingw
+  endif
 endif
 ifeq ($(TGTK_RUN),)
   export TGTK_RUN  =$(TGTK_DIR)\runtime
@@ -148,7 +152,11 @@ endif
 
 ifeq ($(HB_MAKE_PLAT),win)
   ifeq ($(GTK_PATH),)
-    export GTK_PATH        :=\mingw
+    ifneq ($(findstring 64,$(HOST_PLAT)),)
+      export GTK_PATH        :=\mingw64
+    else
+      export GTK_PATH        :=\mingw
+    endif
   endif
   ifeq ($(PKG_CONFIG_PATH),)
     export PKG_CONFIG_PATH :=$(GTK_PATH)\lib\pkgconfig

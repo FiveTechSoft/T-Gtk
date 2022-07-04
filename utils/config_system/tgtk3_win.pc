@@ -1,0 +1,15 @@
+prefix=/target
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+target=win32
+
+gtk_binary_version=2.6.0
+gtk_host=i386-pc
+
+Name: T-GTK
+Description: Library Gtk+ for Harbour (${target} target)
+Version: 3.0.0 Beta
+Requires: gtk+-3.0 gladeui-2.0
+Libs: -lgclass -lhbgtk -L${libdir}  
+Cflags: -I${includedir}/gtk-2.0 
