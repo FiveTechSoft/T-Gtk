@@ -31,15 +31,16 @@ After downloading and installing msys2, we must proceed to invoke a msys termina
 `pacman -Syu`
 After updating, we proceed to install the necessary dependencies (gtk3, pkg-config, glade):
 `pacman -S --needed base-devel mingw-w64-x86_64-toolchain`
+
 `pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-pkg-config mingw-w64-x86_64-gtk3 mingw-w64-x86_64-glade`
 
-If everything was OK, msys is installed in the c:\msys64 folder and mingw is in the c:\msys64-mingw64 folder.
+If everything was OK, msys is installed in the "*c:\msys64*" folder and mingw is in the "*c:\msys64-mingw64*" folder.
 
 Now that you have mingw, and everything we need so far, you can continue working in a standard windows terminal window. In this window, we will prepare the environment by setting some variables as follows:
 `set PATH=c:\msys64\mingw;%PATH%`
 
 We must also indicate the path to the Harbour binaries, if the location of your copy of harbour is: c:\harbour, then indicate:
-`set PATH=c:\harbour`.
+`set PATH=c:\harbour\bin\win\mingw64;%PATH%`.
 
 *Note: For convenience, it is recommended to copy c:\msys64\mingw64\bin\mingw32-make.exe to: c:\msys64\mingw64\bin\make.exe.
 
@@ -99,15 +100,16 @@ Tras descargar e instalar msys2, debemos proceder a invocar una ventana de termi
 `pacman -Syu`
 Luego de actualizar, procedemos a instalar las dependencias necesarias (gtk3, pkg-config, glade):
 `pacman -S --needed base-devel mingw-w64-x86_64-toolchain`
+
 `pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-pkg-config mingw-w64-x86_64-gtk3 mingw-w64-x86_64-glade `
 
-Si todo ha estado bien, msys se ha instalado en la carpeta c:\msys64 y mingw está en la carpeta c:\msys64\mingw64
+Si todo ha estado bien, msys se ha instalado en la carpeta "*c:\msys64*" y mingw está en la carpeta "*c:\msys64\mingw64*"
 
-Ahora que ya se dispone de mingw, y todo lo que necesitamos hasta ahora, se puede continuar trabajando en una ventana de terminal estándar de windows. En esta ventana, vamos a preparar el entorno seteando algunas variables como se indica a continuación:
+Ahora que ya se dispone de mingw, y todo lo que necesitamos hasta ahora; se puede continuar trabajando en una ventana de terminal estándar de windows. En esta ventana, vamos a preparar el entorno seteando algunas variables como se indica a continuación:
 `set PATH=c:\msys64\mingw\bin;%PATH%`
 
 También debemos indicar la ruta de los binarios de Harbour, si la ubicación de su copia de harbour es: c:\harbour, entonces indicar:
-`set PATH=c:\harbour\bin\win\mingw64`
+`set PATH=c:\harbour\bin\win\mingw64;%PATH%`
 
 *Nota: Para mayor comodidad, es recomendable copiar c:\msys64\mingw64\bin\mingw32-make.exe a: c:\msys64\mingw64\bin\make.exe*
 
