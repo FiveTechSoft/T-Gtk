@@ -100,35 +100,35 @@ HB_FUNC( GTK_TEXT_BUFFER_APPLY_TAG ) //  buffer, tag, aStart, aEnd
     if ( Array2IterText( pEnd, &end ) )
     {
       gtk_text_buffer_apply_tag( buffer, tag, &start,&end );
-      hb_stornl( (glong) (start.dummy1 ) ,3, 1);
-      hb_stornl( (glong) (start.dummy2 ) ,3, 2);
-      hb_storni( (gint) (start.dummy3)   ,3, 3);
-      hb_storni( (gint) (start.dummy4)   ,3, 4);
-      hb_storni( (gint) (start.dummy5)   ,3, 5);
-      hb_storni( (gint) (start.dummy6)   ,3, 6);
-      hb_storni( (gint) (start.dummy7)   ,3, 7);
-      hb_storni( (gint) (start.dummy8)   ,3, 8);
-      hb_stornl( (glong) (start.dummy9 ) ,3, 9);
-      hb_stornl( (glong) (start.dummy10 ) ,3, 10);
-      hb_storni( (gint) (start.dummy11)   ,3, 11);
-      hb_storni( (gint) (start.dummy12)   ,3, 12);
-      hb_storni( (gint) (start.dummy13)   ,3, 13);
-      hb_stornl( (glong) (start.dummy14 ) ,3, 14);
+      hb_storptr( (gpointer) (start.dummy1 ), 3,  1 );
+      hb_storptr( (gpointer) (start.dummy2 ), 3,  2 );
+      hb_storni(  (gint    ) (start.dummy3 ), 3,  3 );
+      hb_storni(  (gint    ) (start.dummy4 ), 3,  4 );
+      hb_storni(  (gint    ) (start.dummy5 ), 3,  5 );
+      hb_storni(  (gint    ) (start.dummy6 ), 3,  6 );
+      hb_storni(  (gint    ) (start.dummy7 ), 3,  7 );
+      hb_storni(  (gint    ) (start.dummy8 ), 3,  8 );
+      hb_storptr( (gpointer) (start.dummy9 ), 3,  9 );
+      hb_storptr( (gpointer) (start.dummy10), 3, 10 );
+      hb_storni(  (gint    ) (start.dummy11), 3, 11 );
+      hb_storni(  (gint    ) (start.dummy12), 3, 12 );
+      hb_storni(  (gint    ) (start.dummy13), 3, 13 );
+      hb_storptr( (gpointer) (start.dummy14), 3, 14 );
       
-      hb_stornl( (glong) (end.dummy1 ) ,4, 1);
-      hb_stornl( (glong) (end.dummy2 ) ,4, 2);
-      hb_storni( (gint) (end.dummy3)   ,4, 3);
-      hb_storni( (gint) (end.dummy4)   ,4, 4);
-      hb_storni( (gint) (end.dummy5)   ,4, 5);
-      hb_storni( (gint) (end.dummy6)   ,4, 6);
-      hb_storni( (gint) (end.dummy7)   ,4, 7);
-      hb_storni( (gint) (end.dummy8)   ,4, 8);
-      hb_stornl( (glong) (end.dummy9 ) ,4, 9);
-      hb_stornl( (glong) (end.dummy10 ) ,4, 10);
-      hb_storni( (gint) (end.dummy11)   ,4, 11);
-      hb_storni( (gint) (end.dummy12)   ,4, 12);
-      hb_storni( (gint) (end.dummy13)   ,4, 13);
-      hb_stornl( (glong) (end.dummy14 ) ,4, 14);
+      hb_storptr( (gpointer) (end.dummy1 ), 4,  1 );
+      hb_storptr( (gpointer) (end.dummy2 ), 4,  2 );
+      hb_storni(  (gint    ) (end.dummy3 ), 4,  3 );
+      hb_storni(  (gint    ) (end.dummy4 ), 4,  4 );
+      hb_storni(  (gint    ) (end.dummy5 ), 4,  5 );
+      hb_storni(  (gint    ) (end.dummy6 ), 4,  6 );
+      hb_storni(  (gint    ) (end.dummy7 ), 4,  7 );
+      hb_storni(  (gint    ) (end.dummy8 ), 4,  8 );
+      hb_storptr( (gpointer) (end.dummy9 ), 4,  9 );
+      hb_storptr( (gpointer) (end.dummy10), 4, 10 );
+      hb_storni(  (gint    ) (end.dummy11), 4, 11 );
+      hb_storni(  (gint    ) (end.dummy12), 4, 12 );
+      hb_storni(  (gint    ) (end.dummy13), 4, 13 );
+      hb_storptr( (gpointer) (end.dummy14), 4, 14 );
     }
   }
 }
@@ -146,35 +146,35 @@ HB_FUNC( GTK_TEXT_BUFFER_APPLY_TAG_BY_NAME ) //  buffer, name , &start, &end
     if ( Array2IterText( pEnd, &end ) )
     {
       gtk_text_buffer_apply_tag_by_name( buffer, name , &start, &end );
-      hb_stornl( (glong) (start.dummy1 ) ,3, 1);
-      hb_stornl( (glong) (start.dummy2 ) ,3, 2);
-      hb_storni( (gint) (start.dummy3)   ,3, 3);
-      hb_storni( (gint) (start.dummy4)   ,3, 4);
-      hb_storni( (gint) (start.dummy5)   ,3, 5);
-      hb_storni( (gint) (start.dummy6)   ,3, 6);
-      hb_storni( (gint) (start.dummy7)   ,3, 7);
-      hb_storni( (gint) (start.dummy8)   ,3, 8);
-      hb_stornl( (glong) (start.dummy9 ) ,3, 9);
-      hb_stornl( (glong) (start.dummy10 ) ,3, 10);
-      hb_storni( (gint) (start.dummy11)   ,3, 11);
-      hb_storni( (gint) (start.dummy12)   ,3, 12);
-      hb_storni( (gint) (start.dummy13)   ,3, 13);
-      hb_stornl( (glong) (start.dummy14 ) ,3, 14);
+      hb_storptr( (gpointer) (start.dummy1 ), 3, 1  );
+      hb_storptr( (gpointer) (start.dummy2 ), 3, 2  );
+      hb_storni(  (gint    ) (start.dummy3 ), 3, 3  );
+      hb_storni(  (gint    ) (start.dummy4 ), 3, 4  );
+      hb_storni(  (gint    ) (start.dummy5 ), 3, 5  );
+      hb_storni(  (gint    ) (start.dummy6 ), 3, 6  );
+      hb_storni(  (gint    ) (start.dummy7 ), 3, 7  );
+      hb_storni(  (gint    ) (start.dummy8 ), 3, 8  );
+      hb_storptr( (gpointer) (start.dummy9 ), 3, 9  );
+      hb_storptr( (gpointer) (start.dummy10), 3, 10 );
+      hb_storni(  (gint    ) (start.dummy11), 3, 11 );
+      hb_storni(  (gint    ) (start.dummy12), 3, 12 );
+      hb_storni(  (gint    ) (start.dummy13), 3, 13 );
+      hb_storptr( (gpointer) (start.dummy14), 3, 14 );
       
-      hb_stornl( (glong) (end.dummy1 ) ,4, 1);
-      hb_stornl( (glong) (end.dummy2 ) ,4, 2);
-      hb_storni( (gint) (end.dummy3)   ,4, 3);
-      hb_storni( (gint) (end.dummy4)   ,4, 4);
-      hb_storni( (gint) (end.dummy5)   ,4, 5);
-      hb_storni( (gint) (end.dummy6)   ,4, 6);
-      hb_storni( (gint) (end.dummy7)   ,4, 7);
-      hb_storni( (gint) (end.dummy8)   ,4, 8);
-      hb_stornl( (glong) (end.dummy9 ) ,4, 9);
-      hb_stornl( (glong) (end.dummy10 ) ,4, 10);
-      hb_storni( (gint) (end.dummy11)   ,4, 11);
-      hb_storni( (gint) (end.dummy12)   ,4, 12);
-      hb_storni( (gint) (end.dummy13)   ,4, 13);
-      hb_stornl( (glong) (end.dummy14 ) ,4, 14);
+      hb_storptr( (gpointer) (end.dummy1 ), 4, 1  );
+      hb_storptr( (gpointer) (end.dummy2 ), 4, 2  );
+      hb_storni(  (gint    ) (end.dummy3 ), 4, 3  );
+      hb_storni(  (gint    ) (end.dummy4 ), 4, 4  );
+      hb_storni(  (gint    ) (end.dummy5 ), 4, 5  );
+      hb_storni(  (gint    ) (end.dummy6 ), 4, 6  );
+      hb_storni(  (gint    ) (end.dummy7 ), 4, 7  );
+      hb_storni(  (gint    ) (end.dummy8 ), 4, 8  );
+      hb_storptr( (gpointer) (end.dummy9 ), 4, 9  );
+      hb_storptr( (gpointer) (end.dummy10), 4, 10 );
+      hb_storni(  (gint    ) (end.dummy11), 4, 11 );
+      hb_storni(  (gint    ) (end.dummy12), 4, 12 );
+      hb_storni(  (gint    ) (end.dummy13), 4, 13 );
+      hb_storptr( (gpointer) (end.dummy14), 4, 14 );
 
     }
   }
@@ -189,21 +189,21 @@ HB_FUNC( GTK_TEXT_BUFFER_GET_ITER_AT_OFFSET )  // buffer,  aIter , Pos
   
   if ( Array2IterText( pIter, &iter ) )
   {  
-     gtk_text_buffer_get_iter_at_offset( buffer, &iter, (gint)hb_parni( 3 ) );
-     hb_stornl( (glong) (iter.dummy1 ) ,2, 1);
-     hb_stornl( (glong) (iter.dummy2 ) ,2, 2);
-     hb_storni( (gint) (iter.dummy3)   ,2, 3);
-     hb_storni( (gint) (iter.dummy4)   ,2, 4);
-     hb_storni( (gint) (iter.dummy5)   ,2, 5);
-     hb_storni( (gint) (iter.dummy6)   ,2, 6);
-     hb_storni( (gint) (iter.dummy7)   ,2, 7);
-     hb_storni( (gint) (iter.dummy8)   ,2, 8);
-     hb_stornl( (glong) (iter.dummy9 ) ,2, 9);
-     hb_stornl( (glong) (iter.dummy10 ) ,2, 10);
-     hb_storni( (gint) (iter.dummy11)   ,2, 11);
-     hb_storni( (gint) (iter.dummy12)   ,2, 12);
-     hb_storni( (gint) (iter.dummy13)   ,2, 13);
-     hb_stornl( (glong) (iter.dummy14 ) ,2, 14);
+     gtk_text_buffer_get_iter_at_offset( buffer, &iter, (gint) hb_parni( 3 ) );
+     hb_storptr( (gpointer) (iter.dummy1 ), 2, 1  );
+     hb_storptr( (gpointer) (iter.dummy2 ), 2, 2  );
+     hb_storni(  (gint    ) (iter.dummy3 ), 2, 3  );
+     hb_storni(  (gint    ) (iter.dummy4 ), 2, 4  );
+     hb_storni(  (gint    ) (iter.dummy5 ), 2, 5  );
+     hb_storni(  (gint    ) (iter.dummy6 ), 2, 6  );
+     hb_storni(  (gint    ) (iter.dummy7 ), 2, 7  );
+     hb_storni(  (gint    ) (iter.dummy8 ), 2, 8  );
+     hb_storptr( (gpointer) (iter.dummy9 ), 2, 9  );
+     hb_storptr( (gpointer) (iter.dummy10), 2, 10 );
+     hb_storni(  (gint    ) (iter.dummy11), 2, 11 );
+     hb_storni(  (gint    ) (iter.dummy12), 2, 12 );
+     hb_storni(  (gint    ) (iter.dummy13), 2, 13 );
+     hb_storptr( (gpointer) (iter.dummy14), 2, 14 );
   }
 
 }
@@ -222,20 +222,20 @@ HB_FUNC( GTK_TEXT_BUFFER_INSERT_WITH_TAGS_BY_NAME  )  // buffer,  aIter , text, 
   {  
      gtk_text_buffer_insert_with_tags_by_name( buffer, &iter, text, len, tag1,
                                             hb_parc( 6 ), hb_parc( 7 ),hb_parc( 8 ), NULL );
-     hb_stornl( (glong) (iter.dummy1 ) ,2, 1);
-     hb_stornl( (glong) (iter.dummy2 ) ,2, 2);
-     hb_storni( (gint) (iter.dummy3)   ,2, 3);
-     hb_storni( (gint) (iter.dummy4)   ,2, 4);
-     hb_storni( (gint) (iter.dummy5)   ,2, 5);
-     hb_storni( (gint) (iter.dummy6)   ,2, 6);
-     hb_storni( (gint) (iter.dummy7)   ,2, 7);
-     hb_storni( (gint) (iter.dummy8)   ,2, 8);
-     hb_stornl( (glong) (iter.dummy9 ) ,2, 9);
-     hb_stornl( (glong) (iter.dummy10 ) ,2, 10);
-     hb_storni( (gint) (iter.dummy11)   ,2, 11);
-     hb_storni( (gint) (iter.dummy12)   ,2, 12);
-     hb_storni( (gint) (iter.dummy13)   ,2, 13);
-     hb_stornl( (glong) (iter.dummy14 ) ,2, 14);
+     hb_storptr( (gpointer) (iter.dummy1 ), 2, 1 );
+     hb_storptr( (gpointer) (iter.dummy2 ), 2, 2 );
+     hb_storni(  (gint    ) (iter.dummy3 ), 2, 3 );
+     hb_storni(  (gint    ) (iter.dummy4 ), 2, 4 );
+     hb_storni(  (gint    ) (iter.dummy5 ), 2, 5 );
+     hb_storni(  (gint    ) (iter.dummy6 ), 2, 6 );
+     hb_storni(  (gint    ) (iter.dummy7 ), 2, 7 );
+     hb_storni(  (gint    ) (iter.dummy8 ), 2, 8 );
+     hb_storptr( (gpointer) (iter.dummy9 ), 2, 9 );
+     hb_storptr( (gpointer) (iter.dummy10), 2, 10);
+     hb_storni(  (gint    ) (iter.dummy11), 2, 11);
+     hb_storni(  (gint    ) (iter.dummy12), 2, 12);
+     hb_storni(  (gint    ) (iter.dummy13), 2, 13);
+     hb_storptr( (gpointer) (iter.dummy14), 2, 14);
   }
 
 }
@@ -250,20 +250,20 @@ HB_FUNC( GTK_TEXT_BUFFER_INSERT_PIXBUF  )  // buffer,  aIter , pixbuf
   if ( Array2IterText( pIter, &iter ) )
   { 
      gtk_text_buffer_insert_pixbuf( buffer, &iter, pixbuf );
-     hb_stornl( (glong) (iter.dummy1 ) ,2, 1);
-     hb_stornl( (glong) (iter.dummy2 ) ,2, 2);
-     hb_storni( (gint) (iter.dummy3)   ,2, 3);
-     hb_storni( (gint) (iter.dummy4)   ,2, 4);
-     hb_storni( (gint) (iter.dummy5)   ,2, 5);
-     hb_storni( (gint) (iter.dummy6)   ,2, 6);
-     hb_storni( (gint) (iter.dummy7)   ,2, 7);
-     hb_storni( (gint) (iter.dummy8)   ,2, 8);
-     hb_stornl( (glong) (iter.dummy9 ) ,2, 9);
-     hb_stornl( (glong) (iter.dummy10 ) ,2, 10);
-     hb_storni( (gint) (iter.dummy11)   ,2, 11);
-     hb_storni( (gint) (iter.dummy12)   ,2, 12);
-     hb_storni( (gint) (iter.dummy13)   ,2, 13);
-     hb_stornl( (glong) (iter.dummy14 ) ,2, 14);
+     hb_storptr( (gpointer) (iter.dummy1 ), 2, 1 );
+     hb_storptr( (gpointer) (iter.dummy2 ), 2, 2 );
+     hb_storni(  (gint    ) (iter.dummy3 ), 2, 3 );
+     hb_storni(  (gint    ) (iter.dummy4 ), 2, 4 );
+     hb_storni(  (gint    ) (iter.dummy5 ), 2, 5 );
+     hb_storni(  (gint    ) (iter.dummy6 ), 2, 6 );
+     hb_storni(  (gint    ) (iter.dummy7 ), 2, 7 );
+     hb_storni(  (gint    ) (iter.dummy8 ), 2, 8 );
+     hb_storptr( (gpointer) (iter.dummy9 ), 2, 9 );
+     hb_storptr( (gpointer) (iter.dummy10), 2, 10);
+     hb_storni(  (gint    ) (iter.dummy11), 2, 11);
+     hb_storni(  (gint    ) (iter.dummy12), 2, 12);
+     hb_storni(  (gint    ) (iter.dummy13), 2, 13);
+     hb_storptr( (gpointer) (iter.dummy14), 2, 14);
   }   
 }
 
@@ -387,20 +387,20 @@ PHB_ITEM IterText2Array( GtkTextIter *iter  )
    PHB_ITEM aIter = hb_itemArrayNew( 14 );
    PHB_ITEM element = hb_itemNew( NULL );
 
-   hb_arraySet( aIter, 1, hb_itemPutNL( element, (glong) iter->dummy1 ) );
-   hb_arraySet( aIter, 2, hb_itemPutNL( element, (glong) iter->dummy2 ) );
-   hb_arraySet( aIter, 3, hb_itemPutNI( element, iter->dummy3 ) );
-   hb_arraySet( aIter, 4, hb_itemPutNI( element, iter->dummy4 ) );
-   hb_arraySet( aIter, 5, hb_itemPutNI( element, iter->dummy5 ) );
-   hb_arraySet( aIter, 6, hb_itemPutNI( element, iter->dummy6 ) );
-   hb_arraySet( aIter, 7, hb_itemPutNI( element, iter->dummy7 ) );
-   hb_arraySet( aIter, 8, hb_itemPutNI( element, iter->dummy8) );
-   hb_arraySet( aIter, 9, hb_itemPutNL( element, (glong) iter->dummy9 ) );
-   hb_arraySet( aIter, 10,hb_itemPutNL( element, (glong) iter->dummy10 ) );
-   hb_arraySet( aIter, 11,hb_itemPutNI( element, iter->dummy11 ) );
-   hb_arraySet( aIter, 12,hb_itemPutNI( element, iter->dummy12 ) );
-   hb_arraySet( aIter, 13,hb_itemPutNI( element, iter->dummy13 ) );
-   hb_arraySet( aIter, 14,hb_itemPutNL( element, (glong) iter->dummy14 ) );
+   hb_arraySet( aIter,  1, hb_itemPutPtr( element, iter->dummy1  ) );
+   hb_arraySet( aIter,  2, hb_itemPutPtr( element, iter->dummy2  ) );
+   hb_arraySet( aIter,  3, hb_itemPutNI(  element, iter->dummy3  ) );
+   hb_arraySet( aIter,  4, hb_itemPutNI(  element, iter->dummy4  ) );
+   hb_arraySet( aIter,  5, hb_itemPutNI(  element, iter->dummy5  ) );
+   hb_arraySet( aIter,  6, hb_itemPutNI(  element, iter->dummy6  ) );
+   hb_arraySet( aIter,  7, hb_itemPutNI(  element, iter->dummy7  ) );
+   hb_arraySet( aIter,  8, hb_itemPutNI(  element, iter->dummy8  ) );
+   hb_arraySet( aIter,  9, hb_itemPutPtr( element, iter->dummy9  ) );
+   hb_arraySet( aIter, 10, hb_itemPutPtr( element, iter->dummy10 ) );
+   hb_arraySet( aIter, 11, hb_itemPutNI(  element, iter->dummy11 ) );
+   hb_arraySet( aIter, 12, hb_itemPutNI(  element, iter->dummy12 ) );
+   hb_arraySet( aIter, 13, hb_itemPutNI(  element, iter->dummy13 ) );
+   hb_arraySet( aIter, 14, hb_itemPutPtr( element, iter->dummy14 ) );
 
    hb_itemRelease(element);
    return aIter;
@@ -413,22 +413,23 @@ PHB_ITEM IterText2Array( GtkTextIter *iter  )
 BOOL Array2IterText(PHB_ITEM aIter, GtkTextIter *iter  )
 {
    if (HB_IS_ARRAY( aIter ) && hb_arrayLen( aIter ) == 14) {
-       iter->dummy1  = (gpointer) hb_arrayGetNL( aIter, 1 );
-       iter->dummy2  = (gpointer) hb_arrayGetNL( aIter, 2 );
-       iter->dummy3  = (gint) hb_arrayGetNI( aIter, 3 );
-       iter->dummy4  = (gint) hb_arrayGetNI( aIter, 4 );
-       iter->dummy5  = (gint) hb_arrayGetNI( aIter, 5 );
-       iter->dummy6  = (gint) hb_arrayGetNI( aIter, 6 );
-       iter->dummy7  = (gint) hb_arrayGetNI( aIter, 7 );
-       iter->dummy8  = (gint) hb_arrayGetNI( aIter, 8 );
-       iter->dummy9  = (gpointer) hb_arrayGetNL( aIter, 9 );
-       iter->dummy10 = (gpointer) hb_arrayGetNL( aIter, 10 );
-       iter->dummy11 = (gint) hb_arrayGetNI( aIter, 11 );
-       iter->dummy12 = (gint) hb_arrayGetNI( aIter, 12 );
-       iter->dummy13 = (gint) hb_arrayGetNI( aIter, 13 );
-       iter->dummy14 = (gpointer) hb_arrayGetNL( aIter, 14 );
+       iter->dummy1  = (gpointer) hb_arrayGetPtr( aIter, 1  );
+       iter->dummy2  = (gpointer) hb_arrayGetPtr( aIter, 2  );
+       iter->dummy3  = (gint    ) hb_arrayGetNI(  aIter, 3  );
+       iter->dummy4  = (gint    ) hb_arrayGetNI(  aIter, 4  );
+       iter->dummy5  = (gint    ) hb_arrayGetNI(  aIter, 5  );
+       iter->dummy6  = (gint    ) hb_arrayGetNI(  aIter, 6  );
+       iter->dummy7  = (gint    ) hb_arrayGetNI(  aIter, 7  );
+       iter->dummy8  = (gint    ) hb_arrayGetNI(  aIter, 8  );
+       iter->dummy9  = (gpointer) hb_arrayGetPtr( aIter, 9  );
+       iter->dummy10 = (gpointer) hb_arrayGetPtr( aIter, 10 );
+       iter->dummy11 = (gint    ) hb_arrayGetNI(  aIter, 11 );
+       iter->dummy12 = (gint    ) hb_arrayGetNI(  aIter, 12 );
+       iter->dummy13 = (gint    ) hb_arrayGetNI(  aIter, 13 );
+       iter->dummy14 = (gpointer) hb_arrayGetPtr( aIter, 14 );
       return TRUE ;
    }
    return FALSE;
 }
 
+//eof
