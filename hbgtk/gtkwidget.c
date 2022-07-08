@@ -51,6 +51,16 @@ BOOL G_IsWidget( int iArg )
   return bWidget;
 }
 
+#if GTK_MAJOR_VERSION > 2
+
+HB_FUNC( GTK_WIDGET_GET_STYLE_CONTEXT )
+{
+   GtkWidget * widget = GTK_WIDGET( hb_parptr( 1 ) );
+   hb_retptr( (GtkStyleContext *) gtk_widget_get_style_context( widget ) );
+}
+
+#endif
+
 
 HB_FUNC( GTK_WIDGET_GET_SETTINGS )
 {
@@ -177,7 +187,7 @@ HB_FUNC( GTK_WIDGET_MODIFY_FONT ) // widget, Font
    gtk_widget_modify_font( GTK_WIDGET( hb_parptr( 1 ) ),
                           ( PangoFontDescription * ) hb_parptr( 2 ) );
 }
-#else
+#else 
   #ifdef _GTK_DEPRECATED_
 /*
 Deprecated since:	3.16
@@ -186,7 +196,7 @@ This function is not useful in the context of CSS-based rendering. If you wish t
 */
   HB_FUNC( GTK_WIDGET_MODIFY_FONT ) // widget, Font
   {
-     g_message("gtk_widget_modify_font is deprecated!");
+     g_message("gtk_widget_modify_font is deprecated! not use, this function will soon be removed");
      gtk_widget_modify_font( GTK_WIDGET( hb_parptr( 1 ) ),
                             ( PangoFontDescription * ) hb_parptr( 2 ) );
   }

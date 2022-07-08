@@ -34,6 +34,11 @@
 PHB_ITEM IterText2Array( GtkTextIter *iter  );
 BOOL Array2IterText(PHB_ITEM aIter, GtkTextIter *iter  );
 
+HB_FUNC( GTK_TEXT_BUFFER_NEW )
+{
+   hb_retptr( ( GtkTextBuffer * ) gtk_text_buffer_new( NULL ) ); //TODO: Implementar GtkTextTagTable
+}
+
  HB_FUNC( GTK_TEXT_BUFFER_SET_TEXT ) //  nBuffer -> void
 {
   GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
@@ -41,6 +46,20 @@ BOOL Array2IterText(PHB_ITEM aIter, GtkTextIter *iter  );
   gtk_text_buffer_set_text( buffer, text, -1);
   SAFE_RELEASE( text );
   hb_retptr( ( GtkTextBuffer * ) buffer );
+}
+
+HB_FUNC( GTK_TEXT_BUFFER_INSERT )
+{
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
+  GtkTextIter iter;
+  PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
+  const gchar * text = (gchar *) hb_parc( 3 );
+  gint len = hb_parni( 4 ); 
+
+  if ( Array2IterText( pIter, &iter ) )
+  {
+    gtk_text_buffer_insert( buffer, &iter, text, len );
+  }
 }
 
 HB_FUNC( GTK_TEXT_BUFFER_INSERT_AT_CURSOR ) //  pBuffer, text , nlen-> void
