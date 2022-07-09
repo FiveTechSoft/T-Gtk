@@ -10,6 +10,7 @@
 function main()
 
   local hDlg, hView, hBuffer, hBox, hFont, hTag
+  local provider, context, aIter := ARRAY(14), cText
   Local aStart := Array( 14 ), aEnd := Array( 14 )
   local cTitle := "Test TextView GTK+ for Harbour"
 
@@ -22,31 +23,54 @@ function main()
    Gtk_Signal_Connect( hDlg, "delete-event", {|w|Salida(w)} )  // Cuando se mata la aplicacion
 
 /* Text View */
-   hView   := gtk_text_view_new()
-   hBuffer := gtk_text_view_get_buffer( hView)
+   //hView   := gtk_text_view_new()
+   //hBuffer := gtk_text_view_get_buffer( hView)
+   hBuffer := gtk_text_buffer_new()
 
 /* A¤adiendo texto y fuente */
    gtk_text_buffer_set_text( hBuffer, cTitle + chr(13) + ;
-                                      "Hello, this is some text" )
-   hFont := pango_font_description_from_string ("Serif 15")
-   gtk_widget_modify_font( hView, hFont )
-   pango_font_description_free( hFont )
+                                      "Hello, this is t-gtk " )
 
-/* Cambiando el color del texto */
-   gtk_widget_modify_text( hView, STATE_NORMAL, "green" )
+   cText := "(GTK for Harbour!)"
+   gtk_text_buffer_get_iter_at_offset( hBuffer, aStart, len(cTitle)+22 )
+   gtk_text_buffer_insert( hBuffer, aStart, cText, -1 )
+
+/* Cambiar la fuente y el color predeterminados en todo el widget */ 
+   provider := gtk_css_provider_new()
+
+   gtk_css_provider_load_from_data( provider, ;
+                                    "textview{ "+;
+                                    "  font: 18 serif; "+;
+                                    "  color: green;    "+;
+                                    "}", -1 )
+
+   hView := gtk_text_view_new_with_buffer( hBuffer )
+   g_object_unref( hBuffer )
+
+   context := gtk_widget_get_style_context( hView )
+
+   gtk_style_context_add_provider( context, provider, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION )
 
 /* Margen derecho e izquierdo */
-   gtk_text_view_set_left_margin( hView, 20 )
-   gtk_text_view_set_right_margin( hView, 20 )
+   gtk_text_view_set_left_margin( hView, 40 )
+   gtk_text_view_set_right_margin( hView, 40 )
 
 /* Creando un 'tag' dentro del texto, con otro color */
-   hTag := gtk_text_buffer_create_tag( hBuffer, "blue_foreground",;
-                                       "foreground", "blue" )
+   hTag := gtk_text_buffer_create_tag( hBuffer, "letras_azules",;
+                                       "foreground", "blue", ;
+                                       "background", "yellow" )
+
+   tgtk_text_tag_set_property( hTag, "font", "Seans Italic 24" )
 
 /* Aplicando en la posicion caracter 5 al 13 */
    gtk_text_buffer_get_iter_at_offset( hbuffer, aStart, 5 )
    gtk_text_buffer_get_iter_at_offset( hbuffer, aEnd, 13 )
    gtk_text_buffer_apply_tag( hBuffer, hTag, aStart, aEnd )
+
+   gtk_text_buffer_get_iter_at_offset( hBuffer, aStart, 0 )  // posicionamos al inicio (0)
+   gtk_text_buffer_insert_with_tags_by_name( hbuffer, aStart, ;
+                                            " -- Text added later --"+hb_eol(), -1,;
+                                            "letras_azules" );
 
 /* Obteniendo el contenedor vbox del dialogo a traves de las funciones
    extendidasde Harbour a GTK+ hbGtkExtend */
@@ -67,3 +91,4 @@ Function Salida( widget )
          gtk_main_quit()
 Return .F.  // Salimos y matamos la aplicacion.
 
+//eof

@@ -27,12 +27,14 @@
   * gchar * text = g_convert( hb_parc( 2 ), -1,"UTF-8","ISO-8859-1",NULL,NULL,NULL );*/
 
 #include <gtk/gtk.h>
+#include <gtk/gtktextbuffer.h>
 #include "hbapi.h"
 #include "hbapiitm.h"
+#include "hbapierr.h"
 #include "t-gtk.h"
 
 PHB_ITEM IterText2Array( GtkTextIter *iter  );
-BOOL Array2IterText(PHB_ITEM aIter, GtkTextIter *iter  );
+BOOL Array2IterText(PHB_ITEM aIter, GtkTextIter *iter, BOOL init  );
 
 HB_FUNC( GTK_TEXT_BUFFER_NEW )
 {
@@ -56,7 +58,7 @@ HB_FUNC( GTK_TEXT_BUFFER_INSERT )
   const gchar * text = (gchar *) hb_parc( 3 );
   gint len = hb_parni( 4 ); 
 
-  if ( Array2IterText( pIter, &iter ) )
+  if ( Array2IterText( pIter, &iter, TRUE ) )
   {
     gtk_text_buffer_insert( buffer, &iter, text, len );
   }
@@ -95,16 +97,59 @@ HB_FUNC( GTK_TEXT_BUFFER_GET_LINE_COUNT )
  * Ojo, en C se le pueden pasar todos los parametros que se quieran,
  * pero desde aqui nos limitaremos a de momento 4 elementos
  */
+/*
 HB_FUNC( GTK_TEXT_BUFFER_CREATE_TAG ) //  pBuffer,name_Tag, first property,...->pTag
 {
   GtkTextTag * tag = NULL;
   GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   gchar * tag_1 =  (gchar *) hb_parc( 2 );
   gchar * tag_2 =  (gchar *) hb_parc( 3 );
-  gchar * tag_n =  (gchar *) hb_parc( 4 );
-  tag = gtk_text_buffer_create_tag( buffer, tag_1, tag_2, tag_n, NULL );
+  gchar * tag_3 =  (gchar *) hb_parc( 4 );
+  gchar * tag_4 =  (gchar *) hb_parc( 5 );
+  gchar * tag_5 =  (gchar *) hb_parc( 6 );
+  gchar * tag_6 =  (gchar *) hb_parc( 7 );
+  gchar * tag_7 =  (gchar *) hb_parc( 8 );
+  gchar * tag_8 =  (gchar *) hb_parc( 9 );
+  tag = gtk_text_buffer_create_tag( buffer, tag_1, tag_2, tag_3, tag_4, tag_5, tag_6, tag_7, tag_8, NULL );
   hb_retptr( ( GtkTextTag * ) tag );
 }
+*/
+
+HB_FUNC( GTK_TEXT_BUFFER_CREATE_TAG ) //  pBuffer,tag_name, first property,...->pTag
+{
+  GtkTextTag * tag;
+  GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
+  gchar * tag_name =  (gchar *) hb_parc( 2 );
+  gchar * property_name =  (gchar *) hb_parc( 3 );
+  gchar * next_property_name;
+  int parnum = 3;
+
+  if (GTK_IS_TEXT_BUFFER (buffer) )
+  {
+     tag = gtk_text_tag_new( tag_name );
+
+     if (!gtk_text_tag_table_add( gtk_text_buffer_get_tag_table( (buffer) ), tag))
+     {
+        g_object_unref (tag);
+        return;
+     }
+
+     next_property_name = property_name;
+
+     while (next_property_name)
+     {
+        g_object_set( G_OBJECT (tag), next_property_name, (gchar *) hb_parc( parnum+1 ) , NULL );
+        parnum = parnum + 2;
+        next_property_name = (gchar *) hb_parc( parnum );
+     }
+
+     hb_retptr( ( GtkTextTag * ) tag );
+  
+     g_object_unref (tag);
+     return;
+  }
+}
+
 
 HB_FUNC( GTK_TEXT_BUFFER_APPLY_TAG ) //  buffer, tag, aStart, aEnd
 {
@@ -114,9 +159,9 @@ HB_FUNC( GTK_TEXT_BUFFER_APPLY_TAG ) //  buffer, tag, aStart, aEnd
   PHB_ITEM pStart = hb_param( 3, HB_IT_ARRAY );
   PHB_ITEM pEnd = hb_param( 4, HB_IT_ARRAY );
 
-  if ( Array2IterText( pStart, &start ) )
+  if ( Array2IterText( pStart, &start, TRUE ) )
   {
-    if ( Array2IterText( pEnd, &end ) )
+    if ( Array2IterText( pEnd, &end, TRUE ) )
     {
       gtk_text_buffer_apply_tag( buffer, tag, &start,&end );
       hb_storptr( (gpointer) (start.dummy1 ), 3,  1 );
@@ -160,9 +205,9 @@ HB_FUNC( GTK_TEXT_BUFFER_APPLY_TAG_BY_NAME ) //  buffer, name , &start, &end
   PHB_ITEM pEnd = hb_param( 4, HB_IT_ARRAY );
   GtkTextIter start, end;
   
-  if ( Array2IterText( pStart, &start ) )
+  if ( Array2IterText( pStart, &start, TRUE ) )
   {
-    if ( Array2IterText( pEnd, &end ) )
+    if ( Array2IterText( pEnd, &end, TRUE ) )
     {
       gtk_text_buffer_apply_tag_by_name( buffer, name , &start, &end );
       hb_storptr( (gpointer) (start.dummy1 ), 3, 1  );
@@ -206,7 +251,7 @@ HB_FUNC( GTK_TEXT_BUFFER_GET_ITER_AT_OFFSET )  // buffer,  aIter , Pos
   GtkTextIter iter;
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
   
-  if ( Array2IterText( pIter, &iter ) )
+  if ( Array2IterText( pIter, &iter, FALSE ) )
   {  
      gtk_text_buffer_get_iter_at_offset( buffer, &iter, (gint) hb_parni( 3 ) );
      hb_storptr( (gpointer) (iter.dummy1 ), 2, 1  );
@@ -227,8 +272,7 @@ HB_FUNC( GTK_TEXT_BUFFER_GET_ITER_AT_OFFSET )  // buffer,  aIter , Pos
 
 }
 
-//TODO: de momento pasamos 4 parametros.
-HB_FUNC( GTK_TEXT_BUFFER_INSERT_WITH_TAGS_BY_NAME  )  // buffer,  aIter , text, nLen, tag_1, tag_2, tag_3, tag_4 
+HB_FUNC( GTK_TEXT_BUFFER_INSERT_WITH_TAGS_BY_NAME  )  // buffer,  aIter , text, nLen, tag_1, ...
 {
   GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
   PHB_ITEM pIter = hb_param( 2, HB_IT_ARRAY );
@@ -236,11 +280,34 @@ HB_FUNC( GTK_TEXT_BUFFER_INSERT_WITH_TAGS_BY_NAME  )  // buffer,  aIter , text, 
   gchar * tag1 = (gchar*) hb_parc( 5 );
   gint len = ISNIL( 4 ) ? -1 : hb_parni( 4 );
   GtkTextIter iter;
-  
-  if ( Array2IterText( pIter, &iter ) )
+  GtkTextIter start;
+  gint start_offset;
+  const char * tag_name;
+  int parnum = 5;
+
+  if (tag1 == NULL) 
+     return;
+
+  if ( Array2IterText( pIter, &iter, TRUE ) )
   {  
-     gtk_text_buffer_insert_with_tags_by_name( buffer, &iter, text, len, tag1,
-                                            hb_parc( 6 ), hb_parc( 7 ),hb_parc( 8 ), NULL );
+     
+     start_offset = gtk_text_iter_get_offset( &iter ) ;
+
+     gtk_text_buffer_insert( buffer, &iter, text, len );
+
+     gtk_text_buffer_get_iter_at_offset (buffer, &start, start_offset);
+     
+     tag_name = tag1;
+     while (tag_name)
+     {
+        GtkTextTag *tag;
+	tag = gtk_text_tag_table_lookup( gtk_text_buffer_get_tag_table( buffer ),
+		                          tag_name );
+	gtk_text_buffer_apply_tag( buffer, tag, &start, &iter );
+        parnum++;
+	tag_name = (gchar *) hb_parc( parnum );
+     }
+
      hb_storptr( (gpointer) (iter.dummy1 ), 2, 1 );
      hb_storptr( (gpointer) (iter.dummy2 ), 2, 2 );
      hb_storni(  (gint    ) (iter.dummy3 ), 2, 3 );
@@ -259,6 +326,7 @@ HB_FUNC( GTK_TEXT_BUFFER_INSERT_WITH_TAGS_BY_NAME  )  // buffer,  aIter , text, 
 
 }
 
+
 HB_FUNC( GTK_TEXT_BUFFER_INSERT_PIXBUF  )  // buffer,  aIter , pixbuf
 {
   GtkTextBuffer * buffer = GTK_TEXT_BUFFER( hb_parptr( 1 ) );
@@ -266,7 +334,7 @@ HB_FUNC( GTK_TEXT_BUFFER_INSERT_PIXBUF  )  // buffer,  aIter , pixbuf
   GdkPixbuf * pixbuf = GDK_PIXBUF (hb_parptr( 3 ) );
   GtkTextIter iter;
 
-  if ( Array2IterText( pIter, &iter ) )
+  if ( Array2IterText( pIter, &iter, TRUE ) )
   { 
      gtk_text_buffer_insert_pixbuf( buffer, &iter, pixbuf );
      hb_storptr( (gpointer) (iter.dummy1 ), 2, 1 );
@@ -374,6 +442,32 @@ HB_FUNC( GTK_TEXT_TAG_SET_PRIORITY )
    gtk_text_tag_set_priority( tag, hb_parni( 2 ) );
 }
 
+
+HB_FUNC( TGTK_TEXT_TAG_SET_PROPERTY )
+{
+   GObject * object = hb_parptr( 1 );
+   const gchar * property = (gchar *) hb_parc( 2 );
+   const gchar * value = (gchar *) hb_parc( 3 );
+   g_object_set( object, property, value, NULL );
+}
+
+
+//----------------------------
+// GtkTextIter
+// ---------------------------
+
+HB_FUNC( GTK_TEXT_ITER_GET_OFFSET )
+{
+  GtkTextIter iter;
+  PHB_ITEM pIter = hb_param( 1, HB_IT_ARRAY );
+
+  if ( Array2IterText( pIter, &iter, TRUE ) )
+  { 
+     hb_retni( gtk_text_iter_get_offset( &iter ) ); 
+  }   
+}
+
+
 // Creacion de una estructura TextIter
 /*
 struct _GtkTextIter {
@@ -429,9 +523,13 @@ PHB_ITEM IterText2Array( GtkTextIter *iter  )
  * Convierte un array en un GtkIterText
  * Comprueba si el dato pasado es correcto y su numero de elementos
  */
-BOOL Array2IterText(PHB_ITEM aIter, GtkTextIter *iter  )
+BOOL Array2IterText(PHB_ITEM aIter, GtkTextIter *iter, BOOL init  )
 {
    if (HB_IS_ARRAY( aIter ) && hb_arrayLen( aIter ) == 14) {
+       if ( init && hb_arrayGetPtr( aIter, 1 ) == NULL ){
+          hb_errRT_BASE_SubstR( EG_ARG, 3012, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+          return FALSE;
+       }
        iter->dummy1  = (gpointer) hb_arrayGetPtr( aIter, 1  );
        iter->dummy2  = (gpointer) hb_arrayGetPtr( aIter, 2  );
        iter->dummy3  = (gint    ) hb_arrayGetNI(  aIter, 3  );
