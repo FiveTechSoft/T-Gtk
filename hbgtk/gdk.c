@@ -335,4 +335,18 @@ HB_FUNC( GDK_RECTANGLE_INTERSECT )
      hb_retl( bResult );
 }
 
+
+HB_FUNC( GDK_PIXBUF_NEW_FROM_RESOURCE_AT_SCALE )
+{
+   const char* resource_path = hb_parc( 1 );
+   int width  = hb_parni( 2 );
+   int height = hb_parni( 3 );
+   gboolean preserve_aspect_ratio = hb_parl( 4 );
+   
+   GdkPixbuf * pixbuf = gdk_pixbuf_new_from_resource_at_scale( resource_path,
+		                                               width,
+		                                               height,
+		                                               preserve_aspect_ratio, NULL );
+   hb_retptr( (GdkPixbuf *) pixbuf );
+}
 //eof
