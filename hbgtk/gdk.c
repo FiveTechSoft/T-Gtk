@@ -349,4 +349,32 @@ HB_FUNC( GDK_PIXBUF_NEW_FROM_RESOURCE_AT_SCALE )
 		                                               preserve_aspect_ratio, NULL );
    hb_retptr( (GdkPixbuf *) pixbuf );
 }
+
+
+HB_FUNC( GDK_PIXBUF_NEW_FROM_FILE_AT_SIZE )
+{
+   const char * filename = hb_parc( 1 );
+   int width = hb_parni( 2 );
+   int height = hb_parni( 3 );
+
+   GdkPixbuf * pixbuf = gdk_pixbuf_new_from_file_at_size( filename,
+                                                          width, height, 
+                                                          NULL );
+   hb_retptr( (GdkPixbuf *) pixbuf );
+}
+
+
+HB_FUNC( GDK_PIXBUF_NEW_FROM_FILE_AT_SCALE )
+{
+   const char * filename = hb_parc( 1 );
+   int width = hb_parni( 2 );
+   int height = hb_parni( 3 );
+   gboolean preserve_aspect_ratio = hb_parl( 4 );
+
+   GdkPixbuf * pixbuf = gdk_pixbuf_new_from_file_at_scale( filename,
+                                                           width, height, 
+                                                           preserve_aspect_ratio,
+                                                           NULL );
+   hb_retptr( (GdkPixbuf *) pixbuf );
+}
 //eof
