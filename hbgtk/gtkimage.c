@@ -70,6 +70,14 @@ HB_FUNC( GTK_IMAGE_NEW_FROM_ICON_NAME ) // nIcon, nSize -> image
   hb_retptr( (GtkWidget *) image );
 }
 
+HB_FUNC( GTK_IMAGE_SET_FROM_ICON_NAME )
+{
+   GtkImage *image = hb_parptr( 1 );
+   const char *icon_name = hb_parc( 2 );
+   GtkIconSize size = hb_parni( 3 );
+   gtk_image_set_from_icon_name( image, icon_name, size );
+}
+
 HB_FUNC( GTK_IMAGE_SET_FROM_FILE ) // widget , cFileName
 {
    GtkWidget * image = GTK_WIDGET( hb_parptr( 1 ) );
