@@ -340,6 +340,23 @@ HB_FUNC( GTK_LIST_BOX_SET_ADJUSTMENT )
 
 
 /*
+static gboolean
+(* GtkListBoxFilterFunc) (
+  GtkListBoxRow* row,
+  gpointer user_data
+)*/
+static gboolean 
+ListBoxFilterFunc( GtkListBoxRow * row,
+                   gpointer        data )
+{
+   hb_vmPushSymbol( data );
+   hb_vmPushNil();
+   hb_vmPushPointer( row );
+   hb_vmDo( 1 );
+   return TRUE; 
+}
+
+/*
 void
 gtk_list_box_set_filter_func (
   GtkListBox* box,
@@ -349,11 +366,20 @@ gtk_list_box_set_filter_func (
 )*/
 HB_FUNC( GTK_LIST_BOX_SET_FILTER_FUNC )  //TODO
 {
-  GtkListBox *box = GTK_LIST_BOX( ( GtkListBox *) hb_parptr( 1 ) );
-  GtkListBoxFilterFunc filter_func = hb_parptr( 2 );
-  gpointer user_data = hb_parptr( 3 );
-  GDestroyNotify destroy = hb_parptr( 4 );
-  gtk_list_box_set_filter_func( box, filter_func, user_data, destroy );
+   //GtkListBoxFilterFunc filter_func = hb_parc( 2 );
+   //gpointer user_data = hb_parptr( 3 );
+   GDestroyNotify destroy = hb_parptr( 4 );
+   PHB_DYNS pDynSym = hb_dynsymFindName( hb_parc( 2 ) );
+
+   if( pDynSym )
+   {
+     GtkListBox *box = GTK_LIST_BOX( ( GtkListBox *) hb_parptr( 1 ) );
+     gtk_list_box_set_filter_func( box, 
+ 		                   ListBoxFilterFunc, 
+ 		                   (gpointer) pDynSym->pSymbol,
+ 				   destroy );
+   }
+
 }
 
 
@@ -402,6 +428,25 @@ HB_FUNC( GTK_LIST_BOX_SET_SELECTION_MODE )
    gtk_list_box_set_selection_mode( box, mode );
 }
 
+/*
+gint
+(* GtkListBoxSortFunc) (
+  GtkListBoxRow* row1,
+  GtkListBoxRow* row2,
+  gpointer user_data
+)*/
+static gint
+ListBoxSortFunc( GtkListBoxRow * row1,
+		 GtkListBoxRow * row2,
+                 gpointer        data )
+{
+   hb_vmPushSymbol( data );
+   hb_vmPushNil();
+   hb_vmPushPointer( row1 );
+   hb_vmPushPointer( row2 );
+   hb_vmDo( 2 );
+   return hb_parni( -1 );
+}
 
 /*
 void
@@ -413,11 +458,16 @@ gtk_list_box_set_sort_func (
 )*/
 HB_FUNC( GTK_LIST_BOX_SET_SORT_FUNC ) //TODO
 {
-   GtkListBox *box = GTK_LIST_BOX( ( GtkListBox *) hb_parptr( 1 ) );
-   GtkListBoxSortFunc sort_func = hb_parptr( 2 );
-   gpointer user_data = hb_parptr( 3 );
-   GDestroyNotify destroy = hb_parptr( 4 );
-   gtk_list_box_set_sort_func( box, sort_func, user_data, destroy );
+   PHB_DYNS pDynSym = hb_dynsymFindName( hb_parc( 2 ) );
+
+   if( pDynSym )
+   {
+     GtkListBox *box = GTK_LIST_BOX( ( GtkListBox *) hb_parptr( 1 ) );
+     gtk_list_box_set_sort_func( box, 
+                                 ListBoxSortFunc, 
+                                 (gpointer) pDynSym->pSymbol,
+                                 NULL );
+   }
 }
 
 
