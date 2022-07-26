@@ -25,7 +25,7 @@
 #include <hbapi.h>
 #include <gtk/gtk.h>
 
-HB_FUNC( GTK_TABLE_NEW ) // rows,columns, homogeneous -->widget
+HB_FUNC( GTK_GRID_NEW ) // rows,columns, homogeneous -->widget
 {
  GtkWidget * grid = gtk_grid_new();
  hb_retptr( ( GtkWidget * ) grid );
