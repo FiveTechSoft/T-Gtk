@@ -60,27 +60,4 @@ Procedure Activate_clbk( application )
 
 return
 
-/*
-#pragma BEGINDUMP
-#include <gtk/gtk.h>
-#include "hbapi.h"
-
-HB_FUNC( G_APPLICATION_RUN )
-{
-   GApplication * app = hb_parptr( 1 );
-   int argc = hb_parni( 2 );
-   char ** argv = hb_parc( 3 );
-   hb_retni( g_application_run( app, argc, argv ) );
-}
-
-
-HB_FUNC( GTK_APPLICATION_WINDOW_NEW )
-{
-   GtkApplication * application = hb_parptr( 1 );
-   hb_retptr( gtk_application_window_new( application ) );
-}
-
-
-#pragma ENDDUMP
-*/
-
+//eof
