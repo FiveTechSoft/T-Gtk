@@ -22,7 +22,7 @@ return status
 
 Procedure Activate_clbk( application )
 
-   local window, grid, button_1, button_2, button_3
+   local window, grid, button_1, button_2, button_3, button_4
 
    /// ***
    window := gtk_application_window_new( application )
@@ -47,7 +47,7 @@ Procedure Activate_clbk( application )
    gtk_grid_attach ( grid, button_4, 2, 2, 1, 1 )
 
    /// ***
-   ///gtk_grid_remove( grid, button_1 )
+   //gtk_grid_remove_column( grid, 1 )
 
    /// ***
    gtk_container_add( window, grid )
