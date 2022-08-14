@@ -52,7 +52,7 @@ HB_FUNC( GTK_COLOR_BUTTON_SET_TITLE ) // widget, cTitle
 
 HB_FUNC( GTK_COLOR_BUTTON_GET_TITLE ) // widget
 {
-   hb_retc( ( gchar * ) gtk_color_button_get_title( GTK_COLOR_BUTTON( hb_parnl( 1 ) ) ) );
+   hb_retc( ( gchar * ) gtk_color_button_get_title( GTK_COLOR_BUTTON( hb_parptr( 1 ) ) ) );
 }
 
 #if GTK_MAJOR_VERSION < 3
