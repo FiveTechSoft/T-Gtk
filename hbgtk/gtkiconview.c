@@ -265,8 +265,8 @@ HB_FUNC( GTK_ICON_VIEW_GET_CURSOR )
   gboolean bret;
 
   bret = gtk_icon_view_get_cursor( iconlist, &path, &cell );
-  hb_stornl( (glong) path , 2);
-  hb_stornl( (glong) cell , 3);
+  hb_storptr( (gpointer) path , 2);
+  hb_storptr( (gpointer) cell , 3);
   hb_retl( bret );
 }
 
