@@ -714,14 +714,14 @@ METHOD KeyEvent( nKey ) CLASS gDbfGrid
    endif
   
    do case
-      case nKey == K_UP       ; ::GoUp()     ; return .T.
-      case nKey == K_DOWN     ; ::GoDown()   ; return .T.
-      case nKey == K_HOME     ; ::GoTop()    ; return .T.
-      case nKey == K_END      ; ::GoBottom() ; return .T.
-      case nKey == K_PAGEUP   ; ::PageUp()   ; return .T.
-      case nKey == K_PAGEDOWN ; ::PageDown() ; return .T.
-      case nKey == K_LEFT     ; ::GoLeft()   ; return .T.
-      case nKey == K_RIGHT    ; ::GoRight()  ; return .T.
+      case nKey == GDK_UP       ; ::GoUp()     ; return .T.
+      case nKey == GDK_DOWN     ; ::GoDown()   ; return .T.
+      case nKey == GDK_HOME     ; ::GoTop()    ; return .T.
+      case nKey == GDK_END      ; ::GoBottom() ; return .T.
+      case nKey == GDK_Page_Up  ; ::PageUp()   ; return .T.
+      case nKey == GDK_Page_Down; ::PageDown() ; return .T.
+      case nKey == GDK_LEFT     ; ::GoLeft()   ; return .T.
+      case nKey == GDK_RIGHT    ; ::GoRight()  ; return .T.
    endcase
 
 Return .F.
