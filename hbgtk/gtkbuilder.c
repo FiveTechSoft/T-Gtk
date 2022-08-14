@@ -4,32 +4,6 @@
 
 static BOOL lStatus = FALSE;
 
-
-GtkBuilder  * _gtk_builder_new()
-{
-  return  gtk_builder_new();
-}
-
-
-HB_FUNC( GTK_BUILDER_NEW ) //fname,root,domain
-{
-  GtkBuilder  *pBuilder;
-  if( hb_parc( 1 ) ){
-     GtkBuilder * pBuilder = gtk_builder_new();
-     const * filename = hb_parc( 1 );
-     if( _gtk_builder_add_from_file( pBuilder, ( const gchar *) filename ) ){
-        hb_retptr( pBuilder );
-     } else {
-       g_print( "Carga de gtkbuilder no es correcta\n");
-     }
-
-  }else{
-     pBuilder = _gtk_builder_new( );
-     hb_retptr( ( GtkBuilder * ) pBuilder );
-  }
-}
-
-
 //-------------
 
 BOOL _gtk_builder_add_from_file( GtkBuilder * pBuilder, const gchar * filename )
@@ -47,9 +21,34 @@ HB_FUNC( GTK_BUILDER_ADD_FROM_FILE )
   
 }
 
-
-
 //-------------
+
+GtkBuilder  * _gtk_builder_new()
+{
+  return  gtk_builder_new();
+}
+
+
+HB_FUNC( GTK_BUILDER_NEW ) //fname,root,domain
+{
+  GtkBuilder  *pBuilder;
+  if( hb_parc( 1 ) ){
+     GtkBuilder * pBuilder = gtk_builder_new();
+     const char * filename = hb_parc( 1 );
+     if( _gtk_builder_add_from_file( pBuilder, ( const gchar *) filename ) ){
+        hb_retptr( pBuilder );
+     } else {
+       g_print( "Carga de gtkbuilder no es correcta\n");
+     }
+
+  }else{
+     pBuilder = _gtk_builder_new( );
+     hb_retptr( ( GtkBuilder * ) pBuilder );
+  }
+}
+
+
+
 
 HB_FUNC( GTK_BUILDER_GET_OBJECT )
 {
