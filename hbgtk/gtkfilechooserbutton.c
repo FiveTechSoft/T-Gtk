@@ -47,7 +47,7 @@ HB_FUNC( GTK_FILE_CHOOSER_BUTTON_NEW_WITH_BACKEND )
 HB_FUNC( GTK_FILE_CHOOSER_BUTTON_NEW_WITH_DIALOG )
 {
   GtkWidget * button;
-  GtkWidget * dialog = GTK_WIDGET( hb_parnl( 1 ) );
+  GtkWidget * dialog = GTK_WIDGET( hb_parptr( 1 ) );
   button = gtk_file_chooser_button_new_with_dialog( dialog );
   hb_retptr( ( GtkWidget * ) button );
 }
